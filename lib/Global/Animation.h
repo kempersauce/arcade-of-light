@@ -2,10 +2,9 @@
 Animation class
 Make the pretty lights
 */
-
+#include <Display.h>
 class Animation{
 public:
-    void draw(){
-
-    }
+    int zLoc;
+    abstract void draw(Display* display);
 }

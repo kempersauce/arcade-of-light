@@ -25,16 +25,3 @@ Button::Button(int pinNumber)
         pinMode(pinNumber, INPUT);
         pin = pinNumber;
     }
-
-
-/*
-Control class
-It's all ur buttonz
-*/
-class Control{
-public:
-    Map<string,Button> buttons;
-};
-Control::Control(Map<string,Button> buttonMap){
-    buttons = buttonMap;
-}
