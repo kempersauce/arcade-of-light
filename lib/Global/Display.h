@@ -1,3 +1,5 @@
+#include <PinSetup.h>
+#include <FastLED.h>
 /*
 Display Class
 holds the strips
@@ -6,7 +8,7 @@ class Display {
     public:
         const int numStrips;
         const int lengthStrips;
-        CRGB strips[][];
+        CRGB** strips;
 
         Display(int numberOfStrips, int lengthOfStrips)
             : numStrips(numberOfStrips), lengthStrips(lengthOfStrips)
