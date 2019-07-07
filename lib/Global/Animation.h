@@ -8,5 +8,5 @@ class Animation
 {
     public:
         int zLoc;
-        abstract void draw(Display* display);
-}
+        virtual void draw(Display* display);
+};

@@ -3,17 +3,17 @@ Game class
 Where the magic happens
 */
 #include <Animation.h>
-#include <Display.h>
 
-class Game{
+class Game
+{
     public:
-        Animation background;
+        Animation* background;
         Display* display;
         Game(Display* gameDisplay)
             : display(gameDisplay)
         {
         }
 
-        abstract void setup();
-        abstract void loop();
+        virtual void setup();
+        virtual void loop();
 };

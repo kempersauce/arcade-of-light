@@ -2,13 +2,14 @@
 #include <FastLED.h>
 #include <GameBow.h>
 
-Game gameBow;
+Game* gameBow;
 
 void setup() {
-    Display gameBowDisplay = new Display(5,300);
-    gameBow = new GameBow(gameBowDisplay);
-    gameBow.setup();
+    Display* gameBowDisplay = new Display(5,300);
+    gameBow = (Game*)new GameBow(gameBowDisplay);
+    gameBow->setup();
 }
-void loop(){
-    gameBow.loop();
+
+void loop() {
+    gameBow->loop();
 }
