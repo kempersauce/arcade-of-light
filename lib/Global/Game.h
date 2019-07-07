@@ -7,13 +7,11 @@ Where the magic happens
 #include <Display.h>
 
 class Game{
-public:
-  Animation background;
-  Display* display;
-
-
+    public:
+        Animation background;
+        Display* display;
+        Game(Display* gameDisplay)
+            : display(gameDisplay)
+        {
+        }
 };
-
-Game::Game(Display* gameDisplay){
-    display = gameDisplay;
-}
