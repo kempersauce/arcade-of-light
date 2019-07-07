@@ -14,4 +14,7 @@ class Game{
             : display(gameDisplay)
         {
         }
+
+        abstract void setup();
+        abstract void loop();
 };
