@@ -3,7 +3,6 @@ Game class
 Where the magic happens
 */
 #include <Animation.h>
-#include <Control.h>
 #include <Display.h>
 
 class Game{
