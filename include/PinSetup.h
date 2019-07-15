@@ -22,4 +22,5 @@ Pin numbers for teensy setup
 #define BUTTON_PIN_6 30
 
 //AUDIO
+//We dont have an audio volume pin....
 #define AUDIO_VOLUME_PIN 13

@@ -1,17 +1,10 @@
 #include <Game.h>
-#include <Constants.h>
+#include <H2HConstants.h>
 
-Dot strip1(0,0,0,255); //dots on the strips
-Dot strip2(0,0,0,255); //dots on the strips
-Dot strip3(0,0,0,255); //dots on the strips
-Dot strip4(0,0,0,255); //dots on the strips
-Dot strip5(0,0,0,255); //dots on the strips
-Dot strip6(0,0,0,255); //dots on the strips
-Dot strip7(0,0,0,255); //dots on the strips
-Dot strip8(0,0,0,255); //dots on the strips
-
-
-class GameBow : Game
+class Head2Head : Game
+{
+  
+}
 // Target target(100,15,55,0,0); //the target
 // Background background(0,NUM_LEDS,15,0,10);
 //

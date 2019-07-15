@@ -32,4 +32,4 @@ Pin numbers for teensy setup
 
 
 //AUDIO
-#define AUDIO_VOLUME_PIN 13
+//#define AUDIO_VOLUME_PIN 13

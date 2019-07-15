@@ -23,7 +23,16 @@ class Display {
             // setup as many strips as we need - addLeds forces us to do it this way for the compiler
             switch (numStrips)
             {
-                default:
+                default:  
+                case 8:
+                    FastLED.addLeds<WS2812B, LED_PIN_7, RGB>(strips[7], lengthStrips);
+
+                case 7:
+                    FastLED.addLeds<WS2812B, LED_PIN_6, RGB>(strips[6], lengthStrips);
+
+                case 6:
+                    FastLED.addLeds<WS2812B, LED_PIN_5, RGB>(strips[5], lengthStrips);
+
                 case 5:
                     FastLED.addLeds<WS2812B, LED_PIN_4, RGB>(strips[4], lengthStrips);
 

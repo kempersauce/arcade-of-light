@@ -1,3 +1,3 @@
 #include <Arduino.h>
 #include <FastLED.h>
-#include <Head2HeadPinSetup.h>
+#include <H2HPinSetup.h>
