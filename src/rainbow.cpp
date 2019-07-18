@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <FastLED.h>
-#include <GameBow.h>
+#include <H2HTest.h>
 
-Game* gameBow;
+H2HGame* gameBow;
 
 void setup() {
-    Display* gameBowDisplay = new Display(5,300);
-    gameBow = (Game*)new GameBow(gameBowDisplay);
+    H2HDisplay* gameBowDisplay = new H2HDisplay(8,100);
+    gameBow = (H2HGame*)new H2HTest(gameBowDisplay);
     gameBow->setup();
 }
 
