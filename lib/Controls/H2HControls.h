@@ -4,7 +4,7 @@
 class H2HControls {
     public:
         const int numButtons;
-        Button* buttons;
+        Button*[16] buttons;
         Button*[2] buttonPairs;
         Button* ATeamButtons;
         Button* BTeamButtons;

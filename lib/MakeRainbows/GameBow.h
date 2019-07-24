@@ -1,5 +1,6 @@
 #include <Game.h>
 #include <Constants.h>
+#include <DirPad.h>
 
 #define delayVal 25
 
