@@ -6,8 +6,8 @@ class H2HControls {
         const int numButtons;
         Button*[16] buttons;
         Button*[2] buttonPairs;
-        Button* ATeamButtons;
-        Button* BTeamButtons;
+        Button* aTeamButtons;
+        Button* bTeamButtons;
 
         H2HControls(const int numberOfButtons)
             : numButtons(numberOfButtons)

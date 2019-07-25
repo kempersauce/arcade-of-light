@@ -3,14 +3,14 @@ Pin numbers for teensy setup
 */
 
 //LED STRIPS
-#define LED_PIN_0 17
-#define LED_PIN_1 20
-#define LED_PIN_2 21
-#define LED_PIN_3 35
-#define LED_PIN_4 36
-#define LED_PIN_5 37
-#define LED_PIN_6 38
-#define LED_PIN_7 39
+#define LED_PIN_0 35
+#define LED_PIN_1 36
+#define LED_PIN_2 37
+#define LED_PIN_3 38
+#define LED_PIN_4 39
+#define LED_PIN_5 17
+#define LED_PIN_6 20
+#define LED_PIN_7 21
 
 //BUTTONS
 #define BUTTON_PIN_0 24

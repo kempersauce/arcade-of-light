@@ -3,7 +3,7 @@
 
 class DirPad {
     public:
-        const int numButtons;
+        int numButtons = 6;
         Button* up;
         Button* down;
         Button* left;
@@ -11,26 +11,29 @@ class DirPad {
         Button* a;
         Button* b;
 
-        Button** buttons;
+        //Button*[numButtons] buttons;
 
 
         DirPad()
         {
             //assign pins to buttons
-            up = new Button(BUTTON_PIN_0)
-            down = new Button(BUTTON_PIN_1)
-            left = new Button(BUTTON_PIN_2)
-            right = new Button(BUTTON_PIN_3)
-            a = new Button(BUTTON_PIN_4)
-            b = new Button(BUTTON_PIN_5)
+            up = new Button(BUTTON_PIN_0);
+            down = new Button(BUTTON_PIN_1);
+            left = new Button(BUTTON_PIN_2);
+            right = new Button(BUTTON_PIN_3);
+            a = new Button(BUTTON_PIN_4);
+            b = new Button(BUTTON_PIN_5);
 
             //Add button pointers to buttons array
-            buttons = {up,down,left,right,a,b};
+            //buttons = {up,down,left,right,a,b};
 
         }
-        ReadAll(){
-            for(int i=0; i<buttons.length; i++){
-                buttons[i]->Read()
-            }
+        void pollAll(){
+            up->poll();
+            down->poll();
+            left->poll();
+            right->poll();
+            a->poll();
+            b->poll();
         }
-}
+};
