@@ -5,7 +5,7 @@ class H2HRainbowAni : H2HAnimation
     public:
         //override rainbow draw function
         void draw(H2HDisplay* display){
-            for (int i = 1; i < display->lengthStrips; i++)
+            for (int i = 0; i < display->lengthStrips; i++)
             {
                 for (int j = 0; j < display->numStrips; j++) {
                     display->strips[j][i] = rainbows[(i%7)+iterator];
