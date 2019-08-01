@@ -1,4 +1,5 @@
-#include <H2HGame.h>
+#include <Game.h>
+#include <H2HDisplay.h>
 
 class H2HRainbowAni : Animation
 {
@@ -51,17 +52,17 @@ class H2HRainbowAni : Animation
 };
 
 
-class H2HTest : H2HGame
+class H2HTest : Game
 {
     public:
-        H2HTest(H2HDisplay* gameDisplay)
-            : H2HGame(gameDisplay)
+        H2HTest(Display* gameDisplay)
+            : Game(gameDisplay)
         {
         }
 
         void setup()
         {
-            background = (H2HAnimation*)new H2HRainbowAni();
+            background = (Animation*)new H2HRainbowAni();
         }
 
         void loop()

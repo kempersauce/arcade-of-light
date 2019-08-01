@@ -4,7 +4,7 @@
 Display Class
 holds the strips
 */
-class H2HDisplay : Display {
+class H2HDisplay : public Display {
     public:
         H2HDisplay()
             : Display(8, 123)
