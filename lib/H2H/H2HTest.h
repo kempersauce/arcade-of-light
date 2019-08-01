@@ -6,28 +6,29 @@ class H2HRainbowAni : Animation
     public:
         //override rainbow draw function
         void draw(Display* display){
+            // for (int i = 0; i < display->lengthStrips; i++)
+            // {
+            //     for (int j = 0; j < display->numStrips; j++) {
+            //         display->strips[j][i] = rainbows[(i%7)+iterator];
+            //     }
+            // }
+            //
+            // if (iterator < 6)
+            // {
+            //     iterator++;
+            // }
+            // else
+            // {
+            //     iterator = 0;
+            // }
+
+            //static colors for pin numbering test
             for (int i = 0; i < display->lengthStrips; i++)
             {
                 for (int j = 0; j < display->numStrips; j++) {
-                    display->strips[j][i] = rainbows[(i%7)+iterator];
+                    display->strips[j][i] = rainbows[j];
                 }
             }
-
-            if (iterator < 6)
-            {
-                iterator++;
-            }
-            else
-            {
-                iterator = 0;
-            }
-            //static colors for pin numbering test
-            // for (int i = 1; i < display->lengthStrips; i++)
-            // {
-            //     for (int j = 0; j < display->numStrips; j++) {
-            //         display->strips[j][i] = rainbows[j];
-            //     }
-            // }
         }
 
     private:
@@ -68,6 +69,7 @@ class H2HTest : Game
         void loop()
         {
             background->draw(display);
+            FastLED.setBrightness(50);
             FastLED.show();
         }
 };
