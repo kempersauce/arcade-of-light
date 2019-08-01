@@ -66,6 +66,7 @@ class Noise : Animation
 
 
 
+
 //everthing below this is from fastled/examples/inoise8
 //the first blurb defines makes the matrix snake back and forth for some reason
 
