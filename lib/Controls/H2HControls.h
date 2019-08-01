@@ -3,22 +3,40 @@
 
 class H2HControls {
     public:
-        const int numButtons;
-        Button*[16] buttons;
-        Button*[2] buttonPairs;
-        Button* aTeamButtons;
-        Button* bTeamButtons;
+        Button** teamA;
+        Button** teamB;
 
-        H2HControls(const int numberOfButtons)
-            : numButtons(numberOfButtons)
+        H2HControls()
         {
-            buttons = new *Button[numButtons];
+            teamA = new Button*[8] {
+                new Button(H2H_BUTTON_PIN_7),
+                new Button(H2H_BUTTON_PIN_6),
+                new Button(H2H_BUTTON_PIN_5),
+                new Button(H2H_BUTTON_PIN_4),
+                new Button(H2H_BUTTON_PIN_3),
+                new Button(H2H_BUTTON_PIN_2),
+                new Button(H2H_BUTTON_PIN_1),
+                new Button(H2H_BUTTON_PIN_0),
+            };
 
+            teamB = new Button*[8] {
+                new Button(H2H_BUTTON_PIN_8),
+                new Button(H2H_BUTTON_PIN_9),
+                new Button(H2H_BUTTON_PIN_10),
+                new Button(H2H_BUTTON_PIN_11),
+                new Button(H2H_BUTTON_PIN_12),
+                new Button(H2H_BUTTON_PIN_13),
+                new Button(H2H_BUTTON_PIN_14),
+                new Button(H2H_BUTTON_PIN_15),
+            };
+        }
 
-            // setup buttons in main button array
-            switch (numButtons)
+        void pollAll()
+        {
+            for (int i = 0; i < 8; i++)
             {
+                teamA[i]->poll();
+                teamB[i]->poll();
             }
-    }
-
-}
+        }
+    };

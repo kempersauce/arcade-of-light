@@ -9,17 +9,12 @@ class Dot:Animation {
         int xMax;
         int yMax;
         //colors (RGB)
-        int red;
-        int green;
-        int blue;
+        CRGB color;
 
         //Constructor - COULD BE MORE EFFICIENT
-        Dot(int redColor, int greenColor, int blueColor,
-            int startX, int startY, int startZ, int xMaximum, int yMaximum)
+        Dot(CRGB startColor, int startX, int startY, int startZ, int xMaximum, int yMaximum)
             {
-                red = redColor;
-                green = greenColor;
-                blue = blueColor;
+                color = startColor;
                 xLoc = startX;
                 yLoc = startY;
                 zLoc = startZ;
@@ -35,17 +30,14 @@ class Dot:Animation {
             if(xLoc > xMax){xLoc=xMax;}
             if(yLoc > yMax){yLoc=yMax;}
             if(xLoc < 0){xLoc=0;}
-            if(yLoc < 0){xLoc=0;}
+            if(yLoc < 0){yLoc=0;}
         }
-        void changeColor(int redColor, int blueColor, int greenColor)
+        void changeColor(CRGB newColor)
         {
-            red = redColor;
-            green = greenColor;
-            blue = blueColor;
+            color = newColor;
         }
         void draw(Display* display)
         {
-            // display->strips[xLoc][yLoc].setRGB(red, green, blue);
-            
+            display->strips[xLoc][yLoc] = color;
         }
 };
