@@ -3,6 +3,9 @@
 
 //initialize displays the bad ways
 
+#define NUM_STRIPS 7
+#define NUM_LEDS 121
+
 #define H2H_LED_PIN_0 20
 #define H2H_LED_PIN_1 17
 #define H2H_LED_PIN_2 16
@@ -12,57 +15,17 @@
 #define H2H_LED_PIN_6 36
 #define H2H_LED_PIN_7 35
 
-FastLED.addLeds<WS2812B, H2H_LED_PIN_7, GRB>(strips[7], lengthStrips);
-FastLED.addLeds<WS2812B, H2H_LED_PIN_6, GRB>(strips[6], lengthStrips);
-FastLED.addLeds<WS2812B, H2H_LED_PIN_5, GRB>(strips[5], lengthStrips);
-FastLED.addLeds<WS2812B, H2H_LED_PIN_4, GRB>(strips[4], lengthStrips);
-FastLED.addLeds<WS2812B, H2H_LED_PIN_3, GRB>(strips[3], lengthStrips);
-FastLED.addLeds<WS2812B, H2H_LED_PIN_2, GRB>(strips[2], lengthStrips);
-FastLED.addLeds<WS2812B, H2H_LED_PIN_1, GRB>(strips[1], lengthStrips);
-FastLED.addLeds<WS2812B, H2H_LED_PIN_0, GRB>(strips[0], lengthStrips);
+
 
 
 //
 // Mark's xy coordinate mapping code.  See the XYMatrix for more information on it.
 //
 
-// Params for width and height
-const uint8_t kMatrixWidth = 8;
-const uint8_t kMatrixHeight = 122;
-
-
-#define MAX_DIMENSION ((kMatrixWidth>kMatrixHeight) ? kMatrixWidth : kMatrixHeight)
-#define NUM_LEDS (kMatrixWidth * kMatrixHeight)
-// Param for different pixel layouts
-const bool    kMatrixSerpentineLayout = true;
-
-
-uint16_t XY( uint8_t x, uint8_t y)
-{
-  uint16_t i;
-
-  if( kMatrixSerpentineLayout == false) {
-    i = (y * kMatrixWidth) + x;
-  }
-
-  if( kMatrixSerpentineLayout == true) {
-    if( y & 0x01) {
-      // Odd rows run backwards
-      uint8_t reverseX = (kMatrixWidth - 1) - x;
-      i = (y * kMatrixWidth) + reverseX;
-    } else {
-      // Even rows run forwards
-      i = (y * kMatrixWidth) + x;
-    }
-  }
-
-  return i;
-}
-
 // The leds
-CRGB leds[kMatrixWidth * kMatrixHeight];
+CRGB leds[NUM_STRIPS][NUM_LEDS];
 
-// The 32bit version of our coordinates
+// The 16bit version of our coordinates
 static uint16_t x;
 static uint16_t y;
 static uint16_t z;
@@ -86,14 +49,21 @@ uint16_t speed = 20; // a nice starting speed, mixes well with a scale of 100
 uint16_t scale = 311;
 
 // This is the array that we keep our computed noise values in
-uint8_t noise[MAX_DIMENSION][MAX_DIMENSION];
+uint8_t noise[NUM_STRIPS][NUM_LEDS];
 
 void setup() {
   // uncomment the following lines if you want to see FPS count information
   // Serial.begin(38400);
   // Serial.println("resetting!");
   delay(3000);
-  LEDS.addLeds<WS2811,5,RGB>(leds,NUM_LEDS);
+  FastLED.addLeds<WS2812B, H2H_LED_PIN_7, GRB>(leds[7], NUM_LEDS);
+  FastLED.addLeds<WS2812B, H2H_LED_PIN_6, GRB>(leds[6], NUM_LEDS);
+  FastLED.addLeds<WS2812B, H2H_LED_PIN_5, GRB>(leds[5], NUM_LEDS);
+  FastLED.addLeds<WS2812B, H2H_LED_PIN_4, GRB>(leds[4], NUM_LEDS);
+  FastLED.addLeds<WS2812B, H2H_LED_PIN_3, GRB>(leds[3], NUM_LEDS);
+  FastLED.addLeds<WS2812B, H2H_LED_PIN_2, GRB>(leds[2], NUM_LEDS);
+  FastLED.addLeds<WS2812B, H2H_LED_PIN_1, GRB>(leds[1], NUM_LEDS);
+  FastLED.addLeds<WS2812B, H2H_LED_PIN_0, GRB>(leds[0], NUM_LEDS);
   LEDS.setBrightness(96);
 
   // Initialize our coordinates to some random values
@@ -104,9 +74,9 @@ void setup() {
 
 // Fill the x/y array of 8-bit noise values using the inoise8 function.
 void fillnoise8() {
-  for(int i = 0; i < MAX_DIMENSION; i++) {
+  for(int i = 0; i < NUM_STRIPS; i++) {
     int ioffset = scale * i;
-    for(int j = 0; j < MAX_DIMENSION; j++) {
+    for(int j = 0; j < NUM_LEDS; j++) {
       int joffset = scale * j;
       noise[i][j] = inoise8(x + ioffset,y + joffset,z);
     }
@@ -118,12 +88,12 @@ void fillnoise8() {
 void loop() {
   static uint8_t ihue=0;
   fillnoise8();
-  for(int i = 0; i < kMatrixWidth; i++) {
-    for(int j = 0; j < kMatrixHeight; j++) {
+  for(int i = 0; i < NUM_STRIPS; i++) {
+    for(int j = 0; j < NUM_LEDS; j++) {
       // We use the value at the (i,j) coordinate in the noise
       // array for our brightness, and the flipped value from (j,i)
       // for our pixel's hue.
-      leds[XY(i,j)] = CHSV(noise[j][i],255,noise[i][j]);
+      leds[i][j] = CHSV(noise[j][i],255,noise[i][j]);
 
       // You can also explore other ways to constrain the hue used, like below
       // leds[XY(i,j)] = CHSV(ihue + (noise[j][i]>>2),255,noise[i][j]);
