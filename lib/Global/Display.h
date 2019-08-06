@@ -1,9 +1,12 @@
-#include <Constants.h>
-
 /*
 Display Class
 holds the strips
 */
+
+#pragma once
+
+#include <Constants.h>
+
 class Display {
     public:
         const int numStrips;

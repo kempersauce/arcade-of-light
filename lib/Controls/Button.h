@@ -1,8 +1,12 @@
-/* 
+/*
     Button Class
     creates an object that can read whether or not, and for how long the button is pressed
 */
-class Button {
+
+#pragma once
+
+class Button
+{
     //Arduino pin button is connected to
     const int _pin;
 

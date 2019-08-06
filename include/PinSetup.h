@@ -2,6 +2,8 @@
 Pin numbers for teensy setup
 */
 
+#pragma once
+
 //LED STRIPS
 #define LED_PIN_0 35
 #define LED_PIN_1 36

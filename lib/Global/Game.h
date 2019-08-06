@@ -2,6 +2,9 @@
 Game class
 Where the magic happens
 */
+
+#pragma once
+
 #include <Animation.h>
 
 class Game
