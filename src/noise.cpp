@@ -3,7 +3,7 @@
 
 //initialize displays the bad ways
 
-#define NUM_STRIPS 7
+#define NUM_STRIPS 8
 #define NUM_LEDS 121
 
 #define H2H_LED_PIN_0 20
@@ -46,7 +46,7 @@ uint16_t speed = 20; // a nice starting speed, mixes well with a scale of 100
 
 // uint16_t scale = 1; // mostly just solid colors
 // uint16_t scale = 4011; // very zoomed out and shimmery
-uint16_t scale = 311;
+uint16_t scale = 1024;
 
 // This is the array that we keep our computed noise values in
 uint8_t noise[NUM_STRIPS][NUM_LEDS];
@@ -93,8 +93,8 @@ void loop() {
       // We use the value at the (i,j) coordinate in the noise
       // array for our brightness, and the flipped value from (j,i)
       // for our pixel's hue.
-      leds[i][j] = CHSV(noise[j][i],255,noise[i][j]);
-
+      //leds[i][j] = CHSV(noise[j][i],255,noise[i][j]);
+      leds[i][j] = CHSV(ihue + (noise[j][i]>>2),255,noise[i][j]);
       // You can also explore other ways to constrain the hue used, like below
       // leds[XY(i,j)] = CHSV(ihue + (noise[j][i]>>2),255,noise[i][j]);
     }
