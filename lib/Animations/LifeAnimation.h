@@ -100,7 +100,6 @@ class LifeAnimation : public Animation
             }
         }
 
-    public:
         void draw(Display* display)
         {
             for (int ledIndex = 0; ledIndex < height; ledIndex++)
@@ -115,6 +114,18 @@ class LifeAnimation : public Animation
                     {
                         display->strips[stripIndex][ledIndex] = CRGB::Black;
                     }
+                }
+            }
+        }
+
+        void randomize()
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    bool alive = random8(1) == 0;
+                    (*lastRound)[i][j] = alive;
                 }
             }
         }
