@@ -1,4 +1,7 @@
+#pragma once
+
 #include <Constants.h>
+#include <Display.h>
 
 /*
 Display Class
