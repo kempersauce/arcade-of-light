@@ -20,6 +20,8 @@ class LifeGame : Game
 
         void setup()
         {
+            // start off randomized
+            lifeGrid->randomize();
         }
 
         void loop()
