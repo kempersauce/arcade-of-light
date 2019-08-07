@@ -60,8 +60,8 @@ class H2HDot : public Dot
     public:
         int velocity;
 
-        H2HDot(CRGB startColor, int startX, int startY, int startZ, int xMaximum, int yMaximum)
-        :Dot(startColor, startX, startY, startZ, xMaximum, yMaximum)
+        H2HDot(CRGB startColor, int startX, int startY, int xMaximum, int yMaximum)
+        :Dot(startColor, startX, startY, xMaximum, yMaximum)
         {
             velocity = 0;
         }
@@ -83,14 +83,14 @@ class H2HTest : Game
             controls = (H2HControls*)new H2HControls();
             background = (Animation*)new H2HRainbowAni();
             dots = new H2HDot*[8] {
-                new H2HDot(CRGB::Purple, 0, 15, 0, 8, 120),
-                new H2HDot(CRGB::Purple, 1, 15, 0, 8, 120),
-                new H2HDot(CRGB::Purple, 2, 15, 0, 8, 120),
-                new H2HDot(CRGB::Purple, 3, 15, 0, 8, 120),
-                new H2HDot(CRGB::Purple, 4, 15, 0, 8, 120),
-                new H2HDot(CRGB::Purple, 5, 15, 0, 8, 120),
-                new H2HDot(CRGB::Purple, 6, 15, 0, 8, 120),
-                new H2HDot(CRGB::Purple, 7, 15, 0, 8, 120),
+                new H2HDot(CRGB::Purple, 0, 15, 8, 120),
+                new H2HDot(CRGB::Purple, 1, 15, 8, 120),
+                new H2HDot(CRGB::Purple, 2, 15, 8, 120),
+                new H2HDot(CRGB::Purple, 3, 15, 8, 120),
+                new H2HDot(CRGB::Purple, 4, 15, 8, 120),
+                new H2HDot(CRGB::Purple, 5, 15, 8, 120),
+                new H2HDot(CRGB::Purple, 6, 15, 8, 120),
+                new H2HDot(CRGB::Purple, 7, 15, 8, 120),
             };
         }
 

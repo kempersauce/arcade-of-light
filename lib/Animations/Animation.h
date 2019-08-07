@@ -10,9 +10,6 @@ Make the lights pretty
 
 class Animation
 {
-    private:
-        int zLoc; // TODO do we need this? I'm making it private for now until somebody cries about it
-
     public:
         virtual void draw(Display* display);
 };

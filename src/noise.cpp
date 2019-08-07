@@ -3,6 +3,7 @@
 #include <Display.h>
 #include <H2HDisplay.h>
 #include <Game.h>
+#include <Noise.h>
 
 #define BRIGHTNESS 30
 #define delayVal 0
@@ -17,7 +18,7 @@ class NoiseGame : Game
 
         void setup()
         {
-            background = (Animation*)new Noise();
+            background = (Animation*)new Noise(display);
             FastLED.setBrightness(BRIGHTNESS);
         }
 
@@ -29,18 +30,18 @@ class NoiseGame : Game
         }
 };
 
-Game* NoiseGame;
+Game* noiseGame;
 
 
 
 void setup() {
     H2HDisplay* NoiseGameDisplay = new H2HDisplay();
-    NoiseGame = (Game*)new NoiseGame(NoiseGameDisplay);
-    NoiseGame->setup();
+    noiseGame = (Game*)new NoiseGame(NoiseGameDisplay);
+    noiseGame->setup();
 }
 
 void loop() {
-    NoiseGame->loop();
+    noiseGame->loop();
 }
 // #include <FastLED.h>
 // #include <Arduino.h>

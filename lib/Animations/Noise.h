@@ -1,9 +1,9 @@
 class Noise : Animation
 {
     private:
-      static uint16_t x;
-      static uint16_t y;
-      static uint16_t z;
+      uint16_t x;
+      uint16_t y;
+      uint16_t z;
 
       // We're using the x/y dimensions to map to the x/y pixels on the matrix.  We'll
       // use the z-axis for "time".  speed determines how fast time moves forward.  Try
@@ -24,18 +24,10 @@ class Noise : Animation
       uint16_t scale = 1024;
 
       // This is the array that we keep our computed noise values in
-      uint8_t noise[display->lengthStrips][display->numStrips];
-
-      void setup() {
-
-        // Initialize our coordinates to some random values
-        x = random16();
-        y = random16();
-        z = random16();
-      }
+      uint8_t** noise;
 
       // Fill the x/y array of 8-bit noise values using the inoise8 function.
-      void fillnoise8() {
+      void fillnoise8(Display* display) {
         for(int i = 0; i < display->numStrips; i++) {
           int ioffset = scale * i;
           for(int j = 0; j < display->lengthStrips; j++) {
@@ -47,9 +39,23 @@ class Noise : Animation
       }
 
     public:
+      Noise(Display* display) : Animation()
+      {
+        noise = new uint8_t*[display->lengthStrips];
+        for (int i = 0; i < display->lengthStrips; i++)
+        {
+          noise[i] = new uint8_t[display->numStrips];
+        }
+
+        // Initialize our coordinates to some random values
+        x = random16();
+        y = random16();
+        z = random16();
+      }
+
       void draw(Display* display){
         static uint8_t ihue=0;
-        fillnoise8();
+        fillnoise8(display);
         for(int i = 0; i < display->numStrips; i++) {
           for(int j = 0; j < display->lengthStrips; j++) {
             // We use the value at the (i,j) coordinate in the noise
@@ -64,3 +70,4 @@ class Noise : Animation
         ihue+=1;
 
       }
+  };
