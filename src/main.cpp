@@ -20,9 +20,10 @@ void setup()
         gameDisplay->strips[0][i] = CRGB::Red;
     }
     Serial.println("gameDisplay created");
-
+    FastLED.show();
+    
     // Choose your Game type
-    game = (Game*)new H2HTest(gameDisplay);
+    game = (Game*)new LifeGame(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
@@ -30,6 +31,7 @@ void setup()
         gameDisplay->strips[0][i] = CRGB::Yellow;
     }
     Serial.println("game created");
+    FastLED.show();
 
     game->setup();
 
@@ -39,8 +41,10 @@ void setup()
         gameDisplay->strips[0][i] = CRGB::Green;
     }
     Serial.println("game setup complete");
+    FastLED.show();
 
     Serial.println("End setup()");
+    FastLED.show();
 }
 
 void loop()
@@ -50,7 +54,8 @@ void loop()
     {
         gameDisplay->strips[0][i] = CRGB::Blue;
     }
-    Serial.println("loop() entered");
+    // Serial.println("loop() entered");
 
     game->loop();
+    FastLED.show();
 }
