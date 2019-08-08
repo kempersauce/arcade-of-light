@@ -7,7 +7,7 @@ Display* gameDisplay;
 
 void setup()
 {
-    delay(15 * 1000);
+    //delay(15 * 1000);
     Serial.begin(9600);
     Serial.println("Begin setup()");
 
@@ -21,7 +21,7 @@ void setup()
     }
     Serial.println("gameDisplay created");
     FastLED.show();
-    
+
     // Choose your Game type
     game = (Game*)new LifeGame(gameDisplay);
 
