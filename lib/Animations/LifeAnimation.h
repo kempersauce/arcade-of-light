@@ -125,7 +125,7 @@ class LifeAnimation : public Animation
                 for (int j = 0; j < height; j++)
                 {
                     bool alive = random8(1) == 0;
-                    (*lastRound)[i][j] = alive;
+                    (*nextRound)[i][j] = alive;
                 }
             }
         }
