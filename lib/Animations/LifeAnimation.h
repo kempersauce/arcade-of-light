@@ -34,6 +34,15 @@ class LifeAnimation : public Animation
             nextRound = &frame2;
         }
 
+        void setCellState(int x, int y, bool state)
+        {
+            if (x >= 0 && x < width
+                && y >= 0 && y < height)
+            {
+                (*nextRound)[x][y] = state;
+            }
+        }
+
         void GoOneRound()
         {
             // swap last round with next round
@@ -108,7 +117,7 @@ class LifeAnimation : public Animation
                 {
                     if ((*nextRound)[stripIndex][ledIndex])
                     {
-                        display->strips[stripIndex][ledIndex] = CRGB::Amethyst;
+                        display->strips[stripIndex][ledIndex] = CRGB::Green;
                     }
                     else
                     {
@@ -124,8 +133,8 @@ class LifeAnimation : public Animation
             {
                 for (int j = 0; j < height; j++)
                 {
-                    bool alive = random8(1) == 0;
-                    (*nextRound)[i][j] = alive;
+                    bool alive = random8() > 127;
+                    setCellState(i, j, alive);
                 }
             }
         }
