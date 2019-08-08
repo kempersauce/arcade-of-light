@@ -3,26 +3,54 @@
 #include <LifeGame.h>
 
 Game* game;
+Display* gameDisplay;
 
 void setup()
 {
+    delay(15 * 1000);
     Serial.begin(9600);
     Serial.println("Begin setup()");
 
     // Choose your Display type
-    Display* gameDisplay = new H2HDisplay();
+    gameDisplay = (Display*)new H2HDisplay();
+
+    // debug set strip0 red
+    for (int i = 0; i < gameDisplay->lengthStrips; i++)
+    {
+        gameDisplay->strips[0][i] = CRGB::Red;
+    }
     Serial.println("gameDisplay created");
 
     // Choose your Game type
     game = (Game*)new H2HTest(gameDisplay);
+
+    // debug set strip0 yellow
+    for (int i = 0; i < gameDisplay->lengthStrips; i++)
+    {
+        gameDisplay->strips[0][i] = CRGB::Yellow;
+    }
     Serial.println("game created");
 
     game->setup();
+
+    // debug set strip0 green
+    for (int i = 0; i < gameDisplay->lengthStrips; i++)
+    {
+        gameDisplay->strips[0][i] = CRGB::Green;
+    }
     Serial.println("game setup complete");
 
     Serial.println("End setup()");
 }
 
-void loop() {
+void loop()
+{
+    // debug set strip0 blue
+    for (int i = 0; i < gameDisplay->lengthStrips; i++)
+    {
+        gameDisplay->strips[0][i] = CRGB::Blue;
+    }
+    Serial.println("loop() entered");
+
     game->loop();
 }
