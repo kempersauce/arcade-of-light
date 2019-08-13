@@ -135,15 +135,22 @@ class RocketGame : Game
                 target.Height = 10;
                 target.Step = target.Height/6;
             }
-            if (wins > 3){
+
+            if (wins > 3)
+            {
                 //full win animation goes here
-                for (int i = 0; i < display->lengthStrips; i++){
-                    redColor = random(0,200);
-                    greenColor = random(0,200);
-                    blueColor = random(0,200);
-                    display->strips[0][i].setRGB(greenColor, redColor, blueColor);
-                    FastLED.show();
+                for (int i = 0; i < display->numStrips; i++)
+                {
+                    for (int j = 0; j < display->lengthStrips; j++)
+                    {
+                        redColor = random(0,200);
+                        greenColor = random(0,200);
+                        blueColor = random(0,200);
+                        display->strips[i][j].setRGB(greenColor, redColor, blueColor);
+                        FastLED.show();
+                    }
                 }
+
                 //fully restart game
                 wins = 0;
                 target.Loc = random(0,100)+100;
@@ -159,31 +166,35 @@ class RocketGame : Game
 
     void handleExplosion()
     {
-        // sets the top 15 pixels in a fade from red to black
-        for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
+        // Draw explosion accross all strips
+        for (int j = 0; j < display->numStrips; j++)
         {
-            redColor = 255;
-            display->strips[0][i].setRGB( 0, redColor, 0);
-            FastLED.show();
-            redColor = redColor - 17;
-            delay(animationDelay);
-        }
-
-        // fade those same top 15 pixels the rest of the way to black over 10 iterations
-        for (int j = 10; j > 0; j--)
-        {
+            // sets the top 15 pixels in a fade from red to black
             for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
             {
-                display->strips[0][i].fadeToBlackBy( 64 );
+                redColor = 255;
+                display->strips[j][i].setRGB( 0, redColor, 0);
                 FastLED.show();
-                delay(animationDelay-5);
+                redColor = redColor - 17;
+                delay(animationDelay);
             }
-        }
 
-        // hard set the top 15 pixels to black
-        for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
-        {
-            display->strips[0][i].setRGB( 0, 0, 0);
+            // fade those same top 15 pixels the rest of the way to black over 10 iterations
+            for (int j = 10; j > 0; j--)
+            {
+                for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
+                {
+                    display->strips[j][i].fadeToBlackBy( 64 );
+                    FastLED.show();
+                    delay(animationDelay-5);
+                }
+            }
+
+            // hard set the top 15 pixels to black
+            for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
+            {
+                display->strips[j][i].setRGB( 0, 0, 0);
+            }
         }
     }
 
@@ -229,7 +240,7 @@ class RocketGame : Game
             handleExplosion();
             player.Exploded = false;
         }
-        
+
         checkTarget();
 
 

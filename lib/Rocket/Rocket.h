@@ -118,9 +118,10 @@ class Rocket : Animation
         void draw(Display* display)
         {
             // Draw the rocket ship
+            int middleStrip = display->numStrips / 2;
             for (int i = (int)Location; i < (int)Location + Height; i++)
             {
-                display->strips[0][i] = *color;
+                display->strips[middleStrip][i] = *color;
             }
 
             // draw the boost
@@ -131,10 +132,10 @@ class Rocket : Animation
                 int flame2 = (int)Location - 2;
                 int flame3 = (int)Location - 3;
                 int flame4 = (int)Location - 4;
-                display->strips[0][flame1].setRGB(255,255,0);
-                display->strips[0][flame2].setRGB(191,255,0);
-                display->strips[0][flame3].setRGB(128,255,0);
-                display->strips[0][flame4].setRGB(0,100,0);
+                display->strips[middleStrip][flame1].setRGB(255,255,0);
+                display->strips[middleStrip][flame2].setRGB(191,255,0);
+                display->strips[middleStrip][flame3].setRGB(128,255,0);
+                display->strips[middleStrip][flame4].setRGB(0,100,0);
             }
         }
 };

@@ -20,7 +20,7 @@ class Target : Animation
         {
             Loc = loc;
             Height = height;
-            Step = Height/6;
+            Step = Height / 6;
             color = clr;
             Time = 0;
             isInTarget = false;
@@ -31,30 +31,34 @@ class Target : Animation
             int bottom = Loc;
             int top = bottom + Height;
 
-            // Target bookends
-            display->strips[0][bottom] = *color;
-            display->strips[0][top] = *color;
-
-            if (isInTarget)
+            // Draw the target accross all numStrips
+            for (int j = 0; j < display->numStrips; j++)
             {
-                long timeHeld = millis() - Time;
-                int stage = (timeHeld + 500) / 1000;
+                // Target bookends
+                display->strips[j[bottom] = *color;
+                display->strips[j][top] = *color;
 
-                // Bottom fill
-                int bottomFillStart = bottom + 1;
-                int bottomFillEnd = bottomFillStart + Step * stage;
-
-                for (int i = bottomFillStart; i < bottomFillEnd; i++)
+                if (isInTarget)
                 {
-                    display->strips[0][i] = *color;
-                }
+                    long timeHeld = millis() - Time;
+                    int stage = (timeHeld + 500) / 1000;
 
-                // Top fill
-                int topFillEnd = top - 1;
-                int topFillStart = topFillEnd - Step * stage;
-                for (int i = topFillStart; i > topFillEnd; i++)
-                {
-                    display->strips[0][i] = *color;
+                    // Bottom fill
+                    int bottomFillStart = bottom + 1;
+                    int bottomFillEnd = bottomFillStart + Step * stage;
+
+                    for (int i = bottomFillStart; i < bottomFillEnd; i++)
+                    {
+                        display->strips[j][i] = *color;
+                    }
+
+                    // Top fill
+                    int topFillEnd = top - 1;
+                    int topFillStart = topFillEnd - Step * stage;
+                    for (int i = topFillStart; i > topFillEnd; i++)
+                    {
+                        display->strips[j][i] = *color;
+                    }
                 }
             }
         }
