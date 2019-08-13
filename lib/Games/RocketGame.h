@@ -20,6 +20,7 @@
 #include <Game.h>
 #include <Display.h>
 #include <SkyFade.h>
+#include <SingleColorBG.h>
 
 class RocketGame : Game
 {
@@ -30,6 +31,9 @@ class RocketGame : Game
     Rocket player; //the player
     Target target; //the target
     Firework firework[NUM_FIREWORKS]; //win animation fireworks
+
+    SingleColorBG starBackground(0, 0, 0);// just drawing black empty space for now. we are alone in the universe
+    SkyFade skyFade();
 
     // Other variables
     int redColor = 0;
@@ -153,38 +157,33 @@ class RocketGame : Game
         }
     }
 
-    void checkExplosion()
+    void handleExplosion()
     {
-        if (player.Exploded == true)
+        // sets the top 15 pixels in a fade from red to black
+        for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
         {
-            // sets the top 15 pixels in a fade from red to black
+            redColor = 255;
+            display->strips[0][i].setRGB( 0, redColor, 0);
+            FastLED.show();
+            redColor = redColor - 17;
+            delay(animationDelay);
+        }
+
+        // fade those same top 15 pixels the rest of the way to black over 10 iterations
+        for (int j = 10; j > 0; j--)
+        {
             for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
             {
-                redColor = 255;
-                display->strips[0][i].setRGB( 0, redColor, 0);
+                display->strips[0][i].fadeToBlackBy( 64 );
                 FastLED.show();
-                redColor = redColor - 17;
-                delay(animationDelay);
+                delay(animationDelay-5);
             }
+        }
 
-            // fade those same top 15 pixels the rest of the way to black over 10 iterations
-            for (int j = 10; j > 0; j--)
-            {
-                for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
-                {
-                    display->strips[0][i].fadeToBlackBy( 64 );
-                    FastLED.show();
-                    delay(animationDelay-5);
-                }
-            }
-
-            // hard set the top 15 pixels to black
-            for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
-            {
-                display->strips[0][i].setRGB( 0, 0, 0);
-            }
-
-            player.Exploded = false;
+        // hard set the top 15 pixels to black
+        for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
+        {
+            display->strips[0][i].setRGB( 0, 0, 0);
         }
     }
 
@@ -225,10 +224,28 @@ class RocketGame : Game
 
         player.Move(display->lengthStrips);
 
-        checkExplosion();
+        if (player.Exploded == true)
+        {
+            handleExplosion();
+            player.Exploded = false;
+        }
+        
         checkTarget();
 
+
+
+        // Draw everything
+
+        //draw stars in the very back
+        starBackground.draw(display);
+
+        //draw blue sky fade over the stars
+        skyFade.draw(display);
+
+        // draw targets on top of the background
         target.draw(display); //displays target
+
+        // draw the rocket ship on the very front
         player.draw(display);
 
         checkWin();
