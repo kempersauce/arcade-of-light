@@ -19,8 +19,8 @@
 #include <Firework.h>
 #include <Game.h>
 #include <Display.h>
+#include <Starscape.h>
 #include <SkyFade.h>
-#include <SingleColorBG.h>
 
 class RocketGame : Game
 {
@@ -32,8 +32,8 @@ class RocketGame : Game
     Target target; //the target
     Firework firework[NUM_FIREWORKS]; //win animation fireworks
 
-    SingleColorBG starBackground(0, 0, 0);// just drawing black empty space for now. we are alone in the universe
-    SkyFade skyFade();
+    Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
+    SkyFade* skyFade;
 
     // Other variables
     int redColor = 0;
@@ -56,6 +56,8 @@ class RocketGame : Game
             player(0, new CRGB(255, 255, 255)),
             target(100, 15, new CRGB(55, 0, 0))
         {
+            starBackground = new Starscape(display->numStrips, display->lengthStrips, 200);
+            skyFade = new SkyFade();
         }
 
     void setup()
@@ -248,10 +250,11 @@ class RocketGame : Game
         // Draw everything
 
         //draw stars in the very back
-        starBackground.draw(display);
+        starBackground->generateNoise();
+        starBackground->draw(display);
 
         //draw blue sky fade over the stars
-        skyFade.draw(display);
+        skyFade->draw(display);
 
         // draw targets on top of the background
         target.draw(display); //displays target

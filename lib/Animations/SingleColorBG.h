@@ -1,6 +1,6 @@
 //Dot Class
 //Class that sets a dot in a specific locatio on the LED strip
-class SingleColorBG:Animation {
+class SingleColorBG : Animation {
     public:
         //colors (RGB)
         int red;

@@ -9,7 +9,7 @@ class NoiseGenerator
           noise = new uint8_t*[width];
           for (int i = 0; i < height; i++)
           {
-            noise[i] = new uint8_t[display->numStrips];
+            noise[i] = new uint8_t[width];
           }
 
           // Initialize our coordinates to some random values
@@ -38,15 +38,6 @@ class NoiseGenerator
       // This is the array that we keep our computed noise values in
       uint8_t** noise;
 
-    private:
-      // We're using the x/y dimensions to map to the x/y pixels on the matrix.  We'll
-      // use the z-axis for "time".  speed determines how fast time moves forward.  Try
-      // 1 for a very slow moving effect, or 60 for something that ends up looking like
-      // water.
-      uint16_t x;
-      uint16_t y;
-      uint16_t z;
-
       // Fill the x/y array of 8-bit noise values using the inoise8 function.
       void fillnoise8()
       {
@@ -61,4 +52,13 @@ class NoiseGenerator
           }
           z += speed;
       }
+
+    private:
+      // We're using the x/y dimensions to map to the x/y pixels on the matrix.  We'll
+      // use the z-axis for "time".  speed determines how fast time moves forward.  Try
+      // 1 for a very slow moving effect, or 60 for something that ends up looking like
+      // water.
+      uint16_t x;
+      uint16_t y;
+      uint16_t z;
   };

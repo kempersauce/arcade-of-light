@@ -6,9 +6,9 @@ class Noise : Animation
       NoiseGenerator* generator;
 
     public:
-      Noise(Display* display) : Animation()
+      Noise(int width, int height) : Animation()
       {
-          generator = new NoiseGenerator(display->numStrips, display->numLeds);
+          generator = new NoiseGenerator(width, height);
       }
 
       void draw(Display* display)

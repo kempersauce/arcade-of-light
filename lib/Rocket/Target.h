@@ -35,7 +35,7 @@ class Target : Animation
             for (int j = 0; j < display->numStrips; j++)
             {
                 // Target bookends
-                display->strips[j[bottom] = *color;
+                display->strips[j][bottom] = *color;
                 display->strips[j][top] = *color;
 
                 if (isInTarget)
