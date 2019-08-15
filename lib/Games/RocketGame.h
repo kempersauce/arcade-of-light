@@ -19,21 +19,26 @@
 #include <Firework.h>
 #include <Game.h>
 #include <Display.h>
+#include <RocketBoost.h>
 #include <Starscape.h>
 #include <SkyFade.h>
 
 class RocketGame : Game
 {
-    //Making Objects
-    Button Up; //Buttons go here
+    // Button time
+    Button Up;
     Button A;
     Button B;
-    Rocket player; //the player
-    Target target; //the target
-    Firework firework[NUM_FIREWORKS]; //win animation fireworks
 
+    // Backgrounds
     Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
     SkyFade* skyFade;
+
+    // Sprites
+    Rocket player; //the player
+    RocketBoost* rocketBoost;
+    Target target; //the target
+    Firework firework[NUM_FIREWORKS]; //win animation fireworks
 
     // Other variables
     int redColor = 0;
@@ -58,6 +63,7 @@ class RocketGame : Game
         {
             starBackground = new Starscape(display->numStrips, display->lengthStrips, 200);
             skyFade = new SkyFade();
+            rocketBoost = new RocketBoost(5);
         }
 
     void setup()
@@ -250,7 +256,6 @@ class RocketGame : Game
         // Draw everything
 
         //draw stars in the very back
-        starBackground->generateNoise();
         starBackground->draw(display);
 
         //draw blue sky fade over the stars
@@ -259,8 +264,16 @@ class RocketGame : Game
         // draw targets on top of the background
         target.draw(display); //displays target
 
+        // draw the rocket boost
+        rocketBoost->loc = player.Height - 1;
+        rocketBoost->boostFactor = Up.getMillisHeld() / 2000; // 2 second total ramp-up time
+        if (rocketBoost->boostFactor > 1)
+            rocketBoost->boostFactor = 0;
+        rocketBoost->draw(display);
+
         // draw the rocket ship on the very front
         player.draw(display);
+        rocketBoost->draw(display);
 
         checkWin();
 

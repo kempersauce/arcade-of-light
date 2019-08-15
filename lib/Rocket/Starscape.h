@@ -3,29 +3,25 @@
 class Starscape : Animation
 {
     private:
-      NoiseGenerator* generator;
+      NoiseGenerator* noiseGenerator;
 
       int brightnessThreshold;
 
     public:
       Starscape(int width, int height, int brigtnessThreshold) : Animation()
       {
-          generator = new NoiseGenerator(width, height);
+          noiseGenerator = new NoiseGenerator(width, height);
           brightnessThreshold = brigtnessThreshold;
-      }
-
-      void generateNoise()
-      {
-          generator->fillnoise8();
       }
 
       void draw(Display* display)
       {
+          noiseGenerator->fillnoise8();
           for (int i = 0; i < display->numStrips; i++)
           {
               for (int j = 0; j < display->lengthStrips; j++)
               {
-                  int brightness = generator->noise[j][i];
+                  int brightness = noiseGenerator->noise[j][i];
                   if (brightness > brightnessThreshold)
                   {
                       // Draw the star, it's past the threshold

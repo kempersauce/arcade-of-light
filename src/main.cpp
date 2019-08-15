@@ -2,6 +2,7 @@
 #include <H2HTest.h>
 #include <LifeGame.h>
 #include <Head2Head.h>
+#include <RocketGame.h>
 
 Game* game;
 Display* gameDisplay;
@@ -24,7 +25,7 @@ void setup()
     FastLED.show();
 
     // Choose your Game type
-    game = (Game*)new Head2Head(gameDisplay);
+    game = (Game*)new RocketGame(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)

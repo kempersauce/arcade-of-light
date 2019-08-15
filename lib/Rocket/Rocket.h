@@ -123,19 +123,5 @@ class Rocket : Animation
             {
                 display->strips[middleStrip][i] = *color;
             }
-
-            // draw the boost
-            // TODO implement variable thrust?
-            if (Thrust > 0)
-            {
-                int flame1 = (int)Location - 1;
-                int flame2 = (int)Location - 2;
-                int flame3 = (int)Location - 3;
-                int flame4 = (int)Location - 4;
-                display->strips[middleStrip][flame1].setRGB(255,255,0);
-                display->strips[middleStrip][flame2].setRGB(191,255,0);
-                display->strips[middleStrip][flame3].setRGB(128,255,0);
-                display->strips[middleStrip][flame4].setRGB(0,100,0);
-            }
         }
 };
