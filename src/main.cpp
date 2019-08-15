@@ -3,6 +3,7 @@
 #include <LifeGame.h>
 #include <Head2Head.h>
 #include <RocketGame.h>
+#include <WavPlayer.h>
 
 Game* game;
 Display* gameDisplay;
@@ -25,7 +26,7 @@ void setup()
     FastLED.show();
 
     // Choose your Game type
-    game = (Game*)new Head2Head(gameDisplay);
+    game = (Game*)new WavPlayer(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
