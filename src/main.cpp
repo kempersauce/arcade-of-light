@@ -25,7 +25,7 @@ void setup()
     FastLED.show();
 
     // Choose your Game type
-    game = (Game*)new RocketGame(gameDisplay);
+    game = (Game*)new Head2Head(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
