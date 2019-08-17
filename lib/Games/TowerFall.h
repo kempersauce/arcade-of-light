@@ -5,6 +5,16 @@
 #include <Display.h>
 #include <Platform.h>
 
+//game Concept
+//Race to the bottom
+//All players start at the top
+//player dots fall until they hit abritrary point down the strip
+//players stop moving relative to the strip
+//obstacles begin rising up to player
+//race continues until finish line flies up
+//players stop the dots from rising when the hit a Platform
+
+
 class TowerFallGame : Game
 {
 
