@@ -26,6 +26,15 @@ AudioConnection          patchCord3(playSdWav3, 0, i2s1, 2);
 AudioConnection          patchCord4(playSdWav4, 0, i2s1, 3);
 AudioControlSGTL5000     sgtl5000_1;
 
+class AudioChannel
+{
+    AudioPlaySdWav playSdWav;
+    void play(const string& fileName)
+    {
+        fileName->
+    }
+}
+
 class WavPlayer : Game
 {
 private:

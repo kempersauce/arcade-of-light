@@ -3,23 +3,23 @@
 class Noise : Animation
 {
     private:
-      NoiseGenerator* generator;
+      int brightness = 255;
+      NoiseGenerator* noiseGenerator;
 
     public:
       Noise(int width, int height) : Animation()
       {
-          generator = new NoiseGenerator(width, height);
-
-
+          noiseGenerator = new NoiseGenerator(width, height);
       }
-      int brightness = 255;
-      void setBrightness(int bright){
-      brightness = bright;
+
+      void setBrightness(int bright)
+      {
+          brightness = bright;
       }
 
       void draw(Display* display)
       {
-          static uint8_t ihue=0;
+          static uint8_t ihue = 0;
           noiseGenerator->fillnoise8();
           for (int i = 0; i < display->numStrips; i++)
           {
@@ -29,12 +29,12 @@ class Noise : Animation
                   // array for our brightness, and the flipped value from (j,i)
                   // for our pixel's hue.
                   //leds[i][j] = CHSV(noise[j][i],255,noise[i][j]);
-            display->strips[i][j] = CHSV(ihue + (noiseGenerator->noise[j][i]>>2),brightness,noise[i][j]);
+                  display->strips[i][j] = CHSV(ihue + (noiseGenerator->noise[j][i] >> 2), brightness, noiseGenerator->noise[i][j]);
                   // You can also explore other ways to constrain the hue used, like below
                   // leds[XY(i,j)] = CHSV(ihue + (noise[j][i]>>2),255,noise[i][j]);
               }
           }
 
-          ihue+=1;
+          ihue++;
       }
   };
