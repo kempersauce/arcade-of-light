@@ -13,6 +13,7 @@ class H2HStartGame : Game
 
         int DotPercentage[3];
 
+
         H2HTest(Display* gameDisplay)
             : Game(gameDisplay)
 
@@ -23,7 +24,7 @@ class H2HStartGame : Game
             FastLED.setBrightness(50);
             controls = (H2HControls*)new H2HControls();
             background = (Animation*)new Noise();
-            dots = new H2HDot*[4] {
+            dots = new H2HDot*[3] {
                 //new H2HDot(CRGB::Purple, 0, 15, 8, 120),
                 new H2HDot(CRGB::Red, 3, 15, 8, 0),
                 new H2HDot(CRGB::Red, 4, 15, 8, 0),
@@ -42,6 +43,7 @@ class H2HStartGame : Game
             checkTeam(controls->teamA, CRGB::Green, CRGB::Blue, true);
             checkTeam(controls->teamB, CRGB::Yellow, CRGB::Red, false);
             drawDots();
+            fillStrip();
             setBackgroundBrightness();
             FastLED.show();
         }
@@ -80,6 +82,11 @@ class H2HStartGame : Game
                 }
 
             }
+        }
+        //fill the strip up to the
+        void fillStrip()
+        {
+
         }
         void drawDots()
         {
