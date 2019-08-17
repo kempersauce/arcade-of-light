@@ -1,6 +1,6 @@
 #include <H2HDisplay.h>
 #include <H2HTest.h>
-#include <LifeGame.h>
+#include <StartGame.h>
 #include <Head2Head.h>
 #include <RocketGame.h>
 #include <WavPlayer.h>
@@ -26,7 +26,7 @@ void setup()
     FastLED.show();
 
     // Choose your Game type
-    game = (Game*)new WavPlayer(gameDisplay);
+    game = (Game*)new StartGame(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
