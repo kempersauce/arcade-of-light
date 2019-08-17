@@ -13,7 +13,7 @@ class Dot : Animation {
         CRGB color;
 
         //Constructor - COULD BE MORE EFFICIENT
-        Dot(CRGB startColor, int startX, int startY, int xMaximum, int yMaximum)
+        Dot (CRGB startColor, int startX, int startY, int xMaximum, int yMaximum)
         {
             color = startColor;
             xLoc = startX;

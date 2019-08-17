@@ -26,25 +26,17 @@ AudioConnection          patchCord3(playSdWav3, 0, i2s1, 2);
 AudioConnection          patchCord4(playSdWav4, 0, i2s1, 3);
 AudioControlSGTL5000     sgtl5000_1;
 
-class AudioChannel
-{
-    AudioPlaySdWav playSdWav;
-    void play(const string& fileName)
-    {
-        fileName->
-    }
-}
-
 class WavPlayer : Game
 {
 private:
 
-    Button ABut(24); //Buttons go here
-    Button BBut(25);
-    Button CBut(26);
-    Button DBut(27);
-    Button EBut(28);
-    Button FBut(29);
+    //Buttons go here
+    Button ABut = Button(24);
+    Button BBut = Button(25);
+    Button CBut = Button(26);
+    Button DBut = Button(27);
+    Button EBut = Button(28);
+    Button FBut = Button(29);
 
 public:
     void setup()

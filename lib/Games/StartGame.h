@@ -9,22 +9,23 @@
 class H2HStartGame : Game
 {
     public:
-  //      H2HControls* controls;
+        H2HControls* controls;
 
         int DotPercentage[3];
+        H2HDot** dots;
 
 
-        H2HTest(Display* gameDisplay)
+        H2HStartGame(Display* gameDisplay)
             : Game(gameDisplay)
-
-//brackets used to live here {}
+        {
+        }
 
         void setup()
         {
             FastLED.setBrightness(50);
             controls = (H2HControls*)new H2HControls();
-            background = (Animation*)new Noise();
-            dots = new H2HDot*[3] {
+            background = (Animation*)new Noise(display->numStrips, display->lengthStrips);
+            dots = new H2HDot*[4] {
                 //new H2HDot(CRGB::Purple, 0, 15, 8, 120),
                 new H2HDot(CRGB::Red, 3, 15, 8, 0),
                 new H2HDot(CRGB::Red, 4, 15, 8, 0),
@@ -57,17 +58,21 @@ class H2HStartGame : Game
                     for (int j = 0; j < dots[i]->yLoc; j++)
                     {
                         display->strips[i][j] = color2;
+                    }
+
+                    if (moveUp)
+                    {
+                        if (dots[i]->yLoc > display->lengthStrips / 2)
+                        {
+                            dots[i]->move(0,1);
                         }
                     }
-                    if(moveUp)
+                    else
                     {
-                        if dots[i] > display->lengthStrips / 2 {
-                        dots[i]->move(0,1);
-                      }
-                    }else{
                         dots[i]->move(0,-1);
                     }
-                    for (int j = 0; j < display->lengthStrips; j++)
+
+                    //for (int j = 0; j < display->lengthStrips; j++)
                     // {
                     //     if(j<dots[i]->yLoc)
                     //     {
@@ -83,11 +88,13 @@ class H2HStartGame : Game
 
             }
         }
-        //fill the strip up to the
+
+
         void fillStrip()
         {
 
         }
+
         void drawDots()
         {
             for(int i=0; i<4; i++)
@@ -95,13 +102,14 @@ class H2HStartGame : Game
                 dots[i]->draw(display);
             }
         }
+
         void setBackgroundBrightness()
         {
             for(int i=0; i<4; i++)
             {
                 DotPercentage[i] = dots[i]->yLoc / (display->lengthStrips / 2);
             }
-            background->setBrightness(DotPercentage[0]+DotPercentage[1]+DotPercentage[2]+DotPercentage[3]/4*255);
+            ((Noise*)background)->setBrightness(DotPercentage[0]+DotPercentage[1]+DotPercentage[2]+DotPercentage[3]/4*255);
         }
 
 };

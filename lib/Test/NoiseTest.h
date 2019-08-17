@@ -18,7 +18,7 @@ class NoiseGame : Game
 
         void setup()
         {
-            background = (Animation*)new Noise(display);
+            background = (Animation*)new Noise(display->numStrips, display->lengthStrips);
             FastLED.setBrightness(BRIGHTNESS);
         }
 
