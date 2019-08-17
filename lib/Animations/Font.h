@@ -1,5 +1,14 @@
 //this file holds our fonts
 //letters are 4x8
+int space [1][8] = {
+  0
+  0
+  0
+  0
+  0
+  0
+  0
+  0};
 
 int LetterD[4][8] = {
   1,1,0,0
