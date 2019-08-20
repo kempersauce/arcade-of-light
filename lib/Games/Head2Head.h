@@ -14,12 +14,12 @@ class H2HGameStrip
     // nearside team
     Button* buttonA;
     H2HZone* zoneA;
-    CRGB* colorA;
+    CRGB colorA;
 
     // farside team
     Button* buttonB;
     H2HZone* zoneB;
-    CRGB* colorB;
+    CRGB colorB;
 
     int stripIndex; // Which strip is this on?
     int heightMax; // length of this strip
@@ -34,12 +34,12 @@ public:
         this->heightMax = stripHeight;
 
         this->buttonA = new Button(buttonAPin);
-        this->zoneA = new H2HZone(CRGB::Blue, stripIndex, 10, 20);
-        this->colorA = &colorA;
+        this->zoneA = new H2HZone(CRGB::Cyan, stripIndex, 10, 20);
+        this->colorA = colorA;
 
         this->buttonB = new Button(buttonBPin);
-        this->zoneB = new H2HZone(CRGB::Red, stripIndex, stripHeight - 20, stripHeight - 10);
-        this->colorB = &colorB;
+        this->zoneB = new H2HZone(CRGB::Orange, stripIndex, stripHeight - 20, stripHeight - 10);
+        this->colorB = colorB;
 
         this->dot = new H2HDot(CRGB::White, stripIndex, stripHeight / 2, stripHeight);
     }
@@ -88,13 +88,13 @@ public:
         // Team A background
         for (int y = 0; y < dot->yLoc; y++)
         {
-            display->strips[stripIndex][y] = *colorA;
+            display->strips[stripIndex][y] = colorA;
         }
 
         // Team B background
         for (int y = dot->yLoc + 1; y < heightMax; y++)
         {
-            display->strips[stripIndex][y] = *colorB;
+            display->strips[stripIndex][y] = colorB;
         }
 
         // Only draw these if this strip is still playing
