@@ -7,8 +7,8 @@ class H2HDot : public Dot
     public:
         int velocity;
 
-        H2HDot(CRGB startColor, int startX, int startY, int xMaximum, int yMaximum)
-            : Dot(startColor, startX, startY, xMaximum, yMaximum)
+        H2HDot(CRGB startColor, int startX, int startY, int yMaximum)
+            : Dot(startColor, startX, startY, startX, yMaximum)
         {
             velocity = 1;
         }

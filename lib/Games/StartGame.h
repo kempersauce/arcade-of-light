@@ -27,13 +27,13 @@ class H2HStartGame : Game
             background = (Animation*)new Noise(display->numStrips, display->lengthStrips);
             dots = new H2HDot*[4] {
                 //new H2HDot(CRGB::Purple, 0, 15, 8, 120),
-                new H2HDot(CRGB::Red, 3, 15, 8, 0),
-                new H2HDot(CRGB::Red, 4, 15, 8, 0),
-                new H2HDot(CRGB::Blue, 3, 15, 8, 120),
-                new H2HDot(CRGB::Blue, 4, 15, 8, 120),
-                //new H2HDot(CRGB::Purple, 5, 15, 8, 120),
-                //new H2HDot(CRGB::Purple, 6, 15, 8, 120),
-                //new H2HDot(CRGB::Purple, 7, 15, 8, 120),
+                new H2HDot(CRGB::Red, 3, 15, 0),
+                new H2HDot(CRGB::Red, 4, 15, 0),
+                new H2HDot(CRGB::Blue, 3, 15, 120),
+                new H2HDot(CRGB::Blue, 4, 15, 120),
+                //new H2HDot(CRGB::Purple, 5, 15, 120),
+                //new H2HDot(CRGB::Purple, 6, 15, 120),
+                //new H2HDot(CRGB::Purple, 7, 15, 120),
             };
         }
 

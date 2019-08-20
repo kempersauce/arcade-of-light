@@ -17,22 +17,14 @@ class H2HZone : public Animation
             yMax = yMaximum;
         }
 
-        bool checkZone(int x, int y)
+        bool checkZone(int y)
         {
-            bool result = false;
-            if(x == xLoc)
-            {
-                if(y<=yMax && y>=yMin)
-                {
-                    result = true;
-                }
-            }
-            return result;
+            return y <= yMax && y >= yMin;
         }
 
         void draw(Display* display)
         {
-            for(int y=yMin; y<yMax; y++)
+            for (int y = yMin; y < yMax; y++)
             {
                 display->strips[xLoc][y] = color;
             }
