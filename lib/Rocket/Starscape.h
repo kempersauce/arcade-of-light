@@ -11,12 +11,14 @@ class Starscape : Animation
       Starscape(int width, int height, int brigtnessThreshold) : Animation()
       {
           noiseGenerator = new NoiseGenerator(width, height);
+          noiseGenerator->speed = 4; // slow down the speed here, we want slow blinking stars
           brightnessThreshold = brigtnessThreshold;
       }
 
       void draw(Display* display)
       {
           noiseGenerator->fillnoise8();
+
           for (int i = 0; i < display->numStrips; i++)
           {
               for (int j = 0; j < display->lengthStrips; j++)
@@ -26,16 +28,16 @@ class Starscape : Animation
                   {
                       // Draw the star, it's past the threshold
 
-                      // stretch the brightness so it goes from 0-255
-                      brightness = 255 * (brightness - brightnessThreshold) / (255 - brightnessThreshold);
+                      // stretch the brightness so it goes from 0-100 for CSV
+                      int value = 100 * (brightness - brightnessThreshold) / (255 - brightnessThreshold);
 
                       // draw onto the blackness of space
-                      display->strips[i][j].setRGB(brightness, brightness, brightness); // we're just doing RGB for now, but I'd rather do a HSV fade from bright blue to bright red
+                      display->strips[i][j] = CHSV(46, 100, value); // Amber is 46, 100, 100 - we scale from black up to amber here
                   }
                   else
                   {
-                      //Draw the blackness of space
-                      display->strips[i][j].setRGB(0, 0, 0);
+                      // Draw the blackness of space
+                      display->strips[i][j] = CRGB(0, 0, 0);
                   }
               }
           }
