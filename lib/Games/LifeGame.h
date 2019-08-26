@@ -1,6 +1,5 @@
 #include <LifeAnimation.h>
 #include <Game.h>
-#include <H2HDisplay.h>
 #include <Button.h>
 
 class LifeGame : Game

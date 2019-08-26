@@ -21,7 +21,7 @@ class Starscape : Animation
           {
               for (int j = 0; j < display->lengthStrips; j++)
               {
-                  int brightness = noiseGenerator->noise[j][i];
+                  int brightness = noiseGenerator->noise[i][j];
                   if (brightness > brightnessThreshold)
                   {
                       // Draw the star, it's past the threshold

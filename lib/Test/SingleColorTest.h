@@ -1,5 +1,4 @@
 #include <Game.h>
-#include <Display.h>
 #include <SingleColorBG.h>
 
 
@@ -9,12 +8,11 @@ class SingleColorTest : Game
         SingleColorTest(Display* gameDisplay)
             : Game(gameDisplay)
         {
+            background = (Animation*)new SingleColorBG(0, 0, 255);
         }
 
         void setup()
         {
-            FastLED.setBrightness(50);
-            background = (Animation*)new SingleColorBG(0, 0, 255);
         }
 
         void loop()

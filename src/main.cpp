@@ -57,12 +57,14 @@ void setup()
 void loop()
 {
     // debug set strip0 blue
-    for (int i = 0; i < gameDisplay->lengthStrips; i++)
-    {
-        gameDisplay->strips[0][i] = CRGB::Blue;
-    }
-    // Serial.println("loop() entered");
+    //for (int i = 0; i < gameDisplay->lengthStrips; i++)
+    //{
+    //    gameDisplay->strips[0][i] = CRGB::Blue;
+    //}
+    //Serial.println("loop() entered");
 
     game->loop();
     FastLED.show();
+    delay(50);
+    //Serial.println("loop() finished");
 }

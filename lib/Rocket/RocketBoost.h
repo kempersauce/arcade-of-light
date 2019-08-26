@@ -7,13 +7,15 @@ private:
     NoiseGenerator* noiseGenerator;
 
     public:
-      int loc = 0;
+      int loc;
       int height;
-      float boostFactor = 0;
+      float boostFactor;
 
       RocketBoost(int heigt)
       {
           height = heigt;
+          loc = 0;
+          boostFactor = 0;
           noiseGenerator = new NoiseGenerator(1, height); // 1-d noise generator
       }
 
@@ -22,23 +24,29 @@ private:
       {
           noiseGenerator->fillnoise8();
 
-          // Always draw the first pixel if we're boosting at all for instant response
-          if (boostFactor > 0)
+          // normalize boostFactor to 0-1 range
+          if (boostFactor > 1)
           {
-              display->strips[display->numStrips/2][loc].setRGB(255, 128 + noiseGenerator->noise[0][0] / 2, 128);
+              boostFactor = 1;
           }
 
           // Draw as much boost as we needs
           int boostHeight = boostFactor * height;
-          int middleStrip = display->numStrips / 2;
-          for (int i = 0; i < boostHeight; i++)
+
+          // At least keep it to 2 pixels minimum when we're actually boosting
+          if (boostFactor > 0 && boostHeight < 1)
           {
-              int boostLoc = i + loc;
-              
+              boostHeight = 1;
+          }
+
+          int middleStrip = display->numStrips / 2;
+          for (int boostLoc = loc - boostHeight; boostLoc < loc; boostLoc++)
+          {
               // Dont paint outside the canvas
-              if (boostLoc >= 0 && boostLoc < display->numStrips)
+              if (boostLoc >= 0 && boostLoc < display->lengthStrips)
               {
-                  display->strips[middleStrip][boostLoc].setRGB(255, 128 + noiseGenerator->noise[0][i] / 2, 128);
+                  int noiseIndex = loc - boostLoc;
+                  display->strips[middleStrip][boostLoc].setRGB(255, noiseGenerator->noise[0][noiseIndex] / 2, 0);
               }
           }
       }

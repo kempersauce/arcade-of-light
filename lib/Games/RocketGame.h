@@ -54,22 +54,22 @@ class RocketGame : Game
     public:
         RocketGame(Display* display)
             : Game(display),
-            Up(BUTTON_PIN_0),
-            A(BUTTON_PIN_1),
+            Up(BUTTON_PIN_1),
+            A(BUTTON_PIN_0),
             player(0, new CRGB(255, 255, 255)),
             target(100, 15, new CRGB(55, 0, 0))
         {
-            starBackground = new Starscape(display->numStrips, display->lengthStrips, 200);
+            starBackground = new Starscape(display->numStrips, display->lengthStrips, 175);
             skyFade = new SkyFade();
             rocketBoost = new RocketBoost(5);
         }
 
     void setup()
     {
-        for (int i = 0; i < NUM_FIREWORKS; i++)
-        {
-            firework[i] = Firework();
-        }
+        // for (int i = 0; i < NUM_FIREWORKS; i++)
+        // {
+        //     firework[i] = Firework();
+        // }
 
         target.Loc = random(0,180)+100;
     }
@@ -262,15 +262,13 @@ class RocketGame : Game
         target.draw(display); //displays target
 
         // draw the rocket boost
-        rocketBoost->loc = player.Height - 1;
-        rocketBoost->boostFactor = Up.getMillisHeld() / 2000; // 2 second total ramp-up time
-        if (rocketBoost->boostFactor > 1)
-            rocketBoost->boostFactor = 0;
+        rocketBoost->loc = (int)player.Location;
+        rocketBoost->boostFactor = (float)Up.getMillisHeld() / (float)500; // .5 second total ramp-up time
+
         rocketBoost->draw(display);
 
         // draw the rocket ship on the very front
         player.draw(display);
-        rocketBoost->draw(display);
 
         checkWin();
 
