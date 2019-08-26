@@ -28,7 +28,6 @@ class RocketGame : Game
     // Button time
     Button Up;
     Button A;
-    Button B;
 
     // Backgrounds
     Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
@@ -55,9 +54,8 @@ class RocketGame : Game
     public:
         RocketGame(Display* display)
             : Game(display),
-            Up(13),
-            A(11),
-            B(10),
+            Up(BUTTON_PIN_0),
+            A(BUTTON_PIN_1),
             player(0, new CRGB(255, 255, 255)),
             target(100, 15, new CRGB(55, 0, 0))
         {
@@ -229,7 +227,6 @@ class RocketGame : Game
         // Poll button states
         Up.poll();
         A.poll();
-        B.poll();
 
         // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
         if (Up.isPressed())

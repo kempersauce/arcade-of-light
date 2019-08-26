@@ -2,9 +2,12 @@
 #include <H2HTest.h>
 #include <StartGame.h>
 #include <Head2Head.h>
+#include <RocketDisplay.h>
 #include <RocketGame.h>
 #include <WavPlayer.h>
 #include <NoiseTest.h>
+#include <LifeGame.h>
+#include <SingleColorTest.h>
 
 Game* game;
 Display* gameDisplay;

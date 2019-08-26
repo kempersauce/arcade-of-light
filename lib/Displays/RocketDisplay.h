@@ -10,6 +10,6 @@ class RocketDisplay : public Display
         RocketDisplay()
             : Display(1, 300)
         {
-            FastLED.addLeds<WS2812B, LED_PIN_0, GRB>(strips[0], lengthStrips);
+            FastLED.addLeds<WS2812B, 20, GRB>(strips[0], lengthStrips);
         }
 };

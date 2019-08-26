@@ -18,7 +18,6 @@ class Display {
         {
             strips = new CRGB*[numStrips];
 
-            //Relies on pin setup being sequential
             for (int i = 0; i < numStrips; i++) {
                 strips[i] = new CRGB[lengthStrips];
             }
