@@ -17,6 +17,7 @@ private:
           loc = 0;
           boostFactor = 0;
           noiseGenerator = new NoiseGenerator(1, height); // 1-d noise generator
+          noiseGenerator->speed = 200; // make it fast whoosh
       }
 
       //override rainbow draw function
@@ -33,20 +34,21 @@ private:
           // Draw as much boost as we needs
           int boostHeight = boostFactor * height;
 
-          // At least keep it to 2 pixels minimum when we're actually boosting
+          // At least keep it to 1 pixel minimum when we're actually boosting
           if (boostFactor > 0 && boostHeight < 1)
           {
               boostHeight = 1;
           }
 
           int middleStrip = display->numStrips / 2;
-          for (int boostLoc = loc - boostHeight; boostLoc < loc; boostLoc++)
+          for (int i = 0; i < boostHeight; i++)
           {
+              int boostLoc = (loc - boostHeight) + i;
+
               // Dont paint outside the canvas
               if (boostLoc >= 0 && boostLoc < display->lengthStrips)
               {
-                  int noiseIndex = loc - boostLoc;
-                  display->strips[middleStrip][boostLoc].setRGB(255, noiseGenerator->noise[0][noiseIndex] / 2, 0);
+                  display->strips[middleStrip][boostLoc].setRGB(255, noiseGenerator->noise[0][i], 0);
               }
           }
       }
