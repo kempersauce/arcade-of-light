@@ -1,5 +1,6 @@
-#include <Display.h>
+#pragma once
 
+#include <Display.h>
 
 class H2HZone : public Animation
 {
