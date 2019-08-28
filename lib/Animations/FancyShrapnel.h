@@ -8,20 +8,11 @@ class FancyShrapnel : Animation
 public:
     //location values
     float Location;
-    float OldLocation;
     float Velocity;
-    float Acceleration;
-    float OldVelocity;
-    float OldAcceleration;
-
-    int Mass;
 
     bool Burnout;
     long BirthTime;
     long CurrentTime;
-
-    int Thrust;
-    int OldThrust;
 
     //colors (HSV)
     int Hue;
@@ -44,10 +35,19 @@ public:
         Saturation = 0;
         Brightness = 0;
         Burnout = false;
-        BirthTime = millis();
-        Thrust = random(1,150);
-        OldThrust = 0;
-        Mass = 1;
+        BirthTime = 0;
+
+    }
+
+    void Reset()
+    {
+      Location = 0;
+      Velocity = 0;
+      Hue = 0;
+      Saturation = 0;
+      Brightness = 0;
+      Burnout = false;
+      BirthTime = 0;
     }
 
     void Move()
@@ -55,20 +55,18 @@ public:
 
         CurrentTime = millis();
 
-        //Equations
-        Acceleration = ( .5 * (Thrust + OldThrust))/ Mass - GRAVITY;
-        Velocity = OldVelocity + ((CurrentTime - BirthTime)/1000) * Acceleration;
-        Location = OldLocation + (.5 * (Velocity + OldVelocity)) * ((CurrentTime - BirthTime)/1000);
-
-        OldVelocity = Velocity;
-        OldLocation = Location;
-
         //Saturate Color
         if (Saturation < 255){
-          Saturation = Saturation + 20;
-
+          Saturation = 255 * (CurrentTime - BirthTime / 2000);
+          if (Saturation > 255){Saturation = 255;}
+          }
+        //Fade to Black
+        if (Saturation == 255){
+          Brightness = 255 - (255 * (CurrentTime - BirthTime / 3500));
+          if (Brightness < 0){Burnout = true;}
+          }
+        if (Burnout == true){Reset();}
       }
-    }
 
     void draw(Display* display)
     {

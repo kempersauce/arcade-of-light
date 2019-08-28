@@ -9,6 +9,7 @@
 #include <LifeGame.h>
 #include <SingleColorTest.h>
 #include <Sounds.h>
+#include <FireworkTest.h>
 
 Game* game;
 Display* gameDisplay;
@@ -34,7 +35,7 @@ void setup()
     FastLED.show();
 
     // Choose your Game type
-    game = (Game*)new RocketGame(gameDisplay);
+    game = (Game*)new FireworkGame(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)

@@ -7,16 +7,15 @@ class FancyFirework : Animation
         //location values
         float Location;
         float Velocity;
-        float initialVelocity;
         float Acceleration;
         FancyShrapnel shrapnel[5];
 
         int Height; //pixel height where the firework explodes
-        int Mass;
         int Speed; //pixels per second
         bool Exploded;
-        long BirthTime;
+  //      long BirthTime;
         long CurrentTime;
+        long OldTime;
 
         int Thrust;
         int OldThrust;
@@ -36,66 +35,62 @@ class FancyFirework : Animation
         FancyFirework()
         {
             Location = 0;
-            Velocity = random8(1,5);
+            Velocity = random8(1,5);  //pixels per second (I hope)
             Height = random8(0,100)+150;
             Hue = random(0,255);
             Saturation = 0;
             Brightness = 255;
             Exploded = false;
-            BirthTime = millis();
-            Mass = 5;
+        }
+
+        void Reset()
+        {
+          Location = 0;
+          Velocity = random8(1,5);  //pixels per second (I hope)
+          Height = random8(0,100)+150;
+          Hue = random(0,255);
+          Saturation = 0;
+          Brightness = 255;
+          Exploded = false;
         }
 
         void Move()
         {
-            if (Exploded == false){
+            if (Exploded == true)
+              {
+                //create fancy shrapnels here and pass hue & initial Velocity
+                for (int i = 0; i < 5; i++){
+                  for (int j = -15; j <= 15; j +=5){
+                   shrapnel[i].Location = Location;
+                   shrapnel[i].Velocity = Velocity + j;
+                   shrapnel[i].Hue = Hue;
+                   shrapnel[i].BirthTime = millis();
+                   }
+                 }
+                //check if fancy shrapnels are alive
+                for (int i = 0; i < 5; i++){
+                shrapnel[i].Move();
+                if (shrapnel[0].Burnout == true){
+                  //reload everything to 0
+                  Reset();
+                      }
+                    }
+                }
+            if (Exploded == false)
+            {
                 CurrentTime = millis();
-                Location = Location + 1;
+                Location += (OldTime - CurrentTime) * (Velocity/1000);
                 if (Location >= Height)
                 {
                     Exploded = true;
                 }
 
-            //Equations
-            Location += .1 * Velocity;
-
-            //Saturate Color
-            if (Saturation < 256){
-              Saturation = Saturation + 20;
-              }
-          }
-          if (Exploded == true){
-            //create fancy shrapnels here and pass hue & initial Velocity
-            for (int i = 0; i < 5; i++){
-              for (int j = -15; j <= 15; j +=5){
-               initialVelocity = Velocity + i;
-               shrapnel[i].Location = Location;
-               shrapnel[i].Velocity = initialVelocity;
-               shrapnel[i].Hue = Hue;
-               }
-             }
-            //check if fancy shrapnels are alive
-            for (int i = 0; i < 5; i++){
-            shrapnel[i].Move();
-
-            if (shrapnel[0].Burnout == true){
-              //reload everything to 0
-                  }
+              //Saturate Color
+              if (Saturation < 255){
+                Saturation = 255 * (Location / Height);
                 }
-            }
-        }
-
-        void Reset()
-        {
-            Location = 0;
-            //Location = 0;
-            Speed = random8(1,5)+10;
-            Height = random8(0,250)+50;
-            Hue = random(0,255);
-            Saturation = 0;
-            Brightness = 255;
-            Exploded = false;
-
+          }
+                      OldTime = millis();
         }
 
         void draw(Display* display)
