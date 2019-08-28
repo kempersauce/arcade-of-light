@@ -61,7 +61,7 @@ class Rocket : Animation
             float oldThrust = Thrust;
             float oldVelocity = Velocity;
             float oldLocation = Location;
-            float oldAcceleration = Acceleration;
+            //float oldAcceleration = Acceleration;
 
             Time = millis();
 

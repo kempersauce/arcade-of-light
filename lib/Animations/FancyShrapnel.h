@@ -3,20 +3,25 @@
 
 #include <Animation.h>
 
-class Shrapnel : Animation
+class FancyShrapnel : Animation
+{
 public:
     //location values
-    Float Loc;
-    Float Velocity;
-    Float Acceleration;
-    Float OldVelocity;
-    Float OldAcceleration;
+    float Location;
+    float OldLocation;
+    float Velocity;
+    float Acceleration;
+    float OldVelocity;
+    float OldAcceleration;
 
-    bool Exploded;
+    int Mass;
+
+    bool Burnout;
     long BirthTime;
     long CurrentTime;
 
     int Thrust;
+    int OldThrust;
 
     //colors (HSV)
     int Hue;
@@ -30,17 +35,19 @@ public:
      * @param green - green value (0-255)
      * @param blue - blue value (0-255)
      * */
-    Shrapnel()
-        : Animation()
+    FancyShrapnel()
+    //: Animation(),
     {
-        Loc = 0;
+        Location = 0;
         Velocity = 0;
-        Hue = random(0,255);
+        Hue = 0;
         Saturation = 0;
-        Brightness = 255;
-        Exploded = false;
+        Brightness = 0;
+        Burnout = false;
         BirthTime = millis();
         Thrust = random(1,150);
+        OldThrust = 0;
+        Mass = 1;
     }
 
     void Move()
@@ -49,7 +56,7 @@ public:
         CurrentTime = millis();
 
         //Equations
-        Acceleration = ( .5 * (Thrust + oldThrust))/ Mass - GRAVITY;
+        Acceleration = ( .5 * (Thrust + OldThrust))/ Mass - GRAVITY;
         Velocity = OldVelocity + ((CurrentTime - BirthTime)/1000) * Acceleration;
         Location = OldLocation + (.5 * (Velocity + OldVelocity)) * ((CurrentTime - BirthTime)/1000);
 
@@ -57,28 +64,14 @@ public:
         OldLocation = Location;
 
         //Saturate Color
-        if (Saturation < 256){
+        if (Saturation < 255){
           Saturation = Saturation + 20;
 
       }
-
-    }
-
-    void Reset()
-    {
-        Loc = 0;
-        //Location = 0;
-        Speed = random8(1,5)+10;
-        Height = random8(0,250)+50;
-        Hue = random(0,255);
-        Saturation = 0;
-        Brightness = 255;
-        Exploded = false;
-
     }
 
     void draw(Display* display)
     {
-      display->strips[(int)Loc] = CHSV(Hue, Saturation, Brightness)
+      display->strips[display->numStrips/2][(int)Location].setHSV(Hue, Saturation, Brightness);
     }
 };
