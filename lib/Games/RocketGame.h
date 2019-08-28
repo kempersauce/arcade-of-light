@@ -59,7 +59,7 @@ class RocketGame : Game
             player(0, new CRGB(255, 255, 255)),
             target(100, 15, new CRGB(55, 0, 0))
         {
-            starBackground = new Starscape(display->numStrips, display->lengthStrips, 175);
+            starBackground = new Starscape(display->numStrips, display->lengthStrips, 160);
             skyFade = new SkyFade();
             rocketBoost = new RocketBoost(5);
         }

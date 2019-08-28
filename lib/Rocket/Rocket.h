@@ -37,7 +37,7 @@ class Rocket : Animation
             Location((float)loc)
         {
             Mass = MASS;
-            Height = 1; //change this later to be adjustable
+            Height = 2; //change this later to be adjustable
             color = clr;
             Thrust = 0;
             Velocity = 0;

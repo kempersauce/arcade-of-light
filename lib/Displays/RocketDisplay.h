@@ -8,7 +8,7 @@ class RocketDisplay : public Display
 {
     public:
         RocketDisplay()
-            : Display(1, 600)
+            : Display(1, 300)
         {
             FastLED.addLeds<WS2812B, 20, GRB>(strips[0], lengthStrips);
         }
