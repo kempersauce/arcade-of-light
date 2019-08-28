@@ -56,6 +56,7 @@ class FancyFirework : Animation
 
         void Move()
         {
+            if (shrapnel[0].Burnout == true){Reset();}
             if (Exploded == true)
               {
                 //create fancy shrapnels here and pass hue & initial Velocity
@@ -70,16 +71,16 @@ class FancyFirework : Animation
                 //check if fancy shrapnels are alive
                 for (int i = 0; i < 5; i++){
                 shrapnel[i].Move();
-                if (shrapnel[0].Burnout == true){
+                if (shrapnel[0].Burnout == true){Reset();}
                   //reload everything to 0
-                  Reset();
-                      }
+
                     }
                 }
             if (Exploded == false)
             {
                 CurrentTime = millis();
-                Location += (OldTime - CurrentTime) * (Velocity/1000);
+                Location++;
+                //Location += (OldTime - CurrentTime) * (Velocity/1000);
                 if (Location >= Height)
                 {
                     Exploded = true;
@@ -90,7 +91,7 @@ class FancyFirework : Animation
                 Saturation = 255 * (Location / Height);
                 }
           }
-                      OldTime = millis();
+              OldTime = millis();
         }
 
         void draw(Display* display)

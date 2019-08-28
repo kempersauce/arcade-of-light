@@ -52,9 +52,9 @@ public:
 
     void Move()
     {
-
+      if (Burnout == true){Reset();}
         CurrentTime = millis();
-
+        Location += Velocity;
         //Saturate Color
         if (Saturation < 255){
           Saturation = 255 * (CurrentTime - BirthTime / 2000);
@@ -65,7 +65,7 @@ public:
           Brightness = 255 - (255 * (CurrentTime - BirthTime / 3500));
           if (Brightness < 0){Burnout = true;}
           }
-        if (Burnout == true){Reset();}
+
       }
 
     void draw(Display* display)

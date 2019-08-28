@@ -5,8 +5,8 @@
 #include <Game.h>
 #include <Display.h>
 
-// #include <Starscape.h>
-//#include <SkyFade.h>
+#include <Starscape.h>
+#include <SkyFade.h>
 
 class FireworkGame : Game
 {
@@ -15,8 +15,8 @@ class FireworkGame : Game
     // Button A;
 
     // Backgrounds
-  //  Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
-    //SkyFade* skyFade;
+  Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
+  SkyFade* skyFade;
 
 
     FancyFirework firework[NUM_FIREWORKS]; //win animation fireworks
@@ -27,8 +27,8 @@ class FireworkGame : Game
             // Up(BUTTON_PIN_1),
             // A(BUTTON_PIN_0),
         {
-            // starBackground = new Starscape(display->numStrips, display->lengthStrips, 175);
-            // skyFade = new SkyFade();
+            starBackground = new Starscape(display->numStrips, display->lengthStrips, 175);
+            skyFade = new SkyFade();
             // rocketBoost = new RocketBoost(5);
         }
         void setup()
@@ -43,7 +43,10 @@ class FireworkGame : Game
 
         //Game Loop
     void loop() {
+      starBackground->draw(display);
 
+      //draw blue sky fade over the stars
+      skyFade->draw(display);
       for (int i = 0; i < NUM_FIREWORKS; i++)
       {
           firework[i].Move();
