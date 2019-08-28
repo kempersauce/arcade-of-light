@@ -7,6 +7,7 @@
 #include <SPI.h>
 #include <SD.h>
 #include <SerialFlash.h>
+#include <Sounds.h>
 
 // Use these with the Teensy Audio Shield
 //This uses the audio shield's card reader
@@ -19,12 +20,12 @@ AudioPlaySdWav           playSdWav1;
 AudioPlaySdWav           playSdWav2;
 AudioPlaySdWav           playSdWav3;
 AudioPlaySdWav           playSdWav4;
-AudioOutputI2S           i2s1;
+
 AudioConnection          patchCord1(playSdWav1, 0, i2s1, 0);
 AudioConnection          patchCord2(playSdWav2, 0, i2s1, 1);
 AudioConnection          patchCord3(playSdWav3, 0, i2s1, 2);
 AudioConnection          patchCord4(playSdWav4, 0, i2s1, 3);
-AudioControlSGTL5000     sgtl5000_1;
+
 
 class WavPlayer : Game
 {
@@ -42,17 +43,7 @@ public:
     void setup()
     {
         Serial.begin(9600);
-        AudioMemory(8);
-        sgtl5000_1.enable();
-        sgtl5000_1.volume(.5);
-        SPI.setMOSI(SDCARD_MOSI_PIN);
-        SPI.setSCK(SDCARD_SCK_PIN);
-        if (!(SD.begin(SDCARD_CS_PIN))) {
-            while (1) {
-                Serial.println("Unable to access the SD card");
-                delay(500);
-            }
-        }
+        initAudio();
         delay(1000);
     }
 

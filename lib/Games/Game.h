@@ -10,8 +10,10 @@ Where the magic happens
 class Game
 {
     public:
+
         Animation* background;
         Display* display;
+
         Game(Display* gameDisplay)
             : display(gameDisplay)
         {

@@ -22,12 +22,16 @@
 #include <RocketBoost.h>
 #include <Starscape.h>
 #include <SkyFade.h>
+#include <Sounds.h>
+
+AudioPlaySdWav boostChannel;
+AudioConnection audioConnection1(boostChannel, i2s1);
 
 class RocketGame : Game
 {
     // Button time
     Button Up;
-    Button A;
+    Button resetButton;
 
     // Backgrounds
     Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
@@ -39,6 +43,7 @@ class RocketGame : Game
     Target target; //the target
     Firework firework[NUM_FIREWORKS]; //win animation fireworks
 
+
     // Other variables
     int redColor = 0;
     int blueColor = 0;
@@ -46,16 +51,12 @@ class RocketGame : Game
     int gameState = 0;
     int wins = 0;
     long time = millis();
-    int flame1 = 0;
-    int flame2 = 0;
-    int flame3 = 0;
-    int flame4 = 0;
 
     public:
         RocketGame(Display* display)
             : Game(display),
             Up(BUTTON_PIN_1),
-            A(BUTTON_PIN_0),
+            resetButton(BUTTON_PIN_0),
             player(0, new CRGB(255, 255, 255)),
             target(100, 15, new CRGB(55, 0, 0))
         {
@@ -71,13 +72,17 @@ class RocketGame : Game
         //     firework[i] = Firework();
         // }
 
-        target.Loc = random(0,180)+100;
+        target.Loc = random(100,250);
     }
 
-    void checkWin() {
-        if(gameState == 0) {
+    void checkWin()
+    {
+        if (gameState == 0)
+        {
             // do nothing
-        } else if (gameState == 2) {
+        }
+        else if (gameState == 2)
+        {
             // Lose state
             // fill the strip with red, one frame at a time
             for (int i = 0; i < display->lengthStrips; i++)
@@ -91,7 +96,9 @@ class RocketGame : Game
             player.Location = (float)random(0, display->lengthStrips);
             target.Loc = random(0, display->lengthStrips);
 
-        } else if (gameState == 1) {
+        }
+        else if (gameState == 1)
+        {
             //Win state
 
             wins = wins + 1;
@@ -131,12 +138,15 @@ class RocketGame : Game
                 } */
 
             //Restart game
-            if (wins < 3){
+            if (wins < 3)
+            {
                 target.Loc = random(0,180)+100;
                 target.Height = random(0,15)+5;
                 target.Step = target.Height/6;
             }
-            if (wins == 3) {
+
+            if (wins == 3)
+            {
                 target.Loc = 5;
                 target.Height = 10;
                 target.Step = target.Height/6;
@@ -226,7 +236,7 @@ class RocketGame : Game
 
         // Poll button states
         Up.poll();
-        A.poll();
+        resetButton.poll();
 
         // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
         if (Up.isPressed())

@@ -8,12 +8,16 @@
 #include <NoiseTest.h>
 #include <LifeGame.h>
 #include <SingleColorTest.h>
+#include <Sounds.h>
 
 Game* game;
 Display* gameDisplay;
 
 void setup()
 {
+    // init audio stuff
+    initAudio();
+
     //delay(15 * 1000);
     Serial.begin(9600);
     Serial.println("Begin setup()");
