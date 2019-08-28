@@ -36,7 +36,6 @@ public:
         Brightness = 0;
         Burnout = false;
         BirthTime = 0;
-
     }
 
     void Reset()
@@ -54,6 +53,7 @@ public:
     {
       if (Burnout == true){Reset();}
         CurrentTime = millis();
+        Velocity += -.25;//decay velocity due to "Gravity"
         Location += Velocity;
         //Saturate Color
         if (Saturation < 255){

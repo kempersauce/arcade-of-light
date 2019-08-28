@@ -13,6 +13,7 @@ class FancyFirework : Animation
         int Height; //pixel height where the firework explodes
         int Speed; //pixels per second
         bool Exploded;
+        bool ShrapnelSpawned;
   //      long BirthTime;
         long CurrentTime;
         long OldTime;
@@ -41,6 +42,7 @@ class FancyFirework : Animation
             Saturation = 0;
             Brightness = 255;
             Exploded = false;
+            ShrapnelSpawned = false;
         }
 
         void Reset()
@@ -50,8 +52,9 @@ class FancyFirework : Animation
           Height = random8(0,100)+150;
           Hue = random(0,255);
           Saturation = 0;
-          Brightness = 255;
+          Brightness = 100;
           Exploded = false;
+          ShrapnelSpawned = false;
         }
 
         void Move()
@@ -59,15 +62,19 @@ class FancyFirework : Animation
             if (shrapnel[0].Burnout == true){Reset();}
             if (Exploded == true)
               {
-                //create fancy shrapnels here and pass hue & initial Velocity
+                //create fancy shrapnels here and pass hue & initial parameters
+                if (ShrapnelSpawned == false){
+                ShrapnelSpawned = true;
                 for (int i = 0; i < 5; i++){
-                  for (int j = -15; j <= 15; j +=5){
+                  for (int j = -2; j <= 2; j++){
                    shrapnel[i].Location = Location;
                    shrapnel[i].Velocity = Velocity + j;
+                   shrapnel[i].Brightness = 255;
                    shrapnel[i].Hue = Hue;
                    shrapnel[i].BirthTime = millis();
                    }
                  }
+               }
                 //check if fancy shrapnels are alive
                 for (int i = 0; i < 5; i++){
                 shrapnel[i].Move();
@@ -79,7 +86,7 @@ class FancyFirework : Animation
             if (Exploded == false)
             {
                 CurrentTime = millis();
-                Location++;
+                Location += Velocity;
                 //Location += (OldTime - CurrentTime) * (Velocity/1000);
                 if (Location >= Height)
                 {
@@ -96,9 +103,15 @@ class FancyFirework : Animation
 
         void draw(Display* display)
         {
-          display->strips[display->numStrips/2][(int)Location].setHSV(Hue, Saturation, Brightness);
+          if (Exploded == false)
+            {
+              display->strips[display->numStrips/2][(int)Location].setHSV(Hue, Saturation, Brightness);
+            }
+            if (Exploded == true)
+              {
           for (int i = 0; i < 5; i++){
             shrapnel[i].draw(display);
+            }
           }
         }
 };
