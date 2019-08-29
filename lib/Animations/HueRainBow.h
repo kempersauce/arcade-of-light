@@ -1,5 +1,5 @@
 #pragma once
-#include <NoiseGenerator.h>
+#include <Animation.h>
 
 class HueRainbow : Animation
 {
