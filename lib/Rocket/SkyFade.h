@@ -3,7 +3,7 @@ SkyFade class
 Draws a blue color,
 fading back to the original color a third of the way up
 */
-
+#pragma once
 #include <Animation.h>
 
 class SkyFade : Animation
