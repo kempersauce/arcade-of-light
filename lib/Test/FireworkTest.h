@@ -4,7 +4,7 @@
 #include <FancyFirework.h>
 #include <Game.h>
 #include <Display.h>
-
+#include <HueRainbow.h>
 #include <Starscape.h>
 #include <SkyFade.h>
 
