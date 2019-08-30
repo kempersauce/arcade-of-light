@@ -1,6 +1,6 @@
 #include <H2HDisplay.h>
 #include <H2HTest.h>
-#include <StartGame.h>
+//#include <StartGame.h>
 #include <Head2Head.h>
 #include <RocketDisplay.h>
 #include <RocketGame.h>
@@ -70,6 +70,6 @@ void loop()
 
     game->loop();
     FastLED.show();
-    delay(50);
+    delay(10);
     //Serial.println("loop() finished");
 }
