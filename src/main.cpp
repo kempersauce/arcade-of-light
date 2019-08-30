@@ -10,6 +10,7 @@
 #include <SingleColorTest.h>
 #include <Sounds.h>
 #include <FireworkTest.h>
+#include <RainbowGame.h>
 
 Game* game;
 Display* gameDisplay;
@@ -24,7 +25,7 @@ void setup()
     Serial.println("Begin setup()");
 
     // Choose your Display type
-    gameDisplay = (Display*)new RocketDisplay();
+    gameDisplay = (Display*)new H2HDisplay();
 
     // debug set strip0 red
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
@@ -35,12 +36,19 @@ void setup()
     FastLED.show();
 
     // Choose your Game type
-    game = (Game*)new FireworkGame(gameDisplay);
+    //game = (Game*)new Head2Head(gameDisplay);
+    //game = (Game*)new LifeGame(gameDisplay);
+    //game = (Game*)new RocketGame(gameDisplay);
+    game = (Game*)new RainbowGame(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
     {
-        gameDisplay->strips[0][i] = CRGB::Yellow;
+        if (game == 0)
+          gameDisplay->strips[0][i] = CRGB::Yellow;
+        else
+          gameDisplay->strips[0][i] = CRGB::Blue;
+
     }
     Serial.println("game created");
     FastLED.show();

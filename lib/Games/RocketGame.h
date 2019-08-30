@@ -72,7 +72,7 @@ class RocketGame : Game
         //     firework[i] = Firework();
         // }
 
-        target.Loc = random(100,250);
+        target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
     }
 
     void checkWin()
@@ -93,8 +93,8 @@ class RocketGame : Game
             }
 
             //Restart game
-            player.Location = (float)random(0, display->lengthStrips);
-            target.Loc = random(0, display->lengthStrips);
+            player.Location = 0;
+            target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
 
         }
         else if (gameState == 1)
@@ -140,7 +140,7 @@ class RocketGame : Game
             //Restart game
             if (wins < 3)
             {
-                target.Loc = random(0,180)+100;
+                target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
                 target.Height = random(0,15)+5;
                 target.Step = target.Height/6;
             }
@@ -169,7 +169,7 @@ class RocketGame : Game
 
                 //fully restart game
                 wins = 0;
-                target.Loc = random(0,100)+100;
+                target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
                 target.Height = random(0,15)+5;
                 target.Step = target.Height/6;
                 player.Location = 0;

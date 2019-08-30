@@ -41,9 +41,9 @@ public:
         this->zoneA3 = new H2HZone(CRGB::Green, stripIndex, 12, 16);
 
         this->buttonB = new Button(buttonBPin);
-        this->zoneB1 = new H2HZone(CRGB::Yellow, stripIndex, stripHeight - 4, stripHeight - 24);
-        this->zoneB2 = new H2HZone(CRGB::Red, stripIndex, stripHeight - 8, stripHeight - 20);
-        this->zoneB3 = new H2HZone(CRGB::Orange, stripIndex, stripHeight - 12, stripHeight - 16);
+        this->zoneB1 = new H2HZone(CRGB::Yellow, stripIndex, stripHeight - 24, stripHeight - 4);
+        this->zoneB2 = new H2HZone(CRGB::Red, stripIndex, stripHeight - 20, stripHeight - 8);
+        this->zoneB3 = new H2HZone(CRGB::Orange, stripIndex, stripHeight - 16, stripHeight - 12);
 
         this->dot = new H2HDot(CRGB::White, stripIndex, stripHeight / 2, stripHeight);
         // randomly start in different directions
