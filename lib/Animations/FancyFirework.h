@@ -1,5 +1,6 @@
 #include <Animation.h>
 #include <FancyShrapnel.h>
+#define NUM_SHRAPNEL 3
 
 class FancyFirework : Animation
 {
@@ -12,9 +13,10 @@ class FancyFirework : Animation
 
         int Height; //pixel height where the firework explodes
         int Speed; //pixels per second
+        float ShrapnelSpeed;
         bool Exploded;
         bool ShrapnelSpawned;
-  //      long BirthTime;
+        long BirthTime;
         long CurrentTime;
         long OldTime;
 
@@ -36,52 +38,50 @@ class FancyFirework : Animation
         FancyFirework()
         {
             Location = 0;
-            Velocity = random8(1,5);  //pixels per second (I hope)
+            Velocity = random8(1,25)/10;  //pixels per second (I hope)
             Height = random8(0,100)+150;
             Hue = random(0,255);
             Saturation = 0;
             Brightness = 255;
             Exploded = false;
             ShrapnelSpawned = false;
+            ShrapnelSpeed = - NUM_SHRAPNEL / 2;
         }
 
         void Reset()
         {
           Location = 0;
-          Velocity = random8(1,5);  //pixels per second (I hope)
+          Velocity = random8(1,25)/10;  //pixels per second (I hope)
           Height = random8(0,100)+150;
           Hue = random(0,255);
           Saturation = 0;
           Brightness = 100;
           Exploded = false;
           ShrapnelSpawned = false;
+          ShrapnelSpeed = - 1;
         }
 
         void Move()
         {
-            if (shrapnel[0].Burnout == true){Reset();}
+          if (CurrentTime - BirthTime > 5500){Reset();}
             if (Exploded == true)
               {
                 //create fancy shrapnels here and pass hue & initial parameters
                 if (ShrapnelSpawned == false){
                 ShrapnelSpawned = true;
-                for (int i = 0; i < 5; i++){
-                  for (int j = -2; j <= 2; j++){
-                   shrapnel[i].Location = Location;
-                   shrapnel[i].Velocity = Velocity + j;
-                   shrapnel[i].Brightness = 255;
-                   shrapnel[i].Hue = Hue;
-                   shrapnel[i].BirthTime = millis();
-                   }
-                 }
+                for (int i = 0; i < NUM_SHRAPNEL; i++){
+                  shrapnel[i].Location = Location;
+                  shrapnel[i].Velocity = Velocity + ShrapnelSpeed/10;
+                  shrapnel[i].Brightness = 255;
+                  shrapnel[i].Hue = Hue;
+                  shrapnel[i].BirthTime = millis();
+                  ShrapnelSpeed += 1;
+                  }
                }
                 //check if fancy shrapnels are alive
                 for (int i = 0; i < 5; i++){
                 shrapnel[i].Move();
-                if (shrapnel[0].Burnout == true){Reset();}
-                  //reload everything to 0
-
-                    }
+                  }
                 }
             if (Exploded == false)
             {

@@ -1,16 +1,17 @@
 #pragma once
 #include <Animation.h>
 
-class HueRainbow : Animation
+class HueRainbow : public Animation
 {
     private:
-      int Hue = 0;
+      int HueStart = 0;
+      int Offset = 5;
       int Saturation = 255;
-      int Brightness = 255;
+      int Brightness = 150;
       int ShiftSpeed = 5;
       bool WaveShift = false;
-      int Beats = 2;
-      int Min = 1;
+      int Beats = 3;
+      int Min = -15;
       int Max = 15;
 
     public:
@@ -22,7 +23,7 @@ class HueRainbow : Animation
       //Sets the starting hue, probably not needed since the hue shifts constantly
       void setHue(int hue)
       {
-          Hue = hue;
+          HueStart = hue;
       }
       // Sets the saturation, 0=white 255=full color
       void setSaturation(int sat)
@@ -55,32 +56,31 @@ class HueRainbow : Animation
       //Taste the rainbow
       void draw(Display* display)
       {
-        if (ShiftSpeed >=0)
-        {
+
           for (int i = 0; i < display->numStrips; i++)
-            {
+          {
+              int Hue = HueStart + (i * ShiftSpeed);
               for (int j = 0; j < display->lengthStrips; j++)
               {
-                display->strips[i][j] = CHSV(Hue, Saturation, Brightness);
-                Hue++;
-                if (Hue > 255){Hue = 0;}
-              }
-            }
-          } else {
-            for (int i = 0; i < display->numStrips; i++)
-              {
-                for (int j = 0; j < display->lengthStrips; j++)
-                {
+                  Hue = (Hue + 256) % 256; // black magic muwhahaha
                   display->strips[i][j] = CHSV(Hue, Saturation, Brightness);
-                  Hue--;
-                  if (Hue < 0){Hue = 255;}
-                }
+
+                  if (ShiftSpeed >= 0)
+                  {
+                      Hue++;
+                  }
+                  else
+                  {
+                      Hue--;
+                  }
               }
-            }
-          if(WaveShift == true)
-          {
-            ShiftSpeed = beatsin8(Beats, Min, Max);
           }
-          Hue += ShiftSpeed;
-        }
+
+          if (WaveShift)
+          {
+              ShiftSpeed = beatsin8(Beats, Min, Max);
+          }
+
+          HueStart = (HueStart + ShiftSpeed) % 256;
+      }
   };

@@ -1,4 +1,4 @@
-#define NUM_FIREWORKS 1
+#define NUM_FIREWORKS 3
 
 #include <Button.h>
 #include <FancyFirework.h>

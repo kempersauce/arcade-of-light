@@ -51,21 +51,23 @@ public:
 
     void Move()
     {
-      if (Burnout == true){Reset();}
         CurrentTime = millis();
-        Velocity += -.25;//decay velocity due to "Gravity"
+        Velocity += 1/10;//decay velocity due to "Gravity"
         Location += Velocity;
+        if (Location < 0){Location = 0;}
+        if (Location > 255){Location = 255;}
         //Saturate Color
         if (Saturation < 255){
-          Saturation = 255 * (CurrentTime - BirthTime / 2000);
+          Saturation = 255 * ((CurrentTime - BirthTime / 2000));
           if (Saturation > 255){Saturation = 255;}
           }
         //Fade to Black
         if (Saturation == 255){
-          Brightness = 255 - (255 * (CurrentTime - BirthTime / 3500));
-          if (Brightness < 0){Burnout = true;}
-          }
+          Brightness = 255 - (255 * ((CurrentTime - BirthTime / 3500)));
 
+          }
+        if (CurrentTime - BirthTime > 3500){Burnout = true;}
+        if (Burnout == true){Reset();}
       }
 
     void draw(Display* display)
