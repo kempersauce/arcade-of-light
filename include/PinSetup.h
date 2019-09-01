@@ -15,7 +15,7 @@ Pin numbers for teensy setup
 #define LED_PIN_7 21
 
 //BUTTONS
-#define BUTTON_PIN_0 24
+#define BUTTON_PIN_0 24 
 #define BUTTON_PIN_1 25
 #define BUTTON_PIN_2 26
 #define BUTTON_PIN_3 27

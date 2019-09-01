@@ -57,8 +57,8 @@ class RocketGame : Game
     public:
         RocketGame(Display* display)
             : Game(display),
-            Up(BUTTON_PIN_1),
-            resetButton(BUTTON_PIN_0),
+            Up(BUTTON_PIN_2),
+            resetButton(BUTTON_PIN_3),
             player(0, new CRGB(255, 255, 255)),
             target(100, 15, new CRGB(55, 0, 0)),
             explosionsInTheSky()

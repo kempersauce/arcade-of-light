@@ -19,13 +19,13 @@ Display* gameDisplay;
 
 void setup()
 {
-    FastLED.setBrightness(50);
+    FastLED.setBrightness(100);
 
     // init audio stuff
     initAudio();
 
     //delay(15 * 1000);
-    Serial.begin(9600);
+    Serial.begin(115200);
     Serial.println("Begin setup()");
 
     // Choose your Display type
@@ -44,10 +44,10 @@ void setup()
     //game = (Game*)new Head2Head(gameDisplay);
     //game = (Game*)new LifeGame(gameDisplay);
     //game = (Game*)new RocketGame(gameDisplay);
-    game = (Game*)new RainbowGame(gameDisplay);
+    //game = (Game*)new RainbowGame(gameDisplay);
 
     // Test Games
-    //game = (Game*)new DirPadTest(gameDisplay);
+    game = (Game*)new DirPadTest(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
@@ -84,5 +84,4 @@ void loop()
     FastLED.show();
     delay(10);
     //Serial.println("loop() finished");
-    Serial.println("loop complete");
 }

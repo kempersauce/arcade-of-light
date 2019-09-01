@@ -10,12 +10,11 @@ Where the magic happens
 class RainbowGame : Game
 {
     public:
-        HueRainbow* rainbow;
-
+        
         RainbowGame(Display* gameDisplay)
             : Game(gameDisplay)
         {
-            rainbow = new HueRainbow(2);
+            background = new HueRainbow(2);
         }
 
         void setup()

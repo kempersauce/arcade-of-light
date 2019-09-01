@@ -6,15 +6,17 @@ class HueRainbow : public Animation
     private:
       int HueStart = 0;
       int Offset = 5;
-      int Saturation = 255;
-      int Brightness = 150;
-      int ShiftSpeed = 5;
-      bool WaveShift = false;
       int Beats = 3;
       int Min = -15;
       int Max = 15;
 
     public:
+
+      int Saturation = 255;
+      int Brightness = 150;
+      int ShiftSpeed = 5;
+      bool WaveShift = false;
+
       //Initialize a HueRainbow that will shift at set rate, realistically this should be between -20 and 20
       HueRainbow(int speed) : Animation()
       {

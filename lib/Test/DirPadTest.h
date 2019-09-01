@@ -14,21 +14,18 @@ class DirPadTest : Game
         DirPad* controls;
         Dot* player;
         SingleColorBG* backgroundColor;
-        HueRainbow* rainbow;
+        Animation* rainbow;
 
         DirPadTest(Display* gameDisplay)
             : Game(gameDisplay)
         {
-            rainbow = new HueRainbow(1);
+            rainbow = new HueRainbow(2);
         }
 
         void setup()
         {
-            player = (Dot*)new Dot(CRGB::Green, 5, 5,
-                display->numStrips, display->lengthStrips);
-
             controls = new DirPad();
-            rainbow->setWaveShift(true);
+            ((HueRainbow*)rainbow)->setWaveShift(true);
         }
 
         void loop()
@@ -37,38 +34,69 @@ class DirPadTest : Game
 
             if (controls->up->isPressed())
             {
+                Serial.println("UP DIR BUTTON PRESSED");
+                int newSpeed;
+                int currentSpeed = ((HueRainbow*)rainbow)->ShiftSpeed;
+                if(currentSpeed <20)
+                {
+                    newSpeed = currentSpeed + 1;
+                }
+                else
+                {
+                    newSpeed = 20;
+                }
                 
+                
+                ((HueRainbow*)rainbow)->setSpeed(newSpeed);
             }
 
             if (controls->down->isPressed())
             {
+                Serial.println("DOWN DIR BUTTON PRESSED");
+                int newSpeed;
+                int currentSpeed = ((HueRainbow*)rainbow)->ShiftSpeed;
+                if(currentSpeed > -20)
+                {
+                    newSpeed = currentSpeed - 1;
+                }
                 
+                ((HueRainbow*)rainbow)->setSpeed(newSpeed);
+                Serial.println("new speed:");
+                Serial.println(((HueRainbow*)rainbow)->ShiftSpeed);
             }
 
             if (controls->left->isPressed())
             {
-                
+                Serial.println("LEFT DIR BUTTON PRESSED");
             }
 
             if (controls->right->isPressed())
             {
-                
+                Serial.println("RIGHT DIR BUTTON PRESSED");
             }
 
-            if (controls->a->isPressed())
+            // if (controls->a->isPressed())
+            // {
+            //     ((HueRainbow*)rainbow)->setWaveShift(true);
+            //     Serial.println("B BUTTON PRESSED");
+            // }
+
+            // if (controls->b->isPressed())
+            // {
+            //     ((HueRainbow*)rainbow)->setWaveShift(false);
+            //     //Serial.println("A BUTTON PRESSED");
+            // }
+
+            if (!(//controls->a->isPressed() &&
+            //controls->b->isPressed() && 
+            controls->up->isPressed() &&
+            controls->down->isPressed() &&
+            controls->left->isPressed() &&
+            controls->right->isPressed()))
             {
-                
+                //Serial.println("no Buttons pressed");
             }
-
-            if (controls->b->isPressed())
-            {
-                
-            }
-
 
             rainbow->draw(display);
-            player->draw(display);
-            FastLED.show();
-
         }
 };
