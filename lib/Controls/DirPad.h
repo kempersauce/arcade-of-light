@@ -1,5 +1,5 @@
 #include <Button.h>
-#include <Constants.h>
+#include <PinSetup.h>
 
 class DirPad {
     public:

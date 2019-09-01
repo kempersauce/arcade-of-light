@@ -1,5 +1,6 @@
 #include <H2HDisplay.h>
 #include <H2HTest.h>
+#include <FiveDisplay.h>
 #include <StartGame.h>
 #include <Head2Head.h>
 #include <RocketDisplay.h>
@@ -10,6 +11,7 @@
 #include <SingleColorTest.h>
 #include <Sounds.h>
 #include <FireworkTest.h>
+#include <DirPadTest.h>
 
 Game* game;
 Display* gameDisplay;
@@ -24,7 +26,7 @@ void setup()
     Serial.println("Begin setup()");
 
     // Choose your Display type
-    gameDisplay = (Display*)new RocketDisplay();
+    gameDisplay = (Display*)new FiveDisplay();
 
     // debug set strip0 red
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
@@ -35,7 +37,7 @@ void setup()
     FastLED.show();
 
     // Choose your Game type
-    game = (Game*)new FireworkGame(gameDisplay);
+    game = (Game*)new DirPadTest(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)

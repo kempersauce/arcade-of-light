@@ -21,7 +21,7 @@ class DirPadTest : Game
         {
             //background = (Animation*)new SingleColorBG(0,0,55);
             backgroundColor = new SingleColorBG(0, 0, 55);
-            player = (Dot*)new Dot(55, 0, 0, 4, 0, 1,
+            player = (Dot*)new Dot(CRGB::Green, 5, 5,
                 display->numStrips, display->lengthStrips);
 
             controls = new DirPad();
