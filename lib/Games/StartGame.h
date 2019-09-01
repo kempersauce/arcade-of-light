@@ -1,6 +1,7 @@
 #include <Game.h>
 #include <H2HDisplay.h>
 #include <H2HControls.h>
+#include <H2HDot.h>
 #include <Noise.h>
 #include <Dot.h>
 
