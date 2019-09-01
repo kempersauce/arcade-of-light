@@ -2,6 +2,8 @@
 Class that sets a background color across LED strip
 */
 
+//this is a test commit
+
 class Background {
     public:
         int Loc;
