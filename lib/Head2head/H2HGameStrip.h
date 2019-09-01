@@ -46,13 +46,28 @@ public:
         this->zoneB3 = new H2HZone(CRGB::Orange, stripIndex, stripHeight - 16, stripHeight - 12);
 
         this->dot = new H2HDot(CRGB::White, stripIndex, stripHeight / 2, stripHeight);
+
+        reset();
+
+        noiseGenerator = noise;
+    }
+
+    void reset()
+    {
         // randomly start in different directions
         if (random8() > 127)
         {
-            dot->flip();
+            dot->velocity = 1;
+        }
+        else
+        {
+            dot->velocity = -1;
         }
 
-        noiseGenerator = noise;
+        dot->yLoc = heightMax / 2;
+
+        teamAWin = false;
+        teamBWin = false;
     }
 
     void pollButtons()

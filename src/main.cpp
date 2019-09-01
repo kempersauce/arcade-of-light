@@ -17,6 +17,8 @@ Display* gameDisplay;
 
 void setup()
 {
+    FastLED.setBrightness(50);
+
     // init audio stuff
     initAudio();
 
@@ -36,19 +38,15 @@ void setup()
     FastLED.show();
 
     // Choose your Game type
-    //game = (Game*)new Head2Head(gameDisplay);
+    game = (Game*)new Head2Head(gameDisplay);
     //game = (Game*)new LifeGame(gameDisplay);
     //game = (Game*)new RocketGame(gameDisplay);
-    game = (Game*)new RainbowGame(gameDisplay);
+    //game = (Game*)new RainbowGame(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
     {
-        if (game == 0)
-          gameDisplay->strips[0][i] = CRGB::Yellow;
-        else
-          gameDisplay->strips[0][i] = CRGB::Blue;
-
+        gameDisplay->strips[0][i] = CRGB::Yellow;
     }
     Serial.println("game created");
     FastLED.show();

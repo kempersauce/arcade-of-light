@@ -37,7 +37,10 @@ class Head2Head : Game
 
         void setup()
         {
-            FastLED.setBrightness(50);
+            for (int i = 0; i < display->numStrips; i++)
+            {
+                gameStrips[i]->reset();
+            }
         }
 
         void loop()
@@ -46,11 +49,22 @@ class Head2Head : Game
             noiseGenerator->fillnoise8();
 
             // Since these dont actually overlap, we can do them in serial
+            int WinCount = 0;
             for (int i = 0; i < 8; i++)
             {
+                if (gameStrips[i]->teamAWin || gameStrips[i]->teamBWin){
+                    WinCount++;
+                }
+
                 gameStrips[i]->pollButtons();
                 gameStrips[i]->checkGameState();
                 gameStrips[i]->draw(display);
+            }
+
+            if (WinCount == display->numStrips)
+            {
+              delay(10000);
+              setup();
             }
         }
 };

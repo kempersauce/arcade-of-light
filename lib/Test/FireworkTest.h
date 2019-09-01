@@ -28,7 +28,7 @@ class FireworkGame : Game
             // A(BUTTON_PIN_0),
         {
             starBackground = new Starscape(display->numStrips, display->lengthStrips, 175);
-            skyFade = new SkyFade();
+            skyFade = new SkyFade(new CRGB(0, 0, 255));
             // rocketBoost = new RocketBoost(5);
         }
         void setup()

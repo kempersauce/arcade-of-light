@@ -23,6 +23,7 @@
 #include <Starscape.h>
 #include <SkyFade.h>
 #include <Sounds.h>
+#include <ExplosionsInTheSky.h>
 
 AudioPlaySdWav boostChannel;
 AudioConnection audioConnection1(boostChannel, i2s1);
@@ -42,6 +43,7 @@ class RocketGame : Game
     RocketBoost* rocketBoost;
     Target target; //the target
     Firework firework[NUM_FIREWORKS]; //win animation fireworks
+    ExplosionsInTheSky explosionsInTheSky;
 
 
     // Other variables
@@ -58,10 +60,11 @@ class RocketGame : Game
             Up(BUTTON_PIN_1),
             resetButton(BUTTON_PIN_0),
             player(0, new CRGB(255, 255, 255)),
-            target(100, 15, new CRGB(55, 0, 0))
+            target(100, 15, new CRGB(55, 0, 0)),
+            explosionsInTheSky()
         {
             starBackground = new Starscape(display->numStrips, display->lengthStrips, 160);
-            skyFade = new SkyFade();
+            skyFade = new SkyFade(new CRGB(32, 96, 255));
             rocketBoost = new RocketBoost(5);
         }
 
@@ -73,6 +76,9 @@ class RocketGame : Game
         // }
 
         target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
+        gameState = 0;
+        wins = 0;
+        player.Reset();
     }
 
     void checkWin()
@@ -180,40 +186,6 @@ class RocketGame : Game
         }
     }
 
-    void handleExplosion()
-    {
-        // Draw explosion accross all strips
-        for (int j = 0; j < display->numStrips; j++)
-        {
-            // sets the top 15 pixels in a fade from red to black
-            for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
-            {
-                redColor = 255;
-                display->strips[j][i].setRGB( 0, redColor, 0);
-                FastLED.show();
-                redColor = redColor - 17;
-                delay(animationDelay);
-            }
-
-            // fade those same top 15 pixels the rest of the way to black over 10 iterations
-            for (int j = 10; j > 0; j--)
-            {
-                for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
-                {
-                    display->strips[j][i].fadeToBlackBy( 64 );
-                    FastLED.show();
-                    delay(animationDelay-5);
-                }
-            }
-
-            // hard set the top 15 pixels to black
-            for (int i = display->lengthStrips; i > display->lengthStrips - 15; i--)
-            {
-                display->strips[j][i].setRGB( 0, 0, 0);
-            }
-        }
-    }
-
     void checkTarget()
     {
         if (player.Location > target.Loc && player.Location < target.Loc + target.Height && target.isInTarget == false) {
@@ -231,12 +203,18 @@ class RocketGame : Game
     }
 
     //Game Loop
-    void loop() {
+    void loop()
+    {
         time = millis();
 
         // Poll button states
         Up.poll();
         resetButton.poll();
+
+        if (resetButton.getMillisHeld() > 1000)
+        {
+            this->setup();
+        }
 
         // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
         if (Up.isPressed())
@@ -250,12 +228,6 @@ class RocketGame : Game
 
         player.Move(display->lengthStrips);
 
-        if (player.Exploded == true)
-        {
-            handleExplosion();
-            player.Exploded = false;
-        }
-
         checkTarget();
 
 
@@ -268,20 +240,38 @@ class RocketGame : Game
         //draw blue sky fade over the stars
         skyFade->draw(display);
 
-        // draw targets on top of the background
-        target.draw(display); //displays target
 
-        // draw the rocket boost
-        rocketBoost->loc = (int)player.Location;
-        rocketBoost->boostFactor = (float)Up.getMillisHeld() / (float)500; // .5 second total ramp-up time
 
-        rocketBoost->draw(display);
+        if (player.Exploded == true)
+        {
+            if (explosionsInTheSky.isPlaying() == false)
+            {
+                explosionsInTheSky.startAnimation();
+            }
 
-        // draw the rocket ship on the very front
-        player.draw(display);
+            explosionsInTheSky.draw(display);
 
-        checkWin();
+            if (explosionsInTheSky.isPlaying() == false)
+            {
+                setup();
+            }
+        }
+        else
+        {
+            // draw targets on top of the background
+            target.draw(display); //displays target
 
+            // draw the rocket boost
+            rocketBoost->loc = (int)player.Location;
+            rocketBoost->boostFactor = (float)Up.getMillisHeld() / (float)500; // .5 second total ramp-up time
+
+            rocketBoost->draw(display);
+
+            // draw the rocket ship on the very front
+            player.draw(display);
+
+            checkWin();
+        }
         //Serial prints for debugging
 
 

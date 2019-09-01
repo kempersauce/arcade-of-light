@@ -53,9 +53,9 @@ class Target : Animation
                     }
 
                     // Top fill
-                    int topFillEnd = top - 1;
+                    int topFillEnd = top;
                     int topFillStart = topFillEnd - Step * stage;
-                    for (int i = topFillStart; i > topFillEnd; i++)
+                    for (int i = topFillStart; i < topFillEnd; i++)
                     {
                         display->strips[j][i] = *color;
                     }
