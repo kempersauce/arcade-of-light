@@ -12,6 +12,7 @@
 #include <Sounds.h>
 #include <FireworkTest.h>
 #include <RainbowGame.h>
+#include <DirPadTest.h>
 
 Game* game;
 Display* gameDisplay;
@@ -44,6 +45,9 @@ void setup()
     //game = (Game*)new LifeGame(gameDisplay);
     //game = (Game*)new RocketGame(gameDisplay);
     game = (Game*)new RainbowGame(gameDisplay);
+
+    // Test Games
+    //game = (Game*)new DirPadTest(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
@@ -80,4 +84,5 @@ void loop()
     FastLED.show();
     delay(10);
     //Serial.println("loop() finished");
+    Serial.println("loop complete");
 }
