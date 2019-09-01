@@ -1,5 +1,6 @@
 #include <H2HDisplay.h>
 #include <H2HTest.h>
+#include <FiveDisplay.h>
 //#include <StartGame.h>
 #include <Head2Head.h>
 #include <RocketDisplay.h>
@@ -27,7 +28,8 @@ void setup()
     Serial.println("Begin setup()");
 
     // Choose your Display type
-    gameDisplay = (Display*)new H2HDisplay();
+    gameDisplay = (Display*)new FiveDisplay();
+    //gameDisplay = (Display*)new H2HDisplay();
 
     // debug set strip0 red
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
@@ -38,10 +40,10 @@ void setup()
     FastLED.show();
 
     // Choose your Game type
-    game = (Game*)new Head2Head(gameDisplay);
+    //game = (Game*)new Head2Head(gameDisplay);
     //game = (Game*)new LifeGame(gameDisplay);
     //game = (Game*)new RocketGame(gameDisplay);
-    //game = (Game*)new RainbowGame(gameDisplay);
+    game = (Game*)new RainbowGame(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
