@@ -14,7 +14,7 @@ class MarqueeGame : Game
         MarqueeGame(Display* gameDisplay)
             : Game(gameDisplay)
         {
-            background = new Marquee(1, 200, 1, 20);
+            background = new Marquee("start", 200, 1, 20);
         }
 
         void setup()

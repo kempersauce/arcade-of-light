@@ -31,7 +31,7 @@ class Marquee : public Animation
 
     public:
       //Initialize a word
-      Marquee(int word, int hue, int speed, int location) : Animation()
+      Marquee(char word, int hue, int speed, int location) : Animation()
       {
           //lookup characters from font file
         for (int i = 0; i < Letters; i++)
