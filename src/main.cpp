@@ -13,6 +13,7 @@
 #include <FireworkTest.h>
 #include <RainbowGame.h>
 #include <DirPadTest.h>
+#include <MarqueeGame.h>
 
 Game* game;
 Display* gameDisplay;

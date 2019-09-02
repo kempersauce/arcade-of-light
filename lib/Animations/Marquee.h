@@ -1,9 +1,9 @@
 #pragma once
 #include <Animation.h>
-#include <fonts.h>
+#include <Font.h>
 
 //This file holds words and word functions
-class Marquee : Animation
+class Marquee : public Animation
 {
     private:
       int Hue = 0;
@@ -11,39 +11,41 @@ class Marquee : Animation
       int Brightness = 255;
       int MarqueeSpeed = 5;
       int YLocation = 0;
-      int Word[null][null][null];
+      int Word[5][8][4];
       int Letters;
 
-      //list of words to display
-      int WordWinner[6][4][8] = {_W,_I,_N,_N,_E,_R};
-      int WordLoser[5][4][8] = {_L,_O,_S,_E,_R};
-      int WordReady[5][4][8] = {_R,_E,_A,_D,_Y};
-      int WordStart[5][4][8] = {_S,_T,_A,_R,_T};
-      int WordGame[4][4][8] = {_G,_A,_M,_E};
-      int WordOver[4][4][8] = {_O,_V,_E,_R};
-      int WordYeet[4][4][8] = {_Y,_E,_E,_T};
-      int WordArcade[6][4][8] = {_A,_R,_C,_A,_D,_E};
-      int WordOf[2][4][8] = {_O,_F};
-      int WordLight[5][4][8] = {_L,_I,_G,_H,_T};
+      int LetterWidth = 4;
+      int LetterHeight = 8;
 
-      const struct map
-      {
-        char *str;
-        int num[4][8];
-      } myMap[] = {
-        {"winner",WordWinner},
-        {"loser",WordLoser},
-        {"yeet",WordYeet},
-      }
+      //list of words to display
+      //int WordWinner[6][8][4] = {{LetterW},{LetterI},{LetterN},{LetterN},{LetterE,LetterR}};
+      //int WordLoser[5][8][4] = {LetterL,LetterO,LetterS,LetterE,LetterR};
+      //int WordReady[5][8][4] = {LetterR,LetterE,LetterA,LetterD,LetterY};
+      int WordStart[5][8][4] = {{{LetterS},{LetterT},{LetterA},{LetterR},{LetterT}}};
+      //int WordGame[4][8][4] = {LetterG,LetterA,LetterM,LetterE};
+      //int WordOver[4][8][4] = {LetterO,LetterV,LetterE,LetterR};
+      //int WordYeet[4][8][4] = {LetterY,LetterE,LetterE,LetterT};
+      //int WordArcade[6][8][4] = {LetterA,LetterR,LetterC,LetterA,LetterD,LetterE};
+      //int WordOf[2][8][4] = {LetterO,LetterF};
+      //int WordLight[5][8][4] = {LetterL,LetterI,LetterG,LetterH,LetterT};
 
     public:
       //Initialize a word
-      Marquee(string word, int hue, int speed, int location) : Animation()
+      Marquee(int word, int hue, int speed, int location) : Animation()
       {
           //lookup characters from font file
-          Word = ;//Brian!! idk how to do lookup tables
+        for (int i = 0; i < Letters; i++)
+        {
+          for (int j = 0; j < LetterHeight; j++)
+          {
+            for (int k = 0; k < LetterWidth; k++)
+            {
+              Word[i][j][k] = WordStart[i][j][k];//Brian!! idk how to do lookup tables
+            }
+          }
+        }
           //lookup number of letters based on entered word
-          Letters = ;//Brian!! idk how to do lookup tables
+          Letters = 5;//Brian!! idk how to do lookup tables
           Hue = hue;
           MarqueeSpeed = speed;
           YLocation = location;
@@ -52,13 +54,25 @@ class Marquee : Animation
       //Need to add spaces somehow
       void draw(Display* display)
       {
-        for (int i = 0; i < display->numStrips; i++)
+        // for (int i = 0; i < display->numStrips; i++)
+        //   {
+        //     for (int j = YLocation; j < display->lengthStrips; j++)
+        //     {
+        int StripX;
+        int StripY;
+        for (int i = 0; i < Letters; i++)
           {
-            for (int j = YLocation; j < display->lengthStrips; j++)
+            for (int j = 0; j < LetterHeight; j++)
             {
-              if(Word[Letters][i][j] == 1)
+              for (int k = 0; k < LetterWidth; k++)
               {
-              display->strips[i][j] = CHSV(Hue, Saturation, Brightness);
+                if(Word[i][j][k] == 1)
+                {
+                  StripX = j + 1;
+                  StripY = YLocation * 8;
+                    if (StripX < display->numStrips || StripX > 0 || StripY < display->numStrips || StripY > 0);
+                    display->strips[StripX][StripY] = CHSV(Hue, Saturation, Brightness);
+                }
               }
             }
           }
