@@ -37,6 +37,8 @@ class HueRainbow : public Animation
       {
           Brightness = bright;
       }
+
+
       //Sets the rainbow shift rate, realistically this should be between -20 and 20
       //A negative number will make the rainbow flow up the strip a positive number will make the number flow down the strip
       void setSpeed(int speed)

@@ -30,8 +30,8 @@ void setup()
     Serial.println("Begin setup()");
 
     // Choose your Display type
-    gameDisplay = (Display*)new FiveDisplay();
-    //gameDisplay = (Display*)new H2HDisplay();
+    //gameDisplay = (Display*)new FiveDisplay();
+    gameDisplay = (Display*)new H2HDisplay();
 
     // debug set strip0 red
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
@@ -46,9 +46,10 @@ void setup()
     //game = (Game*)new LifeGame(gameDisplay);
     //game = (Game*)new RocketGame(gameDisplay);
     //game = (Game*)new RainbowGame(gameDisplay);
+    game = (Game*)new MarqueeGame(gameDisplay);
 
     // Test Games
-    game = (Game*)new DirPadTest(gameDisplay);
+    //game = (Game*)new DirPadTest(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
