@@ -5,7 +5,7 @@
 #include <H2HZone.h>
 #include <NoiseGenerator.h>
 
-class H2HGameStrip
+class H2HGameStrip : Animation
 {
     H2HDot* dot;
 
@@ -14,38 +14,47 @@ class H2HGameStrip
     H2HZone* zoneA1;
     H2HZone* zoneA2;
     H2HZone* zoneA3;
+    int zoneAStart;
 
     // farside team
     Button* buttonB;
     H2HZone* zoneB1;
     H2HZone* zoneB2;
     H2HZone* zoneB3;
+    int zoneBStart;
 
     int stripIndex; // Which strip is this on?
     int heightMax; // length of this strip
 
+    // static because they all share the same mid bar
+    static int midBar;
+
     NoiseGenerator* noiseGenerator; // this is maintained by the game class so we just need to hold onto the reference here
 
 public:
-    bool teamAWin = false;
-    bool teamBWin = false;
+    bool teamAWin;
+    bool teamBWin;
+    static bool teamATotalWin;
+    static bool teamBTotalWin;
 
     H2HGameStrip(int stripIndex, int stripHeight, int buttonAPin, int buttonBPin, NoiseGenerator* noise)
     {
         this->stripIndex = stripIndex;
-        this->heightMax = stripHeight;
+        heightMax = stripHeight;
 
-        this->buttonA = new Button(buttonAPin);
-        this->zoneA1 = new H2HZone(CRGB::Cyan, stripIndex, 4, 24);
-        this->zoneA2 = new H2HZone(CRGB::Blue, stripIndex, 8, 20);
-        this->zoneA3 = new H2HZone(CRGB::Green, stripIndex, 12, 16);
+        buttonA = new Button(buttonAPin);
+        zoneA1 = new H2HZone(CRGB::Cyan, stripIndex, 15, 25);
+        zoneA2 = new H2HZone(CRGB::Blue, stripIndex, 8, 15);
+        zoneA3 = new H2HZone(CRGB::Green, stripIndex, 4, 8);
+        zoneAStart = zoneA1->yMax;
 
-        this->buttonB = new Button(buttonBPin);
-        this->zoneB1 = new H2HZone(CRGB::Yellow, stripIndex, stripHeight - 24, stripHeight - 4);
-        this->zoneB2 = new H2HZone(CRGB::Red, stripIndex, stripHeight - 20, stripHeight - 8);
-        this->zoneB3 = new H2HZone(CRGB::Orange, stripIndex, stripHeight - 16, stripHeight - 12);
+        buttonB = new Button(buttonBPin);
+        zoneB1 = new H2HZone(CRGB::Yellow, stripIndex, stripHeight - 25, stripHeight - 15);
+        zoneB2 = new H2HZone(CRGB::Red, stripIndex, stripHeight - 15, stripHeight - 8);
+        zoneB3 = new H2HZone(CRGB::Orange, stripIndex, stripHeight - 8, stripHeight - 4);
+        zoneBStart = zoneB1->yMin;
 
-        this->dot = new H2HDot(CRGB::White, stripIndex, stripHeight / 2, stripHeight);
+        dot = new H2HDot(CRGB::White, stripIndex, stripHeight / 2, stripHeight);
 
         reset();
 
@@ -54,6 +63,10 @@ public:
 
     void reset()
     {
+        // reset the mid bar
+        midBar = heightMax / 2; // dont reset the shared mid when an individual strip wins
+        dot->yLoc = midBar;
+
         // randomly start in different directions
         if (random8() > 127)
         {
@@ -64,10 +77,10 @@ public:
             dot->velocity = -1;
         }
 
-        dot->yLoc = heightMax / 2;
-
         teamAWin = false;
         teamBWin = false;
+        teamATotalWin = false;
+        teamBTotalWin = false;
     }
 
     void pollButtons()
@@ -78,6 +91,12 @@ public:
 
     void checkGameState()
     {
+        // let the game hang on total win
+        if (teamATotalWin || teamBTotalWin)
+        {
+            return;
+        }
+
         // Check if anybody has won this strip yet
         if (!teamAWin && !teamBWin)
         {
@@ -85,11 +104,19 @@ public:
             {
                 //team A wins this strip
                 teamAWin = true;
+
+                // set dot to A's side so it can run down to the midbar
+                dot->yLoc = zoneAStart;
+                //dot->velocity = 5; // maybe let it just keep its same velocity
             }
             else if (dot->yLoc <= 0)
             {
                 //team B wins this strip
                 teamBWin = true;
+
+                // set dot to B's side so it can run down to the midbar
+                dot->yLoc = zoneBStart;
+                //dot->velocity = -5; // maybe let it just keep its same velocity
             }
         }
 
@@ -134,8 +161,43 @@ public:
                     dot->velocity = -1;
                 }
             }
+        }
 
-            dot->vMove();
+        // dot moves either way
+        dot->vMove();
+
+        // bump the bar after team A is done winning
+        if (teamAWin && dot->yLoc > midBar)
+        {
+            midBar += 5;
+            teamAWin = false;
+        }
+
+        // bump the bar after team B is done winning
+        if (teamBWin && dot->yLoc < midBar)
+        {
+            midBar -= 5;
+            teamBWin = false;
+        }
+
+        // check if the mid bar is into team A's zone
+        if (midBar < zoneAStart)
+        {
+            teamATotalWin = true;
+
+            // put the dot at the end to draw out the team color
+            dot->yLoc = 0;
+            dot->velocity = 0;
+        }
+
+        // check if the mid bar is into team B's zone
+        if (midBar > zoneBStart)
+        {
+            teamBTotalWin = true;
+
+            // put the dot at the end to draw out the team color
+            dot->yLoc = heightMax - 1;
+            dot->velocity = 0;
         }
     }
 
@@ -155,17 +217,43 @@ public:
             display->strips[stripIndex][y] = CRGB(noiseGenerator->noise[stripIndex][y], 0, 0); // red team
         }
 
-        // Only draw these if this strip is still playing
-        if (!teamAWin && !teamBWin)
+        // Only draw these if this game is still playing
+        if (!teamATotalWin && !teamBTotalWin)
         {
-            // Draw the zones on top of the background
-            zoneA1->draw(display);
-            zoneA2->draw(display);
-            zoneA3->draw(display);
+            //// Draw the zones on top of the background
+            //zoneA1->draw(display);
+            //zoneA2->draw(display);
+            //zoneA3->draw(display);
 
-            zoneB1->draw(display);
-            zoneB2->draw(display);
-            zoneB3->draw(display);
+            //zoneB1->draw(display);
+            //zoneB2->draw(display);
+            //zoneB3->draw(display);
+
+            // JK lets just do this ourselves for now so its not broken accross zones
+            int aStart = zoneA3->yMin;
+            int bStart = zoneB1->yMin;
+            int range = zoneA1->yMax - aStart;
+
+            // I think this is okay, as long as we're not using new, they should automatically fall off the stack and create no memory leaks
+            CRGB cyan = CRGB::Cyan;
+            CRGB yellow = CRGB::Yellow;
+
+            for (int i = 0; i < range; i++)
+            {
+                // How far down the color blend we are
+                float blendFactor = (float)i / (float)range;
+
+                // fade A from green (hard hit side) to cyan (light hit side)
+                display->strips[stripIndex][aStart + i] = CRGB::Green;
+                blendPixel(&display->strips[stripIndex][aStart + i], &cyan, blendFactor);
+
+                // fade B from orange (light hit side) to yellow (hard hit side)
+                display->strips[stripIndex][bStart + i] = CRGB::Orange;
+                blendPixel(&display->strips[stripIndex][bStart + i], &yellow, blendFactor);
+            }
+
+            // Draw the mid bar
+            display->strips[stripIndex][midBar] = CRGB::White;
 
             // Draw the dot last
             dot->draw(display);
