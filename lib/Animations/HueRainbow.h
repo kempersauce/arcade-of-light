@@ -5,7 +5,6 @@ class HueRainbow : public Animation
 {
     private:
       int HueStart = 0;
-      int Offset = 5;
       int Beats = 3;
       int Min = -15;
       int Max = 15;
