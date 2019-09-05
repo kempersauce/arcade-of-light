@@ -10,7 +10,7 @@ holds the strips
 class FiveDisplay : public Display {
     public:
         FiveDisplay()
-            : Display(5, 123)
+            : Display(5, 100)
         {
             FastLED.addLeds<WS2812B, LED_PIN_4, GRB>(strips[4], lengthStrips);
             FastLED.addLeds<WS2812B, LED_PIN_3, GRB>(strips[3], lengthStrips);

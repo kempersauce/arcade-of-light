@@ -17,12 +17,12 @@ class DirPad {
         DirPad()
         {
             //assign pins to buttons
-            up = new Button(BUTTON_PIN_0);
-            down = new Button(BUTTON_PIN_1);
-            left = new Button(BUTTON_PIN_2);
+            up = new Button(BUTTON_PIN_2);
+            down = new Button(BUTTON_PIN_5);
+            left = new Button(BUTTON_PIN_4);
             right = new Button(BUTTON_PIN_3);
-            a = new Button(BUTTON_PIN_4);
-            b = new Button(BUTTON_PIN_5);
+            //a = new Button(BUTTON_PIN_0);
+            //b = new Button(BUTTON_PIN_1);
 
             //Add button pointers to buttons array
             //buttons = {up,down,left,right,a,b};
@@ -33,7 +33,7 @@ class DirPad {
             down->poll();
             left->poll();
             right->poll();
-            a->poll();
-            b->poll();
+            //a->poll();
+            //b->poll();
         }
 };

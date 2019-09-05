@@ -13,24 +13,25 @@
 #include <FireworkTest.h>
 #include <RainbowGame.h>
 #include <DirPadTest.h>
+#include <MarqueeGame.h>
 
 Game* game;
 Display* gameDisplay;
 
 void setup()
 {
-    FastLED.setBrightness(50);
+    FastLED.setBrightness(100);
 
     // init audio stuff
     initAudio();
 
     //delay(15 * 1000);
-    Serial.begin(9600);
+    Serial.begin(115200);
     Serial.println("Begin setup()");
 
     // Choose your Display type
-    gameDisplay = (Display*)new FiveDisplay();
-    //gameDisplay = (Display*)new H2HDisplay();
+    //gameDisplay = (Display*)new FiveDisplay();
+    gameDisplay = (Display*)new H2HDisplay();
 
     // debug set strip0 red
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
@@ -44,7 +45,8 @@ void setup()
     //game = (Game*)new Head2Head(gameDisplay);
     //game = (Game*)new LifeGame(gameDisplay);
     //game = (Game*)new RocketGame(gameDisplay);
-    game = (Game*)new RainbowGame(gameDisplay);
+    //game = (Game*)new RainbowGame(gameDisplay);
+    game = (Game*)new MarqueeGame(gameDisplay);
 
     // Test Games
     //game = (Game*)new DirPadTest(gameDisplay);
@@ -84,5 +86,4 @@ void loop()
     FastLED.show();
     delay(10);
     //Serial.println("loop() finished");
-    Serial.println("loop complete");
 }

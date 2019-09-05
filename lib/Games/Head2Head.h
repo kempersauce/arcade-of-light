@@ -49,22 +49,31 @@ class Head2Head : Game
             noiseGenerator->fillnoise8();
 
             // Since these dont actually overlap, we can do them in serial
-            int WinCount = 0;
             for (int i = 0; i < 8; i++)
             {
-                if (gameStrips[i]->teamAWin || gameStrips[i]->teamBWin){
-                    WinCount++;
-                }
-
                 gameStrips[i]->pollButtons();
                 gameStrips[i]->checkGameState();
+            }
+
+            for (int i = 0; i < 8; i++)
+            {
                 gameStrips[i]->draw(display);
             }
 
-            if (WinCount == display->numStrips)
+            if (H2HGameStrip::teamATotalWin || H2HGameStrip::teamBTotalWin)
             {
-              delay(10000);
-              setup();
+                // log when the win started
+                static long totalWinStart = 0;
+                if (totalWinStart == 0)
+                {
+                    totalWinStart = millis();
+                }
+                // time to reset the whole game after 10 seconds
+                else if (millis() - totalWinStart > 10000)
+                {
+                    setup();
+                    totalWinStart = 0;
+                }
             }
         }
 };
