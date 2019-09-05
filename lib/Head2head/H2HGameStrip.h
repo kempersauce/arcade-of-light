@@ -260,3 +260,7 @@ public:
         }
     }
 };
+
+int H2HGameStrip::midBar;
+bool H2HGameStrip::teamATotalWin;
+bool H2HGameStrip::teamBTotalWin;
