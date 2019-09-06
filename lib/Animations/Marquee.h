@@ -1,7 +1,7 @@
 #pragma once
 #include <Animation.h>
 #include <Font.h>
-#include <string>
+#include <Shapes.h>
 
 //This file holds words and word functions
 class Marquee : public Animation
