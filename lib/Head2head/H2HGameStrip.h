@@ -10,14 +10,12 @@ class H2HGameStrip : Animation
     H2HDot* dot;
 
     // nearside team
-    Button* buttonA;
     H2HZone* zoneA1;
     H2HZone* zoneA2;
     H2HZone* zoneA3;
     int zoneAStart;
 
     // farside team
-    Button* buttonB;
     H2HZone* zoneB1;
     H2HZone* zoneB2;
     H2HZone* zoneB3;
@@ -32,6 +30,9 @@ class H2HGameStrip : Animation
     NoiseGenerator* noiseGenerator; // this is maintained by the game class so we just need to hold onto the reference here
 
 public:
+    Button* buttonA;
+    Button* buttonB;
+    
     bool teamAWin;
     bool teamBWin;
     static bool teamATotalWin;
