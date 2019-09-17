@@ -39,6 +39,13 @@ class RocketGame : Game
     Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
     SkyFade* skyFade;
 
+    // level colors for SkyFade
+    CRGB* skyFadeColors[2] =
+    {
+        new CRGB(0, 0, 255), // Blue earth
+        new CRGB(32, 96, 255), // Orange mars
+    };
+
     // Sprites
     Rocket player; //the player
     RocketBoost* rocketBoost;
@@ -71,7 +78,7 @@ public:
         idleGame(display)
     {
         starBackground = new Starscape(display->numStrips, display->lengthStrips, 160);
-        skyFade = new SkyFade(new CRGB(32, 96, 255));
+        skyFade = new SkyFade(skyFadeColors[0]);
         rocketBoost = new RocketBoost(5);
     }
 
@@ -82,6 +89,7 @@ public:
         //     firework[i] = Firework();
         // }
 
+        skyFade->setFadeColor(skyFadeColors[0]);
         target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
         gameState = 0;
         wins = 0;
