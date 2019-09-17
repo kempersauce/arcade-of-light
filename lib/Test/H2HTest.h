@@ -57,19 +57,20 @@ class H2HRainbowAni : Animation
 
 class H2HTest : Game
 {
-     public:
+    H2HRainbowAni* background;
+    public:
          H2HDot** dots;
          H2HControls* controls;
 
          H2HTest(Display* gameDisplay)
              : Game(gameDisplay)
          {
+             controls = (H2HControls*)new H2HControls();
+             background = new H2HRainbowAni();
          }
 
          void setup()
          {
-             controls = (H2HControls*)new H2HControls();
-             background = (Animation*)new H2HRainbowAni();
              dots = new H2HDot*[8] {
                  new H2HDot(CRGB::Purple, 0, 15, 120),
                  new H2HDot(CRGB::Purple, 1, 15, 120),

@@ -9,8 +9,10 @@ Where the magic happens
 
 class RainbowGame : Game
 {
+    HueRainbow* background;
+    
     public:
-        
+
         RainbowGame(Display* gameDisplay)
             : Game(gameDisplay)
         {
