@@ -9,16 +9,16 @@ Where the magic happens
 
 class Game
 {
-    public:
+public:
 
-        Animation* background;
-        Display* display;
+    Animation* background;
+    Display* display;
 
-        Game(Display* gameDisplay)
-            : display(gameDisplay)
-        {
-        }
+    Game(Display* gameDisplay)
+    {
+        display = gameDisplay;
+    }
 
-        virtual void setup();
-        virtual void loop();
+    virtual void setup();
+    virtual void loop();
 };

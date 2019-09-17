@@ -19,6 +19,10 @@ class Button
     int framesHeld;
     long holdStartTime;
 
+    // Used to track how long since the button's been released
+    int framesReleased;
+    long releasedStartTime;
+
 public:
     //Constructor - takes a pinNumber to poll button state from
     Button(int pinNo) : _pin(pinNo)
@@ -28,8 +32,12 @@ public:
         // Initialize internal state members
         _wasPressed = false;
         _isPressed = false;
+
         framesHeld = 0;
         holdStartTime = 0;
+
+        framesReleased = 0;
+        releasedStartTime = 0;
 
         // Poll now to set the backlog - this ensures we have the correct button state when we start
         poll();
@@ -50,6 +58,9 @@ public:
             // TODO reevaluate - do we want 0-based or 1-based frame counting like this?
             framesHeld = 1; // We're counting the first frame here, so anything using this field can have an immediate response
             holdStartTime = millis();
+
+            framesReleased = 0;
+            releasedStartTime = 0;
         }
         else if (isHolding())
         {
@@ -58,13 +69,18 @@ public:
         }
         else if (isReleasing())
         {
-            // Nothing to do here, both frame-based and time-based properties are accurate
+            // Record when the button released
+            framesReleased = 1;
+            releasedStartTime = millis();
         }
         else
         {
             // Clear hold state - this button was released in a previous frame
             framesHeld = 0;
             holdStartTime = 0;
+
+            // Increment frames released, the time-based property doesnt need updating here
+            framesReleased++;
         }
     }
 
@@ -127,6 +143,32 @@ public:
         else
         {
             return millis() - holdStartTime;
+        }
+    }
+
+
+
+    // Detect how long the button has been released
+
+    // Returns the number of frames the button has been released (starting with 1 at the releasing frame, not counting the depressing frame)
+    // Returns 0 when the button isnt being held down at all
+    int getFramesReleased()
+    {
+        return framesReleased;
+    }
+
+    // Returns the number of milliseconds since the button has been released
+    // NOTE - this may vary if there is a lot of computation time between poll() and getMillisReleased()
+    long getMillisReleased()
+    {
+        // Return 0 if it's not being held
+        if (releasedStartTime == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return millis() - releasedStartTime;
         }
     }
 };
