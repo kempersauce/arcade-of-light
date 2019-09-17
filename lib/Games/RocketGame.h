@@ -39,11 +39,23 @@ class RocketGame : Game
     Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
     SkyFade* skyFade;
 
+    int level;
+    static const int levelMax = 3;
+
     // level colors for SkyFade
-    CRGB* skyFadeColors[2] =
+    CRGB* skyFadeColors[levelMax] =
     {
         new CRGB(0, 0, 255), // Blue earth
         new CRGB(32, 96, 255), // Orange mars
+        new CRGB(128, 0, 128), // Purple Pluto
+    };
+
+    // Level values for gravity
+    int gravityLevels[levelMax] =
+    {
+        15, // Earth has so much gravities
+        12, // Mars is not as stronk, only has this many gravities
+        7, // poor little old Pluto barely has any gravities, be careful with that button
     };
 
     // Sprites
@@ -89,7 +101,9 @@ public:
         //     firework[i] = Firework();
         // }
 
-        skyFade->setFadeColor(skyFadeColors[0]);
+        level = 0;
+        player.SetGravity(gravityLevels[level]);
+        skyFade->setFadeColor(skyFadeColors[level]);
         target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
         gameState = 0;
         wins = 0;

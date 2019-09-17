@@ -52,6 +52,11 @@ class Rocket : Animation
           Time = millis();
         }
 
+        void SetGravity(int gravity)
+        {
+           Gravity = gravity;
+        }
+
         void Boost()
         {
             Thrust = ThrustStrength;
