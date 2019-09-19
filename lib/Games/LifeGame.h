@@ -22,6 +22,9 @@ public:
 
     virtual void loop()
     {
+        // Calculate next round
+        lifeGrid->GoOneRound();
+        
         // Draw to display
         lifeGrid->draw(display);
     }

@@ -32,7 +32,7 @@ class H2HGameStrip : Animation
 public:
     Button* buttonA;
     Button* buttonB;
-    
+
     bool teamAWin;
     bool teamBWin;
     static bool teamATotalWin;
@@ -207,13 +207,13 @@ public:
         // Draw backgrounds for both teams up to the dot
 
         // Team A background
-        for (int y = 0; y < dot->yLoc; y++)
+        for (int y = 0; y < midBar; y++)
         {
             display->strips[stripIndex][y] = CRGB(0, 0, noiseGenerator->noise[stripIndex][y]); // blue team
         }
 
         // Team B background
-        for (int y = dot->yLoc + 1; y < heightMax; y++)
+        for (int y = midBar; y < heightMax; y++)
         {
             display->strips[stripIndex][y] = CRGB(noiseGenerator->noise[stripIndex][y], 0, 0); // red team
         }
