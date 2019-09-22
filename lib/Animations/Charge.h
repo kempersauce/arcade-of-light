@@ -14,9 +14,9 @@ class Charge : Animation {
         //colors (HSV)
         int Hue;
         int Saturation;
-        int Brightness
+        int Brightness;
 
-        //Constructor - COULD BE MORE EFFICIENT
+        //Constructor
         Charge (int startHue, int startX, int startY, int yMaximum)
         {
             Hue = startHue;
@@ -32,30 +32,36 @@ class Charge : Animation {
         //Methods
         void power(bool powerUp)
         {
-          if (YStart < yMax)
+          if (yStart < yMax)
             {
               if (powerUp == true){
               if(yLoc > yMax){yLoc++;}
-              Saturation = 255 * (yLoc / yMax);
+              //Saturation = 255 * (yLoc / yMax);
               } else {
               if(yLoc > 0){yLoc--;}
-              Saturation = 255 * (yLoc / yMax);
+              //Saturation = 255 * (yLoc / yMax);
               }
             } else {
               if (powerUp == true){
               if(yLoc < yMax){yLoc--;}
-              Saturation = 255 * (yLoc / yMax);
+              //Saturation = 255 * (yLoc / yMax);
               } else {
               if(yLoc < 0){yLoc--;}
-              Saturation = 255 * (yLoc / yMax);
+              //Saturation = 255 * (yLoc / yMax);
               }
             }
         }
 
         void draw(Display* display)
         {
-          for (int i; i < yMax; i++){
-            display->strips[xLoc][i] = CHSV(Hue, Saturation, Brightness);
+          if (yStart < yMax){
+            for (int i = yStart; i < yLoc; i++){
+              display->strips[xLoc][i] = CHSV(Hue, Saturation, Brightness);
+            }
+          } else {
+            for (int i = yStart; i > yLoc; i--){
+              display->strips[xLoc][i] = CHSV(Hue, Saturation, Brightness);
+            }
           }
 
         }

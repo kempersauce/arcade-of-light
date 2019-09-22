@@ -1,7 +1,7 @@
 #include <H2HDisplay.h>
 #include <H2HTest.h>
 #include <FiveDisplay.h>
-//#include <StartGame.h>
+#include <StartGame.h>
 #include <Head2Head.h>
 #include <RocketDisplay.h>
 #include <RocketGame.h>
@@ -47,7 +47,8 @@ void setup()
     //game = (Game*)new LifeGame(gameDisplay);
     //game = (Game*)new RocketGame(gameDisplay);
     //game = (Game*)new RainbowGame(gameDisplay);
-    game = (Game*)new MarqueeGame(gameDisplay);
+    //game = (Game*)new MarqueeGame(gameDisplay);
+    game = (Game*)new StartGame(gameDisplay);
 
     // Test Games
     //game = (Game*)new DirPadTest(gameDisplay);
