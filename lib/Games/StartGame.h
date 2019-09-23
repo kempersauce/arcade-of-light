@@ -15,46 +15,32 @@ class StartGame : Game
         StartGame(Display* gameDisplay)
             : Game(gameDisplay)
         {
-        background = new Noise(display->numStrips, display->lengthStrips);
-        gameCharge = new Charge*[1];
-        //Charge (int startHue, int startX, int startY, int yMaximum)
-        gameCharge[0] = new Charge(0,1,display->lengthStrips,display->lengthStrips/2);
-        gameCharge[1] = new Charge(160,1,0,display->lengthStrips/2);
+            background = new Noise(display->numStrips, display->lengthStrips);
+            gameCharge = new Charge*[2];
+            //Charge (int startHue, int startX, int startY, int yMaximum)
+            gameCharge[0] = new Charge(0, 1, display->lengthStrips, display->lengthStrips / 2);
+            gameCharge[1] = new Charge(160, 1, 0, display->lengthStrips / 2);
         }
 
         void setup()
         {
-            FastLED.setBrightness(50);
             controls = (H2HControls*)new H2HControls();
-
         }
 
         void loop()
         {
             controls->pollAll();
             background->draw(display);
-            checkTeam(controls->teamA);
-            checkTeam(controls->teamB);
+            checkTeam(controls->teamA, gameCharge[0]);
+            checkTeam(controls->teamB, gameCharge[1]);
             for (int i = 0; i < 2; i++)
             {
-              gameCharge[i]->draw(display);
+                gameCharge[i]->draw(display);
             }
-            FastLED.show();
         }
 
-        void checkTeam(Button** team)
+        void checkTeam(Button** team, Charge* charge)
         {
-            for (int i = 0; i < 2; i++)
-            {
-                if (team[i]->isPressed())
-                {
-                  gameCharge[i]->power(true);
-                } else {
-                  gameCharge[i]->power(false);
-                }
-
-            }
+            charge->power(team[0]->isPressed());
         }
-
-
 };
