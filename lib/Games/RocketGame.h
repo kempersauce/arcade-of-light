@@ -22,12 +22,9 @@
 #include <RocketBoost.h>
 #include <Starscape.h>
 #include <SkyFade.h>
-#include <Sounds.h>
+//#include <Sounds.h>
 #include <ExplosionsInTheSky.h>
 #include <LifeGame.h>
-
-AudioPlaySdWav boostChannel;
-AudioConnection audioConnection1(boostChannel, i2s1);
 
 class RocketGame : Game
 {
@@ -66,7 +63,7 @@ class RocketGame : Game
     ExplosionsInTheSky explosionsInTheSky;
 
     // Idle Game, plays after no buttons have been pressed before idle timeout
-    LifeGame idleGame; // TODO change LifeGame to not use buttons if we're going to use it as an idle game
+    RainbowGame idleGame; // TODO change LifeGame to not use buttons if we're going to use it as an idle game
     bool isIdle;
     const long idleTimeoutMillis = 1000 * 30; // 30 seconds
 

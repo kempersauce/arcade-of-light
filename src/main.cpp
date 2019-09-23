@@ -5,11 +5,11 @@
 #include <Head2Head.h>
 #include <RocketDisplay.h>
 #include <RocketGame.h>
-#include <WavPlayer.h>
+//#include <WavPlayer.h>
 #include <NoiseTest.h>
 #include <LifeGame.h>
 #include <SingleColorTest.h>
-#include <Sounds.h>
+//#include <Sounds.h>
 #include <FireworkTest.h>
 #include <RainbowGame.h>
 #include <DirPadTest.h>
@@ -24,7 +24,7 @@ void setup()
     FastLED.setBrightness(100);
 
     // init audio stuff
-    initAudio();
+    //initAudio();
 
     //delay(15 * 1000);
     Serial.begin(115200);
