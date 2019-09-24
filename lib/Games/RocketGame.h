@@ -233,7 +233,7 @@ public:
 
                     // shift stars and target down according to Rocket Thrust up to 10 px/frame
                     int backgroundShift = 10 * rocket.Thrust / rocket.ThrustMax;
-                    starBackground->noiseGenerator->y -= backgroundShift;
+                    starBackground->noiseGenerator->y -= backgroundShift; // NOTE: Since y is actually an 8.8 bit int, this may need more than just a small push
                     target.Loc -= backgroundShift;
                 }
 
