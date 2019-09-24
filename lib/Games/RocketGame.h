@@ -8,7 +8,7 @@
 
 #define LED_PIN 1   // OUTPUT pin WS2812B LED Strip is attached to input is GRB not RGB
 
-#define delayval 25 //controls the "speed" of the player dot
+#define delayval 25 //controls the "speed" of the rocket dot
 #define animationDelay 50 //controls the speed of the win animation
 #define NUM_FIREWORKS 5  //maximum of 30 on UNO
 #define BRIGHTNESS 50
@@ -19,12 +19,21 @@
 #include <Firework.h>
 #include <Game.h>
 #include <Display.h>
-#include <RocketBoost.h>
 #include <Starscape.h>
 #include <SkyFade.h>
 //#include <Sounds.h>
 #include <ExplosionsInTheSky.h>
 #include <LifeGame.h>
+
+// Game states
+enum RocketGameState {
+    RocketGameIdle,
+    RocketGameStart,
+    RocketGamePlaying,
+    RocketGameLose,
+    RocketGameLevelAdvance,
+    RocketGameWin
+};
 
 class RocketGame : Game
 {
@@ -56,176 +65,102 @@ class RocketGame : Game
     };
 
     // Sprites
-    Rocket player; //the player
-    RocketBoost* rocketBoost;
+    Rocket rocket; //the player
     Target target; //the target
     Firework firework[NUM_FIREWORKS]; //win animation fireworks
     ExplosionsInTheSky explosionsInTheSky;
 
+    // Game State tracker
+    // This only tracks the current game state and does not detect game state changes
+    // Any code that changes this is expected to update the other objects' state as necessary
+    RocketGameState gameState;
+
     // Idle Game, plays after no buttons have been pressed before idle timeout
     RainbowGame idleGame; // TODO change LifeGame to not use buttons if we're going to use it as an idle game
-    bool isIdle;
     const long idleTimeoutMillis = 1000 * 30; // 30 seconds
 
 
     // Other variables
-    int redColor = 0;
-    int blueColor = 0;
-    int greenColor = 0;
-    int gameState = 0;
-    int wins = 0;
-    long time = millis();
+    int targetsWon = 0;
+    int targetsPerLevel = 3;
 
 public:
     RocketGame(Display* display)
         : Game(display),
         Up(BUTTON_PIN_2),
         resetButton(BUTTON_PIN_3),
-        player(0, new CRGB(255, 255, 255)),
-        target(100, 15, new CRGB(55, 0, 0)),
+        rocket(display->lengthStrips, new CRGB(255, 255, 255)),
+        target(new CRGB(55, 0, 0)),
         explosionsInTheSky(),
         idleGame(display)
     {
         starBackground = new Starscape(display->numStrips, display->lengthStrips, 160);
         skyFade = new SkyFade(skyFadeColors[0]);
-        rocketBoost = new RocketBoost(5);
     }
 
+    // Reset Game
     void setup()
     {
-        // for (int i = 0; i < NUM_FIREWORKS; i++)
-        // {
-        //     firework[i] = Firework();
-        // }
-
         level = 0;
-        player.SetGravity(gravityLevels[level]);
-        skyFade->setFadeColor(skyFadeColors[level]);
-        target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
-        gameState = 0;
-        wins = 0;
-        isIdle = false;
-        player.Reset();
+        setLevelStart();
     }
 
-    void checkWin()
+    // Reset level
+    void setLevelStart()
     {
-        if (gameState == 0)
-        {
-            // do nothing
-        }
-        else if (gameState == 2)
-        {
-            // Lose state
-            // fill the strip with red, one frame at a time
-            for (int i = 0; i < display->lengthStrips; i++)
-            {
-                display->strips[0][i].setRGB(255, 0, 0);
-                FastLED.show();
-                delay(animationDelay);
-            }
-
-            //Restart game
-            player.Location = 0;
-            target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
-
-        }
-        else if (gameState == 1)
-        {
-            //Win state
-
-            wins = wins + 1;
-            //shrapnelAnimate = true;
-            //shrapTop.Loc = target.Loc + target.Height;
-            //shrapMid.Loc = target.Loc + target.Height/2;
-            //shrapBot.Loc = target.Loc;
-
-     /*     int upDot = target.Loc + .5 * target.Height;
-            int downDot = target.Loc + .5 * target.Height;
-            int upFin = 0;
-            int downFin = 0;
-            // two way color fill across entire strip
-            while (upFin + downFin != 2)
-                {
-                    int redColor = random(0,255);
-                    int greenColor = random(0,255);
-                    int blueColor = random(0,255);
-                    if (upFin == 0){
-                        leds[upDot].setRGB( greenColor, redColor, blueColor);
-                        FastLED.show();
-                        upDot = upDot + 1;
-                        if (upDot > display->lengthStrips){
-                            upFin = 1;
-                        }
-                    }
-                    if (downFin == 0){
-                        leds[downDot].setRGB( greenColor, redColor, blueColor);
-                        FastLED.show();
-                        downDot = downDot - 1;
-                        if (downDot < 0){
-                            downFin = 1;
-                        }
-                    }
-
-                    //delay(animationDelay);
-                } */
-
-            //Restart game
-            if (wins < 3)
-            {
-                target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
-                target.Height = random(0,15)+5;
-                target.Step = target.Height/6;
-            }
-
-            if (wins == 3)
-            {
-                target.Loc = 5;
-                target.Height = 10;
-                target.Step = target.Height/6;
-            }
-
-            if (wins > 3)
-            {
-                //full win animation goes here
-                for (int i = 0; i < display->numStrips; i++)
-                {
-                    for (int j = 0; j < display->lengthStrips; j++)
-                    {
-                        redColor = random(0,200);
-                        greenColor = random(0,200);
-                        blueColor = random(0,200);
-                        display->strips[i][j].setRGB(greenColor, redColor, blueColor);
-                        FastLED.show();
-                    }
-                }
-
-                //fully restart game
-                wins = 0;
-                target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
-                target.Height = random(0,15)+5;
-                target.Step = target.Height/6;
-                player.Location = 0;
-            }
-            player.Velocity = 0;
-            player.Acceleration = 0;
-            gameState = 0;
-        }
+        gameState = RocketGameStart;
+        skyFade->setFadeColor(skyFadeColors[level]);
+        target.randomize(display->lengthStrips);
+        targetsWon = 0;
+        rocket.SetGravity(gravityLevels[level]);
+        rocket.Reset();
     }
 
     void checkTarget()
     {
-        if (player.Location > target.Loc && player.Location < target.Loc + target.Height && target.isInTarget == false) {
-            target.isInTarget = true;
-            target.Time = millis();
-        }
+        bool wasInTarget = target.isInTarget;
+        target.isInTarget = rocket.Location > target.Loc && rocket.Location < target.Loc + target.Height;
+        if (target.isInTarget)
+        {
+            // Check if we're just entering the target
+            if (wasInTarget == false)
+            {
+                target.Time = millis();
+            }
 
-        if (player.Location < target.Loc || player.Location > target.Loc + target.Height) {
-            target.isInTarget = false;
-        }
+            // Check if we've closed out this target
+            else if (millis() - target.Time > 3000)
+            {
+                //Win state
 
-        if (target.isInTarget == true && millis() - target.Time > 3000) {
-            gameState = 1;
+                targetsWon++;
+
+                // Still more targets - make a new random target
+                if (targetsWon < targetsPerLevel)
+                {
+                    target.randomize(display->lengthStrips);
+                }
+
+                // Last target is on the ground
+                else if (targetsWon == targetsPerLevel)
+                {
+                    target.setToGround();
+                }
+
+                // We beat the level
+                else if (targetsWon > targetsPerLevel)
+                {
+                    gameState = RocketGameLevelAdvance;
+                    //full win animation goes here
+
+                    //fully restart game
+                    targetsWon = 0;
+                    target.randomize(display->lengthStrips);
+                    rocket.Location = 0;
+                }
+
+                //gameState = 0;
+            }
         }
     }
 
@@ -236,54 +171,100 @@ public:
         Up.poll();
         resetButton.poll();
 
-        // Check if we're idling
-        bool wasIdle = isIdle;
-
-        // This enters idle after idleTimeoutMillis, and falls out of idle if a buttons been pressed
-        isIdle = Up.getMillisReleased() > idleTimeoutMillis
-            && resetButton.getMillisReleased() > idleTimeoutMillis;
-
-        if (isIdle)
+        // IDLE CHECK: This enters idle after idleTimeoutMillis, and falls out of idle if a buttons been pressed
+        if (Up.getMillisReleased() > idleTimeoutMillis
+            && resetButton.getMillisReleased() > idleTimeoutMillis)
         {
-            // Reset the idle game if we're just entering idle
-            if (wasIdle == false)
+            // Reset the game state if we're just entering idle
+            if (gameState != RocketGameIdle)
             {
+                gameState = RocketGameIdle;
                 idleGame.setup();
             }
-
-            // play the idle game, not this one
-            idleGame.loop();
-            return;
         }
-        // Reset this game if we're just exiting idle
-        else if (wasIdle)
+
+        // Reset this game if we're just coming out of idle
+        else if (gameState == RocketGameIdle)
         {
-            this->setup();
+            this->setup(); // this sets game state to RocketGameStart
         }
-
-        time = millis();
 
         // Reset this game if they hold the reset button longer than a second
-        if (resetButton.getMillisHeld() > 1000)
+        else if (resetButton.getMillisHeld() > 1000)
         {
-            this->setup();
+            // TODO - send this into the RocketGameLose state instead
+            setup();
         }
 
-        // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
-        if (Up.isPressed())
+        switch (gameState)
         {
-            player.Boost();
+            case RocketGameIdle:
+                // play the idle game, not this one
+                idleGame.loop();
+                return; // break out, we're not playing this game
+            break;
+
+            case RocketGameStart:
+                // TODO fill this in, right now we just jump into playing state
+                gameState = RocketGamePlaying;
+            //break; // uncomment this once we have something here, right now we just fall through
+
+            case RocketGamePlaying:
+                rocket.SetBoost(Up.getMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
+                rocket.Move();
+
+                if (rocket.Exploded)
+                {
+                    gameState = RocketGameLose;
+                    explosionsInTheSky.startAnimation();
+                }
+                else
+                {
+                    checkTarget();
+                }
+            break;
+
+            case RocketGameLevelAdvance:
+                // Boost way way up the screen
+                if (rocket.Location < display->lengthStrips * 2)
+                {
+                    rocket.SetBoost(rocket.Thrust + 20); // just keep boosting up
+                    rocket.Move(false); // let it boost off the screen
+
+                    // shift stars and target down according to Rocket Thrust up to 10 px/frame
+                    int backgroundShift = 10 * rocket.Thrust / rocket.ThrustMax;
+                    starBackground->noiseGenerator->y -= backgroundShift;
+                    target.Loc -= backgroundShift;
+                }
+
+                // Rocket reached top of level, time to start a new one
+                else
+                {
+                    level++;
+                    if (level == levelMax)
+                    {
+                        // TODO set up whatever state we need for the Win state to start
+                        gameState = RocketGameWin;
+                    }
+                    else
+                    {
+                        setLevelStart();
+                    }
+                }
+            break;
+
+            case RocketGameWin:
+                // TODO fill this in right now we just jump straight into the start state of a new game
+                setup();
+            break;
+
+            case RocketGameLose:
+                if (explosionsInTheSky.isPlaying() == false)
+                {
+                    setup(); // reset to new game
+                }
+            break;
         }
-        else
-        {
-            player.endBoost();
-        }
-
-        player.Move(display->lengthStrips);
-
-        checkTarget();
-
-
 
         // Draw everything
 
@@ -293,60 +274,47 @@ public:
         //draw blue sky fade over the stars
         skyFade->draw(display);
 
+        // draw targets on top of the background
+        target.draw(display); //displays target
 
-
-        if (player.Exploded)
+        // Draw the explosion if we're blowing up
+        // TODO change this to check game state?
+        if (rocket.Exploded)
         {
-            if (explosionsInTheSky.isPlaying() == false)
-            {
-                explosionsInTheSky.startAnimation();
-            }
-
             explosionsInTheSky.draw(display);
-
-            if (explosionsInTheSky.isPlaying() == false)
-            {
-                setup();
-            }
         }
+
+        // draw the rocket if we're not blowing up
         else
         {
-            // draw targets on top of the background
-            target.draw(display); //displays target
-
-            // draw the rocket boost
-            rocketBoost->loc = (int)player.Location;
-            rocketBoost->boostFactor = (float)Up.getMillisHeld() / (float)500; // .5 second total ramp-up time
-
-            rocketBoost->draw(display);
-
             // draw the rocket ship on the very front
-            player.draw(display);
-
-            checkWin();
+            rocket.draw(display);
         }
+
+
+
         //Serial prints for debugging
 
 
-        /* Serial.print(player.Loc);  // prints a label
+        /* Serial.print(rocket.Loc);  // prints a label
         Serial.print("\t");         // prints a tab
 
-        Serial.print(player.oldLoc);  // prints a label
+        Serial.print(rocket.oldLoc);  // prints a label
         Serial.print("\t");         // prints a tab
 
-        Serial.print(player.Location);
+        Serial.print(rocket.Location);
         Serial.print("\t");
 
-        Serial.print(player.Acceleration);
+        Serial.print(rocket.Acceleration);
         Serial.print("\t");
 
-        Serial.print(player.Velocity);
+        Serial.print(rocket.Velocity);
         Serial.print("\t");
 
-        Serial.print(player.Thrust);
+        Serial.print(rocket.Thrust);
         Serial.print("\t");
 
-        Serial.print(player.Time-player.oldTime);
+        Serial.print(rocket.Time-rocket.oldTime);
         Serial.println();
      */
 

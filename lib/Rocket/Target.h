@@ -15,15 +15,26 @@ class Target : Animation
         bool isInTarget;
 
         //Constructor
-        Target(int loc, int height, CRGB* clr)
+        Target(CRGB* clr)
             : Animation()
         {
-            Loc = loc;
-            Height = height;
-            Step = Height / 6;
             color = clr;
             Time = 0;
             isInTarget = false;
+        }
+
+        void randomize(int lengthStrips)
+        {
+            Loc = random(lengthStrips / 4, lengthStrips - 20);
+            Height = random(5, 20);
+            Step = Height / 6;
+        }
+
+        void setToGround()
+        {
+            Loc = 5;
+            Height = 10;
+            Step = Height / 6;
         }
 
         void draw(Display* display)
@@ -35,8 +46,11 @@ class Target : Animation
             for (int j = 0; j < display->numStrips; j++)
             {
                 // Target bookends
-                display->strips[j][bottom] = *color;
-                display->strips[j][top] = *color;
+                if (bottom >= 0)
+                    display->strips[j][bottom] = *color;
+
+                if (top >= 0)
+                    display->strips[j][top] = *color;
 
                 if (isInTarget)
                 {
@@ -47,17 +61,19 @@ class Target : Animation
                     int bottomFillStart = bottom + 1;
                     int bottomFillEnd = bottomFillStart + Step * stage;
 
-                    for (int i = bottomFillStart; i < bottomFillEnd; i++)
+                    for (int i = max(bottomFillStart, 0); i < bottomFillEnd; i++)
                     {
-                        display->strips[j][i] = *color;
+                        if (i >= 0)
+                            display->strips[j][i] = *color;
                     }
 
                     // Top fill
                     int topFillEnd = top;
                     int topFillStart = topFillEnd - Step * stage;
-                    for (int i = topFillStart; i < topFillEnd; i++)
+                    for (int i = max(topFillStart, 0); i < topFillEnd; i++)
                     {
-                        display->strips[j][i] = *color;
+                        if (i >= 0)
+                            display->strips[j][i] = *color;
                     }
                 }
             }

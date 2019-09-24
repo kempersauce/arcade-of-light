@@ -55,12 +55,12 @@ class NoiseGenerator
           z += speed;
       }
 
-    private:
       // We're using the x/y dimensions to map to the x/y pixels on the matrix.  We'll
       // use the z-axis for "time".  speed determines how fast time moves forward.  Try
       // 1 for a very slow moving effect, or 60 for something that ends up looking like
       // water.
-      uint16_t x;
-      uint16_t y;
-      uint16_t z;
+      // Set these to the middle of their ranges so we can shift the noise window around seamlessly
+      uint16_t x = UINT16_MAX / 2;
+      uint16_t y = UINT16_MAX / 2;
+      uint16_t z = UINT16_MAX / 2;
   };
