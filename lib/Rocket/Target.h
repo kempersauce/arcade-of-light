@@ -23,6 +23,11 @@ class Target : Animation
             isInTarget = false;
         }
 
+        void setColor(CRGB* clr)
+        {
+            color = clr;
+        }
+
         void randomize(int lengthStrips)
         {
             Loc = random(lengthStrips / 4, lengthStrips - 20);
@@ -63,8 +68,7 @@ class Target : Animation
 
                     for (int i = max(bottomFillStart, 0); i < bottomFillEnd; i++)
                     {
-                        if (i >= 0)
-                            display->strips[j][i] = *color;
+                        display->strips[j][i] = *color;
                     }
 
                     // Top fill
@@ -72,8 +76,7 @@ class Target : Animation
                     int topFillStart = topFillEnd - Step * stage;
                     for (int i = max(topFillStart, 0); i < topFillEnd; i++)
                     {
-                        if (i >= 0)
-                            display->strips[j][i] = *color;
+                        display->strips[j][i] = *color;
                     }
                 }
             }

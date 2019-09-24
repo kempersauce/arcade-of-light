@@ -52,8 +52,16 @@ class RocketGame : Game
     CRGB* skyFadeColors[levelMax] =
     {
         new CRGB(0, 0, 255), // Blue earth
-        new CRGB(32, 96, 255), // Orange mars
+        new CRGB(255, 96, 0), // Orange mars
         new CRGB(128, 0, 128), // Purple Pluto
+    };
+
+    // level colors for targets
+    CRGB* targetColors[levelMax] =
+    {
+        new CRGB(255, 0, 0), // Red targets on Blue earth
+        new CRGB(0, 255, 0), // Green targets on Orange mars
+        new CRGB(255, 255, 0), // Purple Pluto
     };
 
     // Level values for gravity
@@ -82,7 +90,7 @@ class RocketGame : Game
 
     // Other variables
     int targetsWon = 0;
-    int targetsPerLevel = 3;
+    const int targetsPerLevel = 3;
 
 public:
     RocketGame(Display* display)
@@ -110,6 +118,7 @@ public:
     {
         gameState = RocketGameStart;
         skyFade->setFadeColor(skyFadeColors[level]);
+        target.setColor(targetColors[level]);
         target.randomize(display->lengthStrips);
         targetsWon = 0;
         rocket.SetGravity(gravityLevels[level]);
@@ -232,9 +241,11 @@ public:
                     rocket.Move(false); // let it boost off the screen
 
                     // shift stars and target down according to Rocket Thrust up to 10 px/frame
-                    int backgroundShift = 10 * rocket.Thrust / rocket.ThrustMax;
-                    starBackground->noiseGenerator->y -= backgroundShift; // NOTE: Since y is actually an 8.8 bit int, this may need more than just a small push
-                    target.Loc -= backgroundShift;
+                    //int backgroundShift = min(rocket.Velocity / 32, 6);
+
+                    // jk since scale is so high, any higher than 1*scale is too fast, and any lover than 1*cale causes tearing between pixels
+                    int backgroundShift = 1;
+                    starBackground->noiseGenerator->y += backgroundShift * starBackground->noiseGenerator->scale; // NOTE: Since y is actually an 8.8 bit int, this may need more than just a small push
                 }
 
                 // Rocket reached top of level, time to start a new one
@@ -275,7 +286,10 @@ public:
         skyFade->draw(display);
 
         // draw targets on top of the background
-        target.draw(display); //displays target
+        if (gameState != RocketGameLevelAdvance)
+        {
+            target.draw(display); //displays target
+        }
 
         // Draw the explosion if we're blowing up
         // TODO change this to check game state?

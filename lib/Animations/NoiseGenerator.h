@@ -13,12 +13,6 @@ class NoiseGenerator
           {
             noise[i] = new uint8_t[width];
           }
-
-          // Initialize our coordinates
-          // Set these to the middle of their ranges so we can shift the noise window around seamlessly
-          x = UINT16_MAX / 2;
-          y = UINT16_MAX / 2;
-          z = random16();
       }
 
       int width;
@@ -60,7 +54,8 @@ class NoiseGenerator
       // use the z-axis for "time".  speed determines how fast time moves forward.  Try
       // 1 for a very slow moving effect, or 60 for something that ends up looking like
       // water.
-      uint16_t x;
-      uint16_t y;
-      uint16_t z;
+      // Initialize our coordinates
+      uint16_t x = random16();
+      uint16_t y = random16();
+      uint16_t z = random16();
   };
