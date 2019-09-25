@@ -128,7 +128,7 @@ public:
     void checkTarget()
     {
         bool wasInTarget = target.isInTarget;
-        target.isInTarget = rocket.Location > target.Loc && rocket.Location < target.Loc + target.Height;
+        target.isInTarget = rocket.physics.Location > target.Loc && rocket.physics.Location < target.Loc + target.Height;
         if (target.isInTarget)
         {
             // Check if we're just entering the target
@@ -165,7 +165,7 @@ public:
                     //fully restart game
                     targetsWon = 0;
                     target.randomize(display->lengthStrips);
-                    rocket.Location = 0;
+                    rocket.physics.Location = 0;
                 }
 
                 //gameState = 0;
@@ -222,7 +222,7 @@ public:
                 rocket.SetBoost(Up.getMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
                 rocket.Move();
 
-                if (rocket.Exploded)
+                if (rocket.physics.HasExploded)
                 {
                     gameState = RocketGameLose;
                     explosionsInTheSky.startAnimation();
@@ -235,9 +235,9 @@ public:
 
             case RocketGameLevelAdvance:
                 // Boost way way up the screen
-                if (rocket.Location < display->lengthStrips * 2)
+                if (rocket.physics.Location < display->lengthStrips * 2)
                 {
-                    rocket.SetBoost(rocket.Thrust + 20); // just keep boosting up
+                    rocket.SetBoost(rocket.physics.Thrust + 5); // just keep boosting up
                     rocket.Move(false); // let it boost off the screen
 
                     // shift stars and target down according to Rocket Thrust up to 10 px/frame
@@ -293,7 +293,7 @@ public:
 
         // Draw the explosion if we're blowing up
         // TODO change this to check game state?
-        if (rocket.Exploded)
+        if (rocket.physics.HasExploded)
         {
             explosionsInTheSky.draw(display);
         }
