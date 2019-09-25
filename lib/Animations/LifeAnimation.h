@@ -19,11 +19,11 @@ class LifeAnimation : public Animation
         int ***nextRound = &frame2;
 
         static const int ageColorMax = 3;
-        CRGB* ageColors[ageColorMax + 1] = {
-            new CRGB(0, 0, 0), // black
-            new CRGB(0, 255, 0), // green
-            new CRGB(0, 255, 255), // cyan
-            new CRGB(0, 0, 255), // blue
+        CRGB ageColors[ageColorMax + 1] = {
+            CRGB(0, 0, 0), // black
+            CRGB(0, 255, 0), // green
+            CRGB(0, 255, 255), // cyan
+            CRGB(0, 0, 255), // blue
         };
 
     public:
@@ -42,6 +42,8 @@ class LifeAnimation : public Animation
 
             lastRound = &frame1;
             nextRound = &frame2;
+
+			randomize(); // init the nextRound just to be safe
         }
 
         void setCellState(int x, int y, bool state)
@@ -80,48 +82,37 @@ class LifeAnimation : public Animation
                             int neighborStrip = (strip + i + width) % width;
                             int neighborLED = (led + j + height) % height;
 
-                            // dont count out-of-bounds cells
-                            if (neighborStrip < 0 || neighborStrip >= width
-                                || neighborLED < 0 || neighborLED >= height)
-                            {
-                                continue;
-                            }
-
                             // count up the 'alive' neighbors in the last round
-                            if ((*lastRound)[neighborStrip][neighborLED])
+                            if ((*lastRound)[neighborStrip][neighborLED] > 0)
                             {
                                 neighborsAlive++;
                             }
                         }
                     }
 
-                    bool isAlive;
-
+                    int age = (*lastRound)[strip][led]; // 0 means dead
                     if (neighborsAlive < 2)
                     {
-                        isAlive = false;
+                        age = 0; // dead
                     }
                     else if (neighborsAlive > 3)
                     {
-                        isAlive = false;
+                        age = 0; // dead;
                     }
                     else if (neighborsAlive == 3)
                     {
-                        isAlive = true;
+                        age++; // bring the dead to life! and increment living cells
                     }
                     else
                     {
-                        isAlive = (*lastRound)[strip][led];
+						// the old get older but nobody gets born here
+                        if (age > 0)
+						{
+							age++;
+						}
                     }
 
-                    if (isAlive)
-                    {
-                        (*nextRound)[strip][led]++;
-                    }
-                    else
-                    {
-                        (*nextRound)[strip][led] = 0;
-                    }
+                    (*nextRound)[strip][led] = age;
                 }
             }
         }
@@ -140,7 +131,7 @@ class LifeAnimation : public Animation
                         age = ageColorMax;
                     }
 
-                    display->strips[stripIndex][ledIndex] = *ageColors[age];
+                    display->strips[stripIndex][ledIndex] = ageColors[age];
                 }
             }
         }
@@ -152,7 +143,14 @@ class LifeAnimation : public Animation
                 for (int j = 0; j < height; j++)
                 {
                     bool alive = random8() > 127;
-                    setCellState(i, j, alive);
+					if (alive)
+					{
+						(*nextRound)[i][j] = 1;
+					}
+					else
+					{
+						(*nextRound)[i][j] = 0;
+					}
                 }
             }
         }
