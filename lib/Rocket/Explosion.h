@@ -5,6 +5,7 @@
 class Explosion : Animation
 {
 	long birthTime;
+	static const long burnoutTimeMillis = 1000 * 5; // 5 seconds
 
 public:
 	static const int shrapnelCount = 14;
@@ -47,6 +48,11 @@ public:
 			shrapnel[i].Velocity *= .9;
 		}
     }
+
+	bool IsBurnedOut()
+	{
+		return millis() - birthTime >= burnoutTimeMillis;
+	}
 
     void draw(Display* display)
     {

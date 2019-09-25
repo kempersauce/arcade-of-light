@@ -9,8 +9,6 @@ class Firework : Animation
 
 	int stripIndex;
 
-	// time when this firework will reset
-	long deathTime;
 public:
     // Physics for the fireworks "rocket"
     PhysicsInfo physics;
@@ -44,19 +42,19 @@ public:
 		stripIndex = random(0, stripsWidth); // select which strip this should be on
 		explosion.stripIndex = stripIndex;
 
-		deathTime = millis() + 1000 * physics.LocationMax / physics.Velocity;
-
         Hue = random(0, 255); //
     }
 
     void Move()
     {
-        if (millis() > deathTime)
-        {
-            Reset();
-        }
-
 		bool wasExploded = physics.HasExploded;
+
+		// Shoot again
+		if (wasExploded && explosion.IsBurnedOut())
+		{
+			Reset();
+		}
+
         physics.Move();
 
         if (physics.HasExploded)
