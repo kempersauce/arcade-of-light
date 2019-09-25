@@ -3,28 +3,32 @@
 
 class PhysicsInfo
 {
-public:
-    float Acceleration;
-    float Velocity;
-    float Location;
-    int LocationMax;
-
+    // Track physics based on time not frames
     long Time;
 
+    // This is calculated and overwritten immediately - instead set thrust
+    float Acceleration;
+
+public:
+    // Dynamic values
+    float Thrust;
+    float Velocity;
+    float Location;
+
+    // Edge detection
+    bool HasHitEdge;
+    bool HasExploded;
+
+    // Configurable values - these default to values that make them not used unless set
+    int LocationMax = UINT16_MAX; // default to this to have no ceiling ... 0 is still hardcoded on the bottom
+    float ThrustMax = 200; // ???
     int Mass = 1; // default to 1 so Thrust = Acceleration
     int Gravity = 0; // default to 0 for no gravity
-    float Thrust;
-    float ThrustMax = 200; // ???
-
-    bool HasHitEdge;
     float BounceFactor = 1.0; // default to 1 for no bounce
-
-    bool HasExploded;
     int ExplodeVelocity = UINT16_MAX; // default to this to hopefully never explode
 
-    PhysicsInfo(int maxLoc)
+    PhysicsInfo()
     {
-        LocationMax = maxLoc;
         Reset();
     }
 

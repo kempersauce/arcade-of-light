@@ -40,11 +40,16 @@ public:
      */
     Rocket(int lengthStrips, CRGB* clr)
         : Animation(),
-        physics(lengthStrips),
+        physics(),
         boost(5)
     {
+        // Init physics settings
+        physics.LocationMax = lengthStrips;
         physics.BounceFactor = -0.7;
         physics.ExplodeVelocity = 50;
+        physics.ThrustMax = 200;
+        physics.Mass = 2;
+
         color = clr;
         Reset();
     }
