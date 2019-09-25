@@ -23,6 +23,7 @@
 #include <SkyFade.h>
 //#include <Sounds.h>
 #include <ExplosionsInTheSky.h>
+#include <FancyFirework.h>
 #include <LifeGame.h>
 
 // Game states
@@ -75,7 +76,8 @@ class RocketGame : Game
     // Sprites
     Rocket rocket; //the player
     Target target; //the target
-    Firework firework[NUM_FIREWORKS]; //win animation fireworks
+    //Firework firework[NUM_FIREWORKS]; //win animation fireworks
+    FancyFirework firework;
     ExplosionsInTheSky explosionsInTheSky;
 
     // Game State tracker
@@ -100,6 +102,7 @@ public:
         rocket(display->lengthStrips, new CRGB(255, 255, 255)),
         target(new CRGB(55, 0, 0)),
         explosionsInTheSky(),
+        firework(display->lengthStrips),
         idleGame(display)
     {
         starBackground = new Starscape(display->numStrips, display->lengthStrips, 160);
@@ -256,6 +259,7 @@ public:
                     {
                         // TODO set up whatever state we need for the Win state to start
                         gameState = RocketGameWin;
+                        firework.Reset();
                     }
                     else
                     {
@@ -265,8 +269,9 @@ public:
             break;
 
             case RocketGameWin:
+                firework.Move();
                 // TODO fill this in right now we just jump straight into the start state of a new game
-                setup();
+                //setup();
             break;
 
             case RocketGameLose:
@@ -286,9 +291,14 @@ public:
         skyFade->draw(display);
 
         // draw targets on top of the background
-        if (gameState != RocketGameLevelAdvance)
+        if (gameState != RocketGameLevelAdvance && gameState != RocketGameWin)
         {
             target.draw(display); //displays target
+        }
+
+        if (gameState == RocketGameWin)
+        {
+            firework.draw(display);
         }
 
         // Draw the explosion if we're blowing up

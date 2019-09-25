@@ -7,17 +7,13 @@ class FancyShrapnel : Animation
 {
 public:
     //location values
-    float Location;
-    float Velocity;
+    PhysicsInfo physics;
 
     bool Burnout;
     long BirthTime;
-    long CurrentTime;
 
     //colors (HSV)
     int Hue;
-    int Saturation;
-    int Brightness;
 
     /**
      * Firework Constructor
@@ -27,51 +23,48 @@ public:
      * @param blue - blue value (0-255)
      * */
     FancyShrapnel()
-    //: Animation(),
+        : Animation(),
+        physics()
     {
-        Location = 0;
-        Velocity = 0;
         Hue = 0;
-        Saturation = 0;
-        Brightness = 0;
         Burnout = false;
         BirthTime = 0;
     }
 
     void Reset()
     {
-      Location = 0;
-      Velocity = 0;
-      Hue = 0;
-      Saturation = 0;
-      Brightness = 0;
-      Burnout = false;
-      BirthTime = 0;
+        physics.Reset();
+        Hue = 0;
+        Burnout = false;
+        BirthTime = millis();
     }
 
     void Move()
     {
-        CurrentTime = millis();
-        Velocity += 1/10;//decay velocity due to "Gravity"
-        Location += Velocity;
-        if (Location < 0){Location = 0;}
-        if (Location > 255){Location = 255;}
-        //Saturate Color
-        if (Saturation < 255){
-          Saturation = 255 * ((CurrentTime - BirthTime / 2000));
-          if (Saturation > 255){Saturation = 255;}
-          }
-        //Fade to Black
-        if (Saturation == 255){
-          Brightness = 255 - (255 * ((CurrentTime - BirthTime / 3500)));
+        physics.Move();
 
-          }
-        if (CurrentTime - BirthTime > 3500){Burnout = true;}
-        if (Burnout == true){Reset();}
-      }
+        float timeDiff =  (float)(millis() - BirthTime) / 1000;
+
+        if (timeDiff > 3.5)
+        {
+            Reset();
+        }
+    }
 
     void draw(Display* display)
     {
-      display->strips[display->numStrips/2][(int)Location].setHSV(Hue, Saturation, Brightness);
+        if (physics.Location >= 0 && physics.Location < display->lengthStrips)
+        {
+            float timeDiff =  (float)(millis() - BirthTime) / 1000;
+
+            // Saturate Color for 2 seconds
+            int Saturation = min(255 * timeDiff / 2, 255);
+
+            // Then fade to Black for the next 1.5 seconds
+            int Brightness = min(max(255 - (255 * (timeDiff - 2) / 1.5), 0), 255);
+
+            int middleStrip = display->numStrips / 2;
+            display->strips[middleStrip][(int)physics.Location].setHSV(Hue, Saturation, Brightness);
+        }
     }
 };
