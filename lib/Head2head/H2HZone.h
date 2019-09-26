@@ -20,8 +20,22 @@ class H2HZone : public Animation
 
         bool checkZone(int y)
         {
-            return y <= yMax && y >= yMin;
+            return y <= max(yMin, yMax) && y >= min(yMin, yMax);
         }
+
+		// returns 0.0 to 1.0 based on how far into the zone the dot is
+		float zoneDepth(int y)
+		{
+			float range = yMax - yMin; // negative when appropriate
+			if (yMin < yMax) // right way up
+			{
+				return (float)(yMax - y) / range;
+			}
+			else // upside down
+			{
+				return (float)(y - yMin) / range;
+			}
+		}
 
         void draw(Display* display)
         {

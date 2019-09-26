@@ -44,15 +44,11 @@ public:
         heightMax = stripHeight;
 
         buttonA = new Button(buttonAPin);
-        zoneA1 = new H2HZone(CRGB::Cyan, stripIndex, 15, 25);
-        zoneA2 = new H2HZone(CRGB::Blue, stripIndex, 8, 15);
-        zoneA3 = new H2HZone(CRGB::Green, stripIndex, 4, 8);
+        zoneA = new H2HZone(CRGB::Green, stripIndex, 0, 22);
         zoneAStart = zoneA1->yMax;
 
         buttonB = new Button(buttonBPin);
-        zoneB1 = new H2HZone(CRGB::Yellow, stripIndex, stripHeight - 25, stripHeight - 15);
-        zoneB2 = new H2HZone(CRGB::Red, stripIndex, stripHeight - 15, stripHeight - 8);
-        zoneB3 = new H2HZone(CRGB::Orange, stripIndex, stripHeight - 8, stripHeight - 4);
+        zoneB = new H2HZone(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1);
         zoneBStart = zoneB1->yMin;
 
         dot = new H2HDot(CRGB::White, stripIndex, stripHeight / 2, stripHeight);
@@ -126,41 +122,19 @@ public:
             // Team A hits the button
             if (buttonA->isDepressing())
             {
-                if (zoneA3->checkZone(dot->yLoc))
-                {
-                    // team A hit the ball back hard
-                    dot->velocity = 3;
-                }
-                else if (zoneA2->checkZone(dot->yLoc))
-                {
-                    // team A hit the ball back medium
-                    dot->velocity = 2;
-                }
-                else if (zoneA1->checkZone(dot->yLoc))
-                {
-                    // team A hit the ball back soft
-                    dot->velocity = 1;
-                }
+				if (zoneA->checkZone(dot->yLoc))
+				{
+					dot->velocity = zoneA->zoneDepth(dot->yLoc) * 2 + 1; // 1.0 to 3.0 px/frame
+				}
             }
 
             // Team B hits the button
             if (buttonB->isDepressing())
             {
-                if (zoneB3->checkZone(dot->yLoc))
-                {
-                    // team B hit the ball back hard
-                    dot->velocity = -3;
-                }
-                else if (zoneB2->checkZone(dot->yLoc))
-                {
-                    // team B hit the ball back medium
-                    dot->velocity = -2;
-                }
-                else if (zoneB1->checkZone(dot->yLoc))
-                {
-                    // team B hit the ball back soft
-                    dot->velocity = -1;
-                }
+				if (zoneB->checkZone(dot->yLoc))
+				{
+					dot->velocity = -1 * (zoneB->zoneDepth(dot->yLoc) * 2 + 1); // -1.0 to -3.0 px/frame
+				}
             }
         }
 
