@@ -15,6 +15,7 @@
 #include <DirPadTest.h>
 #include <MarqueeGame.h>
 #include <H2HLifeGame.h>
+#include <FiveStripTest.h>
 
 Game* game;
 Display* gameDisplay;
@@ -31,43 +32,45 @@ void setup()
     Serial.println("Begin setup()");
 
     // Choose your Display type
-    //gameDisplay = (Display*)new FiveDisplay();
-    gameDisplay = (Display*)new H2HDisplay();
+    gameDisplay = (Display*)new FiveDisplay();
+    //gameDisplay = (Display*)new H2HDisplay();
+    //gameDisplay = (Display*)new RocketDisplay();
 
     // debug set strip0 red
-    for (int i = 0; i < gameDisplay->lengthStrips; i++)
-    {
-        gameDisplay->strips[0][i] = CRGB::Red;
-    }
+    // for (int i = 0; i < gameDisplay->lengthStrips; i++)
+    // {
+    //     gameDisplay->strips[0][i] = CRGB::Red;
+    // }
     Serial.println("gameDisplay created");
     FastLED.show();
 
     // Choose your Game type
     //game = (Game*)new Head2Head(gameDisplay);
     //game = (Game*)new LifeGame(gameDisplay);
-    game = (Game*)new RocketGame(gameDisplay);
+    //game = (Game*)new RocketGame(gameDisplay);
     //game = (Game*)new RainbowGame(gameDisplay);
     //game = (Game*)new MarqueeGame(gameDisplay);
     //game = (Game*)new StartGame(gameDisplay);
 
     // Test Games
     //game = (Game*)new DirPadTest(gameDisplay);
+    game = (Game*)new FiveStripTest(gameDisplay);
 
     // debug set strip0 yellow
-    for (int i = 0; i < gameDisplay->lengthStrips; i++)
-    {
-        gameDisplay->strips[0][i] = CRGB::Yellow;
-    }
+    // for (int i = 0; i < gameDisplay->lengthStrips; i++)
+    // {
+    //     gameDisplay->strips[0][i] = CRGB::Yellow;
+    // }
     Serial.println("game created");
     FastLED.show();
 
     game->setup();
 
     // debug set strip0 green
-    for (int i = 0; i < gameDisplay->lengthStrips; i++)
-    {
-        gameDisplay->strips[0][i] = CRGB::Green;
-    }
+    // for (int i = 0; i < gameDisplay->lengthStrips; i++)
+    // {
+    //     gameDisplay->strips[0][i] = CRGB::Green;
+    // }
     Serial.println("game setup complete");
     FastLED.show();
 
