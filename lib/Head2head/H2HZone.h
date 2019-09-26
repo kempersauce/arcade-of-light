@@ -39,7 +39,7 @@ class H2HZone : public Animation
 
         void draw(Display* display)
         {
-            for (int y = yMin; y < yMax; y++)
+            for (int y = min(yMin, yMax); y < max(yMin, yMax); y++)
             {
                 display->strips[xLoc][y] = color;
             }

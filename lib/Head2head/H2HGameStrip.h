@@ -10,15 +10,11 @@ class H2HGameStrip : Animation
     H2HDot* dot;
 
     // nearside team
-    H2HZone* zoneA1;
-    H2HZone* zoneA2;
-    H2HZone* zoneA3;
+    H2HZone zoneA;
     int zoneAStart;
 
     // farside team
-    H2HZone* zoneB1;
-    H2HZone* zoneB2;
-    H2HZone* zoneB3;
+    H2HZone zoneB;
     int zoneBStart;
 
     int stripIndex; // Which strip is this on?
@@ -39,17 +35,18 @@ public:
     static bool teamBTotalWin;
 
     H2HGameStrip(int stripIndex, int stripHeight, int buttonAPin, int buttonBPin, NoiseGenerator* noise)
+		: Animation(),
+		zoneA(CRGB::Green, stripIndex, 0, 22),
+		zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1)
     {
         this->stripIndex = stripIndex;
         heightMax = stripHeight;
 
         buttonA = new Button(buttonAPin);
-        zoneA = new H2HZone(CRGB::Green, stripIndex, 0, 22);
-        zoneAStart = zoneA1->yMax;
+		zoneAStart = zoneA.yMax;
 
         buttonB = new Button(buttonBPin);
-        zoneB = new H2HZone(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1);
-        zoneBStart = zoneB1->yMin;
+		zoneBStart = zoneB.yMin;
 
         dot = new H2HDot(CRGB::White, stripIndex, stripHeight / 2, stripHeight);
 
@@ -122,18 +119,18 @@ public:
             // Team A hits the button
             if (buttonA->isDepressing())
             {
-				if (zoneA->checkZone(dot->yLoc))
+				if (zoneA.checkZone(dot->yLoc))
 				{
-					dot->velocity = zoneA->zoneDepth(dot->yLoc) * 2 + 1; // 1.0 to 3.0 px/frame
+					dot->velocity = zoneA.zoneDepth(dot->yLoc) * 2 + 1; // 1.0 to 3.0 px/frame
 				}
             }
 
             // Team B hits the button
             if (buttonB->isDepressing())
             {
-				if (zoneB->checkZone(dot->yLoc))
+				if (zoneB.checkZone(dot->yLoc))
 				{
-					dot->velocity = -1 * (zoneB->zoneDepth(dot->yLoc) * 2 + 1); // -1.0 to -3.0 px/frame
+					dot->velocity = -1 * (zoneB.zoneDepth(dot->yLoc) * 2 + 1); // -1.0 to -3.0 px/frame
 				}
             }
         }
@@ -196,36 +193,8 @@ public:
         if (!teamATotalWin && !teamBTotalWin)
         {
             //// Draw the zones on top of the background
-            //zoneA1->draw(display);
-            //zoneA2->draw(display);
-            //zoneA3->draw(display);
-
-            //zoneB1->draw(display);
-            //zoneB2->draw(display);
-            //zoneB3->draw(display);
-
-            // JK lets just do this ourselves for now so its not broken accross zones
-            int aStart = zoneA3->yMin;
-            int bStart = zoneB1->yMin;
-            int range = zoneA1->yMax - aStart;
-
-            // I think this is okay, as long as we're not using new, they should automatically fall off the stack and create no memory leaks
-            CRGB cyan = CRGB::Cyan;
-            CRGB yellow = CRGB::Yellow;
-
-            for (int i = 0; i < range; i++)
-            {
-                // How far down the color blend we are
-                float blendFactor = (float)i / (float)range;
-
-                // fade A from green (hard hit side) to cyan (light hit side)
-                display->strips[stripIndex][aStart + i] = CRGB::Green;
-                blendPixel(&display->strips[stripIndex][aStart + i], &cyan, blendFactor);
-
-                // fade B from orange (light hit side) to yellow (hard hit side)
-                display->strips[stripIndex][bStart + i] = CRGB::Orange;
-                blendPixel(&display->strips[stripIndex][bStart + i], &yellow, blendFactor);
-            }
+            zoneA.draw(display);
+            zoneB.draw(display);
 
             // Draw the mid bar
             display->strips[stripIndex][midBar] = CRGB::White;
