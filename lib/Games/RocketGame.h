@@ -10,7 +10,7 @@
 
 #define delayval 25 //controls the "speed" of the rocket dot
 #define animationDelay 50 //controls the speed of the win animation
-#define NUM_FIREWORKS 5  //maximum of 30 on UNO
+
 #define BRIGHTNESS 50
 
 #include <Rocket.h>
@@ -22,12 +22,12 @@
 #include <Starscape.h>
 #include <SkyFade.h>
 //#include <Sounds.h>
+#include <Explosion.h>
 #include <ExplosionsInTheSky.h>
 #include <LifeGame.h>
 
 // Game states
 enum RocketGameState {
-    RocketGameIdle,
     RocketGameStart,
     RocketGamePlaying,
     RocketGameLose,
@@ -42,25 +42,29 @@ class RocketGame : Game
     Button resetButton;
 
     // Backgrounds
-    Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
-    SkyFade* skyFade;
+    Starscape starBackground;// just drawing black empty space for now. we are alone in the universe
+    SkyFade skyFade;
 
-    int level;
+    // Level progress tracking
+    int targetsWon = 0;
+    static const int targetsPerLevel = 3;
+
+    int level = 0;
     static const int levelMax = 3;
 
     // level colors for SkyFade
     CRGB* skyFadeColors[levelMax] =
     {
-        new CRGB(0, 0, 255), // Blue earth
-        new CRGB(255, 96, 0), // Orange mars
+        new CRGB(0, 0, 255), // Blue Earth
+        new CRGB(255, 96, 0), // Orange Mars
         new CRGB(128, 0, 128), // Purple Pluto
     };
 
     // level colors for targets
     CRGB* targetColors[levelMax] =
     {
-        new CRGB(255, 0, 0), // Red targets on Blue earth
-        new CRGB(0, 255, 0), // Green targets on Orange mars
+        new CRGB(255, 0, 0), // Red targets on Blue Earth
+        new CRGB(0, 255, 0), // Green targets on Orange Mars
         new CRGB(255, 255, 0), // Purple Pluto
     };
 
@@ -75,7 +79,12 @@ class RocketGame : Game
     // Sprites
     Rocket rocket; //the player
     Target target; //the target
-    Firework firework[NUM_FIREWORKS]; //win animation fireworks
+
+    static const int numFireworks = 3;
+    Firework fireworks[numFireworks]; //win animation fireworks
+
+    // Game Lose animations
+    Explosion explosion;
     ExplosionsInTheSky explosionsInTheSky;
 
     // Game State tracker
@@ -83,41 +92,50 @@ class RocketGame : Game
     // Any code that changes this is expected to update the other objects' state as necessary
     RocketGameState gameState;
 
-    // Idle Game, plays after no buttons have been pressed before idle timeout
-    RainbowGame idleGame; // TODO change LifeGame to not use buttons if we're going to use it as an idle game
+    // Fireworks animation plays after no buttons have been pressed before idle timeout
     const long idleTimeoutMillis = 1000 * 30; // 30 seconds
-
-
-    // Other variables
-    int targetsWon = 0;
-    const int targetsPerLevel = 3;
 
 public:
     RocketGame(Display* display)
         : Game(display),
         Up(BUTTON_PIN_2),
         resetButton(BUTTON_PIN_3),
+		starBackground(display->numStrips, display->lengthStrips, 160),
+		skyFade(skyFadeColors[0]),
         rocket(display->lengthStrips, new CRGB(255, 255, 255)),
         target(new CRGB(55, 0, 0)),
         explosionsInTheSky(),
-        idleGame(display)
+		explosion(),
+        fireworks {
+  			Firework(display->lengthStrips, display->numStrips),
+  			Firework(display->lengthStrips, display->numStrips),
+  			Firework(display->lengthStrips, display->numStrips),
+        }
     {
-        starBackground = new Starscape(display->numStrips, display->lengthStrips, 160);
-        skyFade = new SkyFade(skyFadeColors[0]);
+		// Set explosion to middle strip
+		explosion.stripIndex = display->numStrips / 2;
+		explosion.Hue = 0; // Red explosions
+
+		// Set some physics on the explosion shrapnel so they'll bounce off the ceiling and floor
+		for (int i = 0; i < explosion.shrapnelCount; i++)
+		{
+			explosion.shrapnel[i].LocationMax = display->lengthStrips;
+			explosion.shrapnel[i].BounceFactor = -.8;
+		}
     }
 
     // Reset Game
     void setup()
     {
         level = 0;
-        setLevelStart();
+        enterLevelStartState();
     }
 
     // Reset level
-    void setLevelStart()
+    void enterLevelStartState()
     {
         gameState = RocketGameStart;
-        skyFade->setFadeColor(skyFadeColors[level]);
+        skyFade.setFadeColor(skyFadeColors[level]);
         target.setColor(targetColors[level]);
         target.randomize(display->lengthStrips);
         targetsWon = 0;
@@ -125,10 +143,38 @@ public:
         rocket.Reset();
     }
 
+	void enterWinState()
+	{
+		gameState = RocketGameWin;
+		for (int i = 0; i < numFireworks; i++)
+		{
+			fireworks[i].Reset();
+		}
+	}
+
+	void enterLoseState()
+	{
+		gameState = RocketGameLose;
+		explosion.ExplodeAt(rocket.physics.Location);
+		explosionsInTheSky.startAnimation();
+	}
+
+	void enterLevelAdvanceState()
+	{
+		gameState = RocketGameLevelAdvance;
+		// No other changes required for this state change
+	}
+
+	void enterPlayingState()
+	{
+		gameState = RocketGamePlaying;
+		// No other changes required for this state change
+	}
+
     void checkTarget()
     {
         bool wasInTarget = target.isInTarget;
-        target.isInTarget = rocket.Location > target.Loc && rocket.Location < target.Loc + target.Height;
+        target.isInTarget = rocket.physics.Location > target.Loc && rocket.physics.Location < target.Loc + target.Height;
         if (target.isInTarget)
         {
             // Check if we're just entering the target
@@ -159,16 +205,8 @@ public:
                 // We beat the level
                 else if (targetsWon > targetsPerLevel)
                 {
-                    gameState = RocketGameLevelAdvance;
-                    //full win animation goes here
-
-                    //fully restart game
-                    targetsWon = 0;
-                    target.randomize(display->lengthStrips);
-                    rocket.Location = 0;
+                    enterLevelAdvanceState();
                 }
-
-                //gameState = 0;
             }
         }
     }
@@ -180,52 +218,48 @@ public:
         Up.poll();
         resetButton.poll();
 
+
+		// CHECK FOR MANUALLY-INDUCED GAME STATE CHANGES
+
         // IDLE CHECK: This enters idle after idleTimeoutMillis, and falls out of idle if a buttons been pressed
-        if (Up.getMillisReleased() > idleTimeoutMillis
+        if (gameState != RocketGameWin
+			&& Up.getMillisReleased() > idleTimeoutMillis
             && resetButton.getMillisReleased() > idleTimeoutMillis)
         {
-            // Reset the game state if we're just entering idle
-            if (gameState != RocketGameIdle)
-            {
-                gameState = RocketGameIdle;
-                idleGame.setup();
-            }
+			enterWinState(); // just play the win animation here
         }
 
         // Reset this game if we're just coming out of idle
-        else if (gameState == RocketGameIdle)
+        if (gameState == RocketGameWin
+			&& (Up.isDepressing() || resetButton.isDepressing()))
         {
-            this->setup(); // this sets game state to RocketGameStart
+            setup(); // this sets game state to RocketGameStart
         }
 
-        // Reset this game if they hold the reset button longer than a second
-        else if (resetButton.getMillisHeld() > 1000)
+        // Reset this game if they hold the reset button longer than a second (if we havent already lost)
+        if (gameState != RocketGameLose && resetButton.getMillisHeld() > 1000)
         {
-            // TODO - send this into the RocketGameLose state instead
-            setup();
+			enterLoseState();
         }
+
+
+		// CALCULATE NEW GAME STATE
 
         switch (gameState)
         {
-            case RocketGameIdle:
-                // play the idle game, not this one
-                idleGame.loop();
-                return; // break out, we're not playing this game
-            break;
-
             case RocketGameStart:
                 // TODO fill this in, right now we just jump into playing state
-                gameState = RocketGamePlaying;
+                enterPlayingState();
             //break; // uncomment this once we have something here, right now we just fall through
 
             case RocketGamePlaying:
                 rocket.SetBoost(Up.getMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
+
                 rocket.Move();
 
-                if (rocket.Exploded)
+                if (rocket.physics.HasExploded)
                 {
-                    gameState = RocketGameLose;
-                    explosionsInTheSky.startAnimation();
+                    enterLoseState();
                 }
                 else
                 {
@@ -235,9 +269,9 @@ public:
 
             case RocketGameLevelAdvance:
                 // Boost way way up the screen
-                if (rocket.Location < display->lengthStrips * 2)
+                if (rocket.physics.Location < display->lengthStrips * 2)
                 {
-                    rocket.SetBoost(rocket.Thrust + 20); // just keep boosting up
+                    rocket.SetBoost(rocket.physics.Thrust + 5); // just keep boosting up
                     rocket.Move(false); // let it boost off the screen
 
                     // shift stars and target down according to Rocket Thrust up to 10 px/frame
@@ -245,7 +279,7 @@ public:
 
                     // jk since scale is so high, any higher than 1*scale is too fast, and any lover than 1*cale causes tearing between pixels
                     int backgroundShift = 1;
-                    starBackground->noiseGenerator->y += backgroundShift * starBackground->noiseGenerator->scale; // NOTE: Since y is actually an 8.8 bit int, this may need more than just a small push
+                    starBackground.noiseGenerator->y += backgroundShift * starBackground.noiseGenerator->scale; // NOTE: Since y is actually an 8.8 bit int, this may need more than just a small push
                 }
 
                 // Rocket reached top of level, time to start a new one
@@ -255,18 +289,22 @@ public:
                     if (level == levelMax)
                     {
                         // TODO set up whatever state we need for the Win state to start
-                        gameState = RocketGameWin;
+						enterWinState();
                     }
                     else
                     {
-                        setLevelStart();
+                        enterLevelStartState();
                     }
                 }
             break;
 
             case RocketGameWin:
+                for (int i = 0; i < numFireworks; i++)
+                {
+                    fireworks[i].Move();
+                }
                 // TODO fill this in right now we just jump straight into the start state of a new game
-                setup();
+                //setup();
             break;
 
             case RocketGameLose:
@@ -277,60 +315,61 @@ public:
             break;
         }
 
-        // Draw everything
 
-        //draw stars in the very back
-        starBackground->draw(display);
+        // DRAW EVERYTHING ACCORDING TO GAME STATE
 
-        //draw blue sky fade over the stars
-        skyFade->draw(display);
+		switch (gameState)
+		{
+			case RocketGameStart:
+				// TODO how should this look?
+		        starBackground.draw(display);
+		        skyFade.draw(display);
+				//target.draw(display);
+				//explosionsInTheSky.draw(display);
+				//explosion.draw(display);
+				//for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+				rocket.draw(display);
+			break;
 
-        // draw targets on top of the background
-        if (gameState != RocketGameLevelAdvance)
-        {
-            target.draw(display); //displays target
-        }
+			case RocketGamePlaying:
+		        starBackground.draw(display);
+		        skyFade.draw(display);
+				target.draw(display);
+				//explosionsInTheSky.draw(display);
+				//explosion.draw(display);
+				//for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+				rocket.draw(display);
+			break;
 
-        // Draw the explosion if we're blowing up
-        // TODO change this to check game state?
-        if (rocket.Exploded)
-        {
-            explosionsInTheSky.draw(display);
-        }
+			case RocketGameLose:
+		        starBackground.draw(display);
+		        skyFade.draw(display);
+				//target.draw(display);
+				explosionsInTheSky.draw(display);
+				explosion.draw(display);
+				//for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+				//rocket.draw(display);
+			break;
 
-        // draw the rocket if we're not blowing up
-        else
-        {
-            // draw the rocket ship on the very front
-            rocket.draw(display);
-        }
+			case RocketGameLevelAdvance:
+		        starBackground.draw(display);
+		        skyFade.draw(display);
+				//target.draw(display);
+				//explosionsInTheSky.draw(display);
+				//explosion.draw(display);
+				//for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+				rocket.draw(display);
+			break;
 
-
-
-        //Serial prints for debugging
-
-
-        /* Serial.print(rocket.Loc);  // prints a label
-        Serial.print("\t");         // prints a tab
-
-        Serial.print(rocket.oldLoc);  // prints a label
-        Serial.print("\t");         // prints a tab
-
-        Serial.print(rocket.Location);
-        Serial.print("\t");
-
-        Serial.print(rocket.Acceleration);
-        Serial.print("\t");
-
-        Serial.print(rocket.Velocity);
-        Serial.print("\t");
-
-        Serial.print(rocket.Thrust);
-        Serial.print("\t");
-
-        Serial.print(rocket.Time-rocket.oldTime);
-        Serial.println();
-     */
-
+			case RocketGameWin:
+		        starBackground.draw(display);
+		        skyFade.draw(display);
+				//target.draw(display);
+				//explosionsInTheSky.draw(display);
+				//explosion.draw(display);
+				for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+				//rocket.draw(display);
+			break;
+		}
     }
 };

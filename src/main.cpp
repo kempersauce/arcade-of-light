@@ -10,7 +10,7 @@
 #include <LifeGame.h>
 #include <SingleColorTest.h>
 //#include <Sounds.h>
-#include <FireworkTest.h>
+//#include <FireworkTest.h>
 #include <RainbowGame.h>
 #include <DirPadTest.h>
 #include <MarqueeGame.h>
