@@ -16,6 +16,9 @@ public:
     float Velocity;
     float Location;
 
+	float xVelocity = 0;
+	float xLocation = 0;
+
     // Edge detection
     bool HasHitEdge; // updated every round to determine if the edge was hit this round
     bool HasExploded; // set to true when exploded, only reset on Reset()
@@ -32,6 +35,18 @@ public:
     {
         Reset();
     }
+
+	void RandomizeVelocityVector(float maxMagnitude)
+	{
+		float x, y;
+		do {
+			x = ((float)random16() / (float)UINT16_MAX) * 2 - 1; // -1.0 to 1.0
+			y = ((float)random16() / (float)UINT16_MAX) * 2 - 1; // -1.0 to 1.0
+		} while(x * x + y * y > 1); // Repeat until we're within the unit circle
+
+		Velocity = y * maxMagnitude;
+		xVelocity = x * maxMagnitude;
+	}
 
     void Reset()
     {
@@ -71,6 +86,7 @@ public:
 
         //Position [Y] = Position Previous [Yp] + 0.5 * (Velocity [V] + Velocity Previous [Vp]) * delta T
         Location += Velocity * timeDiff;
+		xLocation += xVelocity * timeDiff;
         //needs to be min limited to 0
 
         HasHitEdge = (Location < 0 || Location >= LocationMax);

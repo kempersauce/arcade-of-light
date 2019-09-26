@@ -8,7 +8,7 @@ class Explosion : Animation
 	static const long burnoutTimeMillis = 1000 * 5; // 5 seconds
 
 public:
-	static const int shrapnelCount = 14;
+	static const int shrapnelCount = 30;
     PhysicsInfo shrapnel[shrapnelCount];
 
     //colors (HSV)
@@ -36,7 +36,8 @@ public:
 		{
 			shrapnel[i].Reset();
 			shrapnel[i].Location = location;
-			shrapnel[i].Velocity = (((float)random16() / (float)UINT16_MAX) - .5) * 150;
+			shrapnel[i].xLocation = stripIndex;
+			shrapnel[i].RandomizeVelocityVector(50);
 		}
     }
 
@@ -46,6 +47,7 @@ public:
 		{
 			shrapnel[i].Move();
 			shrapnel[i].Velocity *= .9;
+			shrapnel[i].xVelocity *= .9;
 		}
     }
 
@@ -70,9 +72,10 @@ public:
 			for (int i = 0; i < shrapnelCount; i++)
 			{
 				int loc = (int)shrapnel[i].Location;
-				if (loc >= 0 && loc < display->lengthStrips)
+				int xLoc = (int)shrapnel[i].xLocation;
+				if (loc >= 0 && loc < display->lengthStrips && xLoc >= 0 && xLoc < display->numStrips)
 				{
-					display->strips[stripIndex][loc].setHSV(Hue, Saturation, Brightness);
+					display->strips[xLoc][loc].setHSV(Hue, Saturation, Brightness);
 				}
 			}
 		}
