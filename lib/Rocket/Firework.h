@@ -29,7 +29,6 @@ public:
     {
         stripsHeight = stripLength;
 		stripsWidth = numStrips;
-        physics.ExplodeVelocity = 0;// explode on contact
         Reset();
     }
 
@@ -37,7 +36,7 @@ public:
     {
         physics.Reset();
         physics.LocationMax = random(stripsHeight / 3, stripsHeight - 20); // height the firework explodes
-        physics.Velocity = random(50, 70);
+        physics.Velocity = random(50, 70); // how fast do we get there
 
 		stripIndex = random(0, stripsWidth); // select which strip this should be on
 		explosion.stripIndex = stripIndex;
@@ -47,7 +46,7 @@ public:
 
     void Move()
     {
-		bool wasExploded = physics.HasExploded;
+		bool wasExploded = physics.HasExploded; // edge was set with LocationMax to denote the explode height
 
 		// Shoot again
 		if (wasExploded && explosion.IsBurnedOut())
@@ -57,6 +56,7 @@ public:
 
         physics.Move();
 
+		// Explode when we get to the designated height
         if (physics.HasExploded)
         {
 			if (wasExploded == false)

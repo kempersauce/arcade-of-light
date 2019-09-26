@@ -11,13 +11,14 @@ class PhysicsInfo
 
 public:
     // Dynamic values
+	// TODO make this handle Y values too ?!?! at least velocity and location are needed for firework.explosion
     float Thrust;
     float Velocity;
     float Location;
 
     // Edge detection
-    bool HasHitEdge;
-    bool HasExploded;
+    bool HasHitEdge; // updated every round to determine if the edge was hit this round
+    bool HasExploded; // set to true when exploded, only reset on Reset()
 
     // Configurable values - these default to values that make them not used unless set
     int LocationMax = UINT16_MAX; // default to this to have no ceiling ... 0 is still hardcoded on the bottom
@@ -25,7 +26,7 @@ public:
     int Mass = 1; // default to 1 so Thrust = Acceleration
     int Gravity = 0; // default to 0 for no gravity
     float BounceFactor = 1.0; // default to 1 for no bounce
-    int ExplodeVelocity = UINT16_MAX; // default to this to hopefully never explode
+    int ExplodeVelocity = 0; // default to 0 to explode on contact
 
     PhysicsInfo()
     {
