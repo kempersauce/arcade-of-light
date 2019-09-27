@@ -36,7 +36,7 @@ public:
     {
         physics.Reset();
         physics.LocationMax = random(stripsHeight / 3, stripsHeight - 20); // height the firework explodes
-        physics.Velocity = random(50, 70); // how fast do we get there
+        physics.Velocity = random(35, 75); // how fast do we get there
 
 		stripIndex = random(0, stripsWidth); // select which strip this should be on
 		explosion.stripIndex = stripIndex;

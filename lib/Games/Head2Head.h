@@ -9,13 +9,14 @@
 #include <NoiseGenerator.h>
 #include <H2HGameStrip.h>
 #include <RainbowGame.h>
+#include <LifeGame.h>
 
 class Head2Head : Game
 {
     NoiseGenerator* noiseGenerator;
 
     // Idle Game, plays after no buttons have been pressed before idle timeout
-    RainbowGame idleGame;
+    LifeGame idleGame;
     bool isIdle;
     const long idleTimeoutMillis = 1000 * 45; // 45 seconds
 

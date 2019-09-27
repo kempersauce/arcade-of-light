@@ -27,6 +27,12 @@ public:
         lifeGrid = new LifeAnimation(display->numStrips, display->lengthStrips);
     }
 
+    virtual void setup()
+    {
+        // start off randomized
+        lifeGrid->randomize();
+    }
+
     virtual void loop()
     {
         // Poll buttons

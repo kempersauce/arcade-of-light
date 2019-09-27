@@ -32,8 +32,8 @@ void setup()
     Serial.println("Begin setup()");
 
     // Choose your Display type
-    gameDisplay = (Display*)new FiveDisplay();
-    //gameDisplay = (Display*)new H2HDisplay();
+    //gameDisplay = (Display*)new FiveDisplay();
+    gameDisplay = (Display*)new H2HDisplay();
     //gameDisplay = (Display*)new RocketDisplay();
 
     // debug set strip0 red
@@ -44,38 +44,39 @@ void setup()
     Serial.println("gameDisplay created");
     FastLED.show();
 
-    // Choose your Game type
-    //game = (Game*)new Head2Head(gameDisplay);
-    //game = (Game*)new LifeGame(gameDisplay);
-    //game = (Game*)new RocketGame(gameDisplay);
-    //game = (Game*)new RainbowGame(gameDisplay);
-    //game = (Game*)new MarqueeGame(gameDisplay);
-    //game = (Game*)new StartGame(gameDisplay);
+	// Choose your Game type
+	//game = (Game*)new Head2Head(gameDisplay);
+	//game = (Game*)new LifeGame(gameDisplay);
+	game = (Game*)new RocketGame(gameDisplay);
+	//game = (Game*)new RainbowGame(gameDisplay);
+	//game = (Game*)new MarqueeGame(gameDisplay);
+	//game = (Game*)new StartGame(gameDisplay);
 
-    // Test Games
-    //game = (Game*)new DirPadTest(gameDisplay);
-    game = (Game*)new FiveStripTest(gameDisplay);
+	// Test Games
+	//game = (Game*)new DirPadTest(gameDisplay);
+	//game = (Game*)new FiveStripTest(gameDisplay);
+	//game = (Game*)new H2HLifeGame(gameDisplay);
 
-    // debug set strip0 yellow
-    // for (int i = 0; i < gameDisplay->lengthStrips; i++)
-    // {
-    //     gameDisplay->strips[0][i] = CRGB::Yellow;
-    // }
-    Serial.println("game created");
-    FastLED.show();
+	// debug set strip0 yellow
+	// for (int i = 0; i < gameDisplay->lengthStrips; i++)
+	// {
+	//     gameDisplay->strips[0][i] = CRGB::Yellow;
+	// }
+	Serial.println("game created");
+	FastLED.show();
 
-    game->setup();
+	game->setup();
 
-    // debug set strip0 green
-    // for (int i = 0; i < gameDisplay->lengthStrips; i++)
-    // {
-    //     gameDisplay->strips[0][i] = CRGB::Green;
-    // }
-    Serial.println("game setup complete");
-    FastLED.show();
+	// debug set strip0 green
+	// for (int i = 0; i < gameDisplay->lengthStrips; i++)
+	// {
+	//     gameDisplay->strips[0][i] = CRGB::Green;
+	// }
+	Serial.println("game setup complete");
+	FastLED.show();
 
-    Serial.println("End setup()");
-    FastLED.show();
+	Serial.println("End setup()");
+	FastLED.show();
 }
 
 void loop()

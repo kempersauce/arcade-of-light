@@ -18,12 +18,15 @@ class LifeAnimation : public Animation
         int ***lastRound = &frame1;
         int ***nextRound = &frame2;
 
-        static const int ageColorMax = 3;
+        static const int ageColorMax = 1;
         CRGB ageColors[ageColorMax + 1] = {
             CRGB(0, 0, 0), // black
             CRGB(0, 255, 0), // green
-            CRGB(0, 255, 255), // cyan
-            CRGB(0, 0, 255), // blue
+            //CRGB(0, 255, 255), // cyan
+            //CRGB(0, 0, 255), // blue
+			//CRGB(255, 0, 255), // magenta
+			//CRGB(255, 0, 0), // red
+			//CRGB(255, 255, 0), // yellow
         };
 
     public:

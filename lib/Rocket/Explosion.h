@@ -5,7 +5,7 @@
 class Explosion : Animation
 {
 	long birthTime;
-	static const long burnoutTimeMillis = 1000 * 5; // 5 seconds
+	static const long burnoutTimeMillis = 1000 * 3; // 5 seconds
 
 public:
 	static const int shrapnelCount = 45;

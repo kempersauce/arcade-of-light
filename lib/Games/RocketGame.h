@@ -308,7 +308,11 @@ public:
             break;
 
             case RocketGameLose:
-                if (explosionsInTheSky.isPlaying() == false)
+                if (explosionsInTheSky.isPlaying())
+				{
+					explosion.Move();
+				}
+				else
                 {
                     setup(); // reset to new game
                 }
