@@ -8,7 +8,7 @@ class Explosion : Animation
 	static const long burnoutTimeMillis = 1000 * 5; // 5 seconds
 
 public:
-	static const int shrapnelCount = 30;
+	static const int shrapnelCount = 45;
     PhysicsInfo shrapnel[shrapnelCount];
 
     //colors (HSV)
@@ -24,7 +24,7 @@ public:
 		// Try putting a little bit of gravity on here
 		for (int i = 0; i < shrapnelCount; i++)
 		{
-			shrapnel[i].Gravity = 5;
+			shrapnel[i].Gravity = 6;
 		}
     }
 
@@ -47,7 +47,7 @@ public:
 		{
 			shrapnel[i].Move();
 			shrapnel[i].Velocity *= .9;
-			shrapnel[i].xVelocity *= .9;
+			shrapnel[i].xVelocity *= .5;
 		}
     }
 
@@ -63,10 +63,10 @@ public:
 		if (timeDiff <= 3.5) // don't drawing after the explosion burns out
 		{
 			// Saturate Color for 2 seconds
-			int Saturation = min(255 * timeDiff / 2, 255);
+			int Saturation = min(255 * timeDiff / 1, 255);
 
 			// Then fade to Black for the next 1.5 seconds
-			int Brightness = min(max(255 - (255 * (timeDiff - 2) / 1.5), 0), 255);
+			int Brightness = min(max(255 - (255 * (timeDiff - 1) / 1.5), 0), 255);
 
 			int midStrip = display->numStrips / 2;
 			for (int i = 0; i < shrapnelCount; i++)
