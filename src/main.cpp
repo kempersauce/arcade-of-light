@@ -1,5 +1,4 @@
 #include <H2HDisplay.h>
-#include <H2HTest.h>
 #include <FiveDisplay.h>
 #include <StartGame.h>
 #include <Head2Head.h>
@@ -45,9 +44,9 @@ void setup()
     FastLED.show();
 
 	// Choose your Game type
-	//game = (Game*)new Head2Head(gameDisplay);
+	game = (Game*)new Head2Head(gameDisplay);
 	//game = (Game*)new LifeGame(gameDisplay);
-	game = (Game*)new RocketGame(gameDisplay);
+	//game = (Game*)new RocketGame(gameDisplay);
 	//game = (Game*)new RainbowGame(gameDisplay);
 	//game = (Game*)new MarqueeGame(gameDisplay);
 	//game = (Game*)new StartGame(gameDisplay);
@@ -90,6 +89,9 @@ void loop()
 
     game->loop();
     FastLED.show();
-    delay(10);
+
+
+    Serial.println("loops brother");
+    //delay(10);
     //Serial.println("loop() finished");
 }

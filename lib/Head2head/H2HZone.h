@@ -10,36 +10,42 @@ class H2HZone : public Animation
         int yMax;
         int xLoc;
 
-        H2HZone(CRGB startColor, int xLocation, int yMinimum, int yMaximum)
+		bool upsideDown;
+
+        H2HZone(CRGB startColor, int xLocation, int yMinimum, int yMaximum, bool isTop)
         {
             color = startColor;
             xLoc = xLocation;
             yMin = yMinimum;
             yMax = yMaximum;
+
+			upsideDown = isTop;
         }
 
         bool checkZone(int y)
         {
-            return y <= max(yMin, yMax) && y >= min(yMin, yMax);
+            return y >= yMin && y <= yMax;
         }
 
 		// returns 0.0 to 1.0 based on how far into the zone the dot is
 		float zoneDepth(int y)
 		{
-			float range = yMax - yMin; // negative when appropriate
-			if (yMin < yMax) // right way up
-			{
-				return (float)(yMax - y) / range;
-			}
-			else // upside down
+			float range = yMax - yMin;
+
+			// BOTTOM - SPECIFIC CALCULATION
+			if (upsideDown)
 			{
 				return (float)(y - yMin) / range;
+			}
+			else
+			{
+				return (float)(yMax - y) / range;
 			}
 		}
 
         void draw(Display* display)
         {
-            for (int y = min(yMin, yMax); y < max(yMin, yMax); y++)
+            for (int y = yMin; y <= yMax; y++)
             {
                 display->strips[xLoc][y] = color;
             }

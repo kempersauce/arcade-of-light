@@ -36,8 +36,8 @@ public:
 
     H2HGameStrip(int stripIndex, int stripHeight, int buttonAPin, int buttonBPin, NoiseGenerator* noise)
 		: Animation(),
-		zoneA(CRGB::Green, stripIndex, 0, 22),
-		zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1)
+		zoneA(CRGB::Green, stripIndex, 0, 22, false),
+		zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1, true)
     {
         this->stripIndex = stripIndex;
         heightMax = stripHeight;
@@ -48,7 +48,7 @@ public:
         buttonB = new Button(buttonBPin);
 		zoneBStart = zoneB.yMin;
 
-        dot = new H2HDot(CRGB::White, stripIndex, stripHeight / 2, stripHeight);
+        dot = new H2HDot(CRGB::White, stripIndex);
 
         reset();
 
@@ -59,16 +59,16 @@ public:
     {
         // reset the mid bar
         midBar = heightMax / 2; // dont reset the shared mid when an individual strip wins
-        dot->yLoc = midBar;
+        dot->physics.Location = midBar;
 
         // randomly start in different directions
-        if (random8() > 127)
+        if (random16() > UINT16_MAX / 2)
         {
-            dot->velocity = 1;
+            dot->setVelocity(20);
         }
         else
         {
-            dot->velocity = -1;
+            dot->setVelocity(-20);
         }
 
         teamAWin = false;
@@ -94,59 +94,60 @@ public:
         // Check if anybody has won this strip yet
         if (!teamAWin && !teamBWin)
         {
-            if (dot->yLoc >= heightMax)
+            if (dot->physics.Location >= heightMax)
             {
                 //team A wins this strip
                 teamAWin = true;
 
                 // set dot to A's side so it can run down to the midbar
-                dot->yLoc = zoneAStart;
+                dot->physics.Location = zoneAStart;
                 //dot->velocity = 5; // maybe let it just keep its same velocity
             }
-            else if (dot->yLoc <= 0)
+            else if (dot->physics.Location <= 0)
             {
                 //team B wins this strip
                 teamBWin = true;
 
                 // set dot to B's side so it can run down to the midbar
-                dot->yLoc = zoneBStart;
+                dot->physics.Location = zoneBStart;
                 //dot->velocity = -5; // maybe let it just keep its same velocity
             }
         }
 
         if (!teamAWin && !teamBWin)
         {
+
             // Team A hits the button
             if (buttonA->isDepressing())
             {
-				if (zoneA.checkZone(dot->yLoc))
+				if (zoneA.checkZone(dot->physics.Location))
 				{
-					dot->velocity = zoneA.zoneDepth(dot->yLoc) * 2 + 1; // 1.0 to 3.0 px/frame
+					dot->setVelocity(-1 * (dot->physics.Velocity) + (zoneA.zoneDepth(dot->physics.Location) * 10)); // 20 to 40 px/sec
 				}
             }
 
             // Team B hits the button
             if (buttonB->isDepressing())
             {
-				if (zoneB.checkZone(dot->yLoc))
+				if (zoneB.checkZone(dot->physics.Location))
 				{
-					dot->velocity = -1 * (zoneB.zoneDepth(dot->yLoc) * 2 + 1); // -1.0 to -3.0 px/frame
+					dot->setVelocity(-1 * (dot->physics.Velocity) - (zoneB.zoneDepth(dot->physics.Location) * 10)); // -20 to -40 px/sec
 				}
             }
         }
 
         // dot moves either way
-        dot->vMove();
+        dot->Move();
 
         // bump the bar after team A is done winning
-        if (teamAWin && dot->yLoc > midBar)
+        if (teamAWin && dot->physics.Location > midBar)
         {
             midBar += 5;
             teamAWin = false;
         }
 
         // bump the bar after team B is done winning
-        if (teamBWin && dot->yLoc < midBar)
+        if (teamBWin && dot->physics.Location < midBar)
         {
             midBar -= 5;
             teamBWin = false;
@@ -158,8 +159,8 @@ public:
             teamATotalWin = true;
 
             // put the dot at the end to draw out the team color
-            dot->yLoc = 0;
-            dot->velocity = 0;
+            dot->physics.Location = 0;
+            dot->setVelocity(0);
         }
 
         // check if the mid bar is into team B's zone
@@ -168,8 +169,8 @@ public:
             teamBTotalWin = true;
 
             // put the dot at the end to draw out the team color
-            dot->yLoc = heightMax - 1;
-            dot->velocity = 0;
+            dot->physics.Location = heightMax - 1;
+            dot->setVelocity(0);
         }
     }
 
