@@ -151,6 +151,7 @@ public:
 		for (int i = 0; i < numFireworks; i++)
 		{
 			fireworks[i].Reset();
+			fireworks[i].explosion.SetGravity(gravityLevels[min(level, levelMax - 1)]);
 		}
 	}
 
@@ -176,7 +177,7 @@ public:
     void checkTarget()
     {
         bool wasInTarget = target.isInTarget;
-        target.isInTarget = rocket.physics.Location > target.Loc && rocket.physics.Location < target.Loc + target.Height;
+        target.isInTarget = rocket.physics.Location >= target.Loc && rocket.physics.Location < target.Loc + target.Height;
         if (target.isInTarget)
         {
             // Check if we're just entering the target
@@ -186,7 +187,7 @@ public:
             }
 
             // Check if we've closed out this target
-            else if (millis() - target.Time > 3000)
+            else if (target.isTargetLocked())
             {
                 //Win state
 

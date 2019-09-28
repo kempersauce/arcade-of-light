@@ -6,10 +6,10 @@ Class that sets a series of dots in a specific location on the LED strip
 
 class Target : Animation
 {
+	const static long targetLockTimeMillis = 1000 * 3;// 3 second lock time
     public:
         int Loc;
         int Height;
-        int Step;
         CRGB* color;
         long Time;
         bool isInTarget;
@@ -32,15 +32,18 @@ class Target : Animation
         {
             Loc = random(lengthStrips / 4, lengthStrips - 20);
             Height = random(5, 20);
-            Step = Height / 6;
         }
 
         void setToGround()
         {
-            Loc = 5;
+            Loc = 0;
             Height = 10;
-            Step = Height / 6;
         }
+
+		bool isTargetLocked()
+		{
+			return isInTarget && millis() - Time > targetLockTimeMillis;
+		}
 
         void draw(Display* display)
         {
@@ -60,24 +63,25 @@ class Target : Animation
                 if (isInTarget)
                 {
                     long timeHeld = millis() - Time;
-                    float stage = (timeHeld + 500) / 1000;
+					float offset = (float)(Height / 2) * ((float)timeHeld / (float)targetLockTimeMillis);// up to half height over target lock time
 
                     // Bottom fill
-                    int bottomFillStart = bottom + 1;
-                    int bottomFillEnd = bottomFillStart + Step * stage;
-
-                    for (int i = max(bottomFillStart, 0); i < bottomFillEnd; i++)
+                    int bottomFillStart = bottom;
+                    float bottomFillEnd = (float)bottomFillStart + offset;
+                    for (int i = bottomFillStart; i < bottomFillEnd; i++)
                     {
                         display->strips[j][i] = *color;
                     }
+					display->ditherPixel(j, bottomFillEnd, color);
 
                     // Top fill
                     int topFillEnd = top;
-                    int topFillStart = topFillEnd - Step * stage;
-                    for (int i = max(topFillStart, 0); i < topFillEnd; i++)
+                    float topFillStart = (float)topFillEnd - offset;
+                    for (int i = ceil(topFillStart); i < topFillEnd; i++)
                     {
                         display->strips[j][i] = *color;
                     }
+					display->ditherPixel(j, topFillStart, color);
                 }
             }
         }

@@ -20,13 +20,15 @@ public:
         : Animation()
     {
         Hue = random(0, 255);
+    }
 
-		// Try putting a little bit of gravity on here
+	void SetGravity(int gravity)
+	{
 		for (int i = 0; i < shrapnelCount; i++)
 		{
-			shrapnel[i].Gravity = 6;
+			shrapnel[i].Gravity = gravity;
 		}
-    }
+	}
 
     void ExplodeAt(int location)
     {

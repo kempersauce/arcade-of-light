@@ -25,10 +25,12 @@ public:
      * */
     Firework(int stripLength, int numStrips)
         : Animation(),
-        physics()
+        physics(),
+		explosion()
     {
         stripsHeight = stripLength;
 		stripsWidth = numStrips;
+
         Reset();
     }
 
@@ -41,7 +43,7 @@ public:
 		stripIndex = random(0, stripsWidth); // select which strip this should be on
 		explosion.stripIndex = stripIndex;
 
-        Hue = random(0, 255); //
+        Hue = random(0, 255);
     }
 
     void Move()
