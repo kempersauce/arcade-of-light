@@ -2,96 +2,103 @@
 #include <string>
 #include <queue>
 
-class KemperSerialReceiver{
+class KemperSerialReceiver
+{
 
-    std::queue<char*> outputQueue;
+    std::queue<char *> outputQueue;
 
-	public: 
-	const static byte numChars = 32;
-	
-	//char receivedChars[numChars];
+public:
+    const static byte numChars = 32;
+
+    //char receivedChars[numChars];
     char *inputBuffer;
-	
-	HardwareSerial serial;
-	
-	int led;
-	int mostRecentUnreadMessage;
-	int newestMessage;
-	
-	KemperSerialReceiver(HardwareSerial &serialRef){
-		
-		inputBuffer = (char *)malloc(numChars);
 
-		serial.begin(9600);
-		
-		led = 13;//TODO get rid of test output led code
-		pinMode(led, OUTPUT);
-	}
+    HardwareSerial serial;
 
-  
-  
-  public: bool recvWithStartEndMarkers() {
-	  
-    static boolean recvInProgress = false;
-    static byte ndx = 0;
-    char startMarker = '<';
-    char endMarker = '>';
-    char rc;
-	
-    while (serial.available() > 0 ) {
+    int led;
+    int mostRecentUnreadMessage;
+    int newestMessage;
 
-        rc = serial.read();
-        Serial.println(rc);
+    KemperSerialReceiver(HardwareSerial &serialRef)
+    {
 
+        inputBuffer = (char *)malloc(numChars);
 
-        if (recvInProgress == true) {
-            if (rc != endMarker) {
+        serial.begin(9600);
 
-                inputBuffer[ndx] = rc;
-                ndx++;
-                if (ndx >= numChars) {
-                    ndx = numChars - 1;
+        led = 13; //TODO get rid of test output led code
+        pinMode(led, OUTPUT);
+    }
+
+public:
+    bool recvWithStartEndMarkers()
+    {
+
+        static boolean recvInProgress = false;
+        static byte ndx = 0;
+        char startMarker = '<';
+        char endMarker = '>';
+        char rc;
+
+        while (serial.available() > 0)
+        {
+
+            rc = serial.read();
+            //Serial.println(rc);//<--prints raw input stream to serial interface, use for bugtesting
+
+            if (recvInProgress == true)
+            {
+                if (rc != endMarker)
+                {
+
+                    inputBuffer[ndx] = rc;
+                    ndx++;
+                    if (ndx >= numChars)
+                    {
+                        ndx = numChars - 1;
+                    }
+                }
+                else
+                {
+                    inputBuffer[ndx] = '\0'; // terminate the string
+                    recvInProgress = false;
+                    ndx = 0;
+
+                    outputQueue.push(inputBuffer);
+                    inputBuffer = (char *)malloc(numChars);
                 }
             }
-            else {
-                inputBuffer[ndx] = '\0'; // terminate the string
-                recvInProgress = false;
-                ndx = 0;
 
-                outputQueue.push(inputBuffer);
-                inputBuffer = (char *)malloc(numChars);
+            else if (rc == startMarker)
+            {
+
+                recvInProgress = true;
             }
         }
 
-        else if (rc == startMarker) {
- 
-            recvInProgress = true;
+        return hasMessages();
+    }
+
+    bool hasMessages()
+    {
+        return !outputQueue.empty();
+    }
+
+    bool getNextMessage(char *readLocation)
+    {
+
+        bool readMessage = false;
+
+        if (!outputQueue.empty())
+        {
+            readMessage = true;
+            char *messageLocation = outputQueue.front();
+            outputQueue.pop();
+
+            strcpy(readLocation, messageLocation);
+            free(messageLocation);
         }
+
+        return readMessage;
     }
-	
-	return hasMessages();
-}
-
-bool hasMessages(){
-    return !outputQueue.empty();
-}
-
-bool getNextMessage(char * readLocation){
-    
-   
-    bool readMessage = false;
-
-    if(!outputQueue.empty()){
-        readMessage = true;
-        char *messageLocation = outputQueue.front();
-        outputQueue.pop();
-
-        strcpy(readLocation, messageLocation);
-        free(messageLocation);
-
-    }
-
-    return readMessage;
-}
-  
 };

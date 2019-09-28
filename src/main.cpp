@@ -15,6 +15,7 @@
 #include <DirPadTest.h>
 #include <MarqueeGame.h>
 #include <H2HLifeGame.h>
+#include <SerialTest.h>
 
 Game* game;
 Display* gameDisplay;
@@ -47,10 +48,11 @@ void setup()
     //game = (Game*)new LifeGame(gameDisplay);
     //game = (Game*)new RocketGame(gameDisplay);
     //game = (Game*)new RainbowGame(gameDisplay);
-    game = (Game*)new MarqueeGame(gameDisplay);
+    //game = (Game*)new MarqueeGame(gameDisplay);
 
     // Test Games
     //game = (Game*)new DirPadTest(gameDisplay);
+    game = (Game*)new SerialTest(gameDisplay);
 
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
