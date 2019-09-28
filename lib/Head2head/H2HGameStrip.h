@@ -3,11 +3,26 @@
 #include <Button.h>
 #include <H2HDot.h>
 #include <H2HZone.h>
+#include <Explosion.h>
 #include <NoiseGenerator.h>
+
+enum H2HStripState
+{
+	H2HStripPlaying,
+	H2HStripWinningA,
+	H2HStripWinningB,
+	H2HStripDead,
+	H2HStripDropping
+};
 
 class H2HGameStrip : Animation
 {
-    H2HDot* dot;
+	H2HStripState stripState;
+
+    H2HDot dot;
+
+	// explode when dot hits wall (boom)
+    Explosion explosion;
 
     // nearside team
     H2HZone zoneA;
@@ -29,26 +44,33 @@ public:
     Button* buttonA;
     Button* buttonB;
 
-    bool teamAWin;
-    bool teamBWin;
     static bool teamATotalWin;
     static bool teamBTotalWin;
 
     H2HGameStrip(int stripIndex, int stripHeight, int buttonAPin, int buttonBPin, NoiseGenerator* noise)
 		: Animation(),
+		dot(CRGB::White, stripIndex),
+		explosion(),
 		zoneA(CRGB::Green, stripIndex, 0, 22, false),
 		zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1, true)
     {
         this->stripIndex = stripIndex;
         heightMax = stripHeight;
 
+		explosion.stripIndex = stripIndex;
+
+		// Set some physics on the explosion shrapnel so they'll bounce off the ceiling and floor
+		for (int i = 0; i < explosion.shrapnelCount; i++)
+		{
+			explosion.shrapnel[i].LocationMax = stripHeight;
+			explosion.shrapnel[i].BounceFactor = -.8;
+		}
+
         buttonA = new Button(buttonAPin);
 		zoneAStart = zoneA.yMax;
 
         buttonB = new Button(buttonBPin);
 		zoneBStart = zoneB.yMin;
-
-        dot = new H2HDot(CRGB::White, stripIndex);
 
         reset();
 
@@ -59,23 +81,71 @@ public:
     {
         // reset the mid bar
         midBar = heightMax / 2; // dont reset the shared mid when an individual strip wins
-        dot->physics.Location = midBar;
 
-        // randomly start in different directions
-        if (random16() > UINT16_MAX / 2)
-        {
-            dot->setVelocity(20);
-        }
-        else
-        {
-            dot->setVelocity(-20);
-        }
+		enterDeadState();
 
-        teamAWin = false;
-        teamBWin = false;
         teamATotalWin = false;
         teamBTotalWin = false;
     }
+
+	void enterPlayingState()
+	{
+		stripState = H2HStripPlaying;
+		dot.physics.Reset();
+		dot.physics.Location = midBar;
+
+		// randomly start in different directions
+		if (random16() > UINT16_MAX / 2)
+		{
+			dot.setVelocity(20);
+		}
+		else
+		{
+			dot.setVelocity(-20);
+		}
+	}
+
+	void enterWinningStateA()
+	{
+		stripState = H2HStripWinningA;
+
+		explosion.Hue = 160;
+		explosion.ExplodeAt(dot.physics.Location);
+		// TODO set this elsewhere once we have an animation for it
+		midBar += 5;
+	}
+
+	void enterWinningStateB()
+	{
+		stripState = H2HStripWinningB;
+
+		explosion.Hue = 0;
+		explosion.ExplodeAt(dot.physics.Location);
+		// TODO set this elsewhere once we have an animation for it
+		midBar -= 5;
+	}
+
+	void enterDeadState()
+	{
+		stripState = H2HStripDead;
+
+		// check if the mid bar is into team A's zone
+		if (midBar < zoneAStart)
+		{
+			teamATotalWin = true;
+		}
+
+        // check if the mid bar is into team B's zone
+        else if (midBar > zoneBStart)
+        {
+            teamBTotalWin = true;
+		}
+	}
+
+	void enterDroppingState()
+	{
+		stripState = H2HStripDropping;
+	}
 
     void pollButtons()
     {
@@ -91,118 +161,200 @@ public:
             return;
         }
 
-        // Check if anybody has won this strip yet
-        if (!teamAWin && !teamBWin)
-        {
-            if (dot->physics.Location >= heightMax)
-            {
-                //team A wins this strip
-                teamAWin = true;
+		switch (stripState)
+		{
+			case H2HStripPlaying:
 
-                // set dot to A's side so it can run down to the midbar
-                dot->physics.Location = zoneAStart;
-                //dot->velocity = 5; // maybe let it just keep its same velocity
-            }
-            else if (dot->physics.Location <= 0)
-            {
-                //team B wins this strip
-                teamBWin = true;
+				// Did team A just win this one?
+				if (dot.physics.Location >= heightMax)
+	            {
+	                enterWinningStateA();
+	            }
 
-                // set dot to B's side so it can run down to the midbar
-                dot->physics.Location = zoneBStart;
-                //dot->velocity = -5; // maybe let it just keep its same velocity
-            }
-        }
+				// Did team B just win this one?
+	            else if (dot.physics.Location <= 0)
+	            {
+	                enterWinningStateB();
+	            }
 
-        if (!teamAWin && !teamBWin)
-        {
-
-            // Team A hits the button
-            if (buttonA->isDepressing())
-            {
-				if (zoneA.checkZone(dot->physics.Location))
+				else
 				{
-					dot->setVelocity(-1 * (dot->physics.Velocity) + (zoneA.zoneDepth(dot->physics.Location) * 10)); // 20 to 40 px/sec
-				}
-            }
+					// Team A hits the button
+		            if (buttonA->isDepressing())
+		            {
+						if (zoneA.checkZone(dot.physics.Location))
+						{
+							dot.setVelocity(-1 * (dot.physics.Velocity) + (zoneA.zoneDepth(dot.physics.Location) * 10)); // 20 to 40 px/sec
+						}
+		            }
 
-            // Team B hits the button
-            if (buttonB->isDepressing())
-            {
-				if (zoneB.checkZone(dot->physics.Location))
+		            // Team B hits the button
+		            if (buttonB->isDepressing())
+		            {
+						if (zoneB.checkZone(dot.physics.Location))
+						{
+							dot.setVelocity(-1 * (dot.physics.Velocity) - (zoneB.zoneDepth(dot.physics.Location) * 10)); // -20 to -40 px/sec
+						}
+		            }
+
+			        // dot moves either way
+			        dot.Move();
+				}
+			break;
+
+			case H2HStripWinningA:
+				explosion.Move();
+				if (explosion.IsBurnedOut())
 				{
-					dot->setVelocity(-1 * (dot->physics.Velocity) - (zoneB.zoneDepth(dot->physics.Location) * 10)); // -20 to -40 px/sec
+					// For now immediately go into dead state
+					enterDeadState();
 				}
-            }
-        }
+			break;
 
-        // dot moves either way
-        dot->Move();
+			case H2HStripWinningB:
+				explosion.Move();
+				if (explosion.IsBurnedOut())
+				{
+					// For now immediately go into dead state
+					enterDeadState();
+				}
+			break;
 
-        // bump the bar after team A is done winning
-        if (teamAWin && dot->physics.Location > midBar)
-        {
-            midBar += 5;
-            teamAWin = false;
-        }
+			case H2HStripDead:
+				// For now immediately go into Dropping state
+				enterDroppingState();
+			break;
 
-        // bump the bar after team B is done winning
-        if (teamBWin && dot->physics.Location < midBar)
-        {
-            midBar -= 5;
-            teamBWin = false;
-        }
-
-        // check if the mid bar is into team A's zone
-        if (midBar < zoneAStart)
-        {
-            teamATotalWin = true;
-
-            // put the dot at the end to draw out the team color
-            dot->physics.Location = 0;
-            dot->setVelocity(0);
-        }
-
-        // check if the mid bar is into team B's zone
-        if (midBar > zoneBStart)
-        {
-            teamBTotalWin = true;
-
-            // put the dot at the end to draw out the team color
-            dot->physics.Location = heightMax - 1;
-            dot->setVelocity(0);
-        }
+			case H2HStripDropping:
+				// For now we go straight to playing
+				enterPlayingState();
+			break;
+		}
     }
 
     void draw(Display* display)
     {
-        // Draw backgrounds for both teams up to the dot
+		switch (stripState)
+		{
+			case H2HStripPlaying:
+		        // Team A background
+		        for (int y = 0; y < midBar; y++)
+		        {
+		            display->strips[stripIndex][y] = CRGB(0, 0, noiseGenerator->noise[stripIndex][y]); // blue team
+		        }
 
-        // Team A background
-        for (int y = 0; y < midBar; y++)
-        {
-            display->strips[stripIndex][y] = CRGB(0, 0, noiseGenerator->noise[stripIndex][y]); // blue team
-        }
+		        // Team B background
+		        for (int y = midBar; y < heightMax; y++)
+		        {
+		            display->strips[stripIndex][y] = CRGB(noiseGenerator->noise[stripIndex][y], 0, 0); // red team
+		        }
 
-        // Team B background
-        for (int y = midBar; y < heightMax; y++)
-        {
-            display->strips[stripIndex][y] = CRGB(noiseGenerator->noise[stripIndex][y], 0, 0); // red team
-        }
+	            // Draw the zones on top of the background
+	            zoneA.draw(display);
+	            zoneB.draw(display);
 
-        // Only draw these if this game is still playing
-        if (!teamATotalWin && !teamBTotalWin)
-        {
-            //// Draw the zones on top of the background
-            zoneA.draw(display);
-            zoneB.draw(display);
+	            // Draw the mid bar
+	            display->strips[stripIndex][midBar] = CRGB::White;
 
-            // Draw the mid bar
-            display->strips[stripIndex][midBar] = CRGB::White;
+	            // Draw the dot last
+	            dot.draw(display);
+			break;
 
-            // Draw the dot last
-            dot->draw(display);
-        }
+			case H2HStripWinningA:
+		        // Team A background
+		        for (int y = 0; y < midBar; y++)
+		        {
+		            display->strips[stripIndex][y] = CRGB(0, 0, noiseGenerator->noise[stripIndex][y]); // blue team
+		        }
+
+		        // Team B background
+		        for (int y = midBar; y < heightMax; y++)
+		        {
+		            display->strips[stripIndex][y] = CRGB(noiseGenerator->noise[stripIndex][y], 0, 0); // red team
+		        }
+
+	            // Draw the zones on top of the background
+	            zoneA.draw(display);
+	            zoneB.draw(display);
+
+	            // Draw the mid bar
+	            display->strips[stripIndex][midBar] = CRGB::White;
+
+				explosion.draw(display);
+
+	            // Draw the dot last
+	            //dot.draw(display);
+
+			break;
+
+			case H2HStripWinningB:
+		        // Team A background
+		        for (int y = 0; y < midBar; y++)
+		        {
+		            display->strips[stripIndex][y] = CRGB(0, 0, noiseGenerator->noise[stripIndex][y]); // blue team
+		        }
+
+		        // Team B background
+		        for (int y = midBar; y < heightMax; y++)
+		        {
+		            display->strips[stripIndex][y] = CRGB(noiseGenerator->noise[stripIndex][y], 0, 0); // red team
+		        }
+
+	            // Draw the zones on top of the background
+	            zoneA.draw(display);
+	            zoneB.draw(display);
+
+	            // Draw the mid bar
+	            display->strips[stripIndex][midBar] = CRGB::White;
+
+				explosion.draw(display);
+
+	            // Draw the dot last
+	            //dot.draw(display);
+
+			break;
+
+			case H2HStripDead:
+		        // Team A background
+		        for (int y = 0; y < midBar; y++)
+		        {
+		            display->strips[stripIndex][y].setRGB(0, 0, noiseGenerator->noise[stripIndex][y]); // blue team
+		        }
+
+		        // Team B background
+		        for (int y = midBar; y < heightMax; y++)
+		        {
+		            display->strips[stripIndex][y].setRGB(noiseGenerator->noise[stripIndex][y], 0, 0); // red team
+		        }
+
+	            // Draw the zones on top of the background
+	            zoneA.draw(display);
+	            zoneB.draw(display);
+
+	            // Draw the mid bar
+	            display->strips[stripIndex][midBar] = CRGB::White;
+			break;
+
+			case H2HStripDropping:
+		        // Team A background
+		        for (int y = 0; y < midBar; y++)
+		        {
+		            display->strips[stripIndex][y].setRGB(0, 0, noiseGenerator->noise[stripIndex][y]); // blue team
+		        }
+
+		        // Team B background
+		        for (int y = midBar; y < heightMax; y++)
+		        {
+		            display->strips[stripIndex][y].setRGB(noiseGenerator->noise[stripIndex][y], 0, 0); // red team
+		        }
+
+	            // Draw the zones on top of the background
+	            zoneA.draw(display);
+	            zoneB.draw(display);
+
+				display->strips[stripIndex][midBar].setRGB(0, 255, 0); // green flash
+			break;
+		}
     }
 };
 

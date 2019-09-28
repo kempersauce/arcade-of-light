@@ -30,6 +30,11 @@ class H2HZone : public Animation
 		// returns 0.0 to 1.0 based on how far into the zone the dot is
 		float zoneDepth(int y)
 		{
+			if (checkZone(y) == false)
+			{
+				return 0;
+			}
+			
 			float range = yMax - yMin;
 
 			// BOTTOM - SPECIFIC CALCULATION

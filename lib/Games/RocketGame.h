@@ -80,7 +80,7 @@ class RocketGame : Game
     Rocket rocket; //the player
     Target target; //the target
 
-    static const int numFireworks = 3;
+    static const int numFireworks = 5;
     Firework fireworks[numFireworks]; //win animation fireworks
 
     // Game Lose animations
@@ -107,6 +107,8 @@ public:
         explosionsInTheSky(),
 		explosion(),
         fireworks {
+  			Firework(display->lengthStrips, display->numStrips),
+  			Firework(display->lengthStrips, display->numStrips),
   			Firework(display->lengthStrips, display->numStrips),
   			Firework(display->lengthStrips, display->numStrips),
   			Firework(display->lengthStrips, display->numStrips),
@@ -250,6 +252,7 @@ public:
             case RocketGameStart:
                 // TODO fill this in, right now we just jump into playing state
                 enterPlayingState();
+				//enterWinState(); // for testing fireworks
             //break; // uncomment this once we have something here, right now we just fall through
 
             case RocketGamePlaying:

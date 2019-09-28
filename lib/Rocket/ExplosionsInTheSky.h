@@ -39,7 +39,7 @@ class ExplosionsInTheSky : Animation
                 float blendStrength = (float)timeDiff / (float)animationLengthMillis;
                 float positionFactor = (float)(i - (display->lengthStrips - explosionHeight)) / (float)explosionHeight;
                 blendStrength *= positionFactor;
-                blendPixel(&display->strips[j][i], color, blendStrength);
+                display->blendPixel(j, i, color, blendStrength);
             }
         }
 

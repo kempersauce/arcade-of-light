@@ -8,7 +8,7 @@ class Explosion : Animation
 	static const long burnoutTimeMillis = 1000 * 3; // 5 seconds
 
 public:
-	static const int shrapnelCount = 45;
+	static const int shrapnelCount = 50;
     PhysicsInfo shrapnel[shrapnelCount];
 
     //colors (HSV)
@@ -75,7 +75,10 @@ public:
 				int xLoc = (int)shrapnel[i].xLocation;
 				if (loc >= 0 && loc < display->lengthStrips && xLoc >= 0 && xLoc < display->numStrips)
 				{
-					display->strips[xLoc][loc].setHSV(Hue, Saturation, Brightness);
+					CRGB clr;
+					clr.setHSV(Hue, Saturation, Brightness);
+					float blend = (float)Brightness / (float)255;
+					display->ditherPixel(xLoc, shrapnel[i].Location, &clr, blend);
 				}
 			}
 		}

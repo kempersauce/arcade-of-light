@@ -32,8 +32,7 @@ class H2HDot : public Animation
 			// Don't draw outside the display boundaries
 			if (physics.HasHitEdge == false)
 			{
-				//float dither = physics.Location % 1;
-            	display->strips[(int)physics.xLocation][(int)physics.Location] = color;
+				display->ditherPixel((int)physics.xLocation, physics.Location, &color);
 			}
         }
 };
