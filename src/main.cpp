@@ -14,6 +14,7 @@
 #include <RainbowGame.h>
 #include <DirPadTest.h>
 #include <MarqueeGame.h>
+#include <H2HLifeGame.h>
 
 Game* game;
 Display* gameDisplay;

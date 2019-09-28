@@ -1,3 +1,5 @@
+#pragma once
+
 #include <FastLED.h>
 #include <Animation.h>
 #include <Display.h>

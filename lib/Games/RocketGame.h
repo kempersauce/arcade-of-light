@@ -24,6 +24,7 @@
 #include <SkyFade.h>
 #include <Sounds.h>
 #include <ExplosionsInTheSky.h>
+#include <LifeGame.h>
 
 AudioPlaySdWav boostChannel;
 AudioConnection audioConnection1(boostChannel, i2s1);
@@ -38,12 +39,24 @@ class RocketGame : Game
     Starscape* starBackground;// just drawing black empty space for now. we are alone in the universe
     SkyFade* skyFade;
 
+    // level colors for SkyFade
+    CRGB* skyFadeColors[2] =
+    {
+        new CRGB(0, 0, 255), // Blue earth
+        new CRGB(32, 96, 255), // Orange mars
+    };
+
     // Sprites
     Rocket player; //the player
     RocketBoost* rocketBoost;
     Target target; //the target
     Firework firework[NUM_FIREWORKS]; //win animation fireworks
     ExplosionsInTheSky explosionsInTheSky;
+
+    // Idle Game, plays after no buttons have been pressed before idle timeout
+    LifeGame idleGame; // TODO change LifeGame to not use buttons if we're going to use it as an idle game
+    bool isIdle;
+    const long idleTimeoutMillis = 1000 * 30; // 30 seconds
 
 
     // Other variables
@@ -54,19 +67,20 @@ class RocketGame : Game
     int wins = 0;
     long time = millis();
 
-    public:
-        RocketGame(Display* display)
-            : Game(display),
-            Up(BUTTON_PIN_2),
-            resetButton(BUTTON_PIN_3),
-            player(0, new CRGB(255, 255, 255)),
-            target(100, 15, new CRGB(55, 0, 0)),
-            explosionsInTheSky()
-        {
-            starBackground = new Starscape(display->numStrips, display->lengthStrips, 160);
-            skyFade = new SkyFade(new CRGB(32, 96, 255));
-            rocketBoost = new RocketBoost(5);
-        }
+public:
+    RocketGame(Display* display)
+        : Game(display),
+        Up(BUTTON_PIN_2),
+        resetButton(BUTTON_PIN_3),
+        player(0, new CRGB(255, 255, 255)),
+        target(100, 15, new CRGB(55, 0, 0)),
+        explosionsInTheSky(),
+        idleGame(display)
+    {
+        starBackground = new Starscape(display->numStrips, display->lengthStrips, 160);
+        skyFade = new SkyFade(skyFadeColors[0]);
+        rocketBoost = new RocketBoost(5);
+    }
 
     void setup()
     {
@@ -75,9 +89,11 @@ class RocketGame : Game
         //     firework[i] = Firework();
         // }
 
+        skyFade->setFadeColor(skyFadeColors[0]);
         target.Loc = random(display->lengthStrips / 4, display->lengthStrips - 20);
         gameState = 0;
         wins = 0;
+        isIdle = false;
         player.Reset();
     }
 
@@ -205,12 +221,38 @@ class RocketGame : Game
     //Game Loop
     void loop()
     {
-        time = millis();
-
         // Poll button states
         Up.poll();
         resetButton.poll();
 
+        // Check if we're idling
+        bool wasIdle = isIdle;
+
+        // This enters idle after idleTimeoutMillis, and falls out of idle if a buttons been pressed
+        isIdle = Up.getMillisReleased() > idleTimeoutMillis
+            && resetButton.getMillisReleased() > idleTimeoutMillis;
+
+        if (isIdle)
+        {
+            // Reset the idle game if we're just entering idle
+            if (wasIdle == false)
+            {
+                idleGame.setup();
+            }
+
+            // play the idle game, not this one
+            idleGame.loop();
+            return;
+        }
+        // Reset this game if we're just exiting idle
+        else if (wasIdle)
+        {
+            this->setup();
+        }
+
+        time = millis();
+
+        // Reset this game if they hold the reset button longer than a second
         if (resetButton.getMillisHeld() > 1000)
         {
             this->setup();
@@ -242,7 +284,7 @@ class RocketGame : Game
 
 
 
-        if (player.Exploded == true)
+        if (player.Exploded)
         {
             if (explosionsInTheSky.isPlaying() == false)
             {

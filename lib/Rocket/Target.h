@@ -41,7 +41,7 @@ class Target : Animation
                 if (isInTarget)
                 {
                     long timeHeld = millis() - Time;
-                    int stage = (timeHeld + 500) / 1000;
+                    float stage = (timeHeld + 500) / 1000;
 
                     // Bottom fill
                     int bottomFillStart = bottom + 1;

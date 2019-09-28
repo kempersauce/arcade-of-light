@@ -17,6 +17,11 @@ class SkyFade : Animation
             blendColor = fadeColor;
         }
 
+        void setFadeColor(CRGB* fadeColor)
+        {
+            blendColor = fadeColor;
+        }
+
         void draw(Display* display)
         {
             int heightMax = display->lengthStrips / 3; // only go a third of the way up
