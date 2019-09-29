@@ -85,14 +85,27 @@ class Marquee : public Animation
 
 
         int lowerX = 0;
-        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 1, display, LetterA, beatsin8(2,0,255), 255, 255);
+        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(2,0,255), 255, 255);
 
-        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 2, display, LetterA, beatsin8(8,0,255), 255, 255);
+        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterC, beatsin8(8,0,255), 255, 255);
 
-        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterA, beatsin8(30,0,255), 255, 255);
+        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterU, beatsin8(30,0,255), 255, 255);
 
-        drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 4, display, LetterA, beatsin8(45,0,255), 255, 255);
+        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterA, beatsin8(2,0,255), 255, 255);
 
+        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterS, beatsin8(8,0,255), 255, 255);
+
+        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterR, beatsin8(30,0,255), 255, 255);
+
+        drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(45,0,255), 255, 255);
+
+        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterP, beatsin8(2,0,255), 255, 255);
+
+        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterM, beatsin8(8,0,255), 255, 255);
+
+        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(30,0,255), 255, 255);
+
+        drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterK, beatsin8(45,0,255), 255, 255);
         }
 
         void drawLetter(int lowerLeftX, int lowerLeftY, int orientation, Display* display, int letter[8][4], int hue, int sat, int bright){
