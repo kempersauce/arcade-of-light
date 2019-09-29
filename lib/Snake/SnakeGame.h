@@ -13,15 +13,14 @@ public:
     SnakeGame(Display* gameDisplay)
 		: Game(gameDisplay),
 		controls(),
-		snake(),
+		snake(gameDisplay->numStrips, gameDisplay->lengthStrips),
 		background(0, 0, 0)
     {
-        display = gameDisplay;
     }
 
     virtual void setup()
 	{
-		snake.StartAt(display->numStrips / 2, display->lengthStrips / 2, Up);
+		snake.Reset();
 	}
 
     virtual void loop()
@@ -45,7 +44,18 @@ public:
 			snake.currentDirection = Right;
 		}
 
+		if (controls.a.isPressed())
+		{
+			snake.Grow();
+		}
+
 		snake.Move();
+
+		if (snake.head.first < 0 || snake.head.first >= display->numStrips
+			|| snake.head.second < 0 || snake.head.second >= display->lengthStrips)
+		{
+			setup();
+		}
 
 		background.draw(display);
 		snake.draw(display);

@@ -13,8 +13,6 @@ class ShooterGame : Game
 	SingleColorBG background;
 
 public:
-    Display* display;
-
     ShooterGame(Display* gameDisplay)
 		: Game(gameDisplay),
 		controls(),
@@ -22,7 +20,6 @@ public:
 		bullet(gameDisplay->lengthStrips, gameDisplay->numStrips),
 		background(0, 0, 0)
     {
-        display = gameDisplay;
     }
 
     virtual void setup()

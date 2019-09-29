@@ -43,7 +43,6 @@ public:
         physics.Velocity = random(35, 75); // how fast do we get there
 
 		physics.xLocation = random(0, stripsWidth); // select which strip this should be on
-		explosion.stripIndex = physics.xLocation;
 
         Hue = random(0, 255);
     }
@@ -60,6 +59,7 @@ public:
 			if (wasExploded == false)
 			{
 				explosion.Hue = random(0, 255);
+				explosion.stripIndex = physics.xLocation;
 				explosion.ExplodeAt(physics.Location);
 			}
 
@@ -81,7 +81,9 @@ public:
 		else
 		{
 			int Saturation = min(255 * (physics.Location / physics.LocationMax), 255);
-            display->strips[(int)physics.xLocation][(int)physics.Location].setHSV(Hue, Saturation, 255);
+			CRGB color;
+			color.setHSV(Hue, Saturation, 255);
+			display->ditherPixel((int)physics.xLocation, (int)physics.Location, &color);
         }
     }
 };
