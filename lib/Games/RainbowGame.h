@@ -9,23 +9,23 @@ Where the magic happens
 
 class RainbowGame : Game
 {
-    HueRainbow* background;
-    
-    public:
+	HueRainbow background;
 
-        RainbowGame(Display* gameDisplay)
-            : Game(gameDisplay)
-        {
-            background = new HueRainbow(2);
-        }
+public:
 
-        void setup()
-        {
-          ((HueRainbow*)background)->setWaveShift(true);
-        }
+    RainbowGame(Display* gameDisplay)
+        : Game(gameDisplay),
+		background(2)
+    {
+      	background.setWaveShift(true);
+    }
 
-        void loop()
-        {
-            background->draw(display);
-        }
+    void setup()
+    {
+    }
+
+    void loop()
+    {
+        background.draw(display);
+    }
 };
