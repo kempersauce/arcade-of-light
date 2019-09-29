@@ -10,8 +10,6 @@ class SnakeGame : Game
 	SingleColorBG background;
 
 public:
-    Display* display;
-
     SnakeGame(Display* gameDisplay)
 		: Game(gameDisplay),
 		controls(),

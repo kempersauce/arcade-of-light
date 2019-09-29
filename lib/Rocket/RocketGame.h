@@ -306,6 +306,10 @@ public:
                 for (int i = 0; i < numFireworks; i++)
                 {
                     fireworks[i].Move();
+					if (fireworks[i].isPlaying == false)
+					{
+						fireworks[i].Reset();
+					}
                 }
                 // TODO fill this in right now we just jump straight into the start state of a new game
                 //setup();

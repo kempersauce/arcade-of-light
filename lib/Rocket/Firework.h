@@ -7,8 +7,6 @@ class Firework : Animation
 	int stripsHeight;
 	int stripsWidth;
 
-	int stripIndex;
-
 public:
     // Physics for the fireworks "rocket"
     PhysicsInfo physics;
@@ -18,6 +16,8 @@ public:
 
     //color for the firework rocket
     int Hue;
+
+	bool isPlaying;
 
     /**
      * Firework Constructor
@@ -32,16 +32,18 @@ public:
 		stripsWidth = numStrips;
 
         Reset();
+		isPlaying = false;
     }
 
     void Reset()
     {
+		isPlaying = true;
         physics.Reset();
         physics.LocationMax = random(stripsHeight / 3, stripsHeight - 20); // height the firework explodes
         physics.Velocity = random(35, 75); // how fast do we get there
 
-		stripIndex = random(0, stripsWidth); // select which strip this should be on
-		explosion.stripIndex = stripIndex;
+		physics.xLocation = random(0, stripsWidth); // select which strip this should be on
+		explosion.stripIndex = physics.xLocation;
 
         Hue = random(0, 255);
     }
@@ -50,13 +52,7 @@ public:
     {
 		bool wasExploded = physics.HasExploded; // edge was set with LocationMax to denote the explode height
 
-		// Shoot again
-		if (wasExploded && explosion.IsBurnedOut())
-		{
-			Reset();
-		}
-
-        physics.Move();
+		physics.Move();
 
 		// Explode when we get to the designated height
         if (physics.HasExploded)
@@ -68,6 +64,11 @@ public:
 			}
 
 			explosion.Move();
+
+			if (explosion.IsBurnedOut())
+			{
+				isPlaying = false;
+			}
         }
     }
 
@@ -80,7 +81,7 @@ public:
 		else
 		{
 			int Saturation = min(255 * (physics.Location / physics.LocationMax), 255);
-            display->strips[stripIndex][(int)physics.Location].setHSV(Hue, Saturation, 255);
+            display->strips[(int)physics.xLocation][(int)physics.Location].setHSV(Hue, Saturation, 255);
         }
     }
 };

@@ -1,3 +1,6 @@
+
+#pragma once
+
 #include <Button.h>
 #include <PinSetup.h>
 
@@ -10,7 +13,7 @@ public:
     Button right;
     Button a;
     Button b;
-	
+
     DirPad() :
 		up(BUTTON_PIN_3),
 		down(BUTTON_PIN_4),

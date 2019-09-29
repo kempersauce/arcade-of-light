@@ -15,6 +15,8 @@
 #include <MarqueeGame.h>
 #include <H2HLifeGame.h>
 #include <FiveStripTest.h>
+#include <SnakeGame.h>
+#include <ShooterGame.h>
 
 Game* game;
 Display* gameDisplay;
@@ -44,9 +46,9 @@ void setup()
     FastLED.show();
 
 	// Choose your Game type
-	game = (Game*)new Head2Head(gameDisplay);
+	//game = (Game*)new Head2Head(gameDisplay);
 	//game = (Game*)new LifeGame(gameDisplay);
-	//game = (Game*)new RocketGame(gameDisplay);
+	game = (Game*)new RocketGame(gameDisplay);
 	//game = (Game*)new RainbowGame(gameDisplay);
 	//game = (Game*)new MarqueeGame(gameDisplay);
 	//game = (Game*)new StartGame(gameDisplay);
