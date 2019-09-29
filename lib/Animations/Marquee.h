@@ -2,6 +2,9 @@
 #include <Animation.h>
 #include <Font.h>
 #include <Shapes.h>
+#include <string>
+
+using namespace std;
 
 //This file holds words and word functions
 class Marquee : public Animation
@@ -85,28 +88,165 @@ class Marquee : public Animation
 
 
         int lowerX = 0;
-        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(2,0,255), 255, 255);
+        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(2), 255, 255);
 
-        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterC, beatsin8(8,0,255), 255, 255);
+        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterC, beatsin8(8), 255, 255);
 
-        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterU, beatsin8(30,0,255), 255, 255);
+        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterU, beatsin8(30), 255, 255);
 
-        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterA, beatsin8(2,0,255), 255, 255);
+        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterA, beatsin8(2), 255, 255);
 
-        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterS, beatsin8(8,0,255), 255, 255);
+        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterS, beatsin8(8), 255, 255);
 
-        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterR, beatsin8(30,0,255), 255, 255);
+        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterR, beatsin8(30), 255, 255);
 
-        drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(45,0,255), 255, 255);
+        drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(45), 255, 255);
 
-        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterP, beatsin8(2,0,255), 255, 255);
+        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterP, beatsin8(2), 255, 255);
 
-        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterM, beatsin8(8,0,255), 255, 255);
+        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterM, beatsin8(8), 255, 255);
 
-        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(30,0,255), 255, 255);
+        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(30), 255, 255);
 
-        drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterK, beatsin8(45,0,255), 255, 255);
+        drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterK, beatsin8(45), 255, 255);
         }
+
+		// TODO uncomment this once we have a better way to pass character rendering arrays
+		//void drawString(string text, int hue, Display* display)
+		//{
+		//	int spacer = 20 * text.length(); //measure the words out
+		//	for (int i = 0; i < text.length(); i++)
+		//	{
+		//		int letter[8][8];
+		//		char c = text[i];
+		//		switch (c)
+		//		{
+		//			case 'A':
+		//				letter = &LetterA;
+		//			break;
+
+		//			case 'B':
+		//				//letter = LetterB;
+		//				continue;
+		//			break;
+
+		//			case 'C':
+		//				letter = LetterC;
+		//			break;
+
+		//			case 'D':
+		//				letter = LetterD;
+		//			break;
+
+		//			case 'E':
+		//				letter = LetterE;
+		//			break;
+
+		//			case 'F':
+		//				//letter = LetterF;
+		//				continue;
+		//			break;
+
+		//			case 'G':
+		//				//letter = LetterG;
+		//				continue;
+		//			break;
+
+		//			case 'H':
+		//				//letter = LetterH;
+		//				continue;
+		//			break;
+
+		//			case 'I':
+		//				letter = LetterI;
+		//			break;
+
+		//			case 'J':
+		//				letter = LetterJ;
+		//			break;
+
+		//			case 'K':
+		//				letter = LetterK;
+		//			break;
+
+		//			case 'L':
+		//				//letter = LetterL;
+		//				continue;
+		//			break;
+
+		//			case 'M':
+		//				letter = LetterM;
+		//			break;
+
+		//			case 'N':
+		//				letter = LetterN;
+		//			break;
+
+		//			case 'O':
+		//				letter = LetterO;
+		//			break;
+
+		//			case 'P':
+		//				letter = LetterP;
+		//			break;
+
+		//			case 'Q':
+		//				//letter = LetterQ;
+		//				continue;
+		//			break;
+
+		//			case 'R':
+		//				letter = LetterR;
+		//			break;
+
+		//			case 'S':
+		//				letter = LetterS;
+		//			break;
+
+		//			case 'T':
+		//				letter = LetterT;
+		//			break;
+
+		//			case 'U':
+		//				letter = LetterU;
+		//			break;
+
+		//			case 'V':
+		//				//letter = LetterV;
+		//				continue;
+		//			break;
+
+		//			case 'W':
+		//				letter = LetterW;
+		//			break;
+
+		//			case 'X':
+		//				//letter = LetterX;
+		//				continue;
+		//			break;
+
+		//			case 'Y':
+		//				//letter = LetterY;
+		//				continue;
+		//			break;
+
+		//			case 'Z':
+		//				//letter = LetterZ;
+		//				continue;
+		//			break;
+
+		//			case ' ':
+		//				spacer -= 20;
+		//				continue;
+		//			break;
+		//		}
+
+		//		// becomes 2-54 based on the character (assuming capitals)
+		//		int bpm = ((int)c - 63) * 2;
+		//		drawLetter(0, (spacer + YLocation) % display->lengthStrips, 3, display, letter, beatsin8(bpm), 255, 255);
+		//		spacer -= 20; // space for the next letter
+		//	}
+		//}
 
         void drawLetter(int lowerLeftX, int lowerLeftY, int orientation, Display* display, int letter[8][4], int hue, int sat, int bright){
 
@@ -133,7 +273,9 @@ class Marquee : public Animation
                    pixelY = lowerLeftY + LetterWidth - k -1;
                 }
 
-                if((pixelX >= 0) && (pixelY >= 0) && (pixelX < display->numStrips) && (pixelY < display->lengthStrips)){
+                if (pixelX >= 0 && pixelX < display->numStrips
+					&& pixelY >= 0 && pixelY < display->lengthStrips)
+				{
                   display->strips[pixelX][pixelY] = CHSV(hue, sat, bright);
                 }
               }
