@@ -25,6 +25,9 @@
 #include <Explosion.h>
 #include <ExplosionsInTheSky.h>
 #include <LifeGame.h>
+#include <vector>
+
+using namespace std;
 
 // Game states
 enum RocketGameState {
@@ -65,7 +68,7 @@ class RocketGame : Game
     {
         new CRGB(255, 0, 0), // Red targets on Blue Earth
         new CRGB(0, 255, 0), // Green targets on Orange Mars
-        new CRGB(255, 255, 0), // Purple Pluto
+        new CRGB(255, 255, 0), // Yellow targets on Purple Pluto
     };
 
     // Level values for gravity
@@ -81,7 +84,7 @@ class RocketGame : Game
     Target target; //the target
 
     static const int numFireworks = 5;
-    Firework fireworks[numFireworks]; //win animation fireworks
+    vector<Firework> fireworks; //win animation fireworks
 
     // Game Lose animations
     Explosion explosion;
@@ -106,23 +109,22 @@ public:
         target(new CRGB(55, 0, 0)),
         explosionsInTheSky(),
 		explosion(),
-        fireworks {
-  			Firework(display->lengthStrips, display->numStrips),
-  			Firework(display->lengthStrips, display->numStrips),
-  			Firework(display->lengthStrips, display->numStrips),
-  			Firework(display->lengthStrips, display->numStrips),
-  			Firework(display->lengthStrips, display->numStrips),
-        }
+        fireworks()
     {
-		// Set explosion to middle strip
-		explosion.stripIndex = display->numStrips / 2;
+		// Set explosion to red
 		explosion.Hue = 0; // Red explosions
+		explosion.brightnessPhaseMillis = 3000; // slower, 3 second long burnout
 
 		// Set some physics on the explosion shrapnel so they'll bounce off the ceiling and floor
-		for (int i = 0; i < explosion.shrapnelCount; i++)
+		for (int i = 0; i < explosion.shrapnel.size(); i++)
 		{
 			explosion.shrapnel[i].LocationMax = display->lengthStrips;
 			explosion.shrapnel[i].BounceFactor = -.8;
+		}
+
+		while (fireworks.size() < numFireworks)
+		{
+			fireworks.push_back(Firework(display->lengthStrips, display->numStrips));
 		}
     }
 
@@ -158,7 +160,7 @@ public:
 	void enterLoseState()
 	{
 		gameState = RocketGameLose;
-		explosion.ExplodeAt(rocket.physics.Location);
+		explosion.ExplodeAt(display->numStrips / 2, rocket.physics.Location);
 		explosionsInTheSky.startAnimation();
 	}
 

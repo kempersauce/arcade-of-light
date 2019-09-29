@@ -12,7 +12,9 @@ enum H2HStripState
 	H2HStripWinningA,
 	H2HStripWinningB,
 	H2HStripDead,
-	H2HStripDropping
+	H2HStripDropping,
+	H2HStripTotalWinA,
+	H2HStripTotalWinB
 };
 
 class H2HGameStrip : Animation
@@ -68,8 +70,8 @@ public:
 	H2HGameStrip(int stripIndex, int stripHeight, int buttonAPin, int buttonBPin, NoiseGenerator* noise)
 		: Animation(),
 		dot(CRGB::White, stripIndex),
-		explosion(),
-		dropExplosion(),
+		explosion(50),
+		dropExplosion(25),
 		zoneA(CRGB::Green, stripIndex, 0, 22, false),
 		zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1, true),
 		buttonA(buttonAPin),
@@ -78,13 +80,12 @@ public:
 	    this->stripIndex = stripIndex;
 	    heightMax = stripHeight;
 
-		dropExplosion.stripIndex = stripIndex;
-		dropExplosion.Hue = 85;
-
-		explosion.stripIndex = stripIndex;
+		dropExplosion.SaturationFinal = 0; // Gotta keep 'em desaturated
+		dropExplosion.saturationPhaseMillis = 250; // hold saturation for a quarter second before fading away
+		dropExplosion.brightnessPhaseMillis = 250; // quick little explosion
 
 		// Set some physics on the explosion shrapnel so they'll bounce off the ceiling and floor
-		for (int i = 0; i < explosion.shrapnelCount; i++)
+		for (int i = 0; i < explosion.shrapnel.size(); i++)
 		{
 			explosion.shrapnel[i].LocationMax = stripHeight;
 			explosion.shrapnel[i].BounceFactor = -.8;
@@ -122,7 +123,7 @@ public:
 			dot.setVelocity(-20);
 		}
 
-		dropExplosion.ExplodeAt(midBar);
+		dropExplosion.ExplodeAt(stripIndex, midBar);
 	}
 
 	void enterWinningStateA()
@@ -130,7 +131,7 @@ public:
 		stripState = H2HStripWinningA;
 
 		explosion.Hue = zoneAHue;
-		explosion.ExplodeAt(dot.physics.Location);
+		explosion.ExplodeAt(stripIndex, dot.physics.Location);
 		// TODO set this elsewhere once we have an animation for it
 		midBar += 5;
 	}
@@ -140,7 +141,7 @@ public:
 		stripState = H2HStripWinningB;
 
 		explosion.Hue = zoneBHue;
-		explosion.ExplodeAt(dot.physics.Location);
+		explosion.ExplodeAt(stripIndex, dot.physics.Location);
 		// TODO set this elsewhere once we have an animation for it
 		midBar -= 5;
 	}
@@ -158,6 +159,16 @@ public:
 
 		// Plan for when the ball actually drops
 		stateTimeoutMillis = millis() + droppingStateTimeoutMillis;
+	}
+
+	void enterTotalWinAState()
+	{
+		stripState = H2HStripTotalWinA;
+	}
+
+	void enterTotalWinBState()
+	{
+		stripState = H2HStripTotalWinB;
 	}
 
 	void pollButtons()
@@ -207,10 +218,8 @@ public:
 			        // dot moves either way
 			        dot.Move();
 
-					if (dropExplosion.IsBurnedOut() == false)
-					{
-						dropExplosion.Move();
-					}
+					// play out the residual drop explosion
+					dropExplosion.Move();
 				}
 			break;
 
@@ -240,10 +249,25 @@ public:
 			break;
 
 			case H2HStripDropping:
-				if (millis() > stateTimeoutMillis)
+				if (millis() <= stateTimeoutMillis)
+				{
+					if (dropExplosion.IsBurnedOut())
+					{
+						dropExplosion.ExplodeAt(stripIndex, midBar);
+					}
+					dropExplosion.Move();
+				}
+				else
 				{
 					enterPlayingState();
 				}
+			break;
+
+			case H2HStripTotalWinA:
+			case H2HStripTotalWinB:
+				// play out residual explosions
+				explosion.Move();
+				dropExplosion.Move();
 			break;
 		}
 	}
@@ -257,10 +281,7 @@ public:
 				drawZones(display);
 				drawMidBar(display);
 				//explosion.draw(display);
-				if (dropExplosion.IsBurnedOut() == false)
-				{
-					dropExplosion.draw(display);
-				}
+				dropExplosion.draw(display); // play out the last residual explosion
 	            dot.draw(display);
 			break;
 
@@ -288,9 +309,27 @@ public:
 				drawZones(display);
 				drawMidBar(display);
 				//explosion.draw(display);
-				//dropExplosion.draw(display);
-	            //dot.draw(display);
-				display->strips[stripIndex][midBar].setHSV(85, millis() % 256, 255); // green flash
+				dropExplosion.draw(display);
+            	//dot.draw(display);
+				display->strips[stripIndex][midBar].setHSV(85, (millis() - dropExplosion.birthTimeMillis) % 256, 255); // green flash
+			break;
+
+			case H2HStripTotalWinA:
+		        drawBackgrounds(display);
+				//drawZones(display);
+				drawMidBar(display);
+				explosion.draw(display);
+				dropExplosion.draw(display);
+            	dot.draw(display);
+			break;
+
+			case H2HStripTotalWinB:
+		        drawBackgrounds(display);
+				//drawZones(display);
+				drawMidBar(display);
+				explosion.draw(display);
+				dropExplosion.draw(display);
+            	dot.draw(display);
 			break;
 		}
 	}

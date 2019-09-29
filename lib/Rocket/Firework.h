@@ -26,7 +26,7 @@ public:
     Firework(int stripLength, int numStrips)
         : Animation(),
         physics(),
-		explosion()
+		explosion(50)
     {
         stripsHeight = stripLength;
 		stripsWidth = numStrips;
@@ -59,8 +59,7 @@ public:
 			if (wasExploded == false)
 			{
 				explosion.Hue = random(0, 255);
-				explosion.stripIndex = physics.xLocation;
-				explosion.ExplodeAt(physics.Location);
+				explosion.ExplodeAt(physics.xLocation, physics.Location);
 			}
 
 			explosion.Move();
