@@ -17,6 +17,7 @@
 #include <FiveStripTest.h>
 #include <SnakeGame.h>
 #include <ShooterGame.h>
+#include <FallingGame.h>
 
 Game* game;
 Display* gameDisplay;
@@ -53,7 +54,8 @@ void setup()
 	//game = (Game*)new MarqueeGame(gameDisplay);
 	//game = (Game*)new StartGame(gameDisplay);
 	//game = (Game*)new SnakeGame(gameDisplay);
-	game = (Game*)new ShooterGame(gameDisplay);
+	//game = (Game*)new ShooterGame(gameDisplay);
+	game = (Game*)new FallingGame(gameDisplay);
 
 	// Test Games
 	//game = (Game*)new DirPadTest(gameDisplay);
