@@ -114,7 +114,7 @@ public:
 
 	void drawString(const string &text, Display* display)
 	{
-		int spacer = 20 * text.length(); //measure the words out
+		int spacer = 10 * text.length(); //measure the words out
 		for (int i = 0; i < text.length(); i++)
 		{
 			int (*letter)[8][4];
@@ -262,7 +262,7 @@ public:
 				break;
 
 				case ' ':
-					spacer -= 20;
+					spacer -= 10;
 					continue;
 				break;
 			}

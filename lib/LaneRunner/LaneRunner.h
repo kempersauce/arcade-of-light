@@ -67,9 +67,15 @@ public:
 
 				case 1:
 					lane = display->numStrips / 2;
+				break;
 
 				case 2:
 					lane = display->numStrips - 1;
+				break;
+
+				default:
+					lane = 1;
+				break;
 			}
 
 			dots.push_front(lane);
