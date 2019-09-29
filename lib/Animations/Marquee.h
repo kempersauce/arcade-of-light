@@ -87,166 +87,193 @@ class Marquee : public Animation
         if (YLocation < 0){YLocation = display->lengthStrips;}
 
 
-        int lowerX = 0;
-        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(2), 255, 255);
+		drawString("SEND NUDES");
+        //int lowerX = 0;
+        //drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(2), 255, 255);
 
-        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterC, beatsin8(8), 255, 255);
+        //drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterC, beatsin8(8), 255, 255);
 
-        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterU, beatsin8(30), 255, 255);
+        //drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterU, beatsin8(30), 255, 255);
 
-        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterA, beatsin8(2), 255, 255);
+        //drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterA, beatsin8(2), 255, 255);
 
-        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterS, beatsin8(8), 255, 255);
+        //drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterS, beatsin8(8), 255, 255);
 
-        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterR, beatsin8(30), 255, 255);
+        //drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterR, beatsin8(30), 255, 255);
 
-        drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(45), 255, 255);
+        //drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(45), 255, 255);
 
-        drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterP, beatsin8(2), 255, 255);
+        //drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display, LetterP, beatsin8(2), 255, 255);
 
-        drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterM, beatsin8(8), 255, 255);
+        //drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display, LetterM, beatsin8(8), 255, 255);
 
-        drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(30), 255, 255);
+        //drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display, LetterE, beatsin8(30), 255, 255);
 
-        drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterK, beatsin8(45), 255, 255);
+        //drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display, LetterK, beatsin8(45), 255, 255);
         }
 
-		// TODO uncomment this once we have a better way to pass character rendering arrays
-		//void drawString(string text, int hue, Display* display)
-		//{
-		//	int spacer = 20 * text.length(); //measure the words out
-		//	for (int i = 0; i < text.length(); i++)
-		//	{
-		//		int letter[8][8];
-		//		char c = text[i];
-		//		switch (c)
-		//		{
-		//			case 'A':
-		//				letter = &LetterA;
-		//			break;
 
-		//			case 'B':
-		//				//letter = LetterB;
-		//				continue;
-		//			break;
+		void drawString(string text, int hue, Display* display)
+		{
+			int spacer = 20 * text.length(); //measure the words out
+			for (int i = 0; i < text.length(); i++)
+			{
+				int (*letter)[8][4];
+				char c = text[i];
+				switch (c)
+				{
+					case 'a':
+					case 'A':
+						letter = &LetterA;
+					break;
 
-		//			case 'C':
-		//				letter = LetterC;
-		//			break;
+					case 'b':
+					case 'B':
+						//letter = &LetterB;
+						continue;
+					break;
 
-		//			case 'D':
-		//				letter = LetterD;
-		//			break;
+					case 'c':
+					case 'C':
+						letter = &LetterC;
+					break;
 
-		//			case 'E':
-		//				letter = LetterE;
-		//			break;
+					case 'd':
+					case 'D':
+						letter = &LetterD;
+					break;
 
-		//			case 'F':
-		//				//letter = LetterF;
-		//				continue;
-		//			break;
+					case 'e':
+					case 'E':
+						letter = &LetterE;
+					break;
 
-		//			case 'G':
-		//				//letter = LetterG;
-		//				continue;
-		//			break;
+					case 'f':
+					case 'F':
+						//letter = &LetterF;
+						continue;
+					break;
 
-		//			case 'H':
-		//				//letter = LetterH;
-		//				continue;
-		//			break;
+					case 'g':
+					case 'G':
+						//letter = &LetterG;
+						continue;
+					break;
 
-		//			case 'I':
-		//				letter = LetterI;
-		//			break;
+					case 'h':
+					case 'H':
+						//letter = &LetterH;
+						continue;
+					break;
 
-		//			case 'J':
-		//				letter = LetterJ;
-		//			break;
+					case 'i':
+					case 'I':
+						letter = &LetterI;
+					break;
 
-		//			case 'K':
-		//				letter = LetterK;
-		//			break;
+					case 'j':
+					case 'J':
+						letter = &LetterJ;
+					break;
 
-		//			case 'L':
-		//				//letter = LetterL;
-		//				continue;
-		//			break;
+					case 'k':
+					case 'K':
+						letter = &LetterK;
+					break;
 
-		//			case 'M':
-		//				letter = LetterM;
-		//			break;
+					case 'l':
+					case 'L':
+						//letter = &LetterL;
+						continue;
+					break;
 
-		//			case 'N':
-		//				letter = LetterN;
-		//			break;
+					case 'm':
+					case 'M':
+						letter = &LetterM;
+					break;
 
-		//			case 'O':
-		//				letter = LetterO;
-		//			break;
+					case 'n':
+					case 'N':
+						letter = &LetterN;
+					break;
 
-		//			case 'P':
-		//				letter = LetterP;
-		//			break;
+					case 'o':
+					case 'O':
+						letter = &LetterO;
+					break;
 
-		//			case 'Q':
-		//				//letter = LetterQ;
-		//				continue;
-		//			break;
+					case 'p':
+					case 'P':
+						letter = &LetterP;
+					break;
 
-		//			case 'R':
-		//				letter = LetterR;
-		//			break;
+					case 'q':
+					case 'Q':
+						//letter = &LetterQ;
+						continue;
+					break;
 
-		//			case 'S':
-		//				letter = LetterS;
-		//			break;
+					case 'r':
+					case 'R':
+						letter = &LetterR;
+					break;
 
-		//			case 'T':
-		//				letter = LetterT;
-		//			break;
+					case 's':
+					case 'S':
+						letter = &LetterS;
+					break;
 
-		//			case 'U':
-		//				letter = LetterU;
-		//			break;
+					case 't':
+					case 'T':
+						letter = &LetterT;
+					break;
 
-		//			case 'V':
-		//				//letter = LetterV;
-		//				continue;
-		//			break;
+					case 'u':
+					case 'U':
+						letter = &LetterU;
+					break;
 
-		//			case 'W':
-		//				letter = LetterW;
-		//			break;
+					case 'v':
+					case 'V':
+						//letter = &LetterV;
+						continue;
+					break;
 
-		//			case 'X':
-		//				//letter = LetterX;
-		//				continue;
-		//			break;
+					case 'w':
+					case 'W':
+						letter = &LetterW;
+					break;
 
-		//			case 'Y':
-		//				//letter = LetterY;
-		//				continue;
-		//			break;
+					case 'x':
+					case 'X':
+						//letter = &LetterX;
+						continue;
+					break;
 
-		//			case 'Z':
-		//				//letter = LetterZ;
-		//				continue;
-		//			break;
+					case 'y':
+					case 'Y':
+						//letter = &LetterY;
+						continue;
+					break;
 
-		//			case ' ':
-		//				spacer -= 20;
-		//				continue;
-		//			break;
-		//		}
+					case 'z':
+					case 'Z':
+						//letter = &LetterZ;
+						continue;
+					break;
 
-		//		// becomes 2-54 based on the character (assuming capitals)
-		//		int bpm = ((int)c - 63) * 2;
-		//		drawLetter(0, (spacer + YLocation) % display->lengthStrips, 3, display, letter, beatsin8(bpm), 255, 255);
-		//		spacer -= 20; // space for the next letter
-		//	}
-		//}
+					case ' ':
+						spacer -= 20;
+						continue;
+					break;
+				}
+
+				// becomes 2-54 based on the character (assuming capitals)
+				int bpm = ((int)c - 63) * 2;
+				drawLetter(0, (spacer + YLocation) % display->lengthStrips, 3, display, *letter, beatsin8(bpm), 255, 255);
+				spacer -= 20; // space for the next letter
+			}
+		}
 
         void drawLetter(int lowerLeftX, int lowerLeftY, int orientation, Display* display, int letter[8][4], int hue, int sat, int bright){
 

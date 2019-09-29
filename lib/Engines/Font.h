@@ -1,6 +1,6 @@
 //this file holds our fonts
 //Letters are 4x8
-int space [8][1] = {0,0,0,0,0,0,0,0};
+//int space [8][1] = {0,0,0,0,0,0,0,0};
 
 //A
 int LetterA[8][4] = {
@@ -12,6 +12,7 @@ int LetterA[8][4] = {
   {1,1,1,1},
   {1,0,0,1},
   {1,0,0,1}};
+
 //C
 int LetterC[8][4] = {
   {1,1,1,1},
