@@ -16,30 +16,36 @@ enum Direction
 
 class Snake : Animation
 {
+public:
+	int xMax;
+	int yMax;
+
 	pair<int, int> head;
 	deque<pair<int, int>> body;
 	int lengthToGrow;
 
 	CRGB color;
 
-public:
 	Direction currentDirection;
 
-	Snake()
+	Snake(int height, int width)
 		: Animation(),
 		head(),
 		body()
 	{
 		color = CRGB::Green;
+		xMax = height;
+		yMax = width;
 	}
 
-	void StartAt(int x, int y, Direction direction)
+	void Reset()
 	{
 		// clear out the body
 		body.clear();
 
-		head = make_pair(x, y);
-		currentDirection = direction;
+		head.first = xMax / 2;
+		head.second = yMax / 2;
+		currentDirection = Up;
 		lengthToGrow = 6;
 	}
 
@@ -67,19 +73,19 @@ public:
 		switch (currentDirection)
 		{
 			case Up:
-				head = make_pair(head.first, head.second + 1);
+				head = make_pair(head.first, (head.second + 1) % yMax);
 			break;
 
 			case Down:
-				head = make_pair(head.first, head.second - 1);
+				head = make_pair(head.first, (head.second - 1 + yMax) % yMax);
 			break;
 
 			case Left:
-				head = make_pair(head.first - 1, head.second);
+				head = make_pair((head.first - 1 + xMax) % xMax, head.second);
 			break;
 
 			case Right:
-				head = make_pair(head.first + 1, head.second);
+				head = make_pair((head.first + 1) % xMax, head.second);
 			break;
 		}
 	}

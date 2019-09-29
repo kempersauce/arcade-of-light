@@ -48,10 +48,12 @@ void setup()
 	// Choose your Game type
 	//game = (Game*)new Head2Head(gameDisplay);
 	//game = (Game*)new LifeGame(gameDisplay);
-	game = (Game*)new RocketGame(gameDisplay);
+	//game = (Game*)new RocketGame(gameDisplay);
 	//game = (Game*)new RainbowGame(gameDisplay);
 	//game = (Game*)new MarqueeGame(gameDisplay);
 	//game = (Game*)new StartGame(gameDisplay);
+	//game = (Game*)new SnakeGame(gameDisplay);
+	game = (Game*)new ShooterGame(gameDisplay);
 
 	// Test Games
 	//game = (Game*)new DirPadTest(gameDisplay);
