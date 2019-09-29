@@ -98,8 +98,8 @@ class RocketGame : Game
 public:
     RocketGame(Display* display)
         : Game(display),
-        Up(BUTTON_PIN_2),
-        resetButton(BUTTON_PIN_3),
+        Up(BUTTON_PIN_1),
+        resetButton(BUTTON_PIN_0),
 		starBackground(display->numStrips, display->lengthStrips, 160),
 		skyFade(skyFadeColors[0]),
         rocket(display->lengthStrips, new CRGB(255, 255, 255)),
