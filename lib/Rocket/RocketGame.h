@@ -27,6 +27,34 @@
 #include <LifeGame.h>
 #include <vector>
 
+
+#include <Audio.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <SD.h>
+#include <SerialFlash.h>
+
+AudioControlSGTL5000 sgtl5000_1;
+AudioOutputI2S i2s1;
+
+// Use these with the Teensy Audio Shield
+//This uses the audio shield's card reader
+#define SDCARD_CS_PIN    10
+#define SDCARD_MOSI_PIN  7
+#define SDCARD_SCK_PIN   14
+
+// TODO move these into the WavPLayer class
+AudioPlaySdWav           playSdWav1;
+//AudioPlaySdWav           playSdWav2;
+//AudioPlaySdWav           playSdWav3;
+//AudioPlaySdWav           playSdWav4;
+
+AudioConnection          patchCord1(playSdWav1, 0, i2s1, 0);
+//AudioConnection          patchCord2(playSdWav2, 0, i2s1, 1);
+//AudioConnection          patchCord3(playSdWav3, 0, i2s1, 2);
+//AudioConnection          patchCord4(playSdWav4, 0, i2s1, 3);
+
+
 using namespace std;
 
 // Game states
@@ -40,6 +68,25 @@ enum RocketGameState {
 
 class RocketGame : Game
 {
+	void initAudio()
+	{
+		AudioMemory(32);
+		sgtl5000_1.enable();
+		sgtl5000_1.volume(1);
+		SPI.setMOSI(SDCARD_MOSI_PIN);
+		SPI.setSCK(SDCARD_SCK_PIN);
+		if (!(SD.begin(SDCARD_CS_PIN)))
+		{
+			while (1)
+			{
+				Serial.println("Unable to access the SD card");
+				delay(500);
+			}
+		}
+
+		playSdWav1.play("HUMANITY.WAV");
+	}
+
     // Button time
     Button Up;
     Button resetButton;
@@ -101,8 +148,8 @@ class RocketGame : Game
 public:
     RocketGame(Display* display)
         : Game(display),
-        Up(BUTTON_PIN_1),
-        resetButton(BUTTON_PIN_0),
+        Up(H2H_BUTTON_PIN_0),
+        resetButton(H2H_BUTTON_PIN_1),
 		starBackground(display->numStrips, display->lengthStrips, 160),
 		skyFade(skyFadeColors[0]),
         rocket(display->lengthStrips, new CRGB(255, 255, 255)),
@@ -111,6 +158,8 @@ public:
 		explosion(),
         fireworks()
     {
+		initAudio();
+
 		// Set explosion to red
 		explosion.Hue = 0; // Red explosions
 		explosion.brightnessPhaseMillis = 3000; // slower, 3 second long burnout
@@ -160,6 +209,7 @@ public:
 	void enterLoseState()
 	{
 		gameState = RocketGameLose;
+		playSdWav1.play("EXPLODE1.WAV");
 		explosion.ExplodeAt(display->numStrips / 2, rocket.physics.Location);
 		explosionsInTheSky.startAnimation();
 	}
