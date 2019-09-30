@@ -23,6 +23,7 @@
 #include <ShooterGame.h>
 #include <FallingGame.h>
 #include <LaneRunner.h>
+#include <AnimationTest.h>
 
 Game* game;
 Display* gameDisplay;
@@ -62,7 +63,7 @@ void setup()
 	// Choose your Game type
 	//game = (Game*)new Head2Head(gameDisplay);
 	//game = (Game*)new LifeGame(gameDisplay);
-	game = (Game*)new RocketGame(gameDisplay);
+	//game = (Game*)new RocketGame(gameDisplay);
 	//game = (Game*)new RainbowGame(gameDisplay);
 	//game = (Game*)new MarqueeGame(gameDisplay);
 	//game = (Game*)new StartGame(gameDisplay);
@@ -75,6 +76,7 @@ void setup()
 	//game = (Game*)new DirPadTest(gameDisplay);
 	//game = (Game*)new FiveStripTest(gameDisplay);
 	//game = (Game*)new H2HLifeGame(gameDisplay);
+    game = (Game*)new AnimationTest(gameDisplay);
 
 	// debug set strip0 yellow
 	// for (int i = 0; i < gameDisplay->lengthStrips; i++)
