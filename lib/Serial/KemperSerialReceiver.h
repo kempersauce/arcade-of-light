@@ -1,11 +1,12 @@
 
-#include <string>
 #include <queue>
+
+using namespace std;
 
 class KemperSerialReceiver
 {
 
-    std::queue<char *> outputQueue;
+    queue<char *> outputQueue;
 
 public:
     const static byte numChars = 32;
