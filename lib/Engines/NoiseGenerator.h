@@ -41,12 +41,12 @@ public:
 	void fillnoise8()
 	{
 	  	// assuming we had a framerate of 30 milliseconds...
-		const static float expectedFrameRateMillis = 1000.0 / 30.0;
+		const static float expectedFrameRateMillis = 40.0;
 
 		// Get a ratio of actual framerate vs expected
 		float timeFactor = (float)(millis() - lastFrameMillis) / expectedFrameRateMillis;
 		lastFrameMillis = millis();
-		
+
 		// adjust our speed based on our timing
 		z += (float)speed * timeFactor;
 
