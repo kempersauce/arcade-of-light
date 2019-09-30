@@ -11,12 +11,23 @@ class LifeAnimation : public Animation
         int height;
 
         // We need 2 frames to write the changes each round
-        bool** frame1;//[NUM_STRIPS][NUM_LEDS];
-        bool** frame2;
+        int** frame1;//[NUM_STRIPS][NUM_LEDS];
+        int** frame2;
 
         // Keep pointers to the frames so we can easily swap them each round instead of copying
-        bool ***lastRound = &frame1;
-        bool ***nextRound = &frame2;
+        int ***lastRound = &frame1;
+        int ***nextRound = &frame2;
+
+        static const int ageColorMax = 6;
+        CRGB ageColors[ageColorMax + 1] = {
+            CRGB(0, 0, 0), // black
+            CRGB(0, 255, 0), // green
+            CRGB(0, 255, 255), // cyan
+            CRGB(0, 0, 255), // blue
+			CRGB(255, 0, 255), // magenta
+			CRGB(255, 0, 0), // red
+			CRGB(255, 255, 0), // yellow
+        };
 
     public:
         LifeAnimation(int wdth, int heigt)
@@ -24,16 +35,18 @@ class LifeAnimation : public Animation
             width = wdth;
             height = heigt;
 
-            frame1 = new bool*[width];
-            frame2 = new bool*[width];
+            frame1 = new int*[width];
+            frame2 = new int*[width];
             for (int i = 0; i < width; i++)
             {
-                frame1[i] = new bool[height];
-                frame2[i] = new bool[height];
+                frame1[i] = new int[height];
+                frame2[i] = new int[height];
             }
 
             lastRound = &frame1;
             nextRound = &frame2;
+
+			randomize(); // init the nextRound just to be safe
         }
 
         void setCellState(int x, int y, bool state)
@@ -41,14 +54,14 @@ class LifeAnimation : public Animation
             if (x >= 0 && x < width
                 && y >= 0 && y < height)
             {
-                (*nextRound)[x][y] = state;
+                (*nextRound)[x][y] = state ? 1 : 0;
             }
         }
 
         void GoOneRound()
         {
             // swap last round with next round
-            bool ***placeholder = lastRound;
+            int ***placeholder = lastRound;
             lastRound = nextRound;
             nextRound = placeholder;
 
@@ -72,41 +85,37 @@ class LifeAnimation : public Animation
                             int neighborStrip = (strip + i + width) % width;
                             int neighborLED = (led + j + height) % height;
 
-                            // dont count out-of-bounds cells
-                            if (neighborStrip < 0 || neighborStrip >= width
-                                || neighborLED < 0 || neighborLED >= height)
-                            {
-                                continue;
-                            }
-
                             // count up the 'alive' neighbors in the last round
-                            if ((*lastRound)[neighborStrip][neighborLED])
+                            if ((*lastRound)[neighborStrip][neighborLED] > 0)
                             {
                                 neighborsAlive++;
                             }
                         }
                     }
 
-                    bool isAlive;
-
+                    int age = (*lastRound)[strip][led]; // 0 means dead
                     if (neighborsAlive < 2)
                     {
-                        isAlive = false;
+                        age = 0; // dead
                     }
                     else if (neighborsAlive > 3)
                     {
-                        isAlive = false;
+                        age = 0; // dead;
                     }
                     else if (neighborsAlive == 3)
                     {
-                        isAlive = true;
+                        age++; // bring the dead to life! and increment living cells
                     }
                     else
                     {
-                        isAlive = (*lastRound)[strip][led];
+						// the old get older but nobody gets born here
+                        if (age > 0)
+						{
+							age++;
+						}
                     }
 
-                    (*nextRound)[strip][led] = isAlive;
+                    (*nextRound)[strip][led] = age;
                 }
             }
         }
@@ -117,14 +126,15 @@ class LifeAnimation : public Animation
             {
                 for (int stripIndex = 0; stripIndex < width; stripIndex++)
                 {
-                    if ((*nextRound)[stripIndex][ledIndex])
+                    int age = (*nextRound)[stripIndex][ledIndex];
+
+                    // Dont let it step past the array bounds
+                    if (age > ageColorMax)
                     {
-                        display->strips[stripIndex][ledIndex] = CRGB::Green;
+                        age = ageColorMax;
                     }
-                    else
-                    {
-                        display->strips[stripIndex][ledIndex] = CRGB::Black;
-                    }
+
+                    display->strips[stripIndex][ledIndex] = ageColors[age];
                 }
             }
         }
@@ -136,7 +146,14 @@ class LifeAnimation : public Animation
                 for (int j = 0; j < height; j++)
                 {
                     bool alive = random8() > 127;
-                    setCellState(i, j, alive);
+					if (alive)
+					{
+						(*nextRound)[i][j] = 1;
+					}
+					else
+					{
+						(*nextRound)[i][j] = 0;
+					}
                 }
             }
         }

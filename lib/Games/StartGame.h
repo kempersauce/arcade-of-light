@@ -1,116 +1,46 @@
 #include <Game.h>
 #include <H2HDisplay.h>
 #include <H2HControls.h>
-#include <H2HDot.h>
 #include <Noise.h>
-#include <Dot.h>
+#include <Charge.h>
 
 
 
-class H2HStartGame : Game
+class StartGame : Game
 {
     public:
         H2HControls* controls;
-
-        int DotPercentage[3];
-        H2HDot** dots;
-
-
-        H2HStartGame(Display* gameDisplay)
+        Charge** gameCharge;
+        Noise* background;
+        StartGame(Display* gameDisplay)
             : Game(gameDisplay)
         {
+            background = new Noise(display->numStrips, display->lengthStrips);
+            gameCharge = new Charge*[2];
+            //Charge (int startHue, int startX, int startY, int yMaximum)
+            gameCharge[0] = new Charge(0, 1, display->lengthStrips, display->lengthStrips / 2);
+            gameCharge[1] = new Charge(160, 1, 0, display->lengthStrips / 2);
         }
 
         void setup()
         {
-            FastLED.setBrightness(50);
             controls = (H2HControls*)new H2HControls();
-            background = (Animation*)new Noise(display->numStrips, display->lengthStrips);
-            dots = new H2HDot*[4] {
-                //new H2HDot(CRGB::Purple, 0, 15, 8, 120),
-                new H2HDot(CRGB::Red, 3, 15, 0),
-                new H2HDot(CRGB::Red, 4, 15, 0),
-                new H2HDot(CRGB::Blue, 3, 15, 120),
-                new H2HDot(CRGB::Blue, 4, 15, 120),
-                //new H2HDot(CRGB::Purple, 5, 15, 120),
-                //new H2HDot(CRGB::Purple, 6, 15, 120),
-                //new H2HDot(CRGB::Purple, 7, 15, 120),
-            };
         }
 
         void loop()
         {
             controls->pollAll();
             background->draw(display);
-            checkTeam(controls->teamA, CRGB::Green, CRGB::Blue, true);
-            checkTeam(controls->teamB, CRGB::Yellow, CRGB::Red, false);
-            drawDots();
-            fillStrip();
-            setBackgroundBrightness();
-            FastLED.show();
-        }
-
-        void checkTeam(Button** team, CRGB color1, CRGB color2, bool moveUp)
-        {
+            checkTeam(controls->teamA, gameCharge[0]);
+            checkTeam(controls->teamB, gameCharge[1]);
             for (int i = 0; i < 2; i++)
             {
-                if (team[i]->isPressed())
-                {
-                    for (int j = 0; j < dots[i]->yLoc; j++)
-                    {
-                        display->strips[i][j] = color2;
-                    }
-
-                    if (moveUp)
-                    {
-                        if (dots[i]->yLoc > display->lengthStrips / 2)
-                        {
-                            dots[i]->move(0,1);
-                        }
-                    }
-                    else
-                    {
-                        dots[i]->move(0,-1);
-                    }
-
-                    //for (int j = 0; j < display->lengthStrips; j++)
-                    // {
-                    //     if(j<dots[i]->yLoc)
-                    //     {
-                    //         display->strips[i][j] = CRGB::Blue;
-                    //     }
-                    //     if(j>dots[i]->yLoc)
-                    //     {
-                    //         display->strips[i][j] = CRGB::Red;
-                    //     }
-                    // }
-
-                }
-
+                gameCharge[i]->draw(display);
             }
         }
 
-
-        void fillStrip()
+        void checkTeam(Button** team, Charge* charge)
         {
-
+            charge->power(team[0]->isPressed());
         }
-
-        void drawDots()
-        {
-            for(int i=0; i<4; i++)
-            {
-                dots[i]->draw(display);
-            }
-        }
-
-        void setBackgroundBrightness()
-        {
-            for(int i=0; i<4; i++)
-            {
-                DotPercentage[i] = dots[i]->yLoc / (display->lengthStrips / 2);
-            }
-            ((Noise*)background)->setBrightness(DotPercentage[0]+DotPercentage[1]+DotPercentage[2]+DotPercentage[3]/4*255);
-        }
-
 };

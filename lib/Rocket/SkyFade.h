@@ -30,7 +30,7 @@ class SkyFade : Animation
                 for (int j = 0; j < heightMax; j++)
                 {
                     float blueFactor = ((float)(heightMax - j)) / ((float)heightMax);
-                    blendPixel(&display->strips[i][j], blendColor, blueFactor);
+                    display->blendPixel(i, j, blendColor, blueFactor);
                 }
             }
         }

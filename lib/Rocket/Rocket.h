@@ -4,129 +4,92 @@
 #pragma once
 
 #include <Animation.h>
+#include <RocketBoost.h>
+#include <PhysicsInfo.h>
 
 class Rocket : Animation
 {
-    public:
-        // Rocket constants
-        int Mass;
-        int Height;
-        int Gravity;
-        int ThrustStrength;
+public:
+	PhysicsInfo physics;
 
-        //colors (RGB)
-        CRGB* color;
+	// Rocket constants
+	//int Mass = 2;
+	int Height = 2;
+	//int Gravity; // this gets set according to the level
 
-        // Rocket State
-        float Location;
-        float Thrust;
-        float Velocity;
-        float Acceleration;
-        float Time;
-        bool Exploded;
+	//colors (RGB)
+	CRGB* color;
 
-        /**
-         * Rocket Constructor
-         * @param loc - location on LED strip
-         * @param clr - Color of the rocket ship
-         */
-        Rocket(int loc, CRGB* clr)
-            : Animation(),
-            Location((float)loc)
-        {
-            Gravity = 15;
-            Mass = 2;
-            Height = 2; //change this later to be adjustable
-            color = clr;
-            ThrustStrength = 200;
-            Reset();
-        }
+	// Rocket State
+	//float Thrust;
+	//float ThrustMax = 200;
+	//float Acceleration;
+	//float Velocity;
+	//float ExploadVelocity = 50;
+	//float Location;
+	//int LocationMax;
+	//long Time;
+	//bool Exploded;
 
-        void Reset()
-        {
-          Location = 0;
-          Thrust = 0;
-          Velocity = 0;
-          Acceleration = 0;
-          Exploded = false;
-          Time = millis();
-        }
+	RocketBoost boost;
 
-        void Boost()
-        {
-            Thrust = ThrustStrength;
-        }
+	/**
+	 * Rocket Constructor
+	 * @param loc - location on LED strip
+	 * @param clr - Color of the rocket ship
+	 */
+	Rocket(int lengthStrips, CRGB* clr)
+	    : Animation(),
+	    physics(),
+	    boost(5)
+	{
+	    // Init physics settings
+	    physics.LocationMax = lengthStrips;
+	    physics.BounceFactor = -0.7;
+	    physics.ExplodeVelocity = 50;
+	    physics.ThrustMax = 200;
+	    physics.Mass = 2;
 
-        void endBoost()
-        {
-            Thrust = 0;
-        }
+	    color = clr;
+	    Reset();
+	}
 
-        void Move(int numLeds)
-        {
-            long oldTime = Time;
-            //float oldAcceleration = Acceleration;
+	void Reset()
+	{
+	    physics.Reset();
+	}
 
-            Time = millis();
+	void SetGravity(int gravity)
+	{
+	   physics.Gravity = gravity;
+	}
 
-            //Equations
-            //Acceleration [A] = (.5 * (Thrust + Previous Thrust))/mass-gravity
-            Acceleration = Thrust/ Mass - Gravity;
-            //will essentially be one of 3 values:
-            //                  no thrust Acceleration = -GRAVITY
-            //                  thrust initializing or ending = about 40% max thrust
-            //                  full thrust = 100% thrust
+	void SetBoost(int thrustLevel)
+	{
+	    physics.Thrust = thrustLevel;
+	}
 
-            //Velocity [V] = Vp + delta T/1000 * Acceleration [A]
-            //equation is for seconds millis() returns an unsigned long in milliseconds
-            Velocity += ((Time - oldTime)/1000) * Acceleration;
-            //needs to be min limited to 0 when position = 0
-            //should probably have a terminal velocity since we only have 300px to work with
+	void Move(bool respectEdges = true)
+	{
+	    physics.Move(respectEdges);
 
-            //Position [Y] = Position Previous [Yp] + 0.5 * (Velocity [V] + Velocity Previous [Vp]) * delta T
-            Location += Velocity * ((Time - oldTime)/1000);
-            //needs to be min limited to 0
+	    // Update boost location
+	    boost.loc = physics.Location;
+	    boost.boostFactor = physics.Thrust / physics.ThrustMax;
+	}
 
-            //rocket has slammed into ceiling or floor
-            bool hasHitEdge = false;
-            if (Location > numLeds - 1)
-            {
-                Location = numLeds - 1;
-                hasHitEdge = true;
-            }
-            else if (Location <= 0)
-            {
-                Location = 0;
-                hasHitEdge = true;
-                Velocity = 0;
-            }
+	void draw(Display* display)
+	{
+	    // Draw the rocket ship
+	    int middleStrip = display->numStrips / 2;
+	    for (int i = max(ceil(physics.Location), 0); i < min((int)physics.Location + Height, display->lengthStrips); i++)
+	    {
+	        display->strips[middleStrip][i] = *color;
+	    }
+		display->ditherPixel(middleStrip, physics.Location + Height - 1, color); // dither rocket nose
+		display->ditherPixel(middleStrip, physics.Location, color); // dither rocket tail
 
-            if (hasHitEdge)
-            {
-                Acceleration = 0;
-
-                // and exploded
-                if (Velocity > 100)
-                {
-                    Exploded = true;
-                    Velocity = 0;
-                }
-
-                // and bounced off ceiling
-                else
-                {
-                    Velocity = -0.7 * Velocity;
-                }
-            }
-        }
-
-        void draw(Display* display)
-        {
-            // Draw the rocket ship
-            int middleStrip = display->numStrips / 2;
-            for (int i = (int)Location; i < (int)Location + Height; i++)
-            {
-                display->strips[middleStrip][i] = *color;
-            }
-        }
+	    // Draw the rocket boost
+	    boost.draw(display);
+	}
 };

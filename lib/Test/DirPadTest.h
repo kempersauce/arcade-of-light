@@ -11,33 +11,33 @@
 class DirPadTest : Game
 {
     public:
-        DirPad* controls;
+        DirPad controls;
         Dot* player;
         SingleColorBG* backgroundColor;
-        Animation* rainbow;
+        HueRainbow rainbow;
 
         DirPadTest(Display* gameDisplay)
-            : Game(gameDisplay)
+            : Game(gameDisplay),
+			controls(),
+			rainbow(2)
         {
-            rainbow = new HueRainbow(2);
+            rainbow.setWaveShift(true);
         }
 
         void setup()
         {
-            controls = new DirPad();
-            ((HueRainbow*)rainbow)->setWaveShift(true);
         }
 
         void loop()
         {
-            controls->pollAll();
+            controls.pollAll();
 
-            if (controls->up->isPressed())
+            if (controls.up.isPressed())
             {
                 Serial.println("UP DIR BUTTON PRESSED");
                 int newSpeed;
-                int currentSpeed = ((HueRainbow*)rainbow)->ShiftSpeed;
-                if(currentSpeed <20)
+                int currentSpeed = rainbow.ShiftSpeed;
+                if (currentSpeed < 20)
                 {
                     newSpeed = currentSpeed + 1;
                 }
@@ -45,58 +45,58 @@ class DirPadTest : Game
                 {
                     newSpeed = 20;
                 }
-                
-                
-                ((HueRainbow*)rainbow)->setSpeed(newSpeed);
+
+
+                rainbow.setSpeed(newSpeed);
             }
 
-            if (controls->down->isPressed())
+            if (controls.down.isPressed())
             {
                 Serial.println("DOWN DIR BUTTON PRESSED");
                 int newSpeed;
-                int currentSpeed = ((HueRainbow*)rainbow)->ShiftSpeed;
-                if(currentSpeed > -20)
+                int currentSpeed = rainbow.ShiftSpeed;
+                if (currentSpeed > -20)
                 {
                     newSpeed = currentSpeed - 1;
                 }
-                
-                ((HueRainbow*)rainbow)->setSpeed(newSpeed);
+
+                rainbow.setSpeed(newSpeed);
                 Serial.println("new speed:");
-                Serial.println(((HueRainbow*)rainbow)->ShiftSpeed);
+                //Serial.println(rainbow.ShiftSpeed);
             }
 
-            if (controls->left->isPressed())
+            if (controls.left.isPressed())
             {
                 Serial.println("LEFT DIR BUTTON PRESSED");
             }
 
-            if (controls->right->isPressed())
+            if (controls.right.isPressed())
             {
                 Serial.println("RIGHT DIR BUTTON PRESSED");
             }
 
-            // if (controls->a->isPressed())
-            // {
-            //     ((HueRainbow*)rainbow)->setWaveShift(true);
-            //     Serial.println("B BUTTON PRESSED");
-            // }
-
-            // if (controls->b->isPressed())
-            // {
-            //     ((HueRainbow*)rainbow)->setWaveShift(false);
-            //     //Serial.println("A BUTTON PRESSED");
-            // }
-
-            if (!(//controls->a->isPressed() &&
-            //controls->b->isPressed() && 
-            controls->up->isPressed() &&
-            controls->down->isPressed() &&
-            controls->left->isPressed() &&
-            controls->right->isPressed()))
+            if (controls.a.isPressed())
             {
-                //Serial.println("no Buttons pressed");
+                rainbow.setWaveShift(true);
+                Serial.println("B BUTTON PRESSED");
             }
 
-            rainbow->draw(display);
+            if (controls.b.isPressed())
+            {
+                rainbow.setWaveShift(false);
+                Serial.println("A BUTTON PRESSED");
+            }
+
+            // if (!(//controls.a.isPressed() &&
+            // //controls.b.isPressed() &&
+            // controls.up.isPressed() &&
+            // controls.down.isPressed() &&
+            // controls.left.isPressed() &&
+            // controls.right.isPressed()))
+            // {
+            //     //Serial.println("no Buttons pressed");
+            // }
+
+            rainbow.draw(display);
         }
 };

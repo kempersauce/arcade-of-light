@@ -4,11 +4,13 @@
 
 class SingleColorTest : Game
 {
+    SingleColorBG* background;
+    
     public:
         SingleColorTest(Display* gameDisplay)
             : Game(gameDisplay)
         {
-            background = (Animation*)new SingleColorBG(0, 0, 255);
+            background = new SingleColorBG(0, 0, 255);
         }
 
         void setup()

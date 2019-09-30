@@ -11,13 +11,13 @@ private:
       int height;
       float boostFactor;
 
-      RocketBoost(int heigt)
+      RocketBoost(int heightMax)
       {
-          height = heigt;
+          height = heightMax;
           loc = 0;
           boostFactor = 0;
-          noiseGenerator = new NoiseGenerator(1, height); // 1-d noise generator
-          noiseGenerator->speed = 200; // make it fast whoosh
+          noiseGenerator = new NoiseGenerator(1, heightMax); // 1-d noise generator
+          noiseGenerator->speed = 100; // make it fast whoosh
       }
 
       //override rainbow draw function
@@ -41,15 +41,9 @@ private:
           }
 
           int middleStrip = display->numStrips / 2;
-          for (int i = 0; i < boostHeight; i++)
+          for (int i = max(loc - boostHeight, 0); i < min(loc, display->lengthStrips); i++)
           {
-              int boostLoc = (loc - boostHeight) + i;
-
-              // Dont paint outside the canvas
-              if (boostLoc >= 0 && boostLoc < display->lengthStrips)
-              {
-                  display->strips[middleStrip][boostLoc].setRGB(255, noiseGenerator->noise[0][i], 0);
-              }
+              display->strips[middleStrip][i].setRGB(255, noiseGenerator->noise[0][loc - i], 0);
           }
       }
 };

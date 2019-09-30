@@ -1,25 +1,38 @@
 #pragma once
 
-#include <Dot.h>
+#include <PhysicsInfo.h>
+#include <FastLED.h>
 
-class H2HDot : public Dot
+class H2HDot : public Animation
 {
     public:
-        int velocity;
+        PhysicsInfo physics;
+		CRGB color;
 
-        H2HDot(CRGB startColor, int startX, int startY, int yMaximum)
-            : Dot(startColor, startX, startY, startX, yMaximum)
+        H2HDot(CRGB startColor, int stripIndex)
+            : Animation(),
+			physics()
         {
-            velocity = 1;
+			color = startColor;
+            physics.xLocation = stripIndex;
         }
 
-        void vMove()
+        void Move()
         {
-            move(0, velocity);
+			physics.Move();
         }
 
-        void flip()
+		void setVelocity(float velocity)
+		{
+			physics.Velocity = (int)velocity;
+		}
+
+        void draw(Display* display)
         {
-            velocity *= -1;
+			// Don't draw outside the display boundaries
+			if (physics.HasHitEdge == false)
+			{
+				display->ditherPixel((int)physics.xLocation, physics.Location, &color);
+			}
         }
 };

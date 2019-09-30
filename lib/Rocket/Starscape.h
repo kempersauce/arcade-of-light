@@ -4,11 +4,11 @@
 class Starscape : Animation
 {
     private:
-      NoiseGenerator* noiseGenerator;
-
       int brightnessThreshold;
 
     public:
+      NoiseGenerator* noiseGenerator;
+
       Starscape(int width, int height, int brigtnessThreshold) : Animation()
       {
           noiseGenerator = new NoiseGenerator(width, height);

@@ -1,115 +1,88 @@
 #include <Animation.h>
+#include <Explosion.h>
 
 class Firework : Animation
 {
-    public:
-        //location values
-        int Loc;
-        int Height; //pixel height where the firework explodes
-        int Speed; //pixels per second
+	// Used to randomly select the strip and explosion height when resetting the firework
+	int stripsHeight;
+	int stripsWidth;
 
-        //colors (RGB)
-        int Red;
-        int Green;
-        int Blue;
-        int loopCounter;
+public:
+    // Physics for the fireworks "rocket"
+    PhysicsInfo physics;
 
-        // float Location;
-        bool Exploded;
-        bool burstFin;
-        long Time;
-        long oldTime;
-        int burstSize;
-        int explodeFrame;
-        int slowDown;
+	// Fireworks explosion
+    Explosion explosion;
 
-        /**
-         * Firework Constructor
-         * @param loc - location on LED strip
-         * @param red - red value (0-255)
-         * @param green - green value (0-255)
-         * @param blue - blue value (0-255)
-         * */
-        Firework()
-            : Animation()
+    //color for the firework rocket
+    int Hue;
+
+	bool isPlaying;
+
+    /**
+     * Firework Constructor
+     * @param stripLength - location on LED strip
+     * */
+    Firework(int stripLength, int numStrips)
+        : Animation(),
+        physics(),
+		explosion(50)
+    {
+        stripsHeight = stripLength;
+		stripsWidth = numStrips;
+
+        Reset();
+		isPlaying = false;
+    }
+
+    void Reset()
+    {
+		isPlaying = true;
+        physics.Reset();
+        physics.LocationMax = random(stripsHeight / 3, stripsHeight - 20); // height the firework explodes
+        physics.Velocity = random(35, 75); // how fast do we get there
+
+		physics.xLocation = random(0, stripsWidth); // select which strip this should be on
+
+        Hue = random(0, 255);
+    }
+
+    void Move()
+    {
+		bool wasExploded = physics.HasExploded; // edge was set with LocationMax to denote the explode height
+
+		physics.Move();
+
+		// Explode when we get to the designated height
+        if (physics.HasExploded)
         {
-            explodeFrame = -1;
-            Loc = 0;
-            Speed = random8(1,5);
-            Height = random8(0,100)+150;
-            Red = 255;
-            Green = 0;
-            Blue = 255;
-            Exploded = false;
-            burstFin = false;
-            loopCounter = 0;
-            slowDown = 2;
-        }
+			if (wasExploded == false)
+			{
+				explosion.Hue = random(0, 255);
+				explosion.ExplodeAt(physics.xLocation, physics.Location);
+			}
 
-        void Move()
+			explosion.Move();
+
+			if (explosion.IsBurnedOut())
+			{
+				isPlaying = false;
+			}
+        }
+    }
+
+    void draw(Display* display)
+    {
+        if (physics.HasExploded)
         {
-            if (Exploded == false)
-            {
-                oldTime = Time;
-                Time = millis();
-                Loc = Loc + 1;
-                if (Loc >= Height)
-                {
-                    Exploded = true;
-                }
-            }
-            //if (Exploded = true){
-            //    loopCounter = loopCounter + 1;
-            //}
-            //Loc = (int)Location;
+			explosion.draw(display);
+		}
+		else
+		{
+			int Saturation = min(255 * (physics.Location / physics.LocationMax), 255);
+			CRGB color;
+			color.setHSV(Hue, Saturation, 255);
+			display->ditherPixel((int)physics.xLocation, (int)physics.Location, &color);
         }
-
-        void Reset()
-        {
-            Loc = 0;
-            //Location = 0;
-            Speed = random8(1,5)+10;
-            Height = random8(0,250)+50;
-            Red = random(0,100);
-            Green = random(0,100);
-            Blue = random(0,100);
-            Exploded = false;
-            burstFin = false;
-            loopCounter = 0;
-        }
-
-        void draw(Display* display)
-        {
-
-        }
+    }
 };
-
-
- /*     int upDot = target.Loc + .5 * target.Height;
-        int downDot = target.Loc + .5 * target.Height;
-        int upFin = 0;
-        int downFin = 0;
-        // two way color fill across entire strip
-        while (upFin + downFin != 2)
-            {
-                int redColor = random(0,255);
-                int greenColor = random(0,255);
-                int blueColor = random(0,255);
-                if (upFin == 0){
-                    leds[upDot].setRGB( greenColor, redColor, blueColor);
-                    FastLED.show();
-                    upDot = upDot + 1;
-                    if (upDot > NUM_LEDS){
-                        upFin = 1;
-                    }
-                }
-                if (downFin == 0){
-                    leds[downDot].setRGB( greenColor, redColor, blueColor);
-                    FastLED.show();
-                    downDot = downDot - 1;
-                    if (downDot < 0){
-                        downFin = 1;
-                    }
-                }
-                //delay(animationDelay);
-            } */

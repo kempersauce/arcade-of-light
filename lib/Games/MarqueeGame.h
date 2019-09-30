@@ -10,6 +10,8 @@ Where the magic happens
 
 class MarqueeGame : Game
 {
+    HueRainbow* background;
+    
     public:
 
         Marquee* marquee;

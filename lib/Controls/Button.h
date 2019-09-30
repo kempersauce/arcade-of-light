@@ -33,11 +33,22 @@ public:
         _wasPressed = false;
         _isPressed = false;
 
-        framesHeld = 0;
-        holdStartTime = 0;
+        if (isPressed())
+        {
+            framesHeld = 1; // We're counting the first frame here, so anything using this field can have an immediate response
+            holdStartTime = millis();
 
-        framesReleased = 0;
-        releasedStartTime = 0;
+            framesReleased = 0;
+            releasedStartTime = 0;
+        }
+        else
+        {
+            framesHeld = 0;
+            holdStartTime = 0;
+
+            framesReleased = 1;
+            releasedStartTime = millis();
+        }
 
         // Poll now to set the backlog - this ensures we have the correct button state when we start
         poll();
