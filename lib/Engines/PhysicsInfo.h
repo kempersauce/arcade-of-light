@@ -15,9 +15,11 @@ public:
     float Thrust;
     float Velocity;
     float Location;
+	float Friction = 0;
 
 	float xVelocity = 0;
 	float xLocation = 0;
+	float xFriction = 0;
 
     // Edge detection
     bool HasHitEdge; // updated every round to determine if the edge was hit this round
@@ -81,6 +83,24 @@ public:
         //Velocity [V] = Vp + delta T/1000 * Acceleration [A]
         //equation is for seconds millis() returns an unsigned long in milliseconds
         Velocity += Acceleration * timeDiff;
+		if (Velocity > 0)
+		{
+			Velocity -= Friction * timeDiff;
+		}
+		else
+		{
+			Velocity += Friction * timeDiff;
+		}
+
+		if (xVelocity > 0)
+		{
+			xVelocity -= xFriction * timeDiff;
+		}
+		else
+		{
+			xVelocity += xFriction * timeDiff;
+		}
+
         //needs to be min limited to 0 when position = 0
         //should probably have a terminal velocity since we only have 300px to work with
 

@@ -24,6 +24,11 @@ public:
     {
 		birthTimeMillis = 0; // not born yet
         Hue = random(0, 255);
+		for (int i = 0; i < shrapnel.size(); i++)
+		{
+			shrapnel[i].Friction = 100;
+			shrapnel[i].xFriction = 200;
+		}
     }
 
 	void SetGravity(int gravity)
@@ -38,13 +43,12 @@ public:
     {
         birthTimeMillis = millis();
 
-
 		for (int i = 0; i < shrapnel.size(); i++)
 		{
 			shrapnel[i].Reset();
 			shrapnel[i].Location = location;
 			shrapnel[i].xLocation = stripIndex;
-			shrapnel[i].RandomizeVelocityVector(50);
+			shrapnel[i].RandomizeVelocityVector(100);
 		}
     }
 
@@ -55,8 +59,8 @@ public:
 			for (int i = 0; i < shrapnel.size(); i++)
 			{
 				shrapnel[i].Move();
-				shrapnel[i].Velocity *= .9;
-				shrapnel[i].xVelocity *= .5;
+				//shrapnel[i].Velocity *= .9;
+				//shrapnel[i].xVelocity *= .5;
 			}
 		}
     }
