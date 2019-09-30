@@ -4,18 +4,20 @@
 
 class SerialTest : Game
 {
-    KemperSerialReceiver *ks;
+    KemperSerialReceiver ks;
+
+	SingleColorBG background;
 
 public:
     SerialTest(Display *gameDisplay)
-        : Game(gameDisplay)
+        : Game(gameDisplay),
+		background(0, 0, 255),
+		ks(Serial1)
     {
-        background = (Animation *)new SingleColorBG(0, 0, 255);
     }
 
     void setup()
     {
-        ks = new KemperSerialReceiver(Serial1);
         delay(4000);
         pinMode(LED_BUILTIN, OUTPUT);
         digitalWrite(LED_BUILTIN, HIGH);
@@ -27,12 +29,12 @@ public:
 
     void loop()
     {
-        background->draw(display);
+        background.draw(display);
 
-        if (ks->recvWithStartEndMarkers())
+        if (ks.recvWithStartEndMarkers())
         {
             char output[32];
-            ks->getNextMessage(output);
+            ks.getNextMessage(output);
 
             Serial.print("\noutput:");
             Serial.print(output);

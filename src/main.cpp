@@ -51,17 +51,6 @@ void setup()
     Serial.println("gameDisplay created");
     FastLED.show();
 
-    // Choose your Game type
-    //game = (Game*)new Head2Head(gameDisplay);
-    //game = (Game*)new LifeGame(gameDisplay);
-    //game = (Game*)new RocketGame(gameDisplay);
-    //game = (Game*)new RainbowGame(gameDisplay);
-    //game = (Game*)new MarqueeGame(gameDisplay);
-
-    // Test Games
-    //game = (Game*)new DirPadTest(gameDisplay);
-    //game = (Game*)new SerialTest(gameDisplay);
-
     // debug set strip0 yellow
     for (int i = 0; i < gameDisplay->lengthStrips; i++)
     {
@@ -69,6 +58,7 @@ void setup()
     }
     Serial.println("game created");
     FastLED.show();
+
 	// Choose your Game type
 	//game = (Game*)new Head2Head(gameDisplay);
 	//game = (Game*)new LifeGame(gameDisplay);
