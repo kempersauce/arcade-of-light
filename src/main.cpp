@@ -113,7 +113,7 @@ void loop()
     FastLED.show();
 
 
-    Serial.println("loops brother");
+    //Serial.println("loops brother");
     //delay(10);
     //Serial.println("loop() finished");
 }
