@@ -22,7 +22,7 @@ public:
 
     KemperSerialReceiver(HardwareSerial &serialRef)
     {
-
+		serial = serialRef;
         inputBuffer = (char *)malloc(numChars);
 
         serial.begin(9600);
