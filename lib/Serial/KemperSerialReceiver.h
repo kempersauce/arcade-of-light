@@ -14,21 +14,22 @@ public:
     //char receivedChars[numChars];
     char *inputBuffer;
 
-    HardwareSerial serial;
+    const HardwareSerial *serial;
 
     int led;
     int mostRecentUnreadMessage;
     int newestMessage;
 
-    KemperSerialReceiver(HardwareSerial &serialRef)
+    KemperSerialReceiver(const HardwareSerial *serialRef)
     {
-
+		serial = serialRef;
         inputBuffer = (char *)malloc(numChars);
 
-        serial.begin(9600);
+        serial->begin(9600);
 
         led = 13; //TODO get rid of test output led code
         pinMode(led, OUTPUT);
+        Serial.print("making a serial");
     }
 
 public:
@@ -41,12 +42,12 @@ public:
         char endMarker = '>';
         char rc;
 
-        while (serial.available() > 0)
+        while (serial->available() > 0)
         {
 
-            rc = serial.read();
+            rc = serial->read();
             //Serial.println(rc);//<--prints raw input stream to serial interface, use for bugtesting
-
+            
             if (recvInProgress == true)
             {
                 if (rc != endMarker)

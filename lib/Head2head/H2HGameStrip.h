@@ -29,9 +29,6 @@ class H2HGameStrip : Animation
 	// Explode the ball out of the gate
 	Explosion dropExplosion;
 
-	// static because they all share the same mid bar
-	static int midBar;
-
 	// nearside team
 	H2HZone zoneA;
 	static int zoneAStart;
@@ -54,6 +51,10 @@ class H2HGameStrip : Animation
 	const static long droppingStateTimeoutMillis = 1000 * 2; // 2 seconds of flashing before ball drop
 
 public:
+
+	// static because they all share the same mid bar
+	static int midBar;
+
 	Button buttonA;
 	Button buttonB;
 
@@ -357,7 +358,7 @@ public:
 
 	void drawMidBar(Display* display)
 	{
-		display->strips[stripIndex][midBar] = CRGB::White;
+		//display->strips[stripIndex][midBar] = CRGB::White;
 	}
 };
 
