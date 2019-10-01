@@ -12,7 +12,7 @@ public:
     SerialTest(Display *gameDisplay)
         : Game(gameDisplay),
 		background(0, 0, 255),
-		ks(Serial1)
+		ks(&Serial1)
     {
     }
 

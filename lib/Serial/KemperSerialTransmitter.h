@@ -6,13 +6,13 @@
 class KemperSerialTransmitter
 {
 public:
-	HardwareSerial serial;
+	const HardwareSerial *serial;
 	const static byte numChars = 32;
 
-	KemperSerialTransmitter(HardwareSerial &serialRef)
+	KemperSerialTransmitter(const HardwareSerial *serialRef)
 	{
 		serial = serialRef;
-		serial.begin(9600);
+		serial->begin(9600);
 	}
 
     void sendMessage(String msg)
@@ -26,9 +26,10 @@ public:
 			else
 			{
 				String finalMsg = "<" + msg + ">";
-				serial.print(finalMsg);
+				serial->print(finalMsg);
 			}
 		}
     }
-
 };
+
+KemperSerialTransmitter Transmitter5(&Serial5);

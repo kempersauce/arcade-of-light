@@ -5,6 +5,7 @@
 #include <H2HZone.h>
 #include <Explosion.h>
 #include <NoiseGenerator.h>
+#include <KemperSerialTransmitter.h>
 
 enum H2HStripState
 {
@@ -260,6 +261,7 @@ public:
 				}
 				else
 				{
+					Transmitter5.sendMessage("EXPLODE1.WAV");
 					enterPlayingState();
 				}
 			break;
