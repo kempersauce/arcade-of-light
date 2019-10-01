@@ -10,6 +10,7 @@
 #include <H2HGameStrip.h>
 #include <RainbowGame.h>
 #include <LifeGame.h>
+#include <ElectricArc.h>
 
 enum H2HGameState
 {
@@ -26,6 +27,8 @@ class Head2Head : Game
 
     NoiseGenerator noiseGenerator;
 
+	ElectricArc electricArc;
+
     // Idle Game, plays after no buttons have been pressed before idle timeout
     LifeGame idleGame;
     bool isIdle;
@@ -39,7 +42,8 @@ public:
     Head2Head(Display* gameDisplay)
         : Game(gameDisplay),
         idleGame(gameDisplay),
-		noiseGenerator(gameDisplay->numStrips, gameDisplay->lengthStrips)
+		noiseGenerator(gameDisplay->numStrips, gameDisplay->lengthStrips),
+		electricArc()
     {
 		noiseGenerator.speed = 60;
 
@@ -180,6 +184,8 @@ public:
 				{
 					gameStrips[i]->draw(display);
 				}
+				electricArc.yLocation = H2HGameStrip::midBar;
+				electricArc.draw(display);
 			break;
 
 			case H2HGameWinA:
