@@ -18,12 +18,12 @@ AudioOutputI2S i2s1;
 
 AudioPlaySdWav           playSdWav1;
 AudioConnection          patchCord1(playSdWav1, 0, i2s1, 0);
-KemperSerialReceiver serialReceiver[5]{
-	KemperSerialReceiver(Serial1),
-	KemperSerialReceiver(Serial2),
-	KemperSerialReceiver(Serial3),
-	KemperSerialReceiver(Serial4),
-	KemperSerialReceiver(Serial5)
+KemperSerialReceiver serialReceiver[1]{
+//	KemperSerialReceiver(&Serial1),
+//	KemperSerialReceiver(&Serial2),
+//	KemperSerialReceiver(&Serial3),
+//	KemperSerialReceiver(&Serial4),
+	KemperSerialReceiver(&Serial5)
 };
 
 void setup()
@@ -43,11 +43,13 @@ void setup()
 		}
 	}
 	playSdWav1.play("HUMANITY.WAV");
+	delay(5000);
+	Serial.println("starting the loop");
 }
 
 void loop()
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		serialReceiver[i].recvWithStartEndMarkers();
 		while (serialReceiver[i].hasMessages())
@@ -59,6 +61,7 @@ void loop()
 			Serial.print(": ");
 			Serial.println(output);
 			playSdWav1.play(output);
+			
 			Serial.println("Done");
 		}
 	}
