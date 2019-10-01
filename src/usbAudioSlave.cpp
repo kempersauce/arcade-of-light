@@ -1,5 +1,6 @@
 // #include <Arduino.h>
 // #include <KemperSerialReceiver.h>
+// #include <USBSerialReceiver.h>
 
 // #include <Audio.h>
 // #include <Wire.h>
@@ -18,13 +19,8 @@
 
 // AudioPlaySdWav           playSdWav1;
 // AudioConnection          patchCord1(playSdWav1, 0, i2s1, 0);
-// KemperSerialReceiver serialReceiver[1]{
-// //	KemperSerialReceiver(&Serial1),
-// //	KemperSerialReceiver(&Serial2),
-// //	KemperSerialReceiver(&Serial3),
-// //	KemperSerialReceiver(&Serial4),
-// 	KemperSerialReceiver(&Serial5)
-// };
+// //KemperSerialReceiver*    serialReceiver = new KemperSerialReceiver();
+// USBSerialReceiver*    serialReceiver = new USBSerialReceiver();
 
 // void setup()
 // {
@@ -51,11 +47,11 @@
 // {
 // 	for (int i = 0; i < 1; i++)
 // 	{
-// 		serialReceiver[i].recvWithStartEndMarkers();
-// 		while (serialReceiver[i].hasMessages())
+// 		serialReceiver->recvWithStartEndMarkers();
+// 		while (serialReceiver->hasMessages())
 // 		{
 // 			char output[32];
-// 			serialReceiver[i].getNextMessage(output);
+// 			serialReceiver->getNextMessage(output);
 // 			Serial.print("playing from serial");
 // 			Serial.print(i + 1);
 // 			Serial.print(": ");
