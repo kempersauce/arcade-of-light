@@ -3,6 +3,9 @@
 #include <FastLED.h>
 #include <Animation.h>
 #include <Display.h>
+#include <vector>
+
+using namespace std;
 
 class LifeAnimation : public Animation
 {
@@ -18,8 +21,10 @@ class LifeAnimation : public Animation
         int ***lastRound = &frame1;
         int ***nextRound = &frame2;
 
-        static const int ageColorMax = 6;
-        CRGB ageColors[ageColorMax + 1] = {
+    public:
+		float randomizeDensity = .5;
+
+        vector<CRGB> ageColors {
             CRGB(0, 0, 0), // black
             CRGB(0, 255, 0), // green
             CRGB(0, 255, 255), // cyan
@@ -29,7 +34,6 @@ class LifeAnimation : public Animation
 			CRGB(255, 255, 0), // yellow
         };
 
-    public:
         LifeAnimation(int wdth, int heigt)
         {
             width = wdth;
@@ -122,16 +126,16 @@ class LifeAnimation : public Animation
 
         void draw(Display* display)
         {
-            for (int ledIndex = 0; ledIndex < height; ledIndex++)
+            for (int ledIndex = 0; ledIndex < display->lengthStrips; ledIndex++)
             {
-                for (int stripIndex = 0; stripIndex < width; stripIndex++)
+                for (int stripIndex = 0; stripIndex < display->numStrips; stripIndex++)
                 {
                     int age = (*nextRound)[stripIndex][ledIndex];
 
                     // Dont let it step past the array bounds
-                    if (age > ageColorMax)
+                    if (age >= ageColors.size())
                     {
-                        age = ageColorMax;
+                        age = ageColors.size() - 1;
                     }
 
                     display->strips[stripIndex][ledIndex] = ageColors[age];
@@ -141,11 +145,12 @@ class LifeAnimation : public Animation
 
         void randomize()
         {
+			uint16_t lifeThreshold = (float)UINT16_MAX * randomizeDensity;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    bool alive = random8() > 127;
+                    bool alive = random16() <= lifeThreshold;
 					if (alive)
 					{
 						(*nextRound)[i][j] = 1;
