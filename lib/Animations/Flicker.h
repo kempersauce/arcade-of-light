@@ -14,9 +14,10 @@ private:
     int shiftSpeed = 1;
 
     //frame rate
-    long frameRateMillis = 50;
+    long frameRateMillis = 10;
     long flareFrameMillis = frameRateMillis/2;
     unsigned long lastLoopMillis;
+    unsigned long lastFlareMillis;
     unsigned long newMillis;
     
     //flare
@@ -24,7 +25,7 @@ private:
     bool* hasFlare;
     int** flareLoc;
 
-    NoiseGenerator* noise;
+    NoiseGenerator* noiseGenerator;
 
 public:
     int saturation = 255;
@@ -32,7 +33,7 @@ public:
     int origin = 12;
 
     //Initialize a Flame at y-location origin with a certain height, main color and accent color
-        Flicker(int flameOrigin, int flameHeight, int flameWidth, int mainHue, int accentHue) : Animation()
+    Flicker(int flameOrigin, int flameHeight, int flameWidth, int mainHue, int accentHue) : Animation()
     {   
         hueMain = mainHue;
         hueAccent = accentHue;
@@ -53,7 +54,13 @@ public:
             Serial.println("FlameAni: Height " + (String)i + ": " + (String)currentHeight[i]);
         }
 
-        noise = new NoiseGenerator(width, height);
+        //randomly set first height
+        int heightMod= random8(height+1);
+        int newHeight = origin + heightMod;
+        currentHeight[0] = newHeight;
+
+
+        //noiseGenerator = new NoiseGenerator(width, height);
     }
     //Sets the starting hue, probably not needed since the hue shifts constantly
     void setHues(int mainHue, int accentHue)
@@ -78,37 +85,65 @@ public:
         shiftSpeed = speed;
     }
 
+    void heightCheck(int index)
+    {
+        if(currentHeight[index]<= origin)
+            {
+                currentHeight[index] = origin;
+            } 
+            else if(currentHeight[index]>= maxHeight)
+            {
+                currentHeight[index] = origin + height;
+            }
+    }
+
     //Conjure the Flame
     void draw(Display *display)
     {
+        //noiseGenerator->fillnoise8();
         newMillis = millis();
-        Serial.println("old: " + (String)lastLoopMillis);
-        Serial.println("new: " + (String)newMillis);
-        Serial.println("=============================");
+        
+        // Serial.println("old: " + (String)lastLoopMillis);
+        // Serial.println("new: " + (String)newMillis);
+        // Serial.println("=============================");
 
         if((newMillis-lastLoopMillis)>=frameRateMillis)
         {
-            //determine random height 
+            //adjust 
+            int heightAdjust= random16(3);
+            if(random8()<=127)
+            {
+                heightAdjust *= -1;
+            }
+            currentHeight[0] += heightAdjust;
+            heightCheck(0);
             
-            for (int i = 0; i < display->numStrips; i++)
+            Serial.println("FlameAni: 0 Height: " + (String)currentHeight[0]);
+            for (int i = 1; i < display->numStrips; i++)
             {
                 //Set flame height
-                int heightMod= random8(height+1);
-                int newHeight = origin + heightMod;
-                currentHeight[i] = newHeight;
+                if(random8()<=127)
+                {
+                    heightAdjust *= -1;
+                }
+                currentHeight[i] = currentHeight[i-1] + heightAdjust;
+                
+                heightCheck(i);
                 //flare logic
-                if(!hasFlare[i] 
-                && (random8(100) + 1) % flareChance == 0 
+                if(!hasFlare[i]
                 && currentHeight[i] <= (maxHeight - 2))
                 {
                     hasFlare[i] = true;
                     flareLoc[i][0] = currentHeight[i];
                 }
+                heightCheck(i-1);
             }
+            heightCheck(width-1);
             lastLoopMillis = millis();
-        }
-        if((newMillis-lastLoopMillis)>=flareFrameMillis)
-        {
+        // }
+        // //flare logic
+        // if((newMillis-lastLoopMillis)>=lastFlareMillis)
+        // {
             for (int i = 0; i < display->numStrips; i++)
             {
                 //move flare up one
@@ -118,43 +153,81 @@ public:
                 {
                     hasFlare[i] = false;
                 }
+                if(random8()<=127)
+                {
+                    hasFlare[i] = false;
+                }
             }
+            // lastFlareMillis = millis();
         }
 
         //draw flames
-        for (int i = 0; i < display->numStrips; i++)
-        {
+        drawFramesUp(display);
+    }
 
-            for (int j = origin; j <= currentHeight[i]; j++)
+    void drawFramesUp(Display *display)
+    {
+        for (int i = 0; i < display->numStrips; i++)
             {
-                Serial.println("Flame Ani: in the loops");
-                //secondary color on last pixel
-                if(j == (currentHeight[i]))
+                for (int j = origin; j <= currentHeight[i]; j++)
                 {
-                    //display->strips[i][j] = CHSV(hueAccent, saturation, brightness);
-                    //dithering
-                    CRGB color;
-                    color.setHSV(hueAccent, saturation, 255);
-                    display->ditherPixel(i,j,&color);
+                    //Serial.println("Flame Ani: in the loops");
+                    //secondary color on last pixel
+                    if(j == (currentHeight[i]) || j == (currentHeight[i]-1))
+                    {
+                        //display->strips[i][j] = CHSV(hueAccent, saturation, brightness);
+                        //display->strips[i][j].setHSV(hueAccent, saturation, brightness + noiseGenerator->noise[i][flareLoc[i][0]]);
+                        display->strips[i][j].setHSV(hueAccent, saturation, 255);
+                    }
+                    //main color on remaining pixel
+                    else
+                    {
+                        //display->strips[i][j].setHSV(hueMain, saturation, brightness + noiseGenerator->noise[i][flareLoc[i][0]]);
+                        display->strips[i][j].setHSV(hueMain, saturation, 255);
+                        //display->strips[i][j] = CHSV(hueMain, saturation, brightness);
+                    }
                 }
-                //main color on remaining pixel
-                else
+
+                //Draw Flare
+                if(hasFlare[i])
                 {
-                    //dithering
                     CRGB color;
-                    color.setHSV(hueMain, saturation, 255);
-                    display->ditherPixel(i,j,&color);
-                    //display->strips[i][j] = CHSV(hueMain, saturation, brightness);
+                    display->strips[i][flareLoc[i][0]].setHSV(hueAccent, saturation, 255);
+                    //display->strips[i][flareLoc[i][0]].setHSV(hueAccent, saturation, brightness + noiseGenerator->noise[i][flareLoc[i][0]]);
                 }
             }
-            //Draw Flare
-            if(hasFlare[i])
+    }
+    void drawFramesDown(Display *display)
+    {
+        for (int i = 0; i < display->numStrips; i++)
             {
-                
-                CRGB color;
-                color.setHSV(hueAccent, saturation, 255);
-                display->ditherPixel(i,flareLoc[i][0],&color);
+                for (int j = origin; j <= currentHeight[i]; j++)
+                {
+                    //Serial.println("Flame Ani: in the loops");
+                    //secondary color on last pixel
+                    if(j == (currentHeight[i]) || j == (currentHeight[i]-1))
+                    {
+                        //display->strips[i][j] = CHSV(hueAccent, saturation, brightness);
+                        //display->strips[i][j].setHSV(hueAccent, saturation, brightness + noiseGenerator->noise[i][flareLoc[i][0]]);
+                        display->strips[i][j].setHSV(hueAccent, saturation, 255);
+                    }
+                    //main color on remaining pixel
+                    else
+                    {
+                        //display->strips[i][j].setHSV(hueMain, saturation, brightness + noiseGenerator->noise[i][flareLoc[i][0]]);
+                        display->strips[i][j].setHSV(hueMain, saturation, 255);
+                        //display->strips[i][j] = CHSV(hueMain, saturation, brightness);
+                    }
+                }
+
+                //Draw Flare
+                if(hasFlare[i])
+                {
+                    CRGB color;
+                    display->strips[i][flareLoc[i][0]].setHSV(hueAccent, saturation, 255);
+                    //display->strips[i][flareLoc[i][0]].setHSV(hueAccent, saturation, brightness + noiseGenerator->noise[i][flareLoc[i][0]]);
+                }
             }
-        }
     }
 };
+

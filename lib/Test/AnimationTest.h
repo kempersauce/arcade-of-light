@@ -13,6 +13,8 @@ class AnimationTest : Game
         Flicker* flicker;
         SingleColorBG* bg;
         SingleColorBlock* block;
+        int BoundaryBase = 80;
+        int BoundaryHeight = 10;
 
         AnimationTest(Display* gameDisplay)
             : Game(gameDisplay)
@@ -22,9 +24,9 @@ class AnimationTest : Game
 
         void setup()
         {
-            flicker = new Flicker(100, 10, display->numStrips,0, 55);
-            bg = new SingleColorBG(0,55,0);
-            block = new SingleColorBlock(0, 100, 0, 255, 255);
+            flicker = new Flicker(BoundaryBase, BoundaryHeight, display->numStrips,0, 55);
+            bg = new SingleColorBG(100,0,100);
+            block = new SingleColorBlock(0, 80, 0, 255, 255);
         }
 
         void loop()
@@ -32,5 +34,10 @@ class AnimationTest : Game
             bg->draw(display);
             block->draw(display);
             flicker->draw(display);
+            for(int i=0; i<display->numStrips; i++)
+            {
+                display->strips[i][BoundaryBase].setHSV(125,255,255);
+                display->strips[i][BoundaryBase+BoundaryHeight].setHSV(125,255,255);
+            }
         }
 };
