@@ -3,12 +3,10 @@
 
 #include <H2HDisplay.h>
 #include <FiveDisplay.h>
-#include <StartGame.h>
 #include <Head2Head.h>
 #include <RocketDisplay.h>
 #include <RocketGame.h>
 //#include <WavPlayer.h>
-#include <NoiseTest.h>
 #include <LifeGame.h>
 #include <SingleColorTest.h>
 //#include <Sounds.h>
@@ -81,7 +79,6 @@ void setup()
 	//game = (Game*)new RocketGame(gameDisplay);
 	//game = (Game*)new RainbowGame(gameDisplay);
 	//game = (Game*)new MarqueeGame(gameDisplay);
-	//game = (Game*)new StartGame(gameDisplay);
 	//game = (Game*)new SnakeGame(gameDisplay);
 	//game = (Game*)new ShooterGame(gameDisplay);
 	//game = (Game*)new FallingGame(gameDisplay);
@@ -119,7 +116,7 @@ void setup()
 
 void loop()
 {
-	printFrameRate();
+	//printFrameRate();
 
     // debug set strip0 blue
     //for (int i = 0; i < gameDisplay->lengthStrips; i++)

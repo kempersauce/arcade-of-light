@@ -12,24 +12,27 @@ class LifeGameSinglePlayer : Game
     // Animations
     LifeAnimation lifeGrid;
 
-	float millisPerFrame = 50;
-	const static float millisPerFrameCoefficient = .9;
-	long lastFrameMillis;
+	long millisPerFrame = 50;
+	const static long millisPerFrameStep = 5;
+	long lastFrameMillis = 0;
+	long nextDrawFrameMillis = 0;
 
 	// Degrees per millisecond
-	const static float hueShiftRate = 30.0 * (256.0 / 360.0) / 1000.0; // 30 deg/sec?
-	uint8_t startHue;
-	const vector<uint8_t> hueOffsets
-	{	// Degrees are converted to uint8_t with result = degrees * 256 / 360
+	const static float hueShiftRate = 30.0f * (256.0f / 360.0f) / 1000.0f; // 30 deg/sec?
+	int startHue;
+	const vector<int> hueOffsets
+	{	// Degrees are converted to int with result = degrees * 256 / 360
 		0, // 0 deg
-		21, // 30 deg
+		43, // 60 deg
 		128, // 180 deg
-		149, // 270 deg
+		213, // 300 deg
 	};
+
+	bool isPaused = false;
 
 public:
     LifeGameSinglePlayer(Display* display) : Game(display),
-		lifeGrid(display->numStrips * 2, display->lengthStrips),
+		lifeGrid(display->numStrips + 2, display->lengthStrips),
 		dirPad()
     {
     }
@@ -42,59 +45,78 @@ public:
 
     virtual void loop()
     {
-		long m = millis();
-		long timeDiff = m - lastFrameMillis;
-		lastFrameMillis = m;
+		long timeDiff = millis() - lastFrameMillis;
+		lastFrameMillis = millis();
 
 		dirPad.pollAll();
 
 		// Speed adjust controls
 		if (dirPad.up.isPressed())
 		{
-			millisPerFrame /= millisPerFrameCoefficient;
+			millisPerFrame += (float)millisPerFrame / (float)20;
 		}
-		else if (dirPad.down.isPressed())
+
+		if (dirPad.down.isPressed())
 		{
-			millisPerFrame *= millisPerFrameCoefficient;
+			millisPerFrame -= (float)millisPerFrame / (float)20;
+		}
+
+		if (millisPerFrame < 20)
+		{
+			millisPerFrame = 20;
+		}
+		else if (millisPerFrame > 1000)
+		{
+			millisPerFrame = 1000;
 		}
 
 		// Hue adjust controls
 		if (dirPad.left.isPressed())
 		{
-			setHue(startHue + hueShiftRate * timeDiff);
+			setHue((int)(startHue + hueShiftRate * timeDiff) % 256);
 		}
 		else if (dirPad.right.isPressed())
 		{
-			setHue(startHue - hueShiftRate * timeDiff);
+			setHue((int)(256 + startHue - hueShiftRate * timeDiff) % 256);
 		}
 
-		if (dirPad.b.isPressed())
+		Serial.println(millisPerFrame);
+
+		// pause/play controls
+		if (dirPad.a.isDepressing())
 		{
-			lifeGrid.randomize();
+			isPaused = !isPaused;
 		}
 
-		// Implement variable speed here
-		// this game might not need this and could just use delay(millisPerFrame)
-		// if we get frame skipping like, every other or so, then change this
-		do
+		if (millis() >= nextDrawFrameMillis)
 		{
-	        // Calculate next round
-	        lifeGrid.GoOneRound();
-			timeDiff -= millisPerFrame;
-		} while(timeDiff > 0);
+			// randomize controls on frame speed
+			if (dirPad.b.isPressed())
+			{
+				lifeGrid.randomize();
+			}
+			else if (isPaused == false)
+			{
+		        // Calculate next round
+		        lifeGrid.GoOneRound();
+			}
+
+			nextDrawFrameMillis = millis() + millisPerFrame;
+		}
 
         // Draw to display
         lifeGrid.draw(display);
     }
 
-	void setHue(uint8_t hue)
+	void setHue(int hue)
 	{
+		startHue = hue;
 		lifeGrid.ageColors.clear();
 		lifeGrid.ageColors.push_back(CRGB::Black);
 		for (int i = 0; i < hueOffsets.size(); i++)
 		{
 			CRGB color;
-			color.setHSV(hue + hueOffsets[i], 0, 255);
+			color.setHSV((hue + hueOffsets[i]) % 256, 255, 255);
 			lifeGrid.ageColors.push_back(color);
 		}
 	}
