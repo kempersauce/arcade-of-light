@@ -38,7 +38,7 @@ class H2HGameStrip : Animation
 	// farside team
 	H2HZone zoneB;
 	static int zoneBStart;
-	static const int zoneBHue = 215; // magenta
+	static const int zoneBHue = 0; // red
 
 	int stripIndex; // Which strip is this on?
 	int heightMax; // length of this strip
@@ -261,7 +261,6 @@ public:
 				}
 				else
 				{
-					Transmitter5.sendMessage("EXPLODE1.WAV");
 					enterPlayingState();
 				}
 			break;
@@ -314,7 +313,6 @@ public:
 				//explosion.draw(display);
 				dropExplosion.draw(display);
             	//dot.draw(display);
-				display->strips[stripIndex][midBar].setHSV(85, (millis() - dropExplosion.birthTimeMillis) % 256, 255); // green flash
 			break;
 
 			case H2HStripTotalWinA:
