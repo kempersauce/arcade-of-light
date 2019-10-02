@@ -25,8 +25,8 @@ class LifeGameSinglePlayer : Game
 	long nextDrawFrameMillis = 0;
 
 	// Degrees per millisecond
-	const static float hueShiftRate = 30.0f * (256.0f / 360.0f) / 1000.0f; // 30 deg/sec?
-	int startHue;
+	const static float hueShiftRate = 60.0f * (256.0f / 360.0f) / 1000.0f; // 60 deg/sec?
+	float startHue;
 	const vector<int> hueOffsets
 	{	// Degrees are converted to int with result = degrees * 256 / 360
 		0, // 0 deg
@@ -123,14 +123,12 @@ public:
 		// Hue adjust controls
 		if (dirPad.left.isPressed())
 		{
-			setHue((int)(startHue + hueShiftRate * timeDiff) % 256);
+			setHue(startHue + hueShiftRate * timeDiff);
 		}
 		else if (dirPad.right.isPressed())
 		{
-			setHue((int)(256 + startHue - hueShiftRate * timeDiff) % 256);
+			setHue(startHue - hueShiftRate * timeDiff);
 		}
-
-		Serial.println(millisPerFrame);
 
 		// pause/play controls
 		if (dirPad.a.isDepressing())
@@ -158,15 +156,24 @@ public:
         lifeGrid.draw(display);
     }
 
-	void setHue(int hue)
+	void setHue(float hue)
 	{
 		startHue = hue;
+		if (startHue >= 256)
+		{
+			startHue -= 256;
+		}
+		else if (startHue < 0)
+		{
+			startHue += 256;
+		}
+
 		lifeGrid.ageColors.clear();
 		lifeGrid.ageColors.push_back(CRGB::Black);
 		for (int i = 0; i < hueOffsets.size(); i++)
 		{
 			CRGB color;
-			color.setHSV((hue + hueOffsets[i]) % 256, 255, 255);
+			color.setHSV(((int)startHue + hueOffsets[i]) % 256, 255, 255);
 			lifeGrid.ageColors.push_back(color);
 		}
 	}

@@ -24,12 +24,17 @@ public:
     {
 		birthTimeMillis = 0; // not born yet
         Hue = random(0, 255);
+		SetFriction(20, 5);
+    }
+
+	void SetFriction(float xfriction, float friction)
+	{
 		for (int i = 0; i < shrapnel.size(); i++)
 		{
-			shrapnel[i].Friction = 100;
-			shrapnel[i].xFriction = 200;
+			shrapnel[i].Friction = friction;
+			shrapnel[i].xFriction = xfriction;
 		}
-    }
+	}
 
 	void SetGravity(int gravity)
 	{
@@ -59,8 +64,6 @@ public:
 			for (int i = 0; i < shrapnel.size(); i++)
 			{
 				shrapnel[i].Move();
-				//shrapnel[i].Velocity *= .9;
-				//shrapnel[i].xVelocity *= .5;
 			}
 		}
     }
