@@ -3,12 +3,10 @@
 
 #include <H2HDisplay.h>
 #include <FiveDisplay.h>
-#include <StartGame.h>
 #include <Head2Head.h>
 #include <RocketDisplay.h>
 #include <RocketGame.h>
 //#include <WavPlayer.h>
-#include <NoiseTest.h>
 #include <LifeGame.h>
 #include <SingleColorTest.h>
 //#include <Sounds.h>
@@ -24,6 +22,21 @@
 #include <FallingGame.h>
 #include <LaneRunner.h>
 #include <AnimationTest.h>
+#include <LifeGameSinglePLayer.h>
+
+long _lastFrameMillis;
+void printFrameRate()
+{
+	long timeDiff = millis() - _lastFrameMillis;
+	_lastFrameMillis = millis();
+
+	Serial.print("framerate: ");
+	Serial.print((float)timeDiff / 1000.0);
+	Serial.print(" (");
+	Serial.print(timeDiff);
+	Serial.println("ms)");
+}
+
 
 Game* game;
 Display* gameDisplay;
@@ -66,17 +79,18 @@ void setup()
 	//game = (Game*)new RocketGame(gameDisplay);
 	//game = (Game*)new RainbowGame(gameDisplay);
 	//game = (Game*)new MarqueeGame(gameDisplay);
-	//game = (Game*)new StartGame(gameDisplay);
 	//game = (Game*)new SnakeGame(gameDisplay);
 	//game = (Game*)new ShooterGame(gameDisplay);
 	//game = (Game*)new FallingGame(gameDisplay);
 	//game = (Game*)new LaneRunnerGame(gameDisplay);
+	game = (Game*)new LifeGameSinglePlayer(gameDisplay);
+
 
 	// Test Games
 	//game = (Game*)new DirPadTest(gameDisplay);
 	//game = (Game*)new FiveStripTest(gameDisplay);
 	//game = (Game*)new H2HLifeGame(gameDisplay);
-    game = (Game*)new AnimationTest(gameDisplay);
+    //game = (Game*)new AnimationTest(gameDisplay);
 
 	// debug set strip0 yellow
 	// for (int i = 0; i < gameDisplay->lengthStrips; i++)
@@ -102,6 +116,8 @@ void setup()
 
 void loop()
 {
+	//printFrameRate();
+
     // debug set strip0 blue
     //for (int i = 0; i < gameDisplay->lengthStrips; i++)
     //{

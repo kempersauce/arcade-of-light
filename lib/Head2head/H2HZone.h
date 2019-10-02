@@ -34,7 +34,7 @@ class H2HZone : public Animation
 			{
 				return 0;
 			}
-			
+
 			float range = yMax - yMin;
 
 			// BOTTOM - SPECIFIC CALCULATION
@@ -50,9 +50,7 @@ class H2HZone : public Animation
 
         void draw(Display* display)
         {
-            for (int y = yMin; y <= yMax; y++)
-            {
-                display->strips[xLoc][y] = color;
-            }
+			display->strips[xLoc][yMin] = CRGB::White;
+			display->strips[xLoc][yMax] = CRGB::White;
         }
 };

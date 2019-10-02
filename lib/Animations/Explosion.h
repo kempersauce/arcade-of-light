@@ -12,6 +12,8 @@ public:
 
     vector<PhysicsInfo> shrapnel;
 
+	int explosionMagnitude = 100;
+
     //colors (HSV)
     int Hue;
 	int SaturationFinal = 255;
@@ -24,12 +26,17 @@ public:
     {
 		birthTimeMillis = 0; // not born yet
         Hue = random(0, 255);
+		SetFriction(20, 5);
+    }
+
+	void SetFriction(float xfriction, float friction)
+	{
 		for (int i = 0; i < shrapnel.size(); i++)
 		{
-			shrapnel[i].Friction = 100;
-			shrapnel[i].xFriction = 200;
+			shrapnel[i].Friction = friction;
+			shrapnel[i].xFriction = xfriction;
 		}
-    }
+	}
 
 	void SetGravity(int gravity)
 	{
@@ -48,7 +55,7 @@ public:
 			shrapnel[i].Reset();
 			shrapnel[i].Location = location;
 			shrapnel[i].xLocation = stripIndex;
-			shrapnel[i].RandomizeVelocityVector(100);
+			shrapnel[i].RandomizeVelocityVector(explosionMagnitude);
 		}
     }
 
@@ -59,8 +66,6 @@ public:
 			for (int i = 0; i < shrapnel.size(); i++)
 			{
 				shrapnel[i].Move();
-				//shrapnel[i].Velocity *= .9;
-				//shrapnel[i].xVelocity *= .5;
 			}
 		}
     }
