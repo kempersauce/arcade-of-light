@@ -36,10 +36,10 @@ public:
         char endMarker = '>';
         char rc;
 
-        while (Serial1.available() > 0)
+        while (Serial.available() > 0)
         {
             digitalWrite(led, HIGH);
-            rc = Serial1.read();
+            rc = Serial.read();
             //Serial.println(rc);//<--prints raw input stream to serial interface, use for bugtesting
             
             if (recvInProgress == true)
