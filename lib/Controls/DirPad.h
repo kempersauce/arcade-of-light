@@ -33,4 +33,14 @@ public:
         a.poll();
         b.poll();
     }
+
+	bool isIdle(long idleTimeout)
+	{
+		return up.getMillisReleased() >= idleTimeout
+			&& down.getMillisReleased() >= idleTimeout
+			&& left.getMillisReleased() >= idleTimeout
+			&& right.getMillisReleased() >= idleTimeout
+			&& a.getMillisReleased() >= idleTimeout
+			&& b.getMillisReleased() >= idleTimeout;
+	}
 };

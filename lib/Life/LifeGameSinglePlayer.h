@@ -3,6 +3,13 @@
 #include <Game.h>
 #include <LifeAnimation.h>
 #include <dirPad.h>
+#include <RainbowGame.h>
+
+enum LifeGameState
+{
+	LifeGameIdle,
+	LifeGamePlaying
+};
 
 class LifeGameSinglePlayer : Game
 {
@@ -30,18 +37,41 @@ class LifeGameSinglePlayer : Game
 
 	bool isPaused = false;
 
+	LifeGameState gameState;
+
+	const static long idleTimeoutMillis = 1000 * 90; // 90 seconds
+	RainbowGame idleGame;
+
 public:
-    LifeGameSinglePlayer(Display* display) : Game(display),
-		lifeGrid(display->numStrips + 2, display->lengthStrips),
+    LifeGameSinglePlayer(Display* display)
+		: Game(display),
+		idleGame(display),
+		lifeGrid(display->numStrips + 1, display->lengthStrips),
 		dirPad()
     {
     }
 
     void setup()
     {
+		// Start off on blue
+		setHue(140);
+
         // start off randomized
         lifeGrid.randomize();
+
+		enterPlayingState();
     }
+
+	void enterPlayingState()
+	{
+		gameState = LifeGamePlaying;
+	}
+
+	void enterIdleState()
+	{
+		gameState = LifeGameIdle;
+		idleGame.setup();
+	}
 
     virtual void loop()
     {
@@ -49,6 +79,26 @@ public:
 		lastFrameMillis = millis();
 
 		dirPad.pollAll();
+
+		bool isIdle = dirPad.isIdle(idleTimeoutMillis);
+
+		// Switch to idling if we're not already doing it
+        if (gameState != LifeGameIdle && isIdle)
+        {
+			enterIdleState();
+        }
+
+        // Start a new game when we come out of idle
+        else if (gameState == LifeGameIdle && isIdle == false)
+        {
+            enterPlayingState();
+        }
+
+		if (gameState == LifeGameIdle)
+		{
+			idleGame.loop();
+			return;
+		}
 
 		// Speed adjust controls
 		if (dirPad.up.isPressed())

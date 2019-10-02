@@ -22,7 +22,7 @@ class LifeAnimation : public Animation
         int ***nextRound = &frame2;
 
     public:
-		float randomizeDensity = .5;
+		float randomizeDensity = .2;
 
         vector<CRGB> ageColors {
             CRGB(0, 0, 0), // black

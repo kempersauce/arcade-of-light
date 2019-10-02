@@ -30,7 +30,7 @@ class Head2Head : Game
 	ElectricArc electricArc;
 
     // Idle Game, plays after no buttons have been pressed before idle timeout
-    LifeGame idleGame;
+    RainbowGame idleGame;
     bool isIdle;
     const static long idleTimeoutMillis = 1000 * 45; // 45 seconds
 
