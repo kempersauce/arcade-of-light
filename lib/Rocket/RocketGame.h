@@ -104,7 +104,7 @@ public:
         : Game(display),
         Up(BUTTON_PIN_0),
         resetButton(BUTTON_PIN_1),
-		starBackground(display->numStrips, display->lengthStrips, 160),
+		starBackground(display->numStrips, display->lengthStrips, 140),
 		skyFade(skyFadeColors[0]),
         rocket(display->lengthStrips, new CRGB(255, 255, 255)),
         target(new CRGB(55, 0, 0)),
@@ -287,7 +287,7 @@ public:
 
                     // jk since scale is so high, any higher than 1*scale is too fast, and any lover than 1*cale causes tearing between pixels
                     int backgroundShift = 1;
-                    starBackground.noiseGenerator->y += backgroundShift * starBackground.noiseGenerator->scale; // NOTE: Since y is actually an 8.8 bit int, this may need more than just a small push
+                    starBackground.noiseGenerator.y += backgroundShift * starBackground.noiseGenerator.scale; // NOTE: Since y is actually an 8.8 bit int, this may need more than just a small push
                 }
 
                 // Rocket reached top of level, time to start a new one
