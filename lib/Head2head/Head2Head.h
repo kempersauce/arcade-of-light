@@ -36,6 +36,7 @@ class Head2Head : Game
 
 	long totalWinStart = 0; // timer for win state
 	const static long totalWinTimeoutMillis = 1000 * 10; // 10 seconds in win state
+
 public:
     H2HGameStrip** gameStrips; // one for each strip
 
@@ -45,7 +46,7 @@ public:
 		noiseGenerator(gameDisplay->numStrips, gameDisplay->lengthStrips),
 		electricArc()
     {
-		noiseGenerator.speed = 60;
+		noiseGenerator.speed = 30;
 
         // Initialize each game strip
         gameStrips = new H2HGameStrip*[gameDisplay->numStrips];
@@ -64,6 +65,7 @@ public:
     void setup()
     {
 		enterStartState();
+		//enterWinBState();
     }
 
 	void enterStartState()
@@ -83,12 +85,20 @@ public:
 	void enterWinAState()
 	{
 		gameState = H2HGameWinA;
+		for (int i = 0; i < display->numStrips; i++)
+		{
+			gameStrips[i]->enterTotalWinAState();
+		}
 		totalWinStart = millis();
 	}
 
 	void enterWinBState()
 	{
 		gameState = H2HGameWinB;
+		for (int i = 0; i < display->numStrips; i++)
+		{
+			gameStrips[i]->enterTotalWinBState();
+		}
 		totalWinStart = millis();
 	}
 
@@ -146,20 +156,36 @@ public:
 		            gameStrips[i]->checkGameState();
 		        }
 
-				if (H2HGameStrip::isTeamAWon())
-				{
-					enterWinAState();
-				}
-				else if (H2HGameStrip::isTeamBWon())
-				{
-					enterWinBState();
-				}
+		        for (int i = 0; i < display->numStrips; i++)
+		        {
+		            if (gameStrips[i]->stripState == H2HStripTotalWinA)
+					{
+						enterWinAState();
+						break;
+					}
+					else if (gameStrips[i]->stripState == H2HStripTotalWinB)
+					{
+						enterWinBState();
+						break;
+					}
+		        }
 			break;
 
 			case H2HGameWinA:
+		        // Generate noise
+		        noiseGenerator.fillnoise8();
+				H2HGameStrip::midBar++;
+
+				if (millis() - totalWinStart > totalWinTimeoutMillis)
+	            {
+					enterStartState();
+	            }
+			break;
+
 			case H2HGameWinB:
 		        // Generate noise
 		        noiseGenerator.fillnoise8();
+				H2HGameStrip::midBar--;
 
 				if (millis() - totalWinStart > totalWinTimeoutMillis)
 	            {
@@ -180,20 +206,14 @@ public:
 			break;
 
 			case H2HGamePlaying:
-				for (int i = 0; i < display->numStrips; i++)
-				{
-					gameStrips[i]->draw(display);
-				}
-				electricArc.yLocation = H2HGameStrip::midBar;
-				electricArc.draw(display);
-			break;
-
 			case H2HGameWinA:
 			case H2HGameWinB:
 				for (int i = 0; i < display->numStrips; i++)
 				{
 					gameStrips[i]->draw(display);
 				}
+				electricArc.yLocation = H2HGameStrip::midBar;
+				electricArc.draw(display);
 			break;
 		}
     }

@@ -42,10 +42,16 @@ public:
 		for (int i = 0; i < arc.size(); i++)
 		{
 			int arcHeight = arc[i];
-			display->strips[i][arcHeight] = CRGB::Purple;
-			display->strips[i][arcHeight + 1] = CRGB::Purple;
-			//display->ditherPixel(i, (float)arcHeight + 1.5, &color);
-			//display->ditherPixel(i, (float)arcHeight - .5, &color);
+			if (arcHeight >= 0 && arcHeight < display->lengthStrips)
+			{
+				display->strips[i][arcHeight] = CRGB::Purple;
+			}
+
+			arcHeight++;
+			if (arcHeight > 0 && arcHeight < display->lengthStrips)
+			{
+				display->strips[i][arcHeight] = CRGB::Purple;
+			}
 		}
 	}
 };

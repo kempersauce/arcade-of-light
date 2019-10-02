@@ -27,7 +27,7 @@ public:
 
     void blendPixel(int x, int y, CRGB* blendColor, float blendFactor)
     {
-		if (y < lengthStrips)
+		if (y >= 0 && y < lengthStrips)
 		{
 	        // get weighted blend values values
 	        int red = strips[x][y].red * (1 - blendFactor) + blendColor->red * (blendFactor);

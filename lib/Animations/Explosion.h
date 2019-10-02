@@ -12,6 +12,8 @@ public:
 
     vector<PhysicsInfo> shrapnel;
 
+	int explosionMagnitude = 100;
+
     //colors (HSV)
     int Hue;
 	int SaturationFinal = 255;
@@ -53,7 +55,7 @@ public:
 			shrapnel[i].Reset();
 			shrapnel[i].Location = location;
 			shrapnel[i].xLocation = stripIndex;
-			shrapnel[i].RandomizeVelocityVector(100);
+			shrapnel[i].RandomizeVelocityVector(explosionMagnitude);
 		}
     }
 
