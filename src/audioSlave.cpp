@@ -18,11 +18,11 @@
 
 // AudioPlaySdWav           playSdWav1;
 // AudioConnection          patchCord1(playSdWav1, 0, i2s1, 0);
-// KemperSerialReceiver serialReceiver[1]{
-// //	KemperSerialReceiver(&Serial1),
-// //	KemperSerialReceiver(&Serial2),
-// //	KemperSerialReceiver(&Serial3),
-// //	KemperSerialReceiver(&Serial4),
+// KemperSerialReceiver serialReceiver[5]{
+// 	KemperSerialReceiver(&Serial1),
+// 	KemperSerialReceiver(&Serial2),
+// 	KemperSerialReceiver(&Serial3),
+// 	KemperSerialReceiver(&Serial4),
 // 	KemperSerialReceiver(&Serial5)
 // };
 

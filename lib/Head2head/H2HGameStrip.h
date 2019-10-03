@@ -210,6 +210,7 @@ public:
 		            {
 						if (zoneA.checkZone(dot.physics.Location))
 						{
+							Serial5.print("<TRGTHIT1.WAV>");
 							dot.setVelocity(-1 * (dot.physics.Velocity) + (zoneA.zoneDepth(dot.physics.Location) * 10)); // 20 to 40 px/sec
 						}
 		            }
@@ -217,8 +218,12 @@ public:
 		            // Team B hits the button
 		            if (buttonB.isDepressing())
 		            {
+						digitalWriteFast(9, HIGH);
+ 					    delay(1);
+    					digitalWriteFast(9, LOW);
 						if (zoneB.checkZone(dot.physics.Location))
 						{
+							Serial5.print("<TRGTHIT1.WAV>");
 							dot.setVelocity(-1 * (dot.physics.Velocity) - (zoneB.zoneDepth(dot.physics.Location) * 10)); // -20 to -40 px/sec
 						}
 		            }

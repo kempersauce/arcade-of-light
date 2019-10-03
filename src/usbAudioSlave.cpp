@@ -1,6 +1,7 @@
 // #include <Arduino.h>
 // #include <KemperSerialReceiver.h>
 // #include <USBSerialReceiver.h>
+// #include <Button.h>
 
 // #include <Audio.h>
 // #include <Wire.h>
@@ -20,7 +21,8 @@
 // AudioPlaySdWav           playSdWav1;
 // AudioConnection          patchCord1(playSdWav1, 0, i2s1, 0);
 // //KemperSerialReceiver*    serialReceiver = new KemperSerialReceiver();
-// USBSerialReceiver*    serialReceiver = new USBSerialReceiver();
+// USBSerialReceiver*       serialReceiver = new USBSerialReceiver();
+// Button*                  soundButton = new Button(28);
 
 // void setup()
 // {
@@ -45,6 +47,13 @@
 
 // void loop()
 // {
+//     soundButton->poll();
+//     if(soundButton->isPressed())
+//     {
+//         playSdWav1.play("HUMANITY.WAV");
+//     }
+
+
 // 	for (int i = 0; i < 1; i++)
 // 	{
 // 		serialReceiver->recvWithStartEndMarkers();
