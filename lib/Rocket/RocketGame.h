@@ -27,6 +27,7 @@
 #include <LifeGame.h>
 #include <vector>
 
+bool boostIsPlaying = false;
 
 using namespace std;
 
@@ -171,6 +172,8 @@ public:
 
 	void enterLevelAdvanceState()
 	{
+        //play sound
+        Serial5.println("<WHOOSH.WAV>");
 		gameState = RocketGameLevelAdvance;
 		// No other changes required for this state change
 	}
@@ -199,6 +202,10 @@ public:
                 //Win state
 
                 targetsWon++;
+
+                //sound effects
+                Serial5.println("<TRGTHIT1>");
+                
 
                 // Still more targets - make a new random target
                 if (targetsWon < targetsPerLevel)
@@ -267,11 +274,17 @@ public:
                 rocket.SetBoost(Up.getMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
                 if(Up.isDepressing())
                 {
-                    Serial5.println("<WHOOSH.WAV>");
+                    if(!boostIsPlaying)
+                    {
+                        Serial5.println("<11THRUST2.WAV>");
+                        boostIsPlaying = true;
+                    }
+                    
                 }
                 if(Up.isReleasing())
                 {
-                    Serial5.println("<WHOOSH.WAV>");
+                    Serial5.println("<10>");
+                    boostIsPlaying = false;
                 }
 
                 rocket.Move();
