@@ -160,15 +160,16 @@
 
 // void playWav(const char* fileName)
 // {
-// 	if(!playSdWav1.isPlaying())
-// 	{
-// 		startChannel(1, fileName);
-// 	}
-// 	else if(!playSdWav2.isPlaying())
-// 	{
-// 		startChannel(2, fileName);
-// 	}
-// 	else if(!playSdWav3.isPlaying())
+// 	// if(!playSdWav1.isPlaying())
+// 	// {
+// 	// 	startChannel(1, fileName);
+// 	// }
+// 	// else if(!playSdWav2.isPlaying())
+// 	// {
+// 	// 	startChannel(2, fileName);
+// 	// }
+// 	// else 
+// 	if(!playSdWav3.isPlaying())
 // 	{
 // 		startChannel(3, fileName);
 // 	}
@@ -178,7 +179,7 @@
 // 	}
 // 	else
 // 	{
-// 		startChannel(2, fileName);
+// 		startChannel(3, fileName);
 // 		Serial.println("OVERWRITE==OVERWRITE==OVERWRITE");
 // 	}
 	

@@ -27,6 +27,7 @@
 #include <LifeGame.h>
 #include <vector>
 #include <AudioSender.h>
+#include <RocketAudio.h>
 
 bool boostIsPlaying = false;
 bool targetIsPlaying = false;
@@ -44,6 +45,10 @@ enum RocketGameState {
 
 class RocketGame : Game
 {
+    //Audio
+    RocketAudio* audio;
+    bool isFirstSetup = true;
+
     // Button time
     Button Up;
     Button resetButton;
@@ -54,37 +59,39 @@ class RocketGame : Game
 
     // Level progress tracking
     int targetsWon = 0;
-    static const int targetsPerLevel = 3;
+    static const int targetsPerLevel = 0;
 
     int level = 0;
     static const int levelMax = 3;
 
-    //Audio
-    AudioSender* audio;
-    bool isFirstSetup = true;
-
     // level colors for SkyFade
     CRGB* skyFadeColors[levelMax] =
     {
-        new CRGB(0, 0, 255), // Blue Earth
-        new CRGB(255, 96, 0), // Orange Mars
-        new CRGB(128, 0, 128), // Purple Pluto
+        new CRGB(0, 0, 255),    // Blue Earth
+        new CRGB(20, 20, 20),   // Grey Mun
+        new CRGB(255, 0, 0),    // Red Mars
+        // new CRGB(255, 96, 0),   // Orange Jupiter
+        // new CRGB(128, 0, 128),  // Purple Pluto
     };
 
     // level colors for targets
     CRGB* targetColors[levelMax] =
     {
-        new CRGB(255, 0, 0), // Red targets on Blue Earth
-        new CRGB(0, 255, 0), // Green targets on Orange Mars
-        new CRGB(255, 255, 0), // Yellow targets on Purple Pluto
+        new CRGB(255, 0, 0),    // Red targets on Blue Earth
+        new CRGB(200, 20, 20),  // Pink targets Grey Mun
+        new CRGB(0, 255, 0),    // Green targets on Orange Mars
+        // new CRGB(255, 0, 0),    // Red targets on Jupiter, cuz the big spot or whatever
+        // new CRGB(255, 255, 0),  // Yellow targets on Purple Pluto
     };
 
     // Level values for gravity
     int gravityLevels[levelMax] =
     {
-        15, // Earth has so much gravities
+        15, // Earth has so much gravities - reset to 15 after testing -Jon
+        10, // Mun is smol
         12, // Mars is not as stronk, only has this many gravities
-        7, // poor little old Pluto barely has any gravities, be careful with that button
+        // 60, // Jupiter is a big boi
+        // 7,  // poor little old Pluto barely has any gravities, be careful with that button
     };
 
     // Sprites
@@ -142,7 +149,7 @@ public:
     {
         if(isFirstSetup)
         {
-            audio = new AudioSender();
+            audio = new RocketAudio();
         }
         level = 0;
         enterLevelStartState();
@@ -173,7 +180,7 @@ public:
 	void enterLoseState()
 	{
         //play sound
-        audio->playWav("HUMANITY");
+        audio->playExplosion();
         //game stuff
 		gameState = RocketGameLose;
 		explosion.ExplodeAt(display->numStrips / 2, rocket.physics.Location);
@@ -182,6 +189,8 @@ public:
 
 	void enterLevelAdvanceState()
 	{
+        //AUDIO HERE MUST BE SERIAL PRINT OTHERWISE BREAKS GAME STATE!!!
+        Serial5.println("<LFTDEMO.WAV>");
 		gameState = RocketGameLevelAdvance;
 		// No other changes required for this state change
 	}
@@ -202,22 +211,17 @@ public:
             if (wasInTarget == false)
             {
                 target.Time = millis();
-                if(!boostIsPlaying)
-                {
-                    Serial5.println("<21TRGTSEQ.WAV>");
-                    boostIsPlaying = true;
-                }
+                audio->startPlayTargetHover();
             }
 
             // Check if we've closed out this target
             else if (target.isTargetLocked())
             {
                 //Win state
-                Serial5.println("<20>");
-                boostIsPlaying = false;
-                Serial5.println("TRGTHIT2");
-
                 targetsWon++;
+                audio->stopPlayTargetHover();
+                audio->playTargetWin();
+
                 // Still more targets - make a new random target
                 if (targetsWon < targetsPerLevel)
                 {
@@ -241,11 +245,7 @@ public:
         {
             if(wasInTarget == true)
             {
-                if(boostIsPlaying)
-                {
-                    Serial5.println("<20>");
-                    boostIsPlaying = false;
-                }
+                audio->stopPlayTargetHover();
             }
         }
         
@@ -297,15 +297,11 @@ public:
                 rocket.SetBoost(Up.getMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
                 if(Up.isDepressing())
                 {
-                    if(!boostIsPlaying)
-                    {
-                        audio->startWavOnChannel("THRUST2", 1);
-                        boostIsPlaying = true;
-                    }
+                    audio->startPlayBoost();
                 }
                 if(Up.isReleasing())
                 {
-                    audio->stopWavOnChannel(2);
+                    audio->stopPlayBoost();
                     boostIsPlaying = false;
                 }
 
@@ -322,9 +318,6 @@ public:
             break;
 
             case RocketGameLevelAdvance:
-
-                //play sound
-                audio->playWav("WHOOSH");
 
                 // Boost way way up the screen
                 if (rocket.physics.Location < display->lengthStrips * 2)
@@ -346,6 +339,8 @@ public:
                     level++;
                     if (level == levelMax)
                     {
+                        Serial.println("LEVEL: " + (String)level);
+                        Serial.println("MAX LEVEL: " + (String)levelMax);
                         // TODO set up whatever state we need for the Win state to start
 						enterWinState();
                     }

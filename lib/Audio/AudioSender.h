@@ -44,7 +44,7 @@ class AudioSender
     void startWavOnChannel(char* fileName, int channelNum)
     {
         char msg[12];
-        strcat(msg, getChannelChar(channelNum));
+        strcpy(msg, getChannelChar(channelNum));
         strcat(msg, startChar);
         strcat(msg, fileName);
         playWav(msg);
@@ -53,7 +53,7 @@ class AudioSender
     void stopWavOnChannel(int channelNum)
     {
         char msg[12];
-        strcat(msg, getChannelChar(channelNum));
+        strcpy(msg, getChannelChar(channelNum));
         strcat(msg, stopChar);
         playWav(msg);
     }
