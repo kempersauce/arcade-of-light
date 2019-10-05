@@ -161,6 +161,9 @@ public:
 
 	void enterLoseState()
 	{
+        //play sound
+        Serial5.println("<HUMANITY.WAV>");
+        //game stuff
 		gameState = RocketGameLose;
 		explosion.ExplodeAt(display->numStrips / 2, rocket.physics.Location);
 		explosionsInTheSky.startAnimation();
@@ -262,6 +265,14 @@ public:
 
             case RocketGamePlaying:
                 rocket.SetBoost(Up.getMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
+                if(Up.isDepressing())
+                {
+                    Serial5.println("<WHOOSH.WAV>");
+                }
+                if(Up.isReleasing())
+                {
+                    Serial5.println("<WHOOSH.WAV>");
+                }
 
                 rocket.Move();
 

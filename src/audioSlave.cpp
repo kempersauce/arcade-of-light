@@ -15,15 +15,23 @@
 
 AudioPlaySdWav           playSdWav1;
 AudioPlaySdWav           playSdWav2;
+AudioPlaySdWav			 playSdWav3;
+AudioPlaySdWav			 playSdWav4;
 AudioPlaySdWav           playSdWavBG;
 AudioOutputI2S           audioOutput;
 
 
 AudioConnection          patchCord1(playSdWav1, 0, audioOutput, 1);
-//AudioConnection          patchCord2(playSdWav2, 0, audioOutput, 1);
-AudioConnection          patchCord3(playSdWavBG, 0, audioOutput, 0);
+AudioConnection          patchCord2(playSdWav2, 0, audioOutput, 2);
+AudioConnection          patchCord3(playSdWav3, 0, audioOutput, 3);
+AudioConnection          patchCord4(playSdWav4, 0, audioOutput, 4);
+
+AudioConnection          patchCord5(playSdWavBG, 0, audioOutput, 0);
 
 AudioControlSGTL5000 sgtl5000_1;
+
+char* lastOutput1;
+char* lastOutput2;
 
 #define SDCARD_CS_PIN    10
 #define SDCARD_MOSI_PIN  7
@@ -61,6 +69,35 @@ void setup()
 	Serial.println("starting the loop");
 }
 
+void stopChannel(int i)
+{
+	switch (i)
+	{
+		case 0:
+			playSdWavBG.stop();
+		break;
+
+		case 1:
+			playSdWav1.stop();
+		break;
+
+		case 2:
+			playSdWav2.stop();
+		break;
+
+		case 3:
+			playSdWav3.stop();
+		break;
+
+		case 4:
+			playSdWav4.stop();
+		break;
+	}
+
+	
+
+}
+
 void playBG(const char* fileName)
 {
     if(!playSdWavBG.isPlaying())
@@ -71,7 +108,7 @@ void playBG(const char* fileName)
 
 void loop()
 {
-    playBG("BOOM.WAV");
+    //playBG("GYCYCHIP.WAV");
 	for (int i = 0; i < 2; i++)
 	{
 		serialReceiver[i].recvWithStartEndMarkers();
@@ -83,7 +120,24 @@ void loop()
 			Serial.print(i + 1);
 			Serial.print(": ");
 			Serial.println(output);
-			playSdWav1.play(output);
+            if(!playSdWav1.isPlaying())
+            {
+			    playSdWav1.play(output);
+                Serial.println("channel 1 playing");
+				lastOutput1 = output;
+            }
+            else if(!playSdWav2.isPlaying() 
+			&& output != lastOutput1)
+            {
+                playSdWav2.play(output);
+                Serial.println("channel 2 playing");
+            }
+            else
+            {
+                Serial.println("all channels occupied");
+            }
+            
+
 			
 			Serial.println("Done");
 		}
