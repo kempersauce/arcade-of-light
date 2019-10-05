@@ -28,6 +28,7 @@
 #include <vector>
 
 bool boostIsPlaying = false;
+bool targetIsPlaying = false;
 
 using namespace std;
 
@@ -174,6 +175,8 @@ public:
 	{
         //play sound
         Serial5.println("<WHOOSH.WAV>");
+        Serial5.println("<WHOOSH.WAV>");
+        Serial5.println("<WHOOSH.WAV>");
 		gameState = RocketGameLevelAdvance;
 		// No other changes required for this state change
 	}
@@ -194,19 +197,22 @@ public:
             if (wasInTarget == false)
             {
                 target.Time = millis();
+                if(!boostIsPlaying)
+                {
+                    Serial5.println("<21TRGTSEQ.WAV>");
+                    boostIsPlaying = true;
+                }
             }
 
             // Check if we've closed out this target
             else if (target.isTargetLocked())
             {
                 //Win state
+                Serial5.println("<20>");
+                boostIsPlaying = false;
+                Serial5.println("TRGTHIT2");
 
                 targetsWon++;
-
-                //sound effects
-                Serial5.println("<TRGTHIT1>");
-                
-
                 // Still more targets - make a new random target
                 if (targetsWon < targetsPerLevel)
                 {
@@ -226,6 +232,18 @@ public:
                 }
             }
         }
+        else if (!target.isInTarget)
+        {
+            if(wasInTarget == true)
+            {
+                if(boostIsPlaying)
+                {
+                    Serial5.println("<20>");
+                    boostIsPlaying = false;
+                }
+            }
+        }
+        
     }
 
     //Game Loop
@@ -279,7 +297,6 @@ public:
                         Serial5.println("<11THRUST2.WAV>");
                         boostIsPlaying = true;
                     }
-                    
                 }
                 if(Up.isReleasing())
                 {

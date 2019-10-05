@@ -74,36 +74,6 @@
 // 	KemperSerialReceiver(&Serial5)
 // };
 
-
-// void noPlayPlay()
-// {
-// 	for(int i=0; i<numPlayers+1; i++)
-// 	{
-// 		isPlaying[i] = false;
-// 	}
-// }
-
-// void checkPlayers()
-// {
-// 	if(!playSdWav1.isPlaying())
-// 	{
-// 		isPlaying[1] = false;
-// 	}
-// 	if(!playSdWav2.isPlaying())
-// 	{
-// 		isPlaying[2] = false;
-// 	}
-// 	if(!playSdWav3.isPlaying())
-// 	{
-// 		isPlaying[3] = false;
-// 	}
-// 	if(!playSdWav4.isPlaying())
-// 	{
-// 		isPlaying[4] = false;
-// 	}
-// }
-
-
 // void stopChannel(int i)
 // {
 // 	switch (i)
@@ -152,9 +122,9 @@
 
 // 		case 1:
 // 			playSdWav1.play(fileName);
-// 			Serial.println("CHANNEL: " + (String)i);
-// 			Serial.println("FILE:    " + (String)fileName);
-// 			Serial.println("========================================");
+// 			// Serial.println("CHANNEL: " + (String)i);
+// 			// Serial.println("FILE:    " + (String)fileName);
+// 			// Serial.println("========================================");
 // 		break;
 
 // 		case 2:
@@ -231,7 +201,6 @@
 // 			delay(500);
 // 		}
 // 	}
-// 	noPlayPlay();
 // 	playWav("FUEL100.WAV");
 // 	delay(50);
 // 	playWav("FUEL50.WAV");
@@ -241,9 +210,33 @@
 // 	Serial.println("starting the loop");
 // }
 
+// void channelChecker(char* message)
+// {
+// 	char channelChar = message[0];
+// 	char channelNum = channelChar - '0';
+// 	char isStart = message[1];
+// 	if(channelNum == 1 || channelNum == 2)
+// 	{
+// 		char* trimmedOutput = message;
+// 		trimmedOutput++;
+// 		trimmedOutput++;
+// 		if(isStart == '1')
+// 		{
+// 			startChannel(channelNum, trimmedOutput);
+// 		}else if(isStart == '0')
+// 		{
+// 			stopChannel(channelNum);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		playWav(message);
+// 	}
+// }
+
 // void loop()
 // {
-//     //playBG("GYCYCHIP.WAV");
+//     //playBG("BOOM.WAV");
 // 	for (int i = 0; i < 2; i++)
 // 	{
 // 		serialReceiver[i].recvWithStartEndMarkers();
@@ -259,34 +252,7 @@
 // 			char channelChar = output[0];
 // 			char channelNum = channelChar - '0';
 // 			char isStart = output[1];
-// 			if(channelNum == 1 || channelNum == 2)
-// 			{
-// 				char* trimmedOutput = output;
-// 				trimmedOutput++;
-// 				trimmedOutput++;
-// 				if(isStart == '1')
-// 				{
-// 					startChannel((int)channelNum, trimmedOutput);
-// 				}else if(isStart == '0')
-// 				{
-// 					stopChannel((int)channelNum);
-// 				}
-// 			}
-// 			else if(channelNum == '!')
-// 			{
-// 				stopChannel(1);
-// 			}
-// 			else
-// 			{
-// 				playWav(output);
-// 			}
-			
-			
-//             //playSdWav1.play(output);
-            
-
-			
-// 			Serial.println("Done");
+// 			channelChecker(output);
 // 		}
 // 	}
 // }
