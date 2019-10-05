@@ -69,7 +69,7 @@
 //     //FastLED.show();
 
 // 	// Choose your Game type
-// 	game = (Game*)new Head2Head(gameDisplay);
+// 	//game = (Game*)new Head2Head(gameDisplay);
 // 	//game = (Game*)new LifeGame(gameDisplay);
 // 	//game = (Game*)new RocketGame(gameDisplay);
 // 	//game = (Game*)new RainbowGame(gameDisplay);
@@ -78,7 +78,7 @@
 // 	//game = (Game*)new ShooterGame(gameDisplay);
 // 	//game = (Game*)new FallingGame(gameDisplay);
 // 	//game = (Game*)new LaneRunnerGame(gameDisplay);
-// 	//game = (Game*)new LifeGameSinglePlayer(gameDisplay);
+// 	game = (Game*)new LifeGameSinglePlayer(gameDisplay);
 
 
 // 	// Test Games

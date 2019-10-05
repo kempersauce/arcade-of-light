@@ -26,6 +26,7 @@
 #include <ExplosionsInTheSky.h>
 #include <LifeGame.h>
 #include <vector>
+#include <AudioSender.h>
 
 bool boostIsPlaying = false;
 bool targetIsPlaying = false;
@@ -57,6 +58,10 @@ class RocketGame : Game
 
     int level = 0;
     static const int levelMax = 3;
+
+    //Audio
+    AudioSender* audio;
+    bool isFirstSetup = true;
 
     // level colors for SkyFade
     CRGB* skyFadeColors[levelMax] =
@@ -135,6 +140,10 @@ public:
     // Reset Game
     void setup()
     {
+        if(isFirstSetup)
+        {
+            audio = new AudioSender();
+        }
         level = 0;
         enterLevelStartState();
     }
@@ -164,7 +173,7 @@ public:
 	void enterLoseState()
 	{
         //play sound
-        Serial5.println("<HUMANITY.WAV>");
+        audio->playWav("HUMANITY");
         //game stuff
 		gameState = RocketGameLose;
 		explosion.ExplodeAt(display->numStrips / 2, rocket.physics.Location);
@@ -173,10 +182,6 @@ public:
 
 	void enterLevelAdvanceState()
 	{
-        //play sound
-        Serial5.println("<WHOOSH.WAV>");
-        Serial5.println("<WHOOSH.WAV>");
-        Serial5.println("<WHOOSH.WAV>");
 		gameState = RocketGameLevelAdvance;
 		// No other changes required for this state change
 	}
@@ -294,13 +299,13 @@ public:
                 {
                     if(!boostIsPlaying)
                     {
-                        Serial5.println("<11THRUST2.WAV>");
+                        audio->startWavOnChannel("THRUST2", 1);
                         boostIsPlaying = true;
                     }
                 }
                 if(Up.isReleasing())
                 {
-                    Serial5.println("<10>");
+                    audio->stopWavOnChannel(2);
                     boostIsPlaying = false;
                 }
 
@@ -317,6 +322,10 @@ public:
             break;
 
             case RocketGameLevelAdvance:
+
+                //play sound
+                audio->playWav("WHOOSH");
+
                 // Boost way way up the screen
                 if (rocket.physics.Location < display->lengthStrips * 2)
                 {
