@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Animation.h>
+#include <RocketAudio.h>
 
 class ExplosionsInTheSky : Animation
 {
@@ -15,9 +16,10 @@ class ExplosionsInTheSky : Animation
         color = new CRGB(255, 0, 0);
     }
 
-    void startAnimation()
+    void startAnimation(RocketAudio* audio)
     {
         timeStart = millis();
+        audio->playExplosion();
     }
 
     bool isPlaying()

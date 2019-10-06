@@ -8,10 +8,13 @@ class AudioSender
     public:
     const char* startSymbol = "<";
     const char* endSymbol = ".WAV>";
-    const char* startChar = "1";
-    const char* stopChar = "0";
+    const char* startChannelChar = "1";
+    const char* stopChannelChar = "0";
+    
+    const char* nine = "9";
     const char* one = "1";
     const char* two = "2";
+
     unsigned long delayStartMillis;
     bool delayHasStarted = false;
     bool delaySoundPlayed = false;
@@ -45,7 +48,7 @@ class AudioSender
     {
         char msg[12];
         strcpy(msg, getChannelChar(channelNum));
-        strcat(msg, startChar);
+        strcat(msg, startChannelChar);
         strcat(msg, fileName);
         playWav(msg);
     }
@@ -54,14 +57,21 @@ class AudioSender
     {
         char msg[12];
         strcpy(msg, getChannelChar(channelNum));
-        strcat(msg, stopChar);
+        strcat(msg, stopChannelChar);
+        playWav(msg);
+    }
+
+    void setBackground(char* fileName)
+    {
+        char msg[12];
+        strcpy(msg, nine);
+        strcat(msg, fileName);
         playWav(msg);
     }
 
     //helper function because I'm bad at C++ and char array concatination
     const char* getChannelChar(int channelNum)
     {
-        char msg[12];
         if(channelNum == 1)
         {
             return one;
@@ -69,11 +79,6 @@ class AudioSender
         else if(channelNum ==2)
         {
             return two;
-        }
-        else
-        {
-            Serial.println("BAD CHANNEL NUMBER: " + (String)channelNum);
-            return;
         }
     }
 

@@ -150,7 +150,12 @@ public:
         if(isFirstSetup)
         {
             audio = new RocketAudio();
+            // //delay(3000);
+            // //delay(100);
+            isFirstSetup = false;
         }
+
+        audio->playStdBG();
         level = 0;
         enterLevelStartState();
     }
@@ -175,6 +180,7 @@ public:
 			fireworks[i].Reset();
 			fireworks[i].explosion.SetGravity(gravityLevels[min(level, levelMax - 1)]);
 		}
+        audio->playWinBG();
 	}
 
 	void enterLoseState()
@@ -184,13 +190,13 @@ public:
         //game stuff
 		gameState = RocketGameLose;
 		explosion.ExplodeAt(display->numStrips / 2, rocket.physics.Location);
-		explosionsInTheSky.startAnimation();
+		explosionsInTheSky.startAnimation(audio);
 	}
 
 	void enterLevelAdvanceState()
 	{
         //AUDIO HERE MUST BE SERIAL PRINT OTHERWISE BREAKS GAME STATE!!!
-        Serial5.println("<LFTDEMO.WAV>");
+        Serial5.println("<TRGTHIT3.WAV>");
 		gameState = RocketGameLevelAdvance;
 		// No other changes required for this state change
 	}
@@ -339,8 +345,7 @@ public:
                     level++;
                     if (level == levelMax)
                     {
-                        Serial.println("LEVEL: " + (String)level);
-                        Serial.println("MAX LEVEL: " + (String)levelMax);
+                        //audio->playWin
                         // TODO set up whatever state we need for the Win state to start
 						enterWinState();
                     }

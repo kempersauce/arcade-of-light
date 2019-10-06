@@ -1,5 +1,6 @@
 #include <Animation.h>
 #include <Explosion.h>
+#include <RocketAudio.h>
 
 class Firework : Animation
 {

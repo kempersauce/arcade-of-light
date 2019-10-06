@@ -6,6 +6,8 @@
 // #include <SPI.h>
 // #include <SD.h>
 // #include <SerialFlash.h>
+// #include <string>
+// #include <iostream>
 
 
 
@@ -61,6 +63,13 @@
 
 // char* lastOutput1;
 // char* lastOutput2;
+// std::string backgroundName;
+// bool hasBackGround = false;
+// bool hasNewBackGround = false;
+// bool backgroundIsPlaying = false;
+// unsigned long backgroundStartMillis;
+// unsigned long backgroundLengthMillis = 1000;
+// unsigned long backgroundCheckWait = 1000;
 
 // #define SDCARD_CS_PIN    10
 // #define SDCARD_MOSI_PIN  7
@@ -109,13 +118,23 @@
 // 		break;
 // 	}
 // }
+// void startBGChannel(std::string fileName)
+// {
+// 	char convertedFileName[12];
+// 	strcpy(convertedFileName, fileName.c_str());
+// 	playSdWavBG.play(convertedFileName);
+// 	Serial.println("CHANNEL: BACKGROUND");
+// 	Serial.println("FILE:    " + (String)convertedFileName);
+// 	Serial.println("========================================");
+// }
+
 // void startChannel(int i, const char* fileName)
 // {
 // 	switch (i)
 // 	{
 // 		case 0:
 // 			playSdWavBG.play(fileName);
-// 			Serial.println("CHANNEL: " + (String)i);
+// 			Serial.println("CHANNEL: BACKGROUND");
 // 			Serial.println("FILE:    " + (String)fileName);
 // 			Serial.println("========================================");
 // 		break;
@@ -150,12 +169,53 @@
 // 	}
 // }
 
-// void playBG(const char* fileName)
+// void backgroundTimeCheck()
 // {
-//     if(!playSdWavBG.isPlaying())
+// 	unsigned long currentTime = millis();
+// 	unsigned long timeElapsed = currentTime - backgroundStartMillis;
+// 	if(timeElapsed>backgroundCheckWait)
+// 	{
+// 		if(!playSdWavBG.isPlaying())
+// 		{
+// 			backgroundIsPlaying = false;
+// 			//hasNewBackGround = true;
+// 			Serial.println("BG checkWait: " + (String)backgroundCheckWait);
+// 			Serial.println("BG Elapsed:   " + (String)timeElapsed);
+// 			Serial.println("BG isPlaying: " + (String)backgroundIsPlaying);
+// 			Serial.println("===============================");
+// 		}
+// 	}
+// }
+
+
+// void playBG()
+// {
+//     if(!backgroundIsPlaying && hasBackGround)
 //     {
-//         playSdWavBG.play(fileName);
+//         startBGChannel(backgroundName);
+// 		backgroundIsPlaying = true;
+// 		backgroundStartMillis = millis();
+// 		backgroundLengthMillis = playSdWavBG.lengthMillis();
+// 		//hasNewBackGround = false;
 //     }
+// 	else if(backgroundIsPlaying)
+// 	{
+// 		backgroundLengthMillis = playSdWavBG.lengthMillis();
+// 		backgroundTimeCheck();
+// 	}
+// }
+
+
+// void setBG(char* fileName)
+// {
+// 	playSdWavBG.stop();
+// 	backgroundIsPlaying = false;
+// 	hasBackGround = true;
+// 	backgroundName = fileName;
+// 	Serial.println((String)backgroundName.c_str());
+// 	Serial.println("BG STATUS: " + (String)playSdWavBG.isPlaying());
+// 	playBG();
+// 	// startChannel(0, background);
 // }
 
 // void playWav(const char* fileName)
@@ -229,6 +289,12 @@
 // 			stopChannel(channelNum);
 // 		}
 // 	}
+// 	else if(channelNum == 9)
+// 	{
+// 		char* trimmedOutput = message;
+// 		trimmedOutput++;
+// 		setBG(trimmedOutput);
+// 	}
 // 	else
 // 	{
 // 		playWav(message);
@@ -237,7 +303,7 @@
 
 // void loop()
 // {
-//     //playBG("BOOM.WAV");
+//     playBG();
 // 	for (int i = 0; i < 2; i++)
 // 	{
 // 		serialReceiver[i].recvWithStartEndMarkers();
@@ -249,7 +315,6 @@
 // 			Serial.print(i + 1);
 // 			Serial.print(": ");
 // 			Serial.println(output);
-
 // 			char channelChar = output[0];
 // 			char channelNum = channelChar - '0';
 // 			char isStart = output[1];

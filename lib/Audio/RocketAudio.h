@@ -11,7 +11,9 @@ class RocketAudio : public AudioSender
     char* targetWin =   "TRGTHIT5";
     char* levelWin =    "WHOOSH";
 
-    // File names for gamestate changed
+    // File names for Background
+    char* winBG =       "MAMBO5";
+    char* stdBG =       "GYCYCHIP";
 
     // File names and controls for start/stop channels
     char* boost = "THRUST2";
@@ -19,11 +21,12 @@ class RocketAudio : public AudioSender
     char* targetHover = "TRGTSEQ";
     bool targetHoverIsPlaying = false;
 
-    //Constructor Starts Serial (inhereted from AudioSender)
+    // CONSTRUCTOR - starts Serial (inhereted from AudioSender)
     RocketAudio()
         : AudioSender(){}
 
-    // Single Effect Methods
+
+    // SINGLE EFFECT METHODS
     void playExplosion()
     {
         playWav(explosion);
@@ -45,7 +48,8 @@ class RocketAudio : public AudioSender
         //playWav()
     }
 
-    // Start/Stop Methods
+
+    // START/STOP METHODS
 
     // CHANNEL 1: BOOST
     void startPlayBoost()
@@ -77,9 +81,16 @@ class RocketAudio : public AudioSender
     {
         stopWavOnChannel(2);
         targetHoverIsPlaying = false;
-        
-        //playTargetWin();
     }
 
 
+    //BACKGROUND METHODS
+    void playStdBG()
+    {
+        setBackground(stdBG);
+    }
+    void playWinBG()
+    {
+        setBackground(winBG);
+    }
 };
