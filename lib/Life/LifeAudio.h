@@ -70,10 +70,6 @@ class LifeAudio : public AudioSender
     {
         setBackground(stdBG);
     }
-    void playWinBG()
-    {
-        setBackground(winBG);
-    }
     void playH2HIdleBG()
     {
         setBackground(idleBG);
