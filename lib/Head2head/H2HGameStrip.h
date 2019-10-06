@@ -6,6 +6,7 @@
 #include <Explosion.h>
 #include <NoiseGenerator.h>
 #include <KemperSerialTransmitter.h>
+#include <H2HAudio.h>
 
 enum H2HStripState
 {
@@ -185,7 +186,7 @@ public:
 	    buttonB.poll();
 	}
 
-	void checkGameState()
+	void checkGameState(H2HAudio* audio)
 	{
 		switch (stripState)
 		{
@@ -194,12 +195,14 @@ public:
 				// Did team A just win this one?
 				if (dot.physics.Location >= heightMax)
 	            {
+					audio->playTeamAWinLane();
 	                enterWinningStateA();
 	            }
 
 				// Did team B just win this one?
 	            else if (dot.physics.Location <= 0)
 	            {
+					audio->playTeamBWinLane();
 	                enterWinningStateB();
 	            }
 
@@ -210,9 +213,14 @@ public:
 		            {
 						if (zoneA.checkZone(dot.physics.Location))
 						{
-							Serial5.print("<TRGTHIT1.WAV>");
+							audio->playTeamAHit();
 							dot.setVelocity(-1 * (dot.physics.Velocity) + (zoneA.zoneDepth(dot.physics.Location) * 10)); // 20 to 40 px/sec
 						}
+						else
+						{
+							audio->playTeamAMiss();
+						}
+						
 		            }
 
 		            // Team B hits the button
@@ -223,9 +231,14 @@ public:
     					digitalWriteFast(9, LOW);
 						if (zoneB.checkZone(dot.physics.Location))
 						{
-							Serial5.print("<TRGTHIT1.WAV>");
+							audio->playTeamBHit();
 							dot.setVelocity(-1 * (dot.physics.Velocity) - (zoneB.zoneDepth(dot.physics.Location) * 10)); // -20 to -40 px/sec
 						}
+						else
+						{
+							audio->playTeamBMiss();
+						}
+						
 		            }
 
 			        // dot moves either way

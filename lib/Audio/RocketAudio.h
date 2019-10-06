@@ -1,12 +1,12 @@
 #pragma once
 #include <AudioSender.h>
-
+#include <HardwareSerial.h>
 class RocketAudio : public AudioSender
 {
 
     public:
     // File names for single effects
-    char* explosion =   "EXPLODE1";
+    char* explosion =   "HUMANITY";
     char* win =         "BOOM";
     char* targetWin =   "TRGTHIT5";
     char* levelWin =    "WHOOSH";
@@ -19,12 +19,18 @@ class RocketAudio : public AudioSender
     char* boost = "THRUST2";
     bool boostIsPlaying = false;
     char* targetHover = "TRGTSEQ";
+    char* targetHoverFull = "<21TRGTSEQ.WAV>";
     bool targetHoverIsPlaying = false;
+    char* fireworkLaunch = "WHOOSH";
+    char* fireworkLaunchLong = "<WHOOSH.WAV>";
+    bool fireworkLaunchIsPlaying = false;
+    char* fireworkExplode = "EXPLODE1";
+    char* fireworkExplodeLong = "<EXPLODE1.WAV>";
+
 
     // CONSTRUCTOR - starts Serial (inhereted from AudioSender)
     RocketAudio()
         : AudioSender(){}
-
 
     // SINGLE EFFECT METHODS
     void playExplosion()
@@ -47,6 +53,14 @@ class RocketAudio : public AudioSender
     {
         //playWav()
     }
+    void playFireWorkLaunch()
+    {
+        sendMsg(fireworkLaunchLong);
+    }
+    void playFireWorkExplode()
+    {
+        sendMsg(fireworkExplodeLong);
+    }
 
 
     // START/STOP METHODS
@@ -60,7 +74,6 @@ class RocketAudio : public AudioSender
             boostIsPlaying = true;
         }
     }
-
     void stopPlayBoost()
     {
         stopWavOnChannel(1);
@@ -72,17 +85,17 @@ class RocketAudio : public AudioSender
     {
         if(!targetHoverIsPlaying)
         {
-            startWavOnChannel(targetHover, 2);
+            sendMsg(targetHoverFull);
             targetHoverIsPlaying = true;
         }
     }
-
     void stopPlayTargetHover()
     {
-        stopWavOnChannel(2);
+        sendMsg("<20>");
         targetHoverIsPlaying = false;
     }
 
+    //CHANNEL 1: FireworkLaunch
 
     //BACKGROUND METHODS
     void playStdBG()

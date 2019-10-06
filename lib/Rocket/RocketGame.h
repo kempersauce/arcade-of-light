@@ -26,7 +26,6 @@
 #include <ExplosionsInTheSky.h>
 #include <LifeGame.h>
 #include <vector>
-#include <AudioSender.h>
 #include <RocketAudio.h>
 
 bool boostIsPlaying = false;
@@ -59,10 +58,10 @@ class RocketGame : Game
 
     // Level progress tracking
     int targetsWon = 0;
-    static const int targetsPerLevel = 0;
+    static const int targetsPerLevel = 3;
 
     int level = 0;
-    static const int levelMax = 3;
+    static const int levelMax = 5;
 
     // level colors for SkyFade
     CRGB* skyFadeColors[levelMax] =
@@ -70,8 +69,8 @@ class RocketGame : Game
         new CRGB(0, 0, 255),    // Blue Earth
         new CRGB(20, 20, 20),   // Grey Mun
         new CRGB(255, 0, 0),    // Red Mars
-        // new CRGB(255, 96, 0),   // Orange Jupiter
-        // new CRGB(128, 0, 128),  // Purple Pluto
+        new CRGB(255, 96, 0),   // Orange Jupiter
+        new CRGB(128, 0, 128),  // Purple Pluto
     };
 
     // level colors for targets
@@ -80,8 +79,8 @@ class RocketGame : Game
         new CRGB(255, 0, 0),    // Red targets on Blue Earth
         new CRGB(200, 20, 20),  // Pink targets Grey Mun
         new CRGB(0, 255, 0),    // Green targets on Orange Mars
-        // new CRGB(255, 0, 0),    // Red targets on Jupiter, cuz the big spot or whatever
-        // new CRGB(255, 255, 0),  // Yellow targets on Purple Pluto
+        new CRGB(255, 0, 0),    // Red targets on Jupiter, cuz the big spot or whatever
+        new CRGB(255, 255, 0),  // Yellow targets on Purple Pluto
     };
 
     // Level values for gravity
@@ -90,8 +89,8 @@ class RocketGame : Game
         15, // Earth has so much gravities - reset to 15 after testing -Jon
         10, // Mun is smol
         12, // Mars is not as stronk, only has this many gravities
-        // 60, // Jupiter is a big boi
-        // 7,  // poor little old Pluto barely has any gravities, be careful with that button
+        60, // Jupiter is a big boi
+        7,  // poor little old Pluto barely has any gravities, be careful with that button
     };
 
     // Sprites
@@ -359,9 +358,10 @@ public:
             case RocketGameWin:
                 for (int i = 0; i < numFireworks; i++)
                 {
-                    fireworks[i].Move();
+                    fireworks[i].Move(audio);
 					if (fireworks[i].isPlaying == false)
 					{
+                        audio->playFireWorkLaunch();
 						fireworks[i].Reset();
 					}
                 }

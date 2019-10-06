@@ -6,10 +6,13 @@ class AudioSender
 {
 
     public:
+    HardwareSerial& serial = Serial1;
     const char* startSymbol = "<";
     const char* endSymbol = ".WAV>";
     const char* startChannelChar = "1";
     const char* stopChannelChar = "0";
+
+    char* idleBGFile = "CDL";
     
     const char* nine = "9";
     const char* one = "1";
@@ -22,13 +25,15 @@ class AudioSender
     // Constructor: starts serial connection to audioSlave
     AudioSender()
     {
-        Serial5.begin(9600);
+        serial.begin(9600);
+        //Serial5.begin(9600);
     }
 
     //send message over serial to audioslave
     void sendMsg(const char* msg)
     {
-        Serial5.println(msg);
+        serial.println(msg);
+        Serial.println(msg);
     }
 
     //prepare message for audioslave to play audio file
@@ -38,8 +43,9 @@ class AudioSender
         strcpy(finalMsg, startSymbol);
         strcat(finalMsg, fileName);
         strcat(finalMsg, endSymbol);
+        serial.println(finalMsg);
         Serial.println(finalMsg);
-        Serial5.println(finalMsg);
+        //Serial5.println(finalMsg);
     }
 
     // Methods for starting/stopping wav on specific channel
@@ -103,6 +109,11 @@ class AudioSender
                 delaySoundPlayed = true;
             }
         }        
+    }
+
+    void playIdleBG()
+    {
+        setBackground(idleBGFile);
     }
     
 

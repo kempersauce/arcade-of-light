@@ -11,6 +11,7 @@
 #include <RainbowGame.h>
 #include <LifeGame.h>
 #include <ElectricArc.h>
+#include <H2HAudio.h>
 
 enum H2HGameState
 {
@@ -36,6 +37,9 @@ class Head2Head : Game
 
 	long totalWinStart = 0; // timer for win state
 	const static long totalWinTimeoutMillis = 1000 * 10; // 10 seconds in win state
+
+	H2HAudio* audio;
+	bool isFirstSetup = true;
 
 public:
     H2HGameStrip** gameStrips; // one for each strip
@@ -64,6 +68,12 @@ public:
 
     void setup()
     {
+		if(isFirstSetup)
+		{
+			audio = new H2HAudio();
+			isFirstSetup = false;
+			
+		}
 		enterStartState();
 		//enterWinBState();
     }
@@ -71,6 +81,8 @@ public:
 	void enterStartState()
 	{
 		gameState = H2HGameStart;
+		audio->playStdBG();
+		audio->stopWinMusic();
         for (int i = 0; i < display->numStrips; i++)
         {
             gameStrips[i]->reset();
@@ -84,6 +96,7 @@ public:
 
 	void enterWinAState()
 	{
+		audio->playTeamAWinGame();
 		gameState = H2HGameWinA;
 		for (int i = 0; i < display->numStrips; i++)
 		{
@@ -94,6 +107,7 @@ public:
 
 	void enterWinBState()
 	{
+		audio->playTeamBWinGame();
 		gameState = H2HGameWinB;
 		for (int i = 0; i < display->numStrips; i++)
 		{
@@ -153,7 +167,7 @@ public:
 
 		        for (int i = 0; i < display->numStrips; i++)
 		        {
-		            gameStrips[i]->checkGameState();
+		            gameStrips[i]->checkGameState(audio);
 		        }
 
 		        for (int i = 0; i < display->numStrips; i++)

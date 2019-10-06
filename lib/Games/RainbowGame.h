@@ -6,10 +6,12 @@ Where the magic happens
 #pragma once
 
 #include <HueRainbow.h>
+#include <AudioSender.h>
 
 class RainbowGame : Game
 {
 	HueRainbow background;
+    AudioSender* audio;
 
 public:
 
@@ -22,6 +24,8 @@ public:
 
     void setup()
     {
+        audio = new AudioSender();
+        audio->playIdleBG();
     }
 
     void loop()

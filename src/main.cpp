@@ -78,7 +78,7 @@
 // 	//game = (Game*)new ShooterGame(gameDisplay);
 // 	//game = (Game*)new FallingGame(gameDisplay);
 // 	//game = (Game*)new LaneRunnerGame(gameDisplay);
-// 	game = (Game*)new LifeGameSinglePlayer(gameDisplay);
+// 	//game = (Game*)new LifeGameSinglePlayer(gameDisplay);
 
 
 // 	// Test Games
@@ -109,8 +109,6 @@
     
 //     pinMode(9, OUTPUT);
 // 	FastLED.show();
-
-
 // }
 
 // void loop()

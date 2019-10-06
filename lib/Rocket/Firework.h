@@ -48,7 +48,7 @@ public:
         Hue = random(0, 255);
     }
 
-    void Move()
+    void Move(RocketAudio* audio)
     {
 		bool wasExploded = physics.HasExploded; // edge was set with LocationMax to denote the explode height
 
@@ -59,6 +59,7 @@ public:
         {
 			if (wasExploded == false)
 			{
+                audio->playFireWorkExplode();
 				explosion.Hue = random(0, 255);
 				explosion.ExplodeAt(physics.xLocation, physics.Location);
 			}
