@@ -4,6 +4,7 @@
 #include <LifeAnimation.h>
 #include <dirPad.h>
 #include <RainbowGame.h>
+#include <LifeAudio.h>
 
 enum LifeGameState
 {
@@ -18,6 +19,10 @@ class LifeGameSinglePlayer : Game
 
     // Animations
     LifeAnimation lifeGrid;
+
+	// Sound
+	LifeAudio* audio;
+	bool isFirstSetup = true;;
 
 	long millisPerFrame = 50;
 	const static long millisPerFrameStep = 5;
@@ -53,8 +58,20 @@ public:
 
     void setup()
     {
+		if(isFirstSetup)
+		{
+			audio = new LifeAudio();
+			isFirstSetup = false;
+			audio->playStdBG();
+		}
+
+		//Start BG music
+		
+
 		// Start off on blue
 		setHue(140);
+
+		
 
         // start off randomized
         lifeGrid.randomize();
@@ -65,6 +82,7 @@ public:
 	void enterPlayingState()
 	{
 		gameState = LifeGamePlaying;
+		audio->playStdBG();
 	}
 
 	void enterIdleState()
@@ -124,16 +142,32 @@ public:
 		if (dirPad.left.isPressed())
 		{
 			setHue(startHue + hueShiftRate * timeDiff);
+			audio->playColorShift();
 		}
 		else if (dirPad.right.isPressed())
 		{
 			setHue(startHue - hueShiftRate * timeDiff);
+			audio->playColorShift();
 		}
+		else
+		{
+			audio->stopColorShift();
+		}
+		
 
 		// pause/play controls
 		if (dirPad.a.isDepressing())
 		{
 			isPaused = !isPaused;
+			if(isPaused == true)
+			{
+				audio->playTimeStop();
+			}
+			else
+			{
+				audio->playTimeStart();
+			}
+			
 		}
 
 		if (millis() >= nextDrawFrameMillis)
@@ -141,12 +175,20 @@ public:
 			// randomize controls on frame speed
 			if (dirPad.b.isPressed())
 			{
+				if(!audio->shuffleIsStarted)
+				{
+					audio->startRandom();
+				}
 				lifeGrid.randomize();
 			}
 			else if (isPaused == false)
 			{
 		        // Calculate next round
 		        lifeGrid.GoOneRound();
+			}
+			if(dirPad.b.isUp() && audio->shuffleIsStarted)
+			{
+				audio->stopPlayRandom();
 			}
 
 			nextDrawFrameMillis = millis() + millisPerFrame;

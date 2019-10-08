@@ -83,6 +83,8 @@ public:
 		gameState = H2HGameStart;
 		audio->playStdBG();
 		audio->stopWinMusic();
+		//dont forget to take this out lol
+		audio->itsTimeToDuel();
         for (int i = 0; i < display->numStrips; i++)
         {
             gameStrips[i]->reset();

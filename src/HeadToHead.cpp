@@ -1,29 +1,25 @@
 
-#include <Arduino.h>
-#include <FastLED.h>
-#include <Display.h>
-#include <H2HDisplay.h>
-#include <Game.h>
-#include <Head2Head.h>
+// #include <Arduino.h>
+// #include <FastLED.h>
+// #include <Display.h>
+// #include <H2HDisplay.h>
+// #include <Game.h>
+// #include <Head2Head.h>
 
 
-Game* game;
-Display* gameDisplay;
+// Game* game;
+// Display* gameDisplay;
 
-void setup()
-{
-    gameDisplay = (Display*)new H2HDisplay();
+// void setup()
+// {
+//     gameDisplay = (Display*)new H2HDisplay();
 
-    game = (Game*)new Head2Head(gameDisplay);
-    game->setup();
-    FastLED.show();
-    // Serial5.begin(9600);
-    // Serial4.begin(9600);
-    Serial1.begin(9600);
-}
-void loop()
-{
-    
-    game->loop();
-    FastLED.show();
-}
+//     game = (Game*)new Head2Head(gameDisplay);
+//     game->setup();
+//     FastLED.show();
+// }
+// void loop()
+// {
+//     game->loop();
+//     FastLED.show();
+// }

@@ -7,14 +7,14 @@ class H2HAudio : public AudioSender
     public:
     // File names for single effects
     char* aHit =        "TRGTHIT2";
-    char* aMiss =       "TRGTHIT5";
-    char* aWinLane =    "<11DIO.WAV>";
-    char* aWinGame =    "TOBECON";
+    char* aMiss =       "TRGTHIT5";                     //CHEWY VS DIO VERSION:
+    char* aWinLane =    "<11DIO.WAV>";                  //"<11DIO.WAV>";
+    char* aWinGame =    "TOBECON";                      //"TOBECON";
 
     char* bHit =        "TRGTHIT1";
     char* bMiss =       "TRGTHIT6";
-    char* bWinLane =    "<21CHEWY.WAV>";
-    char* bWinGame =    "CANTINA";
+    char* bWinLane =    "<21CHEWY.WAV>";                  //"<21CHEWY.WAV>";
+    char* bWinGame =    "CANTINA";                        //"CANTINA";
 
     // File names for Background
     char* winBG =       "CDL";
@@ -65,6 +65,11 @@ class H2HAudio : public AudioSender
     {
         //hard coded this to channel so not to interfere with dot sounds
         setBackground(bWinGame);
+    }
+
+    void itsTimeToDuel()
+    {
+        playWav("DUEL");
     }
 
 

@@ -7,13 +7,18 @@ class LifeAudio : public AudioSender
     public:
     // File names for single effects
     char* shuffle =     "<11GYCYCHIP.WAV>";
-    char* stop =        "WARUDO";
+    bool shuffleIsStarted = false;
+    char* stop =        "<TRGTHIT5.WAV>";
+    char* unStop =      "<TRGTHIT1.WAV>";
     char* speedUp =     "<11DIO.WAV>";
+    bool isSpeedingUp = false;
     char* speedDown =   "<11TGTHIT1.WAV>";
-    char* colorShift =  "<21AFRICA.WAV>";
+    bool isSpeedingDown = false;
+    char* colorShift =  "<21ABORTSEQ.WAV>";
+    bool colorIsShifting = false;
 
     // File names for Background
-    char* stdBG =       "MAMBO5";
+    char* stdBG =       "BOOM";
     char* idleBG =      "CDL";
 
     // File names and controls for start/stop channels
@@ -25,25 +30,44 @@ class LifeAudio : public AudioSender
         : AudioSender(){}
 
     // SINGLE EFFECT METHODS
-    void playStop()
+    void playTimeStop()
     {
-        playWav(stop);
+        sendMsg(stop);
+    }
+    void playTimeStart()
+    {
+        sendMsg(unStop);
     }
     void startRandom()
     {
         sendMsg(shuffle);
+        shuffleIsStarted = true;
     }
     void startSpeedUp()
     {
-        sendMsg(speedUp);
+        if(!isSpeedingUp)
+        {
+            isSpeedingUp = true;
+            sendMsg(speedUp);
+        }
+        
     }
     void startSpeedDown()
     {
-        sendMsg(speedDown);
+        if(!isSpeedingDown)
+        {
+            sendMsg(speedDown);
+            isSpeedingDown = true;
+        }
+
     }
     void playColorShift()
     {
-        sendMsg(colorShift);
+        if(!colorIsShifting)
+        {
+            sendMsg(colorShift);
+            colorIsShifting = true;
+        }
     }
 
 
@@ -56,11 +80,33 @@ class LifeAudio : public AudioSender
     }
     void stopPlayRandom()
     {
-        sendMsg("<10>");
+        if(shuffleIsStarted)
+        {
+            sendMsg("<10>");
+            shuffleIsStarted = false;
+        }
     }
     void stopColorShift()
     {
-        sendMsg("<20>");
+        if(colorIsShifting)
+        {
+            sendMsg("<20>");
+            colorIsShifting = false;
+        }
+
+    }
+    void stopSpeed()
+    {
+        if(isSpeedingUp)
+        {
+            sendMsg("<20>");
+            isSpeedingUp = false;
+        }
+        else if(isSpeedingDown)
+        {
+            sendMsg("<20>");
+            isSpeedingDown = false;
+        }
     }
 
     //CHANNEL 1: FireworkLaunch
