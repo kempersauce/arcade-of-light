@@ -6,21 +6,26 @@ class RocketAudio : public AudioSender
 
     public:
     // File names for single effects
-    char* explosion =   "HUMANITY";
+    char* explosion =   "EXPLODE1";
     char* win =         "BOOM";
     char* targetWin =   "<TRGTHIT5.WAV>";
-    char* levelWin =    "<YUGI.WAV>";
+    char* levelWin =    "<11LIFTOFF.WAV>";
 
     // File names for Background
-    char* winBG =       "MAMBO5";
-    char* stdBG =       "GYCYCHIP";
+    char* winBG =       "EARTH";
+    char* stdBG =       "<9EARTH.WAV>";
 
     // Level Intro Sounds
-    char* level1Intro = "<WARUDO.WAV>";
-    char* level2Intro = "<CHEWY.WAV>";
-    char* level3Intro = "<MWATCHA.WAV>";
-    char* level4Intro = "<FFWIN.WAV>";
-    char* level5Intro = "<FUEL100.WAV>";
+    char* level1Intro =     "<EARTHVOX.WAV>";
+    char* level1BG =        "<9EARTH.WAV>";
+    char* level2Intro =     "<MOONVOX.WAV>";
+    char* level2BG =        "<9MOONJAZZ.WAV>";
+    char* level3Intro =     "<MARSVOX.WAV>";
+    char* level3BG =        "<9MARS.WAV>";
+    char* level4Intro =     "<JPTRVOX.WAV>";
+    char* level4BG =        "<9JUPITER.WAV>";
+    char* level5Intro =     "<PLUTOVOX.WAV>";
+    char* level5BG =        "<9PLUTO.WAV>";
 
     // File names and controls for start/stop channels
     char* boost = "THRUST2";
@@ -29,7 +34,7 @@ class RocketAudio : public AudioSender
     char* targetHoverFull = "<21TRGTSEQ.WAV>";
     bool targetHoverIsPlaying = false;
     char* fireworkLaunch = "WHOOSH";
-    char* fireworkLaunchLong = "<WHOOSH.WAV>";
+    char* fireworkLaunchLong = "<TRGTMIS1.WAV>";
     bool fireworkLaunchIsPlaying = false;
     char* fireworkExplode = "EXPLODE1";
     char* fireworkExplodeLong = "<EXPLODE1.WAV>";
@@ -69,24 +74,43 @@ class RocketAudio : public AudioSender
         sendMsg(fireworkExplodeLong);
     }
 
+    void killChannels()
+    {
+        serial.println("<20>");delay(5);
+        serial.println("<10>");delay(5);
+        serial.println("<aa>");delay(5);
+        serial.println("<aa>");delay(5);
+    }
+
     void playLevelIntro(int levelNum)
     {
         switch(levelNum)
         {
             case 1:
-                sendMsg(level1Intro);
+                //delay(100);
+                killChannels();
+                serial.println("<EARTHVOX.WAV>");delay(5);
+                serial.println("<9EARTH.WAV>");delay(5);
             break;
             case 2:
+                killChannels();
                 sendMsg(level2Intro);
+                sendMsg(level2BG);
             break;
             case 3:
+                killChannels();
                 sendMsg(level3Intro);
+                sendMsg(level3BG);
             break;
             case 4:
+                killChannels();
                 sendMsg(level4Intro);
+                sendMsg(level4BG);
             break;
             case 5:
+                killChannels();
                 sendMsg(level5Intro);
+                sendMsg(level5BG);
             break;            
         }
     }
@@ -129,7 +153,7 @@ class RocketAudio : public AudioSender
     //BACKGROUND METHODS
     void playStdBG()
     {
-        setBackground(stdBG);
+        sendMsg(stdBG);
     }
     void playWinBG()
     {

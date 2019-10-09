@@ -61,36 +61,36 @@ class RocketGame : Game
     static const int targetsPerLevel = 3;
 
     int level = 0;
-    static const int levelMax = 5;
+    static const int levelMax = 1;
 
     // level colors for SkyFade
     CRGB* skyFadeColors[levelMax] =
     {
         new CRGB(0, 0, 255),    // Blue Earth
-        new CRGB(20, 20, 20),   // Grey Mun
-        new CRGB(255, 0, 0),    // Red Mars
-        new CRGB(255, 96, 0),   // Orange Jupiter
-        new CRGB(128, 0, 128),  // Purple Pluto
+        // new CRGB(20, 20, 20),   // Grey Mun
+        // new CRGB(255, 0, 0),    // Red Mars
+        // new CRGB(255, 96, 0),   // Orange Jupiter
+        // new CRGB(128, 0, 128),  // Purple Pluto
     };
 
     // level colors for targets
     CRGB* targetColors[levelMax] =
     {
         new CRGB(255, 0, 0),    // Red targets on Blue Earth
-        new CRGB(200, 20, 20),  // Pink targets Grey Mun
-        new CRGB(0, 255, 0),    // Green targets on Orange Mars
-        new CRGB(255, 0, 0),    // Red targets on Jupiter, cuz the big spot or whatever
-        new CRGB(255, 255, 0),  // Yellow targets on Purple Pluto
+        // new CRGB(200, 20, 20),  // Pink targets Grey Mun
+        // new CRGB(0, 255, 0),    // Green targets on Orange Mars
+        // new CRGB(255, 0, 0),    // Red targets on Jupiter, cuz the big spot or whatever
+        // new CRGB(255, 255, 0),  // Yellow targets on Purple Pluto
     };
 
     // Level values for gravity
     int gravityLevels[levelMax] =
     {
         15, // Earth has so much gravities - reset to 15 after testing -Jon
-        10, // Mun is smol
-        12, // Mars is not as stronk, only has this many gravities
-        60, // Jupiter is a big boi
-        7,  // poor little old Pluto barely has any gravities, be careful with that button
+        // 10, // Mun is smol
+        // 12, // Mars is not as stronk, only has this many gravities
+        // 60, // Jupiter is a big boi
+        // 7,  // poor little old Pluto barely has any gravities, be careful with that button
     };
 
     // Sprites
@@ -362,7 +362,7 @@ public:
                     fireworks[i].Move(audio);
 					if (fireworks[i].isPlaying == false)
 					{
-                        audio->playFireWorkLaunch();
+                        //audio->playFireWorkLaunch();
 						fireworks[i].Reset();
 					}
                 }
