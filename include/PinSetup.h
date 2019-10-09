@@ -46,34 +46,14 @@ Pin numbers for teensy setup
 //BUTTONS
 
 // Old button pins on the test bed
-#define H2H_BUTTON_PIN_0 2
-#define H2H_BUTTON_PIN_1 3
-#define H2H_BUTTON_PIN_2 4
-#define H2H_BUTTON_PIN_3 5
-#define H2H_BUTTON_PIN_4 8
-#define H2H_BUTTON_PIN_5 24
-#define H2H_BUTTON_PIN_6 25
-#define H2H_BUTTON_PIN_7 26
-#define H2H_BUTTON_PIN_8 27
-#define H2H_BUTTON_PIN_9 28
-#define H2H_BUTTON_PIN_10 29
-#define H2H_BUTTON_PIN_11 30
-#define H2H_BUTTON_PIN_12 31
-#define H2H_BUTTON_PIN_13 32
-#define H2H_BUTTON_PIN_14 33
-#define H2H_BUTTON_PIN_15 34
-
-// Right to left (team A)
 // #define H2H_BUTTON_PIN_0 2
 // #define H2H_BUTTON_PIN_1 3
 // #define H2H_BUTTON_PIN_2 4
-// #define H2H_BUTTON_PIN_3 24
-// #define H2H_BUTTON_PIN_4 5
-// #define H2H_BUTTON_PIN_5 8
-// #define H2H_BUTTON_PIN_6 26
-// #define H2H_BUTTON_PIN_7 25
-
-
+// #define H2H_BUTTON_PIN_3 5
+// #define H2H_BUTTON_PIN_4 8
+// #define H2H_BUTTON_PIN_5 24
+// #define H2H_BUTTON_PIN_6 25
+// #define H2H_BUTTON_PIN_7 26
 // #define H2H_BUTTON_PIN_8 27
 // #define H2H_BUTTON_PIN_9 28
 // #define H2H_BUTTON_PIN_10 29
@@ -82,6 +62,26 @@ Pin numbers for teensy setup
 // #define H2H_BUTTON_PIN_13 32
 // #define H2H_BUTTON_PIN_14 33
 // #define H2H_BUTTON_PIN_15 34
+
+// Right to left (team A)
+#define H2H_BUTTON_PIN_0 2
+#define H2H_BUTTON_PIN_1 3
+#define H2H_BUTTON_PIN_2 4
+#define H2H_BUTTON_PIN_3 24
+#define H2H_BUTTON_PIN_4 5
+#define H2H_BUTTON_PIN_5 8
+#define H2H_BUTTON_PIN_6 26
+#define H2H_BUTTON_PIN_7 25
+
+
+#define H2H_BUTTON_PIN_8 27
+#define H2H_BUTTON_PIN_9 28
+#define H2H_BUTTON_PIN_10 29
+#define H2H_BUTTON_PIN_11 30
+#define H2H_BUTTON_PIN_12 31
+#define H2H_BUTTON_PIN_13 32
+#define H2H_BUTTON_PIN_14 33
+#define H2H_BUTTON_PIN_15 34
 
 //AUDIO
 //We dont have an audio volume pin....

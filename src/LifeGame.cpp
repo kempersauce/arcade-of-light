@@ -1,7 +1,7 @@
 
 #include <Arduino.h>
 #include <FastLED.h>
-#include <Display.h>
+#include <FiveDisplay.h>
 #include <LifeGameSinglePlayer.h>
 #include <Game.h>
 #include <Head2Head.h>
@@ -12,7 +12,7 @@ Display* gameDisplay;
 
 void setup()
 {
-    gameDisplay = (Display*)new H2HDisplay();
+    gameDisplay = (Display*)new FiveDisplay();
 
     game = (Game*)new LifeGameSinglePlayer(gameDisplay);
     game->setup();

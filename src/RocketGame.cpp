@@ -1,7 +1,7 @@
 // #include <Arduino.h>
 // #include <FastLED.h>
 // #include <Display.h>
-// #include <H2HDisplay.h>
+// #include <RocketDisplay.h>
 // #include <Game.h>
 // #include <RocketGame.h>
 // #include <AudioSender.h>
@@ -12,7 +12,7 @@
 
 // void setup()
 // {
-//     gameDisplay = (Display*)new H2HDisplay();
+//     gameDisplay = (Display*)new RocketDisplay();
 //     game = new RocketGame(gameDisplay);
 //     game->setup();
 //     FastLED.show();
