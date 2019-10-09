@@ -19,7 +19,7 @@ class ExplosionsInTheSky : Animation
     void startAnimation(RocketAudio* audio)
     {
         timeStart = millis();
-        audio->playExplosion();
+        //audio->playExplosion();
     }
 
     bool isPlaying()
