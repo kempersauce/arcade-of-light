@@ -15,8 +15,8 @@ public:
     Button b;
 
     DirPad() :
-		up(BUTTON_PIN_2),
-		down(BUTTON_PIN_5),
+		up(BUTTON_PIN_5),
+		down(BUTTON_PIN_2),
 		left(BUTTON_PIN_4),
 		right(BUTTON_PIN_3),
 		a(BUTTON_PIN_0),
