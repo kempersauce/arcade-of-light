@@ -7,19 +7,19 @@ class H2HAudio : public AudioSender
     public:
     // File names for single effects
     char* aHit =        "TRGTHIT2";
-    char* aMiss =       "TRGTHIT5";                     //CHEWY VS DIO VERSION:
-    char* aWinLane =    "<11DIO.WAV>";                  //"<11DIO.WAV>";
-    char* aWinGame =    "TOBECON";                      //"TOBECON";
+    char* aMiss =       "TRGTMIS1";                     //CHEWY VS DIO VERSION:
+    char* aWinLane =    "<11THRUST1.WAV>";                  //"<11DIO.WAV>";
+    char* aWinGame =    "PONGWINA";                      //"TOBECON";
 
-    char* bHit =        "TRGTHIT1";
-    char* bMiss =       "TRGTHIT6";
-    char* bWinLane =    "<21CHEWY.WAV>";                  //"<21CHEWY.WAV>";
-    char* bWinGame =    "CANTINA";                        //"CANTINA";
+    char* bHit =        "TRGTHIT5";
+    char* bMiss =       "TRGTHIT4";
+    char* bWinLane =    "<21THRUST2.WAV>";                  //"<21CHEWY.WAV>";
+    char* bWinGame =    "PONGWINB";                        //"CANTINA";
 
     // File names for Background
     char* winBG =       "CDL";
     char* stdBG =       "GYCYCHIP";
-    char* idleBG =      "CDL";
+    char* idleBG =      "PLUTO";
 
     // File names and controls for start/stop channels
     
@@ -69,9 +69,9 @@ class H2HAudio : public AudioSender
 
     void itsTimeToDuel()
     {
-        playWav("DUEL");
+        //playWav("DUEL");
+        sendMsg("<CHALL.WAV>");
     }
-
 
     // START/STOP METHODS
     void stopWinMusic()
@@ -92,6 +92,10 @@ class H2HAudio : public AudioSender
         setBackground(winBG);
     }
     void playH2HIdleBG()
+    {
+        setBackground(idleBG);
+    }
+    void playIdleBG()
     {
         setBackground(idleBG);
     }

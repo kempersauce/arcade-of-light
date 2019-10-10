@@ -12,7 +12,7 @@ class AudioSender
     const char* startChannelChar = "1";
     const char* stopChannelChar = "0";
 
-    char* idleBGFile = "CDL";
+    char* idleBGFile = "PLUTO";
     
     const char* nine = "9";
     const char* one = "1";

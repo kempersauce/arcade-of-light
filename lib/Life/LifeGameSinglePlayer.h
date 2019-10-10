@@ -142,16 +142,16 @@ public:
 		if (dirPad.left.isPressed())
 		{
 			setHue(startHue + hueShiftRate * timeDiff);
-			audio->playColorShift();
+			//audio->playColorShift();
 		}
 		else if (dirPad.right.isPressed())
 		{
 			setHue(startHue - hueShiftRate * timeDiff);
-			audio->playColorShift();
+			//audio->playColorShift();
 		}
 		else
 		{
-			audio->stopColorShift();
+			//audio->stopColorShift();
 		}
 		
 
@@ -161,11 +161,11 @@ public:
 			isPaused = !isPaused;
 			if(isPaused == true)
 			{
-				audio->playTimeStop();
+				// audio->playTimeStop();
 			}
 			else
 			{
-				audio->playTimeStart();
+				// audio->playTimeStart();
 			}
 			
 		}
@@ -175,21 +175,21 @@ public:
 			// randomize controls on frame speed
 			if (dirPad.b.isPressed())
 			{
-				if(!audio->shuffleIsStarted)
-				{
-					audio->startRandom();
-				}
-				lifeGrid.randomize();
+				// if(!audio->shuffleIsStarted)
+				// {
+				// 	audio->startRandom();
+				// }
+				// lifeGrid.randomize();
 			}
 			else if (isPaused == false)
 			{
 		        // Calculate next round
 		        lifeGrid.GoOneRound();
 			}
-			if(dirPad.b.isUp() && audio->shuffleIsStarted)
-			{
-				audio->stopPlayRandom();
-			}
+			// if(dirPad.b.isUp() && audio->shuffleIsStarted)
+			// {
+			// 	audio->stopPlayRandom();
+			// }
 
 			nextDrawFrameMillis = millis() + millisPerFrame;
 		}

@@ -18,7 +18,7 @@ class LifeAudio : public AudioSender
     bool colorIsShifting = false;
 
     // File names for Background
-    char* stdBG =       "BOOM";
+    char* stdBG =       "LIFEBG";
     char* idleBG =      "CDL";
 
     // File names and controls for start/stop channels

@@ -70,6 +70,7 @@
 // unsigned long backgroundStartMillis;
 // unsigned long backgroundLengthMillis = 1000;
 // unsigned long backgroundCheckWait = 1000;
+// float mixerGain = 0.7;
 
 // #define SDCARD_CS_PIN    10
 // #define SDCARD_MOSI_PIN  7
@@ -262,6 +263,28 @@
 // 			delay(500);
 // 		}
 // 	}
+    
+//     mixMaster.gain(0, 0.5);
+//     mixMaster.gain(1, 0.5);
+//     mixer1.gain(0,mixerGain);
+//     mixer1.gain(1,mixerGain);
+//     mixer1.gain(2,mixerGain);
+//     mixer1.gain(3,mixerGain);
+//     mixer2.gain(0,mixerGain);
+//     mixer2.gain(1,mixerGain);
+//     mixer2.gain(2,mixerGain);
+//     mixer2.gain(3,mixerGain);
+//     effectMixer.gain(0,mixerGain);
+//     effectMixer.gain(1,mixerGain);
+//     effectMixer.gain(2,mixerGain);
+//     effectMixer.gain(3,mixerGain);
+//     bgMixer.gain(0,mixerGain);
+//     bgMixer.gain(1,mixerGain);
+//     bgMixer.gain(2,mixerGain);
+//     bgMixer.gain(3,mixerGain);
+
+
+
 // 	playWav("FUEL100.WAV");
 // 	delay(50);
 // 	playWav("FUEL50.WAV");
