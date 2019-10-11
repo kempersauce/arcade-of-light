@@ -32,14 +32,14 @@ class H2HGameStrip : Animation
 	// nearside team
 	H2HZone zoneA;
 	static int zoneAStart;
-	static const int zoneAHue = 138; // cyan
-	// static const int zoneAHue = 120; // green 
+	// static const int zoneAHue = 138; // cyan
+	static const int zoneAHue = 120; // green 
 
 	// farside team
 	H2HZone zoneB;
 	static int zoneBStart;
-	static const int zoneBHue = 0; // red
-	// static const int zoneBHue = 220; // orange - this is wrong
+	// static const int zoneBHue = 0; // red
+	static const int zoneBHue = 33; // orange - this is wrong
 
 	int stripIndex; // Which strip is this on?
 	int heightMax; // length of this strip
