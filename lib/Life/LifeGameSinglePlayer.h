@@ -179,7 +179,7 @@ public:
 				// {
 				// 	audio->startRandom();
 				// }
-				// lifeGrid.randomize();
+				lifeGrid.randomize();
 			}
 			else if (isPaused == false)
 			{

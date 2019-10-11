@@ -58,7 +58,7 @@ class RocketGame : Game
 
     // Level progress tracking
     int targetsWon = 0;
-    static const int targetsPerLevel = 3;
+    static const int targetsPerLevel = 2;
 
     int level = 0;
     static const int levelMax = 5;

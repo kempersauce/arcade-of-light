@@ -18,11 +18,11 @@
 // #include <SerialTest.h>
 // #include <FiveStripTest.h>
 // #include <SnakeGame.h>
-// #include <ShooterGame.h>
+// // #include <ShooterGame.h>
 // #include <FallingGame.h>
 // #include <LaneRunner.h>
 // #include <AnimationTest.h>
-// #include <LifeGameSinglePLayer.h>
+// // #include <LifeGameSinglePLayer.h>
 
 // long _lastFrameMillis;
 // void printFrameRate()
@@ -72,7 +72,7 @@
 // 	//game = (Game*)new Head2Head(gameDisplay);
 // 	//game = (Game*)new LifeGame(gameDisplay);
 // 	//game = (Game*)new RocketGame(gameDisplay);
-// 	//game = (Game*)new RainbowGame(gameDisplay);
+// 	game = (Game*)new RainbowGame(gameDisplay);
 // 	//game = (Game*)new MarqueeGame(gameDisplay);
 // 	//game = (Game*)new SnakeGame(gameDisplay);
 // 	//game = (Game*)new ShooterGame(gameDisplay);

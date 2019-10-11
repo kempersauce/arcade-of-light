@@ -24,10 +24,10 @@ class FiveStripTest : Game
             for (int i = 0; i < display->lengthStrips; i++)
             {
                 display->strips[0][i] = CRGB::Red;
-                display->strips[1][i] = CRGB::Red;
-                display->strips[2][i] = CRGB::Red;
+                display->strips[1][i] = CRGB::Green;
+                display->strips[2][i] = CRGB::Blue;
                 display->strips[3][i] = CRGB::Yellow;
-                display->strips[4][i] = CRGB::Blue;
+                display->strips[4][i] = CRGB::Violet;
             }
         }
 

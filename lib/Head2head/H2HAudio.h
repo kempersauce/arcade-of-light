@@ -8,13 +8,13 @@ class H2HAudio : public AudioSender
     // File names for single effects
     char* aHit =        "TRGTHIT2";
     char* aMiss =       "TRGTMIS1";                     //CHEWY VS DIO VERSION:
-    char* aWinLane =    "<11THRUST1.WAV>";                  //"<11DIO.WAV>";
-    char* aWinGame =    "PONGWINA";                      //"TOBECON";
+    char* aWinLane =    "<11THRUST1.WAV>";//"<11THRUST1.WAV>";                  //"<11DIO.WAV>";
+    char* aWinGame =    "PONGWINA";//"PONGWINA";                      //"TOBECON";
 
     char* bHit =        "TRGTHIT5";
     char* bMiss =       "TRGTHIT4";
-    char* bWinLane =    "<21THRUST2.WAV>";                  //"<21CHEWY.WAV>";
-    char* bWinGame =    "PONGWINB";                        //"CANTINA";
+    char* bWinLane =    "<11THRUST2.WAV>";//"<21THRUST2.WAV>";                  //"<21CHEWY.WAV>";
+    char* bWinGame =    "PONGWINA";                        //"CANTINA";
 
     // File names for Background
     char* winBG =       "CDL";
@@ -69,8 +69,8 @@ class H2HAudio : public AudioSender
 
     void itsTimeToDuel()
     {
-        //playWav("DUEL");
-        sendMsg("<CHALL.WAV>");
+        // playWav("DUEL");
+        sendMsg("<CHALL.WAV>");  //"<CHALL.WAV>"
     }
 
     // START/STOP METHODS

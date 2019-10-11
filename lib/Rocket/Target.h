@@ -31,7 +31,7 @@ class Target : Animation
         void randomize(int lengthStrips)
         {
             Loc = random(lengthStrips / 4, lengthStrips - 20);
-            Height = random(5, 20);
+            Height = random(10, 25);
         }
 
         void setToGround()
