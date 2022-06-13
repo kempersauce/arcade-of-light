@@ -14,6 +14,22 @@ Pin numbers for teensy setup
 #define LED_PIN_6 36
 #define LED_PIN_7 35
 
+// TODO: I just blindly addressed these - need to figure out actual pins
+// Maybe we should put all the pins in their own namespaces
+// instead of using #defines like this
+#define LED_PIN_8 34
+#define LED_PIN_9 33
+#define LED_PIN_10 32
+#define LED_PIN_11 31
+#define LED_PIN_12 30
+#define LED_PIN_13 29
+#define LED_PIN_14 28
+#define LED_PIN_15 27
+#define LED_PIN_16 26
+#define LED_PIN_17 25
+#define LED_PIN_18 24
+#define LED_PIN_19 23
+
 //BUTTONS
 #define BUTTON_PIN_0 24
 #define BUTTON_PIN_1 25
