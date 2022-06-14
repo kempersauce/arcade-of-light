@@ -1,4 +1,5 @@
 #pragma once
+#include <Animation.h>
 #include <NoiseGenerator.h>
 
 class NoiseAnimation : Animation

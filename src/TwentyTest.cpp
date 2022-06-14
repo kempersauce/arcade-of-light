@@ -4,7 +4,7 @@
 #include <Display.h>
 #include <TwentyDisplay.h>
 #include <Game.h>
-#include <RainbowGame.h>
+#include <NoiseGame.h>
 
 
 Game* game;
@@ -14,7 +14,7 @@ void setup()
 {
     gameDisplay = (Display*)new TwentyDisplay();
 
-    game = (Game*)new RainbowGame(gameDisplay);
+    game = (Game*)new NoiseGame(gameDisplay);
     game->setup();
     FastLED.show();
 }
