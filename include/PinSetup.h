@@ -30,14 +30,21 @@ Pin numbers for teensy setup
 #define LED_PIN_18 36
 #define LED_PIN_19 37
 
+//Controller pins
+#define CONTROLLER_PIN_0 2
+#define CONTROLLER_PIN_1 3
+#define CONTROLLER_PIN_2 4
+#define CONTROLLER_PIN_3 7
+
+
 //BUTTONS
-#define BUTTON_PIN_0 24
-#define BUTTON_PIN_1 25
-#define BUTTON_PIN_2 26
-#define BUTTON_PIN_3 27
-#define BUTTON_PIN_4 28
-#define BUTTON_PIN_5 29
-#define BUTTON_PIN_6 30
+#define BUTTON_PIN_0 8
+#define BUTTON_PIN_1 9
+#define BUTTON_PIN_2 10
+#define BUTTON_PIN_3 11
+#define BUTTON_PIN_4 12
+#define BUTTON_PIN_5 13
+//#define BUTTON_PIN_6 30
 
 //UP IS RIGHT 3
 //Down IS LEFT 4
