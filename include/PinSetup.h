@@ -5,30 +5,30 @@ Pin numbers for teensy setup
 #pragma once
 
 //LED STRIPS
-#define LED_PIN_0 20
-#define LED_PIN_1 17
-#define LED_PIN_2 16
-#define LED_PIN_3 39
-#define LED_PIN_4 38
-#define LED_PIN_5 37
-#define LED_PIN_6 36
-#define LED_PIN_7 35
+#define LED_PIN_0 18
+#define LED_PIN_1 19
+#define LED_PIN_2 20
+#define LED_PIN_3 21
+#define LED_PIN_4 22
+#define LED_PIN_5 23
+#define LED_PIN_6 24
+#define LED_PIN_7 25
 
 // TODO: I just blindly addressed these - need to figure out actual pins
 // Maybe we should put all the pins in their own namespaces
 // instead of using #defines like this
-#define LED_PIN_8 34
-#define LED_PIN_9 33
-#define LED_PIN_10 32
-#define LED_PIN_11 31
+#define LED_PIN_8 26
+#define LED_PIN_9 27
+#define LED_PIN_10 28
+#define LED_PIN_11 29
 #define LED_PIN_12 30
-#define LED_PIN_13 29
-#define LED_PIN_14 28
-#define LED_PIN_15 27
-#define LED_PIN_16 26
-#define LED_PIN_17 25
-#define LED_PIN_18 24
-#define LED_PIN_19 23
+#define LED_PIN_13 31
+#define LED_PIN_14 32
+#define LED_PIN_15 33
+#define LED_PIN_16 34
+#define LED_PIN_17 35
+#define LED_PIN_18 36
+#define LED_PIN_19 37
 
 //BUTTONS
 #define BUTTON_PIN_0 24
