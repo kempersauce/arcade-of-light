@@ -13,6 +13,8 @@
 
 #define BRIGHTNESS 50
 
+#include <memory>  // For shared_ptr
+
 #include <Rocket.h>
 #include <button.h>
 #include <Target.h>
@@ -49,8 +51,8 @@ class RocketGame : Game
     bool isFirstSetup = true;
 
     // Button time
-    Button Up;
-    Button resetButton;
+    std::shared_ptr<Button> up_btn;
+    std::shared_ptr<Button> reset_btn;
 
     // Backgrounds
     Starscape starBackground;// just drawing black empty space for now. we are alone in the universe
@@ -113,10 +115,10 @@ class RocketGame : Game
     const long idleTimeoutMillis = 1000 * 30; // 30 seconds
 
 public:
-    RocketGame(Display* display)
+    RocketGame(Display* display, std::shared_ptr<Button> up, std::shared_ptr<Button> reset)
         : Game(display),
-        Up(BUTTON_PIN_0),
-        resetButton(BUTTON_PIN_1),
+        up_btn{std::move(up)},
+        reset_btn{std::move(reset)},
 		starBackground(display->numStrips, display->lengthStrips, 140),
 		skyFade(skyFadeColors[0]),
         rocket(display->lengthStrips, new CRGB(255, 255, 255)),
@@ -260,30 +262,25 @@ public:
     //Game Loop
     void loop()
     {
-        // Poll button states
-        Up.poll();
-        resetButton.poll();
-
-
 		// CHECK FOR MANUALLY-INDUCED GAME STATE CHANGES
 
         // IDLE CHECK: This enters idle after idleTimeoutMillis, and falls out of idle if a buttons been pressed
         if (gameState != RocketGameWin
-			&& Up.GetMillisReleased() > idleTimeoutMillis
-            && resetButton.GetMillisReleased() > idleTimeoutMillis)
+			&& up_btn->GetMillisReleased() > idleTimeoutMillis
+            && reset_btn->GetMillisReleased() > idleTimeoutMillis)
         {
 			enterWinState(); // just play the win animation here
         }
 
         // Reset this game if we're just coming out of idle
         if (gameState == RocketGameWin
-			&& (Up.IsDepressing() || resetButton.IsDepressing()))
+			&& (up_btn->IsDepressing() || reset_btn->IsDepressing()))
         {
             setup(); // this sets game state to RocketGameStart
         }
 
         // Reset this game if they hold the reset button longer than a second (if we havent already lost)
-        if (gameState != RocketGameLose && resetButton.GetMillisHeld() > 1000)
+        if (gameState != RocketGameLose && reset_btn->GetMillisHeld() > 1000)
         {
 			enterLoseState();
         }
@@ -300,12 +297,12 @@ public:
             //break; // uncomment this once we have something here, right now we just fall through
 
             case RocketGamePlaying:
-                rocket.SetBoost(Up.GetMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
-                if(Up.IsDepressing())
+                rocket.SetBoost(up_btn->GetMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
+                if(up_btn->IsDepressing())
                 {
                     audio->startPlayBoost();
                 }
-                if(Up.IsReleasing())
+                if(up_btn->IsReleasing())
                 {
                     audio->stopPlayBoost();
                     boostIsPlaying = false;
