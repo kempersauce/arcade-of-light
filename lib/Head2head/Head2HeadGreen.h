@@ -132,8 +132,8 @@ public:
             gameStrips[i]->pollButtons();
 
             // if any buttons aren't past the idle timeout yet, then we're not idling
-            if (gameStrips[i]->buttonA.getMillisReleased() <= idleTimeoutMillis
-                || gameStrips[i]->buttonB.getMillisReleased() <= idleTimeoutMillis)
+            if (gameStrips[i]->buttonA.GetMillisReleased() <= idleTimeoutMillis
+                || gameStrips[i]->buttonB.GetMillisReleased() <= idleTimeoutMillis)
             {
                 isIdle = false;
             }

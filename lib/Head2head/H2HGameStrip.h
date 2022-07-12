@@ -211,7 +211,7 @@ public:
 				else
 				{
 					// Team A hits the button
-		            if (buttonA.isDepressing())
+		            if (buttonA.IsDepressing())
 		            {
 						if (zoneA.checkZone(dot.physics.Location))
 						{
@@ -226,7 +226,7 @@ public:
 		            }
 
 		            // Team B hits the button
-		            if (buttonB.isDepressing())
+		            if (buttonB.IsDepressing())
 		            {
 						digitalWriteFast(9, HIGH);
  					    delay(1);

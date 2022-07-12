@@ -63,11 +63,11 @@ public:
 
     virtual void loop()
 	{
-		if (controls.up.isPressed())
+		if (controls.up.IsPressed())
 		{
 			player.Velocity = 10;
 		}
-		else if (controls.down.isPressed())
+		else if (controls.down.IsPressed())
 		{
 			player.Velocity = -10;
 		}
@@ -76,11 +76,11 @@ public:
 			player.Velocity = 0;
 		}
 
-		if (controls.left.isPressed())
+		if (controls.left.IsPressed())
 		{
 			player.xVelocity = -10;
 		}
-		else if (controls.right.isPressed())
+		else if (controls.right.IsPressed())
 		{
 			player.xVelocity = 10;
 		}

@@ -30,11 +30,11 @@ public:
 
     virtual void loop()
 	{
-		if (controls.up.isPressed())
+		if (controls.up.IsPressed())
 		{
 			shooter.physics.Velocity = 5;
 		}
-		else if (controls.down.isPressed())
+		else if (controls.down.IsPressed())
 		{
 			shooter.physics.Velocity = -5;
 		}
@@ -43,11 +43,11 @@ public:
 			shooter.physics.Velocity = 0;
 		}
 
-		if (controls.left.isPressed())
+		if (controls.left.IsPressed())
 		{
 			shooter.physics.xVelocity = -5;
 		}
-		else if (controls.right.isPressed())
+		else if (controls.right.IsPressed())
 		{
 			shooter.physics.xVelocity = 5;
 		}
@@ -56,7 +56,7 @@ public:
 			shooter.physics.xVelocity = 0;
 		}
 
-		if (controls.a.isDepressing())
+		if (controls.a.IsDepressing())
 		{
 			if (bullet.isPlaying == false)
 			{

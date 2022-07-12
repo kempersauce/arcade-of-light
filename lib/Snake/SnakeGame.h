@@ -25,24 +25,24 @@ public:
 
     virtual void loop()
 	{
-		if (controls.up.isDepressing() && snake.currentDirection != Down)
+		if (controls.up.IsDepressing() && snake.currentDirection != Down)
 		{
 			snake.currentDirection = Up;
 		}
-		else if (controls.down.isDepressing() && snake.currentDirection != Up)
+		else if (controls.down.IsDepressing() && snake.currentDirection != Up)
 		{
 			snake.currentDirection = Down;
 		}
-		else if (controls.left.isDepressing() && snake.currentDirection != Right)
+		else if (controls.left.IsDepressing() && snake.currentDirection != Right)
 		{
 			snake.currentDirection = Left;
 		}
-		else if (controls.right.isDepressing() && snake.currentDirection != Left)
+		else if (controls.right.IsDepressing() && snake.currentDirection != Left)
 		{
 			snake.currentDirection = Right;
 		}
 
-		if (controls.a.isPressed())
+		if (controls.a.IsPressed())
 		{
 			snake.Grow();
 		}

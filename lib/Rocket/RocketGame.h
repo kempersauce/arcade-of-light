@@ -269,21 +269,21 @@ public:
 
         // IDLE CHECK: This enters idle after idleTimeoutMillis, and falls out of idle if a buttons been pressed
         if (gameState != RocketGameWin
-			&& Up.getMillisReleased() > idleTimeoutMillis
-            && resetButton.getMillisReleased() > idleTimeoutMillis)
+			&& Up.GetMillisReleased() > idleTimeoutMillis
+            && resetButton.GetMillisReleased() > idleTimeoutMillis)
         {
 			enterWinState(); // just play the win animation here
         }
 
         // Reset this game if we're just coming out of idle
         if (gameState == RocketGameWin
-			&& (Up.isDepressing() || resetButton.isDepressing()))
+			&& (Up.IsDepressing() || resetButton.IsDepressing()))
         {
             setup(); // this sets game state to RocketGameStart
         }
 
         // Reset this game if they hold the reset button longer than a second (if we havent already lost)
-        if (gameState != RocketGameLose && resetButton.getMillisHeld() > 1000)
+        if (gameState != RocketGameLose && resetButton.GetMillisHeld() > 1000)
         {
 			enterLoseState();
         }
@@ -300,12 +300,12 @@ public:
             //break; // uncomment this once we have something here, right now we just fall through
 
             case RocketGamePlaying:
-                rocket.SetBoost(Up.getMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
-                if(Up.isDepressing())
+                rocket.SetBoost(Up.GetMillisHeld()); // direct correlation between millis held and thrust (rocket caps it at ThrustMax=200)
+                if(Up.IsDepressing())
                 {
                     audio->startPlayBoost();
                 }
-                if(Up.isReleasing())
+                if(Up.IsReleasing())
                 {
                     audio->stopPlayBoost();
                     boostIsPlaying = false;

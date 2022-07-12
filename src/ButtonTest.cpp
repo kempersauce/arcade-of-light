@@ -38,7 +38,7 @@
 // 	for (int i = 0; i < buttons.size(); i++)
 // 	{
 // 		buttons[i].poll();
-// 		if (buttons[i].isDepressing())
+// 		if (buttons[i].IsDepressing())
 // 		{
 // 			Serial.println(i);
 // 		}

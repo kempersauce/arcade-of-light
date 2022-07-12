@@ -33,11 +33,11 @@ class DirPad
 
 	bool isIdle(long idleTimeout)
 	{
-		return up.getMillisReleased() >= idleTimeout
-			&& down.getMillisReleased() >= idleTimeout
-			&& left.getMillisReleased() >= idleTimeout
-			&& right.getMillisReleased() >= idleTimeout
-			&& a.getMillisReleased() >= idleTimeout
-			&& b.getMillisReleased() >= idleTimeout;
+		return up.GetMillisReleased() >= idleTimeout
+			&& down.GetMillisReleased() >= idleTimeout
+			&& left.GetMillisReleased() >= idleTimeout
+			&& right.GetMillisReleased() >= idleTimeout
+			&& a.GetMillisReleased() >= idleTimeout
+			&& b.GetMillisReleased() >= idleTimeout;
 	}
 };

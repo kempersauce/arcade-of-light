@@ -117,12 +117,12 @@ public:
 		}
 
 		// Speed adjust controls
-		if (dirPad.up.isPressed())
+		if (dirPad.up.IsPressed())
 		{
 			millisPerFrame += (float)millisPerFrame / (float)20;
 		}
 
-		if (dirPad.down.isPressed())
+		if (dirPad.down.IsPressed())
 		{
 			millisPerFrame -= (float)millisPerFrame / (float)20;
 		}
@@ -137,12 +137,12 @@ public:
 		}
 
 		// Hue adjust controls
-		if (dirPad.left.isPressed())
+		if (dirPad.left.IsPressed())
 		{
 			setHue(startHue + hueShiftRate * timeDiff);
 			//audio->playColorShift();
 		}
-		else if (dirPad.right.isPressed())
+		else if (dirPad.right.IsPressed())
 		{
 			setHue(startHue - hueShiftRate * timeDiff);
 			//audio->playColorShift();
@@ -154,7 +154,7 @@ public:
 		
 
 		// pause/play controls
-		if (dirPad.a.isDepressing())
+		if (dirPad.a.IsDepressing())
 		{
 			isPaused = !isPaused;
 			if(isPaused == true)
@@ -171,7 +171,7 @@ public:
 		if (millis() >= nextDrawFrameMillis)
 		{
 			// randomize controls on frame speed
-			if (dirPad.b.isPressed())
+			if (dirPad.b.IsPressed())
 			{
 				// if(!audio->shuffleIsStarted)
 				// {
@@ -184,7 +184,7 @@ public:
 		        // Calculate next round
 		        lifeGrid.GoOneRound();
 			}
-			// if(dirPad.b.isUp() && audio->shuffleIsStarted)
+			// if(dirPad.b.IsUp() && audio->shuffleIsStarted)
 			// {
 			// 	audio->stopPlayRandom();
 			// }

@@ -42,7 +42,7 @@ public:
         gliderButton2.poll();
 
         // Calculate new game state
-        if (randomizeButton1.isPressed() || randomizeButton2.isPressed())
+        if (randomizeButton1.IsPressed() || randomizeButton2.IsPressed())
         {
             lifeGrid->randomize();
         }
@@ -51,7 +51,7 @@ public:
             lifeGrid->GoOneRound();
         }
 
-        if (gliderButton1.isDepressing())
+        if (gliderButton1.IsDepressing())
         {
             lifeGrid->setCellState(2, 1, true);
             lifeGrid->setCellState(2, 2, true);
@@ -60,7 +60,7 @@ public:
             lifeGrid->setCellState(4, 2, true);
         }
 
-        if (gliderButton2.isDepressing())
+        if (gliderButton2.IsDepressing())
         {
             lifeGrid->setCellState(2, display->lengthStrips - 2, true);
             lifeGrid->setCellState(2, display->lengthStrips - 3, true);
