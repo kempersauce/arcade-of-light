@@ -7,9 +7,6 @@
 
 class Button
 {
-    //Arduino pin button is connected to
-    const int _pin;
-
     // Track button up/down state (false = released = up) (true = pressed = down)
     bool _wasPressed;
     bool _isPressed;
@@ -24,43 +21,26 @@ class Button
     long releasedStartTime;
 
 public:
-    //Constructor - takes a pinNumber to poll button state from
-    Button(int pinNo) : _pin(pinNo)
+    Button()
     {
-        pinMode(_pin, INPUT);
-
         // Initialize internal state members
         _wasPressed = false;
         _isPressed = false;
 
-        if (isPressed())
-        {
-            framesHeld = 1; // We're counting the first frame here, so anything using this field can have an immediate response
-            holdStartTime = millis();
+        framesHeld = 0;
+        holdStartTime = 0;
 
-            framesReleased = 0;
-            releasedStartTime = 0;
-        }
-        else
-        {
-            framesHeld = 0;
-            holdStartTime = 0;
-
-            framesReleased = 1;
-            releasedStartTime = millis();
-        }
-
-        // Poll now to set the backlog - this ensures we have the correct button state when we start
-        poll();
+        framesReleased = 1;
+        releasedStartTime = millis();
     }
 
     // Poll the switch state and update some internals about it.
     // This needs to be called each time through the game loop to keep the button state up-to-date
-    void poll()
+    void SetState(bool state)
     {
         // Save the old button state and record the new state
         _wasPressed = _isPressed;
-        _isPressed = digitalRead(_pin) == 1;
+        _isPressed = state;
 
         // Keep track of how long the button has been held
         if (isDepressing())
