@@ -14,7 +14,7 @@
 #define BRIGHTNESS 50
 
 #include <Rocket.h>
-#include <Button.h>
+#include <button.h>
 #include <Target.h>
 #include <Firework.h>
 #include <Game.h>

@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <Button.h>
+#include <button.h>
 #include <PinSetup.h>
 
 class DirPad

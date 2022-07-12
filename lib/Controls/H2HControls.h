@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Button.h>
+#include <button.h>
 #include <Constants.h>
 
 class H2HControls {

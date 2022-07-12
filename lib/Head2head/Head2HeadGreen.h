@@ -1,6 +1,6 @@
 #include <Game.h>
 #include <Constants.h>
-#include <Button.h>
+#include <button.h>
 #include <H2HDisplay.h>
 #include <H2HControls.h>
 #include <SingleColorBG.h>

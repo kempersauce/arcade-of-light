@@ -1,6 +1,6 @@
 #define NUM_FIREWORKS 3
 
-#include <Button.h>
+#include <button.h>
 #include <FancyFirework.h>
 #include <Game.h>
 #include <Display.h>

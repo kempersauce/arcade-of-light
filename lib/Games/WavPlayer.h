@@ -1,7 +1,7 @@
 //working audio example
 
 #include <Game.h>
-#include <Button.h>
+#include <button.h>
 #include <Audio.h>
 #include <Wire.h>
 #include <SPI.h>

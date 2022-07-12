@@ -2,7 +2,7 @@
 
 #include <LifeAnimation.h>
 #include <Game.h>
-#include <Button.h>
+#include <button.h>
 
 class H2HLifeGame : public Game
 {
