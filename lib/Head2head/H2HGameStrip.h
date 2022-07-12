@@ -60,18 +60,18 @@ public:
 	// static because they all share the same mid bar
 	static int midBar;
 
-	Button buttonA;
-	Button buttonB;
+	std::shared_ptr<Button> buttonA;
+	std::shared_ptr<Button> buttonB;
 
-	H2HGameStrip(int stripIndex, int stripHeight, int buttonAPin, int buttonBPin, NoiseGenerator* noise)
+	H2HGameStrip(int stripIndex, int stripHeight, std::shared_ptr<Button> a, std::shared_ptr<Button> b, NoiseGenerator* noise)
 		: Animation(),
 		dot(CRGB::White, stripIndex),
 		explosion(50),
 		dropExplosion(8),
 		zoneA(CRGB::Green, stripIndex, 0, 22, false),
 		zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1, true),
-		buttonA(buttonAPin),
-		buttonB(buttonBPin)
+		buttonA{std::move(a)},
+		buttonB{std::move(b)}
 	{
 	    this->stripIndex = stripIndex;
 	    heightMax = stripHeight;
@@ -184,8 +184,8 @@ public:
 
 	void pollButtons()
 	{
-	    buttonA.poll();
-	    buttonB.poll();
+	    buttonA->poll();
+	    buttonB->poll();
 	}
 
 	void checkGameState(H2HAudio* audio)
@@ -211,7 +211,7 @@ public:
 				else
 				{
 					// Team A hits the button
-		            if (buttonA.IsDepressing())
+		            if (buttonA->IsDepressing())
 		            {
 						if (zoneA.checkZone(dot.physics.Location))
 						{
@@ -226,7 +226,7 @@ public:
 		            }
 
 		            // Team B hits the button
-		            if (buttonB.IsDepressing())
+		            if (buttonB->IsDepressing())
 		            {
 						digitalWriteFast(9, HIGH);
  					    delay(1);

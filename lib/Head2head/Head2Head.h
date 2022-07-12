@@ -11,6 +11,7 @@
 #include <LifeGame.h>
 #include <ElectricArc.h>
 #include <H2HAudio.h>
+#include <H2HControl.h>
 
 enum H2HGameState
 {
@@ -40,11 +41,16 @@ class Head2Head : Game
 	H2HAudio* audio;
 	bool isFirstSetup = true;
 
+    H2HControl teamA;
+    H2HControl teamB;
+
 public:
     H2HGameStrip** gameStrips; // one for each strip
 
-    Head2Head(Display* gameDisplay)
+    Head2Head(Display* gameDisplay, H2HControl teamA, H2HControl teamB)
         : Game(gameDisplay),
+        teamA{std::move(teamA)},
+        teamB{std::move(teamB)},
         idleGame(gameDisplay),
 		noiseGenerator(gameDisplay->numStrips, gameDisplay->lengthStrips),
 		electricArc()
@@ -55,14 +61,14 @@ public:
         gameStrips = new H2HGameStrip*[gameDisplay->numStrips];
 
         // Do this one at a time so we can feed it pin numbers and button colors
-        gameStrips[0] = new H2HGameStrip(0, gameDisplay->lengthStrips, H2H_BUTTON_PIN_7, H2H_BUTTON_PIN_8, &noiseGenerator);
-        gameStrips[1] = new H2HGameStrip(1, gameDisplay->lengthStrips, H2H_BUTTON_PIN_6, H2H_BUTTON_PIN_9, &noiseGenerator);
-        gameStrips[2] = new H2HGameStrip(2, gameDisplay->lengthStrips, H2H_BUTTON_PIN_5, H2H_BUTTON_PIN_10, &noiseGenerator);
-        gameStrips[3] = new H2HGameStrip(3, gameDisplay->lengthStrips, H2H_BUTTON_PIN_4, H2H_BUTTON_PIN_11, &noiseGenerator);
-        gameStrips[4] = new H2HGameStrip(4, gameDisplay->lengthStrips, H2H_BUTTON_PIN_3, H2H_BUTTON_PIN_12, &noiseGenerator);
-        gameStrips[5] = new H2HGameStrip(5, gameDisplay->lengthStrips, H2H_BUTTON_PIN_2, H2H_BUTTON_PIN_13, &noiseGenerator);
-        gameStrips[6] = new H2HGameStrip(6, gameDisplay->lengthStrips, H2H_BUTTON_PIN_1, H2H_BUTTON_PIN_14, &noiseGenerator);
-        gameStrips[7] = new H2HGameStrip(7, gameDisplay->lengthStrips, H2H_BUTTON_PIN_0, H2H_BUTTON_PIN_15, &noiseGenerator);
+        gameStrips[0] = new H2HGameStrip(0, gameDisplay->lengthStrips, teamA.buttons[0], teamB.buttons[0], &noiseGenerator);
+        gameStrips[1] = new H2HGameStrip(1, gameDisplay->lengthStrips, teamA.buttons[1], teamB.buttons[1], &noiseGenerator);
+        gameStrips[2] = new H2HGameStrip(2, gameDisplay->lengthStrips, teamA.buttons[2], teamB.buttons[2], &noiseGenerator);
+        gameStrips[3] = new H2HGameStrip(3, gameDisplay->lengthStrips, teamA.buttons[3], teamB.buttons[3], &noiseGenerator);
+        gameStrips[4] = new H2HGameStrip(4, gameDisplay->lengthStrips, teamA.buttons[4], teamB.buttons[4], &noiseGenerator);
+        gameStrips[5] = new H2HGameStrip(5, gameDisplay->lengthStrips, teamA.buttons[5], teamB.buttons[5], &noiseGenerator);
+        gameStrips[6] = new H2HGameStrip(6, gameDisplay->lengthStrips, teamA.buttons[6], teamB.buttons[6], &noiseGenerator);
+        gameStrips[7] = new H2HGameStrip(7, gameDisplay->lengthStrips, teamA.buttons[7], teamB.buttons[7], &noiseGenerator);
     }
 
     void setup()
@@ -128,11 +134,10 @@ public:
         bool isIdle = true;
         for (int i = 0; i < display->numStrips; i++)
         {
-            gameStrips[i]->pollButtons();
-
+            // TODO Move this to the H2HControl class IsIdle(..)
             // if any buttons aren't past the idle timeout yet, then we're not idling
-            if (gameStrips[i]->buttonA.GetMillisReleased() <= idleTimeoutMillis
-                || gameStrips[i]->buttonB.GetMillisReleased() <= idleTimeoutMillis)
+            if (teamA.buttons[i]->GetMillisReleased() <= idleTimeoutMillis
+                || teamB.buttons[i]->GetMillisReleased() <= idleTimeoutMillis)
             {
                 isIdle = false;
             }
