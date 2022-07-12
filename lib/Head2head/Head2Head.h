@@ -2,7 +2,6 @@
 #include <Constants.h>
 #include <button.h>
 #include <H2HDisplay.h>
-#include <H2HControls.h>
 #include <SingleColorBG.h>
 #include <H2HDot.h>
 #include <H2HZone.h>
