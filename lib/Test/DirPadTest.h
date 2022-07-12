@@ -31,7 +31,7 @@ class DirPadTest : Game
 
         void loop()
         {
-            if (controls.up.IsPressed())
+            if (controls.up->IsPressed())
             {
                 Serial.println("UP DIR BUTTON PRESSED");
                 int newSpeed;
@@ -49,7 +49,7 @@ class DirPadTest : Game
                 rainbow.setSpeed(newSpeed);
             }
 
-            if (controls.down.IsPressed())
+            if (controls.down->IsPressed())
             {
                 Serial.println("DOWN DIR BUTTON PRESSED");
                 int newSpeed;
@@ -64,34 +64,34 @@ class DirPadTest : Game
                 //Serial.println(rainbow.ShiftSpeed);
             }
 
-            if (controls.left.IsPressed())
+            if (controls.left->IsPressed())
             {
                 Serial.println("LEFT DIR BUTTON PRESSED");
             }
 
-            if (controls.right.IsPressed())
+            if (controls.right->IsPressed())
             {
                 Serial.println("RIGHT DIR BUTTON PRESSED");
             }
 
-            if (controls.a.IsPressed())
+            if (controls.a->IsPressed())
             {
                 rainbow.setWaveShift(true);
                 Serial.println("B BUTTON PRESSED");
             }
 
-            if (controls.b.IsPressed())
+            if (controls.b->IsPressed())
             {
                 rainbow.setWaveShift(false);
                 Serial.println("A BUTTON PRESSED");
             }
 
-            // if (!(//controls.a.IsPressed() &&
-            // //controls.b.IsPressed() &&
-            // controls.up.IsPressed() &&
-            // controls.down.IsPressed() &&
-            // controls.left.IsPressed() &&
-            // controls.right.IsPressed()))
+            // if (!(//controls.a->IsPressed() &&
+            // //controls.b->IsPressed() &&
+            // controls.up->IsPressed() &&
+            // controls.down->IsPressed() &&
+            // controls.left->IsPressed() &&
+            // controls.right->IsPressed()))
             // {
             //     //Serial.println("no Buttons pressed");
             // }

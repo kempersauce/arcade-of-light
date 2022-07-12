@@ -84,11 +84,11 @@ public:
 
     virtual void loop()
 	{
-		if (controls.up.IsPressed())
+		if (controls.up->IsPressed())
 		{
 			player.Velocity = 20;
 		}
-		else if (controls.down.IsPressed())
+		else if (controls.down->IsPressed())
 		{
 			player.Velocity = -20;
 		}
@@ -97,11 +97,11 @@ public:
 			player.Velocity = 0;
 		}
 
-		if (controls.left.IsPressed())
+		if (controls.left->IsPressed())
 		{
 			player.xLocation = 0;
 		}
-		else if (controls.right.IsPressed())
+		else if (controls.right->IsPressed())
 		{
 			player.xLocation = display->numStrips - 1;
 		}
