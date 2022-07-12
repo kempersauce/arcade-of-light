@@ -17,9 +17,9 @@ class LaneRunnerGame : Game
 	deque<int> dots;
 
 public:
-    LaneRunnerGame(Display* gameDisplay)
+    LaneRunnerGame(Display* gameDisplay, DirPad controls)
 		: Game(gameDisplay),
-		controls(),
+		controls{std::move(controls)},
 		background(0, 0, 0),
 		dots()
     {
@@ -84,8 +84,6 @@ public:
 
     virtual void loop()
 	{
-		controls.pollAll();
-
 		if (controls.up.isPressed())
 		{
 			player.Velocity = 20;

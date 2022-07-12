@@ -13,9 +13,9 @@ class ShooterGame : Game
 	SingleColorBG background;
 
 public:
-    ShooterGame(Display* gameDisplay)
+    ShooterGame(Display* gameDisplay, DirPad controls)
 		: Game(gameDisplay),
-		controls(),
+		controls{std::move(controls)},
 		shooter(),
 		bullet(gameDisplay->lengthStrips, gameDisplay->numStrips),
 		background(0, 0, 0)
@@ -30,8 +30,6 @@ public:
 
     virtual void loop()
 	{
-		controls.pollAll();
-
 		if (controls.up.isPressed())
 		{
 			shooter.physics.Velocity = 5;

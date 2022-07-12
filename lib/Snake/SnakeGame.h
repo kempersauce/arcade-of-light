@@ -10,9 +10,9 @@ class SnakeGame : Game
 	SingleColorBG background;
 
 public:
-    SnakeGame(Display* gameDisplay)
+    SnakeGame(Display* gameDisplay, DirPad controls)
 		: Game(gameDisplay),
-		controls(),
+		controls{std::move(controls)},
 		snake(gameDisplay->numStrips, gameDisplay->lengthStrips),
 		background(0, 0, 0)
     {
@@ -25,8 +25,6 @@ public:
 
     virtual void loop()
 	{
-		controls.pollAll();
-
 		if (controls.up.isDepressing() && snake.currentDirection != Down)
 		{
 			snake.currentDirection = Up;

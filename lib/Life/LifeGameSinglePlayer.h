@@ -48,11 +48,11 @@ class LifeGameSinglePlayer : Game
 	RainbowGame idleGame;
 
 public:
-    LifeGameSinglePlayer(Display* display)
+    LifeGameSinglePlayer(Display* display, DirPad controls)
 		: Game(display),
 		idleGame(display),
 		lifeGrid(display->numStrips + 1, display->lengthStrips),
-		dirPad()
+		dirPad{std::move(controls)}
     {
     }
 
@@ -95,8 +95,6 @@ public:
     {
 		long timeDiff = millis() - lastFrameMillis;
 		lastFrameMillis = millis();
-
-		dirPad.pollAll();
 
 		bool isIdle = dirPad.isIdle(idleTimeoutMillis);
 

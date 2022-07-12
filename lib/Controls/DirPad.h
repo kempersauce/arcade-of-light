@@ -1,47 +1,34 @@
 
 #pragma once
 
-#include <button.h>
+#include <memory>  // For shared_ptr
+
+#include <button.h>  // For Button
 #include <PinSetup.h>
 
 class DirPad
 {
-public:
-    Button up;
-    Button down;
-    Button left;
-    Button right;
-    Button a;
-    Button b;
+  public:
+    std::shared_ptr<Button> up;
+    std::shared_ptr<Button> down;
+    std::shared_ptr<Button> left;
+    std::shared_ptr<Button> right;
+    std::shared_ptr<Button> a;
+    std::shared_ptr<Button> b;
 
-    // DirPad() :
-		// up(BUTTON_PIN_5),
-		// down(BUTTON_PIN_2),
-		// left(BUTTON_PIN_4),
-		// right(BUTTON_PIN_3),
-		// a(BUTTON_PIN_0),
-		// b(BUTTON_PIN_1)
-    // {
-    // }
-
-        DirPad() :
-		up(BUTTON_PIN_4),
-		down(BUTTON_PIN_3),
-		left(BUTTON_PIN_5),
-		right(BUTTON_PIN_2),
-		a(BUTTON_PIN_1),
-		b(BUTTON_PIN_0)
+    DirPad(std::shared_ptr<Button> up,
+            std::shared_ptr<Button> down,
+            std::shared_ptr<Button> left,
+            std::shared_ptr<Button> right,
+            std::shared_ptr<Button> a,
+            std::shared_ptr<Button> b) :    
+        up{std::move(up)}, // BUTTON_PIN_4
+        down{std::move(down)},  // BUTTON_PIN_3
+        left{std::move(left)},  // BUTTON_PIN_5
+        right{std::move(right)},  // BUTTON_PIN_2
+        a{std::move(a)},  // BUTTON_PIN_1
+        b{std::move(b)}  // BUTTON_PIN_0
     {
-    }
-
-    void pollAll()
-	{
-        up.poll();
-        down.poll();
-        left.poll();
-        right.poll();
-        a.poll();
-        b.poll();
     }
 
 	bool isIdle(long idleTimeout)

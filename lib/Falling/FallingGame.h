@@ -17,9 +17,9 @@ class FallingGame : Game
 	deque<pair<int, int>> walls;
 
 public:
-    FallingGame(Display* gameDisplay)
+    FallingGame(Display* gameDisplay, DirPad controls)
 		: Game(gameDisplay),
-		controls(),
+		controls{std::move(controls)},
 		player(),
 		background(0, 0, 0),
 		walls()
@@ -63,8 +63,6 @@ public:
 
     virtual void loop()
 	{
-		controls.pollAll();
-
 		if (controls.up.isPressed())
 		{
 			player.Velocity = 10;

@@ -11,14 +11,15 @@
 class DirPadTest : Game
 {
     public:
+
         DirPad controls;
         Dot* player;
         SingleColorBG* backgroundColor;
         HueRainbow rainbow;
 
-        DirPadTest(Display* gameDisplay)
+        DirPadTest(Display* gameDisplay, DirPad controls)
             : Game(gameDisplay),
-			controls(),
+			controls{std::move(controls)},
 			rainbow(2)
         {
             rainbow.setWaveShift(true);
@@ -30,8 +31,6 @@ class DirPadTest : Game
 
         void loop()
         {
-            controls.pollAll();
-
             if (controls.up.isPressed())
             {
                 Serial.println("UP DIR BUTTON PRESSED");
