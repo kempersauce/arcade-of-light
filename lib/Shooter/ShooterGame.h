@@ -3,7 +3,7 @@
 
 #include <SingleColorBG.h>
 #include <Shooter.h>
-#include <DirPad.h>
+#include <dir_pad.h>
 
 class ShooterGame : Game
 {

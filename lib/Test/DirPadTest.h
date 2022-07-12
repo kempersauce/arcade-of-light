@@ -4,7 +4,7 @@
 #include <Constants.h>
 #include <SingleColorBG.h>
 #include <Dot.h>
-#include <DirPad.h>
+#include <dir_pad.h>
 #include <HueRainbow.h>
 
 //Test for Directional Pad

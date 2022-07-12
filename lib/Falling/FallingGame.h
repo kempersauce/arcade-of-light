@@ -2,7 +2,7 @@
 #pragma once
 
 #include <SingleColorBG.h>
-#include <DirPad.h>
+#include <dir_pad.h>
 #include <PhysicsInfo.h>
 #include <deque>
 
