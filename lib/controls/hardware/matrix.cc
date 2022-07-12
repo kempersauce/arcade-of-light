@@ -2,6 +2,8 @@
 
 #include <memory>  // For shared_ptr, make_shared
 
+#include "controls/hardware/simple.h"  // For Simple
+
 namespace controls::hardware {
 
 std::shared_ptr<Button> Matrix::CreateButton(uint8_t channel, uint8_t pin) {
@@ -9,7 +11,7 @@ std::shared_ptr<Button> Matrix::CreateButton(uint8_t channel, uint8_t pin) {
     auto channel_it = inputs_.find(channel);
     if (channel_it == inputs_.end()) {
         // Add the input channel and grab an iterator to it
-        const auto emplace_result = inputs_.emplace(channel, InputChannel{});
+        const auto emplace_result = inputs_.emplace(channel, Simple{});
         channel_it = emplace_result.first;
 
         // If this is a new channel, set it inactive initially
@@ -18,26 +20,15 @@ std::shared_ptr<Button> Matrix::CreateButton(uint8_t channel, uint8_t pin) {
         }
     }
 
-    // Register this pin out on the input channel, and set that pin as INPUT
-    const auto result = channel_it->second.emplace(pin, std::make_shared<Button>());
-    if (result.second) {
-        pinMode(pin, INPUT);
-    }
-
-    return *result.first;
+    // Create a button on the channel
+    return channel_it->second.CreateButton(pin);
 }
 
 void Matrix::PollAll() {
     for (auto channel_it = inputs_.begin(); channel_it != inputs_.end(); channel_it++) {
         // Set the current channel to active and grab a reference to it
         SetActiveChannel(channel_it->first);
-        auto& channel = channel_it->second;
-
-        // Loop through registered inputs for this channel and update their in-memory state
-        for (auto input_it = channel.begin(); input_it != channel.end(); input_it++) {
-            const auto state = digitalRead(input_it->first) == 1;
-            input_it->second->SetState(state);
-        }
+        channel_it->second.PollAll();
     }
 }
 

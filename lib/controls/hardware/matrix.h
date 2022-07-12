@@ -4,14 +4,15 @@
 
 #include "controls/button.h"  // For Button
 #include "controls/hardware/context.h"  // For Context
+#include "controls/hardware/simple.h"  // For Simple
 
 namespace controls::hardware {
 
+// A Matrix context is really just a series of Simple contexts that get polled efficiently
 class Matrix : public Context {
  public:
-    
-  using InputChannel = std::map<uint8_t, std::shared_ptr<Button>>;
-  using InputMatrix = std::map<uint8_t, InputChannel>;
+ 
+  using InputMatrix = std::map<uint8_t, Simple>;
   
   override std::shared_ptr<Button> CreateButton(const uint8_t channel, const uint8_t pin);
 
