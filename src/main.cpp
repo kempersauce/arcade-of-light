@@ -14,7 +14,7 @@
 // #include <RainbowGame.h>
 // #include <DirPadTest.h>
 // #include <MarqueeGame.h>
-// #include <H2HLifeGame.h>
+// #include <GliderWarsGame.h>
 // #include <SerialTest.h>
 // #include <FiveStripTest.h>
 // #include <SnakeGame.h>
@@ -84,7 +84,7 @@
 // 	// Test Games
 // 	//game = (Game*)new DirPadTest(gameDisplay);
 // 	//game = (Game*)new FiveStripTest(gameDisplay);
-// 	//game = (Game*)new H2HLifeGame(gameDisplay);
+// 	//game = (Game*)new GliderWarsGame(gameDisplay);
 //     //game = (Game*)new AnimationTest(gameDisplay);
 
 // 	// debug set strip0 yellow
