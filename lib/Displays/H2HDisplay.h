@@ -10,7 +10,7 @@ holds the strips
 class H2HDisplay : public Display {
     public:
         H2HDisplay()
-            : Display(8, 214)
+            : Display(8, 121)
         {
             FastLED.addLeds<WS2812B, H2H_LED_PIN_7, GRB>(strips[7], lengthStrips);
             FastLED.addLeds<WS2812B, H2H_LED_PIN_6, GRB>(strips[6], lengthStrips);

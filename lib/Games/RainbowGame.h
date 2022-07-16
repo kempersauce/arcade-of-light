@@ -11,7 +11,7 @@ Where the magic happens
 class RainbowGame : Game
 {
 	HueRainbow background;
-    //AudioSender* audio;
+    AudioSender* audio;
 
 public:
 

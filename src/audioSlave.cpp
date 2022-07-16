@@ -70,7 +70,8 @@
 // unsigned long backgroundStartMillis;
 // unsigned long backgroundLengthMillis = 1000;
 // unsigned long backgroundCheckWait = 1000;
-// float mixerGain = 0.7;
+// float mixerGain = 0.8;
+// float bgMixerGain = 0.5;
 
 // #define SDCARD_CS_PIN    10
 // #define SDCARD_MOSI_PIN  7
@@ -278,16 +279,16 @@
 //     effectMixer.gain(1,mixerGain);
 //     effectMixer.gain(2,mixerGain);
 //     effectMixer.gain(3,mixerGain);
-//     bgMixer.gain(0,mixerGain);
-//     bgMixer.gain(1,mixerGain);
-//     bgMixer.gain(2,mixerGain);
-//     bgMixer.gain(3,mixerGain);
+//     bgMixer.gain(0,bgMixerGain);
+//     bgMixer.gain(1,bgMixerGain);
+//     bgMixer.gain(2,bgMixerGain);
+//     bgMixer.gain(3,bgMixerGain);
 
 
 
-// 	playWav("FUEL100.WAV");
-// 	delay(50);
-// 	playWav("FUEL50.WAV");
+// 	//playWav("FUEL100.WAV");
+// 	//delay(50);
+// 	//playWav("FUEL50.WAV");
 // 	//delay(5000);
 
 //     //setBG("<MOONJAZZ.WAV>");

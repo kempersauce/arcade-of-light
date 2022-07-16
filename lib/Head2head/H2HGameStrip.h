@@ -68,8 +68,8 @@ public:
 		dot(CRGB::White, stripIndex),
 		explosion(50),
 		dropExplosion(8),
-		zoneA(CRGB::Green, stripIndex, 0, 22, false),
-		zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1, true),
+		zoneA(CRGB::Green, stripIndex, 0, 16, false),
+		zoneB(CRGB::Yellow, stripIndex, stripHeight - 17, stripHeight - 1, true),
 		buttonA(buttonAPin),
 		buttonB(buttonBPin)
 	{
@@ -132,7 +132,7 @@ public:
 		explosion.Hue = zoneAHue;
 		explosion.ExplodeAt(stripIndex, dot.physics.Location);
 		// TODO set this elsewhere once we have an animation for it
-		midBar += 12;
+		midBar += 7;
 
 		if (midBar > zoneBStart)
 		{
@@ -147,7 +147,7 @@ public:
 		explosion.Hue = zoneBHue;
 		explosion.ExplodeAt(stripIndex, dot.physics.Location);
 		// TODO set this elsewhere once we have an animation for it
-		midBar -= 12;
+		midBar -= 7;
 
 		if (midBar < zoneAStart)
 		{

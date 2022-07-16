@@ -121,6 +121,7 @@ public:
 	void enterIdleState()
 	{
 		gameState = H2HGameIdle;
+		audio->playH2HIdleBG();
 		idleGame.setup();
 	}
 

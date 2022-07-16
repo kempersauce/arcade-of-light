@@ -13,7 +13,7 @@
 
 // void setup()
 // {
-//     gameDisplay = (Display*) new RocketDisplay();
+//     gameDisplay = (Display*) new H2HDisplay();
 //     game = new RocketGame(gameDisplay);
 //     game->setup();
 //     FastLED.show();
