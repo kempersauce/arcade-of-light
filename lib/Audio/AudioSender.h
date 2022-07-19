@@ -86,6 +86,9 @@ class AudioSender
         {
             return two;
         }
+
+        // Need to return something
+        return one;
     }
 
     // play sound after x milliseconds 

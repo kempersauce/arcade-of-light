@@ -6,12 +6,12 @@
 #include <Game.h>
 #include <RocketGame.h>
 #include <AudioSender.h>
-#include <simple.h>  // For controls::hardware::Simple
+#include <hardware_simple.h>  // For kss::controls::hardware::Simple
 
 
 RocketGame* game;
 Display* gameDisplay;
-controls::hardware::Simple controls;
+kss::controls::hardware::Simple controls;
 
 void setup()
 {
@@ -24,6 +24,7 @@ void setup()
     game->setup();
     FastLED.show();
 }
+
 void loop()
 {
     controls.PollAll();

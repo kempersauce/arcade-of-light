@@ -4,7 +4,7 @@
 // #include <FiveDisplay.h>
 // #include <LifeGameSinglePlayer.h>
 // #include <Game.h>
-// #include <simple.h>  // for controls::hardware::Simple
+// #include <hardware_simple.h>  // for controls::hardware::Simple
 
 
 // Game* game;

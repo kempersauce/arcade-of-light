@@ -1,12 +1,23 @@
-#include "controls/hardware/matrix.h"
+#pragma once
 
-#include <memory>  // For shared_ptr, make_shared
+#include <map>  // For std::map
+#include <memory>  // For std::shared_ptr
 
-#include "controls/hardware/simple.h"  // For Simple
+#include <button.h>  // For Button
+#include <hardware_context.h>  // For Context
+#include <hardware_simple.h>  // For Simple
 
-namespace controls::hardware {
+namespace kss {
+namespace controls {
+namespace hardware {
 
-std::shared_ptr<Button> Matrix::CreateButton(uint8_t channel, uint8_t pin) {
+// A Matrix context is really just a series of Simple contexts that get polled efficiently
+class Matrix : public Context {
+ public:
+ 
+  using InputMatrix = std::map<uint8_t, Simple>;
+  
+  std::shared_ptr<Button> CreateButton(uint8_t channel, uint8_t pin) {
     // Add the channel if it hasn't been registered yet
     auto channel_it = inputs_.find(channel);
     if (channel_it == inputs_.end()) {
@@ -22,17 +33,24 @@ std::shared_ptr<Button> Matrix::CreateButton(uint8_t channel, uint8_t pin) {
 
     // Create a button on the channel
     return channel_it->second.CreateButton(pin);
-}
+  }
 
-void Matrix::PollAll() {
+  void PollAll() override {
     for (auto channel_it = inputs_.begin(); channel_it != inputs_.end(); channel_it++) {
         // Set the current channel to active and grab a reference to it
         SetActiveChannel(channel_it->first);
         channel_it->second.PollAll();
     }
-}
+  }
 
-void Matrix::SetActiveChannel(uint8_t channel) {
+ private:
+  // Using pin 0 as a dummy null pin
+  uint8_t active_pin_{0};  // TODO - is there such a thing as pin 0? or should we revisit this?
+
+  InputMatrix inputs_;
+
+  // Switch to the appropriate pin (if we need to, avoiding extra switching)
+  void SetActiveChannel(const uint8_t channel) {
     if (active_pin_ != channel) {
 
         // Set the old pin to Inactive (Hi)
@@ -46,6 +64,9 @@ void Matrix::SetActiveChannel(uint8_t channel) {
         // Keep track of the current channel
         active_pin_ = channel;
     }
-}
+  }
+};
 
-}  // namespace controls::hardware
+}  // namespace kss::controls::hardware
+}  // namespace kss::controls
+}  // namesapce kss
