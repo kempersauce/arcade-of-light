@@ -12,6 +12,9 @@ namespace hardware {
 
 class Simple : public Context {
   public:
+    Simple(uint8_t pressed_signal = HIGH) : pressed_signal_{pressed_signal}
+    {
+    }
   
     using InputMap = std::map<uint8_t, std::shared_ptr<Button>>;
 
@@ -28,12 +31,13 @@ class Simple : public Context {
     void PollAll() override {
         // Loop through registered inputs and update their in-memory state
         for (auto input_it = inputs_.begin(); input_it != inputs_.end(); input_it++) {
-            const auto state = digitalRead(input_it->first) == 1;
+            const auto state = digitalRead(input_it->first) == pressed_signal_;
             input_it->second->SetState(state);
         }
     }
 
   private:
+    const uint8_t pressed_signal_;
     InputMap inputs_;
 };
 

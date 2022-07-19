@@ -22,11 +22,12 @@ class Matrix : public Context {
     auto channel_it = inputs_.find(channel);
     if (channel_it == inputs_.end()) {
         // Add the input channel and grab an iterator to it
-        const auto emplace_result = inputs_.emplace(channel, Simple{});
+        const auto emplace_result = inputs_.emplace(channel, Simple{LOW});
         channel_it = emplace_result.first;
 
         // If this is a new channel, set it inactive initially
         if (emplace_result.second) {
+            pinMode(channel, OUTPUT);
             digitalWrite(channel, HIGH);
         }
     }
