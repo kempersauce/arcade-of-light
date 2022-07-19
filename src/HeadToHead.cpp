@@ -11,7 +11,7 @@
 
 // Game* game;
 // Display* gameDisplay;
-// controls::hardware::Simple controls;
+// kss::controls::hardware::Simple controls;
 
 // void setup()
 // {

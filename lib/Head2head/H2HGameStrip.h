@@ -60,10 +60,10 @@ public:
 	// static because they all share the same mid bar
 	static int midBar;
 
-	std::shared_ptr<Button> buttonA;
-	std::shared_ptr<Button> buttonB;
+	std::shared_ptr<kss::controls::Button> buttonA;
+	std::shared_ptr<kss::controls::Button> buttonB;
 
-	H2HGameStrip(int stripIndex, int stripHeight, std::shared_ptr<Button> a, std::shared_ptr<Button> b, NoiseGenerator* noise)
+	H2HGameStrip(int stripIndex, int stripHeight, std::shared_ptr<kss::controls::Button> a, std::shared_ptr<kss::controls::Button> b, NoiseGenerator* noise)
 		: Animation(),
 		dot(CRGB::White, stripIndex),
 		explosion(50),

@@ -5,6 +5,9 @@
 
 #pragma once
 
+namespace kss {
+namespace controls {
+
 class Button
 {
 public:
@@ -156,3 +159,6 @@ private:
     int frames_released_;
     long released_start_time_;
 };
+
+}  // namespace kss::controls
+}  // namespace kss

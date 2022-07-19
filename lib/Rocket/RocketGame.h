@@ -51,8 +51,8 @@ class RocketGame : Game
     bool isFirstSetup = true;
 
     // Button time
-    std::shared_ptr<Button> up_btn;
-    std::shared_ptr<Button> reset_btn;
+    std::shared_ptr<kss::controls::Button> up_btn;
+    std::shared_ptr<kss::controls::Button> reset_btn;
 
     // Backgrounds
     Starscape starBackground;// just drawing black empty space for now. we are alone in the universe
@@ -115,7 +115,7 @@ class RocketGame : Game
     const long idleTimeoutMillis = 1000 * 30; // 30 seconds
 
 public:
-    RocketGame(Display* display, std::shared_ptr<Button> up, std::shared_ptr<Button> reset)
+    RocketGame(Display* display, std::shared_ptr<kss::controls::Button> up, std::shared_ptr<kss::controls::Button> reset)
         : Game(display),
         up_btn{std::move(up)},
         reset_btn{std::move(reset)},

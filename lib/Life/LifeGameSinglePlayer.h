@@ -2,7 +2,7 @@
 
 #include <Game.h>
 #include <LifeAnimation.h>
-#include <dirPad.h>
+#include <dir_pad.h>
 #include <RainbowGame.h>
 #include <LifeAudio.h>
 
@@ -15,7 +15,7 @@ enum LifeGameState
 class LifeGameSinglePlayer : Game
 {
 	// Controls
-	DirPad dirPad;
+	kss::controls::DirPad dirPad;
 
     // Animations
     LifeAnimation lifeGrid;
@@ -48,7 +48,7 @@ class LifeGameSinglePlayer : Game
 	RainbowGame idleGame;
 
 public:
-    LifeGameSinglePlayer(Display* display, DirPad controls)
+    LifeGameSinglePlayer(Display* display, kss::controls::DirPad controls)
 		: Game(display),
 		idleGame(display),
 		lifeGrid(display->numStrips + 1, display->lengthStrips),

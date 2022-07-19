@@ -34,20 +34,20 @@ class WavPlayer : Game
 private:
 
     //Buttons go here
-    std::shared_ptr<Button> ABut;
-    std::shared_ptr<Button> BBut;
-    std::shared_ptr<Button> CBut;
-    std::shared_ptr<Button> DBut;
-    std::shared_ptr<Button> EBut;
-    std::shared_ptr<Button> FBut;
+    std::shared_ptr<kss::controls::Button> ABut;
+    std::shared_ptr<kss::controls::Button> BBut;
+    std::shared_ptr<kss::controls::Button> CBut;
+    std::shared_ptr<kss::controls::Button> DBut;
+    std::shared_ptr<kss::controls::Button> EBut;
+    std::shared_ptr<kss::controls::Button> FBut;
 
 public:
-    WavPlayer(std::shared_ptr<Button> aBut,
-              std::shared_ptr<Button> bBut,
-              std::shared_ptr<Button> cBut,
-              std::shared_ptr<Button> dBut,
-              std::shared_ptr<Button> eBut,
-              std::shared_ptr<Button> fBut) :
+    WavPlayer(std::shared_ptr<kss::controls::Button> aBut,
+              std::shared_ptr<kss::controls::Button> bBut,
+              std::shared_ptr<kss::controls::Button> cBut,
+              std::shared_ptr<kss::controls::Button> dBut,
+              std::shared_ptr<kss::controls::Button> eBut,
+              std::shared_ptr<kss::controls::Button> fBut) :
         ABut{std::move(aBut)},
         BBut{std::move(bBut)},
         CBut{std::move(cBut)},

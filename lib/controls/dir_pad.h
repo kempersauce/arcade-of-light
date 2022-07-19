@@ -6,6 +6,10 @@
 #include <button.h>  // For Button
 #include <PinSetup.h>
 
+
+namespace kss {
+namespace controls {
+
 class DirPad
 {
   public:
@@ -33,11 +37,14 @@ class DirPad
 
 	bool isIdle(long idleTimeout)
 	{
-		return up.GetMillisReleased() >= idleTimeout
-			&& down.GetMillisReleased() >= idleTimeout
-			&& left.GetMillisReleased() >= idleTimeout
-			&& right.GetMillisReleased() >= idleTimeout
-			&& a.GetMillisReleased() >= idleTimeout
-			&& b.GetMillisReleased() >= idleTimeout;
+		return up->GetMillisReleased() >= idleTimeout
+			&& down->GetMillisReleased() >= idleTimeout
+			&& left->GetMillisReleased() >= idleTimeout
+			&& right->GetMillisReleased() >= idleTimeout
+			&& a->GetMillisReleased() >= idleTimeout
+			&& b->GetMillisReleased() >= idleTimeout;
 	}
 };
+
+}  // namespace kss::controls
+}  // namespace kss

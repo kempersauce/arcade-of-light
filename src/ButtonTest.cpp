@@ -9,7 +9,7 @@
 // FiveDisplay* display;
 // FiveStripTest* test;
 
-// vector<Button> buttons;
+// vector<kss::controls::Button> buttons;
 // void setup()
 // {
 //     display = new FiveDisplay();

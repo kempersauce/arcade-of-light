@@ -3,5 +3,5 @@
 #include <button.h>
 
 struct H2HControl {
-    std::shared_ptr<Button> buttons[8];
+    std::shared_ptr<kss::controls::Button> buttons[8];
 };

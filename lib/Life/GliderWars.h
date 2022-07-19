@@ -10,11 +10,11 @@
 class GliderWarsGame : public Game
 {
     // Buttons
-    std::shared_ptr<Button> randomizeButton1;
-    std::shared_ptr<Button> randomizeButton2;
+    std::shared_ptr<kss::controls::Button> randomizeButton1;
+    std::shared_ptr<kss::controls::Button> randomizeButton2;
 
-    std::shared_ptr<Button> gliderButton1;
-    std::shared_ptr<Button> gliderButton2;
+    std::shared_ptr<kss::controls::Button> gliderButton1;
+    std::shared_ptr<kss::controls::Button> gliderButton2;
 
     // Animations
     LifeAnimation* lifeGrid;
@@ -22,10 +22,10 @@ class GliderWarsGame : public Game
 
 public:
     GliderWarsGame(Display* display,
-                    std::shared_ptr<Button> randomize_1,
-                    std::shared_ptr<Button> randomize_2,
-                    std::shared_ptr<Button> glider_1,
-                    std::shared_ptr<Button> glider_2) : Game(display),
+                    std::shared_ptr<kss::controls::Button> randomize_1,
+                    std::shared_ptr<kss::controls::Button> randomize_2,
+                    std::shared_ptr<kss::controls::Button> glider_1,
+                    std::shared_ptr<kss::controls::Button> glider_2) : Game(display),
         randomizeButton1{randomize_1},
         randomizeButton2{randomize_2},
         gliderButton1{glider_1},
