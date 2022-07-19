@@ -108,7 +108,7 @@ public:
 
     // Returns the number of milliseconds since the button has become depressed
     // NOTE - this may vary if there is a lot of computation time between poll() and GetMillisHeld()
-    const long GetMillisHeld() {
+    const uint32_t GetMillisHeld() {
         // Return 0 if it's not being held
         if (hold_start_time_ == 0)
         {
@@ -132,7 +132,7 @@ public:
 
     // Returns the number of milliseconds since the button has been released
     // NOTE - this may vary if there is a lot of computation time between poll() and GetMillisReleased()
-    const long GetMillisReleased() {
+    const uint32_t GetMillisReleased() {
         // Return 0 if it's not being held
         if (released_start_time_ == 0)
         {
@@ -153,11 +153,11 @@ private:
     // Used to track how long the button has been held down
     // TODO maybe decide between doing it one way or the other? right now I'm doing both
     int frames_held_;
-    long hold_start_time_;
+    uint32_t hold_start_time_;
 
     // Used to track how long since the button's been released
     int frames_released_;
-    long released_start_time_;
+    uint32_t released_start_time_;
 };
 
 }  // namespace kss::controls
