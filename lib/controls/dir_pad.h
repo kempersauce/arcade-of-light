@@ -35,7 +35,7 @@ class DirPad
     {
     }
 
-	bool isIdle(long idleTimeout)
+	bool isIdle(uint32_t idleTimeout)
 	{
 		return up->GetMillisReleased() >= idleTimeout
 			&& down->GetMillisReleased() >= idleTimeout

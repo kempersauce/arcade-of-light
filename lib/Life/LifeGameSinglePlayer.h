@@ -44,7 +44,7 @@ class LifeGameSinglePlayer : Game
 
 	LifeGameState gameState;
 
-	const static long idleTimeoutMillis = 1000 * 90; // 90 seconds
+	const static uint32_t idleTimeoutMillis = 1000 * 90; // 90 seconds
 	RainbowGame idleGame;
 
 public:
