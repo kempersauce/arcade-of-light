@@ -28,7 +28,7 @@ class Matrix : public Context {
         // If this is a new channel, set it inactive initially
         if (emplace_result.second) {
             pinMode(channel, OUTPUT);
-            digitalWrite(channel, HIGH);
+            digitalWriteFast(channel, HIGH);
         }
     }
 
@@ -56,11 +56,11 @@ class Matrix : public Context {
 
         // Set the old pin to Inactive (Hi)
         if (active_pin_ != 0) {
-            digitalWrite(active_pin_, HIGH);
+            digitalWriteFast(active_pin_, HIGH);
         }
 
         // Set the appropriate pin to Active (Lo)
-        digitalWrite(channel, LOW);
+        digitalWriteFast(channel, LOW);
 
         // Keep track of the current channel
         active_pin_ = channel;

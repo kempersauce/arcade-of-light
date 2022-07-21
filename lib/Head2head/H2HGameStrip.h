@@ -182,12 +182,6 @@ public:
 		stateTimeoutMillis = millis();
 	}
 
-	void pollButtons()
-	{
-	    buttonA->poll();
-	    buttonB->poll();
-	}
-
 	void checkGameState(H2HAudio* audio)
 	{
 		switch (stripState)
@@ -228,6 +222,7 @@ public:
 		            // Team B hits the button
 		            if (buttonB->IsDepressing())
 		            {
+                        // TODO wtf is this for?
 						digitalWriteFast(9, HIGH);
  					    delay(1);
     					digitalWriteFast(9, LOW);
