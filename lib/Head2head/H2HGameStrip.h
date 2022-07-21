@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Button.h>
+#include <button.h>
 #include <H2HDot.h>
 #include <H2HZone.h>
 #include <Explosion.h>
@@ -60,18 +60,18 @@ public:
 	// static because they all share the same mid bar
 	static int midBar;
 
-	Button buttonA;
-	Button buttonB;
+	std::shared_ptr<kss::controls::Button> buttonA;
+	std::shared_ptr<kss::controls::Button> buttonB;
 
-	H2HGameStrip(int stripIndex, int stripHeight, int buttonAPin, int buttonBPin, NoiseGenerator* noise)
+	H2HGameStrip(int stripIndex, int stripHeight, std::shared_ptr<kss::controls::Button> a, std::shared_ptr<kss::controls::Button> b, NoiseGenerator* noise)
 		: Animation(),
 		dot(CRGB::White, stripIndex),
 		explosion(50),
 		dropExplosion(8),
 		zoneA(CRGB::Green, stripIndex, 0, 22, false),
 		zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1, true),
-		buttonA(buttonAPin),
-		buttonB(buttonBPin)
+		buttonA{std::move(a)},
+		buttonB{std::move(b)}
 	{
 	    this->stripIndex = stripIndex;
 	    heightMax = stripHeight;
@@ -182,12 +182,6 @@ public:
 		stateTimeoutMillis = millis();
 	}
 
-	void pollButtons()
-	{
-	    buttonA.poll();
-	    buttonB.poll();
-	}
-
 	void checkGameState(H2HAudio* audio)
 	{
 		switch (stripState)
@@ -211,7 +205,7 @@ public:
 				else
 				{
 					// Team A hits the button
-		            if (buttonA.isDepressing())
+		            if (buttonA->IsDepressing())
 		            {
 						if (zoneA.checkZone(dot.physics.Location))
 						{
@@ -226,8 +220,9 @@ public:
 		            }
 
 		            // Team B hits the button
-		            if (buttonB.isDepressing())
+		            if (buttonB->IsDepressing())
 		            {
+                        // TODO wtf is this for?
 						digitalWriteFast(9, HIGH);
  					    delay(1);
     					digitalWriteFast(9, LOW);

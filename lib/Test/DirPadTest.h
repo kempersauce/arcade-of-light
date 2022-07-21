@@ -4,21 +4,22 @@
 #include <Constants.h>
 #include <SingleColorBG.h>
 #include <Dot.h>
-#include <DirPad.h>
+#include <dir_pad.h>
 #include <HueRainbow.h>
 
 //Test for Directional Pad
 class DirPadTest : Game
 {
     public:
+
         DirPad controls;
         Dot* player;
         SingleColorBG* backgroundColor;
         HueRainbow rainbow;
 
-        DirPadTest(Display* gameDisplay)
+        DirPadTest(Display* gameDisplay, DirPad controls)
             : Game(gameDisplay),
-			controls(),
+			controls{std::move(controls)},
 			rainbow(2)
         {
             rainbow.setWaveShift(true);
@@ -30,9 +31,7 @@ class DirPadTest : Game
 
         void loop()
         {
-            controls.pollAll();
-
-            if (controls.up.isPressed())
+            if (controls.up->IsPressed())
             {
                 Serial.println("UP DIR BUTTON PRESSED");
                 int newSpeed;
@@ -50,7 +49,7 @@ class DirPadTest : Game
                 rainbow.setSpeed(newSpeed);
             }
 
-            if (controls.down.isPressed())
+            if (controls.down->IsPressed())
             {
                 Serial.println("DOWN DIR BUTTON PRESSED");
                 int newSpeed;
@@ -65,34 +64,34 @@ class DirPadTest : Game
                 //Serial.println(rainbow.ShiftSpeed);
             }
 
-            if (controls.left.isPressed())
+            if (controls.left->IsPressed())
             {
                 Serial.println("LEFT DIR BUTTON PRESSED");
             }
 
-            if (controls.right.isPressed())
+            if (controls.right->IsPressed())
             {
                 Serial.println("RIGHT DIR BUTTON PRESSED");
             }
 
-            if (controls.a.isPressed())
+            if (controls.a->IsPressed())
             {
                 rainbow.setWaveShift(true);
                 Serial.println("B BUTTON PRESSED");
             }
 
-            if (controls.b.isPressed())
+            if (controls.b->IsPressed())
             {
                 rainbow.setWaveShift(false);
                 Serial.println("A BUTTON PRESSED");
             }
 
-            // if (!(//controls.a.isPressed() &&
-            // //controls.b.isPressed() &&
-            // controls.up.isPressed() &&
-            // controls.down.isPressed() &&
-            // controls.left.isPressed() &&
-            // controls.right.isPressed()))
+            // if (!(//controls.a->IsPressed() &&
+            // //controls.b->IsPressed() &&
+            // controls.up->IsPressed() &&
+            // controls.down->IsPressed() &&
+            // controls.left->IsPressed() &&
+            // controls.right->IsPressed()))
             // {
             //     //Serial.println("no Buttons pressed");
             // }

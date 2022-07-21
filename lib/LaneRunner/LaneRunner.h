@@ -2,7 +2,7 @@
 #pragma once
 
 #include <SingleColorBG.h>
-#include <DirPad.h>
+#include <dir_pad.h>
 #include <PhysicsInfo.h>
 #include <deque>
 
@@ -17,9 +17,9 @@ class LaneRunnerGame : Game
 	deque<int> dots;
 
 public:
-    LaneRunnerGame(Display* gameDisplay)
+    LaneRunnerGame(Display* gameDisplay, DirPad controls)
 		: Game(gameDisplay),
-		controls(),
+		controls{std::move(controls)},
 		background(0, 0, 0),
 		dots()
     {
@@ -84,13 +84,11 @@ public:
 
     virtual void loop()
 	{
-		controls.pollAll();
-
-		if (controls.up.isPressed())
+		if (controls.up->IsPressed())
 		{
 			player.Velocity = 20;
 		}
-		else if (controls.down.isPressed())
+		else if (controls.down->IsPressed())
 		{
 			player.Velocity = -20;
 		}
@@ -99,11 +97,11 @@ public:
 			player.Velocity = 0;
 		}
 
-		if (controls.left.isPressed())
+		if (controls.left->IsPressed())
 		{
 			player.xLocation = 0;
 		}
-		else if (controls.right.isPressed())
+		else if (controls.right->IsPressed())
 		{
 			player.xLocation = display->numStrips - 1;
 		}

@@ -4,7 +4,7 @@
 // #include <Display.h>
 // #include <H2HDisplay.h>
 // #include <Game.h>
-// #include <Head2Head.h>
+// #include <GliderWars.h>
 // #include <hardware_simple.h>
 // #include <H2HControl.h>
 
@@ -37,7 +37,7 @@
 //     teamB.buttons[6] = controls.CreateButton(H2H_BUTTON_PIN_14);
 //     teamB.buttons[7] = controls.CreateButton(H2H_BUTTON_PIN_15);
 
-//     game = (Game*)new Head2Head(gameDisplay, teamA, teamB);
+//     game = (Game*)new GliderWarsGame(gameDisplay, teamA, teamB);
 //     game->setup();
 //     FastLED.show();
 // }

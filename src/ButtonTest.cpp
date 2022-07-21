@@ -1,5 +1,5 @@
 // #include <Arduino.h>
-// #include <Button.h>
+// #include <button.h>
 // #include <vector>
 // #include <FiveStripTest.h>
 // #include <FiveDisplay.h>
@@ -9,7 +9,7 @@
 // FiveDisplay* display;
 // FiveStripTest* test;
 
-// vector<Button> buttons;
+// vector<kss::controls::Button> buttons;
 // void setup()
 // {
 //     display = new FiveDisplay();
@@ -38,7 +38,7 @@
 // 	for (int i = 0; i < buttons.size(); i++)
 // 	{
 // 		buttons[i].poll();
-// 		if (buttons[i].isDepressing())
+// 		if (buttons[i].IsDepressing())
 // 		{
 // 			Serial.println(i);
 // 		}

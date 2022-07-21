@@ -2,7 +2,7 @@
 #pragma once
 
 #include <SingleColorBG.h>
-#include <DirPad.h>
+#include <dir_pad.h>
 #include <PhysicsInfo.h>
 #include <deque>
 
@@ -17,9 +17,9 @@ class FallingGame : Game
 	deque<pair<int, int>> walls;
 
 public:
-    FallingGame(Display* gameDisplay)
+    FallingGame(Display* gameDisplay, DirPad controls)
 		: Game(gameDisplay),
-		controls(),
+		controls{std::move(controls)},
 		player(),
 		background(0, 0, 0),
 		walls()
@@ -63,13 +63,11 @@ public:
 
     virtual void loop()
 	{
-		controls.pollAll();
-
-		if (controls.up.isPressed())
+		if (controls.up->IsPressed())
 		{
 			player.Velocity = 10;
 		}
-		else if (controls.down.isPressed())
+		else if (controls.down->IsPressed())
 		{
 			player.Velocity = -10;
 		}
@@ -78,11 +76,11 @@ public:
 			player.Velocity = 0;
 		}
 
-		if (controls.left.isPressed())
+		if (controls.left->IsPressed())
 		{
 			player.xVelocity = -10;
 		}
-		else if (controls.right.isPressed())
+		else if (controls.right->IsPressed())
 		{
 			player.xVelocity = 10;
 		}

@@ -3,7 +3,7 @@
 
 #include <SingleColorBG.h>
 #include <Shooter.h>
-#include <DirPad.h>
+#include <dir_pad.h>
 
 class ShooterGame : Game
 {
@@ -13,9 +13,9 @@ class ShooterGame : Game
 	SingleColorBG background;
 
 public:
-    ShooterGame(Display* gameDisplay)
+    ShooterGame(Display* gameDisplay, DirPad controls)
 		: Game(gameDisplay),
-		controls(),
+		controls{std::move(controls)},
 		shooter(),
 		bullet(gameDisplay->lengthStrips, gameDisplay->numStrips),
 		background(0, 0, 0)
@@ -30,13 +30,11 @@ public:
 
     virtual void loop()
 	{
-		controls.pollAll();
-
-		if (controls.up.isPressed())
+		if (controls.up->IsPressed())
 		{
 			shooter.physics.Velocity = 5;
 		}
-		else if (controls.down.isPressed())
+		else if (controls.down->IsPressed())
 		{
 			shooter.physics.Velocity = -5;
 		}
@@ -45,11 +43,11 @@ public:
 			shooter.physics.Velocity = 0;
 		}
 
-		if (controls.left.isPressed())
+		if (controls.left->IsPressed())
 		{
 			shooter.physics.xVelocity = -5;
 		}
-		else if (controls.right.isPressed())
+		else if (controls.right->IsPressed())
 		{
 			shooter.physics.xVelocity = 5;
 		}
@@ -58,7 +56,7 @@ public:
 			shooter.physics.xVelocity = 0;
 		}
 
-		if (controls.a.isDepressing())
+		if (controls.a->IsDepressing())
 		{
 			if (bullet.isPlaying == false)
 			{

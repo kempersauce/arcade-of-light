@@ -2,7 +2,7 @@
 
 #include <Game.h>
 #include <LifeAnimation.h>
-#include <dirPad.h>
+#include <dir_pad.h>
 #include <RainbowGame.h>
 #include <LifeAudio.h>
 
@@ -15,7 +15,7 @@ enum LifeGameState
 class LifeGameSinglePlayer : Game
 {
 	// Controls
-	DirPad dirPad;
+	kss::controls::DirPad dirPad;
 
     // Animations
     LifeAnimation lifeGrid;
@@ -44,15 +44,15 @@ class LifeGameSinglePlayer : Game
 
 	LifeGameState gameState;
 
-	const static long idleTimeoutMillis = 1000 * 90; // 90 seconds
+	const static uint32_t idleTimeoutMillis = 1000 * 90; // 90 seconds
 	RainbowGame idleGame;
 
 public:
-    LifeGameSinglePlayer(Display* display)
+    LifeGameSinglePlayer(Display* display, kss::controls::DirPad controls)
 		: Game(display),
 		idleGame(display),
 		lifeGrid(display->numStrips + 1, display->lengthStrips),
-		dirPad()
+		dirPad{std::move(controls)}
     {
     }
 
@@ -96,8 +96,6 @@ public:
 		long timeDiff = millis() - lastFrameMillis;
 		lastFrameMillis = millis();
 
-		dirPad.pollAll();
-
 		bool isIdle = dirPad.isIdle(idleTimeoutMillis);
 
 		// Switch to idling if we're not already doing it
@@ -119,12 +117,12 @@ public:
 		}
 
 		// Speed adjust controls
-		if (dirPad.up.isPressed())
+		if (dirPad.up->IsPressed())
 		{
 			millisPerFrame += (float)millisPerFrame / (float)20;
 		}
 
-		if (dirPad.down.isPressed())
+		if (dirPad.down->IsPressed())
 		{
 			millisPerFrame -= (float)millisPerFrame / (float)20;
 		}
@@ -139,12 +137,12 @@ public:
 		}
 
 		// Hue adjust controls
-		if (dirPad.left.isPressed())
+		if (dirPad.left->IsPressed())
 		{
 			setHue(startHue + hueShiftRate * timeDiff);
 			//audio->playColorShift();
 		}
-		else if (dirPad.right.isPressed())
+		else if (dirPad.right->IsPressed())
 		{
 			setHue(startHue - hueShiftRate * timeDiff);
 			//audio->playColorShift();
@@ -156,7 +154,7 @@ public:
 		
 
 		// pause/play controls
-		if (dirPad.a.isDepressing())
+		if (dirPad.a->IsDepressing())
 		{
 			isPaused = !isPaused;
 			if(isPaused == true)
@@ -173,7 +171,7 @@ public:
 		if (millis() >= nextDrawFrameMillis)
 		{
 			// randomize controls on frame speed
-			if (dirPad.b.isPressed())
+			if (dirPad.b->IsPressed())
 			{
 				// if(!audio->shuffleIsStarted)
 				// {
@@ -186,7 +184,7 @@ public:
 		        // Calculate next round
 		        lifeGrid.GoOneRound();
 			}
-			// if(dirPad.b.isUp() && audio->shuffleIsStarted)
+			// if(dirPad.b->IsUp() && audio->shuffleIsStarted)
 			// {
 			// 	audio->stopPlayRandom();
 			// }
