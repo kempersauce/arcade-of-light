@@ -5,7 +5,7 @@ Where the magic happens
 
 #pragma once
 
-#include <Display.h>
+#include "display/display.h"  // for Display
 #include <Game.h>
 
 #include "animation/noise.h"  // for NoiseAnimation

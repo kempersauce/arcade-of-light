@@ -6,7 +6,7 @@ Make the lights pretty
 
 #pragma once
 
-#include <Display.h>
+#include "display/display.h"  // for Display
 
 class Animation {
  public:

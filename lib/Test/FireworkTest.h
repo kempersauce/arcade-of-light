@@ -2,7 +2,7 @@
 
 // #include <FancyFirework.h>
 // #include <Game.h>
-// #include <Display.h>
+// #include "display/display.h"  // for Display
 // #include <Starscape.h>
 // #include <SkyFade.h>
 

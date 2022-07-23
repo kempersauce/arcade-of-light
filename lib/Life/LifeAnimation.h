@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Display.h>
+#include "display/display.h"  // for Display
 #include <FastLED.h>
 
 #include <vector>

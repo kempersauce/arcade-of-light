@@ -1,10 +1,10 @@
 // hopefully this makes sound work
 //#define FASTLED_ALLOW_INTERRUPTS 0
 
-#include <H2HDisplay.h>
-#include <FiveDisplay.h>
+#include "display/h2h.h"  // for H2HDisplay
+#include "display/five.h"  // for FiveDisplay
 #include <Head2Head.h>
-#include <RocketDisplay.h>
+#include "display/rocket.h"  // for RocketDisplay
 #include <RocketGame.h>
 //#include <WavPlayer.h>
 #include <LifeGame.h>

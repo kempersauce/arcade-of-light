@@ -2,7 +2,7 @@
 // #include "controls/button.h"
 // #include <vector>
 // #include <FiveStripTest.h>
-// #include <FiveDisplay.h>
+// #include "display/five.h"  // for FiveDisplay
 
 // using namespace std;
 

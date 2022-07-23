@@ -14,7 +14,7 @@
 
 #define BRIGHTNESS 50
 
-#include <Display.h>
+#include "display/display.h"  // for Display
 #include <Firework.h>
 #include <Game.h>
 #include <Rocket.h>

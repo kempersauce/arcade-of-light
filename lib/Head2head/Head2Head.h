@@ -2,7 +2,7 @@
 #include <Game.h>
 #include <H2HAudio.h>
 #include <H2HControl.h>
-#include <H2HDisplay.h>
+#include "display/h2h.h"  // for H2HDisplay
 #include <H2HDot.h>
 #include <H2HGameStrip.h>
 #include <H2HZone.h>

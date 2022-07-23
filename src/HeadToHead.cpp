@@ -1,8 +1,8 @@
 
 // #include <Arduino.h>
 // #include <FastLED.h>
-// #include <Display.h>
-// #include <H2HDisplay.h>
+// #include "display/display.h"  // for Display
+// #include "display/h2h.h"  // for H2HDisplay
 // #include <Game.h>
 // #include <Head2Head.h>
 // #include "controls/hardware/simple.h"

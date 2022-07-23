@@ -1,7 +1,7 @@
 
 // #include <Arduino.h>
 // #include <FastLED.h>
-// #include <FiveDisplay.h>
+// #include "display/five.h"  // for FiveDisplay
 // #include "controls/dir_pad.h"
 // #include <LifeGameSinglePlayer.h>
 // #include <Game.h>
