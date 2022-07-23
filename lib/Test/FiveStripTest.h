@@ -1,9 +1,10 @@
 #pragma once
 
 #include <Constants.h>
-#include <Dot.h>
 #include <Game.h>
-#include <SingleColorBG.h>
+
+#include "animation/dot.h"                      // for Dot
+#include "animation/single_color_background.h"  // for SingleColorBG
 
 // Test for Directional Pad
 class FiveStripTest : Game {

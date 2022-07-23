@@ -5,8 +5,11 @@ Where the magic happens
 
 #pragma once
 
-#include <HueRainbow.h>
-#include <Marquee.h>
+#include <Display.h>
+#include <Game.h>
+
+#include "animation/hue_rainbow.h"  // for HueRainbow
+#include "animation/marquee.h"      // for Marquee
 
 class MarqueeGame : Game {
   HueRainbow* background;

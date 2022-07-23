@@ -1,16 +1,17 @@
 #pragma once
 
-#include <Animation.h>
+#include <Display.h>
+#include <PhysicsInfo.h>
 
 #include <vector>
 
-using namespace std;
+#include "animation/animation.h"  // for Animation
 
 class Explosion : Animation {
  public:
   long birthTimeMillis;
 
-  vector<PhysicsInfo> shrapnel;
+  std::vector<PhysicsInfo> shrapnel;
 
   int explosionMagnitude = 100;
 

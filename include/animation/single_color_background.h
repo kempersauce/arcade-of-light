@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Animation.h>
 #include <Display.h>
+
+#include "animation/animation.h"  // for Animation
 
 // Single color background
 class SingleColorBG : Animation {

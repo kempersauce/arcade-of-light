@@ -1,5 +1,6 @@
-#include <Animation.h>
 #include <NoiseGenerator.h>
+
+#include "animation/animation.h"  // for Animation
 
 class RocketBoost : Animation {
  private:

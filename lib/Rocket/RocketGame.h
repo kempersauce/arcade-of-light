@@ -21,16 +21,18 @@
 #include <SkyFade.h>
 #include <Starscape.h>
 #include <Target.h>
-#include "controls/button.h"
 
 #include <memory>  // For shared_ptr
+
+#include "controls/button.h"
 //#include <Sounds.h>
-#include <Explosion.h>
 #include <ExplosionsInTheSky.h>
 #include <LifeGame.h>
 #include <RocketAudio.h>
 
 #include <vector>
+
+#include "animation/explosion.h"  // for Explosion
 
 bool boostIsPlaying = false;
 bool targetIsPlaying = false;

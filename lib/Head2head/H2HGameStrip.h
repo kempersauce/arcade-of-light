@@ -1,11 +1,12 @@
 #pragma once
 
-#include <Explosion.h>
 #include <H2HAudio.h>
 #include <H2HDot.h>
 #include <H2HZone.h>
 #include <KemperSerialTransmitter.h>
 #include <NoiseGenerator.h>
+
+#include "animation/explosion.h"  // for Explosion
 #include "controls/button.h"
 
 enum H2HStripState {

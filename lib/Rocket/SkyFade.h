@@ -4,7 +4,7 @@ Draws a blue color,
 fading back to the original color a third of the way up
 */
 #pragma once
-#include <Animation.h>
+#include "animation/animation.h"  // for Animation
 
 class SkyFade : Animation {
  private:

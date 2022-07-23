@@ -2,17 +2,18 @@
 #pragma once
 
 #include <Shooter.h>
-#include <SingleColorBG.h>
+
+#include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"
 
 class ShooterGame : Game {
-  DirPad controls;
+  kss::controls::DirPad controls;
   Shooter shooter;
   Firework bullet;
   SingleColorBG background;
 
  public:
-  ShooterGame(Display* gameDisplay, DirPad controls)
+  ShooterGame(Display* gameDisplay, kss::controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
         shooter(),

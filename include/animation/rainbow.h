@@ -1,3 +1,9 @@
+#pragma once
+
+#include <Display.h>
+
+#include "animation/animation.h"  // for Animation
+
 // Rainbow Animation
 class RainbowAni : Animation {
  public:

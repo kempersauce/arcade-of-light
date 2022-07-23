@@ -1,5 +1,8 @@
 #pragma once
-#include <Animation.h>
+
+#include <Display.h>
+
+#include "animation/animation.h"  // for Animation
 
 class HueRainbow : public Animation {
  private:

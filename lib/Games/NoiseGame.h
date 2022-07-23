@@ -5,8 +5,10 @@ Where the magic happens
 
 #pragma once
 
+#include <Display.h>
 #include <Game.h>
-#include <Noise.h>
+
+#include "animation/noise.h"  // for NoiseAnimation
 
 class NoiseGame : Game {
   NoiseAnimation background;

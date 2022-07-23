@@ -1,21 +1,22 @@
 #pragma once
 
 #include <Constants.h>
-#include <Dot.h>
 #include <Game.h>
-#include <HueRainbow.h>
-#include <SingleColorBG.h>
-#include "controls/dir_pad.h"
+
+#include "animation/dot.h"                      // for Dot
+#include "animation/hue_rainbow.h"              // for HueRainbow
+#include "animation/single_color_background.h"  // for SingleColorBG
+#include "controls/dir_pad.h"                   // for kss::controls::DirPad
 
 // Test for Directional Pad
 class DirPadTest : Game {
  public:
-  DirPad controls;
+  kss::controls::DirPad controls;
   Dot* player;
   SingleColorBG* backgroundColor;
   HueRainbow rainbow;
 
-  DirPadTest(Display* gameDisplay, DirPad controls)
+  DirPadTest(Display* gameDisplay, kss::controls::DirPad controls)
       : Game(gameDisplay), controls{std::move(controls)}, rainbow(2) {
     rainbow.setWaveShift(true);
   }

@@ -5,7 +5,10 @@ Where the magic happens
 
 #pragma once
 
-#include <HueRainbow.h>
+#include <Display.h>
+#include <Game.h>
+
+#include "animation/hue_rainbow.h"
 //#include <AudioSender.h>
 
 class RainbowGame : Game {

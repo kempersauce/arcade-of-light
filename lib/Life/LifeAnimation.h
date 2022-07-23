@@ -1,10 +1,11 @@
 #pragma once
 
-#include <Animation.h>
 #include <Display.h>
 #include <FastLED.h>
 
 #include <vector>
+
+#include "animation/animation.h"  // for Animation
 
 using namespace std;
 

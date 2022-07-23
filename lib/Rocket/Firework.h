@@ -1,6 +1,7 @@
-#include <Animation.h>
-#include <Explosion.h>
 #include <RocketAudio.h>
+
+#include "animation/animation.h"  // for Animation
+#include "animation/explosion.h"  // for Explosion
 
 class Firework : Animation {
   // Used to randomly select the strip and explosion height when resetting the

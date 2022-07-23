@@ -3,9 +3,10 @@
 #include <Display.h>
 #include <Game.h>
 #include <LifeAnimation.h>
-#include "controls/button.h"
 
 #include <memory>  // For std::shared_ptr
+
+#include "controls/button.h"
 
 class GliderWarsGame : public Game {
   // Buttons

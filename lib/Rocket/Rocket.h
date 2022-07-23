@@ -3,9 +3,10 @@
 
 #pragma once
 
-#include <Animation.h>
 #include <PhysicsInfo.h>
 #include <RocketBoost.h>
+
+#include "animation/animation.h"  // for Animation
 
 class Rocket : Animation {
  public:

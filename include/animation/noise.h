@@ -1,6 +1,8 @@
 #pragma once
-#include <Animation.h>
+#include <Display.h>
 #include <NoiseGenerator.h>
+
+#include "animation/animation.h"  // for Animation
 
 class NoiseAnimation : Animation {
  private:

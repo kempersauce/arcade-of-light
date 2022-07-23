@@ -2,22 +2,23 @@
 #pragma once
 
 #include <PhysicsInfo.h>
-#include <SingleColorBG.h>
-#include "controls/dir_pad.h"
 
 #include <deque>
+
+#include "animation/single_color_background.h"  // for SingleColorBG
+#include "controls/dir_pad.h"
 
 using namespace std;
 
 class FallingGame : Game {
-  DirPad controls;
+  kss::controls::DirPad controls;
   PhysicsInfo player;
   SingleColorBG background;
 
   deque<pair<int, int>> walls;
 
  public:
-  FallingGame(Display* gameDisplay, DirPad controls)
+  FallingGame(Display* gameDisplay, kss::controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
         player(),

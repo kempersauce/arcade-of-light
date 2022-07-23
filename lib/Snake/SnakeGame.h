@@ -1,15 +1,14 @@
-
 #pragma once
 
 #include <Snake.h>
 
 class SnakeGame : Game {
-  DirPad controls;
+  kss::controls::DirPad controls;
   Snake snake;
   SingleColorBG background;
 
  public:
-  SnakeGame(Display* gameDisplay, DirPad controls)
+  SnakeGame(Display* gameDisplay, kss::controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
         snake(gameDisplay->numStrips, gameDisplay->lengthStrips),

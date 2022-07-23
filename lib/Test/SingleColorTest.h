@@ -1,5 +1,6 @@
 #include <Game.h>
-#include <SingleColorBG.h>
+
+#include "animation/single_color_background.h"  // for SingleColorBG
 
 class SingleColorTest : Game {
   SingleColorBG* background;

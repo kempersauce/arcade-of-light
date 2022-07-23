@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Animation.h>
 #include <RocketAudio.h>
+
+#include "animation/animation.h"  // for Animation
 
 class ExplosionsInTheSky : Animation {
   long timeStart = 0;

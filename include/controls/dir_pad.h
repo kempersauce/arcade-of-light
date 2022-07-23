@@ -2,9 +2,10 @@
 #pragma once
 
 #include <PinSetup.h>
-#include "controls/button.h"  // For Button
 
 #include <memory>  // For shared_ptr
+
+#include "controls/button.h"  // For Button
 
 namespace kss {
 namespace controls {

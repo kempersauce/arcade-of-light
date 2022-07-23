@@ -1,4 +1,4 @@
-#include <Animation.h>
+#include "animation/animation.h"  // for Animation
 
 class FinishLine : Animation {
  public:

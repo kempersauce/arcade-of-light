@@ -7,9 +7,10 @@
 #include <SerialFlash.h>
 #include <Sounds.h>
 #include <Wire.h>
-#include "controls/button.h"
 
 #include <memory>  // For shared_ptr
+
+#include "controls/button.h"
 
 // Use these with the Teensy Audio Shield
 // This uses the audio shield's card reader

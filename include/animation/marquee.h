@@ -1,9 +1,11 @@
 #pragma once
-#include <Animation.h>
+#include <Display.h>
 #include <Font.h>
 #include <Shapes.h>
 
 #include <string>
+
+#include "animation/animation.h"  // for Animation
 
 using namespace std;
 

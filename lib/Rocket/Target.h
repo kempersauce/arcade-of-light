@@ -2,7 +2,7 @@
 Class that sets a series of dots in a specific location on the LED strip
 */
 
-#include <Animation.h>
+#include "animation/animation.h"  // for Animation
 
 class Target : Animation {
   const static long targetLockTimeMillis = 1000 * 3;  // 3 second lock time

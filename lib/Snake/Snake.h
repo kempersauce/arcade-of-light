@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <Animation.h>
-
 #include <deque>
+
+#include "animation/animation.h"  // for Animation
 
 using namespace std;
 

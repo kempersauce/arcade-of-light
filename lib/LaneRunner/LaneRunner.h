@@ -1,25 +1,23 @@
-
 #pragma once
 
 #include <PhysicsInfo.h>
-#include <SingleColorBG.h>
-#include "controls/dir_pad.h"
 
-#include <deque>
+#include <deque>  // for deque
 
-using namespace std;
+#include "animation/single_color_background.h"  // for SingleColorBG
+#include "controls/dir_pad.h"                   // for kss::controls::DirPad
 
 class LaneRunnerGame : Game {
-  DirPad controls;
+  kss::controls::DirPad controller;
   PhysicsInfo player;
   SingleColorBG background;
 
-  deque<int> dots;
+  std::deque<int> dots;
 
  public:
-  LaneRunnerGame(Display* gameDisplay, DirPad controls)
+  LaneRunnerGame(Display* gameDisplay, kss::controls::DirPad controller)
       : Game(gameDisplay),
-        controls{std::move(controls)},
+        controller{std::move(controller)},
         background(0, 0, 0),
         dots() {}
 
@@ -72,17 +70,17 @@ class LaneRunnerGame : Game {
   }
 
   virtual void loop() {
-    if (controls.up->IsPressed()) {
+    if (controller.up->IsPressed()) {
       player.Velocity = 20;
-    } else if (controls.down->IsPressed()) {
+    } else if (controller.down->IsPressed()) {
       player.Velocity = -20;
     } else {
       player.Velocity = 0;
     }
 
-    if (controls.left->IsPressed()) {
+    if (controller.left->IsPressed()) {
       player.xLocation = 0;
-    } else if (controls.right->IsPressed()) {
+    } else if (controller.right->IsPressed()) {
       player.xLocation = display->numStrips - 1;
     } else {
       player.xLocation = display->numStrips / 2;

@@ -5,7 +5,7 @@ Where the magic happens
 
 #pragma once
 
-#include <Animation.h>
+#include "animation/animation.h"  // for Animation
 
 class Game {
  public:

@@ -3,8 +3,12 @@
 
 #include <Display.h>
 
+#include <vector>
+
+#include "animation/animation.h"  // for Animation
+
 class ElectricArc : Animation {
-  vector<int> arc;
+  std::vector<int> arc;
   CRGB color = CRGB::Purple;
 
  public:

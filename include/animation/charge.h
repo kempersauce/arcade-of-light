@@ -1,6 +1,9 @@
 #pragma once
-// Dot Class
-// Class that sets a dot in a specific locatio on the LED strip
+
+#include <Display.h>
+
+#include "animation/animation.h"  // for Animation
+
 class Charge : Animation {
  public:
   // location values

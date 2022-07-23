@@ -1,5 +1,4 @@
 #include <Constants.h>
-#include <ElectricArc.h>
 #include <Game.h>
 #include <H2HAudio.h>
 #include <H2HControl.h>
@@ -10,8 +9,10 @@
 #include <LifeGame.h>
 #include <NoiseGenerator.h>
 #include <RainbowGame.h>
-#include <SingleColorBG.h>
-#include "controls/button.h"
+
+#include "animation/electric_arc.h"             // for ElectricArc
+#include "animation/single_color_background.h"  // for SingleColorBG
+#include "controls/button.h"                    // for Button
 
 enum H2HGameState {
   H2HGameIdle,
