@@ -20,7 +20,7 @@
 #include <SnakeGame.h>
 // #include <ShooterGame.h>
 #include "games/falling.h"  // for FallingGame
-#include <LaneRunner.h>
+#include "games/lane_runner/lane_runner.h"  // for LaneRunner
 #include <AnimationTest.h>
 #include <LifeGameSinglePLayer.h>
 
