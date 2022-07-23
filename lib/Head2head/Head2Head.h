@@ -11,7 +11,7 @@
 #include <NoiseGenerator.h>
 #include <RainbowGame.h>
 #include <SingleColorBG.h>
-#include <button.h>
+#include "controls/button.h"
 
 enum H2HGameState {
   H2HGameIdle,

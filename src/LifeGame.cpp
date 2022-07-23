@@ -2,10 +2,10 @@
 // #include <Arduino.h>
 // #include <FastLED.h>
 // #include <FiveDisplay.h>
-// #include <dir_pad.h>
+// #include "controls/dir_pad.h"
 // #include <LifeGameSinglePlayer.h>
 // #include <Game.h>
-// #include <hardware_simple.h>  // for kss::controls::hardware::Simple
+// #include "controls/hardware/simple.h"  // for kss::controls::hardware::Simple
 
 // Game* game;
 // Display* gameDisplay;

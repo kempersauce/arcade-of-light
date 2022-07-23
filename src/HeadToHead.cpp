@@ -5,7 +5,7 @@
 // #include <H2HDisplay.h>
 // #include <Game.h>
 // #include <Head2Head.h>
-// #include <hardware_simple.h>
+// #include "controls/hardware/simple.h"
 // #include <H2HControl.h>
 
 // Game* game;

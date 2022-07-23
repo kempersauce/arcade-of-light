@@ -2,7 +2,7 @@
 #pragma once
 
 #include <PinSetup.h>
-#include <button.h>  // For Button
+#include "controls/button.h"  // For Button
 
 #include <memory>  // For shared_ptr
 

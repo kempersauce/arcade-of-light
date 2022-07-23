@@ -5,7 +5,7 @@
 #include <Game.h>
 #include <HueRainbow.h>
 #include <SingleColorBG.h>
-#include <dir_pad.h>
+#include "controls/dir_pad.h"
 
 // Test for Directional Pad
 class DirPadTest : Game {

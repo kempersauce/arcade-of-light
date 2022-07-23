@@ -1,8 +1,8 @@
 #pragma once
 
-#include <button.h>            // For Button
-#include <hardware_context.h>  // For Context
-#include <hardware_simple.h>   // For Simple
+#include "controls/button.h"            // For Button
+#include "controls/hardware/context.h"  // For Context
+#include "controls/hardware/simple.h"   // For Simple
 
 #include <map>     // For std::map
 #include <memory>  // For std::shared_ptr

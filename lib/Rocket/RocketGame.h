@@ -21,7 +21,7 @@
 #include <SkyFade.h>
 #include <Starscape.h>
 #include <Target.h>
-#include <button.h>
+#include "controls/button.h"
 
 #include <memory>  // For shared_ptr
 //#include <Sounds.h>

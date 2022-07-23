@@ -3,7 +3,7 @@
 
 #include <PhysicsInfo.h>
 #include <SingleColorBG.h>
-#include <dir_pad.h>
+#include "controls/dir_pad.h"
 
 #include <deque>
 

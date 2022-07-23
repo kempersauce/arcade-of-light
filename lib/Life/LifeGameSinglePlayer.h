@@ -4,7 +4,7 @@
 #include <LifeAnimation.h>
 #include <LifeAudio.h>
 #include <RainbowGame.h>
-#include <dir_pad.h>
+#include "controls/dir_pad.h"
 
 enum LifeGameState { LifeGameIdle, LifeGamePlaying };
 

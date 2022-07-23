@@ -7,7 +7,7 @@
 #include <SerialFlash.h>
 #include <Sounds.h>
 #include <Wire.h>
-#include <button.h>
+#include "controls/button.h"
 
 #include <memory>  // For shared_ptr
 

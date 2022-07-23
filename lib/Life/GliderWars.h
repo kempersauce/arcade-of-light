@@ -3,7 +3,7 @@
 #include <Display.h>
 #include <Game.h>
 #include <LifeAnimation.h>
-#include <button.h>
+#include "controls/button.h"
 
 #include <memory>  // For std::shared_ptr
 

@@ -6,7 +6,7 @@
 #include <H2HZone.h>
 #include <KemperSerialTransmitter.h>
 #include <NoiseGenerator.h>
-#include <button.h>
+#include "controls/button.h"
 
 enum H2HStripState {
   H2HStripPlaying,

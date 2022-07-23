@@ -6,7 +6,7 @@
 // #include <Game.h>
 // #include <RocketGame.h>
 // #include <AudioSender.h>
-// #include <hardware_simple.h>  // For kss::controls::hardware::Simple
+// #include "controls/hardware/simple.h"  // For kss::controls::hardware::Simple
 
 // RocketGame* game;
 // Display* gameDisplay;
