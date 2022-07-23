@@ -1,6 +1,8 @@
 #pragma once
 
 #include <FastLED.h>
+#include "animation/animation.h"  // for Animation
+#include "display/display.h"  // for Display
 #include "engines/physics_info.h"  // for PhysicsInfo
 
 class H2HDot : public Animation {

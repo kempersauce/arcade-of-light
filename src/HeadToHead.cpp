@@ -4,9 +4,9 @@
 // #include "display/display.h"  // for Display
 // #include "display/h2h.h"  // for H2HDisplay
 // #include "games/game.h"  // for Game
-// #include <Head2Head.h>
+// #include "games/head2head/head2head.h"  // for Head2Head
 // #include "controls/hardware/simple.h"
-// #include <H2HControl.h>
+// #include "games/head2head/controller.h"  // for H2HControl
 
 // Game* game;
 // Display* gameDisplay;

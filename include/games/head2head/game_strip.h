@@ -1,8 +1,8 @@
 #pragma once
 
-#include <H2HAudio.h>
-#include <H2HDot.h>
-#include <H2HZone.h>
+#include "games/head2head/audio.h"  // for H2HAudio
+#include "games/head2head/dot.h"  // for H2HDot
+#include "games/head2head/zone.h"  // for H2HZone
 #include <KemperSerialTransmitter.h>
 #include "engines/noise.h"  // for NoiseGenerator
 

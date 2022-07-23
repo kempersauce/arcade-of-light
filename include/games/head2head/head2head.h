@@ -1,11 +1,11 @@
 #include <Constants.h>
 #include "games/game.h"  // for Game
-#include <H2HAudio.h>
-#include <H2HControl.h>
+#include "games/head2head/audio.h"  // for H2HAudio
+#include "games/head2head/controller.h"  // for H2HControl
 #include "display/h2h.h"  // for H2HDisplay
-#include <H2HDot.h>
-#include <H2HGameStrip.h>
-#include <H2HZone.h>
+#include "games/head2head/dot.h"  // for H2HDot
+#include "games/head2head/game_strip.h"  // for H2HGameStrip
+#include "games/head2head/zone.h"  // for H2HZone
 #include <LifeGame.h>
 #include "engines/noise.h"  // for NoiseGenerator
 #include "games/rainbow.h"  // for RainbowGame

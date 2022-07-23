@@ -6,7 +6,7 @@
 // #include "games/game.h"  // for Game
 // #include <GliderWars.h>
 // #include "controls/hardware/simple.h"
-// #include <H2HControl.h>
+// #include "games/head2head/controller.h"  // for H2HControl
 
 // Game* game;
 // Display* gameDisplay;

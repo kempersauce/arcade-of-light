@@ -1,5 +1,6 @@
 #pragma once
 
+#include "animation/animation.h"  // for Animation
 #include "display/display.h"  // for Display
 
 class H2HZone : public Animation {

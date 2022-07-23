@@ -3,7 +3,7 @@
 
 #include "display/h2h.h"  // for H2HDisplay
 #include "display/five.h"  // for FiveDisplay
-#include <Head2Head.h>
+#include "games/head2head/head2head.h"  // for Head2Head
 #include "display/rocket.h"  // for RocketDisplay
 #include <RocketGame.h>
 //#include "games/wav_player.h"  // for WavPlayer
