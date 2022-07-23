@@ -16,7 +16,7 @@
 
 #include "display/display.h"  // for Display
 #include <Firework.h>
-#include <Game.h>
+#include "games/game.h"  // for Game
 #include <Rocket.h>
 #include <SkyFade.h>
 #include <Starscape.h>

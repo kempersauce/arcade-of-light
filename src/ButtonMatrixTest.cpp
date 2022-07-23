@@ -1,7 +1,7 @@
 
 // #include <Arduino.h>
 // #include <FastLED.h>
-// #include <Game.h>
+// #include "games/game.h"  // for Game
 // #include "controls/button.h"           // for kss::controls::Button
 // #include "controls/hardware/matrix.h"  // for kss::controls::hardware::Matrix
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Constants.h>
-#include <Game.h>
+#include "games/game.h"  // for Game
 
 #include "animation/flicker.h"                  // for Flicker
 #include "animation/single_color_background.h"  // for SingleColorBG

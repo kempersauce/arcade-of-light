@@ -3,7 +3,7 @@
 // #include <FastLED.h>
 // #include "display/display.h"  // for Display
 // #include "display/h2h.h"  // for H2HDisplay
-// #include <Game.h>
+// #include "games/game.h"  // for Game
 // #include <GliderWars.h>
 // #include "controls/hardware/simple.h"
 // #include <H2HControl.h>

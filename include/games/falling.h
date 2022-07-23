@@ -3,10 +3,11 @@
 
 #include "engines/physics_info.h"  // for PhysicsInfo
 
-#include <deque>
+#include <deque>  // for deque
+#include <utility>  // for pair
 
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "controls/dir_pad.h"
+#include "controls/dir_pad.h"  // for DirPad
 
 using namespace std;
 

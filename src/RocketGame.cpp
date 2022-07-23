@@ -3,7 +3,7 @@
 // #include "display/display.h"  // for Display
 // #include "display/rocket.h"  // for RocketDisplay
 // #include "display/h2h.h"  // for H2HDisplay
-// #include <Game.h>
+// #include "games/game.h"  // for Game
 // #include <RocketGame.h>
 // #include "audio/audio_sender.h"  // for AudioSender
 // #include "controls/hardware/simple.h"  // For kss::controls::hardware::Simple

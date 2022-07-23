@@ -1,7 +1,7 @@
 // working audio example
 
 #include <Audio.h>
-#include <Game.h>
+#include "games/game.h"  // for Game
 #include <SD.h>
 #include <SPI.h>
 #include <SerialFlash.h>

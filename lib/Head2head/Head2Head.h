@@ -1,5 +1,5 @@
 #include <Constants.h>
-#include <Game.h>
+#include "games/game.h"  // for Game
 #include <H2HAudio.h>
 #include <H2HControl.h>
 #include "display/h2h.h"  // for H2HDisplay
@@ -8,7 +8,7 @@
 #include <H2HZone.h>
 #include <LifeGame.h>
 #include "engines/noise.h"  // for NoiseGenerator
-#include <RainbowGame.h>
+#include "games/rainbow.h"  // for RainbowGame
 
 #include "animation/electric_arc.h"             // for ElectricArc
 #include "animation/single_color_background.h"  // for SingleColorBG

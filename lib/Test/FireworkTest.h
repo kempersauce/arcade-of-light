@@ -1,7 +1,7 @@
 // #define NUM_FIREWORKS 3
 
 // #include <FancyFirework.h>
-// #include <Game.h>
+// #include "games/game.h"  // for Game
 // #include "display/display.h"  // for Display
 // #include <Starscape.h>
 // #include <SkyFade.h>

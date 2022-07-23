@@ -3,8 +3,8 @@
 // #include <FastLED.h>
 // #include "display/display.h"  // for Display
 // #include "display/twenty.h"  // for TwentyDisplay
-// #include <Game.h>
-// #include <NoiseGame.h>
+// #include "games/game.h"  // for Game
+// #include "games/noise.h"  // for NoiseGame
 
 // Game* game;
 // Display* gameDisplay;

@@ -1,5 +1,5 @@
 #include <Constants.h>
-#include <Game.h>
+#include "games/game.h"  // for Game
 #include <Rainbow.h>
 
 #define delayVal 90

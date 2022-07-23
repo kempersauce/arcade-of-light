@@ -1,7 +1,7 @@
 #pragma once
 
 #include "display/display.h"  // for Display
-#include <Game.h>
+#include "games/game.h"  // for Game
 #include <LifeAnimation.h>
 
 #include <memory>  // For std::shared_ptr

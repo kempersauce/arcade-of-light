@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Game.h>
+#include "games/game.h"  // for Game
 #include <LifeAnimation.h>
 #include <LifeAudio.h>
-#include <RainbowGame.h>
+#include "games/rainbow.h"  // for RainbowGame
 
 #include "controls/dir_pad.h"
 

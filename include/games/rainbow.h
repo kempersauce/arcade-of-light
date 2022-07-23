@@ -6,7 +6,7 @@ Where the magic happens
 #pragma once
 
 #include "display/display.h"  // for Display
-#include <Game.h>
+#include "games/game.h"  // for Game
 
 #include "animation/hue_rainbow.h"
 //#include "audio/audio_sender.h"  // for AudioSender

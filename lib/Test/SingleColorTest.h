@@ -1,4 +1,4 @@
-#include <Game.h>
+#include "games/game.h"  // for Game
 
 #include "animation/single_color_background.h"  // for SingleColorBG
 

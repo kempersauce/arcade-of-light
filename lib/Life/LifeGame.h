@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Game.h>
+#include "games/game.h"  // for Game
 #include <LifeAnimation.h>
 
 class LifeGame : Game {

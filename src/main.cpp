@@ -6,20 +6,20 @@
 #include <Head2Head.h>
 #include "display/rocket.h"  // for RocketDisplay
 #include <RocketGame.h>
-//#include <WavPlayer.h>
+//#include "games/wav_player.h"  // for WavPlayer
 #include <LifeGame.h>
 #include <SingleColorTest.h>
 // #include "audio/sounds.h"  // for Sounds
 //#include <FireworkTest.h>
-#include <RainbowGame.h>
+#include "games/rainbow.h"  // for RainbowGame
 #include <DirPadTest.h>
-#include <MarqueeGame.h>
+#include "games/marquee.h"  // for MarqueeGame
 #include <GliderWars.h>
 #include <SerialTest.h>
 #include <FiveStripTest.h>
 #include <SnakeGame.h>
 // #include <ShooterGame.h>
-#include <FallingGame.h>
+#include "games/falling.h"  // for FallingGame
 #include <LaneRunner.h>
 #include <AnimationTest.h>
 #include <LifeGameSinglePLayer.h>
