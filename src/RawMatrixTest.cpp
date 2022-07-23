@@ -9,36 +9,42 @@
 // int buttonNum = 4;
 
 // void setup() {
-//   //Make controller outputs
+//   //Make controller pins outputs
 //   pinMode(2, OUTPUT);
 //   pinMode(3, OUTPUT);
 //   pinMode(4, OUTPUT);
 //   pinMode(7, OUTPUT);
-//   //Make button pins input
+
+//   //Make button pins inputs
 //   pinMode(8, INPUT);
 //   pinMode(9, INPUT);
 //   pinMode(10, INPUT);
 //   pinMode(11, INPUT);
 //   //pinMode(12, INPUT);
 //   //pinMode(13, INPUT);
-//   Serial.begin(9600);
 
-//   digitalWrite(cont[0],HIGH);
-//   digitalWrite(cont[1],HIGH);
-//   digitalWrite(cont[2],HIGH);
-//   digitalWrite(cont[3],HIGH);
+//   Serial.begin(9600);
+  
+//     digitalWrite(cont[0],LOW);
+//     digitalWrite(cont[1],HIGH);
+//     digitalWrite(cont[2],HIGH);
+//     digitalWrite(cont[3],HIGH);
 
 //   for (int button = 0; button < buttonNum; button++){
 //         if(digitalRead(butt[button]) == HIGH){
 //             Serial.println((String)"button " + button + " reporting for duty");
 //         }
 //   }
-   
+
+
 // }
 
 // void loop() {
 //   for (int controller = 0; controller < controllerNum; controller++){
 //      digitalWrite(cont[controller],LOW);
+//      // Allow the signal to settle before polling
+//      delayMicroseconds(5);
+
 //      for (int button = 0; button < buttonNum; button++){
 //         if(digitalRead(butt[button]) == LOW){
 //           Serial.println((String)"controller="+controller+" button="+button);
@@ -46,6 +52,4 @@
 //      }
 //      digitalWrite(cont[controller],HIGH);
 //   }
-
-//   delay(100);
 // }

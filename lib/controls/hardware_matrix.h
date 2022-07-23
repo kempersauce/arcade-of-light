@@ -64,6 +64,9 @@ class Matrix : public Context {
 
         // Keep track of the current channel
         active_pin_ = channel;
+
+        // Allow the signal to settle after switching channels
+        delayMicroseconds(5);
     }
   }
 };

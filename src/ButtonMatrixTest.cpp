@@ -77,7 +77,4 @@ void loop()
             }
         }
     }
-
-    // Delay for now - maybe reduce this or outright remove it
-    delay(5);
 }
