@@ -1,7 +1,7 @@
 #pragma once
 #include "display/display.h"  // for Display
-#include <Font.h>
-#include <Shapes.h>
+#include "engines/font.h"  // for Font
+#include "engines/shapes.h"  // for Shapes
 
 #include <string>
 

@@ -1,5 +1,5 @@
 #pragma once
-#include <NoiseGenerator.h>
+#include "engines/noise.h"  // for NoiseGenerator
 
 class Starscape : Animation {
   int brightnessThreshold;

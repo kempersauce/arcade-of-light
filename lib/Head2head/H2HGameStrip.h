@@ -4,7 +4,7 @@
 #include <H2HDot.h>
 #include <H2HZone.h>
 #include <KemperSerialTransmitter.h>
-#include <NoiseGenerator.h>
+#include "engines/noise.h"  // for NoiseGenerator
 
 #include "animation/explosion.h"  // for Explosion
 #include "controls/button.h"

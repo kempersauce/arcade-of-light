@@ -7,7 +7,7 @@
 #include <H2HGameStrip.h>
 #include <H2HZone.h>
 #include <LifeGame.h>
-#include <NoiseGenerator.h>
+#include "engines/noise.h"  // for NoiseGenerator
 #include <RainbowGame.h>
 
 #include "animation/electric_arc.h"             // for ElectricArc

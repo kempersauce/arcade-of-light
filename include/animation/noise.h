@@ -1,6 +1,6 @@
 #pragma once
 #include "display/display.h"  // for Display
-#include <NoiseGenerator.h>
+#include "engines/noise.h"  // for NoiseGenerator
 
 #include "animation/animation.h"  // for Animation
 

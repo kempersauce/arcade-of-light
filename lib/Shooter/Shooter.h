@@ -1,6 +1,6 @@
 #pragma once
 
-#include <PhysicsInfo.h>
+#include "engines/physics_info.h"  // for PhysicsInfo
 
 #include "animation/animation.h"  // for Animation
 

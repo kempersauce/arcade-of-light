@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <PhysicsInfo.h>
+#include "engines/physics_info.h"  // for PhysicsInfo
 #include <RocketBoost.h>
 
 #include "animation/animation.h"  // for Animation

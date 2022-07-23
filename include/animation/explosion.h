@@ -1,7 +1,7 @@
 #pragma once
 
 #include "display/display.h"  // for Display
-#include <PhysicsInfo.h>
+#include "engines/physics_info.h"  // for PhysicsInfo
 
 #include <vector>
 

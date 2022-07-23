@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <PhysicsInfo.h>
+#include "engines/physics_info.h"  // for PhysicsInfo
 
 #include <deque>
 
