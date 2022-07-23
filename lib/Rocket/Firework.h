@@ -1,4 +1,4 @@
-#include <RocketAudio.h>
+#include "audio/rocket_audio.h"  // for RocketAudio
 
 #include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion

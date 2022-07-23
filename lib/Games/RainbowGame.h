@@ -9,7 +9,7 @@ Where the magic happens
 #include <Game.h>
 
 #include "animation/hue_rainbow.h"
-//#include <AudioSender.h>
+//#include "audio/audio_sender.h"  // for AudioSender
 
 class RainbowGame : Game {
   HueRainbow background;

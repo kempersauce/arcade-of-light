@@ -5,7 +5,7 @@
 #include <SD.h>
 #include <SPI.h>
 #include <SerialFlash.h>
-#include <Sounds.h>
+#include "audio/sounds.h"  // for Sounds
 #include <Wire.h>
 
 #include <memory>  // For shared_ptr

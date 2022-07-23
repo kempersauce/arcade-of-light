@@ -9,7 +9,7 @@
 //#include <WavPlayer.h>
 #include <LifeGame.h>
 #include <SingleColorTest.h>
-//#include <Sounds.h>
+// #include "audio/sounds.h"  // for Sounds
 //#include <FireworkTest.h>
 #include <RainbowGame.h>
 #include <DirPadTest.h>

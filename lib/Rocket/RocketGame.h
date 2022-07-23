@@ -25,10 +25,10 @@
 #include <memory>  // For shared_ptr
 
 #include "controls/button.h"
-//#include <Sounds.h>
+//#include "audio/sounds.h"  // for Sounds
 #include <ExplosionsInTheSky.h>
 #include <LifeGame.h>
-#include <RocketAudio.h>
+#include "audio/rocket_audio.h"  // for RocketAudio
 
 #include <vector>
 

@@ -1,6 +1,7 @@
 #pragma once
-#include <AudioSender.h>
 #include <HardwareSerial.h>
+
+#include "audio/audio_sender.h"  // for AudioSender
 class RocketAudio : public AudioSender {
  public:
   // File names for single effects
