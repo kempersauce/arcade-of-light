@@ -27,7 +27,7 @@
 #include "controls/button.h"
 //#include "audio/sounds.h"  // for Sounds
 #include <ExplosionsInTheSky.h>
-#include <LifeGame.h>
+#include "games/life/life.h"  // for LifeGame
 #include "audio/rocket_audio.h"  // for RocketAudio
 
 #include <vector>

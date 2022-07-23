@@ -4,7 +4,7 @@
 // #include "display/display.h"  // for Display
 // #include "display/h2h.h"  // for H2HDisplay
 // #include "games/game.h"  // for Game
-// #include <GliderWars.h>
+// #include "games/life/glider_wars.h"  // for GliderWars
 // #include "controls/hardware/simple.h"
 // #include "games/head2head/controller.h"  // for H2HControl
 

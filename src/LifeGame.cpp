@@ -3,7 +3,7 @@
 // #include <FastLED.h>
 // #include "display/five.h"  // for FiveDisplay
 // #include "controls/dir_pad.h"
-// #include <LifeGameSinglePlayer.h>
+// #include "games/life/life_single_player.h"  // for LifeGameSinglePlayer
 // #include "games/game.h"  // for Game
 // #include "controls/hardware/simple.h"  // for kss::controls::hardware::Simple
 

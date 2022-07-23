@@ -2,7 +2,7 @@
 
 #include "display/display.h"  // for Display
 #include "games/game.h"  // for Game
-#include <LifeAnimation.h>
+#include "games/life/animation.h"  // for LifeAnimation
 
 #include <memory>  // For std::shared_ptr
 

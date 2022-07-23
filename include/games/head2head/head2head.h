@@ -6,7 +6,7 @@
 #include "games/head2head/dot.h"  // for H2HDot
 #include "games/head2head/game_strip.h"  // for H2HGameStrip
 #include "games/head2head/zone.h"  // for H2HZone
-#include <LifeGame.h>
+#include "games/life/life.h"  // for LifeGame
 #include "engines/noise.h"  // for NoiseGenerator
 #include "games/rainbow.h"  // for RainbowGame
 

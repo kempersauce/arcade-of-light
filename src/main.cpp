@@ -7,14 +7,14 @@
 #include "display/rocket.h"  // for RocketDisplay
 #include <RocketGame.h>
 //#include "games/wav_player.h"  // for WavPlayer
-#include <LifeGame.h>
+#include "games/life/life.h"  // for LifeGame
 #include <SingleColorTest.h>
 // #include "audio/sounds.h"  // for Sounds
 //#include <FireworkTest.h>
 #include "games/rainbow.h"  // for RainbowGame
 #include <DirPadTest.h>
 #include "games/marquee.h"  // for MarqueeGame
-#include <GliderWars.h>
+#include "games/life/glider_wars.h"  // for GliderWars
 #include <SerialTest.h>
 #include <FiveStripTest.h>
 #include <SnakeGame.h>
@@ -22,7 +22,7 @@
 #include "games/falling.h"  // for FallingGame
 #include "games/lane_runner/lane_runner.h"  // for LaneRunner
 #include <AnimationTest.h>
-#include <LifeGameSinglePLayer.h>
+#include "games/life/life_single_player.h"  // for LifeGameSinglePlayer
 
 uint32_t _lastFrameMillis{millis()};
 void printFrameRate()
