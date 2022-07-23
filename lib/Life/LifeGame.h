@@ -1,40 +1,35 @@
 #pragma once
 
-#include <LifeAnimation.h>
 #include <Game.h>
+#include <LifeAnimation.h>
 
-class LifeGame : Game
-{
-    // Animations
-    LifeAnimation* lifeGrid;
+class LifeGame : Game {
+  // Animations
+  LifeAnimation* lifeGrid;
 
-	int loopCount;
-	static const int resetThreshold = 300; // frames until reset
+  int loopCount;
+  static const int resetThreshold = 300;  // frames until reset
 
-public:
-    LifeGame(Display* display) : Game(display)
-    {
-        lifeGrid = new LifeAnimation(display->numStrips, display->lengthStrips);
+ public:
+  LifeGame(Display* display) : Game(display) {
+    lifeGrid = new LifeAnimation(display->numStrips, display->lengthStrips);
+  }
+
+  void setup() {
+    loopCount = 0;
+    // start off randomized
+    lifeGrid->randomize();
+  }
+
+  virtual void loop() {
+    if (loopCount++ >= resetThreshold) {
+      setup();
     }
 
-    void setup()
-    {
-		loopCount = 0;
-        // start off randomized
-        lifeGrid->randomize();
-    }
+    // Calculate next round
+    lifeGrid->GoOneRound();
 
-    virtual void loop()
-    {
-		if (loopCount++ >= resetThreshold)
-		{
-			setup();
-		}
-
-        // Calculate next round
-        lifeGrid->GoOneRound();
-
-        // Draw to display
-        lifeGrid->draw(display);
-    }
+    // Draw to display
+    lifeGrid->draw(display);
+  }
 };

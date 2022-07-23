@@ -1,141 +1,116 @@
 
 #pragma once
 
+#include <PhysicsInfo.h>
 #include <SingleColorBG.h>
 #include <dir_pad.h>
-#include <PhysicsInfo.h>
+
 #include <deque>
 
 using namespace std;
 
-class LaneRunnerGame : Game
-{
-	DirPad controls;
-	PhysicsInfo player;
-	SingleColorBG background;
+class LaneRunnerGame : Game {
+  DirPad controls;
+  PhysicsInfo player;
+  SingleColorBG background;
 
-	deque<int> dots;
+  deque<int> dots;
 
-public:
-    LaneRunnerGame(Display* gameDisplay, DirPad controls)
-		: Game(gameDisplay),
-		controls{std::move(controls)},
-		background(0, 0, 0),
-		dots()
-    {
+ public:
+  LaneRunnerGame(Display* gameDisplay, DirPad controls)
+      : Game(gameDisplay),
+        controls{std::move(controls)},
+        background(0, 0, 0),
+        dots() {}
+
+  virtual void setup() {
+    player.xLocation = display->numStrips / 2;
+    player.Location = display->lengthStrips * 2 / 3;
+
+    // seed walls with initial stuff
+    dots.clear();
+    while (dots.size() < display->lengthStrips - 1) {
+      dots.push_front(-1);
+    }
+  }
+
+  void addDots() {
+    bool anyDots = false;
+    for (int i = 0; i < 10; i++) {
+      if (dots[i] >= 0) {
+        anyDots = true;
+        break;
+      }
     }
 
-    virtual void setup()
-	{
-		player.xLocation = display->numStrips / 2;
-		player.Location = display->lengthStrips * 2 / 3;
+    dots.pop_back();
+    if (anyDots) {
+      dots.push_front(-1);
+    } else {
+      int lane = random16() / (UINT16_MAX / 3);
+      switch (lane) {
+        case 0:
+          // nothing we'll keep this at 0
+          lane = 0;
+          break;
 
-		// seed walls with initial stuff
-		dots.clear();
-		while (dots.size() < display->lengthStrips - 1)
-		{
-			dots.push_front(-1);
-		}
-	}
+        case 1:
+          lane = display->numStrips / 2;
+          break;
 
-	void addDots()
-	{
-		bool anyDots = false;
-		for (int i = 0; i < 10; i++)
-		{
-			if (dots[i] >= 0)
-			{
-				anyDots = true;
-				break;
-			}
-		}
+        case 2:
+          lane = display->numStrips - 1;
+          break;
 
-		dots.pop_back();
-		if (anyDots)
-		{
-			dots.push_front(-1);
-		}
-		else
-		{
-			int lane = random16() / (UINT16_MAX / 3);
-			switch (lane)
-			{
-				case 0:
-					// nothing we'll keep this at 0
-					lane = 0;
-				break;
+        default:
+          lane = 1;
+          break;
+      }
 
-				case 1:
-					lane = display->numStrips / 2;
-				break;
+      dots.push_front(lane);
+    }
+  }
 
-				case 2:
-					lane = display->numStrips - 1;
-				break;
+  virtual void loop() {
+    if (controls.up->IsPressed()) {
+      player.Velocity = 20;
+    } else if (controls.down->IsPressed()) {
+      player.Velocity = -20;
+    } else {
+      player.Velocity = 0;
+    }
 
-				default:
-					lane = 1;
-				break;
-			}
+    if (controls.left->IsPressed()) {
+      player.xLocation = 0;
+    } else if (controls.right->IsPressed()) {
+      player.xLocation = display->numStrips - 1;
+    } else {
+      player.xLocation = display->numStrips / 2;
+    }
 
-			dots.push_front(lane);
-		}
-	}
+    player.Move();
+    if (player.Location < 0)
+      player.Location = 0;
+    else if (player.Location >= display->lengthStrips)
+      player.Location = display->lengthStrips - 1;
 
-    virtual void loop()
-	{
-		if (controls.up->IsPressed())
-		{
-			player.Velocity = 20;
-		}
-		else if (controls.down->IsPressed())
-		{
-			player.Velocity = -20;
-		}
-		else
-		{
-			player.Velocity = 0;
-		}
+    addDots();
 
-		if (controls.left->IsPressed())
-		{
-			player.xLocation = 0;
-		}
-		else if (controls.right->IsPressed())
-		{
-			player.xLocation = display->numStrips - 1;
-		}
-		else
-		{
-			player.xLocation = display->numStrips / 2;
-		}
+    if ((int)player.xLocation == dots[(int)player.Location]) {
+      dots[(int)player.Location] = -1;
+    }
 
-		player.Move();
-		if (player.Location < 0)
-			player.Location = 0;
-		else if (player.Location >= display->lengthStrips)
-			player.Location = display->lengthStrips - 1;
+    background.draw(display);
 
-		addDots();
+    // draw the dots
+    for (int y = 0; y < display->lengthStrips; y++) {
+      int lane = dots[y];
+      if (lane >= 0) {
+        display->strips[lane][y] = CRGB::Magenta;
+      }
+    }
 
-		if ((int)player.xLocation == dots[(int)player.Location])
-		{
-			dots[(int)player.Location] = -1;
-		}
-
-		background.draw(display);
-
-		// draw the dots
-		for (int y = 0; y < display->lengthStrips; y++)
-		{
-			int lane = dots[y];
-			if (lane >= 0)
-			{
-				display->strips[lane][y] = CRGB::Magenta;
-			}
-		}
-
-		// draw player
-		display->strips[(int)player.xLocation][(int)player.Location] = CRGB::Green;
-	}
+    // draw player
+    display->strips[(int)player.xLocation][(int)player.Location] = CRGB::Green;
+  }
 };

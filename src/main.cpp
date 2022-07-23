@@ -37,7 +37,6 @@
 // 	Serial.println("ms)");
 // }
 
-
 // Game* game;
 // Display* gameDisplay;
 
@@ -80,7 +79,6 @@
 // 	//game = (Game*)new LaneRunnerGame(gameDisplay);
 // 	//game = (Game*)new LifeGameSinglePlayer(gameDisplay);
 
-
 // 	// Test Games
 // 	//game = (Game*)new DirPadTest(gameDisplay);
 // 	//game = (Game*)new FiveStripTest(gameDisplay);
@@ -106,7 +104,7 @@
 // 	//FastLED.show();
 
 // 	Serial.println("End setup()");
-    
+
 //     pinMode(9, OUTPUT);
 // 	FastLED.show();
 // }
@@ -123,7 +121,6 @@
 //     //Serial.println("loop() entered");
 //     game->loop();
 //     FastLED.show();
-
 
 //     //Serial.println("loops brother");
 //     //delay(10);

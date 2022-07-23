@@ -7,16 +7,12 @@ Where the magic happens
 
 #include <Animation.h>
 
-class Game
-{
-public:
-    Display* display;
+class Game {
+ public:
+  Display* display;
 
-    Game(Display* gameDisplay)
-    {
-        display = gameDisplay;
-    }
+  Game(Display* gameDisplay) { display = gameDisplay; }
 
-    virtual void setup();
-    virtual void loop();
+  virtual void setup();
+  virtual void loop();
 };

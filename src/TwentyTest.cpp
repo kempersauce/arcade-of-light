@@ -6,7 +6,6 @@
 // #include <Game.h>
 // #include <NoiseGame.h>
 
-
 // Game* game;
 // Display* gameDisplay;
 

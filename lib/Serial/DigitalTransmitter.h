@@ -1,22 +1,16 @@
 #pragma once
 
-#include <string>
 #include <queue>
+#include <string>
 
-class DigitalTransmitter
-{
-public:
-	int pin;
+class DigitalTransmitter {
+ public:
+  int pin;
 
-	DigitalTransmitter(int pinNo = 13)
-	{
-		pin = pinNo;
-		pinMode(pin,OUTPUT);
-	}
+  DigitalTransmitter(int pinNo = 13) {
+    pin = pinNo;
+    pinMode(pin, OUTPUT);
+  }
 
-
-    void sendHigh()
-    {
-		digitalWrite(led, HIGH); 
-    }
+  void sendHigh() { digitalWrite(led, HIGH); }
 };

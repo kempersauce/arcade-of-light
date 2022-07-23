@@ -7,7 +7,6 @@
 // #include <Game.h>
 // #include <hardware_simple.h>  // for kss::controls::hardware::Simple
 
-
 // Game* game;
 // Display* gameDisplay;
 // kss::controls::hardware::Simple controls;

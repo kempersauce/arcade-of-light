@@ -9,11 +9,8 @@
 // #include <string>
 // #include <iostream>
 
-
-
 // // Use these with the Teensy Audio Shield
 // //This uses the audio shield's card reader
-
 
 // AudioPlaySdWav           playSdWav1;
 // AudioPlaySdWav           playSdWav2;
@@ -144,8 +141,8 @@
 // 			playSdWav1.play(fileName);
 // 			// Serial.println("CHANNEL: " + (String)i);
 // 			// Serial.println("FILE:    " + (String)fileName);
-// 			// Serial.println("========================================");
-// 		break;
+// 			//
+// Serial.println("========================================"); 		break;
 
 // 		case 2:
 // 			playSdWav2.play(fileName);
@@ -180,14 +177,14 @@
 // 		{
 // 			backgroundIsPlaying = false;
 // 			//hasNewBackGround = true;
-// 			Serial.println("BG checkWait: " + (String)backgroundCheckWait);
-// 			Serial.println("BG Elapsed:   " + (String)timeElapsed);
-// 			Serial.println("BG isPlaying: " + (String)backgroundIsPlaying);
+// 			Serial.println("BG checkWait: " +
+// (String)backgroundCheckWait); 			Serial.println("BG Elapsed:   " +
+// (String)timeElapsed); 			Serial.println("BG isPlaying: " +
+// (String)backgroundIsPlaying);
 // 			Serial.println("===============================");
 // 		}
 // 	}
 // }
-
 
 // void playBG()
 // {
@@ -205,7 +202,6 @@
 // 		backgroundTimeCheck();
 // 	}
 // }
-
 
 // void setBG(char* fileName)
 // {
@@ -229,7 +225,7 @@
 // 	// {
 // 	// 	startChannel(2, fileName);
 // 	// }
-// 	// else 
+// 	// else
 // 	if(!playSdWav3.isPlaying())
 // 	{
 // 		startChannel(3, fileName);
@@ -243,7 +239,7 @@
 // 		startChannel(3, fileName);
 // 		Serial.println("OVERWRITE==OVERWRITE==OVERWRITE");
 // 	}
-	
+
 // }
 // //=============================================================================//
 // //SETUP AND LOOP
@@ -263,7 +259,7 @@
 // 			delay(500);
 // 		}
 // 	}
-    
+
 //     mixMaster.gain(0, 0.5);
 //     mixMaster.gain(1, 0.5);
 //     mixer1.gain(0,mixerGain);
@@ -282,8 +278,6 @@
 //     bgMixer.gain(1,mixerGain);
 //     bgMixer.gain(2,mixerGain);
 //     bgMixer.gain(3,mixerGain);
-
-
 
 // 	playWav("FUEL100.WAV");
 // 	delay(50);

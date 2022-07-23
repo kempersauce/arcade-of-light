@@ -9,9 +9,8 @@
 // class FireworkGame : Game
 // {
 //     // Backgrounds
-//     Starscape* starBackground; // just drawing black empty space for now. we are alone in the universe
-//     SkyFade* skyFade;
-
+//     Starscape* starBackground; // just drawing black empty space for now. we
+//     are alone in the universe SkyFade* skyFade;
 
 //     FancyFirework firework[NUM_FIREWORKS]; // win animation fireworks
 
@@ -19,8 +18,9 @@
 //     FireworkGame(Display* display)
 //         : Game(display)
 //     {
-//         starBackground = new Starscape(display->numStrips, display->lengthStrips, 175);
-//         skyFade = new SkyFade(new CRGB(0, 0, 255));
+//         starBackground = new Starscape(display->numStrips,
+//         display->lengthStrips, 175); skyFade = new SkyFade(new CRGB(0, 0,
+//         255));
 //     }
 
 //     void setup()

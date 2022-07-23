@@ -8,24 +8,15 @@ Where the magic happens
 #include <Game.h>
 #include <Noise.h>
 
-class NoiseGame : Game
-{
-	NoiseAnimation background;
+class NoiseGame : Game {
+  NoiseAnimation background;
 
-public:
+ public:
+  NoiseGame(Display* gameDisplay)
+      : Game{gameDisplay},
+        background{gameDisplay->numStrips, gameDisplay->lengthStrips} {}
 
-    NoiseGame(Display* gameDisplay)
-        : Game{gameDisplay},
-		background{gameDisplay->numStrips, gameDisplay->lengthStrips}
-    {
-    }
+  void setup() {}
 
-    void setup()
-    {
-    }
-
-    void loop()
-    {
-        background.draw(display);
-    }
+  void loop() { background.draw(display); }
 };

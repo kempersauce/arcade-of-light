@@ -8,7 +8,6 @@
 // #include <hardware_simple.h>
 // #include <H2HControl.h>
 
-
 // Game* game;
 // Display* gameDisplay;
 // kss::controls::hardware::Simple controls;

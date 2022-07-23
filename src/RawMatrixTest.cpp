@@ -24,7 +24,7 @@
 //   //pinMode(13, INPUT);
 
 //   Serial.begin(9600);
-  
+
 //     digitalWrite(cont[0],LOW);
 //     digitalWrite(cont[1],HIGH);
 //     digitalWrite(cont[2],HIGH);
@@ -32,10 +32,10 @@
 
 //   for (int button = 0; button < buttonNum; button++){
 //         if(digitalRead(butt[button]) == HIGH){
-//             Serial.println((String)"button " + button + " reporting for duty");
+//             Serial.println((String)"button " + button + " reporting for
+//             duty");
 //         }
 //   }
-
 
 // }
 

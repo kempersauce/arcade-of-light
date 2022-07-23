@@ -4,7 +4,7 @@ Pin numbers for teensy setup
 
 #pragma once
 
-//LED STRIPS
+// LED STRIPS
 #define LED_PIN_0 18
 #define LED_PIN_1 19
 #define LED_PIN_2 20
@@ -30,14 +30,13 @@ Pin numbers for teensy setup
 #define LED_PIN_18 36
 #define LED_PIN_19 37
 
-//Controller pins
+// Controller pins
 #define CONTROLLER_PIN_0 2
 #define CONTROLLER_PIN_1 3
 #define CONTROLLER_PIN_2 4
 #define CONTROLLER_PIN_3 7
 
-
-//BUTTONS
+// BUTTONS
 #define BUTTON_PIN_0 8
 #define BUTTON_PIN_1 9
 #define BUTTON_PIN_2 10
@@ -46,17 +45,16 @@ Pin numbers for teensy setup
 #define BUTTON_PIN_5 13
 //#define BUTTON_PIN_6 30
 
-//UP IS RIGHT 3
-//Down IS LEFT 4
-//LEFT is UP 2
-//RIGHT IS DOWN 5
-
+// UP IS RIGHT 3
+// Down IS LEFT 4
+// LEFT is UP 2
+// RIGHT IS DOWN 5
 
 /*
   H2H Pin numbers
 */
 
-//LED STRIPS
+// LED STRIPS
 #define H2H_LED_PIN_0 20
 #define H2H_LED_PIN_1 17
 #define H2H_LED_PIN_2 16
@@ -66,7 +64,7 @@ Pin numbers for teensy setup
 #define H2H_LED_PIN_6 36
 #define H2H_LED_PIN_7 35
 
-//BUTTONS
+// BUTTONS
 
 // Old button pins on the test bed
 // #define H2H_BUTTON_PIN_0 2
@@ -96,7 +94,6 @@ Pin numbers for teensy setup
 #define H2H_BUTTON_PIN_6 25
 #define H2H_BUTTON_PIN_7 26
 
-
 #define H2H_BUTTON_PIN_8 27
 #define H2H_BUTTON_PIN_9 28
 #define H2H_BUTTON_PIN_10 29
@@ -106,6 +103,6 @@ Pin numbers for teensy setup
 #define H2H_BUTTON_PIN_14 33
 #define H2H_BUTTON_PIN_15 34
 
-//AUDIO
-//We dont have an audio volume pin....
+// AUDIO
+// We dont have an audio volume pin....
 #define AUDIO_VOLUME_PIN 13

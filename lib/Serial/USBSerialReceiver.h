@@ -40,8 +40,9 @@
 //         {
 //             digitalWrite(led, HIGH);
 //             rc = Serial.read();
-//             //Serial.println(rc);//<--prints raw input stream to serial interface, use for bugtesting
-            
+//             //Serial.println(rc);//<--prints raw input stream to serial
+//             interface, use for bugtesting
+
 //             if (recvInProgress == true)
 //             {
 //                 if (rc != endMarker)

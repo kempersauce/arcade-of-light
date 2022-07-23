@@ -34,7 +34,7 @@
 //         display->strips[3][i] = CRGB::Yellow;
 //         display->strips[4][i] = CRGB::Violet;
 //     }
-    
+
 // 	for (int i = 0; i < buttons.size(); i++)
 // 	{
 // 		buttons[i].poll();

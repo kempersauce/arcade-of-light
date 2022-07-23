@@ -8,8 +8,7 @@ Make the lights pretty
 
 #include <Display.h>
 
-class Animation
-{
-public:
-    virtual void draw(Display* display);
+class Animation {
+ public:
+  virtual void draw(Display* display);
 };
