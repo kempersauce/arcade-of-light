@@ -1,12 +1,13 @@
 
 #pragma once
 
-#include <Shooter.h>
-
+#include "games/shooter/shooter.h"  // for Shooter
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "controls/dir_pad.h"
+#include "games/game.h"  // for Game
+#include "games/rocket/firework.h"  // for Firework
+#include "controls/dir_pad.h"  // for DirPad
 
-class ShooterGame : Game {
+class ShooterGame : public Game {
   kss::controls::DirPad controls;
   Shooter shooter;
   Firework bullet;

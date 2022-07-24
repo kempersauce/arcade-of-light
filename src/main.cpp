@@ -18,7 +18,7 @@
 #include <SerialTest.h>
 #include <FiveStripTest.h>
 #include <SnakeGame.h>
-// #include <ShooterGame.h>
+// #include "games/shooter/shooter_game.h"  // for ShooterGame
 #include "games/falling.h"  // for FallingGame
 #include "games/lane_runner/lane_runner.h"  // for LaneRunner
 #include <AnimationTest.h>
