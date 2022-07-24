@@ -1,5 +1,5 @@
 #include "games/game.h"  // for Game
-#include <KemperSerialReceiver.h>
+#include "serial/receiver.h"  // for Receiver
 
 #include "animation/single_color_background.h"  // for SingleColorBG
 
