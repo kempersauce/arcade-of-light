@@ -4,7 +4,7 @@
 #pragma once
 
 #include "engines/physics_info.h"  // for PhysicsInfo
-#include <RocketBoost.h>
+#include "games/rocket/rocket_boost.h"  // for RocketBoost
 
 #include "animation/animation.h"  // for Animation
 

@@ -5,7 +5,7 @@
 #include "display/five.h"  // for FiveDisplay
 #include "games/head2head/head2head.h"  // for Head2Head
 #include "display/rocket.h"  // for RocketDisplay
-#include <RocketGame.h>
+#include "games/rocket/rocket_game.h"  // for RocketGame
 //#include "games/wav_player.h"  // for WavPlayer
 #include "games/life/life.h"  // for LifeGame
 #include <SingleColorTest.h>

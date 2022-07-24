@@ -3,8 +3,8 @@
 // #include <FancyFirework.h>
 // #include "games/game.h"  // for Game
 // #include "display/display.h"  // for Display
-// #include <Starscape.h>
-// #include <SkyFade.h>
+// #include "games/rocket/starscape.h"  // for Starscape
+// #include "games/rocket/sky_fade.h"  // for SkyFade
 
 // class FireworkGame : Game
 // {

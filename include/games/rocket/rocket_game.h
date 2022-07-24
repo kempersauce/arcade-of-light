@@ -15,18 +15,18 @@
 #define BRIGHTNESS 50
 
 #include "display/display.h"  // for Display
-#include <Firework.h>
+#include "games/rocket/firework.h"  // for Firework
 #include "games/game.h"  // for Game
-#include <Rocket.h>
-#include <SkyFade.h>
-#include <Starscape.h>
-#include <Target.h>
+#include "games/rocket/rocket.h"  // for Rocket
+#include "games/rocket/sky_fade.h"  // for SkyFade
+#include "games/rocket/starscape.h"  // for Starscape
+#include "games/rocket/target.h"  // for Target
 
 #include <memory>  // For shared_ptr
 
 #include "controls/button.h"
 //#include "audio/sounds.h"  // for Sounds
-#include <ExplosionsInTheSky.h>
+#include "games/rocket/explosions_in_the_sky.h"  // for ExplosionsInTheSky
 #include "games/life/life.h"  // for LifeGame
 #include "audio/rocket_audio.h"  // for RocketAudio
 
