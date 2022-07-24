@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Snake.h>
+#include "games/snake/snake.h"  // for Snake
 
 class SnakeGame : Game {
   kss::controls::DirPad controls;
