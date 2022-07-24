@@ -1,7 +1,7 @@
 // #include <Arduino.h>
 // #include "controls/button.h"
 // #include <vector>
-// #include <FiveStripTest.h>
+// #include "test/five_strip.h"  // for FiveStripTest
 // #include "display/five.h"  // for FiveDisplay
 
 // using namespace std;

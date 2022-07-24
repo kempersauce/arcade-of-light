@@ -8,20 +8,20 @@
 #include "games/rocket/rocket_game.h"  // for RocketGame
 //#include "games/wav_player.h"  // for WavPlayer
 #include "games/life/life.h"  // for LifeGame
-#include <SingleColorTest.h>
+#include "test/single_color.h"  // for SingleColorTest
 // #include "audio/sounds.h"  // for Sounds
-//#include <FireworkTest.h>
+//#include "test/firework.h"  // for FireworkTest
 #include "games/rainbow.h"  // for RainbowGame
-#include <DirPadTest.h>
+#include "test/dir_pad.h"  // for DirPadTest
 #include "games/marquee.h"  // for MarqueeGame
 #include "games/life/glider_wars.h"  // for GliderWars
-#include <SerialTest.h>
-#include <FiveStripTest.h>
+#include "test/serial.h"  // for SerialTest
+#include "test/five_strip.h"  // for FiveStripTest
 #include "games/snake/snake_game.h"  // for SnakeGame
 // #include "games/shooter/shooter_game.h"  // for ShooterGame
 #include "games/falling.h"  // for FallingGame
 #include "games/lane_runner/lane_runner.h"  // for LaneRunner
-#include <AnimationTest.h>
+#include "test/animation.h"  // for AnimationTest
 #include "games/life/life_single_player.h"  // for LifeGameSinglePlayer
 
 uint32_t _lastFrameMillis{millis()};
