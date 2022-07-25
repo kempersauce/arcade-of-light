@@ -2,7 +2,7 @@
 
 #include "animation/animation.h"  // for Animation
 #include "audio/rocket_audio.h"   // for RocketAudio
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for kss::display::Display
 
 class ExplosionsInTheSky : public kss::animation::Animation {
   long timeStart = 0;
@@ -19,7 +19,7 @@ class ExplosionsInTheSky : public kss::animation::Animation {
 
   bool isPlaying() { return timeStart != 0; }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     long timeDiff = millis() - timeStart;
 
     // Draw explosion accross all strips

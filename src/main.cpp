@@ -34,7 +34,7 @@ void printFrameRate() {
 }
 
 Game* game;
-Display* gameDisplay;
+kss::display::Display* gameDisplay;
 
 void setup() {
   // FastLED.setBrightness(100);
@@ -46,9 +46,9 @@ void setup() {
   Serial.println("Begin setup()");
 
   // Choose your Display type
-  // gameDisplay = (Display*)new FiveDisplay();
-  gameDisplay = (Display*)new H2HDisplay();
-  // gameDisplay = (Display*)new RocketDisplay();
+  // gameDisplay = (kss::display::Display*)new kss::display::FiveDisplay();
+  gameDisplay = (kss::display::Display*)new kss::display::H2HDisplay();
+  // gameDisplay = (kss::display::Display*)new kss::display::RocketDisplay();
 
   Serial.println("gameDisplay created");
 

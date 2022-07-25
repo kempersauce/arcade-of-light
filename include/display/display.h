@@ -1,11 +1,14 @@
+#pragma once
+
+#include <Constants.h>
+
 /*
 Display Class
 holds the strips
 */
 
-#pragma once
-
-#include <Constants.h>
+namespace kss {
+namespace display {
 
 class Display {
  public:
@@ -45,3 +48,6 @@ class Display {
     blendPixel(stripIndex, yInt + 1, color, dither * blendFactor);
   }
 };
+
+}  // namespace display
+}  // namespace kss

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for display::Display
 
 namespace kss {
 namespace animation {
@@ -26,7 +26,7 @@ class SingleColorBG : public Animation {
     blue = blueColor;
   }
 
-  void draw(Display* display) {
+  void draw(display::Display* display) {
     for (int i = 0; i < display->lengthStrips; i++) {
       for (int j = 0; j < display->numStrips; j++) {
         display->strips[j][i].setRGB(red, green, blue);

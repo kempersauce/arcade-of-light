@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for display::Display
 
 namespace kss {
 namespace animation {
@@ -62,7 +62,7 @@ class Charge : Animation {
     }
   }
 
-  void draw(Display* display) {
+  void draw(display::Display* display) {
     if (yStart < yMax) {
       for (int i = yStart; i < yLoc; i++) {
         display->strips[xLoc][i] = CHSV(Hue, Saturation, Brightness);

@@ -4,7 +4,7 @@
 #pragma once
 
 #include "animation/animation.h"        // for Animation
-#include "display/display.h"            // for Display
+#include "display/display.h"            // for kss::display::Display
 #include "engines/physics_info.h"       // for PhysicsInfo
 #include "games/rocket/rocket_boost.h"  // for RocketBoost
 
@@ -64,7 +64,7 @@ class Rocket : public kss::animation::Animation {
     boost.boostFactor = physics.Thrust / physics.ThrustMax;
   }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     // Draw the rocket ship
     int middleStrip = display->numStrips / 2;
     for (int i = max(ceil(physics.Location), 0);

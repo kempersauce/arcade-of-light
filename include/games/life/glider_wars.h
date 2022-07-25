@@ -3,7 +3,7 @@
 #include <memory>  // For std::shared_ptr
 
 #include "controls/button.h"
-#include "display/display.h"       // for Display
+#include "display/display.h"       // for kss::display::Display
 #include "games/game.h"            // for Game
 #include "games/life/animation.h"  // for LifeAnimation
 
@@ -19,7 +19,7 @@ class GliderWarsGame : public Game {
   LifeAnimation* lifeGrid;
 
  public:
-  GliderWarsGame(Display* display,
+  GliderWarsGame(kss::display::Display* display,
                  std::shared_ptr<kss::controls::Button> randomize_1,
                  std::shared_ptr<kss::controls::Button> randomize_2,
                  std::shared_ptr<kss::controls::Button> glider_1,

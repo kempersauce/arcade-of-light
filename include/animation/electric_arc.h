@@ -4,12 +4,12 @@
 #include <vector>
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for display::Display
 
 namespace kss {
 namespace animation {
 
-class ElectricArc : Animation {
+class ElectricArc : public Animation {
   std::vector<int> arc;
   CRGB color = CRGB::Purple;
 
@@ -17,7 +17,7 @@ class ElectricArc : Animation {
   int yLocation;
   float magnitude = 2.0;
 
-  virtual void draw(Display* display) {
+  virtual void draw(display::Display* display) {
     do {
       arc.clear();
       int y = yLocation;

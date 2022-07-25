@@ -1,5 +1,5 @@
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for kss::display::Display
 #include "engines/noise.h"        // for NoiseGenerator
 
 class RocketBoost : public kss::animation::Animation {
@@ -20,7 +20,7 @@ class RocketBoost : public kss::animation::Animation {
   }
 
   // override rainbow draw function
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     noiseGenerator->fillnoise8();
 
     // normalize boostFactor to 0-1 range

@@ -17,7 +17,7 @@
 #include <memory>  // For shared_ptr
 
 #include "controls/button.h"
-#include "display/display.h"         // for Display
+#include "display/display.h"         // for kss::display::Display
 #include "games/game.h"              // for Game
 #include "games/rocket/firework.h"   // for Firework
 #include "games/rocket/rocket.h"     // for Rocket
@@ -118,7 +118,7 @@ class RocketGame : Game {
   const long idleTimeoutMillis = 1000 * 30;  // 30 seconds
 
  public:
-  RocketGame(Display* display, std::shared_ptr<kss::controls::Button> up,
+  RocketGame(kss::display::Display* display, std::shared_ptr<kss::controls::Button> up,
              std::shared_ptr<kss::controls::Button> reset)
       : Game(display),
         up_btn{std::move(up)},

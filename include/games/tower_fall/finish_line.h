@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h" // for Display
+#include "display/display.h" // for kss::display::Display
 
 class FinishLine : public kss::animation::Animation {
  public:
@@ -11,5 +11,5 @@ class FinishLine : public kss::animation::Animation {
   // Constructor
   Target(int loc) : Animation() { Loc = loc; }
 
-  void draw(Display* display) {}
+  void draw(kss::display::Display* display) {}
 };

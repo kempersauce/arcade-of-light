@@ -16,7 +16,7 @@ class AnimationTest : Game {
   int BoundaryBase = 80;
   int BoundaryHeight = 10;
 
-  AnimationTest(Display* gameDisplay) : Game(gameDisplay) {}
+  AnimationTest(kss::display::Display* gameDisplay) : Game(gameDisplay) {}
 
   void setup() {
     flicker =

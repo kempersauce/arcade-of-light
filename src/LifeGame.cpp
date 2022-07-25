@@ -8,12 +8,12 @@
 // #include "controls/hardware/simple.h"  // for kss::controls::hardware::Simple
 
 // Game* game;
-// Display* gameDisplay;
+// kss::display::Display* gameDisplay;
 // kss::controls::hardware::Simple controls;
 
 // void setup()
 // {
-//     gameDisplay = (Display*)new FiveDisplay();
+//     gameDisplay = (kss::display::Display*)new FiveDisplay();
 
 //     kss::controls::DirPad dirPad{
 //         controls.CreateButton(BUTTON_PIN_4),

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for display::Display
 
 namespace kss {
 namespace animation {
@@ -43,7 +43,7 @@ class HueRainbow : public Animation {
     Max = max;
   }
   // Taste the rainbow
-  void draw(Display* display) {
+  void draw(display::Display* display) {
     for (int i = 0; i < display->numStrips; i++) {
       int Hue = HueStart + (i * ShiftSpeed);
       for (int j = 0; j < display->lengthStrips; j++) {

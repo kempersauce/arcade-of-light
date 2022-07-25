@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for kss::display::Display
 
 class H2HZone : public kss::animation::Animation {
  public:
@@ -40,7 +40,7 @@ class H2HZone : public kss::animation::Animation {
     }
   }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     display->strips[xLoc][yMin] = CRGB::White;
     display->strips[xLoc][yMax] = CRGB::White;
   }

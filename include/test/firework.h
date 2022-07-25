@@ -2,7 +2,7 @@
 
 // #include <FancyFirework.h>
 // #include "games/game.h"  // for Game
-// #include "display/display.h"  // for Display
+// #include "display/display.h"  // for kss::display::Display
 // #include "games/rocket/starscape.h"  // for Starscape
 // #include "games/rocket/sky_fade.h"  // for SkyFade
 
@@ -15,7 +15,7 @@
 //     FancyFirework firework[NUM_FIREWORKS]; // win animation fireworks
 
 // public:
-//     FireworkGame(Display* display)
+//     FireworkGame(kss::display::Display* display)
 //         : Game(display)
 //     {
 //         starBackground = new Starscape(display->numStrips,

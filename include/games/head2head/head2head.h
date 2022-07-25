@@ -47,7 +47,7 @@ class Head2Head : Game {
  public:
   H2HGameStrip** gameStrips;  // one for each strip
 
-  Head2Head(Display* gameDisplay, H2HControl teamA, H2HControl teamB)
+  Head2Head(kss::display::Display* gameDisplay, H2HControl teamA, H2HControl teamB)
       : Game(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},

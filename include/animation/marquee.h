@@ -3,7 +3,7 @@
 #include <string>
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for display::Display
 #include "engines/font.h"         // for Font
 #include "engines/shapes.h"       // for Shapes
 
@@ -72,7 +72,7 @@ class Marquee : public Animation {
   }
 
   // Need to add spaces somehow
-  void draw(Display* display) {
+  void draw(display::Display* display) {
     // for (int i = 0; i < display->numStrips; i++)
     //   {
     //     for (int j = YLocation; j < display->lengthStrips; j++)
@@ -130,7 +130,7 @@ class Marquee : public Animation {
     // LetterK, beatsin8(45), 255, 255);
   }
 
-  void drawString(const string& text, Display* display) {
+  void drawString(const string& text, display::Display* display) {
     int spacer = 10 * text.length();  // measure the words out
     for (int i = 0; i < text.length(); i++) {
       int(*letter)[8][4];
@@ -291,7 +291,7 @@ class Marquee : public Animation {
   }
 
   void drawLetter(int lowerLeftX, int lowerLeftY, int orientation,
-                  Display* display, int letter[8][4], int hue, int sat,
+                  display::Display* display, int letter[8][4], int hue, int sat,
                   int bright) {
     for (int j = 0; j < LetterHeight; j++) {
       for (int k = 0; k < LetterWidth; k++) {

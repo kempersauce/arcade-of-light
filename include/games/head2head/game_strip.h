@@ -280,7 +280,7 @@ class H2HGameStrip : public kss::animation::Animation {
     }
   }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     switch (stripState) {
       case H2HStripPlaying:
         drawBackgrounds(display);
@@ -341,7 +341,7 @@ class H2HGameStrip : public kss::animation::Animation {
     }
   }
 
-  void drawBackgrounds(Display* display) {
+  void drawBackgrounds(kss::display::Display* display) {
     // Team A background
     drawBackgroundA(display);
 
@@ -349,30 +349,30 @@ class H2HGameStrip : public kss::animation::Animation {
     drawBackgroundB(display);
   }
 
-  void drawBackgroundA(Display* display) {
+  void drawBackgroundA(kss::display::Display* display) {
     for (int y = 0; y < min(midBar, display->lengthStrips); y++) {
       display->strips[stripIndex][y].setHSV(
           zoneAHue, 255, noiseGenerator->noise[stripIndex][y]);  // blue team
     }
   }
 
-  void drawBackgroundB(Display* display) {
+  void drawBackgroundB(kss::display::Display* display) {
     for (int y = max(midBar, 0); y < heightMax; y++) {
       display->strips[stripIndex][y].setHSV(
           zoneBHue, 255, noiseGenerator->noise[stripIndex][y]);  // red team
     }
   }
 
-  void drawZones(Display* display) {
+  void drawZones(kss::display::Display* display) {
     zoneA.draw(display);
     zoneB.draw(display);
   }
 
-  void drawMidBar(Display* display) {
+  void drawMidBar(kss::display::Display* display) {
     // display->strips[stripIndex][midBar] = CRGB::White;
   }
 
-  void drawWinA(Display* display) {
+  void drawWinA(kss::display::Display* display) {
     CRGB teamAColor;
     teamAColor.setHSV(zoneAHue, 255, 255);
     long timeDiff =
@@ -388,7 +388,7 @@ class H2HGameStrip : public kss::animation::Animation {
     }
   }
 
-  void drawWinB(Display* display) {
+  void drawWinB(kss::display::Display* display) {
     CRGB teamBColor;
     teamBColor.setHSV(zoneBHue, 255, 255);
     long timeDiff =

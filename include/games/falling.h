@@ -18,7 +18,7 @@ class FallingGame : public Game {
   deque<pair<int, int>> walls;
 
  public:
-  FallingGame(Display* gameDisplay, kss::controls::DirPad controls)
+  FallingGame(kss::display::Display* gameDisplay, kss::controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
         player(),

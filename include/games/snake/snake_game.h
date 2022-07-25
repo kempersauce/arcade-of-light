@@ -11,7 +11,7 @@ class SnakeGame : Game {
   kss::animation::SingleColorBG background;
 
  public:
-  SnakeGame(Display* gameDisplay, kss::controls::DirPad controls)
+  SnakeGame(kss::display::Display* gameDisplay, kss::controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
         snake(gameDisplay->numStrips, gameDisplay->lengthStrips),

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for Display
+#include "display/display.h"  // for kss::display::Display
 
 class Platform : public kss::animation::Animation {
  public:
@@ -17,7 +17,7 @@ class Platform : public kss::animation::Animation {
     color = clr;
   }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     int bottom = Loc;
     int top = bottom + Height;
 

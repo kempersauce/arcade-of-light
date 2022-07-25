@@ -4,7 +4,7 @@
 
 #include "animation/dot.h"                      // for Dot
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "display/display.h"  // for Display
+#include "display/display.h"  // for kss::display::Display
 #include "games/game.h"                         // for Game
 
 // Test for Directional Pad
@@ -13,7 +13,7 @@ class FiveStripTest : Game {
   kss::animation::Dot* player;
   kss::animation::SingleColorBG* backgroundColor;
 
-  FiveStripTest(Display* gameDisplay) : Game(gameDisplay) {}
+  FiveStripTest(kss::display::Display* gameDisplay) : Game(gameDisplay) {}
 
   void setStrips() {
     // debug which strip is which

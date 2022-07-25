@@ -6,7 +6,7 @@ Where the magic happens
 #pragma once
 
 #include "animation/hue_rainbow.h"  // for HueRainbow
-#include "display/display.h"  // for Display
+#include "display/display.h"  // for kss::display::Display
 #include "games/game.h"       // for Game
 //#include "audio/audio_sender.h"  // for AudioSender
 
@@ -15,7 +15,7 @@ class RainbowGame : Game {
   // AudioSender* audio;
 
  public:
-  RainbowGame(Display* gameDisplay) : Game(gameDisplay), background(2) {
+  RainbowGame(kss::display::Display* gameDisplay) : Game(gameDisplay), background(2) {
     background.setWaveShift(true);
   }
 

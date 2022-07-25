@@ -1,14 +1,14 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for display::Display
 
 namespace kss {
 namespace animation {
 
 // Dot Class
 // Class that sets a dot in a specific locatio on the LED strip
-class Dot : Animation {
+class Dot : public Animation {
  public:
   // location values
   int xLoc;
@@ -48,7 +48,7 @@ class Dot : Animation {
 
   void changeColor(CRGB newColor) { color = newColor; }
 
-  void draw(Display* display) { display->strips[xLoc][yLoc] = color; }
+  void draw(display::Display* display) { display->strips[xLoc][yLoc] = color; }
 };
 
 }  // namespace animation

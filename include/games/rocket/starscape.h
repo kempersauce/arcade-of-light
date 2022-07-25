@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for Display
+#include "display/display.h"  // for kss::display::Display
 #include "engines/noise.h"  // for NoiseGenerator
 
 class Starscape : public kss::animation::Animation {
@@ -17,7 +17,7 @@ class Starscape : public kss::animation::Animation {
     this->brightnessThreshold = brightnessThreshold;
   }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     noiseGenerator.fillnoise8();
 
     for (int i = 0; i < display->numStrips; i++) {

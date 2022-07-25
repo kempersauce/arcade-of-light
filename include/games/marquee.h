@@ -7,7 +7,7 @@ Where the magic happens
 
 #include "animation/hue_rainbow.h"  // for HueRainbow
 #include "animation/marquee.h"      // for Marquee
-#include "display/display.h"        // for Display
+#include "display/display.h"        // for kss::display::Display
 #include "games/game.h"             // for Game
 
 class MarqueeGame : Game {
@@ -16,7 +16,7 @@ class MarqueeGame : Game {
  public:
   kss::animation::Marquee marquee;
 
-  MarqueeGame(Display* gameDisplay) : Game(gameDisplay), background(2), marquee(1) {
+  MarqueeGame(kss::display::Display* gameDisplay) : Game(gameDisplay), background(2), marquee(1) {
   }
 
   void setup() {

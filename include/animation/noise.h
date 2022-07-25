@@ -1,6 +1,6 @@
 #pragma once
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for display::Display
 #include "engines/noise.h"        // for NoiseGenerator
 
 namespace kss {
@@ -17,7 +17,7 @@ class NoiseAnimation : public Animation {
 
   void setBrightness(int bright) { brightness = bright; }
 
-  void draw(Display* display) {
+  void draw(display::Display* display) {
     static uint8_t ihue = 0;
     noiseGenerator.fillnoise8();
     for (int i = 0; i < display->numStrips; i++) {

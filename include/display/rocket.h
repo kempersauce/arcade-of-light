@@ -2,12 +2,11 @@
 
 #include <Constants.h>
 
-#include "display/display.h"  // for Display
+#include "display/display.h"  // for display::Display
 
-/*
-Display Class
-holds the strips
-*/
+namespace kss {
+namespace display {
+
 class RocketDisplay : public Display {
  public:
   RocketDisplay() : Display(3, 300) {
@@ -16,3 +15,6 @@ class RocketDisplay : public Display {
     FastLED.addLeds<WS2812B, 16, GRB>(strips[2], lengthStrips);
   }
 };
+
+}  // namespace display
+}  // namespace kss

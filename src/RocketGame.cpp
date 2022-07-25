@@ -1,6 +1,6 @@
 // #include <Arduino.h>
 // #include <FastLED.h>
-// #include "display/display.h"  // for Display
+// #include "display/display.h"  // for kss::display::Display
 // #include "display/rocket.h"  // for RocketDisplay
 // #include "display/h2h.h"  // for H2HDisplay
 // #include "games/game.h"  // for Game
@@ -9,12 +9,12 @@
 // #include "controls/hardware/simple.h"  // For kss::controls::hardware::Simple
 
 // RocketGame* game;
-// Display* gameDisplay;
+// kss::display::Display* gameDisplay;
 // kss::controls::hardware::Simple controls;
 
 // void setup()
 // {
-//     gameDisplay = (Display*) new RocketDisplay();
+//     gameDisplay = (kss::display::Display*) new RocketDisplay();
 
 //     game = new RocketGame(gameDisplay,
 //         controls.CreateButton(BUTTON_PIN_0),

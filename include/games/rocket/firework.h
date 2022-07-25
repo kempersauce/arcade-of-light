@@ -3,7 +3,7 @@
 #include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion
 #include "audio/rocket_audio.h"   // for RocketAudio
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for kss::display::Display
 
 class Firework : public kss::animation::Animation {
   // Used to randomly select the strip and explosion height when resetting the
@@ -71,7 +71,7 @@ class Firework : public kss::animation::Animation {
     }
   }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     if (physics.HasExploded) {
       explosion.draw(display);
     } else {

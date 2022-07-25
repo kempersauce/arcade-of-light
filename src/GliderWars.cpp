@@ -1,7 +1,7 @@
 
 // #include <Arduino.h>
 // #include <FastLED.h>
-// #include "display/display.h"  // for Display
+// #include "display/display.h"  // for kss::display::Display
 // #include "display/h2h.h"  // for H2HDisplay
 // #include "games/game.h"  // for Game
 // #include "games/life/glider_wars.h"  // for GliderWars
@@ -9,12 +9,12 @@
 // #include "games/head2head/controller.h"  // for H2HControl
 
 // Game* game;
-// Display* gameDisplay;
+// kss::display::Display* gameDisplay;
 // kss::controls::hardware::Simple controls;
 
 // void setup()
 // {
-//     gameDisplay = (Display*)new H2HDisplay();
+//     gameDisplay = (kss::display::Display*)new H2HDisplay();
 
 //     H2HControl teamA;
 //     teamA.buttons[0] = controls.CreateButton(H2H_BUTTON_PIN_7);

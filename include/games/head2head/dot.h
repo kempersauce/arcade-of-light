@@ -3,7 +3,7 @@
 #include <FastLED.h>
 
 #include "animation/animation.h"   // for Animation
-#include "display/display.h"       // for Display
+#include "display/display.h"       // for kss::display::Display
 #include "engines/physics_info.h"  // for PhysicsInfo
 
 class H2HDot : public kss::animation::Animation {
@@ -20,7 +20,7 @@ class H2HDot : public kss::animation::Animation {
 
   void setVelocity(float velocity) { physics.Velocity = (int)velocity; }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     // Don't draw outside the display boundaries
     if (physics.HasHitEdge == false) {
       display->ditherPixel((int)physics.xLocation, physics.Location, &color);

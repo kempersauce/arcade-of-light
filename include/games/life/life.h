@@ -1,6 +1,6 @@
 #pragma once
 
-#include "display/display.h"       // for Display
+#include "display/display.h"       // for kss::display::Display
 #include "games/game.h"            // for Game
 #include "games/life/animation.h"  // for LifeAnimation
 
@@ -12,7 +12,7 @@ class LifeGame : Game {
   static const int resetThreshold = 300;  // frames until reset
 
  public:
-  LifeGame(Display* display) : Game(display) {
+  LifeGame(kss::display::Display* display) : Game(display) {
     lifeGrid = new LifeAnimation(display->numStrips, display->lengthStrips);
   }
 

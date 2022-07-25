@@ -5,7 +5,7 @@
 #include <utility>  // for pair
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for Display
+#include "display/display.h"  // for kss::display::Display
 
 using namespace std;
 
@@ -73,7 +73,7 @@ class Snake : public kss::animation::Animation {
     }
   }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     display->strips[head.first][head.second] = color;
     for (int i = 0; i < body.size(); i++) {
       display->strips[body[i].first][body[i].second] = color;

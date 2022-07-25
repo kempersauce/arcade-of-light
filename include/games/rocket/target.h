@@ -3,7 +3,7 @@ Class that sets a series of dots in a specific location on the LED strip
 */
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for Display
+#include "display/display.h"  // for kss::display::Display
 
 class Target : public kss::animation::Animation {
   const static long targetLockTimeMillis = 1000 * 3;  // 3 second lock time
@@ -37,7 +37,7 @@ class Target : public kss::animation::Animation {
     return isInTarget && millis() - Time > targetLockTimeMillis;
   }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     int bottom = Loc;
     int top = bottom + Height;
 

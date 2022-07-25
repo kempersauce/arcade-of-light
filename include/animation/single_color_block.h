@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for display::Display
 
 namespace kss {
 namespace animation {
@@ -32,7 +32,7 @@ class SingleColorBlock : public Animation {
     Value = value;
   }
 
-  void draw(Display* display) {
+  void draw(display::Display* display) {
     for (int i = 0; i < display->numStrips; i++) {
       for (int j = HeightMin; j < HeightMax; j++) {
         display->strips[i][j].setHSV(Hue, Saturation, Value);

@@ -45,7 +45,7 @@ class LifeGameSinglePlayer : Game {
   RainbowGame idleGame;
 
  public:
-  LifeGameSinglePlayer(Display* display, kss::controls::DirPad controls)
+  LifeGameSinglePlayer(kss::display::Display* display, kss::controls::DirPad controls)
       : Game(display),
         idleGame(display),
         lifeGrid(display->numStrips + 1, display->lengthStrips),

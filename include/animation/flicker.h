@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for display::Display
 #include "engines/noise.h"        // for NoiseGenerator
 
 namespace kss {
@@ -89,7 +89,7 @@ class Flicker : public Animation {
   }
 
   // Conjure the Flame
-  void draw(Display* display) {
+  void draw(display::Display* display) {
     // noiseGenerator->fillnoise8();
     newMillis = millis();
 
@@ -146,7 +146,7 @@ class Flicker : public Animation {
     drawFramesUp(display);
   }
 
-  void drawFramesUp(Display* display) {
+  void drawFramesUp(display::Display* display) {
     for (int i = 0; i < display->numStrips; i++) {
       for (int j = origin; j <= currentHeight[i]; j++) {
         // Serial.println("Flame Ani: in the loops");
@@ -175,7 +175,7 @@ class Flicker : public Animation {
       }
     }
   }
-  void drawFramesDown(Display* display) {
+  void drawFramesDown(display::Display* display) {
     for (int i = 0; i < display->numStrips; i++) {
       for (int j = origin; j <= currentHeight[i]; j++) {
         // Serial.println("Flame Ani: in the loops");

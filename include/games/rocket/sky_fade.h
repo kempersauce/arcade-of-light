@@ -7,7 +7,7 @@ fading back to the original color a third of the way up
 */
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for kss::display::Display
 
 class SkyFade : public kss::animation::Animation {
  private:
@@ -18,7 +18,7 @@ class SkyFade : public kss::animation::Animation {
 
   void setFadeColor(CRGB* fadeColor) { blendColor = fadeColor; }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     int heightMax = display->lengthStrips / 3;  // only go a third of the way up
     for (int i = 0; i < display->numStrips; i++) {
       for (int j = 0; j < heightMax; j++) {

@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "animation/animation.h"   // for Animation
-#include "display/display.h"       // for Display
+#include "display/display.h"       // for kss::display::Display
 #include "engines/physics_info.h"  // for PhysicsInfo
 
 namespace kss {
@@ -67,7 +67,7 @@ class Explosion : Animation {
 
   long TimeAliveMillis() { return millis() - birthTimeMillis; }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     if (IsBurnedOut())  // don't drawing after the explosion burns out
     {
       return;

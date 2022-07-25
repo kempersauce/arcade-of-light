@@ -6,14 +6,14 @@ Make the pretty lights
 Make the lights pretty
 */
 
-#include "display/display.h"  // for Display
+#include "display/display.h"  // for display::Display
 
 namespace kss {
 namespace animation {
 
 class Animation {
  public:
-  virtual void draw(Display* display);
+  virtual void draw(display::Display* display);
 };
 
 }  // namespace animation

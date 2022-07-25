@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for Display
+#include "display/display.h"      // for kss::display::Display
 
 using namespace std;
 
@@ -106,7 +106,7 @@ class LifeAnimation : public kss::animation::Animation {
     }
   }
 
-  void draw(Display* display) {
+  void draw(kss::display::Display* display) {
     for (int ledIndex = 0; ledIndex < display->lengthStrips; ledIndex++) {
       for (int stripIndex = 0; stripIndex < display->numStrips; stripIndex++) {
         int age = (*nextRound)[stripIndex][ledIndex];

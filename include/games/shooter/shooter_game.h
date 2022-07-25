@@ -14,7 +14,7 @@ class ShooterGame : public Game {
   SingleColorBG background;
 
  public:
-  ShooterGame(Display* gameDisplay, kss::controls::DirPad controls)
+  ShooterGame(kss::display::Display* gameDisplay, kss::controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
         shooter(),

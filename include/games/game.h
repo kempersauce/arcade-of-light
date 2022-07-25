@@ -5,13 +5,13 @@ Game class
 Where the magic happens
 */
 
-#include "display/display.h"  // for Display
+#include "display/display.h"  // for kss::display::Display
 
 class Game {
  public:
-  Display* display;
+  kss::display::Display* display;
 
-  Game(Display* gameDisplay) { display = gameDisplay; }
+  Game(kss::display::Display* gameDisplay) { display = gameDisplay; }
 
   virtual void setup();
   virtual void loop();

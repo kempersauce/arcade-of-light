@@ -15,7 +15,7 @@ class LaneRunnerGame : Game {
   std::deque<int> dots;
 
  public:
-  LaneRunnerGame(Display* gameDisplay, kss::controls::DirPad controller)
+  LaneRunnerGame(kss::display::Display* gameDisplay, kss::controls::DirPad controller)
       : Game(gameDisplay),
         controller{std::move(controller)},
         background(0, 0, 0),
