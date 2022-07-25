@@ -4,7 +4,7 @@
 #include "display/display.h"       // for Display
 #include "engines/physics_info.h"  // for PhysicsInfo
 
-class Shooter : Animation {
+class Shooter : public kss::animation::Animation {
  public:
   PhysicsInfo physics;
 

@@ -1,15 +1,17 @@
 
 #pragma once
 
-#include <deque>
+#include <deque>  // for deque
+#include <utility>  // for pair
 
 #include "animation/animation.h"  // for Animation
+#include "display/display.h"  // for Display
 
 using namespace std;
 
 enum Direction { Up, Down, Left, Right };
 
-class Snake : Animation {
+class Snake : public kss::animation::Animation {
  public:
   int xMax;
   int yMax;

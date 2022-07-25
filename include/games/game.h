@@ -1,11 +1,11 @@
+#pragma once
+
 /*
 Game class
 Where the magic happens
 */
 
-#pragma once
-
-#include "animation/animation.h"  // for Animation
+#include "display/display.h"  // for Display
 
 class Game {
  public:

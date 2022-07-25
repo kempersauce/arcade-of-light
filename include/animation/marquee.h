@@ -1,10 +1,14 @@
 #pragma once
+
 #include <string>
 
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 #include "engines/font.h"         // for Font
 #include "engines/shapes.h"       // for Shapes
+
+namespace kss {
+namespace animation {
 
 using namespace std;
 
@@ -317,3 +321,6 @@ class Marquee : public Animation {
     }
   }
 };
+
+}  // namespace animation
+}  // namespace kss

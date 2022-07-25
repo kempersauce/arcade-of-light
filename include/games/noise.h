@@ -10,7 +10,7 @@ Where the magic happens
 #include "games/game.h"       // for Game
 
 class NoiseGame : Game {
-  NoiseAnimation background;
+  kss::animation::NoiseAnimation background;
 
  public:
   NoiseGame(Display* gameDisplay)

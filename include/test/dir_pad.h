@@ -6,15 +6,16 @@
 #include "animation/hue_rainbow.h"              // for HueRainbow
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for kss::controls::DirPad
+#include "display/display.h" // for Display
 #include "games/game.h"                         // for Game
 
 // Test for Directional Pad
 class DirPadTest : Game {
  public:
   kss::controls::DirPad controls;
-  Dot* player;
-  SingleColorBG* backgroundColor;
-  HueRainbow rainbow;
+  kss::animation::Dot* player;
+  kss::animation::SingleColorBG* backgroundColor;
+  kss::animation::HueRainbow rainbow;
 
   DirPadTest(Display* gameDisplay, kss::controls::DirPad controls)
       : Game(gameDisplay), controls{std::move(controls)}, rainbow(2) {

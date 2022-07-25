@@ -3,6 +3,9 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 
+namespace kss {
+namespace animation {
+
 class HueRainbow : public Animation {
  private:
   int HueStart = 0;
@@ -62,3 +65,6 @@ class HueRainbow : public Animation {
     HueStart = (HueStart + ShiftSpeed) % 256;
   }
 };
+
+}  // namespace animation
+}  // namespace kss

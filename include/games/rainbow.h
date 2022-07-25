@@ -5,13 +5,13 @@ Where the magic happens
 
 #pragma once
 
-#include "animation/hue_rainbow.h"
+#include "animation/hue_rainbow.h"  // for HueRainbow
 #include "display/display.h"  // for Display
 #include "games/game.h"       // for Game
 //#include "audio/audio_sender.h"  // for AudioSender
 
 class RainbowGame : Game {
-  HueRainbow background;
+  kss::animation::HueRainbow background;
   // AudioSender* audio;
 
  public:

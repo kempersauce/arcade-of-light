@@ -2,8 +2,9 @@
 
 #include "animation/animation.h"  // for Animation
 #include "audio/rocket_audio.h"   // for RocketAudio
+#include "display/display.h"      // for Display
 
-class ExplosionsInTheSky : Animation {
+class ExplosionsInTheSky : public kss::animation::Animation {
   long timeStart = 0;
   long animationLengthMillis = 7000;
   CRGB* color;

@@ -3,8 +3,11 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 
+namespace kss {
+namespace animation {
+
 // Rainbow Animation
-class RainbowAni : Animation {
+class RainbowAni : public Animation {
  public:
   // override rainbow draw function
   void draw(Display* display) {
@@ -29,3 +32,6 @@ class RainbowAni : Animation {
 
   int iterator = 0;
 };
+
+}  // namespace animation
+}  // namespace kss

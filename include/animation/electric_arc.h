@@ -6,6 +6,9 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 
+namespace kss {
+namespace animation {
+
 class ElectricArc : Animation {
   std::vector<int> arc;
   CRGB color = CRGB::Purple;
@@ -46,3 +49,6 @@ class ElectricArc : Animation {
     }
   }
 };
+
+}  // namespace animation
+}  // namespace kss

@@ -6,7 +6,7 @@
 #include "display/display.h"       // for Display
 #include "engines/physics_info.h"  // for PhysicsInfo
 
-class H2HDot : public Animation {
+class H2HDot : public kss::animation::Animation {
  public:
   PhysicsInfo physics;
   CRGB color;

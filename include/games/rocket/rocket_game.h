@@ -104,7 +104,7 @@ class RocketGame : Game {
   vector<Firework> fireworks;  // win animation fireworks
 
   // Game Lose animations
-  Explosion explosion;
+  kss::animation::Explosion explosion;
   ExplosionsInTheSky explosionsInTheSky;
 
   // Game State tracker

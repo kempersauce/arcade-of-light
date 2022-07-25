@@ -11,23 +11,21 @@ Where the magic happens
 #include "games/game.h"             // for Game
 
 class MarqueeGame : Game {
-  HueRainbow* background;
+  kss::animation::HueRainbow background;
 
  public:
-  Marquee* marquee;
+  kss::animation::Marquee marquee;
 
-  MarqueeGame(Display* gameDisplay) : Game(gameDisplay) {
-    background = new HueRainbow(2);
-    marquee = new Marquee(1);
+  MarqueeGame(Display* gameDisplay) : Game(gameDisplay), background(2), marquee(1) {
   }
 
   void setup() {
-    ((HueRainbow*)background)->setBrightness(150);
-    ((HueRainbow*)background)->setSaturation(255);
+    background.setBrightness(150);
+    background.setSaturation(255);
   }
 
   void loop() {
-    background->draw(display);
-    marquee->draw(display);
+    background.draw(display);
+    marquee.draw(display);
   }
 };

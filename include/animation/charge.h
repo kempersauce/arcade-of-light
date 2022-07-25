@@ -3,6 +3,9 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 
+namespace kss {
+namespace animation {
+
 class Charge : Animation {
  public:
   // location values
@@ -71,3 +74,6 @@ class Charge : Animation {
     }
   }
 };
+
+}  // namespace animation
+}  // namespace kss

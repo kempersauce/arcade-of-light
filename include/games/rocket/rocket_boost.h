@@ -2,7 +2,7 @@
 #include "display/display.h"      // for Display
 #include "engines/noise.h"        // for NoiseGenerator
 
-class RocketBoost : Animation {
+class RocketBoost : public kss::animation::Animation {
  private:
   NoiseGenerator* noiseGenerator;
 

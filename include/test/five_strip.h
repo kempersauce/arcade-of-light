@@ -4,13 +4,14 @@
 
 #include "animation/dot.h"                      // for Dot
 #include "animation/single_color_background.h"  // for SingleColorBG
+#include "display/display.h"  // for Display
 #include "games/game.h"                         // for Game
 
 // Test for Directional Pad
 class FiveStripTest : Game {
  public:
-  Dot* player;
-  SingleColorBG* backgroundColor;
+  kss::animation::Dot* player;
+  kss::animation::SingleColorBG* backgroundColor;
 
   FiveStripTest(Display* gameDisplay) : Game(gameDisplay) {}
 

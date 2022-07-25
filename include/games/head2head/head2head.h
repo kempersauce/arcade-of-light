@@ -27,7 +27,7 @@ class Head2Head : Game {
 
   NoiseGenerator noiseGenerator;
 
-  ElectricArc electricArc;
+  kss::animation::ElectricArc electricArc;
 
   // Idle Game, plays after no buttons have been pressed before idle timeout
   RainbowGame idleGame;

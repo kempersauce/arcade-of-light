@@ -1,12 +1,15 @@
+#pragma once
+
 /*
 SkyFade class
 Draws a blue color,
 fading back to the original color a third of the way up
 */
-#pragma once
-#include "animation/animation.h"  // for Animation
 
-class SkyFade : Animation {
+#include "animation/animation.h"  // for Animation
+#include "display/display.h"      // for Display
+
+class SkyFade : public kss::animation::Animation {
  private:
   CRGB* blendColor;
 

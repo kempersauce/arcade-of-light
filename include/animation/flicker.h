@@ -4,6 +4,9 @@
 #include "display/display.h"      // for Display
 #include "engines/noise.h"        // for NoiseGenerator
 
+namespace kss {
+namespace animation {
+
 class Flicker : public Animation {
  private:
   int hueMain = 0;
@@ -202,3 +205,6 @@ class Flicker : public Animation {
     }
   }
 };
+
+}  // namespace animation
+}  // namespace kss

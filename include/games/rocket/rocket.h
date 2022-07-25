@@ -4,10 +4,11 @@
 #pragma once
 
 #include "animation/animation.h"        // for Animation
+#include "display/display.h"            // for Display
 #include "engines/physics_info.h"       // for PhysicsInfo
 #include "games/rocket/rocket_boost.h"  // for RocketBoost
 
-class Rocket : Animation {
+class Rocket : public kss::animation::Animation {
  public:
   PhysicsInfo physics;
 

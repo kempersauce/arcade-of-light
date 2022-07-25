@@ -1,7 +1,8 @@
 #pragma once
 
+#include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion
-#include "controls/button.h"
+#include "controls/button.h"  // for Button
 #include "engines/noise.h"          // for NoiseGenerator
 #include "games/head2head/audio.h"  // for H2HAudio
 #include "games/head2head/dot.h"    // for H2HDot
@@ -18,14 +19,14 @@ enum H2HStripState {
   H2HStripTotalWinB
 };
 
-class H2HGameStrip : Animation {
+class H2HGameStrip : public kss::animation::Animation {
   H2HDot dot;
 
   // explode when dot hits wall (boom)
-  Explosion explosion;
+  kss::animation::Explosion explosion;
 
   // Explode the ball out of the gate
-  Explosion dropExplosion;
+  kss::animation::Explosion dropExplosion;
 
   // nearside team
   H2HZone zoneA;

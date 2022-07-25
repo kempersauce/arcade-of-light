@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class LifeAnimation : public Animation {
+class LifeAnimation : public kss::animation::Animation {
  private:
   int width;
   int height;

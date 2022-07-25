@@ -8,7 +8,7 @@
 class SnakeGame : Game {
   kss::controls::DirPad controls;
   Snake snake;
-  SingleColorBG background;
+  kss::animation::SingleColorBG background;
 
  public:
   SnakeGame(Display* gameDisplay, kss::controls::DirPad controls)

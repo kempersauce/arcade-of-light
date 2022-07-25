@@ -10,9 +10,9 @@
 // Test for Directional Pad
 class AnimationTest : Game {
  public:
-  Flicker* flicker;
-  SingleColorBG* bg;
-  SingleColorBlock* block;
+  kss::animation::Flicker* flicker;
+  kss::animation::SingleColorBG* bg;
+  kss::animation::SingleColorBlock* block;
   int BoundaryBase = 80;
   int BoundaryHeight = 10;
 
@@ -20,9 +20,9 @@ class AnimationTest : Game {
 
   void setup() {
     flicker =
-        new Flicker(BoundaryBase, BoundaryHeight, display->numStrips, 0, 55);
-    bg = new SingleColorBG(100, 0, 100);
-    block = new SingleColorBlock(0, 80, 0, 255, 255);
+        new kss::animation::Flicker(BoundaryBase, BoundaryHeight, display->numStrips, 0, 55);
+    bg = new kss::animation::SingleColorBG(100, 0, 100);
+    block = new kss::animation::SingleColorBlock(0, 80, 0, 255, 255);
   }
 
   void loop() {

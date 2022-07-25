@@ -3,8 +3,11 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 
+namespace kss {
+namespace animation {
+
 // Single color background
-class SingleColorBlock : Animation {
+class SingleColorBlock : public Animation {
  public:
   // colors (RGB)
   int Hue;
@@ -37,3 +40,6 @@ class SingleColorBlock : Animation {
     }
   }
 };
+
+}  // namespace animation
+}  // namespace kss

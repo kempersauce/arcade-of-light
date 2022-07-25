@@ -1,11 +1,14 @@
+#pragma once
+
 #include "animation/single_color_background.h"  // for SingleColorBG
+#include "display/display.h"  // for Display
 #include "games/game.h"                         // for Game
 #include "serial/receiver.h"                    // for Receiver
 
 class SerialTest : Game {
   KemperSerialReceiver ks;
 
-  SingleColorBG background;
+  kss::animation::SingleColorBG background;
 
  public:
   SerialTest(Display *gameDisplay)

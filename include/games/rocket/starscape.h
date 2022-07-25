@@ -1,7 +1,10 @@
 #pragma once
+
+#include "animation/animation.h"  // for Animation
+#include "display/display.h"  // for Display
 #include "engines/noise.h"  // for NoiseGenerator
 
-class Starscape : Animation {
+class Starscape : public kss::animation::Animation {
   int brightnessThreshold;
 
  public:

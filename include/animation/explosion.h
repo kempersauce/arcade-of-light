@@ -6,6 +6,9 @@
 #include "display/display.h"       // for Display
 #include "engines/physics_info.h"  // for PhysicsInfo
 
+namespace kss {
+namespace animation {
+
 class Explosion : Animation {
  public:
   long birthTimeMillis;
@@ -107,3 +110,6 @@ class Explosion : Animation {
     }
   }
 };
+
+}  // namespace animation
+}  // namespace kss

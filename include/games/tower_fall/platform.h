@@ -1,6 +1,9 @@
-#include "animation/animation.h"  // for Animation
+#pragma once
 
-class Platform : Animation {
+#include "animation/animation.h"  // for Animation
+#include "display/display.h"  // for Display
+
+class Platform : public kss::animation::Animation {
  public:
   int Loc;
   int Width;

@@ -1,8 +1,11 @@
+#pragma once
+
 #include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion
 #include "audio/rocket_audio.h"   // for RocketAudio
+#include "display/display.h"      // for Display
 
-class Firework : Animation {
+class Firework : public kss::animation::Animation {
   // Used to randomly select the strip and explosion height when resetting the
   // firework
   int stripsHeight;
@@ -13,7 +16,7 @@ class Firework : Animation {
   PhysicsInfo physics;
 
   // Fireworks explosion
-  Explosion explosion;
+  kss::animation::Explosion explosion;
 
   // color for the firework rocket
   int Hue;

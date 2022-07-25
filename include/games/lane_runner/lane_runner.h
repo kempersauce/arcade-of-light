@@ -10,7 +10,7 @@
 class LaneRunnerGame : Game {
   kss::controls::DirPad controller;
   PhysicsInfo player;
-  SingleColorBG background;
+  kss::animation::SingleColorBG background;
 
   std::deque<int> dots;
 

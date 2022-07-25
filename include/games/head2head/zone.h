@@ -3,7 +3,7 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 
-class H2HZone : public Animation {
+class H2HZone : public kss::animation::Animation {
  public:
   CRGB color;
   int yMin;

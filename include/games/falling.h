@@ -10,10 +10,10 @@
 
 using namespace std;
 
-class FallingGame : Game {
+class FallingGame : public Game {
   kss::controls::DirPad controls;
   PhysicsInfo player;
-  SingleColorBG background;
+  kss::animation::SingleColorBG background;
 
   deque<pair<int, int>> walls;
 

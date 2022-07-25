@@ -3,7 +3,10 @@
 #include "display/display.h"      // for Display
 #include "engines/noise.h"        // for NoiseGenerator
 
-class NoiseAnimation : Animation {
+namespace kss {
+namespace animation {
+
+class NoiseAnimation : public Animation {
  private:
   int brightness = 255;
   NoiseGenerator noiseGenerator;
@@ -33,3 +36,6 @@ class NoiseAnimation : Animation {
     ihue++;
   }
 };
+
+}  // namespace animation
+}  // namespace kss

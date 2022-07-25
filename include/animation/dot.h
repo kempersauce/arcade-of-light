@@ -3,6 +3,9 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 
+namespace kss {
+namespace animation {
+
 // Dot Class
 // Class that sets a dot in a specific locatio on the LED strip
 class Dot : Animation {
@@ -47,3 +50,6 @@ class Dot : Animation {
 
   void draw(Display* display) { display->strips[xLoc][yLoc] = color; }
 };
+
+}  // namespace animation
+}  // namespace kss
