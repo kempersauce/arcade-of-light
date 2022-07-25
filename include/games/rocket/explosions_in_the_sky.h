@@ -12,9 +12,9 @@ class ExplosionsInTheSky : public kss::animation::Animation {
  public:
   ExplosionsInTheSky() : Animation(), color{new CRGB(255, 0, 0)} {}
 
-  void startAnimation(RocketAudio* audio) {
+  void startAnimation(kss::audio::RocketAudio& audio) {
     timeStart = millis();
-    // audio->playExplosion();
+    // audio.playExplosion();
   }
 
   bool isPlaying() { return timeStart != 0; }

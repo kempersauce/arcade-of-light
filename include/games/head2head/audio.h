@@ -2,7 +2,7 @@
 #include <HardwareSerial.h>
 
 #include "audio/audio_sender.h"  // for AudioSender
-class H2HAudio : public AudioSender {
+class H2HAudio : public kss::audio::AudioSender {
  public:
   // File names for single effects
   char* aHit = "TRGTHIT2";

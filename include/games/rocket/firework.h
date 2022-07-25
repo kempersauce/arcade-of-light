@@ -49,7 +49,7 @@ class Firework : public kss::animation::Animation {
     Hue = random(0, 255);
   }
 
-  void Move(RocketAudio* audio) {
+  void Move(kss::audio::RocketAudio& audio) {
     bool wasExploded = physics.HasExploded;  // edge was set with LocationMax to
                                              // denote the explode height
 
@@ -58,7 +58,7 @@ class Firework : public kss::animation::Animation {
     // Explode when we get to the designated height
     if (physics.HasExploded) {
       if (wasExploded == false) {
-        audio->playFireWorkExplode();
+        audio.playFireWorkExplode();
         explosion.Hue = random(0, 255);
         explosion.ExplodeAt(physics.xLocation, physics.Location);
       }

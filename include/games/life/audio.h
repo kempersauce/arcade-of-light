@@ -4,7 +4,7 @@
 
 #include "audio/audio_sender.h"  // for AudioSender
 
-class LifeAudio : public AudioSender {
+class LifeAudio : public kss::audio::AudioSender {
  public:
   // File names for single effects
   char* shuffle = "<11GYCYCHIP.WAV>";
@@ -29,23 +29,28 @@ class LifeAudio : public AudioSender {
 
   // SINGLE EFFECT METHODS
   void playTimeStop() { sendMsg(stop); }
+
   void playTimeStart() { sendMsg(unStop); }
+
   void startRandom() {
     sendMsg(shuffle);
     shuffleIsStarted = true;
   }
+
   void startSpeedUp() {
     if (!isSpeedingUp) {
       isSpeedingUp = true;
       sendMsg(speedUp);
     }
   }
+
   void startSpeedDown() {
     if (!isSpeedingDown) {
       sendMsg(speedDown);
       isSpeedingDown = true;
     }
   }
+
   void playColorShift() {
     if (!colorIsShifting) {
       sendMsg(colorShift);
@@ -58,18 +63,21 @@ class LifeAudio : public AudioSender {
     sendMsg("<10>");
     sendMsg("<20>");
   }
+  
   void stopPlayRandom() {
     if (shuffleIsStarted) {
       sendMsg("<10>");
       shuffleIsStarted = false;
     }
   }
+
   void stopColorShift() {
     if (colorIsShifting) {
       sendMsg("<20>");
       colorIsShifting = false;
     }
   }
+
   void stopSpeed() {
     if (isSpeedingUp) {
       sendMsg("<20>");

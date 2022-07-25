@@ -48,7 +48,7 @@ enum RocketGameState {
 
 class RocketGame : Game {
   // Audio
-  RocketAudio* audio;
+  kss::audio::RocketAudio audio;
   bool isFirstSetup = true;
 
   // Button time
@@ -150,13 +150,12 @@ class RocketGame : Game {
   // Reset Game
   void setup() {
     if (isFirstSetup) {
-      audio = new RocketAudio();
       // //delay(3000);
       // //delay(100);
       isFirstSetup = false;
     }
 
-    audio->playStdBG();
+    audio.playStdBG();
     level = 0;
     enterLevelStartState();
   }
@@ -170,7 +169,7 @@ class RocketGame : Game {
     targetsWon = 0;
     rocket.SetGravity(gravityLevels[level]);
     rocket.Reset();
-    audio->playLevelIntro(level + 1);
+    audio.playLevelIntro(level + 1);
   }
 
   void enterWinState() {
@@ -180,12 +179,12 @@ class RocketGame : Game {
       fireworks[i].explosion.SetGravity(
           gravityLevels[min(level, levelMax - 1)]);
     }
-    audio->playWinBG();
+    audio.playWinBG();
   }
 
   void enterLoseState() {
     // play sound
-    audio->playExplosion();
+    audio.playExplosion();
     // game stuff
     gameState = RocketGameLose;
     explosion.ExplodeAt(display->numStrips / 2, rocket.physics.Location);
@@ -194,7 +193,7 @@ class RocketGame : Game {
 
   void enterLevelAdvanceState() {
     // AUDIO HERE MUST BE SERIAL PRINT OTHERWISE BREAKS GAME STATE!!!
-    audio->playLevelWin();
+    audio.playLevelWin();
     gameState = RocketGameLevelAdvance;
     // No other changes required for this state change
   }
@@ -212,15 +211,15 @@ class RocketGame : Game {
       // Check if we're just entering the target
       if (wasInTarget == false) {
         target.Time = millis();
-        audio->startPlayTargetHover();
+        audio.startPlayTargetHover();
       }
 
       // Check if we've closed out this target
       else if (target.isTargetLocked()) {
         // Win state
         targetsWon++;
-        audio->stopPlayTargetHover();
-        audio->playTargetWin();
+        audio.stopPlayTargetHover();
+        audio.playTargetWin();
 
         // Still more targets - make a new random target
         if (targetsWon < targetsPerLevel) {
@@ -239,7 +238,7 @@ class RocketGame : Game {
       }
     } else if (!target.isInTarget) {
       if (wasInTarget == true) {
-        audio->stopPlayTargetHover();
+        audio.stopPlayTargetHover();
       }
     }
   }
@@ -284,10 +283,10 @@ class RocketGame : Game {
                                        // and thrust (rocket caps it at
                                        // ThrustMax=200)
         if (up_btn->IsDepressing()) {
-          audio->startPlayBoost();
+          audio.startPlayBoost();
         }
         if (up_btn->IsReleasing()) {
-          audio->stopPlayBoost();
+          audio.stopPlayBoost();
           boostIsPlaying = false;
         }
 
@@ -325,7 +324,7 @@ class RocketGame : Game {
         else {
           level++;
           if (level == levelMax) {
-            // audio->playWin
+            // audio.playWin
             //  TODO set up whatever state we need for the Win state to start
             enterWinState();
           } else {
@@ -338,7 +337,7 @@ class RocketGame : Game {
         for (int i = 0; i < numFireworks; i++) {
           fireworks[i].Move(audio);
           if (fireworks[i].isPlaying == false) {
-            // audio->playFireWorkLaunch();
+            // audio.playFireWorkLaunch();
             fireworks[i].Reset();
           }
         }
@@ -391,7 +390,7 @@ class RocketGame : Game {
         break;
 
       case RocketGameLevelAdvance:
-        // audio->playLevelWin();
+        // audio.playLevelWin();
         starBackground.draw(display);
         skyFade.draw(display);
         // target.draw(display);

@@ -2,6 +2,10 @@
 #include <HardwareSerial.h>
 
 #include "audio/audio_sender.h"  // for AudioSender
+
+namespace kss {
+namespace audio { 
+
 class RocketAudio : public AudioSender {
  public:
   // File names for single effects
@@ -47,7 +51,7 @@ class RocketAudio : public AudioSender {
   void playTargetWin() { sendMsg(targetWin); }
   void playLevelWin() { serial.println(levelWin); }
   void playLevelIntro() {
-    // playWav()
+    // playWav();
   }
   void playFireWorkLaunch() { sendMsg(fireworkLaunchLong); }
   void playFireWorkExplode() { sendMsg(fireworkExplodeLong); }
@@ -105,6 +109,7 @@ class RocketAudio : public AudioSender {
       boostIsPlaying = true;
     }
   }
+
   void stopPlayBoost() {
     stopWavOnChannel(1);
     boostIsPlaying = false;
@@ -117,6 +122,7 @@ class RocketAudio : public AudioSender {
       targetHoverIsPlaying = true;
     }
   }
+
   void stopPlayTargetHover() {
     sendMsg("<20>");
     targetHoverIsPlaying = false;
@@ -128,3 +134,6 @@ class RocketAudio : public AudioSender {
   void playStdBG() { sendMsg(stdBG); }
   void playWinBG() { setBackground(winBG); }
 };
+
+}  // namespace audio
+}  // namespace kss

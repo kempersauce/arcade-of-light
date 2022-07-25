@@ -9,7 +9,7 @@
 #include <memory>  // For shared_ptr
 
 #include "audio/sounds.h"  // for Sounds
-#include "controls/button.h"
+#include "controls/button.h"  // for Button
 #include "games/game.h"  // for Game
 
 // Use these with the Teensy Audio Shield
@@ -24,10 +24,10 @@ AudioPlaySdWav playSdWav2;
 AudioPlaySdWav playSdWav3;
 AudioPlaySdWav playSdWav4;
 
-AudioConnection patchCord1(playSdWav1, 0, i2s1, 0);
-AudioConnection patchCord2(playSdWav2, 0, i2s1, 1);
-AudioConnection patchCord3(playSdWav3, 0, i2s1, 2);
-AudioConnection patchCord4(playSdWav4, 0, i2s1, 3);
+AudioConnection patchCord1(playSdWav1, 0, kss::audio::i2s1, 0);
+AudioConnection patchCord2(playSdWav2, 0, kss::audio::i2s1, 1);
+AudioConnection patchCord3(playSdWav3, 0, kss::audio::i2s1, 2);
+AudioConnection patchCord4(playSdWav4, 0, kss::audio::i2s1, 3);
 
 class WavPlayer : Game {
  private:
@@ -55,7 +55,7 @@ class WavPlayer : Game {
 
   void setup() {
     Serial.begin(9600);
-    initAudio();
+    kss::audio::initAudio();
     delay(1000);
   }
 

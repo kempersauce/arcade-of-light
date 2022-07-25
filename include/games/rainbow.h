@@ -12,7 +12,7 @@ Where the magic happens
 
 class RainbowGame : Game {
   kss::animation::HueRainbow background;
-  // AudioSender* audio;
+  // kss::audio::AudioSender* audio;
 
  public:
   RainbowGame(kss::display::Display* gameDisplay) : Game(gameDisplay), background(2) {
@@ -20,7 +20,7 @@ class RainbowGame : Game {
   }
 
   void setup() {
-    // audio = new AudioSender();
+    // audio = new kss::audio::AudioSender();
     // audio->playIdleBG();
   }
 

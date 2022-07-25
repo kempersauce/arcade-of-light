@@ -6,6 +6,9 @@
 #include <SerialFlash.h>
 #include <Wire.h>
 
+namespace kss {
+namespace audio { 
+
 // Use these with the Teensy Audio Shield
 // This uses the audio shield's card reader
 #define SDCARD_CS_PIN 10
@@ -26,3 +29,6 @@ void initAudio() {
     Serial.println("Unable to access the SD card during audio setup");
   }
 }
+
+}  // namespace audio
+}  // namespace kss

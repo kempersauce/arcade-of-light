@@ -1,6 +1,10 @@
 #pragma once
 
 #include <Arduino.h>
+#include <HardwareSerial.h>  // for HardwareSerial
+
+namespace kss {
+namespace audio { 
 
 class AudioSender {
  public:
@@ -100,3 +104,6 @@ class AudioSender {
 
   void playIdleBG() { setBackground(idleBGFile); }
 };
+
+}  // namespace audio
+}  // namespace kss
