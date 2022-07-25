@@ -1,11 +1,10 @@
 #pragma once
 
-#include "games/game.h"  // for Game
-#include "games/life/animation.h"  // for LifeAnimation
-#include "games/life/audio.h"  // for LifeAudio
-#include "games/rainbow.h"  // for RainbowGame
-
 #include "controls/dir_pad.h"
+#include "games/game.h"            // for Game
+#include "games/life/animation.h"  // for LifeAnimation
+#include "games/life/audio.h"      // for LifeAudio
+#include "games/rainbow.h"         // for RainbowGame
 
 enum LifeGameState { LifeGameIdle, LifeGamePlaying };
 

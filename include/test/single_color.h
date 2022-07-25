@@ -1,6 +1,5 @@
-#include "games/game.h"  // for Game
-
 #include "animation/single_color_background.h"  // for SingleColorBG
+#include "games/game.h"                         // for Game
 
 class SingleColorTest : Game {
   SingleColorBG* background;

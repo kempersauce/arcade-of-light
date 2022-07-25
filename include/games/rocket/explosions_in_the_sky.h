@@ -1,8 +1,7 @@
 #pragma once
 
-#include "audio/rocket_audio.h"  // for RocketAudio
-
 #include "animation/animation.h"  // for Animation
+#include "audio/rocket_audio.h"   // for RocketAudio
 
 class ExplosionsInTheSky : Animation {
   long timeStart = 0;
@@ -10,9 +9,7 @@ class ExplosionsInTheSky : Animation {
   CRGB* color;
 
  public:
-  ExplosionsInTheSky() : Animation(), color{new CRGB(255, 0, 0)}
-  {
-  }
+  ExplosionsInTheSky() : Animation(), color{new CRGB(255, 0, 0)} {}
 
   void startAnimation(RocketAudio* audio) {
     timeStart = millis();

@@ -1,16 +1,16 @@
 // working audio example
 
 #include <Audio.h>
-#include "games/game.h"  // for Game
 #include <SD.h>
 #include <SPI.h>
 #include <SerialFlash.h>
-#include "audio/sounds.h"  // for Sounds
 #include <Wire.h>
 
 #include <memory>  // For shared_ptr
 
+#include "audio/sounds.h"  // for Sounds
 #include "controls/button.h"
+#include "games/game.h"  // for Game
 
 // Use these with the Teensy Audio Shield
 // This uses the audio shield's card reader

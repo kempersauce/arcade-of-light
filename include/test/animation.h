@@ -1,11 +1,11 @@
 #pragma once
 
 #include <Constants.h>
-#include "games/game.h"  // for Game
 
 #include "animation/flicker.h"                  // for Flicker
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "animation/single_color_block.h"       // for SingleColorBlock
+#include "games/game.h"                         // for Game
 
 // Test for Directional Pad
 class AnimationTest : Game {

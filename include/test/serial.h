@@ -1,7 +1,6 @@
-#include "games/game.h"  // for Game
-#include "serial/receiver.h"  // for Receiver
-
 #include "animation/single_color_background.h"  // for SingleColorBG
+#include "games/game.h"                         // for Game
+#include "serial/receiver.h"                    // for Receiver
 
 class SerialTest : Game {
   KemperSerialReceiver ks;

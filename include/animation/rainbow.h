@@ -1,8 +1,7 @@
 #pragma once
 
-#include "display/display.h"  // for Display
-
 #include "animation/animation.h"  // for Animation
+#include "display/display.h"      // for Display
 
 // Rainbow Animation
 class RainbowAni : Animation {

@@ -3,10 +3,9 @@
 
 #pragma once
 
-#include "engines/physics_info.h"  // for PhysicsInfo
+#include "animation/animation.h"        // for Animation
+#include "engines/physics_info.h"       // for PhysicsInfo
 #include "games/rocket/rocket_boost.h"  // for RocketBoost
-
-#include "animation/animation.h"  // for Animation
 
 class Rocket : Animation {
  public:

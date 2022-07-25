@@ -1,12 +1,11 @@
 #pragma once
 
-#include "engines/physics_info.h"  // for PhysicsInfo
-
 #include <deque>  // for deque
 
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for kss::controls::DirPad
-#include "games/game.h"  // for Game
+#include "engines/physics_info.h"               // for PhysicsInfo
+#include "games/game.h"                         // for Game
 
 class LaneRunnerGame : Game {
   kss::controls::DirPad controller;

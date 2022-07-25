@@ -14,25 +14,23 @@
 
 #define BRIGHTNESS 50
 
-#include "display/display.h"  // for Display
-#include "games/rocket/firework.h"  // for Firework
-#include "games/game.h"  // for Game
-#include "games/rocket/rocket.h"  // for Rocket
-#include "games/rocket/sky_fade.h"  // for SkyFade
-#include "games/rocket/starscape.h"  // for Starscape
-#include "games/rocket/target.h"  // for Target
-
 #include <memory>  // For shared_ptr
 
 #include "controls/button.h"
+#include "display/display.h"         // for Display
+#include "games/game.h"              // for Game
+#include "games/rocket/firework.h"   // for Firework
+#include "games/rocket/rocket.h"     // for Rocket
+#include "games/rocket/sky_fade.h"   // for SkyFade
+#include "games/rocket/starscape.h"  // for Starscape
+#include "games/rocket/target.h"     // for Target
 //#include "audio/sounds.h"  // for Sounds
-#include "games/rocket/explosions_in_the_sky.h"  // for ExplosionsInTheSky
-#include "games/life/life.h"  // for LifeGame
-#include "audio/rocket_audio.h"  // for RocketAudio
-
 #include <vector>
 
-#include "animation/explosion.h"  // for Explosion
+#include "animation/explosion.h"                 // for Explosion
+#include "audio/rocket_audio.h"                  // for RocketAudio
+#include "games/life/life.h"                     // for LifeGame
+#include "games/rocket/explosions_in_the_sky.h"  // for ExplosionsInTheSky
 
 bool boostIsPlaying = false;
 bool targetIsPlaying = false;

@@ -1,12 +1,12 @@
 #pragma once
 
 #include <Constants.h>
-#include "games/game.h"  // for Game
 
 #include "animation/dot.h"                      // for Dot
 #include "animation/hue_rainbow.h"              // for HueRainbow
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for kss::controls::DirPad
+#include "games/game.h"                         // for Game
 
 // Test for Directional Pad
 class DirPadTest : Game {

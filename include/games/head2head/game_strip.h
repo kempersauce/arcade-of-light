@@ -1,13 +1,12 @@
 #pragma once
 
-#include "games/head2head/audio.h"  // for H2HAudio
-#include "games/head2head/dot.h"  // for H2HDot
-#include "games/head2head/zone.h"  // for H2HZone
-#include "serial/transmitter.h"  // for Transmitter
-#include "engines/noise.h"  // for NoiseGenerator
-
 #include "animation/explosion.h"  // for Explosion
 #include "controls/button.h"
+#include "engines/noise.h"          // for NoiseGenerator
+#include "games/head2head/audio.h"  // for H2HAudio
+#include "games/head2head/dot.h"    // for H2HDot
+#include "games/head2head/zone.h"   // for H2HZone
+#include "serial/transmitter.h"     // for Transmitter
 
 enum H2HStripState {
   H2HStripPlaying,

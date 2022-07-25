@@ -1,7 +1,8 @@
 #pragma once
 
-#include "audio/audio_sender.h"  // for AudioSender
 #include <HardwareSerial.h>
+
+#include "audio/audio_sender.h"  // for AudioSender
 
 class LifeAudio : public AudioSender {
  public:

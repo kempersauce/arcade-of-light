@@ -1,11 +1,10 @@
 #pragma once
-#include "display/display.h"  // for Display
-#include "engines/font.h"  // for Font
-#include "engines/shapes.h"  // for Shapes
-
 #include <string>
 
 #include "animation/animation.h"  // for Animation
+#include "display/display.h"      // for Display
+#include "engines/font.h"         // for Font
+#include "engines/shapes.h"       // for Shapes
 
 using namespace std;
 

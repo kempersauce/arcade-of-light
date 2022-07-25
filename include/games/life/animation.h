@@ -1,11 +1,11 @@
 #pragma once
 
-#include "display/display.h"  // for Display
 #include <FastLED.h>
 
 #include <vector>
 
 #include "animation/animation.h"  // for Animation
+#include "display/display.h"      // for Display
 
 using namespace std;
 

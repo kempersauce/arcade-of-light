@@ -1,7 +1,6 @@
-#include "audio/rocket_audio.h"  // for RocketAudio
-
 #include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion
+#include "audio/rocket_audio.h"   // for RocketAudio
 
 class Firework : Animation {
   // Used to randomly select the strip and explosion height when resetting the

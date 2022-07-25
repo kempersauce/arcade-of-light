@@ -1,8 +1,8 @@
 #pragma once
 
-#include "animation/animation.h"  // for Animation
+#include "animation/animation.h"   // for Animation
+#include "display/display.h"       // for Display
 #include "engines/physics_info.h"  // for PhysicsInfo
-#include "display/display.h"  // for Display
 
 class Shooter : Animation {
  public:

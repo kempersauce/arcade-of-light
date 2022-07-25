@@ -1,13 +1,12 @@
 
 #pragma once
 
-#include "engines/physics_info.h"  // for PhysicsInfo
-
-#include <deque>  // for deque
+#include <deque>    // for deque
 #include <utility>  // for pair
 
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "controls/dir_pad.h"  // for DirPad
+#include "controls/dir_pad.h"                   // for DirPad
+#include "engines/physics_info.h"               // for PhysicsInfo
 
 using namespace std;
 

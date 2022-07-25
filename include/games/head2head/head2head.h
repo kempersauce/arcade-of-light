@@ -1,18 +1,18 @@
 #include <Constants.h>
-#include "games/game.h"  // for Game
-#include "games/head2head/audio.h"  // for H2HAudio
-#include "games/head2head/controller.h"  // for H2HControl
-#include "display/h2h.h"  // for H2HDisplay
-#include "games/head2head/dot.h"  // for H2HDot
-#include "games/head2head/game_strip.h"  // for H2HGameStrip
-#include "games/head2head/zone.h"  // for H2HZone
-#include "games/life/life.h"  // for LifeGame
-#include "engines/noise.h"  // for NoiseGenerator
-#include "games/rainbow.h"  // for RainbowGame
 
 #include "animation/electric_arc.h"             // for ElectricArc
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/button.h"                    // for Button
+#include "display/h2h.h"                        // for H2HDisplay
+#include "engines/noise.h"                      // for NoiseGenerator
+#include "games/game.h"                         // for Game
+#include "games/head2head/audio.h"              // for H2HAudio
+#include "games/head2head/controller.h"         // for H2HControl
+#include "games/head2head/dot.h"                // for H2HDot
+#include "games/head2head/game_strip.h"         // for H2HGameStrip
+#include "games/head2head/zone.h"               // for H2HZone
+#include "games/life/life.h"                    // for LifeGame
+#include "games/rainbow.h"                      // for RainbowGame
 
 enum H2HGameState {
   H2HGameIdle,

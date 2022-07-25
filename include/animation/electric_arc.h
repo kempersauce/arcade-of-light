@@ -1,11 +1,10 @@
 
 #pragma once
 
-#include "display/display.h"  // for Display
-
 #include <vector>
 
 #include "animation/animation.h"  // for Animation
+#include "display/display.h"      // for Display
 
 class ElectricArc : Animation {
   std::vector<int> arc;

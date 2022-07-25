@@ -1,9 +1,8 @@
 #pragma once
 
-#include "display/display.h"  // for Display
-#include "engines/noise.h"  // for NoiseGenerator
-
 #include "animation/animation.h"  // for Animation
+#include "display/display.h"      // for Display
+#include "engines/noise.h"        // for NoiseGenerator
 
 class Flicker : public Animation {
  private:

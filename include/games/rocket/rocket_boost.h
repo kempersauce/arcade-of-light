@@ -1,6 +1,6 @@
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for Display
-#include "engines/noise.h"  // for NoiseGenerator
+#include "display/display.h"      // for Display
+#include "engines/noise.h"        // for NoiseGenerator
 
 class RocketBoost : Animation {
  private:
