@@ -1,10 +1,10 @@
+#pragma once
+
 /*
     Button Class
     creates an object that can read whether or not, and for how long the button
    is pressed
 */
-
-#pragma once
 
 namespace kss {
 namespace controls {

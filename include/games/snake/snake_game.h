@@ -1,6 +1,9 @@
 #pragma once
 
-#include "games/snake/snake.h"  // for Snake
+#include "animation/single_color_background.h"  // for SingleColorBG
+#include "controls/dir_pad.h"                   // for DirPad
+#include "games/game.h"                         // for Game
+#include "games/snake/snake.h"                  // for Snake
 
 class SnakeGame : Game {
   kss::controls::DirPad controls;
