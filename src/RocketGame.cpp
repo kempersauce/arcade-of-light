@@ -7,7 +7,7 @@
 // #include "games/rocket/rocket_game.h"  // for RocketGame
 // #include "controls/hardware/simple.h"  // For kss::controls::hardware::Simple
 
-// RocketGame* game;
+// games::rocket::RocketGame* game;
 // kss::display::Display* gameDisplay;
 // kss::controls::hardware::Simple controls;
 
@@ -15,7 +15,7 @@
 // {
 //     gameDisplay = (kss::display::Display*) new RocketDisplay();
 
-//     game = new RocketGame(gameDisplay,
+//     game = new games::rocket::RocketGame(gameDisplay,
 //         controls.CreateButton(BUTTON_PIN_0),
 //         controls.CreateButton(BUTTON_PIN_1));
 

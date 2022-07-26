@@ -2,10 +2,15 @@
 
 #include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion
-#include "audio/rocket_audio.h"   // for RocketAudio
-#include "display/display.h"      // for kss::display::Display
+#include "games/rocket/audio.h"   // for RocketAudio
+#include "display/display.h"      // for display::Display
 
-class Firework : public kss::animation::Animation {
+namespace kss {
+namespace games {
+namespace rocket {
+
+// TODO move this to animations, this is a generic animation
+class Firework : public animation::Animation {
   // Used to randomly select the strip and explosion height when resetting the
   // firework
   int stripsHeight;
@@ -13,10 +18,10 @@ class Firework : public kss::animation::Animation {
 
  public:
   // Physics for the fireworks "rocket"
-  kss::engines::PhysicsInfo physics;
+  engines::PhysicsInfo physics;
 
   // Fireworks explosion
-  kss::animation::Explosion explosion;
+  animation::Explosion explosion;
 
   // color for the firework rocket
   int Hue;
@@ -49,7 +54,7 @@ class Firework : public kss::animation::Animation {
     Hue = random(0, 255);
   }
 
-  void Move(kss::audio::RocketAudio& audio) {
+  void Move(RocketAudio& audio) {
     bool wasExploded = physics.HasExploded;  // edge was set with LocationMax to
                                              // denote the explode height
 
@@ -71,7 +76,7 @@ class Firework : public kss::animation::Animation {
     }
   }
 
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     if (physics.HasExploded) {
       explosion.draw(display);
     } else {
@@ -83,3 +88,7 @@ class Firework : public kss::animation::Animation {
     }
   }
 };
+
+}  // namespace rocket
+}  // namespace games
+}  // namespace kss

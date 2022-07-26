@@ -4,13 +4,17 @@
 #pragma once
 
 #include "animation/animation.h"        // for Animation
-#include "display/display.h"            // for kss::display::Display
+#include "display/display.h"            // for display::Display
 #include "engines/physics_info.h"       // for PhysicsInfo
 #include "games/rocket/rocket_boost.h"  // for RocketBoost
 
-class Rocket : public kss::animation::Animation {
+namespace kss {
+namespace games {
+namespace rocket {
+
+class Rocket : public animation::Animation {
  public:
-  kss::engines::PhysicsInfo physics;
+  engines::PhysicsInfo physics;
 
   // Rocket constants
   // int Mass = 2;
@@ -64,7 +68,7 @@ class Rocket : public kss::animation::Animation {
     boost.boostFactor = physics.Thrust / physics.ThrustMax;
   }
 
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     // Draw the rocket ship
     int middleStrip = display->numStrips / 2;
     for (int i = max(ceil(physics.Location), 0);
@@ -80,3 +84,7 @@ class Rocket : public kss::animation::Animation {
     boost.draw(display);
   }
 };
+
+}  // namespace rocket
+}  // namespace games
+}  // namespace kss

@@ -1,10 +1,16 @@
+#pragma once
+
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for kss::display::Display
+#include "display/display.h"      // for display::Display
 #include "engines/noise.h"        // for NoiseGenerator
 
-class RocketBoost : public kss::animation::Animation {
+namespace kss {
+namespace games {
+namespace rocket {
+
+class RocketBoost : public animation::Animation {
  private:
-  kss::engines::NoiseGenerator noise_engine_;
+  engines::NoiseGenerator noise_engine_;
 
  public:
   int loc;
@@ -17,7 +23,7 @@ class RocketBoost : public kss::animation::Animation {
   }
 
   // override rainbow draw function
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     noise_engine_.fillnoise8();
 
     // normalize boostFactor to 0-1 range
@@ -41,3 +47,7 @@ class RocketBoost : public kss::animation::Animation {
     }
   }
 };
+
+}  // namespace rocket
+}  // namespace games
+}  // namespace kss

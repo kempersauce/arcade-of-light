@@ -1,11 +1,17 @@
+#pragma once
+
+#include "animation/animation.h"  // for Animation
+#include "display/display.h"  // for display::Display
+
+namespace kss {
+namespace games {
+namespace rocket {
+
+
 /*Target Class
 Class that sets a series of dots in a specific location on the LED strip
 */
-
-#include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for kss::display::Display
-
-class Target : public kss::animation::Animation {
+class Target : public animation::Animation {
   const static long targetLockTimeMillis = 1000 * 3;  // 3 second lock time
  public:
   int Loc;
@@ -37,7 +43,7 @@ class Target : public kss::animation::Animation {
     return isInTarget && millis() - Time > targetLockTimeMillis;
   }
 
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     int bottom = Loc;
     int top = bottom + Height;
 
@@ -74,3 +80,7 @@ class Target : public kss::animation::Animation {
     }
   }
 };
+
+}  // namespace rocket
+}  // namespace games
+}  // namespace kss

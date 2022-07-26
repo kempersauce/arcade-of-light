@@ -51,7 +51,7 @@ void setup() {
   // Choose your Game type
   // game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
   // game = (games::Game*)new games::life::LifeGame(gameDisplay);
-  // game = (games::Game*)new RocketGame(gameDisplay);
+  // game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
   game = (games::Game*)new RainbowGame(gameDisplay);
   // game = (games::Game*)new MarqueeGame(gameDisplay);
   // game = (games::Game*)new SnakeGame(gameDisplay);

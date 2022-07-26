@@ -4,9 +4,11 @@
 #include "audio/audio_sender.h"  // for AudioSender
 
 namespace kss {
-namespace audio { 
+namespace games {
+namespace rocket {
 
-class RocketAudio : public AudioSender {
+// TODO move this to rocket game, this is not generic audio
+class RocketAudio : public audio::AudioSender {
  public:
   // File names for single effects
   char* explosion = "EXPLODE1";
@@ -135,5 +137,6 @@ class RocketAudio : public AudioSender {
   void playWinBG() { setBackground(winBG); }
 };
 
-}  // namespace audio
+}  // namespace rocket
+}  // namespace games
 }  // namespace kss

@@ -1,10 +1,15 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "audio/rocket_audio.h"   // for RocketAudio
-#include "display/display.h"      // for kss::display::Display
+#include "games/rocket/audio.h"   // for RocketAudio
+#include "display/display.h"      // for display::Display
 
-class ExplosionsInTheSky : public kss::animation::Animation {
+
+namespace kss {
+namespace games {
+namespace rocket {
+
+class ExplosionsInTheSky : public animation::Animation {
   long timeStart = 0;
   long animationLengthMillis = 7000;
   CRGB* color;
@@ -12,14 +17,14 @@ class ExplosionsInTheSky : public kss::animation::Animation {
  public:
   ExplosionsInTheSky() : Animation(), color{new CRGB(255, 0, 0)} {}
 
-  void startAnimation(kss::audio::RocketAudio& audio) {
+  void startAnimation(RocketAudio& audio) {
     timeStart = millis();
     // audio.playExplosion();
   }
 
   bool isPlaying() { return timeStart != 0; }
 
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     long timeDiff = millis() - timeStart;
 
     // Draw explosion accross all strips
@@ -42,3 +47,7 @@ class ExplosionsInTheSky : public kss::animation::Animation {
     }
   }
 };
+
+}  // namespace rocket
+}  // namespace games
+}  // namespace kss

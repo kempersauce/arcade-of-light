@@ -1,3 +1,5 @@
+#pragma once
+
 // Rocket flying game
 // Game input: 1 Button
 // Concept: Press the button to apply upward force to a dot
@@ -17,7 +19,7 @@
 #include <memory>  // For shared_ptr
 
 #include "controls/button.h"
-#include "display/display.h"         // for kss::display::Display
+#include "display/display.h"         // for display::Display
 #include "games/game.h"              // for Game
 #include "games/rocket/firework.h"   // for Firework
 #include "games/rocket/rocket.h"     // for Rocket
@@ -28,14 +30,16 @@
 #include <vector>
 
 #include "animation/explosion.h"                 // for Explosion
-#include "audio/rocket_audio.h"                  // for RocketAudio
+#include "games/rocket/audio.h"                  // for RocketAudio
 #include "games/life/life.h"                     // for LifeGame
 #include "games/rocket/explosions_in_the_sky.h"  // for ExplosionsInTheSky
 
+namespace kss {
+namespace games {
+namespace rocket {
+
 bool boostIsPlaying = false;
 bool targetIsPlaying = false;
-
-using namespace std;
 
 // Game states
 enum RocketGameState {
@@ -46,14 +50,13 @@ enum RocketGameState {
   RocketGameWin
 };
 
-class RocketGame : public kss::games::Game {
+class RocketGame : public games::Game {
   // Audio
-  kss::audio::RocketAudio audio;
-  bool isFirstSetup = true;
+  RocketAudio audio;
 
   // Button time
-  std::shared_ptr<kss::controls::Button> up_btn;
-  std::shared_ptr<kss::controls::Button> reset_btn;
+  std::shared_ptr<controls::Button> up_btn;
+  std::shared_ptr<controls::Button> reset_btn;
 
   // Backgrounds
   Starscape starBackground;  // just drawing black empty space for now. we are
@@ -101,10 +104,10 @@ class RocketGame : public kss::games::Game {
   Target target;  // the target
 
   static const int numFireworks = 5;
-  vector<Firework> fireworks;  // win animation fireworks
+  std::vector<Firework> fireworks;  // win animation fireworks
 
   // Game Lose animations
-  kss::animation::Explosion explosion;
+  animation::Explosion explosion;
   ExplosionsInTheSky explosionsInTheSky;
 
   // Game State tracker
@@ -118,8 +121,8 @@ class RocketGame : public kss::games::Game {
   const long idleTimeoutMillis = 1000 * 30;  // 30 seconds
 
  public:
-  RocketGame(kss::display::Display* display, std::shared_ptr<kss::controls::Button> up,
-             std::shared_ptr<kss::controls::Button> reset)
+  RocketGame(display::Display* display, std::shared_ptr<controls::Button> up,
+             std::shared_ptr<controls::Button> reset)
       : Game(display),
         up_btn{std::move(up)},
         reset_btn{std::move(reset)},
@@ -149,12 +152,6 @@ class RocketGame : public kss::games::Game {
 
   // Reset Game
   void setup() {
-    if (isFirstSetup) {
-      // //delay(3000);
-      // //delay(100);
-      isFirstSetup = false;
-    }
-
     audio.playStdBG();
     level = 0;
     enterLevelStartState();
@@ -412,3 +409,7 @@ class RocketGame : public kss::games::Game {
     }
   }
 };
+
+}  // namespace rocket
+}  // namespace games
+}  // namespace kss
