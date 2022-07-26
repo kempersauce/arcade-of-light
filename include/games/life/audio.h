@@ -4,7 +4,11 @@
 
 #include "audio/audio_sender.h"  // for AudioSender
 
-class LifeAudio : public kss::audio::AudioSender {
+namespace kss {
+namespace games {
+namespace life {
+
+class LifeAudio : public audio::AudioSender {
  public:
   // File names for single effects
   char* shuffle = "<11GYCYCHIP.WAV>";
@@ -63,7 +67,7 @@ class LifeAudio : public kss::audio::AudioSender {
     sendMsg("<10>");
     sendMsg("<20>");
   }
-  
+
   void stopPlayRandom() {
     if (shuffleIsStarted) {
       sendMsg("<10>");
@@ -94,3 +98,7 @@ class LifeAudio : public kss::audio::AudioSender {
   void playStdBG() { setBackground(stdBG); }
   void playH2HIdleBG() { setBackground(idleBG); }
 };
+
+}  // namespace life
+}  // namespace games
+}  // namespace kss

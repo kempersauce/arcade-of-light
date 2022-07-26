@@ -9,8 +9,9 @@
 
 namespace kss {
 namespace games {
+namespace lane_runner {
 
-class LaneRunnerGame : public kss::games::Game {
+class LaneRunnerGame : public Game {
   controls::DirPad controller;
   engines::PhysicsInfo player;
   animation::SingleColorBG background;
@@ -116,5 +117,6 @@ class LaneRunnerGame : public kss::games::Game {
   }
 };
 
+}  // namespace lane_runner
 }  // namespace games
 }  // namespace kss

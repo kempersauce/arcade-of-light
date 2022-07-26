@@ -22,7 +22,7 @@
 // #include "games/shooter/shooter_game.h"  // for ShooterGame
 #include "games/falling.h"                  // for FallingGame
 #include "games/lane_runner/lane_runner.h"  // for LaneRunner
-#include "games/life/life_single_player.h"  // for LifeGameSinglePlayer
+#include "games/life/single_player.h"  // for LifeGameSinglePlayer
 #include "test/animation.h"                 // for AnimationTest
 
 using namespace kss;
@@ -50,14 +50,14 @@ void setup() {
 
   // Choose your Game type
   // game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
-  // game = (games::Game*)new LifeGame(gameDisplay);
+  // game = (games::Game*)new games::life::LifeGame(gameDisplay);
   // game = (games::Game*)new RocketGame(gameDisplay);
   game = (games::Game*)new RainbowGame(gameDisplay);
   // game = (games::Game*)new MarqueeGame(gameDisplay);
   // game = (games::Game*)new SnakeGame(gameDisplay);
   // game = (games::Game*)new ShooterGame(gameDisplay);
   // game = (games::Game*)new FallingGame(gameDisplay);
-  // game = (games::Game*)new games::LaneRunnerGame(gameDisplay);
+  // game = (games::Game*)new games::lane_runner::LaneRunnerGame(gameDisplay);
   // game = (games::Game*)new LifeGameSinglePlayer(gameDisplay);
 
   // Test Games

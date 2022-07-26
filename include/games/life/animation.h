@@ -5,11 +5,13 @@
 #include <vector>
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for kss::display::Display
+#include "display/display.h"      // for display::Display
 
-using namespace std;
+namespace kss {
+namespace games {
+namespace life {
 
-class LifeAnimation : public kss::animation::Animation {
+class LifeAnimation : public animation::Animation {
  private:
   int width;
   int height;
@@ -26,7 +28,7 @@ class LifeAnimation : public kss::animation::Animation {
  public:
   float randomizeDensity = .2;
 
-  vector<CRGB> ageColors{
+  std::vector<CRGB> ageColors{
       CRGB(0, 0, 0),      // black
       CRGB(0, 255, 0),    // green
       CRGB(0, 255, 255),  // cyan
@@ -106,7 +108,7 @@ class LifeAnimation : public kss::animation::Animation {
     }
   }
 
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     for (int ledIndex = 0; ledIndex < display->lengthStrips; ledIndex++) {
       for (int stripIndex = 0; stripIndex < display->numStrips; stripIndex++) {
         int age = (*nextRound)[stripIndex][ledIndex];
@@ -135,3 +137,7 @@ class LifeAnimation : public kss::animation::Animation {
     }
   }
 };
+
+}  // namespace life
+}  // namespace games
+}  // namespace kss

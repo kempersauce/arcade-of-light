@@ -1,24 +1,26 @@
 #pragma once
 
-#include "controls/dir_pad.h"
+#include "controls/dir_pad.h"      // for DirPad
 #include "games/game.h"            // for Game
 #include "games/life/animation.h"  // for LifeAnimation
 #include "games/life/audio.h"      // for LifeAudio
 #include "games/rainbow.h"         // for RainbowGame
 
+namespace kss {
+namespace games {
+namespace life {
+
 enum LifeGameState { LifeGameIdle, LifeGamePlaying };
 
-class LifeGameSinglePlayer : public kss::games::Game {
+class LifeGameSinglePlayer : public Game {
   // Controls
-  kss::controls::DirPad dirPad;
+  controls::DirPad dirPad;
 
   // Animations
   LifeAnimation lifeGrid;
 
   // Sound
-  LifeAudio* audio;
-  bool isFirstSetup = true;
-  ;
+  LifeAudio audio;
 
   long millisPerFrame = 50;
   const static long millisPerFrameStep = 5;
@@ -29,7 +31,7 @@ class LifeGameSinglePlayer : public kss::games::Game {
   const static float hueShiftRate =
       60.0f * (256.0f / 360.0f) / 1000.0f;  // 60 deg/sec?
   float startHue;
-  const vector<int> hueOffsets{
+  const std::vector<int> hueOffsets{
       // Degrees are converted to int with result = degrees * 256 / 360
       0,    // 0 deg
       43,   // 60 deg
@@ -45,21 +47,16 @@ class LifeGameSinglePlayer : public kss::games::Game {
   RainbowGame idleGame;
 
  public:
-  LifeGameSinglePlayer(kss::display::Display* display, kss::controls::DirPad controls)
+  LifeGameSinglePlayer(display::Display* display, controls::DirPad controls)
       : Game(display),
-        idleGame(display),
-        lifeGrid(display->numStrips + 1, display->lengthStrips),
-        dirPad{std::move(controls)} {}
+        idleGame{display},
+        lifeGrid{display->numStrips + 1, display->lengthStrips},
+        dirPad{std::move(controls)} {
+    // Start BG music
+    audio.playStdBG();
+  }
 
   void setup() {
-    if (isFirstSetup) {
-      audio = new LifeAudio();
-      isFirstSetup = false;
-      audio->playStdBG();
-    }
-
-    // Start BG music
-
     // Start off on blue
     setHue(140);
 
@@ -71,7 +68,7 @@ class LifeGameSinglePlayer : public kss::games::Game {
 
   void enterPlayingState() {
     gameState = LifeGamePlaying;
-    audio->playStdBG();
+    audio.playStdBG();
   }
 
   void enterIdleState() {
@@ -118,39 +115,39 @@ class LifeGameSinglePlayer : public kss::games::Game {
     // Hue adjust controls
     if (dirPad.left->IsPressed()) {
       setHue(startHue + hueShiftRate * timeDiff);
-      // audio->playColorShift();
+      // audio.playColorShift();
     } else if (dirPad.right->IsPressed()) {
       setHue(startHue - hueShiftRate * timeDiff);
-      // audio->playColorShift();
+      // audio.playColorShift();
     } else {
-      // audio->stopColorShift();
+      // audio.stopColorShift();
     }
 
     // pause/play controls
     if (dirPad.a->IsDepressing()) {
       isPaused = !isPaused;
       if (isPaused == true) {
-        // audio->playTimeStop();
+        // audio.playTimeStop();
       } else {
-        // audio->playTimeStart();
+        // audio.playTimeStart();
       }
     }
 
     if (millis() >= nextDrawFrameMillis) {
       // randomize controls on frame speed
       if (dirPad.b->IsPressed()) {
-        // if(!audio->shuffleIsStarted)
+        // if(!audio.shuffleIsStarted)
         // {
-        // 	audio->startRandom();
+        // 	audio.startRandom();
         // }
         lifeGrid.randomize();
       } else if (isPaused == false) {
         // Calculate next round
         lifeGrid.GoOneRound();
       }
-      // if(dirPad.b->IsUp() && audio->shuffleIsStarted)
+      // if(dirPad.b->IsUp() && audio.shuffleIsStarted)
       // {
-      // 	audio->stopPlayRandom();
+      // 	audio.stopPlayRandom();
       // }
 
       nextDrawFrameMillis = millis() + millisPerFrame;
@@ -177,3 +174,7 @@ class LifeGameSinglePlayer : public kss::games::Game {
     }
   }
 };
+
+}  // namespace life
+}  // namespace games
+}  // namespace kss
