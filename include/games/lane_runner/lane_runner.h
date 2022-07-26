@@ -3,19 +3,22 @@
 #include <deque>  // for deque
 
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "controls/dir_pad.h"                   // for kss::controls::DirPad
+#include "controls/dir_pad.h"                   // for controls::DirPad
 #include "engines/physics_info.h"               // for PhysicsInfo
 #include "games/game.h"                         // for Game
 
+namespace kss {
+namespace games {
+
 class LaneRunnerGame : Game {
-  kss::controls::DirPad controller;
-  kss::engines::PhysicsInfo player;
-  kss::animation::SingleColorBG background;
+  controls::DirPad controller;
+  engines::PhysicsInfo player;
+  animation::SingleColorBG background;
 
   std::deque<int> dots;
 
  public:
-  LaneRunnerGame(kss::display::Display* gameDisplay, kss::controls::DirPad controller)
+  LaneRunnerGame(display::Display* gameDisplay, controls::DirPad controller)
       : Game(gameDisplay),
         controller{std::move(controller)},
         background(0, 0, 0),
@@ -112,3 +115,6 @@ class LaneRunnerGame : Game {
     display->strips[(int)player.xLocation][(int)player.Location] = CRGB::Green;
   }
 };
+
+}  // namespace games
+}  // namespace kss
