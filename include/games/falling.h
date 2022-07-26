@@ -12,7 +12,7 @@ using namespace std;
 
 class FallingGame : public Game {
   kss::controls::DirPad controls;
-  PhysicsInfo player;
+  kss::engines::PhysicsInfo player;
   kss::animation::SingleColorBG background;
 
   deque<pair<int, int>> walls;

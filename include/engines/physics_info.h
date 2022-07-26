@@ -1,5 +1,9 @@
 #pragma once
 
+
+namespace kss {
+namespace engines {
+
 class PhysicsInfo {
   // Track physics based on time not frames
   long Time;
@@ -117,3 +121,7 @@ class PhysicsInfo {
     }
   }
 };
+
+
+}  // namespace engines
+}  // namespace kss

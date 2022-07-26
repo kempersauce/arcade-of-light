@@ -6,7 +6,7 @@
 
 class Shooter : public kss::animation::Animation {
  public:
-  PhysicsInfo physics;
+  kss::engines::PhysicsInfo physics;
 
   Shooter() : Animation(), physics() {}
 

@@ -25,7 +25,7 @@ enum H2HGameState {
 class Head2Head : Game {
   H2HGameState gameState;
 
-  NoiseGenerator noiseGenerator;
+  kss::engines::NoiseGenerator noise_engine_;
 
   kss::animation::ElectricArc electricArc;
 
@@ -38,8 +38,7 @@ class Head2Head : Game {
   const static long totalWinTimeoutMillis =
       1000 * 10;  // 10 seconds in win state
 
-  H2HAudio* audio;
-  bool isFirstSetup = true;
+  H2HAudio audio;
 
   H2HControl teamA;
   H2HControl teamB;
@@ -52,9 +51,8 @@ class Head2Head : Game {
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},
         idleGame(gameDisplay),
-        noiseGenerator(gameDisplay->numStrips, gameDisplay->lengthStrips),
+        noise_engine_{gameDisplay->numStrips, gameDisplay->lengthStrips, 30},
         electricArc() {
-    noiseGenerator.speed = 30;
 
     // Initialize each game strip
     gameStrips = new H2HGameStrip*[gameDisplay->numStrips];
@@ -62,45 +60,41 @@ class Head2Head : Game {
     // Do this one at a time so we can feed it pin numbers and button colors
     gameStrips[0] =
         new H2HGameStrip(0, gameDisplay->lengthStrips, teamA.buttons[0],
-                         teamB.buttons[0], &noiseGenerator);
+                         teamB.buttons[0], &noise_engine_);
     gameStrips[1] =
         new H2HGameStrip(1, gameDisplay->lengthStrips, teamA.buttons[1],
-                         teamB.buttons[1], &noiseGenerator);
+                         teamB.buttons[1], &noise_engine_);
     gameStrips[2] =
         new H2HGameStrip(2, gameDisplay->lengthStrips, teamA.buttons[2],
-                         teamB.buttons[2], &noiseGenerator);
+                         teamB.buttons[2], &noise_engine_);
     gameStrips[3] =
         new H2HGameStrip(3, gameDisplay->lengthStrips, teamA.buttons[3],
-                         teamB.buttons[3], &noiseGenerator);
+                         teamB.buttons[3], &noise_engine_);
     gameStrips[4] =
         new H2HGameStrip(4, gameDisplay->lengthStrips, teamA.buttons[4],
-                         teamB.buttons[4], &noiseGenerator);
+                         teamB.buttons[4], &noise_engine_);
     gameStrips[5] =
         new H2HGameStrip(5, gameDisplay->lengthStrips, teamA.buttons[5],
-                         teamB.buttons[5], &noiseGenerator);
+                         teamB.buttons[5], &noise_engine_);
     gameStrips[6] =
         new H2HGameStrip(6, gameDisplay->lengthStrips, teamA.buttons[6],
-                         teamB.buttons[6], &noiseGenerator);
+                         teamB.buttons[6], &noise_engine_);
     gameStrips[7] =
         new H2HGameStrip(7, gameDisplay->lengthStrips, teamA.buttons[7],
-                         teamB.buttons[7], &noiseGenerator);
+                         teamB.buttons[7], &noise_engine_);
   }
 
   void setup() {
-    if (isFirstSetup) {
-      audio = new H2HAudio();
-      isFirstSetup = false;
-    }
     enterStartState();
     // enterWinBState();
   }
 
   void enterStartState() {
     gameState = H2HGameStart;
-    audio->playStdBG();
-    audio->stopWinMusic();
+    audio.playStdBG();
+    audio.stopWinMusic();
     // dont forget to take this out lol
-    audio->itsTimeToDuel();
+    audio.itsTimeToDuel();
     for (int i = 0; i < display->numStrips; i++) {
       gameStrips[i]->reset();
     }
@@ -109,7 +103,7 @@ class Head2Head : Game {
   void enterPlayingState() { gameState = H2HGamePlaying; }
 
   void enterWinAState() {
-    audio->playTeamAWinGame();
+    audio.playTeamAWinGame();
     gameState = H2HGameWinA;
     for (int i = 0; i < display->numStrips; i++) {
       gameStrips[i]->enterTotalWinAState();
@@ -118,7 +112,7 @@ class Head2Head : Game {
   }
 
   void enterWinBState() {
-    audio->playTeamBWinGame();
+    audio.playTeamBWinGame();
     gameState = H2HGameWinB;
     for (int i = 0; i < display->numStrips; i++) {
       gameStrips[i]->enterTotalWinBState();
@@ -165,7 +159,7 @@ class Head2Head : Game {
 
       case H2HGamePlaying:
         // Generate noise
-        noiseGenerator.fillnoise8();
+        noise_engine_.fillnoise8();
 
         for (int i = 0; i < display->numStrips; i++) {
           gameStrips[i]->checkGameState(audio);
@@ -184,7 +178,7 @@ class Head2Head : Game {
 
       case H2HGameWinA:
         // Generate noise
-        noiseGenerator.fillnoise8();
+        noise_engine_.fillnoise8();
         H2HGameStrip::midBar++;
 
         if (millis() - totalWinStart > totalWinTimeoutMillis) {
@@ -194,7 +188,7 @@ class Head2Head : Game {
 
       case H2HGameWinB:
         // Generate noise
-        noiseGenerator.fillnoise8();
+        noise_engine_.fillnoise8();
         H2HGameStrip::midBar--;
 
         if (millis() - totalWinStart > totalWinTimeoutMillis) {

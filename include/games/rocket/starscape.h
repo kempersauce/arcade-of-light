@@ -5,24 +5,21 @@
 #include "engines/noise.h"  // for NoiseGenerator
 
 class Starscape : public kss::animation::Animation {
-  int brightnessThreshold;
+  const int brightnessThreshold;
 
  public:
-  NoiseGenerator noiseGenerator;
+  kss::engines::NoiseGenerator noise_engine;
 
   Starscape(int width, int height, int brightnessThreshold)
-      : Animation(), noiseGenerator(width, height) {
-    noiseGenerator.speed =
-        7;  // slow down the speed here, we want slow blinking stars
-    this->brightnessThreshold = brightnessThreshold;
+      : Animation(), brightnessThreshold{brightnessThreshold}, noise_engine(width, height, 7) {
   }
 
   void draw(kss::display::Display* display) {
-    noiseGenerator.fillnoise8();
+    noise_engine.fillnoise8();
 
     for (int i = 0; i < display->numStrips; i++) {
       for (int j = 0; j < display->lengthStrips; j++) {
-        int brightness = noiseGenerator.noise[i][j];
+        int brightness = noise_engine.data[i][j];
         if (brightness > brightnessThreshold) {
           // Draw the star, it's past the threshold
 

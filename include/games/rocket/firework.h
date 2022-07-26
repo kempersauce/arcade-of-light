@@ -13,7 +13,7 @@ class Firework : public kss::animation::Animation {
 
  public:
   // Physics for the fireworks "rocket"
-  PhysicsInfo physics;
+  kss::engines::PhysicsInfo physics;
 
   // Fireworks explosion
   kss::animation::Explosion explosion;

@@ -12,6 +12,8 @@ namespace animation {
 
 using namespace std;
 
+namespace letters = kss::engines::letters;
+
 // This file holds words and word functions
 class Marquee : public Animation {
   int Hue = 0;
@@ -20,7 +22,6 @@ class Marquee : public Animation {
   int MarqueeSpeed = 1;
   int YLocation = 0;
   int Word[1][8][4];
-  int Letters = 1;
   bool Stop = false;
   int StripX;
   int StripY;
@@ -32,25 +33,25 @@ class Marquee : public Animation {
 
   // list of words to display
   // int WordWinner[6][8][4] =
-  // {{LetterW},{LetterI},{LetterN},{LetterN},{LetterE,LetterR}}; int
-  // WordLoser[5][8][4] = {LetterL,LetterO,LetterS,LetterE,LetterR}; int
-  // WordReady[5][8][4] = {LetterR,LetterE,LetterA,LetterD,LetterY}; int
-  // WordStart[5][8][4] = {{{LetterS},{LetterT},{LetterA},{LetterR},{LetterT}}};
-  // int WordGame[4][8][4] = {LetterG,LetterA,LetterM,LetterE};
-  // int WordOver[4][8][4] = {LetterO,LetterV,LetterE,LetterR};
-  // int WordYeet[4][8][4] = {LetterY,LetterE,LetterE,LetterT};
+  // {{letters::W},{letters::I},{letters::N},{letters::N},{letters::E,letters::R}}; int
+  // WordLoser[5][8][4] = {letters::L,letters::O,letters::S,letters::E,letters::R}; int
+  // WordReady[5][8][4] = {letters::R,letters::E,letters::A,letters::D,letters::Y}; int
+  // WordStart[5][8][4] = {{{letters::S},{letters::T},{letters::A},{letters::R},{letters::T}}};
+  // int WordGame[4][8][4] = {letters::G,letters::A,letters::M,letters::E};
+  // int WordOver[4][8][4] = {letters::O,letters::V,letters::E,letters::R};
+  // int WordYeet[4][8][4] = {letters::Y,letters::E,letters::E,letters::T};
   // int WordArcade[6][8][4] =
-  // {LetterA,LetterR,LetterC,LetterA,LetterD,LetterE}; int WordOf[2][8][4] =
-  // {LetterO,LetterF}; int WordLight[5][8][4] =
-  // {LetterL,LetterI,LetterG,LetterH,LetterT};
+  // {letters::A,letters::R,letters::C,letters::A,letters::D,letters::E}; int WordOf[2][8][4] =
+  // {letters::O,letters::F}; int WordLight[5][8][4] =
+  // {letters::L,letters::I,letters::G,letters::H,letters::T};
 
  public:
   // Initialize a word
   Marquee(int speed) : Animation() {
-    Letters = 1;  // Brian!! idk how to do lookup tables
+    int letter_count = 1;  // Brian!! idk how to do lookup tables
 
     // lookup characters from font file
-    //  for (int i = 0; i < Letters; i++)
+    //  for (int i = 0; i < letter_count; i++)
     //  {
     //    for (int j = 0; j < LetterHeight; j++)
     //    {
@@ -58,7 +59,7 @@ class Marquee : public Animation {
     //      {
     //        //if (word == "START")
     //        //{
-    //          Word[i][j][k] = LetterA[j][k];//Brian!! idk how to do lookup
+    //          Word[i][j][k] = letters::A[j][k];//Brian!! idk how to do lookup
     //          tables
     //        //}
     //      }
@@ -68,7 +69,7 @@ class Marquee : public Animation {
 
     // Hue = hue;
     // MarqueeSpeed = speed;
-    // YLocation = 120 + (Letters * LetterHeight) ;
+    // YLocation = 120 + (letter_count * LetterHeight) ;
   }
 
   // Need to add spaces somehow
@@ -97,182 +98,182 @@ class Marquee : public Animation {
     drawString(text, display);
     // int lowerX = 0;
     // drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display,
-    // LetterE, beatsin8(2), 255, 255);
+    // letters::E, beatsin8(2), 255, 255);
 
     // drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display,
-    // LetterC, beatsin8(8), 255, 255);
+    // letters::C, beatsin8(8), 255, 255);
 
     // drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display,
-    // LetterU, beatsin8(30), 255, 255);
+    // letters::U, beatsin8(30), 255, 255);
 
     // drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display,
-    // LetterA, beatsin8(2), 255, 255);
+    // letters::A, beatsin8(2), 255, 255);
 
     // drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display,
-    // LetterS, beatsin8(8), 255, 255);
+    // letters::S, beatsin8(8), 255, 255);
 
     // drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display,
-    // LetterR, beatsin8(30), 255, 255);
+    // letters::R, beatsin8(30), 255, 255);
 
     // drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display,
-    // LetterE, beatsin8(45), 255, 255);
+    // letters::E, beatsin8(45), 255, 255);
 
     // drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display,
-    // LetterP, beatsin8(2), 255, 255);
+    // letters::P, beatsin8(2), 255, 255);
 
     // drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display,
-    // LetterM, beatsin8(8), 255, 255);
+    // letters::M, beatsin8(8), 255, 255);
 
     // drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display,
-    // LetterE, beatsin8(30), 255, 255);
+    // letters::E, beatsin8(30), 255, 255);
 
     // drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display,
-    // LetterK, beatsin8(45), 255, 255);
+    // letters::K, beatsin8(45), 255, 255);
   }
 
   void drawString(const string& text, display::Display* display) {
     int spacer = 10 * text.length();  // measure the words out
     for (int i = 0; i < text.length(); i++) {
-      int(*letter)[8][4];
+      int (*letter)[8][4]; // default is empty
       char c = text[i];
       switch (c) {
         case 'a':
         case 'A':
-          letter = &LetterA;
+          letter = &letters::A;
           break;
 
         case 'b':
         case 'B':
-          // letter = &LetterB;
+          // letter = &letters::B;
           continue;
           break;
 
         case 'c':
         case 'C':
-          letter = &LetterC;
+          letter = &letters::C;
           break;
 
         case 'd':
         case 'D':
-          letter = &LetterD;
+          letter = &letters::D;
           break;
 
         case 'e':
         case 'E':
-          letter = &LetterE;
+          letter = &letters::E;
           break;
 
         case 'f':
         case 'F':
-          // letter = &LetterF;
+          // letter = &letters::F;
           continue;
           break;
 
         case 'g':
         case 'G':
-          // letter = &LetterG;
+          // letter = &letters::G;
           continue;
           break;
 
         case 'h':
         case 'H':
-          // letter = &LetterH;
+          // letter = &letters::H;
           continue;
           break;
 
         case 'i':
         case 'I':
-          letter = &LetterI;
+          letter = &letters::I;
           break;
 
         case 'j':
         case 'J':
-          letter = &LetterJ;
+          letter = &letters::J;
           break;
 
         case 'k':
         case 'K':
-          letter = &LetterK;
+          letter = &letters::K;
           break;
 
         case 'l':
         case 'L':
-          // letter = &LetterL;
+          // letter = &letters::L;
           continue;
           break;
 
         case 'm':
         case 'M':
-          letter = &LetterM;
+          letter = &letters::M;
           break;
 
         case 'n':
         case 'N':
-          letter = &LetterN;
+          letter = &letters::N;
           break;
 
         case 'o':
         case 'O':
-          letter = &LetterO;
+          letter = &letters::O;
           break;
 
         case 'p':
         case 'P':
-          letter = &LetterP;
+          letter = &letters::P;
           break;
 
         case 'q':
         case 'Q':
-          // letter = &LetterQ;
+          // letter = &letters::Q;
           continue;
           break;
 
         case 'r':
         case 'R':
-          letter = &LetterR;
+          letter = &letters::R;
           break;
 
         case 's':
         case 'S':
-          letter = &LetterS;
+          letter = &letters::S;
           break;
 
         case 't':
         case 'T':
-          letter = &LetterT;
+          letter = &letters::T;
           break;
 
         case 'u':
         case 'U':
-          letter = &LetterU;
+          letter = &letters::U;
           break;
 
         case 'v':
         case 'V':
-          // letter = &LetterV;
+          // letter = &letters::V;
           continue;
           break;
 
         case 'w':
         case 'W':
-          letter = &LetterW;
+          letter = &letters::W;
           break;
 
         case 'x':
         case 'X':
-          // letter = &LetterX;
+          // letter = &letters::X;
           continue;
           break;
 
         case 'y':
         case 'Y':
-          // letter = &LetterY;
+          // letter = &letters::Y;
           continue;
           break;
 
         case 'z':
         case 'Z':
-          // letter = &LetterZ;
+          // letter = &letters::Z;
           continue;
           break;
 
@@ -291,7 +292,7 @@ class Marquee : public Animation {
   }
 
   void drawLetter(int lowerLeftX, int lowerLeftY, int orientation,
-                  display::Display* display, int letter[8][4], int hue, int sat,
+                  display::Display* display, const int (&letter)[8][4], int hue, int sat,
                   int bright) {
     for (int j = 0; j < LetterHeight; j++) {
       for (int k = 0; k < LetterWidth; k++) {

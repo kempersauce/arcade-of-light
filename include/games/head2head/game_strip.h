@@ -43,19 +43,19 @@ class H2HGameStrip : public kss::animation::Animation {
   int stripIndex;  // Which strip is this on?
   int heightMax;   // length of this strip
 
-  NoiseGenerator* noiseGenerator;  // this is maintained by the game class so we
+  kss::engines::NoiseGenerator* noise_engine_;  // this is maintained by the game class so we
                                    // just need to hold onto the reference here
 
-  long stateTimeoutMillis;  // state timer used to time a handful of game states
-  const static long deadStateTimeoutMinMillis =
+  uint32_t stateTimeoutMillis;  // state timer used to time a handful of game states
+  const uint32_t deadStateTimeoutMinMillis =
       1000 * .5;  // 1/2 seconds minimum before dropping a new ball
-  const static long deadStateTimeoutMaxMillis =
+  const uint32_t deadStateTimeoutMaxMillis =
       1000 * 5;  // 5 seconds max before dropping a new ball
 
-  const static long droppingStateTimeoutMillis =
+  const uint32_t droppingStateTimeoutMillis =
       1000 * 3;  // 2 seconds of flashing before ball drop
 
-  const static long totalWinStateTimeoutMillis =
+  const uint32_t totalWinStateTimeoutMillis =
       1000 * 3;  // loop total win animation for 3 seconds
 
  public:
@@ -69,7 +69,7 @@ class H2HGameStrip : public kss::animation::Animation {
 
   H2HGameStrip(int stripIndex, int stripHeight,
                std::shared_ptr<kss::controls::Button> a,
-               std::shared_ptr<kss::controls::Button> b, NoiseGenerator* noise)
+               std::shared_ptr<kss::controls::Button> b, kss::engines::NoiseGenerator* noise)
       : Animation(),
         dot(CRGB::White, stripIndex),
         explosion(50),
@@ -78,7 +78,8 @@ class H2HGameStrip : public kss::animation::Animation {
         zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1,
               true),
         buttonA{std::move(a)},
-        buttonB{std::move(b)} {
+        buttonB{std::move(b)},
+        noise_engine_{noise} {
     this->stripIndex = stripIndex;
     heightMax = stripHeight;
 
@@ -101,8 +102,6 @@ class H2HGameStrip : public kss::animation::Animation {
     zoneBStart = zoneB.yMin;
 
     reset();
-
-    noiseGenerator = noise;
   }
 
   void reset() {
@@ -178,19 +177,19 @@ class H2HGameStrip : public kss::animation::Animation {
     stateTimeoutMillis = millis();
   }
 
-  void checkGameState(H2HAudio* audio) {
+  void checkGameState(H2HAudio& audio) {
     switch (stripState) {
       case H2HStripPlaying:
 
         // Did team A just win this one?
         if (dot.physics.Location >= heightMax) {
-          audio->playTeamAWinLane();
+          audio.playTeamAWinLane();
           enterWinningStateA();
         }
 
         // Did team B just win this one?
         else if (dot.physics.Location <= 0) {
-          audio->playTeamBWinLane();
+          audio.playTeamBWinLane();
           enterWinningStateB();
         }
 
@@ -198,12 +197,12 @@ class H2HGameStrip : public kss::animation::Animation {
           // Team A hits the button
           if (buttonA->IsDepressing()) {
             if (zoneA.checkZone(dot.physics.Location)) {
-              audio->playTeamAHit();
+              audio.playTeamAHit();
               dot.setVelocity(-1 * (dot.physics.Velocity) +
                               (zoneA.zoneDepth(dot.physics.Location) *
                                10));  // 20 to 40 px/sec
             } else {
-              audio->playTeamAMiss();
+              audio.playTeamAMiss();
             }
           }
 
@@ -214,12 +213,12 @@ class H2HGameStrip : public kss::animation::Animation {
             delay(1);
             digitalWriteFast(9, LOW);
             if (zoneB.checkZone(dot.physics.Location)) {
-              audio->playTeamBHit();
+              audio.playTeamBHit();
               dot.setVelocity(-1 * (dot.physics.Velocity) -
                               (zoneB.zoneDepth(dot.physics.Location) *
                                10));  // -20 to -40 px/sec
             } else {
-              audio->playTeamBMiss();
+              audio.playTeamBMiss();
             }
           }
 
@@ -352,14 +351,14 @@ class H2HGameStrip : public kss::animation::Animation {
   void drawBackgroundA(kss::display::Display* display) {
     for (int y = 0; y < min(midBar, display->lengthStrips); y++) {
       display->strips[stripIndex][y].setHSV(
-          zoneAHue, 255, noiseGenerator->noise[stripIndex][y]);  // blue team
+          zoneAHue, 255, noise_engine_->data[stripIndex][y]);  // blue team
     }
   }
 
   void drawBackgroundB(kss::display::Display* display) {
     for (int y = max(midBar, 0); y < heightMax; y++) {
       display->strips[stripIndex][y].setHSV(
-          zoneBHue, 255, noiseGenerator->noise[stripIndex][y]);  // red team
+          zoneBHue, 255, noise_engine_->data[stripIndex][y]);  // red team
     }
   }
 
@@ -375,7 +374,7 @@ class H2HGameStrip : public kss::animation::Animation {
   void drawWinA(kss::display::Display* display) {
     CRGB teamAColor;
     teamAColor.setHSV(zoneAHue, 255, 255);
-    long timeDiff =
+    const uint32_t timeDiff =
         (millis() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
     const float waveWidth = 10;
     drawBackgroundA(display);
@@ -391,7 +390,7 @@ class H2HGameStrip : public kss::animation::Animation {
   void drawWinB(kss::display::Display* display) {
     CRGB teamBColor;
     teamBColor.setHSV(zoneBHue, 255, 255);
-    long timeDiff =
+    const uint32_t timeDiff =
         (millis() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
     const float waveWidth = 10;
     drawBackgroundB(display);

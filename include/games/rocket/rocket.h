@@ -10,7 +10,7 @@
 
 class Rocket : public kss::animation::Animation {
  public:
-  PhysicsInfo physics;
+  kss::engines::PhysicsInfo physics;
 
   // Rocket constants
   // int Mass = 2;

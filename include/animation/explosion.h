@@ -13,7 +13,7 @@ class Explosion : Animation {
  public:
   long birthTimeMillis;
 
-  std::vector<PhysicsInfo> shrapnel;
+  std::vector<engines::PhysicsInfo> shrapnel;
 
   int explosionMagnitude = 100;
 
@@ -23,7 +23,7 @@ class Explosion : Animation {
   long saturationPhaseMillis = 1000;
   long brightnessPhaseMillis = 1500;
 
-  Explosion(int shrapnelCount = 50) : Animation(), shrapnel(shrapnelCount) {
+  Explosion(int shrapnelCount = 50) : Animation(), shrapnel{shrapnelCount} {
     birthTimeMillis = 0;  // not born yet
     Hue = random(0, 255);
     SetFriction(20, 5);
@@ -67,7 +67,7 @@ class Explosion : Animation {
 
   long TimeAliveMillis() { return millis() - birthTimeMillis; }
 
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     if (IsBurnedOut())  // don't drawing after the explosion burns out
     {
       return;

@@ -8,7 +8,7 @@
 
 class H2HDot : public kss::animation::Animation {
  public:
-  PhysicsInfo physics;
+  kss::engines::PhysicsInfo physics;
   CRGB color;
 
   H2HDot(CRGB startColor, int stripIndex) : Animation(), physics() {

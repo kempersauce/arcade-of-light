@@ -18,34 +18,30 @@ class Flicker : public Animation {
   int shiftSpeed = 1;
 
   // frame rate
-  long frameRateMillis = 10;
-  long flareFrameMillis = frameRateMillis / 2;
-  unsigned long lastLoopMillis;
-  unsigned long lastFlareMillis;
-  unsigned long newMillis;
+  uint32_t frameRateMillis = 10;
+  uint32_t flareFrameMillis = frameRateMillis / 2;
+  uint32_t lastLoopMillis;
+  uint32_t lastFlareMillis;
+  uint32_t newMillis;
 
   // flare
   int flareChance = 2;
   bool* hasFlare;
   int** flareLoc;
 
-  NoiseGenerator* noiseGenerator;
+  //engines::NoiseGenerator noise;
 
  public:
   int saturation = 255;
   int brightness = 150;
-  int origin = 12;
+  int origin;
 
   // Initialize a Flame at y-location origin with a certain height, main color
   // and accent color
-  Flicker(int flameOrigin, int flameHeight, int flameWidth, int mainHue,
-          int accentHue)
-      : Animation() {
-    hueMain = mainHue;
-    hueAccent = accentHue;
-    height = flameHeight;
-    origin = flameOrigin;
-    width = flameWidth;
+  Flicker(int origin, int height, int width, int hueMain,
+          int hueAccent)
+      : Animation(), hueMain{hueMain}, hueAccent{hueAccent}, height{height}, width{width}, origin{origin} /*, noise{width, height}*/ {
+
     currentHeight = new int[width];
 
     hasFlare = new bool[width];
@@ -64,16 +60,17 @@ class Flicker : public Animation {
     int heightMod = random8(height + 1);
     int newHeight = origin + heightMod;
     currentHeight[0] = newHeight;
-
-    // noiseGenerator = new NoiseGenerator(width, height);
   }
+
   // Sets the starting hue, probably not needed since the hue shifts constantly
   void setHues(int mainHue, int accentHue) {
     hueMain = mainHue;
     hueAccent = accentHue;
   }
+
   // Sets the saturation, 0=white 255=full color
   void setSaturation(int sat) { saturation = sat; }
+
   // Sets the Brightness, 0=off 255=max
   void setBrightness(int bright) { brightness = bright; }
 
@@ -90,7 +87,7 @@ class Flicker : public Animation {
 
   // Conjure the Flame
   void draw(display::Display* display) {
-    // noiseGenerator->fillnoise8();
+    // noise.fillnoise8();
     newMillis = millis();
 
     // Serial.println("old: " + (String)lastLoopMillis);
@@ -99,7 +96,7 @@ class Flicker : public Animation {
 
     if ((newMillis - lastLoopMillis) >= frameRateMillis) {
       // adjust
-      int heightAdjust = random16(3);
+      uint16_t heightAdjust = random16(3);
       if (random8() <= 127) {
         heightAdjust *= -1;
       }
@@ -154,13 +151,13 @@ class Flicker : public Animation {
         if (j == (currentHeight[i]) || j == (currentHeight[i] - 1)) {
           // display->strips[i][j] = CHSV(hueAccent, saturation, brightness);
           // display->strips[i][j].setHSV(hueAccent, saturation, brightness +
-          // noiseGenerator->noise[i][flareLoc[i][0]]);
+          // noise.data[i][flareLoc[i][0]]);
           display->strips[i][j].setHSV(hueAccent, saturation, 255);
         }
         // main color on remaining pixel
         else {
           // display->strips[i][j].setHSV(hueMain, saturation, brightness +
-          // noiseGenerator->noise[i][flareLoc[i][0]]);
+          // noise.data[i][flareLoc[i][0]]);
           display->strips[i][j].setHSV(hueMain, saturation, 255);
           // display->strips[i][j] = CHSV(hueMain, saturation, brightness);
         }
@@ -171,7 +168,7 @@ class Flicker : public Animation {
         CRGB color;
         display->strips[i][flareLoc[i][0]].setHSV(hueAccent, saturation, 255);
         // display->strips[i][flareLoc[i][0]].setHSV(hueAccent, saturation,
-        // brightness + noiseGenerator->noise[i][flareLoc[i][0]]);
+        // brightness + noise.data[i][flareLoc[i][0]]);
       }
     }
   }
@@ -183,13 +180,13 @@ class Flicker : public Animation {
         if (j == (currentHeight[i]) || j == (currentHeight[i] - 1)) {
           // display->strips[i][j] = CHSV(hueAccent, saturation, brightness);
           // display->strips[i][j].setHSV(hueAccent, saturation, brightness +
-          // noiseGenerator->noise[i][flareLoc[i][0]]);
+          // noise.data[i][flareLoc[i][0]]);
           display->strips[i][j].setHSV(hueAccent, saturation, 255);
         }
         // main color on remaining pixel
         else {
           // display->strips[i][j].setHSV(hueMain, saturation, brightness +
-          // noiseGenerator->noise[i][flareLoc[i][0]]);
+          // noise.data[i][flareLoc[i][0]]);
           display->strips[i][j].setHSV(hueMain, saturation, 255);
           // display->strips[i][j] = CHSV(hueMain, saturation, brightness);
         }
@@ -200,7 +197,7 @@ class Flicker : public Animation {
         CRGB color;
         display->strips[i][flareLoc[i][0]].setHSV(hueAccent, saturation, 255);
         // display->strips[i][flareLoc[i][0]].setHSV(hueAccent, saturation,
-        // brightness + noiseGenerator->noise[i][flareLoc[i][0]]);
+        // brightness + noise.data[i][flareLoc[i][0]]);
       }
     }
   }

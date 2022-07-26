@@ -4,24 +4,21 @@
 
 class RocketBoost : public kss::animation::Animation {
  private:
-  NoiseGenerator* noiseGenerator;
+  kss::engines::NoiseGenerator noise_engine_;
 
  public:
   int loc;
   int height;
   float boostFactor;
 
-  RocketBoost(int heightMax) {
-    height = heightMax;
+  RocketBoost(int heightMax) : Animation(), height{heightMax}, noise_engine_{1, heightMax, 100} {
     loc = 0;
     boostFactor = 0;
-    noiseGenerator = new NoiseGenerator(1, heightMax);  // 1-d noise generator
-    noiseGenerator->speed = 100;                        // make it fast whoosh
   }
 
   // override rainbow draw function
   void draw(kss::display::Display* display) {
-    noiseGenerator->fillnoise8();
+    noise_engine_.fillnoise8();
 
     // normalize boostFactor to 0-1 range
     if (boostFactor > 1) {
@@ -40,7 +37,7 @@ class RocketBoost : public kss::animation::Animation {
     for (int i = max(loc - boostHeight, 0); i < min(loc, display->lengthStrips);
          i++) {
       display->strips[middleStrip][i].setRGB(
-          255, noiseGenerator->noise[0][loc - i], 0);
+          255, noise_engine_.data[0][loc - i], 0);
     }
   }
 };

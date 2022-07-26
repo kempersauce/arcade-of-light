@@ -313,9 +313,9 @@ class RocketGame : Game {
           // jk since scale is so high, any higher than 1*scale is too fast, and
           // any lover than 1*cale causes tearing between pixels
           int backgroundShift = 1;
-          starBackground.noiseGenerator.y +=
+          starBackground.noise_engine.y +=
               backgroundShift *
-              starBackground.noiseGenerator
+              starBackground.noise_engine
                   .scale;  // NOTE: Since y is actually an 8.8 bit int, this may
                            // need more than just a small push
         }
