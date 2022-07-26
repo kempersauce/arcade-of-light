@@ -1,11 +1,13 @@
 #pragma once
 
 #include <queue>
+#include <HardwareSerial.h>  // for HardwareSerial
 
-using namespace std;
+namespace kss {
+namespace serial {
 
-class KemperSerialReceiver {
-  queue<char *> outputQueue;
+class Receiver {
+  std::queue<char *> outputQueue;
 
  public:
   const static byte numChars = 32;
@@ -13,14 +15,13 @@ class KemperSerialReceiver {
   // char receivedChars[numChars];
   char *inputBuffer;
 
-  const HardwareSerial *serial;
+  HardwareSerial *serial;
 
   int led;
   int mostRecentUnreadMessage;
   int newestMessage;
 
-  KemperSerialReceiver(const HardwareSerial *serialRef) {
-    serial = serialRef;
+  Receiver(HardwareSerial* serial) : serial{serial} {
     inputBuffer = (char *)malloc(numChars);
 
     serial->begin(9600);
@@ -85,3 +86,6 @@ class KemperSerialReceiver {
     return readMessage;
   }
 };
+
+}  // namespace serial
+}  // namespace kss

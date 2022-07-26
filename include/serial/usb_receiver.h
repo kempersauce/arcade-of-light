@@ -1,11 +1,15 @@
+// #pragma once
+
 // #include <queue>
 
-// using namespace std;
+// namespace kss {
+// namespace serial {
 
-// class USBSerialReceiver
+
+// class USBReceiver
 // {
 
-//     queue<char *> outputQueue;
+//     std::queue<char *> outputQueue;
 
 // public:
 //     const static byte numChars = 32;
@@ -17,7 +21,7 @@
 //     int mostRecentUnreadMessage;
 //     int newestMessage;
 
-//     USBSerialReceiver()
+//     USBReceiver()
 //     {
 //         inputBuffer = (char *)malloc(numChars);
 
@@ -100,3 +104,6 @@
 //         return readMessage;
 //     }
 // };
+
+// }  // namespace serial
+// }  // namespace kss

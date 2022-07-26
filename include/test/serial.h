@@ -6,7 +6,7 @@
 #include "serial/receiver.h"                    // for Receiver
 
 class SerialTest : Game {
-  KemperSerialReceiver ks;
+  kss::serial::Receiver ks;
 
   kss::animation::SingleColorBG background;
 

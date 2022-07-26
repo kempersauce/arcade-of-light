@@ -3,12 +3,15 @@
 #include <queue>
 #include <string>
 
-class KemperSerialTransmitter {
+namespace kss {
+namespace serial {
+
+class Transmitter {
  public:
   const HardwareSerial *serial;
   const static byte numChars = 32;
 
-  KemperSerialTransmitter(const HardwareSerial *serialRef) {
+  Transmitter(const HardwareSerial *serialRef) {
     serial = serialRef;
     serial->begin(9600);
   }
@@ -26,4 +29,7 @@ class KemperSerialTransmitter {
   }
 };
 
-KemperSerialTransmitter Transmitter5(&Serial5);
+Transmitter Transmitter5(&Serial5);
+
+}  // namespace serial
+}  // namespace kss
