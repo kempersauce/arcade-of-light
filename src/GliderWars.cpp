@@ -6,7 +6,7 @@
 // #include "games/game.h"  // for Game
 // #include "games/life/glider_wars.h"  // for GliderWars
 // #include "controls/hardware/simple.h"
-// #include "games/head2head/controller.h"  // for H2HControl
+// #include "games/head2head/controller.h"  // for Controller
 
 // Game* game;
 // kss::display::Display* gameDisplay;
@@ -14,9 +14,9 @@
 
 // void setup()
 // {
-//     gameDisplay = (kss::display::Display*)new H2HDisplay();
+//     gameDisplay = (kss::display::Display*)new kss::display::H2HDisplay();
 
-//     H2HControl teamA;
+//     kss::games::h2h::Controller teamA;
 //     teamA.buttons[0] = controls.CreateButton(H2H_BUTTON_PIN_7);
 //     teamA.buttons[1] = controls.CreateButton(H2H_BUTTON_PIN_6);
 //     teamA.buttons[2] = controls.CreateButton(H2H_BUTTON_PIN_5);
@@ -26,7 +26,7 @@
 //     teamA.buttons[6] = controls.CreateButton(H2H_BUTTON_PIN_1);
 //     teamA.buttons[7] = controls.CreateButton(H2H_BUTTON_PIN_0);
 
-//     H2HControl teamB;
+//     kss::games::h2h::Controller teamB;
 //     teamB.buttons[0] = controls.CreateButton(H2H_BUTTON_PIN_8);
 //     teamB.buttons[1] = controls.CreateButton(H2H_BUTTON_PIN_9);
 //     teamB.buttons[2] = controls.CreateButton(H2H_BUTTON_PIN_10);

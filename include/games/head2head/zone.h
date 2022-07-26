@@ -1,9 +1,13 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for kss::display::Display
+#include "display/display.h"      // for display::Display
 
-class H2HZone : public kss::animation::Animation {
+namespace kss {
+namespace games {
+namespace h2h {
+
+class H2HZone : public animation::Animation {
  public:
   CRGB color;
   int yMin;
@@ -40,8 +44,12 @@ class H2HZone : public kss::animation::Animation {
     }
   }
 
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     display->strips[xLoc][yMin] = CRGB::White;
     display->strips[xLoc][yMax] = CRGB::White;
   }
 };
+
+}  // namespace h2h
+}  // namespace games
+}  // naemspace kss

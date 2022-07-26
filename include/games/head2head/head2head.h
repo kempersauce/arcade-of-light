@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Constants.h>
 
 #include "animation/electric_arc.h"             // for ElectricArc
@@ -7,12 +9,16 @@
 #include "engines/noise.h"                      // for NoiseGenerator
 #include "games/game.h"                         // for Game
 #include "games/head2head/audio.h"              // for H2HAudio
-#include "games/head2head/controller.h"         // for H2HControl
+#include "games/head2head/controller.h"         // for Controller
 #include "games/head2head/dot.h"                // for H2HDot
 #include "games/head2head/game_strip.h"         // for H2HGameStrip
 #include "games/head2head/zone.h"               // for H2HZone
 #include "games/life/life.h"                    // for LifeGame
 #include "games/rainbow.h"                      // for RainbowGame
+
+namespace kss {
+namespace games {
+namespace h2h {
 
 enum H2HGameState {
   H2HGameIdle,
@@ -22,12 +28,12 @@ enum H2HGameState {
   H2HGameWinB,
 };
 
-class Head2Head : Game {
+class Head2Head : public Game {
   H2HGameState gameState;
 
-  kss::engines::NoiseGenerator noise_engine_;
+  engines::NoiseGenerator noise_engine_;
 
-  kss::animation::ElectricArc electricArc;
+  animation::ElectricArc electricArc;
 
   // Idle Game, plays after no buttons have been pressed before idle timeout
   RainbowGame idleGame;
@@ -40,13 +46,13 @@ class Head2Head : Game {
 
   H2HAudio audio;
 
-  H2HControl teamA;
-  H2HControl teamB;
+  Controller teamA;
+  Controller teamB;
 
  public:
   H2HGameStrip** gameStrips;  // one for each strip
 
-  Head2Head(kss::display::Display* gameDisplay, H2HControl teamA, H2HControl teamB)
+  Head2Head(display::Display* gameDisplay, Controller teamA, Controller teamB)
       : Game(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},
@@ -128,7 +134,7 @@ class Head2Head : Game {
   void loop() {
     bool isIdle = true;
     for (int i = 0; i < display->numStrips; i++) {
-      // TODO Move this to the H2HControl class IsIdle(..)
+      // TODO Move this to the Controller class IsIdle(..)
       // if any buttons aren't past the idle timeout yet, then we're not idling
       if (teamA.buttons[i]->GetMillisReleased() <= idleTimeoutMillis ||
           teamB.buttons[i]->GetMillisReleased() <= idleTimeoutMillis) {
@@ -219,3 +225,7 @@ class Head2Head : Game {
     }
   }
 };
+
+}  // namespace h2h
+}  // namespace games
+}  // naemspace kss

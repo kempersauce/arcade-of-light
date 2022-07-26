@@ -9,6 +9,10 @@
 #include "games/head2head/zone.h"   // for H2HZone
 #include "serial/transmitter.h"     // for Transmitter
 
+namespace kss {
+namespace games {
+namespace h2h {
+
 enum H2HStripState {
   H2HStripPlaying,
   H2HStripWinningA,
@@ -19,14 +23,14 @@ enum H2HStripState {
   H2HStripTotalWinB
 };
 
-class H2HGameStrip : public kss::animation::Animation {
+class H2HGameStrip : public animation::Animation {
   H2HDot dot;
 
   // explode when dot hits wall (boom)
-  kss::animation::Explosion explosion;
+  animation::Explosion explosion;
 
   // Explode the ball out of the gate
-  kss::animation::Explosion dropExplosion;
+  animation::Explosion dropExplosion;
 
   // nearside team
   H2HZone zoneA;
@@ -43,7 +47,7 @@ class H2HGameStrip : public kss::animation::Animation {
   int stripIndex;  // Which strip is this on?
   int heightMax;   // length of this strip
 
-  kss::engines::NoiseGenerator* noise_engine_;  // this is maintained by the game class so we
+  engines::NoiseGenerator* noise_engine_;  // this is maintained by the game class so we
                                    // just need to hold onto the reference here
 
   uint32_t stateTimeoutMillis;  // state timer used to time a handful of game states
@@ -64,12 +68,12 @@ class H2HGameStrip : public kss::animation::Animation {
   // static because they all share the same mid bar
   static int midBar;
 
-  std::shared_ptr<kss::controls::Button> buttonA;
-  std::shared_ptr<kss::controls::Button> buttonB;
+  std::shared_ptr<controls::Button> buttonA;
+  std::shared_ptr<controls::Button> buttonB;
 
   H2HGameStrip(int stripIndex, int stripHeight,
-               std::shared_ptr<kss::controls::Button> a,
-               std::shared_ptr<kss::controls::Button> b, kss::engines::NoiseGenerator* noise)
+               std::shared_ptr<controls::Button> a,
+               std::shared_ptr<controls::Button> b, engines::NoiseGenerator* noise)
       : Animation(),
         dot(CRGB::White, stripIndex),
         explosion(50),
@@ -279,7 +283,7 @@ class H2HGameStrip : public kss::animation::Animation {
     }
   }
 
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     switch (stripState) {
       case H2HStripPlaying:
         drawBackgrounds(display);
@@ -340,7 +344,7 @@ class H2HGameStrip : public kss::animation::Animation {
     }
   }
 
-  void drawBackgrounds(kss::display::Display* display) {
+  void drawBackgrounds(display::Display* display) {
     // Team A background
     drawBackgroundA(display);
 
@@ -348,30 +352,30 @@ class H2HGameStrip : public kss::animation::Animation {
     drawBackgroundB(display);
   }
 
-  void drawBackgroundA(kss::display::Display* display) {
+  void drawBackgroundA(display::Display* display) {
     for (int y = 0; y < min(midBar, display->lengthStrips); y++) {
       display->strips[stripIndex][y].setHSV(
           zoneAHue, 255, noise_engine_->data[stripIndex][y]);  // blue team
     }
   }
 
-  void drawBackgroundB(kss::display::Display* display) {
+  void drawBackgroundB(display::Display* display) {
     for (int y = max(midBar, 0); y < heightMax; y++) {
       display->strips[stripIndex][y].setHSV(
           zoneBHue, 255, noise_engine_->data[stripIndex][y]);  // red team
     }
   }
 
-  void drawZones(kss::display::Display* display) {
+  void drawZones(display::Display* display) {
     zoneA.draw(display);
     zoneB.draw(display);
   }
 
-  void drawMidBar(kss::display::Display* display) {
+  void drawMidBar(display::Display* display) {
     // display->strips[stripIndex][midBar] = CRGB::White;
   }
 
-  void drawWinA(kss::display::Display* display) {
+  void drawWinA(display::Display* display) {
     CRGB teamAColor;
     teamAColor.setHSV(zoneAHue, 255, 255);
     const uint32_t timeDiff =
@@ -387,7 +391,7 @@ class H2HGameStrip : public kss::animation::Animation {
     }
   }
 
-  void drawWinB(kss::display::Display* display) {
+  void drawWinB(display::Display* display) {
     CRGB teamBColor;
     teamBColor.setHSV(zoneBHue, 255, 255);
     const uint32_t timeDiff =
@@ -408,3 +412,7 @@ class H2HGameStrip : public kss::animation::Animation {
 int H2HGameStrip::midBar;
 int H2HGameStrip::zoneAStart;
 int H2HGameStrip::zoneBStart;
+
+}  // namespace h2h
+}  // namespace games
+}  // naemspace kss

@@ -2,7 +2,12 @@
 #include <HardwareSerial.h>
 
 #include "audio/audio_sender.h"  // for AudioSender
-class H2HAudio : public kss::audio::AudioSender {
+
+namespace kss {
+namespace games {
+namespace h2h {
+
+class H2HAudio : public audio::AudioSender {
  public:
   // File names for single effects
   char* aHit = "TRGTHIT2";
@@ -64,3 +69,7 @@ class H2HAudio : public kss::audio::AudioSender {
   void playH2HIdleBG() { setBackground(idleBG); }
   void playIdleBG() { setBackground(idleBG); }
 };
+
+}  // namespace h2h
+}  // namespace games
+}  // naemspace kss
