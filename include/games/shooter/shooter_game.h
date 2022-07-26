@@ -7,14 +7,18 @@
 #include "games/rocket/firework.h"              // for Firework
 #include "games/shooter/shooter.h"              // for Shooter
 
-class ShooterGame : public kss::games::Game {
-  kss::controls::DirPad controls;
+namespace kss {
+namespace games {
+namespace shooter {
+
+class ShooterGame : public games::Game {
+  controls::DirPad controls;
   Shooter shooter;
-  Firework bullet;
-  SingleColorBG background;
+  rocket::Firework bullet;
+  animation::SingleColorBG background;
 
  public:
-  ShooterGame(kss::display::Display* gameDisplay, kss::controls::DirPad controls)
+  ShooterGame(display::Display* gameDisplay, controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
         shooter(),
@@ -53,7 +57,8 @@ class ShooterGame : public kss::games::Game {
 
     shooter.physics.Move();
     if (bullet.isPlaying) {
-      bullet.Move();
+      // TODO uncomment this once we find a generic solution for fireworks
+      // bullet.Move();
     }
 
     background.draw(display);
@@ -63,3 +68,7 @@ class ShooterGame : public kss::games::Game {
     }
   }
 };
+
+}  // namespace shooter
+}  // namespace games
+}  // namespace kss

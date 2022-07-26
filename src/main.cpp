@@ -19,7 +19,7 @@
 #include "test/dir_pad.h"            // for DirPadTest
 #include "test/five_strip.h"         // for FiveStripTest
 #include "test/serial.h"             // for SerialTest
-// #include "games/shooter/shooter_game.h"  // for ShooterGame
+#include "games/shooter/shooter_game.h"  // for ShooterGame
 #include "games/falling.h"                  // for FallingGame
 #include "games/lane_runner/lane_runner.h"  // for LaneRunner
 #include "games/life/single_player.h"  // for LifeGameSinglePlayer
@@ -36,7 +36,7 @@ void setup() {
   // FastLED.setBrightness(100);
 
   // init audio stuff
-  // initAudio();
+  // audio::initAudio();
 
   Serial.begin(9600);
   Serial.println("Begin setup()");
@@ -55,15 +55,15 @@ void setup() {
   game = (games::Game*)new RainbowGame(gameDisplay);
   // game = (games::Game*)new MarqueeGame(gameDisplay);
   // game = (games::Game*)new SnakeGame(gameDisplay);
-  // game = (games::Game*)new ShooterGame(gameDisplay);
+  // game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);
   // game = (games::Game*)new FallingGame(gameDisplay);
   // game = (games::Game*)new games::lane_runner::LaneRunnerGame(gameDisplay);
-  // game = (games::Game*)new LifeGameSinglePlayer(gameDisplay);
+  // game = (games::Game*)new games::life::LifeGameSinglePlayer(gameDisplay);
 
   // Test Games
   // game = (games::Game*)new DirPadTest(gameDisplay);
   // game = (games::Game*)new FiveStripTest(gameDisplay);
-  // game = (games::Game*)new GliderWarsGame(gameDisplay);
+  // game = (games::Game*)new games::life::GliderWarsGame(gameDisplay);
   // game = (games::Game*)new AnimationTest(gameDisplay);
 
   Serial.println("game created");
@@ -73,7 +73,10 @@ void setup() {
 
   Serial.println("End setup()");
 
+  // TODO what is this? can we remove it?
   pinMode(9, OUTPUT);
+
+  // TODO should we show LEDs on setup?
   FastLED.show();
 }
 
