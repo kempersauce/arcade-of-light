@@ -10,7 +10,7 @@
 namespace kss {
 namespace games {
 
-class LaneRunnerGame : Game {
+class LaneRunnerGame : public kss::games::Game {
   controls::DirPad controller;
   engines::PhysicsInfo player;
   animation::SingleColorBG background;

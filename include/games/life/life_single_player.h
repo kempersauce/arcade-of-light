@@ -8,7 +8,7 @@
 
 enum LifeGameState { LifeGameIdle, LifeGamePlaying };
 
-class LifeGameSinglePlayer : Game {
+class LifeGameSinglePlayer : public kss::games::Game {
   // Controls
   kss::controls::DirPad dirPad;
 

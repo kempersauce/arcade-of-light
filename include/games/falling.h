@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class FallingGame : public Game {
+class FallingGame : public kss::games::Game {
   kss::controls::DirPad controls;
   kss::engines::PhysicsInfo player;
   kss::animation::SingleColorBG background;

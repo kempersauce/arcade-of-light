@@ -10,7 +10,7 @@ Where the magic happens
 #include "display/display.h"        // for kss::display::Display
 #include "games/game.h"             // for Game
 
-class MarqueeGame : Game {
+class MarqueeGame : public kss::games::Game {
   kss::animation::HueRainbow background;
 
  public:

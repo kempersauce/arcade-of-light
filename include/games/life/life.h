@@ -4,7 +4,7 @@
 #include "games/game.h"            // for Game
 #include "games/life/animation.h"  // for LifeAnimation
 
-class LifeGame : Game {
+class LifeGame : public kss::games::Game {
   // Animations
   LifeAnimation* lifeGrid;
 

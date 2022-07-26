@@ -4,7 +4,7 @@
 #include "display/display.h"  // for kss::display::Display
 #include "games/game.h"                         // for Game
 
-class SingleColorTest : Game {
+class SingleColorTest : public kss::games::Game {
   kss::animation::SingleColorBG background;
 
  public:

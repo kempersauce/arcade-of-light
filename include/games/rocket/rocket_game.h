@@ -46,7 +46,7 @@ enum RocketGameState {
   RocketGameWin
 };
 
-class RocketGame : Game {
+class RocketGame : public kss::games::Game {
   // Audio
   kss::audio::RocketAudio audio;
   bool isFirstSetup = true;

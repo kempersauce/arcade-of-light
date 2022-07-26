@@ -8,7 +8,7 @@
 #include "games/game.h"                         // for Game
 
 // Test for Directional Pad
-class FiveStripTest : Game {
+class FiveStripTest : public kss::games::Game {
  public:
   kss::animation::Dot* player;
   kss::animation::SingleColorBG* backgroundColor;

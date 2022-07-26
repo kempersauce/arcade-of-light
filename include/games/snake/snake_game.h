@@ -5,7 +5,7 @@
 #include "games/game.h"                         // for Game
 #include "games/snake/snake.h"                  // for Snake
 
-class SnakeGame : Game {
+class SnakeGame : public kss::games::Game {
   kss::controls::DirPad controls;
   Snake snake;
   kss::animation::SingleColorBG background;

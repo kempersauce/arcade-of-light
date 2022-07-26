@@ -9,7 +9,7 @@ Where the magic happens
 #include "display/display.h"  // for kss::display::Display
 #include "games/game.h"       // for Game
 
-class NoiseGame : Game {
+class NoiseGame : public kss::games::Game {
   kss::animation::NoiseAnimation background;
 
  public:

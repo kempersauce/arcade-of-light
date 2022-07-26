@@ -5,7 +5,7 @@
 #include "games/game.h"                         // for Game
 #include "serial/receiver.h"                    // for Receiver
 
-class SerialTest : Game {
+class SerialTest : public kss::games::Game {
   kss::serial::Receiver ks;
 
   kss::animation::SingleColorBG background;

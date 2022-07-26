@@ -40,7 +40,7 @@ Each Game Requires the following classes:<br>
 
   ## Game Class 
   Holds all Game specific objects, subclasses, logic and game states, as well as method for setup and loop
-  * Location: lib/Games/Game.h
+  * Location: lib/games/game.h
   * Required Methods/ Members:
     * constructor - constructor is required to take in a display object
     * background -  Animation object for background

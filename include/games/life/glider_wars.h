@@ -7,7 +7,7 @@
 #include "games/game.h"            // for Game
 #include "games/life/animation.h"  // for LifeAnimation
 
-class GliderWarsGame : public Game {
+class GliderWarsGame : public kss::games::Game {
   // Buttons
   std::shared_ptr<kss::controls::Button> randomizeButton1;
   std::shared_ptr<kss::controls::Button> randomizeButton2;

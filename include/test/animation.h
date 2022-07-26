@@ -8,7 +8,7 @@
 #include "games/game.h"                         // for Game
 
 // Test for Directional Pad
-class AnimationTest : Game {
+class AnimationTest : public kss::games::Game {
  public:
   kss::animation::Flicker* flicker;
   kss::animation::SingleColorBG* bg;

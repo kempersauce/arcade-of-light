@@ -4,6 +4,7 @@
 #include "display/five.h"               // for FiveDisplay
 #include "display/h2h.h"                // for H2HDisplay
 #include "display/rocket.h"             // for RocketDisplay
+#include "engines/framerate.h"  // for FrameRate
 #include "games/head2head/head2head.h"  // for Head2Head
 #include "games/rocket/rocket_game.h"   // for RocketGame
 //#include "games/wav_player.h"  // for WavPlayer
@@ -24,17 +25,12 @@
 #include "games/life/life_single_player.h"  // for LifeGameSinglePlayer
 #include "test/animation.h"                 // for AnimationTest
 
-uint32_t _lastFrameMillis{millis()};
-void printFrameRate() {
-  uint32_t timeDiff = millis() - _lastFrameMillis;
-  _lastFrameMillis = millis();
-  float fps = (float)timeDiff / 1000.0;
+using namespace kss;
 
-  Serial.println((String) "FPS: " + fps + " | " + timeDiff + "ms");
-}
+engines::FrameRate frameRate;
 
-Game* game;
-kss::display::Display* gameDisplay;
+games::Game* game;
+display::Display* gameDisplay;
 
 void setup() {
   // FastLED.setBrightness(100);
@@ -46,29 +42,29 @@ void setup() {
   Serial.println("Begin setup()");
 
   // Choose your Display type
-  // gameDisplay = (kss::display::Display*)new kss::display::FiveDisplay();
-  gameDisplay = (kss::display::Display*)new kss::display::H2HDisplay();
-  // gameDisplay = (kss::display::Display*)new kss::display::RocketDisplay();
+  // gameDisplay = (display::Display*)new display::FiveDisplay();
+  gameDisplay = (display::Display*)new display::H2HDisplay();
+  // gameDisplay = (display::Display*)new display::RocketDisplay();
 
   Serial.println("gameDisplay created");
 
   // Choose your Game type
-  // game = (Game*)new kss::games::h2h::Head2Head(gameDisplay);
-  // game = (Game*)new LifeGame(gameDisplay);
-  // game = (Game*)new RocketGame(gameDisplay);
-  game = (Game*)new RainbowGame(gameDisplay);
-  // game = (Game*)new MarqueeGame(gameDisplay);
-  // game = (Game*)new SnakeGame(gameDisplay);
-  // game = (Game*)new ShooterGame(gameDisplay);
-  // game = (Game*)new FallingGame(gameDisplay);
-  // game = (Game*)new kss::games::LaneRunnerGame(gameDisplay);
-  // game = (Game*)new LifeGameSinglePlayer(gameDisplay);
+  // game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
+  // game = (games::Game*)new LifeGame(gameDisplay);
+  // game = (games::Game*)new RocketGame(gameDisplay);
+  game = (games::Game*)new RainbowGame(gameDisplay);
+  // game = (games::Game*)new MarqueeGame(gameDisplay);
+  // game = (games::Game*)new SnakeGame(gameDisplay);
+  // game = (games::Game*)new ShooterGame(gameDisplay);
+  // game = (games::Game*)new FallingGame(gameDisplay);
+  // game = (games::Game*)new games::LaneRunnerGame(gameDisplay);
+  // game = (games::Game*)new LifeGameSinglePlayer(gameDisplay);
 
   // Test Games
-  // game = (Game*)new DirPadTest(gameDisplay);
-  // game = (Game*)new FiveStripTest(gameDisplay);
-  // game = (Game*)new GliderWarsGame(gameDisplay);
-  // game = (Game*)new AnimationTest(gameDisplay);
+  // game = (games::Game*)new DirPadTest(gameDisplay);
+  // game = (games::Game*)new FiveStripTest(gameDisplay);
+  // game = (games::Game*)new GliderWarsGame(gameDisplay);
+  // game = (games::Game*)new AnimationTest(gameDisplay);
 
   Serial.println("game created");
 
@@ -88,5 +84,5 @@ void loop() {
   FastLED.show();
 
   // Serial.println("loops brother");
-  // printFrameRate();
+  frameRate.PrintFrameRate();
 }

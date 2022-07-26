@@ -10,7 +10,7 @@ Where the magic happens
 #include "games/game.h"       // for Game
 //#include "audio/audio_sender.h"  // for AudioSender
 
-class RainbowGame : Game {
+class RainbowGame : public kss::games::Game {
   kss::animation::HueRainbow background;
   // kss::audio::AudioSender* audio;
 

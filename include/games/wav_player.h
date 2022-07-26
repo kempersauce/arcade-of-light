@@ -29,7 +29,7 @@ AudioConnection patchCord2(playSdWav2, 0, kss::audio::i2s1, 1);
 AudioConnection patchCord3(playSdWav3, 0, kss::audio::i2s1, 2);
 AudioConnection patchCord4(playSdWav4, 0, kss::audio::i2s1, 3);
 
-class WavPlayer : Game {
+class WavPlayer : public kss::games::Game {
  private:
   // Buttons go here
   std::shared_ptr<kss::controls::Button> ABut;

@@ -10,7 +10,7 @@
 #include "games/game.h"                         // for Game
 
 // Test for Directional Pad
-class DirPadTest : Game {
+class DirPadTest : public kss::games::Game {
  public:
   kss::controls::DirPad controls;
   kss::animation::Dot* player;

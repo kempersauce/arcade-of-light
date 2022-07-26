@@ -7,7 +7,7 @@
 #include "games/rocket/firework.h"              // for Firework
 #include "games/shooter/shooter.h"              // for Shooter
 
-class ShooterGame : public Game {
+class ShooterGame : public kss::games::Game {
   kss::controls::DirPad controls;
   Shooter shooter;
   Firework bullet;

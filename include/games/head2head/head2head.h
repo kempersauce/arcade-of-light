@@ -28,7 +28,7 @@ enum H2HGameState {
   H2HGameWinB,
 };
 
-class Head2Head : public Game {
+class Head2Head : public kss::games::Game {
   H2HGameState gameState;
 
   engines::NoiseGenerator noise_engine_;
