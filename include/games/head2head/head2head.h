@@ -9,7 +9,7 @@
 #include "engines/noise.h"                      // for NoiseGenerator
 #include "games/game.h"                         // for Game
 #include "games/head2head/audio.h"              // for H2HAudio
-#include "games/head2head/controller.h"         // for Controller
+#include "controls/h2h_controller.h"            // for H2HController
 #include "games/head2head/dot.h"                // for H2HDot
 #include "games/head2head/game_strip.h"         // for H2HGameStrip
 #include "games/head2head/zone.h"               // for H2HZone
@@ -46,13 +46,13 @@ class Head2Head : public Game {
 
   H2HAudio audio;
 
-  Controller teamA;
-  Controller teamB;
+  controls::H2HController teamA;
+  controls::H2HController teamB;
 
  public:
   H2HGameStrip** gameStrips;  // one for each strip
 
-  Head2Head(display::Display* gameDisplay, Controller teamA, Controller teamB)
+  Head2Head(display::Display* gameDisplay, controls::H2HController teamA, controls::H2HController teamB)
       : Game(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},
@@ -134,7 +134,7 @@ class Head2Head : public Game {
   void loop() {
     bool isIdle = true;
     for (int i = 0; i < display->numStrips; i++) {
-      // TODO Move this to the Controller class IsIdle(..)
+      // TODO Move this to the H2HController class IsIdle(..)
       // if any buttons aren't past the idle timeout yet, then we're not idling
       if (teamA.buttons[i]->GetMillisReleased() <= idleTimeoutMillis ||
           teamB.buttons[i]->GetMillisReleased() <= idleTimeoutMillis) {
