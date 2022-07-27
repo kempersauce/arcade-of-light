@@ -4,7 +4,7 @@
 
 #include "animation/dot.h"                      // for Dot
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "display/display.h"  // for display::Display
+#include "display/display.h"                    // for Display
 #include "games/game.h"                         // for Game
 
 namespace kss {

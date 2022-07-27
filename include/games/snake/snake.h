@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include <deque>  // for deque
+#include <deque>    // for deque
 #include <utility>  // for pair
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for display::Display
+#include "display/display.h"      // for Display
 
 namespace kss {
 namespace games {

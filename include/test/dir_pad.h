@@ -5,22 +5,22 @@
 #include "animation/dot.h"                      // for Dot
 #include "animation/hue_rainbow.h"              // for HueRainbow
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "controls/dir_pad.h"                   // for kss::controls::DirPad
-#include "display/display.h" // for kss::display::Display
+#include "controls/dir_pad.h"                   // for controls::DirPad
+#include "display/display.h"                    // for Display
 #include "games/game.h"                         // for Game
 
 namespace kss {
 namespace test {
 
 // Test for Directional Pad
-class DirPadTest : public kss::games::Game {
+class DirPadTest : public games::Game {
  public:
-  kss::controls::DirPad controls;
-  kss::animation::Dot* player;
-  kss::animation::SingleColorBG* backgroundColor;
-  kss::animation::HueRainbow rainbow;
+  controls::DirPad controls;
+  animation::Dot* player;
+  animation::SingleColorBG* backgroundColor;
+  animation::HueRainbow rainbow;
 
-  DirPadTest(kss::display::Display* gameDisplay, kss::controls::DirPad controls)
+  DirPadTest(display::Display* gameDisplay, controls::DirPad controls)
       : Game(gameDisplay), controls{std::move(controls)}, rainbow(2) {
     rainbow.setWaveShift(true);
   }

@@ -1,9 +1,8 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
+#include "display/display.h"      // for Display
 #include "games/rocket/audio.h"   // for RocketAudio
-#include "display/display.h"      // for display::Display
-
 
 namespace kss {
 namespace games {

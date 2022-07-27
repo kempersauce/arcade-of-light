@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for display::Display
+#include "display/display.h"      // for Display
 
 namespace kss {
 namespace animation {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "display/display.h"       // for display::Display
+#include "display/display.h"       // for Display
 #include "games/game.h"            // for Game
 #include "games/life/animation.h"  // for LifeAnimation
 

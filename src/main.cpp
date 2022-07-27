@@ -1,5 +1,5 @@
 // hopefully this makes sound work
-//#define FASTLED_ALLOW_INTERRUPTS 0
+// #define FASTLED_ALLOW_INTERRUPTS 0
 
 #include "display/five.h"               // for FiveDisplay
 #include "display/h2h.h"                // for H2HDisplay
@@ -7,11 +7,11 @@
 #include "engines/framerate.h"  // for FrameRate
 #include "games/head2head/head2head.h"  // for Head2Head
 #include "games/rocket/rocket_game.h"   // for RocketGame
-//#include "games/wav_player/wav_player.h"  // for WavPlayer
+// #include "games/wav_player/wav_player.h"  // for WavPlayer
 #include "games/life/life.h"    // for LifeGame
 #include "test/single_color.h"  // for SingleColorTest
 // #include "audio/sounds.h"  // for Sounds
-//#include "test/firework.h"  // for FireworkTest
+// #include "test/firework.h"  // for FireworkTest
 #include "games/life/glider_wars.h"  // for GliderWars
 #include "games/marquee/marquee.h"           // for MarqueeGame
 #include "games/noise/noise.h"  // for NoiseGame

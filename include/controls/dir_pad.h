@@ -3,9 +3,9 @@
 
 #include <PinSetup.h>
 
-#include <memory>  // For shared_ptr
+#include <memory>  // for shared_ptr
 
-#include "controls/button.h"  // For Button
+#include "controls/button.h"  // for Button
 
 namespace kss {
 namespace controls {

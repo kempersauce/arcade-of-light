@@ -11,7 +11,7 @@ namespace kss {
 namespace games {
 namespace shooter {
 
-class ShooterGame : public games::Game {
+class ShooterGame : public Game {
   controls::DirPad controls;
   Shooter shooter;
   rocket::Firework bullet;

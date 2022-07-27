@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for display::Display
+#include "display/display.h"      // for Display
 #include "engines/noise.h"        // for NoiseGenerator
 
 namespace kss {
@@ -29,7 +29,7 @@ class Flicker : public Animation {
   bool* hasFlare;
   int** flareLoc;
 
-  //engines::NoiseGenerator noise;
+  // engines::NoiseGenerator noise;
 
  public:
   int saturation = 255;
@@ -38,10 +38,13 @@ class Flicker : public Animation {
 
   // Initialize a Flame at y-location origin with a certain height, main color
   // and accent color
-  Flicker(int origin, int height, int width, int hueMain,
-          int hueAccent)
-      : Animation(), hueMain{hueMain}, hueAccent{hueAccent}, height{height}, width{width}, origin{origin} /*, noise{width, height}*/ {
-
+  Flicker(int origin, int height, int width, int hueMain, int hueAccent)
+      : Animation(),
+        hueMain{hueMain},
+        hueAccent{hueAccent},
+        height{height},
+        width{width},
+        origin{origin} /*, noise{width, height}*/ {
     currentHeight = new int[width];
 
     hasFlare = new bool[width];

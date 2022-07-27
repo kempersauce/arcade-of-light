@@ -1,7 +1,7 @@
 // #include <Arduino.h>
 // #include <FastLED.h>
-// #include "display/display.h"  // for kss::display::Display
-// #include "display/twenty.h"  // for kss::display::TwentyDisplay
+// #include "display/display.h"  // for Display
+// #include "display/twenty.h"  // for TwentyDisplay
 // #include "games/game.h"  // for Game
 // #include "games/noise/noise.h"  // for NoiseGame
 

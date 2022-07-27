@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>  // For std::shared_ptr
+#include <memory>  // for std::shared_ptr
 
 #include "controls/button.h"       // for Button
 #include "display/display.h"       // for Display

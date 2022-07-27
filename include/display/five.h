@@ -2,7 +2,7 @@
 
 #include <Constants.h>
 
-#include "display/display.h"  // for display::Display
+#include "display/display.h"  // for Display
 
 namespace kss {
 namespace display {

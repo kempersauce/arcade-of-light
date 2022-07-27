@@ -1,8 +1,8 @@
 #pragma once
 
-#include "animation/animation.h"  // for Animation
-#include "animation/explosion.h"  // for Explosion
-#include "controls/button.h"  // for Button
+#include "animation/animation.h"    // for Animation
+#include "animation/explosion.h"    // for Explosion
+#include "controls/button.h"        // for Button
 #include "engines/noise.h"          // for NoiseGenerator
 #include "games/head2head/audio.h"  // for H2HAudio
 #include "games/head2head/dot.h"    // for H2HDot
@@ -47,10 +47,12 @@ class H2HGameStrip : public animation::Animation {
   int stripIndex;  // Which strip is this on?
   int heightMax;   // length of this strip
 
-  engines::NoiseGenerator* noise_engine_;  // this is maintained by the game class so we
-                                   // just need to hold onto the reference here
+  engines::NoiseGenerator*
+      noise_generator;  // this is maintained by the game class so we
+                        // just need to hold onto the reference here
 
-  uint32_t stateTimeoutMillis;  // state timer used to time a handful of game states
+  uint32_t
+      stateTimeoutMillis;  // state timer used to time a handful of game states
   const uint32_t deadStateTimeoutMinMillis =
       1000 * .5;  // 1/2 seconds minimum before dropping a new ball
   const uint32_t deadStateTimeoutMaxMillis =
@@ -73,7 +75,8 @@ class H2HGameStrip : public animation::Animation {
 
   H2HGameStrip(int stripIndex, int stripHeight,
                std::shared_ptr<controls::Button> a,
-               std::shared_ptr<controls::Button> b, engines::NoiseGenerator* noise)
+               std::shared_ptr<controls::Button> b,
+               engines::NoiseGenerator* noise)
       : Animation(),
         dot(CRGB::White, stripIndex),
         explosion(50),
@@ -83,7 +86,7 @@ class H2HGameStrip : public animation::Animation {
               true),
         buttonA{std::move(a)},
         buttonB{std::move(b)},
-        noise_engine_{noise} {
+        noise_generator{noise} {
     this->stripIndex = stripIndex;
     heightMax = stripHeight;
 
@@ -237,7 +240,7 @@ class H2HGameStrip : public animation::Animation {
       case H2HStripWinningA:
         explosion.Move();
         if (explosion.IsBurnedOut()) {
-          // For now immediately go into dead state
+          // for now immediately go into dead state
           enterDeadState();
         }
         break;
@@ -245,7 +248,7 @@ class H2HGameStrip : public animation::Animation {
       case H2HStripWinningB:
         explosion.Move();
         if (explosion.IsBurnedOut()) {
-          // For now immediately go into dead state
+          // for now immediately go into dead state
           enterDeadState();
         }
         break;
@@ -355,14 +358,14 @@ class H2HGameStrip : public animation::Animation {
   void drawBackgroundA(display::Display* display) {
     for (int y = 0; y < min(midBar, display->lengthStrips); y++) {
       display->strips[stripIndex][y].setHSV(
-          zoneAHue, 255, noise_engine_->data[stripIndex][y]);  // blue team
+          zoneAHue, 255, noise_generator->data[stripIndex][y]);  // blue team
     }
   }
 
   void drawBackgroundB(display::Display* display) {
     for (int y = max(midBar, 0); y < heightMax; y++) {
       display->strips[stripIndex][y].setHSV(
-          zoneBHue, 255, noise_engine_->data[stripIndex][y]);  // red team
+          zoneBHue, 255, noise_generator->data[stripIndex][y]);  // red team
     }
   }
 
@@ -415,4 +418,4 @@ int H2HGameStrip::zoneBStart;
 
 }  // namespace h2h
 }  // namespace games
-}  // naemspace kss
+}  // namespace kss

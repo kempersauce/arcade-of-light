@@ -9,7 +9,7 @@ namespace kss {
 namespace games {
 namespace snake {
 
-class SnakeGame : public games::Game {
+class SnakeGame : public Game {
   controls::DirPad controls;
   Snake snake;
   animation::SingleColorBG background;

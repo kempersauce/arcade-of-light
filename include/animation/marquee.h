@@ -3,7 +3,7 @@
 #include <string>
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"      // for display::Display
+#include "display/display.h"      // for Display
 #include "engines/font.h"         // for Font
 #include "engines/shapes.h"       // for Shapes
 
@@ -12,7 +12,7 @@ namespace animation {
 
 using namespace std;
 
-namespace letters = kss::engines::letters;
+namespace letters = engines::letters;
 
 // This file holds words and word functions
 class Marquee : public Animation {
@@ -33,16 +33,19 @@ class Marquee : public Animation {
 
   // list of words to display
   // int WordWinner[6][8][4] =
-  // {{letters::W},{letters::I},{letters::N},{letters::N},{letters::E,letters::R}}; int
-  // WordLoser[5][8][4] = {letters::L,letters::O,letters::S,letters::E,letters::R}; int
-  // WordReady[5][8][4] = {letters::R,letters::E,letters::A,letters::D,letters::Y}; int
-  // WordStart[5][8][4] = {{{letters::S},{letters::T},{letters::A},{letters::R},{letters::T}}};
-  // int WordGame[4][8][4] = {letters::G,letters::A,letters::M,letters::E};
-  // int WordOver[4][8][4] = {letters::O,letters::V,letters::E,letters::R};
-  // int WordYeet[4][8][4] = {letters::Y,letters::E,letters::E,letters::T};
-  // int WordArcade[6][8][4] =
-  // {letters::A,letters::R,letters::C,letters::A,letters::D,letters::E}; int WordOf[2][8][4] =
-  // {letters::O,letters::F}; int WordLight[5][8][4] =
+  // {{letters::W},{letters::I},{letters::N},{letters::N},{letters::E,letters::R}};
+  // int WordLoser[5][8][4] =
+  // {letters::L,letters::O,letters::S,letters::E,letters::R}; int
+  // WordReady[5][8][4] =
+  // {letters::R,letters::E,letters::A,letters::D,letters::Y}; int
+  // WordStart[5][8][4] =
+  // {{{letters::S},{letters::T},{letters::A},{letters::R},{letters::T}}}; int
+  // WordGame[4][8][4] = {letters::G,letters::A,letters::M,letters::E}; int
+  // WordOver[4][8][4] = {letters::O,letters::V,letters::E,letters::R}; int
+  // WordYeet[4][8][4] = {letters::Y,letters::E,letters::E,letters::T}; int
+  // WordArcade[6][8][4] =
+  // {letters::A,letters::R,letters::C,letters::A,letters::D,letters::E}; int
+  // WordOf[2][8][4] = {letters::O,letters::F}; int WordLight[5][8][4] =
   // {letters::L,letters::I,letters::G,letters::H,letters::T};
 
  public:
@@ -134,7 +137,7 @@ class Marquee : public Animation {
   void drawString(const string& text, display::Display* display) {
     int spacer = 10 * text.length();  // measure the words out
     for (int i = 0; i < text.length(); i++) {
-      int (*letter)[8][4]; // default is empty
+      int(*letter)[8][4];  // default is empty
       char c = text[i];
       switch (c) {
         case 'a':
@@ -292,8 +295,8 @@ class Marquee : public Animation {
   }
 
   void drawLetter(int lowerLeftX, int lowerLeftY, int orientation,
-                  display::Display* display, const int (&letter)[8][4], int hue, int sat,
-                  int bright) {
+                  display::Display* display, const int (&letter)[8][4], int hue,
+                  int sat, int bright) {
     for (int j = 0; j < LetterHeight; j++) {
       for (int k = 0; k < LetterWidth; k++) {
         if (letter[j][k] == 1) {

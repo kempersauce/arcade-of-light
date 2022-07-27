@@ -2,8 +2,8 @@
 
 #include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion
+#include "display/display.h"      // for Display
 #include "games/rocket/audio.h"   // for RocketAudio
-#include "display/display.h"      // for display::Display
 
 namespace kss {
 namespace games {

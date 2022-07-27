@@ -1,12 +1,11 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for display::Display
+#include "display/display.h"      // for Display
 
 namespace kss {
 namespace games {
 namespace rocket {
-
 
 /*Target Class
 Class that sets a series of dots in a specific location on the LED strip

@@ -16,22 +16,22 @@
 
 #define BRIGHTNESS 50
 
-#include <memory>  // For shared_ptr
+#include <memory>  // for shared_ptr
 
+#include "animation/starscape.h"  // for Starscape
 #include "controls/button.h"
-#include "display/display.h"         // for display::Display
-#include "games/game.h"              // for Game
-#include "games/rocket/firework.h"   // for Firework
-#include "games/rocket/rocket.h"     // for Rocket
-#include "games/rocket/sky_fade.h"   // for SkyFade
-#include "games/rocket/starscape.h"  // for Starscape
-#include "games/rocket/target.h"     // for Target
+#include "display/display.h"        // for Display
+#include "games/game.h"             // for Game
+#include "games/rocket/firework.h"  // for Firework
+#include "games/rocket/rocket.h"    // for Rocket
+#include "games/rocket/sky_fade.h"  // for SkyFade
+#include "games/rocket/target.h"    // for Target
 //#include "audio/sounds.h"  // for Sounds
 #include <vector>
 
 #include "animation/explosion.h"                 // for Explosion
-#include "games/rocket/audio.h"                  // for RocketAudio
 #include "games/life/life.h"                     // for LifeGame
+#include "games/rocket/audio.h"                  // for RocketAudio
 #include "games/rocket/explosions_in_the_sky.h"  // for ExplosionsInTheSky
 
 namespace kss {
@@ -50,7 +50,7 @@ enum RocketGameState {
   RocketGameWin
 };
 
-class RocketGame : public games::Game {
+class RocketGame : public Game {
   // Audio
   RocketAudio audio;
 
@@ -59,8 +59,8 @@ class RocketGame : public games::Game {
   std::shared_ptr<controls::Button> reset_btn;
 
   // Backgrounds
-  Starscape starBackground;  // just drawing black empty space for now. we are
-                             // alone in the universe
+  animation::Starscape starBackground;  // just drawing black empty space for
+                                        // now. we are alone in the universe
   SkyFade skyFade;
 
   // Level progress tracking
@@ -310,9 +310,9 @@ class RocketGame : public games::Game {
           // jk since scale is so high, any higher than 1*scale is too fast, and
           // any lover than 1*cale causes tearing between pixels
           int backgroundShift = 1;
-          starBackground.noise_engine.y +=
+          starBackground.noise_generator.y +=
               backgroundShift *
-              starBackground.noise_engine
+              starBackground.noise_generator
                   .scale;  // NOTE: Since y is actually an 8.8 bit int, this may
                            // need more than just a small push
         }

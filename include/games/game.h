@@ -5,16 +5,16 @@ Game class
 Where the magic happens
 */
 
-#include "display/display.h"  // for kss::display::Display
+#include "display/display.h"  // for Display
 
 namespace kss {
 namespace games {
 
 class Game {
  public:
-  kss::display::Display* display;
+  display::Display* display;
 
-  Game(kss::display::Display* gameDisplay) { display = gameDisplay; }
+  Game(display::Display* gameDisplay) { display = gameDisplay; }
 
   virtual void setup();
   virtual void loop();

@@ -1,30 +1,29 @@
 #pragma once
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for display::Display
-#include "engines/noise.h"  // for NoiseGenerator
+#include "display/display.h"      // for Display
+#include "engines/noise.h"        // for NoiseGenerator
 
 namespace kss {
-namespace games {
-namespace rocket {
+namespace animation {
 
-// TODO move this to animations, this is a generic animation
-class Starscape : public animation::Animation {
+class Starscape : public Animation {
   const int brightnessThreshold;
 
  public:
-  engines::NoiseGenerator noise_engine;
+  engines::NoiseGenerator noise_generator;
 
   Starscape(int width, int height, int brightnessThreshold)
-      : Animation(), brightnessThreshold{brightnessThreshold}, noise_engine(width, height, 7) {
-  }
+      : Animation(),
+        brightnessThreshold{brightnessThreshold},
+        noise_generator(width, height, 7) {}
 
   void draw(display::Display* display) {
-    noise_engine.fillnoise8();
+    noise_generator.fillnoise8();
 
     for (int i = 0; i < display->numStrips; i++) {
       for (int j = 0; j < display->lengthStrips; j++) {
-        int brightness = noise_engine.data[i][j];
+        int brightness = noise_generator.data[i][j];
         if (brightness > brightnessThreshold) {
           // Draw the star, it's past the threshold
 
@@ -45,6 +44,5 @@ class Starscape : public animation::Animation {
   }
 };
 
-}  // namespace rocket
-}  // namespace games
+}  // namespace animation
 }  // namespace kss

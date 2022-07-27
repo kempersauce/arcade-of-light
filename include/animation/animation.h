@@ -6,7 +6,7 @@ Make the pretty lights
 Make the lights pretty
 */
 
-#include "display/display.h"  // for display::Display
+#include "display/display.h"  // for Display
 
 namespace kss {
 namespace animation {

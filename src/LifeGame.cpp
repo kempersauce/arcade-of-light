@@ -5,7 +5,7 @@
 // #include "controls/dir_pad.h"
 // #include "games/life/single_player.h"  // for LifeGameSinglePlayer
 // #include "games/game.h"  // for Game
-// #include "controls/hardware/simple.h"  // for kss::controls::hardware::Simple
+// #include "controls/hardware/simple.h"  // for controls::hardware::Simple
 
 // Game* game;
 // kss::display::Display* gameDisplay;

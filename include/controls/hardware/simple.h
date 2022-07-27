@@ -1,10 +1,10 @@
 #pragma once
 
-#include <map>     // For std::map
-#include <memory>  // For std::shared_ptr
+#include <map>     // for std::map
+#include <memory>  // for std::shared_ptr
 
-#include "controls/button.h"            // For Button
-#include "controls/hardware/context.h"  // For Context
+#include "controls/button.h"            // for Button
+#include "controls/hardware/context.h"  // for Context
 
 namespace kss {
 namespace controls {

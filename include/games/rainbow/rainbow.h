@@ -1,8 +1,8 @@
 #pragma once
 
 #include "animation/hue_rainbow.h"  // for HueRainbow
-#include "display/display.h"  // for display::Display
-#include "games/game.h"       // for Game
+#include "display/display.h"        // for Display
+#include "games/game.h"             // for Game
 //#include "audio/audio_sender.h"  // for AudioSender
 
 namespace kss {
@@ -14,7 +14,8 @@ class RainbowGame : public Game {
   // audio::AudioSender* audio;
 
  public:
-  RainbowGame(display::Display* gameDisplay) : Game(gameDisplay), background(2) {
+  RainbowGame(display::Display* gameDisplay)
+      : Game(gameDisplay), background(2) {
     background.setWaveShift(true);
   }
 

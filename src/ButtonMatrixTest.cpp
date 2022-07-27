@@ -2,8 +2,8 @@
 // #include <Arduino.h>
 // #include <FastLED.h>
 // #include "games/game.h"  // for Game
-// #include "controls/button.h"           // for kss::controls::Button
-// #include "controls/hardware/matrix.h"  // for kss::controls::hardware::Matrix
+// #include "controls/button.h"           // for controls::Button
+// #include "controls/hardware/matrix.h"  // for controls::hardware::Matrix
 
 // #include <memory>  // for std::shared_ptr
 // #include <vector>  // for std::vector

@@ -6,11 +6,11 @@
 #include <SerialFlash.h>
 #include <Wire.h>
 
-#include <memory>  // For shared_ptr
+#include <memory>  // for shared_ptr
 
-#include "audio/sounds.h"  // for Sounds
+#include "audio/sounds.h"     // for Sounds
 #include "controls/button.h"  // for Button
-#include "games/game.h"  // for Game
+#include "games/game.h"       // for Game
 
 // Use these with the Teensy Audio Shield
 // This uses the audio shield's card reader
@@ -33,7 +33,7 @@ AudioConnection patchCord2(playSdWav2, 0, audio::i2s1, 1);
 AudioConnection patchCord3(playSdWav3, 0, audio::i2s1, 2);
 AudioConnection patchCord4(playSdWav4, 0, audio::i2s1, 3);
 
-class WavPlayer : public games::Game {
+class WavPlayer : public Game {
  private:
   // Buttons go here
   std::shared_ptr<controls::Button> ABut;
