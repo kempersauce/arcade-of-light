@@ -20,7 +20,7 @@
 #include "test/five_strip.h"         // for FiveStripTest
 #include "test/serial.h"             // for SerialTest
 #include "games/shooter/shooter_game.h"  // for ShooterGame
-#include "games/falling.h"                  // for FallingGame
+#include "games/falling/falling.h"                  // for FallingGame
 #include "games/lane_runner/lane_runner.h"  // for LaneRunner
 #include "games/life/single_player.h"  // for LifeGameSinglePlayer
 #include "test/animation.h"                 // for AnimationTest
@@ -56,7 +56,7 @@ void setup() {
   // game = (games::Game*)new MarqueeGame(gameDisplay);
   // game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
   // game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);
-  // game = (games::Game*)new FallingGame(gameDisplay);
+  // game = (games::Game*)new games::falling::FallingGame(gameDisplay);
   // game = (games::Game*)new games::lane_runner::LaneRunnerGame(gameDisplay);
   // game = (games::Game*)new games::life::LifeGameSinglePlayer(gameDisplay);
 

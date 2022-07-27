@@ -6,19 +6,22 @@
 
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for DirPad
+#include "games/game.h"  // for Game
 #include "engines/physics_info.h"               // for PhysicsInfo
 
-using namespace std;
+namespace kss {
+namespace games {
+namespace falling {
 
-class FallingGame : public kss::games::Game {
-  kss::controls::DirPad controls;
-  kss::engines::PhysicsInfo player;
-  kss::animation::SingleColorBG background;
+class FallingGame : public Game {
+  controls::DirPad controls;
+  engines::PhysicsInfo player;
+  animation::SingleColorBG background;
 
-  deque<pair<int, int>> walls;
+  std::deque<std::pair<int, int>> walls;
 
  public:
-  FallingGame(kss::display::Display* gameDisplay, kss::controls::DirPad controls)
+  FallingGame(display::Display* gameDisplay, controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
         player(),
@@ -32,7 +35,7 @@ class FallingGame : public kss::games::Game {
     // seed walls with initial stuff
     walls.clear();
     while (walls.size() < display->lengthStrips - 1) {
-      walls.push_front(make_pair(-1, display->numStrips));
+      walls.push_front(std::make_pair(-1, display->numStrips));
     }
   }
 
@@ -53,7 +56,7 @@ class FallingGame : public kss::games::Game {
     } while (right - left < (display->numStrips + 1) / 2);
 
     walls.pop_back();
-    walls.push_front(make_pair(left, right));
+    walls.push_front(std::make_pair(left, right));
   }
 
   virtual void loop() {
@@ -108,3 +111,7 @@ class FallingGame : public kss::games::Game {
     display->strips[(int)player.xLocation][(int)player.Location] = CRGB::Green;
   }
 };
+
+}  // namespace falling
+}  // namespace games
+}  // namespace kss
