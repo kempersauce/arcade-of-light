@@ -1,19 +1,19 @@
 
 // #include <Arduino.h>
 // #include <FastLED.h>
-// #include <FiveDisplay.h>
-// #include <dir_pad.h>
-// #include <LifeGameSinglePlayer.h>
-// #include <Game.h>
-// #include <hardware_simple.h>  // for kss::controls::hardware::Simple
+// #include "display/five.h"  // for FiveDisplay
+// #include "controls/dir_pad.h"
+// #include "games/life/single_player.h"  // for LifeGameSinglePlayer
+// #include "games/game.h"  // for Game
+// #include "controls/hardware/simple.h"  // for controls::hardware::Simple
 
 // Game* game;
-// Display* gameDisplay;
+// kss::display::Display* gameDisplay;
 // kss::controls::hardware::Simple controls;
 
 // void setup()
 // {
-//     gameDisplay = (Display*)new FiveDisplay();
+//     gameDisplay = (kss::display::Display*)new FiveDisplay();
 
 //     kss::controls::DirPad dirPad{
 //         controls.CreateButton(BUTTON_PIN_4),

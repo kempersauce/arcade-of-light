@@ -1,128 +1,94 @@
-// // hopefully this makes sound work
-// //#define FASTLED_ALLOW_INTERRUPTS 0
+// hopefully this makes sound work
+// #define FASTLED_ALLOW_INTERRUPTS 0
 
-// #include <H2HDisplay.h>
-// #include <FiveDisplay.h>
-// #include <Head2Head.h>
-// #include <RocketDisplay.h>
-// #include <RocketGame.h>
-// //#include <WavPlayer.h>
-// #include <LifeGame.h>
-// #include <SingleColorTest.h>
-// //#include <Sounds.h>
-// //#include <FireworkTest.h>
-// #include <RainbowGame.h>
-// #include <DirPadTest.h>
-// #include <MarqueeGame.h>
-// #include <GliderWarsGame.h>
-// #include <SerialTest.h>
-// #include <FiveStripTest.h>
-// #include <SnakeGame.h>
-// // #include <ShooterGame.h>
-// #include <FallingGame.h>
-// #include <LaneRunner.h>
-// #include <AnimationTest.h>
-// // #include <LifeGameSinglePLayer.h>
+#include "display/five.h"               // for FiveDisplay
+#include "display/h2h.h"                // for H2HDisplay
+#include "display/rocket.h"             // for RocketDisplay
+#include "engines/framerate.h"  // for FrameRate
+#include "games/head2head/head2head.h"  // for Head2Head
+#include "games/rocket/rocket_game.h"   // for RocketGame
+// #include "games/wav_player/wav_player.h"  // for WavPlayer
+#include "games/life/life.h"    // for LifeGame
+#include "test/single_color.h"  // for SingleColorTest
+// #include "audio/sounds.h"  // for Sounds
+// #include "test/firework.h"  // for FireworkTest
+#include "games/life/glider_wars.h"  // for GliderWars
+#include "games/marquee/marquee.h"           // for MarqueeGame
+#include "games/noise/noise.h"  // for NoiseGame
+#include "games/rainbow/rainbow.h"           // for RainbowGame
+#include "games/snake/snake_game.h"  // for SnakeGame
+#include "test/animation.h"            // for AnimationTest
+#include "test/dir_pad.h"            // for DirPadTest
+#include "test/five_strip.h"         // for FiveStripTest
+#include "test/serial.h"             // for SerialTest
+#include "test/single_color.h"             // for SingleColorTest
+#include "games/shooter/shooter_game.h"  // for ShooterGame
+#include "games/falling/falling.h"                  // for FallingGame
+#include "games/lane_runner/lane_runner.h"  // for LaneRunner
+#include "games/life/single_player.h"  // for LifeGameSinglePlayer
+#include "test/animation.h"                 // for AnimationTest
 
-// long _lastFrameMillis;
-// void printFrameRate()
-// {
-// 	long timeDiff = millis() - _lastFrameMillis;
-// 	_lastFrameMillis = millis();
+using namespace kss;
 
-// 	Serial.print("framerate: ");
-// 	Serial.print((float)timeDiff / 1000.0);
-// 	Serial.print(" (");
-// 	Serial.print(timeDiff);
-// 	Serial.println("ms)");
-// }
+engines::FrameRate frameRate;
 
-// Game* game;
-// Display* gameDisplay;
+games::Game* game;
+display::Display* gameDisplay;
 
-// void setup()
-// {
-//     //FastLED.setBrightness(100);
+void setup() {
+  // FastLED.setBrightness(100);
 
-//     // init audio stuff
-//     //initAudio();
+  // init audio stuff
+  // audio::initAudio();
 
-//     //delay(15 * 1000);
-//     Serial.begin(115200);
-//     Serial.println("Begin setup()");
+  Serial.begin(9600);
+  Serial.println("Begin setup()");
 
-//     // Choose your Display type
-//     //gameDisplay = (Display*)new FiveDisplay();
-//     gameDisplay = (Display*)new H2HDisplay();
-//     //gameDisplay = (Display*)new RocketDisplay();
+  // Choose your Display type
+  // gameDisplay = (display::Display*)new display::FiveDisplay();
+  gameDisplay = (display::Display*)new display::H2HDisplay();
+  // gameDisplay = (display::Display*)new display::RocketDisplay();
 
-//     // debug set strip0 red
-//     // for (int i = 0; i < gameDisplay->lengthStrips; i++)
-//     // {
-//     //     gameDisplay->strips[0][i] = CRGB::Red;
-//     // }
-//     Serial.println("gameDisplay created");
-//     //FastLED.show();
+  Serial.println("gameDisplay created");
 
-//     Serial.println("game created");
-//     //FastLED.show();
+  // Choose your Game type
+  // game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
+  // game = (games::Game*)new games::life::LifeGame(gameDisplay);
+  // game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
+  game = (games::Game*)new games::rainbow::RainbowGame(gameDisplay);
+  // game = (games::Game*)new games::marquee::MarqueeGame(gameDisplay);
+  // game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
+  // game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);
+  // game = (games::Game*)new games::falling::FallingGame(gameDisplay);
+  // game = (games::Game*)new games::lane_runner::LaneRunnerGame(gameDisplay);
+  // game = (games::Game*)new games::life::LifeGameSinglePlayer(gameDisplay);
 
-// 	// Choose your Game type
-// 	//game = (Game*)new Head2Head(gameDisplay);
-// 	//game = (Game*)new LifeGame(gameDisplay);
-// 	//game = (Game*)new RocketGame(gameDisplay);
-// 	game = (Game*)new RainbowGame(gameDisplay);
-// 	//game = (Game*)new MarqueeGame(gameDisplay);
-// 	//game = (Game*)new SnakeGame(gameDisplay);
-// 	//game = (Game*)new ShooterGame(gameDisplay);
-// 	//game = (Game*)new FallingGame(gameDisplay);
-// 	//game = (Game*)new LaneRunnerGame(gameDisplay);
-// 	//game = (Game*)new LifeGameSinglePlayer(gameDisplay);
+  // Test Games
+  // game = (games::Game*)new test::DirPadTest(gameDisplay);
+  // game = (games::Game*)new test::FiveStripTest(gameDisplay);
+  // game = (games::Game*)new games::life::GliderWarsGame(gameDisplay);
+  // game = (games::Game*)new test::AnimationTest(gameDisplay);
 
-// 	// Test Games
-// 	//game = (Game*)new DirPadTest(gameDisplay);
-// 	//game = (Game*)new FiveStripTest(gameDisplay);
-// 	//game = (Game*)new GliderWarsGame(gameDisplay);
-//     //game = (Game*)new AnimationTest(gameDisplay);
+  Serial.println("game created");
 
-// 	// debug set strip0 yellow
-// 	// for (int i = 0; i < gameDisplay->lengthStrips; i++)
-// 	// {
-// 	//     gameDisplay->strips[0][i] = CRGB::Yellow;
-// 	// }
-// 	Serial.println("game created");
-// 	//FastLED.show();
+  game->setup();
+  Serial.println("game setup complete");
 
-// 	game->setup();
+  Serial.println("End setup()");
 
-// 	// debug set strip0 green
-// 	// for (int i = 0; i < gameDisplay->lengthStrips; i++)
-// 	// {
-// 	//     gameDisplay->strips[0][i] = CRGB::Green;
-// 	// }
-// 	Serial.println("game setup complete");
-// 	//FastLED.show();
+  // TODO what is this? can we remove it?
+  pinMode(9, OUTPUT);
 
-// 	Serial.println("End setup()");
+  // TODO should we show LEDs on setup?
+  FastLED.show();
+}
 
-//     pinMode(9, OUTPUT);
-// 	FastLED.show();
-// }
+void loop() {
+  // Serial.println("loop() entered");
 
-// void loop()
-// {
-// 	//printFrameRate();
+  game->loop();
+  FastLED.show();
 
-//     // debug set strip0 blue
-//     //for (int i = 0; i < gameDisplay->lengthStrips; i++)
-//     //{
-//     //    gameDisplay->strips[0][i] = CRGB::Blue;
-//     //}
-//     //Serial.println("loop() entered");
-//     game->loop();
-//     FastLED.show();
-
-//     //Serial.println("loops brother");
-//     //delay(10);
-//     //Serial.println("loop() finished");
-// }
+  // Serial.println("loops brother");
+  frameRate.PrintFrameRate();
+}

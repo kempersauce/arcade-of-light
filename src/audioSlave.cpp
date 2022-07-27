@@ -1,5 +1,5 @@
 // #include <Arduino.h>
-// #include <KemperSerialReceiver.h>
+// #include "serial/receiver.h"  // for Receiver
 
 // #include <Audio.h>
 // #include <Wire.h>
@@ -73,12 +73,12 @@
 // #define SDCARD_MOSI_PIN  7
 // #define SDCARD_SCK_PIN   14
 
-// KemperSerialReceiver serialReceiver[2]{
-// 	// KemperSerialReceiver(&Serial1),
-// 	// KemperSerialReceiver(&Serial2),
-// 	// KemperSerialReceiver(&Serial3),
-// 	KemperSerialReceiver(&Serial4),
-// 	KemperSerialReceiver(&Serial5)
+// kss::serial::Receiver serialReceiver[2]{
+// 	// kss::serial::Receiver(&Serial1),
+// 	// kss::serial::Receiver(&Serial2),
+// 	// kss::serial::Receiver(&Serial3),
+// 	kss::serial::Receiver(&Serial4),
+// 	kss::serial::Receiver(&Serial5)
 // };
 
 // void stopChannel(int i)
@@ -178,9 +178,9 @@
 // 			backgroundIsPlaying = false;
 // 			//hasNewBackGround = true;
 // 			Serial.println("BG checkWait: " +
-// (String)backgroundCheckWait); 			Serial.println("BG Elapsed:   " +
-// (String)timeElapsed); 			Serial.println("BG isPlaying: " +
-// (String)backgroundIsPlaying);
+// (String)backgroundCheckWait); 			Serial.println("BG Elapsed:   "
+// + (String)timeElapsed); 			Serial.println("BG isPlaying: "
+// + (String)backgroundIsPlaying);
 // 			Serial.println("===============================");
 // 		}
 // 	}
