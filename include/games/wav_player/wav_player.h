@@ -18,34 +18,38 @@
 #define SDCARD_MOSI_PIN 7
 #define SDCARD_SCK_PIN 14
 
+namespace kss {
+namespace games {
+namespace wav_player {
+
 // TODO move these into the WavPLayer class
 AudioPlaySdWav playSdWav1;
 AudioPlaySdWav playSdWav2;
 AudioPlaySdWav playSdWav3;
 AudioPlaySdWav playSdWav4;
 
-AudioConnection patchCord1(playSdWav1, 0, kss::audio::i2s1, 0);
-AudioConnection patchCord2(playSdWav2, 0, kss::audio::i2s1, 1);
-AudioConnection patchCord3(playSdWav3, 0, kss::audio::i2s1, 2);
-AudioConnection patchCord4(playSdWav4, 0, kss::audio::i2s1, 3);
+AudioConnection patchCord1(playSdWav1, 0, audio::i2s1, 0);
+AudioConnection patchCord2(playSdWav2, 0, audio::i2s1, 1);
+AudioConnection patchCord3(playSdWav3, 0, audio::i2s1, 2);
+AudioConnection patchCord4(playSdWav4, 0, audio::i2s1, 3);
 
-class WavPlayer : public kss::games::Game {
+class WavPlayer : public games::Game {
  private:
   // Buttons go here
-  std::shared_ptr<kss::controls::Button> ABut;
-  std::shared_ptr<kss::controls::Button> BBut;
-  std::shared_ptr<kss::controls::Button> CBut;
-  std::shared_ptr<kss::controls::Button> DBut;
-  std::shared_ptr<kss::controls::Button> EBut;
-  std::shared_ptr<kss::controls::Button> FBut;
+  std::shared_ptr<controls::Button> ABut;
+  std::shared_ptr<controls::Button> BBut;
+  std::shared_ptr<controls::Button> CBut;
+  std::shared_ptr<controls::Button> DBut;
+  std::shared_ptr<controls::Button> EBut;
+  std::shared_ptr<controls::Button> FBut;
 
  public:
-  WavPlayer(std::shared_ptr<kss::controls::Button> aBut,
-            std::shared_ptr<kss::controls::Button> bBut,
-            std::shared_ptr<kss::controls::Button> cBut,
-            std::shared_ptr<kss::controls::Button> dBut,
-            std::shared_ptr<kss::controls::Button> eBut,
-            std::shared_ptr<kss::controls::Button> fBut)
+  WavPlayer(std::shared_ptr<controls::Button> aBut,
+            std::shared_ptr<controls::Button> bBut,
+            std::shared_ptr<controls::Button> cBut,
+            std::shared_ptr<controls::Button> dBut,
+            std::shared_ptr<controls::Button> eBut,
+            std::shared_ptr<controls::Button> fBut)
       : ABut{std::move(aBut)},
         BBut{std::move(bBut)},
         CBut{std::move(cBut)},
@@ -55,7 +59,7 @@ class WavPlayer : public kss::games::Game {
 
   void setup() {
     Serial.begin(9600);
-    kss::audio::initAudio();
+    audio::initAudio();
     delay(1000);
   }
 
@@ -99,3 +103,7 @@ class WavPlayer : public kss::games::Game {
     //  }
   }
 };
+
+}  // namespace wav_player
+}  // namespace games
+}  // namespace kss

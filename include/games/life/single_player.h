@@ -4,7 +4,7 @@
 #include "games/game.h"            // for Game
 #include "games/life/animation.h"  // for LifeAnimation
 #include "games/life/audio.h"      // for LifeAudio
-#include "games/rainbow.h"         // for RainbowGame
+#include "games/rainbow/rainbow.h"         // for RainbowGame
 
 namespace kss {
 namespace games {
@@ -44,7 +44,7 @@ class LifeGameSinglePlayer : public Game {
   LifeGameState gameState;
 
   const static uint32_t idleTimeoutMillis = 1000 * 90;  // 90 seconds
-  RainbowGame idleGame;
+  rainbow::RainbowGame idleGame;
 
  public:
   LifeGameSinglePlayer(display::Display* display, controls::DirPad controls)

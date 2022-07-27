@@ -7,7 +7,7 @@
 #include "engines/framerate.h"  // for FrameRate
 #include "games/head2head/head2head.h"  // for Head2Head
 #include "games/rocket/rocket_game.h"   // for RocketGame
-//#include "games/wav_player.h"  // for WavPlayer
+//#include "games/wav_player/wav_player.h"  // for WavPlayer
 #include "games/life/life.h"    // for LifeGame
 #include "test/single_color.h"  // for SingleColorTest
 // #include "audio/sounds.h"  // for Sounds
@@ -15,7 +15,7 @@
 #include "games/life/glider_wars.h"  // for GliderWars
 #include "games/marquee/marquee.h"           // for MarqueeGame
 #include "games/noise/noise.h"  // for NoiseGame
-#include "games/rainbow.h"           // for RainbowGame
+#include "games/rainbow/rainbow.h"           // for RainbowGame
 #include "games/snake/snake_game.h"  // for SnakeGame
 #include "test/dir_pad.h"            // for DirPadTest
 #include "test/five_strip.h"         // for FiveStripTest
@@ -53,7 +53,7 @@ void setup() {
   // game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
   // game = (games::Game*)new games::life::LifeGame(gameDisplay);
   // game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
-  game = (games::Game*)new RainbowGame(gameDisplay);
+  game = (games::Game*)new games::rainbow::RainbowGame(gameDisplay);
   // game = (games::Game*)new games::marquee::MarqueeGame(gameDisplay);
   // game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
   // game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);

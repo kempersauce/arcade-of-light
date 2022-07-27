@@ -14,7 +14,7 @@
 #include "games/head2head/game_strip.h"         // for H2HGameStrip
 #include "games/head2head/zone.h"               // for H2HZone
 #include "games/life/life.h"                    // for LifeGame
-#include "games/rainbow.h"                      // for RainbowGame
+#include "games/rainbow/rainbow.h"                      // for RainbowGame
 
 namespace kss {
 namespace games {
@@ -36,7 +36,7 @@ class Head2Head : public kss::games::Game {
   animation::ElectricArc electricArc;
 
   // Idle Game, plays after no buttons have been pressed before idle timeout
-  RainbowGame idleGame;
+  rainbow::RainbowGame idleGame;
   bool isIdle;
   const static long idleTimeoutMillis = 1000 * 45;  // 45 seconds
 
