@@ -7,7 +7,6 @@ namespace kss {
 namespace games {
 namespace rocket {
 
-// TODO move this to rocket game, this is not generic audio
 class RocketAudio : public audio::AudioSender {
  public:
   // File names for single effects

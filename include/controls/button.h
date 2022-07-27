@@ -32,8 +32,6 @@ class Button {
     // Keep track of how long the button has been held
     if (IsDepressing()) {
       // Record when the button went down
-      // TODO reevaluate - do we want 0-based or 1-based frame counting like
-      // this?
       frames_held_ = 1;  // We're counting the first frame here, so anything
                          // using this field can have an immediate response
       hold_start_time_ = millis();
@@ -126,8 +124,6 @@ class Button {
   bool is_pressed_;
 
   // Used to track how long the button has been held down
-  // TODO maybe decide between doing it one way or the other? right now I'm
-  // doing both
   int frames_held_;
   uint32_t hold_start_time_;
 
