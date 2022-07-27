@@ -7,6 +7,9 @@
 #include "animation/single_color_block.h"       // for SingleColorBlock
 #include "games/game.h"                         // for Game
 
+namespace kss {
+namespace test {
+
 // Test for Directional Pad
 class AnimationTest : public kss::games::Game {
  public:
@@ -35,3 +38,6 @@ class AnimationTest : public kss::games::Game {
     }
   }
 };
+
+}  // namespace test
+}  // namespace kss

@@ -17,9 +17,11 @@
 #include "games/noise/noise.h"  // for NoiseGame
 #include "games/rainbow/rainbow.h"           // for RainbowGame
 #include "games/snake/snake_game.h"  // for SnakeGame
+#include "test/animation.h"            // for AnimationTest
 #include "test/dir_pad.h"            // for DirPadTest
 #include "test/five_strip.h"         // for FiveStripTest
 #include "test/serial.h"             // for SerialTest
+#include "test/single_color.h"             // for SingleColorTest
 #include "games/shooter/shooter_game.h"  // for ShooterGame
 #include "games/falling/falling.h"                  // for FallingGame
 #include "games/lane_runner/lane_runner.h"  // for LaneRunner
@@ -62,10 +64,10 @@ void setup() {
   // game = (games::Game*)new games::life::LifeGameSinglePlayer(gameDisplay);
 
   // Test Games
-  // game = (games::Game*)new DirPadTest(gameDisplay);
-  // game = (games::Game*)new FiveStripTest(gameDisplay);
+  // game = (games::Game*)new test::DirPadTest(gameDisplay);
+  // game = (games::Game*)new test::FiveStripTest(gameDisplay);
   // game = (games::Game*)new games::life::GliderWarsGame(gameDisplay);
-  // game = (games::Game*)new AnimationTest(gameDisplay);
+  // game = (games::Game*)new test::AnimationTest(gameDisplay);
 
   Serial.println("game created");
 

@@ -1,17 +1,20 @@
 #pragma once
 
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "display/display.h"  // for kss::display::Display
+#include "display/display.h"  // for display::Display
 #include "games/game.h"                         // for Game
 #include "serial/receiver.h"                    // for Receiver
 
-class SerialTest : public kss::games::Game {
-  kss::serial::Receiver ks;
+namespace kss {
+namespace test {
 
-  kss::animation::SingleColorBG background;
+class SerialTest : public games::Game {
+  serial::Receiver ks;
+
+  animation::SingleColorBG background;
 
  public:
-  SerialTest(kss::display::Display *gameDisplay)
+  SerialTest(display::Display *gameDisplay)
       : Game(gameDisplay), background(0, 0, 255), ks(&Serial1) {}
 
   void setup() {
@@ -35,3 +38,6 @@ class SerialTest : public kss::games::Game {
     }
   }
 };
+
+}  // namespace test
+}  // namespace kss

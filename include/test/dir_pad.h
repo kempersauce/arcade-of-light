@@ -9,6 +9,9 @@
 #include "display/display.h" // for kss::display::Display
 #include "games/game.h"                         // for Game
 
+namespace kss {
+namespace test {
+
 // Test for Directional Pad
 class DirPadTest : public kss::games::Game {
  public:
@@ -82,3 +85,6 @@ class DirPadTest : public kss::games::Game {
     rainbow.draw(display);
   }
 };
+
+}  // namespace test
+}  // namespace kss
