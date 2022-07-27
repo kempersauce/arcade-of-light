@@ -13,7 +13,7 @@
 // #include "audio/sounds.h"  // for Sounds
 //#include "test/firework.h"  // for FireworkTest
 #include "games/life/glider_wars.h"  // for GliderWars
-#include "games/marquee.h"           // for MarqueeGame
+#include "games/marquee/marquee.h"           // for MarqueeGame
 #include "games/rainbow.h"           // for RainbowGame
 #include "games/snake/snake_game.h"  // for SnakeGame
 #include "test/dir_pad.h"            // for DirPadTest
@@ -53,7 +53,7 @@ void setup() {
   // game = (games::Game*)new games::life::LifeGame(gameDisplay);
   // game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
   game = (games::Game*)new RainbowGame(gameDisplay);
-  // game = (games::Game*)new MarqueeGame(gameDisplay);
+  // game = (games::Game*)new games::marquee::MarqueeGame(gameDisplay);
   // game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
   // game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);
   // game = (games::Game*)new games::falling::FallingGame(gameDisplay);
