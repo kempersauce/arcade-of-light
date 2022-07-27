@@ -134,7 +134,7 @@ class Marquee : public Animation {
 
   void drawString(const std::string& text, display::Display* display) {
     int spacer = 10 * text.length();  // measure the words out
-    for (int i = 0; i < text.length(); i++) {
+    for (size_t i = 0; i < text.length(); i++) {
       int(*letter)[8][4];  // default is empty
       char c = text[i];
       switch (c) {

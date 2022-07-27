@@ -11,7 +11,7 @@ namespace animation {
 
 class Explosion : Animation {
  public:
-  long birthTimeMillis;
+  uint32_t birthTimeMillis;
 
   std::vector<engines::PhysicsInfo> shrapnel;
 
@@ -20,24 +20,24 @@ class Explosion : Animation {
   // colors (HSV)
   int Hue;
   int SaturationFinal = 255;
-  long saturationPhaseMillis = 1000;
-  long brightnessPhaseMillis = 1500;
+  uint32_t saturationPhaseMillis = 1000;
+  uint32_t brightnessPhaseMillis = 1500;
 
-  Explosion(int shrapnelCount = 50) : Animation(), shrapnel{shrapnelCount} {
+  Explosion(size_t shrapnelCount = 50) : Animation(), shrapnel{shrapnelCount} {
     birthTimeMillis = 0;  // not born yet
     Hue = random(0, 255);
     SetFriction(20, 5);
   }
 
   void SetFriction(float xfriction, float friction) {
-    for (int i = 0; i < shrapnel.size(); i++) {
+    for (size_t i = 0; i < shrapnel.size(); i++) {
       shrapnel[i].Friction = friction;
       shrapnel[i].xFriction = xfriction;
     }
   }
 
   void SetGravity(int gravity) {
-    for (int i = 0; i < shrapnel.size(); i++) {
+    for (size_t i = 0; i < shrapnel.size(); i++) {
       shrapnel[i].Gravity = gravity;
     }
   }
@@ -45,7 +45,7 @@ class Explosion : Animation {
   void ExplodeAt(int stripIndex, int location) {
     birthTimeMillis = millis();
 
-    for (int i = 0; i < shrapnel.size(); i++) {
+    for (size_t i = 0; i < shrapnel.size(); i++) {
       shrapnel[i].Reset();
       shrapnel[i].Location = location;
       shrapnel[i].xLocation = stripIndex;
@@ -55,7 +55,7 @@ class Explosion : Animation {
 
   void Move() {
     if (IsBurnedOut() == false) {
-      for (int i = 0; i < shrapnel.size(); i++) {
+      for (size_t i = 0; i < shrapnel.size(); i++) {
         shrapnel[i].Move();
       }
     }
@@ -65,7 +65,7 @@ class Explosion : Animation {
     return TimeAliveMillis() >= saturationPhaseMillis + brightnessPhaseMillis;
   }
 
-  long TimeAliveMillis() { return millis() - birthTimeMillis; }
+  uint32_t TimeAliveMillis() { return millis() - birthTimeMillis; }
 
   void draw(display::Display* display) {
     if (IsBurnedOut())  // don't drawing after the explosion burns out
@@ -73,7 +73,7 @@ class Explosion : Animation {
       return;
     }
 
-    long timeAliveMillis = TimeAliveMillis();
+    auto timeAliveMillis = TimeAliveMillis();
 
     // Saturate Color while we're in the saturation phase
     int saturation;
@@ -97,7 +97,7 @@ class Explosion : Animation {
       brightness = 0;
     }
 
-    for (int i = 0; i < shrapnel.size(); i++) {
+    for (size_t i = 0; i < shrapnel.size(); i++) {
       int loc = (int)shrapnel[i].Location;
       int xLoc = (int)shrapnel[i].xLocation;
       if (loc >= 0 && loc < display->lengthStrips && xLoc >= 0 &&

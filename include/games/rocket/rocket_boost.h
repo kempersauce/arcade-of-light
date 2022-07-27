@@ -9,16 +9,16 @@ namespace games {
 namespace rocket {
 
 class RocketBoost : public animation::Animation {
- private:
+
   engines::NoiseGenerator noise_generator;
 
  public:
-  int loc;
-  int height;
+  size_t loc;
+  size_t height;
   float boostFactor;
 
-  RocketBoost(int heightMax)
-      : Animation(), height{heightMax}, noise_generator{1, heightMax, 100} {
+  RocketBoost(size_t heightMax)
+      : Animation(), noise_generator{1, heightMax, 100}, height{heightMax} {
     loc = 0;
     boostFactor = 0;
   }
@@ -41,7 +41,7 @@ class RocketBoost : public animation::Animation {
     }
 
     int middleStrip = display->numStrips / 2;
-    for (int i = max(loc - boostHeight, 0); i < min(loc, display->lengthStrips);
+    for (size_t i = max(loc - boostHeight, 0); i < min(loc, display->lengthStrips);
          i++) {
       display->strips[middleStrip][i].setRGB(
           255, noise_generator.data[0][loc - i], 0);

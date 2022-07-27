@@ -13,8 +13,8 @@ namespace life {
 
 class LifeAnimation : public animation::Animation {
  private:
-  int width;
-  int height;
+  size_t width;
+  size_t height;
 
   // We need 2 frames to write the changes each round
   int** frame1;  //[NUM_STRIPS][NUM_LEDS];
@@ -38,10 +38,7 @@ class LifeAnimation : public animation::Animation {
       CRGB(255, 255, 0),  // yellow
   };
 
-  LifeAnimation(int wdth, int heigt) {
-    width = wdth;
-    height = heigt;
-
+  LifeAnimation(size_t width, size_t height) : Animation(), width{width}, height{height} {
     frame1 = new int*[width];
     frame2 = new int*[width];
     for (int i = 0; i < width; i++) {
@@ -55,7 +52,7 @@ class LifeAnimation : public animation::Animation {
     randomize();  // init the nextRound just to be safe
   }
 
-  void setCellState(int x, int y, bool state) {
+  void setCellState(size_t x, size_t y, bool state) {
     if (x >= 0 && x < width && y >= 0 && y < height) {
       (*nextRound)[x][y] = state ? 1 : 0;
     }
@@ -68,8 +65,8 @@ class LifeAnimation : public animation::Animation {
     nextRound = placeholder;
 
     // Calculate the next round based on the last one
-    for (int strip = 0; strip < width; strip++) {
-      for (int led = 0; led < height; led++) {
+    for (size_t strip = 0; strip < width; strip++) {
+      for (size_t led = 0; led < height; led++) {
         int neighborsAlive = 0;
         for (int i = -1; i <= 1; i++) {
           for (int j = -1; j <= 1; j++) {
@@ -79,8 +76,8 @@ class LifeAnimation : public animation::Animation {
             }
 
             // calculate neighbor cell indices
-            int neighborStrip = (strip + i + width) % width;
-            int neighborLED = (led + j + height) % height;
+            size_t neighborStrip = (strip + i + width) % width;
+            size_t neighborLED = (led + j + height) % height;
 
             // count up the 'alive' neighbors in the last round
             if ((*lastRound)[neighborStrip][neighborLED] > 0) {
@@ -109,8 +106,8 @@ class LifeAnimation : public animation::Animation {
   }
 
   void draw(display::Display* display) {
-    for (int ledIndex = 0; ledIndex < display->lengthStrips; ledIndex++) {
-      for (int stripIndex = 0; stripIndex < display->numStrips; stripIndex++) {
+    for (size_t ledIndex = 0; ledIndex < display->lengthStrips; ledIndex++) {
+      for (size_t stripIndex = 0; stripIndex < display->numStrips; stripIndex++) {
         int age = (*nextRound)[stripIndex][ledIndex];
 
         // Dont let it step past the array bounds
@@ -125,8 +122,8 @@ class LifeAnimation : public animation::Animation {
 
   void randomize() {
     uint16_t lifeThreshold = (float)UINT16_MAX * randomizeDensity;
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
+    for (size_t i = 0; i < width; i++) {
+      for (size_t j = 0; j < height; j++) {
         bool alive = random16() <= lifeThreshold;
         if (alive) {
           (*nextRound)[i][j] = 1;

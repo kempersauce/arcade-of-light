@@ -47,10 +47,6 @@ class H2HGameStrip : public animation::Animation {
   int stripIndex;  // Which strip is this on?
   int heightMax;   // length of this strip
 
-  engines::NoiseGenerator*
-      noise_generator;  // this is maintained by the game class so we
-                        // just need to hold onto the reference here
-
   uint32_t
       stateTimeoutMillis;  // state timer used to time a handful of game states
   const uint32_t deadStateTimeoutMinMillis =
@@ -72,6 +68,10 @@ class H2HGameStrip : public animation::Animation {
 
   std::shared_ptr<controls::Button> buttonA;
   std::shared_ptr<controls::Button> buttonB;
+
+  engines::NoiseGenerator*
+      noise_generator;  // this is maintained by the game class so we
+                        // just need to hold onto the reference here
 
   H2HGameStrip(int stripIndex, int stripHeight,
                std::shared_ptr<controls::Button> a,
@@ -99,7 +99,7 @@ class H2HGameStrip : public animation::Animation {
 
     // Set some physics on the explosion shrapnel so they'll bounce off the
     // ceiling and floor
-    for (int i = 0; i < explosion.shrapnel.size(); i++) {
+    for (size_t i = 0; i < explosion.shrapnel.size(); i++) {
       explosion.shrapnel[i].LocationMax = stripHeight;
       explosion.shrapnel[i].BounceFactor = -.8;
     }

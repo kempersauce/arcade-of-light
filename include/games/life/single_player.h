@@ -13,6 +13,9 @@ namespace life {
 enum LifeGameState { LifeGameIdle, LifeGamePlaying };
 
 class LifeGameSinglePlayer : public Game {
+
+  rainbow::RainbowGame idleGame;
+
   // Controls
   controls::DirPad dirPad;
 
@@ -22,10 +25,10 @@ class LifeGameSinglePlayer : public Game {
   // Sound
   LifeAudio audio;
 
-  long millisPerFrame = 50;
-  const static long millisPerFrameStep = 5;
-  long lastFrameMillis = 0;
-  long nextDrawFrameMillis = 0;
+  uint32_t millisPerFrame = 50;
+  const static uint32_t millisPerFrameStep = 5;
+  uint32_t lastFrameMillis = 0;
+  uint32_t nextDrawFrameMillis = 0;
 
   // Degrees per millisecond
   const static float hueShiftRate =
@@ -44,14 +47,13 @@ class LifeGameSinglePlayer : public Game {
   LifeGameState gameState;
 
   const static uint32_t idleTimeoutMillis = 1000 * 90;  // 90 seconds
-  rainbow::RainbowGame idleGame;
 
  public:
   LifeGameSinglePlayer(display::Display* display, controls::DirPad controls)
       : Game(display),
         idleGame{display},
-        lifeGrid{display->numStrips + 1, display->lengthStrips},
-        dirPad{std::move(controls)} {
+        dirPad{std::move(controls)},
+        lifeGrid{display->numStrips + 1, display->lengthStrips} {
     // Start BG music
     audio.playStdBG();
   }
@@ -77,8 +79,9 @@ class LifeGameSinglePlayer : public Game {
   }
 
   virtual void loop() {
-    long timeDiff = millis() - lastFrameMillis;
-    lastFrameMillis = millis();
+    const auto now = millis();
+    long timeDiff = now - lastFrameMillis;
+    lastFrameMillis = now;
 
     bool isIdle = dirPad.isIdle(idleTimeoutMillis);
 
@@ -133,7 +136,7 @@ class LifeGameSinglePlayer : public Game {
       }
     }
 
-    if (millis() >= nextDrawFrameMillis) {
+    if (now >= nextDrawFrameMillis) {
       // randomize controls on frame speed
       if (dirPad.b->IsPressed()) {
         // if(!audio.shuffleIsStarted)
@@ -150,7 +153,7 @@ class LifeGameSinglePlayer : public Game {
       // 	audio.stopPlayRandom();
       // }
 
-      nextDrawFrameMillis = millis() + millisPerFrame;
+      nextDrawFrameMillis = now + millisPerFrame;
     }
 
     // Draw to display

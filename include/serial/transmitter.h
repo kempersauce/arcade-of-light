@@ -8,11 +8,10 @@ namespace serial {
 
 class Transmitter {
  public:
-  const HardwareSerial *serial;
+  HardwareSerial* serial;
   const static byte numChars = 32;
 
-  Transmitter(const HardwareSerial *serialRef) {
-    serial = serialRef;
+  Transmitter(HardwareSerial* serial) : serial{serial} {
     serial->begin(9600);
   }
 

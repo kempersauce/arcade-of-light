@@ -12,8 +12,8 @@ namespace display {
 
 class Display {
  public:
-  const int numStrips;
-  const int lengthStrips;
+  const size_t numStrips;
+  const size_t lengthStrips;
   CRGB** strips;
 
   Display(const int numberOfStrips, const int lengthOfStrips)

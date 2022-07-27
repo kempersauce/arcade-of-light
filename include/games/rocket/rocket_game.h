@@ -118,7 +118,7 @@ class RocketGame : public Game {
 
   // Fireworks animation plays after no buttons have been pressed before idle
   // timeout
-  const long idleTimeoutMillis = 1000 * 30;  // 30 seconds
+  const uint32_t idleTimeoutMillis = 1000 * 30;  // 30 seconds
 
  public:
   RocketGame(display::Display* display, std::shared_ptr<controls::Button> up,
@@ -140,7 +140,7 @@ class RocketGame : public Game {
 
     // Set some physics on the explosion shrapnel so they'll bounce off the
     // ceiling and floor
-    for (int i = 0; i < explosion.shrapnel.size(); i++) {
+    for (size_t i = 0; i < explosion.shrapnel.size(); i++) {
       explosion.shrapnel[i].LocationMax = display->lengthStrips;
       explosion.shrapnel[i].BounceFactor = -.8;
     }

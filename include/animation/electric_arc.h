@@ -36,7 +36,7 @@ class ElectricArc : public Animation {
       }
     } while (arc.front() != arc.back());
 
-    for (int i = 0; i < arc.size(); i++) {
+    for (size_t i = 0; i < arc.size(); i++) {
       int arcHeight = arc[i];
       if (arcHeight >= 0 && arcHeight < display->lengthStrips) {
         display->strips[i][arcHeight] = CRGB::Purple;

@@ -27,10 +27,10 @@ class ExplosionsInTheSky : public animation::Animation {
     long timeDiff = millis() - timeStart;
 
     // Draw explosion accross all strips
-    for (int j = 0; j < display->numStrips; j++) {
+    for (size_t j = 0; j < display->numStrips; j++) {
       // sets the top 2/3 pixels in a fade from red to black
       int explosionHeight = display->lengthStrips * 2 / 3;
-      for (int i = display->lengthStrips - explosionHeight;
+      for (size_t i = display->lengthStrips - explosionHeight;
            i < display->lengthStrips; i++) {
         float blendStrength = (float)timeDiff / (float)animationLengthMillis;
         float positionFactor =

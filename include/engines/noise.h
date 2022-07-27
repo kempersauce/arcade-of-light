@@ -43,7 +43,7 @@ class NoiseGenerator {
 
   NoiseGenerator(size_t width, size_t height, uint16_t speed = 20) : width{width}, height{height}, speed{speed} {
     data = new uint8_t*[width];
-    for (int i = 0; i < height; i++) {
+    for (size_t i = 0; i < height; i++) {
       data[i] = new uint8_t[height];
     }
   }
@@ -62,9 +62,9 @@ class NoiseGenerator {
     // adjust our speed based on our timing
     z += (float)speed * timeFactor;
 
-    for (int i = 0; i < width; i++) {
+    for (size_t i = 0; i < width; i++) {
       int ioffset = scale * i;
-      for (int j = 0; j < height; j++) {
+      for (size_t j = 0; j < height; j++) {
         int joffset = scale * j;
         data[i][j] = inoise8(x + ioffset, y + joffset, z);
       }

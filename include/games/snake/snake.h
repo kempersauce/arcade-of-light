@@ -15,21 +15,19 @@ enum Direction { Up, Down, Left, Right };
 
 class Snake : public animation::Animation {
  public:
-  int xMax;
-  int yMax;
+  size_t xMax;
+  size_t yMax;
 
-  std::pair<int, int> head;
-  std::deque<std::pair<int, int>> body;
-  int lengthToGrow;
+  std::pair<size_t, size_t> head;
+  std::deque<std::pair<size_t, size_t>> body;
+  size_t lengthToGrow;
 
   CRGB color;
 
   Direction currentDirection;
 
-  Snake(int height, int width) : Animation(), head(), body() {
+  Snake(size_t height, size_t width) : Animation(), xMax{height}, yMax{width}, head(), body() {
     color = CRGB::Green;
-    xMax = height;
-    yMax = width;
   }
 
   void Reset() {
@@ -77,7 +75,7 @@ class Snake : public animation::Animation {
 
   void draw(display::Display* display) {
     display->strips[head.first][head.second] = color;
-    for (int i = 0; i < body.size(); i++) {
+    for (size_t i = 0; i < body.size(); i++) {
       display->strips[body[i].first][body[i].second] = color;
     }
   }
