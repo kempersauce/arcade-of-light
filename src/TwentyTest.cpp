@@ -1,10 +1,9 @@
-
 // #include <Arduino.h>
 // #include <FastLED.h>
 // #include "display/display.h"  // for kss::display::Display
 // #include "display/twenty.h"  // for kss::display::TwentyDisplay
 // #include "games/game.h"  // for Game
-// #include "games/noise.h"  // for NoiseGame
+// #include "games/noise/noise.h"  // for NoiseGame
 
 // Game* game;
 // kss::display::Display* gameDisplay;
@@ -13,7 +12,7 @@
 // {
 //     gameDisplay = (kss::display::Display*)new kss::display::TwentyDisplay();
 
-//     game = (Game*)new NoiseGame(gameDisplay);
+//     game = (Game*)new kss::games::noise::NoiseGame(gameDisplay);
 //     game->setup();
 //     FastLED.show();
 // }

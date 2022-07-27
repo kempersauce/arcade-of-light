@@ -14,6 +14,7 @@
 //#include "test/firework.h"  // for FireworkTest
 #include "games/life/glider_wars.h"  // for GliderWars
 #include "games/marquee/marquee.h"           // for MarqueeGame
+#include "games/noise/noise.h"  // for NoiseGame
 #include "games/rainbow.h"           // for RainbowGame
 #include "games/snake/snake_game.h"  // for SnakeGame
 #include "test/dir_pad.h"            // for DirPadTest
