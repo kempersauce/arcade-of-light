@@ -5,13 +5,17 @@
 #include <utility>  // for pair
 
 #include "animation/animation.h"  // for Animation
-#include "display/display.h"  // for kss::display::Display
+#include "display/display.h"  // for display::Display
+
+namespace kss {
+namespace games {
+namespace snake {
 
 using namespace std;
 
 enum Direction { Up, Down, Left, Right };
 
-class Snake : public kss::animation::Animation {
+class Snake : public animation::Animation {
  public:
   int xMax;
   int yMax;
@@ -73,10 +77,14 @@ class Snake : public kss::animation::Animation {
     }
   }
 
-  void draw(kss::display::Display* display) {
+  void draw(display::Display* display) {
     display->strips[head.first][head.second] = color;
     for (int i = 0; i < body.size(); i++) {
       display->strips[body[i].first][body[i].second] = color;
     }
   }
 };
+
+}  // namespace snake
+}  // namespace games
+}  // namespace kss

@@ -54,7 +54,7 @@ void setup() {
   // game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
   game = (games::Game*)new RainbowGame(gameDisplay);
   // game = (games::Game*)new MarqueeGame(gameDisplay);
-  // game = (games::Game*)new SnakeGame(gameDisplay);
+  // game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
   // game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);
   // game = (games::Game*)new FallingGame(gameDisplay);
   // game = (games::Game*)new games::lane_runner::LaneRunnerGame(gameDisplay);

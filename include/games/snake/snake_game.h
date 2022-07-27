@@ -5,17 +5,21 @@
 #include "games/game.h"                         // for Game
 #include "games/snake/snake.h"                  // for Snake
 
-class SnakeGame : public kss::games::Game {
-  kss::controls::DirPad controls;
+namespace kss {
+namespace games {
+namespace snake {
+
+class SnakeGame : public games::Game {
+  controls::DirPad controls;
   Snake snake;
-  kss::animation::SingleColorBG background;
+  animation::SingleColorBG background;
 
  public:
-  SnakeGame(kss::display::Display* gameDisplay, kss::controls::DirPad controls)
+  SnakeGame(display::Display* gameDisplay, controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
-        snake(gameDisplay->numStrips, gameDisplay->lengthStrips),
-        background(0, 0, 0) {}
+        snake{gameDisplay->numStrips, gameDisplay->lengthStrips},
+        background{0, 0, 0} {}
 
   virtual void setup() { snake.Reset(); }
 
@@ -47,3 +51,7 @@ class SnakeGame : public kss::games::Game {
     snake.draw(display);
   }
 };
+
+}  // namespace snake
+}  // namespace games
+}  // namespace kss
