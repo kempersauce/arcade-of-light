@@ -4,18 +4,18 @@
 // #include "test/five_strip.h"  // for FiveStripTest
 // #include "display/five.h"  // for FiveDisplay
 
-// using namespace std;
+// using namespace kss;
 
-// FiveDisplay* display;
-// FiveStripTest* test;
+// display::FiveDisplay* display;
+// test::FiveStripTest* test;
 
-// vector<kss::controls::Button> buttons;
+// std::vector<controls::Button> buttons;
 // void setup()
 // {
-//     display = new FiveDisplay();
-//     test = new FiveStripTest(display);
+//     display = new display::FiveDisplay();
+//     test = new test::FiveStripTest(display);
 //     test->setup();
-// 	Serial.begin(115200);
+// 	Serial.begin(9600);
 // 	for (int i = 0; i < 32; i++)
 // 	{
 // 		buttons.push_back(Button(i));

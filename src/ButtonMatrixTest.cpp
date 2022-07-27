@@ -8,20 +8,19 @@
 // #include <memory>  // for std::shared_ptr
 // #include <vector>  // for std::vector
 
-// using namespace std;
-// using namespace kss::controls;
+// using namespace kss;
 
 // // These are the pins we're using for each controller/button
 // const int cont_pins[4] = {2, 3, 4, 7};
 // const int butt_pins[4] = {8, 9, 10, 11};
 
-// hardware::Matrix controls;
+// controls::hardware::Matrix control_context;
 
 // struct MatrixController {
-//   vector<shared_ptr<Button>> buttons;
+//   std::vector<std::shared_ptr<controls::Button>> buttons;
 // };
 
-// vector<MatrixController> controllers;
+// std::vector<MatrixController> controllers;
 
 // void setup() {
 //   Serial.begin(9600);
@@ -32,14 +31,14 @@
 //     MatrixController controller;
 //     for (const int butt_pin : butt_pins) {
 //       controller.buttons.emplace_back(
-//           controls.CreateButton(cont_pin, butt_pin));
+//           control_context.CreateButton(cont_pin, butt_pin));
 //     }
 //     controllers.emplace_back(controller);
 //   }
 
 //   // Poll for initial button state
 //   Serial.println("Poll for initial button state");
-//   controls.PollAll();
+//   control_context.PollAll();
 
 //   // Sound off initial button state
 //   Serial.println("Sound off initial button state");
@@ -60,7 +59,7 @@
 
 // void loop() {
 //   // Poll all the button states
-//   controls.PollAll();
+//   control_context.PollAll();
 
 //   // Sound off button states
 //   for (size_t cont = 0; cont < controllers.size(); cont++) {

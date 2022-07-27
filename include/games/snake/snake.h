@@ -11,8 +11,6 @@ namespace kss {
 namespace games {
 namespace snake {
 
-using namespace std;
-
 enum Direction { Up, Down, Left, Right };
 
 class Snake : public animation::Animation {
@@ -20,8 +18,8 @@ class Snake : public animation::Animation {
   int xMax;
   int yMax;
 
-  pair<int, int> head;
-  deque<pair<int, int>> body;
+  std::pair<int, int> head;
+  std::deque<std::pair<int, int>> body;
   int lengthToGrow;
 
   CRGB color;
@@ -60,19 +58,19 @@ class Snake : public animation::Animation {
     // Create the new head according to our direction
     switch (currentDirection) {
       case Up:
-        head = make_pair(head.first, (head.second + 1) % yMax);
+        head = std::make_pair(head.first, (head.second + 1) % yMax);
         break;
 
       case Down:
-        head = make_pair(head.first, (head.second - 1 + yMax) % yMax);
+        head = std::make_pair(head.first, (head.second - 1 + yMax) % yMax);
         break;
 
       case Left:
-        head = make_pair((head.first - 1 + xMax) % xMax, head.second);
+        head = std::make_pair((head.first - 1 + xMax) % xMax, head.second);
         break;
 
       case Right:
-        head = make_pair((head.first + 1) % xMax, head.second);
+        head = std::make_pair((head.first + 1) % xMax, head.second);
         break;
     }
   }

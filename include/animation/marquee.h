@@ -10,8 +10,6 @@
 namespace kss {
 namespace animation {
 
-using namespace std;
-
 namespace letters = engines::letters;
 
 // This file holds words and word functions
@@ -97,7 +95,7 @@ class Marquee : public Animation {
       YLocation = display->lengthStrips;
     }
 
-    string text = "KEMPER SAUCE";
+    std::string text = "KEMPER SAUCE";
     drawString(text, display);
     // int lowerX = 0;
     // drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display,
@@ -134,7 +132,7 @@ class Marquee : public Animation {
     // letters::K, beatsin8(45), 255, 255);
   }
 
-  void drawString(const string& text, display::Display* display) {
+  void drawString(const std::string& text, display::Display* display) {
     int spacer = 10 * text.length();  // measure the words out
     for (int i = 0; i < text.length(); i++) {
       int(*letter)[8][4];  // default is empty
