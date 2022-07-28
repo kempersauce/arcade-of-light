@@ -3,6 +3,7 @@
 #include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion
 #include "display/display.h"      // for Display
+#include "engines/random.h"       // for random::*
 #include "games/rocket/audio.h"   // for RocketAudio
 
 namespace kss {
@@ -44,14 +45,15 @@ class Firework : public animation::Animation {
   void Reset() {
     isPlaying = true;
     physics.Reset();
-    physics.LocationMax = random(
+    physics.LocationMax = engines::random::Int16(
         stripsHeight / 3, stripsHeight - 20);  // height the firework explodes
-    physics.Velocity = random(35, 75);         // how fast do we get there
+    physics.Velocity =
+        engines::random::Int8(35, 75);  // how fast do we get there
 
-    physics.xLocation =
-        random(0, stripsWidth);  // select which strip this should be on
+    physics.xLocation = engines::random::Int8(
+        stripsWidth);  // select which strip this should be on
 
-    Hue = random(0, 255);
+    Hue = engines::random::Int8();
   }
 
   void Move(RocketAudio& audio) {
@@ -64,7 +66,7 @@ class Firework : public animation::Animation {
     if (physics.HasExploded) {
       if (wasExploded == false) {
         audio.playFireWorkExplode();
-        explosion.Hue = random(0, 255);
+        explosion.Hue = engines::random::Int8();
         explosion.ExplodeAt(physics.xLocation, physics.Location);
       }
 

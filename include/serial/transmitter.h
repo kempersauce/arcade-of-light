@@ -11,9 +11,7 @@ class Transmitter {
   HardwareSerial* serial;
   const static byte numChars = 32;
 
-  Transmitter(HardwareSerial* serial) : serial{serial} {
-    serial->begin(9600);
-  }
+  Transmitter(HardwareSerial* serial) : serial{serial} { serial->begin(9600); }
 
   void sendMessage(String msg) {
     int msgLength = msg.length();

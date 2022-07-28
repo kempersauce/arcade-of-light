@@ -4,7 +4,7 @@
 #include <HardwareSerial.h>  // for HardwareSerial
 
 namespace kss {
-namespace audio { 
+namespace audio {
 
 class AudioSender {
  public:

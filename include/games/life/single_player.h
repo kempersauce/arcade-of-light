@@ -1,10 +1,10 @@
 #pragma once
 
-#include "controls/dir_pad.h"      // for DirPad
-#include "games/game.h"            // for Game
-#include "games/life/animation.h"  // for LifeAnimation
-#include "games/life/audio.h"      // for LifeAudio
-#include "games/rainbow/rainbow.h"         // for RainbowGame
+#include "controls/dir_pad.h"       // for DirPad
+#include "games/game.h"             // for Game
+#include "games/life/animation.h"   // for LifeAnimation
+#include "games/life/audio.h"       // for LifeAudio
+#include "games/rainbow/rainbow.h"  // for RainbowGame
 
 namespace kss {
 namespace games {
@@ -13,7 +13,6 @@ namespace life {
 enum LifeGameState { LifeGameIdle, LifeGamePlaying };
 
 class LifeGameSinglePlayer : public Game {
-
   rainbow::RainbowGame idleGame;
 
   // Controls

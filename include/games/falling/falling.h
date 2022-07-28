@@ -6,8 +6,9 @@
 
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for DirPad
-#include "games/game.h"  // for Game
 #include "engines/physics_info.h"               // for PhysicsInfo
+#include "engines/random.h"                     // for random::*
+#include "games/game.h"                         // for Game
 
 namespace kss {
 namespace games {
@@ -43,14 +44,16 @@ class FallingGame : public Game {
     int left;
     int right;
     do {
-      left = walls.front().first + (random16() / (UINT16_MAX / 3)) - 1;
-      right = walls.front().second + (random16() / (UINT16_MAX / 3)) - 1;
+      left = walls.front().first + engines::random::Int8_incl(-1, 1);
+      right = walls.front().second + engines::random::Int8_incl(-1, 1);
 
       // Prevent the random walk from going more than 1 outside the visible
       // range
       if (left < -1) left = -1;
 
       if (right > display->numStrips) right = display->numStrips;
+
+      // TODO check if left < right
 
       // Cap this at 2 pixel width tunnel
     } while (right - left < (display->numStrips + 1) / 2);

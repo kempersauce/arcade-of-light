@@ -9,7 +9,6 @@ namespace games {
 namespace rocket {
 
 class RocketBoost : public animation::Animation {
-
   engines::NoiseGenerator noise_generator;
 
  public:
@@ -41,8 +40,8 @@ class RocketBoost : public animation::Animation {
     }
 
     int middleStrip = display->numStrips / 2;
-    for (size_t i = max(loc - boostHeight, 0); i < min(loc, display->lengthStrips);
-         i++) {
+    for (size_t i = max(loc - boostHeight, 0);
+         i < min(loc, display->lengthStrips); i++) {
       display->strips[middleStrip][i].setRGB(
           255, noise_generator.data[0][loc - i], 0);
     }

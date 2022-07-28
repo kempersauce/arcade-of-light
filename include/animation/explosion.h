@@ -5,6 +5,7 @@
 #include "animation/animation.h"   // for Animation
 #include "display/display.h"       // for Display
 #include "engines/physics_info.h"  // for PhysicsInfo
+#include "engines/random.h"        // for random::*
 
 namespace kss {
 namespace animation {
@@ -25,7 +26,7 @@ class Explosion : Animation {
 
   Explosion(size_t shrapnelCount = 50) : Animation(), shrapnel{shrapnelCount} {
     birthTimeMillis = 0;  // not born yet
-    Hue = random(0, 255);
+    Hue = engines::random::Int8();
     SetFriction(20, 5);
   }
 

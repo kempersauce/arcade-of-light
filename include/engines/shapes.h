@@ -1,7 +1,6 @@
 #pragma once
 // this file holds our shapes for the beats game
 
-
 namespace kss {
 namespace engines {
 
@@ -24,7 +23,6 @@ int ShapeUpArrow[8][5] = {{0, 0, 1, 0, 0}, {0, 1, 0, 1, 0}, {1, 0, 0, 0, 1},
 int ShapeDownArrow[8][5] = {{0, 1, 0, 1, 0}, {0, 0, 1, 0, 0}, {1, 0, 0, 0, 1},
                             {0, 1, 0, 1, 0}, {0, 0, 1, 0, 0}, {1, 0, 0, 0, 1},
                             {0, 1, 0, 1, 0}, {0, 0, 1, 0, 0}};
-
 
 }  // namespace engines
 }  // namespace kss

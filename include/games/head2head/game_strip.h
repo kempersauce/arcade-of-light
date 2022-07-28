@@ -4,6 +4,7 @@
 #include "animation/explosion.h"    // for Explosion
 #include "controls/button.h"        // for Button
 #include "engines/noise.h"          // for NoiseGenerator
+#include "engines/random.h"         // for random::*
 #include "games/head2head/audio.h"  // for H2HAudio
 #include "games/head2head/dot.h"    // for H2HDot
 #include "games/head2head/zone.h"   // for H2HZone
@@ -125,7 +126,7 @@ class H2HGameStrip : public animation::Animation {
     dot.physics.Location = midBar;
 
     // randomly start in different directions
-    if (random16() > UINT16_MAX / 2) {
+    if (engines::random::Bool()) {
       dot.setVelocity(20);
     } else {
       dot.setVelocity(-20);
@@ -164,7 +165,8 @@ class H2HGameStrip : public animation::Animation {
     stripState = H2HStripDead;
     // Plan for when to start dropping a new ball
     stateTimeoutMillis =
-        millis() + random(deadStateTimeoutMinMillis, deadStateTimeoutMaxMillis);
+        millis() + engines::random::Int32(deadStateTimeoutMinMillis,
+                                          deadStateTimeoutMaxMillis);
   }
 
   void enterDroppingState() {

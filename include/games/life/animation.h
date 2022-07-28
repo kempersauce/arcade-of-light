@@ -6,6 +6,7 @@
 
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
+#include "engines/random.h"       // for random::*
 
 namespace kss {
 namespace games {
@@ -38,7 +39,8 @@ class LifeAnimation : public animation::Animation {
       CRGB(255, 255, 0),  // yellow
   };
 
-  LifeAnimation(size_t width, size_t height) : Animation(), width{width}, height{height} {
+  LifeAnimation(size_t width, size_t height)
+      : Animation(), width{width}, height{height} {
     frame1 = new int*[width];
     frame2 = new int*[width];
     for (int i = 0; i < width; i++) {
@@ -107,7 +109,8 @@ class LifeAnimation : public animation::Animation {
 
   void draw(display::Display* display) {
     for (size_t ledIndex = 0; ledIndex < display->lengthStrips; ledIndex++) {
-      for (size_t stripIndex = 0; stripIndex < display->numStrips; stripIndex++) {
+      for (size_t stripIndex = 0; stripIndex < display->numStrips;
+           stripIndex++) {
         int age = (*nextRound)[stripIndex][ledIndex];
 
         // Dont let it step past the array bounds
@@ -121,10 +124,9 @@ class LifeAnimation : public animation::Animation {
   }
 
   void randomize() {
-    uint16_t lifeThreshold = (float)UINT16_MAX * randomizeDensity;
     for (size_t i = 0; i < width; i++) {
       for (size_t j = 0; j < height; j++) {
-        bool alive = random16() <= lifeThreshold;
+        const bool alive = engines::random::Bool(randomizeDensity);
         if (alive) {
           (*nextRound)[i][j] = 1;
         } else {
