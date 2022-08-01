@@ -1,32 +1,36 @@
 // hopefully this makes sound work
 // #define FASTLED_ALLOW_INTERRUPTS 0
 
+#include "display/display.h"               // for Display
+#include "display/octo_display.h"          // for OctoDisplay
+#include "display/standard_display.h"      // for StandardDisplay
 #include "display/five.h"               // for FiveDisplay
 #include "display/h2h.h"                // for H2HDisplay
 #include "display/rocket.h"             // for RocketDisplay
+#include "display/twenty.h"             // for TwentyDisplay
 #include "engines/framerate.h"  // for FrameRate
-#include "games/head2head/head2head.h"  // for Head2Head
-#include "games/rocket/rocket_game.h"   // for RocketGame
+// #include "games/head2head/head2head.h"  // for Head2Head
+// #include "games/rocket/rocket_game.h"   // for RocketGame
 // #include "games/wav_player/wav_player.h"  // for WavPlayer
-#include "games/life/life.h"    // for LifeGame
-#include "test/single_color.h"  // for SingleColorTest
+// #include "games/life/life.h"    // for LifeGame
+// #include "test/single_color.h"  // for SingleColorTest
 // #include "audio/sounds.h"  // for Sounds
 // #include "test/firework.h"  // for FireworkTest
-#include "games/life/glider_wars.h"  // for GliderWars
-#include "games/marquee/marquee.h"           // for MarqueeGame
-#include "games/noise/noise.h"  // for NoiseGame
+// #include "games/life/glider_wars.h"  // for GliderWars
+// #include "games/marquee/marquee.h"           // for MarqueeGame
+// #include "games/noise/noise.h"  // for NoiseGame
 #include "games/rainbow/rainbow.h"           // for RainbowGame
-#include "games/snake/snake_game.h"  // for SnakeGame
-#include "test/animation.h"            // for AnimationTest
-#include "test/dir_pad.h"            // for DirPadTest
-#include "test/five_strip.h"         // for FiveStripTest
-#include "test/serial.h"             // for SerialTest
-#include "test/single_color.h"             // for SingleColorTest
-#include "games/shooter/shooter_game.h"  // for ShooterGame
-#include "games/falling/falling.h"                  // for FallingGame
-#include "games/lane_runner/lane_runner.h"  // for LaneRunner
-#include "games/life/single_player.h"  // for LifeGameSinglePlayer
-#include "test/animation.h"                 // for AnimationTest
+// #include "games/snake/snake_game.h"  // for SnakeGame
+// #include "test/animation.h"            // for AnimationTest
+// #include "test/dir_pad.h"            // for DirPadTest
+// #include "test/five_strip.h"         // for FiveStripTest
+// #include "test/serial.h"             // for SerialTest
+// #include "test/single_color.h"             // for SingleColorTest
+// #include "games/shooter/shooter_game.h"  // for ShooterGame
+// #include "games/falling/falling.h"                  // for FallingGame
+// #include "games/lane_runner/lane_runner.h"  // for LaneRunner
+// #include "games/life/single_player.h"  // for LifeGameSinglePlayer
+// #include "test/animation.h"                 // for AnimationTest
 
 using namespace kss;
 
@@ -46,8 +50,9 @@ void setup() {
 
   // Choose your Display type
   // gameDisplay = (display::Display*)new display::FiveDisplay();
-  gameDisplay = (display::Display*)new display::H2HDisplay();
+  // gameDisplay = (display::Display*)new display::H2HDisplay();
   // gameDisplay = (display::Display*)new display::RocketDisplay();
+    gameDisplay = (display::Display*)new display::TwentyDisplay();
 
   Serial.println("gameDisplay created");
 
@@ -77,7 +82,7 @@ void setup() {
   Serial.println("End setup()");
 
   // TODO what is this? can we remove it?
-  pinMode(9, OUTPUT);
+  // pinMode(9, OUTPUT);
 
   // TODO should we show LEDs on setup?
   FastLED.show();

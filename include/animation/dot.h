@@ -48,7 +48,7 @@ class Dot : public Animation {
 
   void changeColor(CRGB newColor) { color = newColor; }
 
-  void draw(display::Display* display) { display->strips[xLoc][yLoc] = color; }
+  void draw(display::Display* display) { display->Pixel(xLoc, yLoc) = color; }
 };
 
 }  // namespace animation

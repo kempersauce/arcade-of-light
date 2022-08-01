@@ -32,12 +32,12 @@ class Starscape : public Animation {
                       (255 - brightnessThreshold);
 
           // draw onto the blackness of space
-          display->strips[i][j] =
+          display->Pixel(i, j) =
               CHSV(46, value, value);  // Amber is 46, 100, 100 - we scale from
                                        // black up to amber here
         } else {
           // Draw the blackness of space
-          display->strips[i][j] = CRGB(0, 0, 0);
+          display->Pixel(i, j) = CRGB(0, 0, 0);
         }
       }
     }

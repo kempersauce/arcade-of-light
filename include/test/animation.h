@@ -33,8 +33,8 @@ class AnimationTest : public games::Game {
     block->draw(display);
     flicker->draw(display);
     for (size_t i = 0; i < display->numStrips; i++) {
-      display->strips[i][BoundaryBase].setHSV(125, 255, 255);
-      display->strips[i][BoundaryBase + BoundaryHeight].setHSV(125, 255, 255);
+      display->Pixel(i, BoundaryBase).setHSV(125, 255, 255);
+      display->Pixel(i, BoundaryBase + BoundaryHeight).setHSV(125, 255, 255);
     }
   }
 };

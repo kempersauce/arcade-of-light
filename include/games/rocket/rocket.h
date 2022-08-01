@@ -73,7 +73,7 @@ class Rocket : public animation::Animation {
     const size_t middleStrip = display->numStrips / 2;
     for (size_t i = max(ceil(physics.Location), 0);
          i < min((int)physics.Location + Height, display->lengthStrips); i++) {
-      display->strips[middleStrip][i] = *color;
+      display->Pixel(middleStrip, i) = *color;
     }
     display->ditherPixel(middleStrip, physics.Location + Height - 1,
                          color);  // dither rocket nose

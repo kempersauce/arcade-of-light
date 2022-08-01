@@ -13,7 +13,7 @@ class RainbowAni : public Animation {
   void draw(display::Display* display) {
     for (int i = 1; i < display->lengthStrips; i++) {
       for (int j = 0; j < display->numStrips; j++) {
-        display->strips[j][i] = rainbows[(i % 7) + iterator];
+        display->Pixel(j, i) = rainbows[(i % 7) + iterator];
       }
     }
 

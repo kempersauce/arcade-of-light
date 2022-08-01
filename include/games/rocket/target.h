@@ -50,9 +50,9 @@ class Target : public animation::Animation {
     // Draw the target accross all numStrips
     for (int j = 0; j < display->numStrips; j++) {
       // Target bookends
-      if (bottom >= 0) display->strips[j][bottom] = *color;
+      if (bottom >= 0) display->Pixel(j, bottom) = *color;
 
-      if (top >= 0) display->strips[j][top] = *color;
+      if (top >= 0) display->Pixel(j, top) = *color;
 
       if (isInTarget) {
         long timeHeld = millis() - Time;
@@ -65,7 +65,7 @@ class Target : public animation::Animation {
         int bottomFillStart = bottom;
         float bottomFillEnd = (float)bottomFillStart + offset;
         for (int i = bottomFillStart; i < bottomFillEnd; i++) {
-          display->strips[j][i] = *color;
+          display->Pixel(j, i) = *color;
         }
         display->ditherPixel(j, bottomFillEnd, color);
 
@@ -73,7 +73,7 @@ class Target : public animation::Animation {
         int topFillEnd = top;
         float topFillStart = (float)topFillEnd - offset;
         for (int i = ceil(topFillStart); i < topFillEnd; i++) {
-          display->strips[j][i] = *color;
+          display->Pixel(j, i) = *color;
         }
         display->ditherPixel(j, topFillStart, color);
       }

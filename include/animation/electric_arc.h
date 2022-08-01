@@ -39,12 +39,12 @@ class ElectricArc : public Animation {
     for (size_t i = 0; i < arc.size(); i++) {
       int arcHeight = arc[i];
       if (arcHeight >= 0 && arcHeight < display->lengthStrips) {
-        display->strips[i][arcHeight] = CRGB::Purple;
+        display->Pixel(i, arcHeight) = CRGB::Purple;
       }
 
       arcHeight++;
       if (arcHeight > 0 && arcHeight < display->lengthStrips) {
-        display->strips[i][arcHeight] = CRGB::Purple;
+        display->Pixel(i, arcHeight) = CRGB::Purple;
       }
     }
   }

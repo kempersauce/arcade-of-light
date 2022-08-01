@@ -35,7 +35,7 @@ class SingleColorBlock : public Animation {
   void draw(display::Display* display) {
     for (int i = 0; i < display->numStrips; i++) {
       for (int j = HeightMin; j < HeightMax; j++) {
-        display->strips[i][j].setHSV(Hue, Saturation, Value);
+        display->Pixel(i, j).setHSV(Hue, Saturation, Value);
       }
     }
   }

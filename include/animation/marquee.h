@@ -84,10 +84,10 @@ class Marquee : public Animation {
     // int testY = 0;
     // if(test == 0){
     //   test = 1;
-    //   display->strips[testX][testY] = CRGB::Brown;
+    //   display->Pixel(testX, testY) = CRGB::Brown;
     // }else{
     //   test = 0;
-    //   display->strips[testX][testY] = CRGB::BlueViolet;
+    //   display->Pixel(testX, testY) = CRGB::BlueViolet;
     // }
 
     YLocation -= MarqueeSpeed;
@@ -316,7 +316,7 @@ class Marquee : public Animation {
 
           if (pixelX >= 0 && pixelX < display->numStrips && pixelY >= 0 &&
               pixelY < display->lengthStrips) {
-            display->strips[pixelX][pixelY] = CHSV(hue, sat, bright);
+            display->Pixel(pixelX, pixelY) = CHSV(hue, sat, bright);
           }
         }
       }

@@ -65,11 +65,11 @@ class Charge : Animation {
   void draw(display::Display* display) {
     if (yStart < yMax) {
       for (int i = yStart; i < yLoc; i++) {
-        display->strips[xLoc][i] = CHSV(Hue, Saturation, Brightness);
+        display->Pixel(xLoc, i) = CHSV(Hue, Saturation, Brightness);
       }
     } else {
       for (int i = yStart; i > yLoc; i--) {
-        display->strips[xLoc][i] = CHSV(Hue, Saturation, Brightness);
+        display->Pixel(xLoc, i) = CHSV(Hue, Saturation, Brightness);
       }
     }
   }

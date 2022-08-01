@@ -2,17 +2,17 @@
 
 #include <Constants.h>
 
-#include "display/display.h"  // for Display
+#include "display/standard_display.h"  // for StandardDisplay
 
 namespace kss {
 namespace display {
 
-class RocketDisplay : public Display {
+class RocketDisplay : public StandardDisplay<3, 300> {
  public:
-  RocketDisplay() : Display(3, 300) {
-    FastLED.addLeds<WS2812B, 20, GRB>(strips[0], lengthStrips);
-    FastLED.addLeds<WS2812B, 17, GRB>(strips[1], lengthStrips);
-    FastLED.addLeds<WS2812B, 16, GRB>(strips[2], lengthStrips);
+  RocketDisplay() : StandardDisplay() {
+    RegisterStrip<20>(0);
+    RegisterStrip<17>(1);
+    RegisterStrip<16>(2);
   }
 };
 

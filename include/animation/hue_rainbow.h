@@ -48,7 +48,7 @@ class HueRainbow : public Animation {
       int Hue = HueStart + (i * ShiftSpeed);
       for (int j = 0; j < display->lengthStrips; j++) {
         Hue = (Hue + 256) % 256;  // black magic muwhahaha
-        display->strips[i][j] = CHSV(Hue, Saturation, Brightness);
+        display->Pixel(i,j) = CHSV(Hue, Saturation, Brightness);
 
         if (ShiftSpeed >= 0) {
           Hue++;

@@ -102,16 +102,16 @@ class FallingGame : public Game {
     // draw the walls
     for (int y = 0; y < display->lengthStrips; y++) {
       for (int x = 0; x <= walls[y].first; x++) {
-        display->strips[x][y] = CRGB::Magenta;
+        display->Pixel(x, y) = CRGB::Magenta;
       }
 
       for (int x = walls[y].second; x < display->numStrips; x++) {
-        display->strips[x][y] = CRGB::Magenta;
+        display->Pixel(x, y) = CRGB::Magenta;
       }
     }
 
     // draw player
-    display->strips[(int)player.xLocation][(int)player.Location] = CRGB::Green;
+    display->Pixel((int)player.xLocation, (int)player.Location) = CRGB::Green;
   }
 };
 

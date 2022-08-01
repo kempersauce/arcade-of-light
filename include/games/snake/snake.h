@@ -75,9 +75,9 @@ class Snake : public animation::Animation {
   }
 
   void draw(display::Display* display) {
-    display->strips[head.first][head.second] = color;
+    display->Pixel(head.first, head.second) = color;
     for (size_t i = 0; i < body.size(); i++) {
-      display->strips[body[i].first][body[i].second] = color;
+      display->Pixel(body[i].first, body[i].second) = color;
     }
   }
 };

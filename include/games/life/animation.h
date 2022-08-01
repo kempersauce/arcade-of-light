@@ -118,7 +118,7 @@ class LifeAnimation : public animation::Animation {
           age = ageColors.size() - 1;
         }
 
-        display->strips[stripIndex][ledIndex] = ageColors[age];
+        display->Pixel(stripIndex, ledIndex) = ageColors[age];
       }
     }
   }

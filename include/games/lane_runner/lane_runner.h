@@ -109,12 +109,12 @@ class LaneRunnerGame : public Game {
     for (int y = 0; y < display->lengthStrips; y++) {
       int lane = dots[y];
       if (lane >= 0) {
-        display->strips[lane][y] = CRGB::Magenta;
+        display->Pixel(lane, y) = CRGB::Magenta;
       }
     }
 
     // draw player
-    display->strips[(int)player.xLocation][(int)player.Location] = CRGB::Green;
+    display->Pixel((int)player.xLocation, (int)player.Location) = CRGB::Green;
   }
 };
 

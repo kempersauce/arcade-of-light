@@ -359,14 +359,14 @@ class H2HGameStrip : public animation::Animation {
 
   void drawBackgroundA(display::Display* display) {
     for (int y = 0; y < min(midBar, display->lengthStrips); y++) {
-      display->strips[stripIndex][y].setHSV(
+      display->Pixel(stripIndex, y).setHSV(
           zoneAHue, 255, noise_generator->data[stripIndex][y]);  // blue team
     }
   }
 
   void drawBackgroundB(display::Display* display) {
     for (int y = max(midBar, 0); y < heightMax; y++) {
-      display->strips[stripIndex][y].setHSV(
+      display->Pixel(stripIndex, y).setHSV(
           zoneBHue, 255, noise_generator->data[stripIndex][y]);  // red team
     }
   }
@@ -377,7 +377,7 @@ class H2HGameStrip : public animation::Animation {
   }
 
   void drawMidBar(display::Display* display) {
-    // display->strips[stripIndex][midBar] = CRGB::White;
+    // display->Pixel(stripIndex, midBar) = CRGB::White;
   }
 
   void drawWinA(display::Display* display) {

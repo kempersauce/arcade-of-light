@@ -27,7 +27,7 @@ class NoiseAnimation : public Animation {
         // for our pixel's hue.
         // leds[i][j] = CHSV(noise_generator.data[j][i], 255,
         // noise_generator.data[i][j]);
-        display->strips[i][j] = CHSV(ihue + (noise_generator.data[i][j] >> 2),
+        display->Pixel(i, j) = CHSV(ihue + (noise_generator.data[i][j] >> 2),
                                      brightness, noise_generator.data[i][j]);
         // You can also explore other ways to constrain the hue used, like below
         // leds[XY(i,j)] = CHSV(ihue + (noise_generator.data[j][i]>>2), 255,
