@@ -22,11 +22,11 @@ class ShooterGame : public Game {
       : Game(gameDisplay),
         controls{std::move(controls)},
         shooter(),
-        bullet(gameDisplay->lengthStrips, gameDisplay->numStrips),
+        bullet(gameDisplay->strip_length, gameDisplay->strip_count),
         background(0, 0, 0) {}
 
   virtual void setup() {
-    shooter.physics.xLocation = display->numStrips / 2;
+    shooter.physics.xLocation = display->strip_count / 2;
     shooter.physics.Location = 20;
   }
 

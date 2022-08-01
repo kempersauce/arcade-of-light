@@ -21,8 +21,8 @@ class Starscape : public Animation {
   void draw(display::Display* display) {
     noise_generator.fillnoise8();
 
-    for (int i = 0; i < display->numStrips; i++) {
-      for (int j = 0; j < display->lengthStrips; j++) {
+    for (int i = 0; i < display->strip_count; i++) {
+      for (int j = 0; j < display->strip_length; j++) {
         int brightness = noise_generator.data[i][j];
         if (brightness > brightnessThreshold) {
           // Draw the star, it's past the threshold

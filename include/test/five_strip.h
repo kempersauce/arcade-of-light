@@ -20,7 +20,7 @@ class FiveStripTest : public games::Game {
 
   void setStrips() {
     // debug which strip is which
-    for (size_t i = 0; i < display->lengthStrips; i++) {
+    for (size_t i = 0; i < display->strip_length; i++) {
       display->Pixel(0, i) = CRGB::Red;
       display->Pixel(1, i) = CRGB::Green;
       display->Pixel(2, i) = CRGB::Blue;

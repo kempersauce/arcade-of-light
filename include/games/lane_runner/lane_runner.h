@@ -27,12 +27,12 @@ class LaneRunnerGame : public Game {
         dots() {}
 
   virtual void setup() {
-    player.xLocation = display->numStrips / 2;
-    player.Location = display->lengthStrips * 2 / 3;
+    player.xLocation = display->strip_count / 2;
+    player.Location = display->strip_length * 2 / 3;
 
     // seed walls with initial stuff
     dots.clear();
-    while (dots.size() < display->lengthStrips - 1) {
+    while (dots.size() < display->strip_length - 1) {
       dots.push_front(-1);
     }
   }
@@ -58,11 +58,11 @@ class LaneRunnerGame : public Game {
           break;
 
         case 1:
-          lane = display->numStrips / 2;
+          lane = display->strip_count / 2;
           break;
 
         case 2:
-          lane = display->numStrips - 1;
+          lane = display->strip_count - 1;
           break;
 
         default:  // This should not happen
@@ -86,16 +86,16 @@ class LaneRunnerGame : public Game {
     if (controller.left->IsPressed()) {
       player.xLocation = 0;
     } else if (controller.right->IsPressed()) {
-      player.xLocation = display->numStrips - 1;
+      player.xLocation = display->strip_count - 1;
     } else {
-      player.xLocation = display->numStrips / 2;
+      player.xLocation = display->strip_count / 2;
     }
 
     player.Move();
     if (player.Location < 0)
       player.Location = 0;
-    else if (player.Location >= display->lengthStrips)
-      player.Location = display->lengthStrips - 1;
+    else if (player.Location >= display->strip_length)
+      player.Location = display->strip_length - 1;
 
     addDots();
 
@@ -106,7 +106,7 @@ class LaneRunnerGame : public Game {
     background.draw(display);
 
     // draw the dots
-    for (int y = 0; y < display->lengthStrips; y++) {
+    for (int y = 0; y < display->strip_length; y++) {
       int lane = dots[y];
       if (lane >= 0) {
         display->Pixel(lane, y) = CRGB::Magenta;

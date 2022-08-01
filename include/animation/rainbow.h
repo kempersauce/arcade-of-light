@@ -11,8 +11,8 @@ class RainbowAni : public Animation {
  public:
   // override rainbow draw function
   void draw(display::Display* display) {
-    for (int i = 1; i < display->lengthStrips; i++) {
-      for (int j = 0; j < display->numStrips; j++) {
+    for (int i = 1; i < display->strip_length; i++) {
+      for (int j = 0; j < display->strip_count; j++) {
         display->Pixel(j, i) = rainbows[(i % 7) + iterator];
       }
     }

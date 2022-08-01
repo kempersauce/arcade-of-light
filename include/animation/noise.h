@@ -20,8 +20,8 @@ class NoiseAnimation : public Animation {
   void draw(display::Display* display) {
     static uint8_t ihue = 0;
     noise_generator.fillnoise8();
-    for (int i = 0; i < display->numStrips; i++) {
-      for (int j = 0; j < display->lengthStrips; j++) {
+    for (int i = 0; i < display->strip_count; i++) {
+      for (int j = 0; j < display->strip_length; j++) {
         // We use the value at the (i,j) coordinate in the noise
         // array for our brightness, and the flipped value from (j,i)
         // for our pixel's hue.

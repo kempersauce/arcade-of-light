@@ -42,18 +42,18 @@ class OctoDisplay : Display {
   OctoDisplay(uint8_t* pin_list, int* displayMemory)
       : Display(kNumStrips, kLengthStrips),
         octo(kLengthStrips, displayMemory, drawingMemory,
-             WS2811_RGB | WS2811_800kHz, numStrips, pin_list),
+             WS2811_RGB | WS2811_800kHz, strip_count, pin_list),
         controller(&octo) {
     octo.begin();
 
-    FastLED.addLeds(&controller, pixels, numStrips * lengthStrips);
+    FastLED.addLeds(&controller, pixels, strip_count * strip_length);
   }
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
 #ifdef DEBUG
     CheckLocation(strip, pixel);
 #endif
-    return pixels[strip * lengthStrips + pixel];
+    return pixels[strip * strip_length + pixel];
   }
 };
 

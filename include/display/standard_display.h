@@ -30,7 +30,7 @@ class StandardDisplay : public Display {
   // Inherited classes need this to initialize their own strip pinouts
   template <uint8_t PIN>
   void RegisterStrip(size_t index) {
-    FastLED.addLeds<WS2812B, PIN, GRB>(pixels[index], lengthStrips);
+    FastLED.addLeds<WS2812B, PIN, GRB>(pixels[index], strip_length);
   }
 };
 

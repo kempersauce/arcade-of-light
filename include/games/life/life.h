@@ -17,7 +17,7 @@ class LifeGame : public Game {
 
  public:
   LifeGame(display::Display* display)
-      : Game(display), lifeGrid{display->numStrips, display->lengthStrips} {}
+      : Game(display), lifeGrid{display->strip_count, display->strip_length} {}
 
   void setup() {
     loopCount = 0;

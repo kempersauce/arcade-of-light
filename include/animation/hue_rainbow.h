@@ -44,9 +44,9 @@ class HueRainbow : public Animation {
   }
   // Taste the rainbow
   void draw(display::Display* display) {
-    for (int i = 0; i < display->numStrips; i++) {
+    for (int i = 0; i < display->strip_count; i++) {
       int Hue = HueStart + (i * ShiftSpeed);
-      for (int j = 0; j < display->lengthStrips; j++) {
+      for (int j = 0; j < display->strip_length; j++) {
         Hue = (Hue + 256) % 256;  // black magic muwhahaha
         display->Pixel(i,j) = CHSV(Hue, Saturation, Brightness);
 

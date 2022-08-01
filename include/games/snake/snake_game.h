@@ -18,7 +18,7 @@ class SnakeGame : public Game {
   SnakeGame(display::Display* gameDisplay, controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
-        snake{gameDisplay->numStrips, gameDisplay->lengthStrips},
+        snake{gameDisplay->strip_count, gameDisplay->strip_length},
         background{0, 0, 0} {}
 
   virtual void setup() { snake.Reset(); }
@@ -42,8 +42,8 @@ class SnakeGame : public Game {
 
     snake.Move();
 
-    if (snake.head.first < 0 || snake.head.first >= display->numStrips ||
-        snake.head.second < 0 || snake.head.second >= display->lengthStrips) {
+    if (snake.head.first < 0 || snake.head.first >= display->strip_count ||
+        snake.head.second < 0 || snake.head.second >= display->strip_length) {
       setup();
     }
 

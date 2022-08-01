@@ -33,7 +33,7 @@ class GliderWarsGame : public Game {
         randomizeButton2{randomize_2},
         gliderButton1{glider_1},
         gliderButton2{glider_2},
-        lifeGrid{display->numStrips, display->lengthStrips} {}
+        lifeGrid{display->strip_count, display->strip_length} {}
 
   virtual void setup() {
     // start off randomized
@@ -57,11 +57,11 @@ class GliderWarsGame : public Game {
     }
 
     if (gliderButton2->IsDepressing()) {
-      lifeGrid.setCellState(2, display->lengthStrips - 2, true);
-      lifeGrid.setCellState(2, display->lengthStrips - 3, true);
-      lifeGrid.setCellState(2, display->lengthStrips - 4, true);
-      lifeGrid.setCellState(3, display->lengthStrips - 4, true);
-      lifeGrid.setCellState(4, display->lengthStrips - 3, true);
+      lifeGrid.setCellState(2, display->strip_length - 2, true);
+      lifeGrid.setCellState(2, display->strip_length - 3, true);
+      lifeGrid.setCellState(2, display->strip_length - 4, true);
+      lifeGrid.setCellState(3, display->strip_length - 4, true);
+      lifeGrid.setCellState(4, display->strip_length - 3, true);
     }
 
     // Draw to display

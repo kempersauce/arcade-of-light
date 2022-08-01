@@ -26,7 +26,7 @@
 
 // void loop()
 // {
-//     for (int i = 0; i < display->lengthStrips; i++)
+//     for (int i = 0; i < display->strip_length; i++)
 //     {
 //         display->Pixel(0, i) = CRGB::Red;
 //         display->Pixel(1, i) = CRGB::Green;

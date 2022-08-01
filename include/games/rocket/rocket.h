@@ -42,9 +42,9 @@ class Rocket : public animation::Animation {
    * @param loc - location on LED strip
    * @param clr - Color of the rocket ship
    */
-  Rocket(int lengthStrips, CRGB* clr) : Animation(), physics(), boost(5) {
+  Rocket(int strip_length, CRGB* clr) : Animation(), physics(), boost(5) {
     // Init physics settings
-    physics.LocationMax = lengthStrips;
+    physics.LocationMax = strip_length;
     physics.BounceFactor = -0.7;
     physics.ExplodeVelocity = 50;
     physics.ThrustMax = 200;
@@ -70,14 +70,14 @@ class Rocket : public animation::Animation {
 
   void draw(display::Display* display) {
     // Draw the rocket ship
-    const size_t middleStrip = display->numStrips / 2;
+    const size_t middleStrip = display->strip_count / 2;
     for (size_t i = max(ceil(physics.Location), 0);
-         i < min((int)physics.Location + Height, display->lengthStrips); i++) {
+         i < min((int)physics.Location + Height, display->strip_length); i++) {
       display->Pixel(middleStrip, i) = *color;
     }
-    display->ditherPixel(middleStrip, physics.Location + Height - 1,
+    display->DitherPixel(middleStrip, physics.Location + Height - 1,
                          color);  // dither rocket nose
-    display->ditherPixel(middleStrip, physics.Location,
+    display->DitherPixel(middleStrip, physics.Location,
                          color);  // dither rocket tail
 
     // Draw the rocket boost
