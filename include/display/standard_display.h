@@ -19,8 +19,11 @@ class StandardDisplay : public Display {
  public:
   StandardDisplay() : Display(STRIP_COUNT, STRIP_LENGTH) {}
 
-  virtual inline CRGB& Pixel(size_t strip_index, size_t pixel_index) override {
-    return pixels[strip_index][pixel_index];
+  virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
+#ifdef DEBUG
+    CheckLocation(strip, pixel);
+#endif
+    return pixels[strip][pixel];
   }
 
  protected:

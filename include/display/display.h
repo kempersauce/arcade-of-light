@@ -2,6 +2,8 @@
 
 #include <FastLED.h>  // for CRGB
 
+#include "serial/debug.h"  // for debug::*
+
 /*
 Display Class
 holds the strips
@@ -18,8 +20,7 @@ class Display {
   Display(const size_t numberOfStrips, const size_t lengthOfStrips)
       : numStrips(numberOfStrips), lengthStrips(lengthOfStrips) {}
 
-  virtual inline CRGB& Pixel(const size_t strip_index,
-                             const size_t pixel_index) = 0;
+  virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) = 0;
 
   void blendPixel(int x, int y, CRGB* blend_color, float blend_factor) {
     if (y >= 0 && y < lengthStrips) {
@@ -45,6 +46,22 @@ class Display {
     const float dither = y - y_int;
     blendPixel(stripIndex, y_int, color, (1 - dither) * blend_factor);
     blendPixel(stripIndex, y_int + 1, color, dither * blend_factor);
+  }
+
+ protected:
+  inline bool CheckLocation(size_t strip, size_t pixel) {
+    bool oob =
+        strip < 0 || strip >= numStrips || pixel < 0 || pixel >= lengthStrips;
+#ifdef DEBUG
+    if (oob) {
+      debug::println("ERROR: Accessing out of bounds pixel");
+      debug::println((String) "strip: " + strip + " (max: " + (numStrips - 1) +
+                     ")");
+      debug::println((String) "pixel: " + pixel +
+                     " (max: " + (lengthStrips - 1) + ")");
+    }
+#endif
+    return !oob;
   }
 };
 

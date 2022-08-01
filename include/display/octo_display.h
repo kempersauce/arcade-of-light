@@ -49,8 +49,11 @@ class OctoDisplay : Display {
     FastLED.addLeds(&controller, pixels, numStrips * lengthStrips);
   }
 
-  virtual inline CRGB& Pixel(size_t strip_index, size_t pixel_index) override {
-    return pixels[strip_index * lengthStrips + pixel_index];
+  virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
+#ifdef DEBUG
+    CheckLocation(strip, pixel);
+#endif
+    return pixels[strip * lengthStrips + pixel];
   }
 };
 

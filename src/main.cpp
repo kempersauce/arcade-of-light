@@ -1,3 +1,6 @@
+// This enables/disables building debug-type stuff into the project
+#define DEBUG 1337
+
 // hopefully this makes sound work
 // #define FASTLED_ALLOW_INTERRUPTS 0
 
@@ -31,6 +34,7 @@
 // #include "games/lane_runner/lane_runner.h"  // for LaneRunner
 // #include "games/life/single_player.h"  // for LifeGameSinglePlayer
 // #include "test/animation.h"                 // for AnimationTest
+#include "serial/debug.h"  // for serial debugging
 
 using namespace kss;
 
@@ -44,9 +48,9 @@ void setup() {
 
   // init audio stuff
   // audio::initAudio();
-
+  
   Serial.begin(9600);
-  Serial.println("Begin setup()");
+  debug::println("Begin setup()");
 
   // Choose your Display type
   // gameDisplay = (display::Display*)new display::FiveDisplay();
@@ -54,7 +58,7 @@ void setup() {
   // gameDisplay = (display::Display*)new display::RocketDisplay();
     gameDisplay = (display::Display*)new display::TwentyDisplay();
 
-  Serial.println("gameDisplay created");
+  debug::println("gameDisplay created");
 
   // Choose your Game type
   // game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
@@ -74,12 +78,12 @@ void setup() {
   // game = (games::Game*)new games::life::GliderWarsGame(gameDisplay);
   // game = (games::Game*)new test::AnimationTest(gameDisplay);
 
-  Serial.println("game created");
+  debug::println("game created");
 
   game->setup();
-  Serial.println("game setup complete");
+  debug::println("game setup complete");
 
-  Serial.println("End setup()");
+  debug::println("End setup()");
 
   // TODO what is this? can we remove it?
   // pinMode(9, OUTPUT);
@@ -89,11 +93,11 @@ void setup() {
 }
 
 void loop() {
-  // Serial.println("loop() entered");
+  // debug::println("loop() entered");
 
   game->loop();
   FastLED.show();
 
-  // Serial.println("loops brother");
+  // debug::println("loops brother");
   frameRate.PrintFrameRate();
 }
