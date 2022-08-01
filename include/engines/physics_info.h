@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engines/random.h"  // for random::*
 
 namespace kss {
 namespace engines {
@@ -42,14 +43,13 @@ class PhysicsInfo {
   PhysicsInfo() { Reset(); }
 
   void RandomizeVelocityVector(float maxMagnitude) {
-    float x, y;
+    const float negMagnitude = maxMagnitude * -1;
+    const float hypotenuese = maxMagnitude * maxMagnitude;
     do {
-      x = ((float)random16() / (float)UINT16_MAX) * 2 - 1;  // -1.0 to 1.0
-      y = ((float)random16() / (float)UINT16_MAX) * 2 - 1;  // -1.0 to 1.0
-    } while (x * x + y * y > 1);  // Repeat until we're within the unit circle
-
-    Velocity = y * maxMagnitude;
-    xVelocity = x * maxMagnitude;
+      Velocity = random::Float(negMagnitude, maxMagnitude);
+      xVelocity = random::Float(negMagnitude, maxMagnitude);
+    } while (xVelocity * xVelocity + Velocity * Velocity >
+             hypotenuese);  // Repeat until we're within the unit circle
   }
 
   void Reset() {
@@ -121,7 +121,6 @@ class PhysicsInfo {
     }
   }
 };
-
 
 }  // namespace engines
 }  // namespace kss

@@ -5,7 +5,6 @@
 // namespace kss {
 // namespace serial {
 
-
 // class USBReceiver
 // {
 

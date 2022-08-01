@@ -1,7 +1,8 @@
 #pragma once
 
-#include <queue>
 #include <HardwareSerial.h>  // for HardwareSerial
+
+#include <queue>
 
 namespace kss {
 namespace serial {
@@ -21,7 +22,7 @@ class Receiver {
   int mostRecentUnreadMessage;
   int newestMessage;
 
-  Receiver(HardwareSerial* serial) : serial{serial} {
+  Receiver(HardwareSerial *serial) : serial{serial} {
     inputBuffer = (char *)malloc(numChars);
 
     serial->begin(9600);

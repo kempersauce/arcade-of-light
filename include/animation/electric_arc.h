@@ -5,6 +5,7 @@
 
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
+#include "engines/random.h"       // for random::*
 
 namespace kss {
 namespace animation {
@@ -14,27 +15,26 @@ class ElectricArc : public Animation {
   CRGB color = CRGB::Purple;
 
  public:
-  int yLocation;
-  float magnitude = 2.0;
+  size_t yLocation;
+  size_t magnitude = 2;
 
   virtual void draw(display::Display* display) {
     do {
       arc.clear();
-      int y = yLocation;
-      arc.push_back(y);
-      for (int x = 1; x < display->numStrips; x++) {
-        int r = random16();
-        if (r <= UINT16_MAX * 2 / 5) {
+      arc.push_back(yLocation);
+      for (size_t y = yLocation, x = 1; x < display->numStrips; x++) {
+        float r = engines::random::Float();
+        if (r <= 0.4) {  // bottom 40%
           y += magnitude;
-        } else if (r <= UINT16_MAX * 4 / 5) {
+        } else if (r >= 0.6) {  // top 40%
           y -= magnitude;
-        } else {
+        } else {  // middle 20%
           // nothing
         }
 
         arc.push_back(y);
       }
-    } while (arc.front() != arc.back());
+    } while (arc.back() != yLocation);
 
     for (size_t i = 0; i < arc.size(); i++) {
       int arcHeight = arc[i];

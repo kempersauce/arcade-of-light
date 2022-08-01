@@ -5,6 +5,7 @@
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for controls::DirPad
 #include "engines/physics_info.h"               // for PhysicsInfo
+#include "engines/random.h"                     // for random::*
 #include "games/game.h"                         // for Game
 
 namespace kss {
@@ -49,7 +50,7 @@ class LaneRunnerGame : public Game {
     if (anyDots) {
       dots.push_front(-1);
     } else {
-      int lane = random16() / (UINT16_MAX / 3);
+      int lane = engines::random::Int8_incl(2);
       switch (lane) {
         case 0:
           // nothing we'll keep this at 0
@@ -64,7 +65,7 @@ class LaneRunnerGame : public Game {
           lane = display->numStrips - 1;
           break;
 
-        default:
+        default:  // This should not happen
           lane = 1;
           break;
       }

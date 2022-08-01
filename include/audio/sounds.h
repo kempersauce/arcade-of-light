@@ -7,7 +7,7 @@
 #include <Wire.h>
 
 namespace kss {
-namespace audio { 
+namespace audio {
 
 // Use these with the Teensy Audio Shield
 // This uses the audio shield's card reader

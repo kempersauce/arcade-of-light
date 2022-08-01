@@ -26,7 +26,8 @@ class Snake : public animation::Animation {
 
   Direction currentDirection;
 
-  Snake(size_t height, size_t width) : Animation(), xMax{height}, yMax{width}, head(), body() {
+  Snake(size_t height, size_t width)
+      : Animation(), xMax{height}, yMax{width}, head(), body() {
     color = CRGB::Green;
   }
 
