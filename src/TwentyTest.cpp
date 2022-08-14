@@ -14,11 +14,11 @@
 
 //     game = (Game*)new kss::games::noise::NoiseGame(gameDisplay);
 //     game->setup();
-//     FastLED.show();
+//     gameDisplay->Show();
 // }
 
 // void loop()
 // {
 //     game->loop();
-//     FastLED.show();
+//     gameDisplay->Show();
 // }

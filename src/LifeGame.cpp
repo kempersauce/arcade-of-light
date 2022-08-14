@@ -26,12 +26,12 @@
 
 //     game = (Game*)new LifeGameSinglePlayer(gameDisplay, dirPad);
 //     game->setup();
-//     FastLED.show();
+//     gameDisplay->Show();
 // }
 
 // void loop()
 // {
 //     controls.PollAll();
 //     game->loop();
-//     FastLED.show();
+//     gameDisplay->Show();
 // }

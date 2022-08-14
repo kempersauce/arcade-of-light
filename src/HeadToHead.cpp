@@ -38,12 +38,12 @@
 
 //     game = (Game*)new kss::games::h2h::Head2Head(gameDisplay, teamA, teamB);
 //     game->setup();
-//     FastLED.show();
+//     gameDisplay->Show();
 // }
 
 // void loop()
 // {
 //     controls.PollAll();
 //     game->loop();
-//     FastLED.show();
+//     gameDisplay->Show();
 // }

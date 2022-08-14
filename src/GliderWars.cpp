@@ -26,12 +26,12 @@
 
 //     game = (Game*)new GliderWarsGame(gameDisplay, teamA.buttons[0], teamB.buttons[0], teamA.buttons[7], teamB.buttons[7]);
 //     game->setup();
-//     FastLED.show();
+//     display->Show();
 // }
 
 // void loop()
 // {
 //     controls.PollAll();
 //     game->loop();
-//     FastLED.show();
+//     display->Show();
 // }

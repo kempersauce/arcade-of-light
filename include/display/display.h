@@ -48,6 +48,8 @@ class Display {
     BlendPixel(stripIndex, y_int + 1, color, dither * blend_factor);
   }
 
+  virtual void Show() = 0;
+
  protected:
   inline bool CheckLocation(size_t strip, size_t pixel) {
     bool oob =
@@ -55,8 +57,8 @@ class Display {
 #ifdef DEBUG
     if (oob) {
       debug::println("ERROR: Accessing out of bounds pixel");
-      debug::println((String) "strip: " + strip + " (max: " + (strip_count - 1) +
-                     ")");
+      debug::println((String) "strip: " + strip +
+                     " (max: " + (strip_count - 1) + ")");
       debug::println((String) "pixel: " + pixel +
                      " (max: " + (strip_length - 1) + ")");
     }

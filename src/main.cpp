@@ -89,14 +89,16 @@ void setup() {
   // pinMode(9, OUTPUT);
 
   // TODO should we show LEDs on setup?
-  FastLED.show();
+  gameDisplay->Show();
 }
 
 void loop() {
   // debug::println("loop() entered");
 
   game->loop();
-  FastLED.show();
+  
+  // debug::println("loop() Show Display");
+  gameDisplay->Show();
 
   // debug::println("loops brother");
   frameRate.PrintFrameRate();

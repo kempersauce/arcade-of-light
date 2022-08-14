@@ -26,6 +26,8 @@ class StandardDisplay : public Display {
     return pixels[strip][pixel];
   }
 
+  virtual void Show() override { FastLED.show(); }
+
  protected:
   // Inherited classes need this to initialize their own strip pinouts
   template <uint8_t PIN>
