@@ -19,12 +19,13 @@ constexpr uint8_t kPinList[kNumStrips]{
     LED_PIN_15, LED_PIN_16, LED_PIN_17, LED_PIN_18, LED_PIN_19};
 
 DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
+
 }  // namespace
 
 class TwentyDisplay : public OctoDisplay<kNumStrips, kLengthStrips> {
  public:
   TwentyDisplay() : OctoDisplay(kPinList, kDisplayMemory) {
-    // RegisterStrip<LED_PIN_0>(0]);
+    // RegisterStrip<LED_PIN_0>(0);
     // RegisterStrip<LED_PIN_1>(1);
     // RegisterStrip<LED_PIN_2>(2);
     // RegisterStrip<LED_PIN_3>(3);
