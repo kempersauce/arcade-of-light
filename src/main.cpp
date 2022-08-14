@@ -23,6 +23,7 @@
 // #include "games/marquee/marquee.h"           // for MarqueeGame
 // #include "games/noise/noise.h"  // for NoiseGame
 #include "games/rainbow/rainbow.h"           // for RainbowGame
+#include "games/rainbow/rainbow_static.h"    // for RainbowStatic
 // #include "games/snake/snake_game.h"  // for SnakeGame
 // #include "test/animation.h"            // for AnimationTest
 // #include "test/dir_pad.h"            // for DirPadTest
@@ -64,7 +65,7 @@ void setup() {
   // game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
   // game = (games::Game*)new games::life::LifeGame(gameDisplay);
   // game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
-  game = (games::Game*)new games::rainbow::RainbowGame(gameDisplay);
+  game = (games::Game*)new games::rainbow::RainbowStatic(gameDisplay);
   // game = (games::Game*)new games::marquee::MarqueeGame(gameDisplay);
   // game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
   // game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);

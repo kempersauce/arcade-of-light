@@ -24,8 +24,10 @@ class HueRainbow : public Animation {
   HueRainbow(int speed) : Animation() { ShiftSpeed = speed; }
   // Sets the starting hue, probably not needed since the hue shifts constantly
   void setHue(int hue) { HueStart = hue; }
+  
   // Sets the saturation, 0=white 255=full color
   void setSaturation(int sat) { Saturation = sat; }
+
   // Sets the Brightness, 0=off 255=max
   void setBrightness(int bright) { Brightness = bright; }
 
@@ -33,8 +35,10 @@ class HueRainbow : public Animation {
   // 20 A negative number will make the rainbow flow up the strip a positive
   // number will make the number flow down the strip
   void setSpeed(int speed) { ShiftSpeed = speed; }
+
   // Enables variable shift rates based on a sin function
   void setWaveShift(bool wave) { WaveShift = wave; }
+
   // Customizes the sin function, Beats is how many waves per second, min is the
   // min shift speed, max is the max shift speed
   void setWaveStats(int beats, int min, int max) {
@@ -42,6 +46,7 @@ class HueRainbow : public Animation {
     Min = min;
     Max = max;
   }
+
   // Taste the rainbow
   void draw(display::Display* display) {
     for (int i = 0; i < display->strip_count; i++) {

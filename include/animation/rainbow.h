@@ -1,5 +1,7 @@
 #pragma once
 
+#include <FastLED.h>  // for CHSV
+
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 
@@ -7,30 +9,18 @@ namespace kss {
 namespace animation {
 
 // Rainbow Animation
-class RainbowAni : public Animation {
+class Rainbow : public Animation {
  public:
   // override rainbow draw function
   void draw(display::Display* display) {
-    for (int i = 1; i < display->strip_length; i++) {
-      for (int j = 0; j < display->strip_count; j++) {
-        display->Pixel(j, i) = rainbows[(i % 7) + iterator];
+    const float hue_factor = 256.0f / display->strip_length;
+    for (size_t x = 0; x < display->strip_count; ++x) {
+      for (size_t y = 0; y < display->strip_length; ++y) {
+        const uint8_t hue = y * hue_factor;
+        display->Pixel(x, y).setHSV(hue, 255, 255);
       }
     }
-
-    if (iterator < 6) {
-      iterator++;
-    } else {
-      iterator = 0;
-    }
   }
-
- private:
-  CRGB rainbows[14] = {CRGB::Red,    CRGB::Orange, CRGB::Yellow, CRGB::Green,
-                       CRGB::Blue,   CRGB::Indigo, CRGB::Violet, CRGB::Red,
-                       CRGB::Orange, CRGB::Yellow, CRGB::Green,  CRGB::Blue,
-                       CRGB::Indigo, CRGB::Violet};
-
-  int iterator = 0;
 };
 
 }  // namespace animation
