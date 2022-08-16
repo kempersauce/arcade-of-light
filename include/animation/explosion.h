@@ -101,12 +101,12 @@ class Explosion : Animation {
     for (size_t i = 0; i < shrapnel.size(); i++) {
       int loc = (int)shrapnel[i].Location;
       int xLoc = (int)shrapnel[i].xLocation;
-      if (loc >= 0 && loc < display->lengthStrips && xLoc >= 0 &&
-          xLoc < display->numStrips) {
+      if (loc >= 0 && loc < display->strip_length && xLoc >= 0 &&
+          xLoc < display->strip_count) {
         CRGB clr;
         clr.setHSV(Hue, saturation, brightness);
         float blend = (float)brightness / (float)255;
-        display->ditherPixel(xLoc, shrapnel[i].Location, &clr, blend);
+        display->DitherPixel(xLoc, shrapnel[i].Location, &clr, blend);
       }
     }
   }

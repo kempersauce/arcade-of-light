@@ -33,10 +33,10 @@ class Firework : public animation::Animation {
    * Firework Constructor
    * @param stripLength - location on LED strip
    * */
-  Firework(int stripLength, int numStrips)
+  Firework(int stripLength, int strip_count)
       : Animation(), physics(), explosion(50) {
     stripsHeight = stripLength;
-    stripsWidth = numStrips;
+    stripsWidth = strip_count;
 
     Reset();
     isPlaying = false;
@@ -85,7 +85,7 @@ class Firework : public animation::Animation {
       int Saturation = min(255 * (physics.Location / physics.LocationMax), 255);
       CRGB color;
       color.setHSV(Hue, Saturation, 255);
-      display->ditherPixel((int)physics.xLocation, (int)physics.Location,
+      display->DitherPixel((int)physics.xLocation, (int)physics.Location,
                            &color);
     }
   }

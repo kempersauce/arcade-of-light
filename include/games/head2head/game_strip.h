@@ -358,16 +358,18 @@ class H2HGameStrip : public animation::Animation {
   }
 
   void drawBackgroundA(display::Display* display) {
-    for (int y = 0; y < min(midBar, display->lengthStrips); y++) {
-      display->strips[stripIndex][y].setHSV(
-          zoneAHue, 255, noise_generator->data[stripIndex][y]);  // blue team
+    for (int y = 0; y < min(midBar, display->strip_length); y++) {
+      display->Pixel(stripIndex, y)
+          .setHSV(zoneAHue, 255,
+                  noise_generator->data[stripIndex][y]);  // blue team
     }
   }
 
   void drawBackgroundB(display::Display* display) {
     for (int y = max(midBar, 0); y < heightMax; y++) {
-      display->strips[stripIndex][y].setHSV(
-          zoneBHue, 255, noise_generator->data[stripIndex][y]);  // red team
+      display->Pixel(stripIndex, y)
+          .setHSV(zoneBHue, 255,
+                  noise_generator->data[stripIndex][y]);  // red team
     }
   }
 
@@ -377,7 +379,7 @@ class H2HGameStrip : public animation::Animation {
   }
 
   void drawMidBar(display::Display* display) {
-    // display->strips[stripIndex][midBar] = CRGB::White;
+    // display->Pixel(stripIndex, midBar) = CRGB::White;
   }
 
   void drawWinA(display::Display* display) {
@@ -388,10 +390,10 @@ class H2HGameStrip : public animation::Animation {
     const float waveWidth = 10;
     drawBackgroundA(display);
     if (timeDiff < 1000) {
-      float distance = (float)display->lengthStrips * (float)timeDiff / 1000;
+      float distance = (float)display->strip_length * (float)timeDiff / 1000;
       for (int i = waveWidth / -2; i < waveWidth / 2; i++) {
         float presence = (waveWidth / 2 - abs(i)) / (waveWidth / 2);
-        display->blendPixel(stripIndex, distance + i, &teamAColor, presence);
+        display->BlendPixel(stripIndex, distance + i, &teamAColor, presence);
       }
     }
   }
@@ -405,10 +407,10 @@ class H2HGameStrip : public animation::Animation {
     drawBackgroundB(display);
     if (timeDiff < 1000) {
       float distance =
-          (float)display->lengthStrips * (float)(1000 - timeDiff) / 1000;
+          (float)display->strip_length * (float)(1000 - timeDiff) / 1000;
       for (int i = waveWidth / -2; i < waveWidth / 2; i++) {
         float presence = (waveWidth / 2 - abs(i)) / (waveWidth / 2);
-        display->blendPixel(stripIndex, distance + i, &teamBColor, presence);
+        display->BlendPixel(stripIndex, distance + i, &teamBColor, presence);
       }
     }
   }

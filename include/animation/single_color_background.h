@@ -27,9 +27,9 @@ class SingleColorBG : public Animation {
   }
 
   void draw(display::Display* display) {
-    for (int i = 0; i < display->lengthStrips; i++) {
-      for (int j = 0; j < display->numStrips; j++) {
-        display->strips[j][i].setRGB(red, green, blue);
+    for (int i = 0; i < display->strip_length; i++) {
+      for (int j = 0; j < display->strip_count; j++) {
+        display->Pixel(j, i).setRGB(red, green, blue);
       }
     }
   }

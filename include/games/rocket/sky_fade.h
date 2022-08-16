@@ -24,11 +24,11 @@ class SkyFade : public animation::Animation {
 
   void draw(display::Display* display) {
     const size_t heightMax =
-        display->lengthStrips / 3;  // only go a third of the way up
-    for (size_t i = 0; i < display->numStrips; i++) {
+        display->strip_length / 3;  // only go a third of the way up
+    for (size_t i = 0; i < display->strip_count; i++) {
       for (int j = 0; j < heightMax; j++) {
         float blueFactor = ((float)(heightMax - j)) / ((float)heightMax);
-        display->blendPixel(i, j, blendColor, blueFactor);
+        display->BlendPixel(i, j, blendColor, blueFactor);
       }
     }
   }

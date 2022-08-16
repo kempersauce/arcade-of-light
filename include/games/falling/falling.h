@@ -30,13 +30,13 @@ class FallingGame : public Game {
         walls() {}
 
   virtual void setup() {
-    player.xLocation = display->numStrips / 2;
-    player.Location = display->lengthStrips * 2 / 3;
+    player.xLocation = display->strip_count / 2;
+    player.Location = display->strip_length * 2 / 3;
 
     // seed walls with initial stuff
     walls.clear();
-    while (walls.size() < display->lengthStrips - 1) {
-      walls.push_front(std::make_pair(-1, display->numStrips));
+    while (walls.size() < display->strip_length - 1) {
+      walls.push_front(std::make_pair(-1, display->strip_count));
     }
   }
 
@@ -51,12 +51,12 @@ class FallingGame : public Game {
       // range
       if (left < -1) left = -1;
 
-      if (right > display->numStrips) right = display->numStrips;
+      if (right > display->strip_count) right = display->strip_count;
 
       // TODO check if left < right
 
       // Cap this at 2 pixel width tunnel
-    } while (right - left < (display->numStrips + 1) / 2);
+    } while (right - left < (display->strip_count + 1) / 2);
 
     walls.pop_back();
     walls.push_front(std::make_pair(left, right));
@@ -82,13 +82,13 @@ class FallingGame : public Game {
     player.Move();
     if (player.Location < 0)
       player.Location = 0;
-    else if (player.Location >= display->lengthStrips)
-      player.Location = display->lengthStrips - 1;
+    else if (player.Location >= display->strip_length)
+      player.Location = display->strip_length - 1;
 
     if (player.xLocation < 0)
       player.xLocation = 0;
-    else if (player.xLocation >= display->numStrips)
-      player.xLocation = display->numStrips - 1;
+    else if (player.xLocation >= display->strip_count)
+      player.xLocation = display->strip_count - 1;
 
     addWalls();
 
@@ -100,18 +100,18 @@ class FallingGame : public Game {
     background.draw(display);
 
     // draw the walls
-    for (int y = 0; y < display->lengthStrips; y++) {
+    for (int y = 0; y < display->strip_length; y++) {
       for (int x = 0; x <= walls[y].first; x++) {
-        display->strips[x][y] = CRGB::Magenta;
+        display->Pixel(x, y) = CRGB::Magenta;
       }
 
-      for (int x = walls[y].second; x < display->numStrips; x++) {
-        display->strips[x][y] = CRGB::Magenta;
+      for (int x = walls[y].second; x < display->strip_count; x++) {
+        display->Pixel(x, y) = CRGB::Magenta;
       }
     }
 
     // draw player
-    display->strips[(int)player.xLocation][(int)player.Location] = CRGB::Green;
+    display->Pixel((int)player.xLocation, (int)player.Location) = CRGB::Green;
   }
 };
 

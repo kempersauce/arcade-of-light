@@ -24,14 +24,14 @@
 //     teamB.buttons[0] = controls.CreateButton(H2H_BUTTON_PIN_8);
 //     teamB.buttons[7] = controls.CreateButton(H2H_BUTTON_PIN_15);
 
-//     game = (Game*)new GliderWarsGame(gameDisplay, teamA.buttons[0], teamB.buttons[0], teamA.buttons[7], teamB.buttons[7]);
-//     game->setup();
-//     FastLED.show();
+//     game = (Game*)new GliderWarsGame(gameDisplay, teamA.buttons[0],
+//     teamB.buttons[0], teamA.buttons[7], teamB.buttons[7]); game->setup();
+//     display->Show();
 // }
 
 // void loop()
 // {
 //     controls.PollAll();
 //     game->loop();
-//     FastLED.show();
+//     display->Show();
 // }

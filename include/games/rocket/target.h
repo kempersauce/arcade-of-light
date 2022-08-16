@@ -29,8 +29,8 @@ class Target : public animation::Animation {
 
   void setColor(CRGB* clr) { color = clr; }
 
-  void randomize(int lengthStrips) {
-    Loc = engines::random::Int16(lengthStrips / 4, lengthStrips - 20);
+  void randomize(int strip_length) {
+    Loc = engines::random::Int16(strip_length / 4, strip_length - 20);
     Height = engines::random::Int8(10, 25);
   }
 
@@ -47,12 +47,12 @@ class Target : public animation::Animation {
     int bottom = Loc;
     int top = bottom + Height;
 
-    // Draw the target accross all numStrips
-    for (int j = 0; j < display->numStrips; j++) {
+    // Draw the target accross all strip_count
+    for (int j = 0; j < display->strip_count; j++) {
       // Target bookends
-      if (bottom >= 0) display->strips[j][bottom] = *color;
+      if (bottom >= 0) display->Pixel(j, bottom) = *color;
 
-      if (top >= 0) display->strips[j][top] = *color;
+      if (top >= 0) display->Pixel(j, top) = *color;
 
       if (isInTarget) {
         long timeHeld = millis() - Time;
@@ -65,17 +65,17 @@ class Target : public animation::Animation {
         int bottomFillStart = bottom;
         float bottomFillEnd = (float)bottomFillStart + offset;
         for (int i = bottomFillStart; i < bottomFillEnd; i++) {
-          display->strips[j][i] = *color;
+          display->Pixel(j, i) = *color;
         }
-        display->ditherPixel(j, bottomFillEnd, color);
+        display->DitherPixel(j, bottomFillEnd, color);
 
         // Top fill
         int topFillEnd = top;
         float topFillStart = (float)topFillEnd - offset;
         for (int i = ceil(topFillStart); i < topFillEnd; i++) {
-          display->strips[j][i] = *color;
+          display->Pixel(j, i) = *color;
         }
-        display->ditherPixel(j, topFillStart, color);
+        display->DitherPixel(j, topFillStart, color);
       }
     }
   }

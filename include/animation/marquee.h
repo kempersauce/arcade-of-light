@@ -75,60 +75,60 @@ class Marquee : public Animation {
 
   // Need to add spaces somehow
   void draw(display::Display* display) {
-    // for (int i = 0; i < display->numStrips; i++)
+    // for (int i = 0; i < display->strip_count; i++)
     //   {
-    //     for (int j = YLocation; j < display->lengthStrips; j++)
+    //     for (int j = YLocation; j < display->strip_length; j++)
     //     {
 
     // int testX = 0;
     // int testY = 0;
     // if(test == 0){
     //   test = 1;
-    //   display->strips[testX][testY] = CRGB::Brown;
+    //   display->Pixel(testX, testY) = CRGB::Brown;
     // }else{
     //   test = 0;
-    //   display->strips[testX][testY] = CRGB::BlueViolet;
+    //   display->Pixel(testX, testY) = CRGB::BlueViolet;
     // }
 
     YLocation -= MarqueeSpeed;
     if (YLocation < 0) {
-      YLocation = display->lengthStrips;
+      YLocation = display->strip_length;
     }
 
     std::string text = "KEMPER SAUCE";
     drawString(text, display);
     // int lowerX = 0;
-    // drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (10 + YLocation) % display->strip_length, 3, display,
     // letters::E, beatsin8(2), 255, 255);
 
-    // drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (30 + YLocation) % display->strip_length, 3, display,
     // letters::C, beatsin8(8), 255, 255);
 
-    // drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (50 + YLocation) % display->strip_length, 3, display,
     // letters::U, beatsin8(30), 255, 255);
 
-    // drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (10 + YLocation) % display->strip_length, 3, display,
     // letters::A, beatsin8(2), 255, 255);
 
-    // drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (30 + YLocation) % display->strip_length, 3, display,
     // letters::S, beatsin8(8), 255, 255);
 
-    // drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (50 + YLocation) % display->strip_length, 3, display,
     // letters::R, beatsin8(30), 255, 255);
 
-    // drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (70 + YLocation) % display->strip_length, 3, display,
     // letters::E, beatsin8(45), 255, 255);
 
-    // drawLetter(lowerX, (10 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (10 + YLocation) % display->strip_length, 3, display,
     // letters::P, beatsin8(2), 255, 255);
 
-    // drawLetter(lowerX, (30 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (30 + YLocation) % display->strip_length, 3, display,
     // letters::M, beatsin8(8), 255, 255);
 
-    // drawLetter(lowerX, (50 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (50 + YLocation) % display->strip_length, 3, display,
     // letters::E, beatsin8(30), 255, 255);
 
-    // drawLetter(lowerX, (70 + YLocation) % display->lengthStrips, 3, display,
+    // drawLetter(lowerX, (70 + YLocation) % display->strip_length, 3, display,
     // letters::K, beatsin8(45), 255, 255);
   }
 
@@ -286,7 +286,7 @@ class Marquee : public Animation {
 
       // becomes 2-54 based on the character (assuming capitals)
       int bpm = ((int)c - 63) * 2;
-      drawLetter(0, (spacer + YLocation) % display->lengthStrips, 3, display,
+      drawLetter(0, (spacer + YLocation) % display->strip_length, 3, display,
                  *letter, beatsin8(bpm), 255, 255);
       spacer -= 20;  // space for the next letter
     }
@@ -314,9 +314,9 @@ class Marquee : public Animation {
             pixelY = lowerLeftY + LetterWidth - k - 1;
           }
 
-          if (pixelX >= 0 && pixelX < display->numStrips && pixelY >= 0 &&
-              pixelY < display->lengthStrips) {
-            display->strips[pixelX][pixelY] = CHSV(hue, sat, bright);
+          if (pixelX >= 0 && pixelX < display->strip_count && pixelY >= 0 &&
+              pixelY < display->strip_length) {
+            display->Pixel(pixelX, pixelY) = CHSV(hue, sat, bright);
           }
         }
       }

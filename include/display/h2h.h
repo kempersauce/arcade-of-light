@@ -2,22 +2,22 @@
 
 #include <Constants.h>
 
-#include "display/display.h"  // for Display
+#include "display/standard_display.h"  // for StandardDisplay
 
 namespace kss {
 namespace display {
 
-class H2HDisplay : public Display {
+class H2HDisplay : public StandardDisplay<8, 214> {
  public:
-  H2HDisplay() : Display(8, 214) {
-    FastLED.addLeds<WS2812B, H2H_LED_PIN_7, GRB>(strips[7], lengthStrips);
-    FastLED.addLeds<WS2812B, H2H_LED_PIN_6, GRB>(strips[6], lengthStrips);
-    FastLED.addLeds<WS2812B, H2H_LED_PIN_5, GRB>(strips[5], lengthStrips);
-    FastLED.addLeds<WS2812B, H2H_LED_PIN_4, GRB>(strips[4], lengthStrips);
-    FastLED.addLeds<WS2812B, H2H_LED_PIN_3, GRB>(strips[3], lengthStrips);
-    FastLED.addLeds<WS2812B, H2H_LED_PIN_2, GRB>(strips[2], lengthStrips);
-    FastLED.addLeds<WS2812B, H2H_LED_PIN_1, GRB>(strips[1], lengthStrips);
-    FastLED.addLeds<WS2812B, H2H_LED_PIN_0, GRB>(strips[0], lengthStrips);
+  H2HDisplay() : StandardDisplay() {
+    RegisterStrip<LED_PIN_0>(0);
+    RegisterStrip<LED_PIN_1>(1);
+    RegisterStrip<LED_PIN_2>(2);
+    RegisterStrip<LED_PIN_3>(3);
+    RegisterStrip<LED_PIN_4>(4);
+    RegisterStrip<LED_PIN_5>(5);
+    RegisterStrip<LED_PIN_6>(6);
+    RegisterStrip<LED_PIN_7>(7);
   }
 };
 

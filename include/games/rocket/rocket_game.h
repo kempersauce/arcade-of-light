@@ -126,9 +126,9 @@ class RocketGame : public Game {
       : Game(display),
         up_btn{std::move(up)},
         reset_btn{std::move(reset)},
-        starBackground(display->numStrips, display->lengthStrips, 140),
+        starBackground(display->strip_count, display->strip_length, 140),
         skyFade(skyFadeColors[0]),
-        rocket(display->lengthStrips, new CRGB(255, 255, 255)),
+        rocket(display->strip_length, new CRGB(255, 255, 255)),
         target(new CRGB(55, 0, 0)),
         explosionsInTheSky(),
         explosion(80),
@@ -141,12 +141,13 @@ class RocketGame : public Game {
     // Set some physics on the explosion shrapnel so they'll bounce off the
     // ceiling and floor
     for (size_t i = 0; i < explosion.shrapnel.size(); i++) {
-      explosion.shrapnel[i].LocationMax = display->lengthStrips;
+      explosion.shrapnel[i].LocationMax = display->strip_length;
       explosion.shrapnel[i].BounceFactor = -.8;
     }
 
     while (fireworks.size() < numFireworks) {
-      fireworks.push_back(Firework(display->lengthStrips, display->numStrips));
+      fireworks.push_back(
+          Firework(display->strip_length, display->strip_count));
     }
   }
 
@@ -162,7 +163,7 @@ class RocketGame : public Game {
     gameState = RocketGameStart;
     skyFade.setFadeColor(skyFadeColors[level]);
     target.setColor(targetColors[level]);
-    target.randomize(display->lengthStrips);
+    target.randomize(display->strip_length);
     targetsWon = 0;
     rocket.SetGravity(gravityLevels[level]);
     rocket.Reset();
@@ -184,7 +185,7 @@ class RocketGame : public Game {
     audio.playExplosion();
     // game stuff
     gameState = RocketGameLose;
-    explosion.ExplodeAt(display->numStrips / 2, rocket.physics.Location);
+    explosion.ExplodeAt(display->strip_count / 2, rocket.physics.Location);
     explosionsInTheSky.startAnimation(audio);
   }
 
@@ -220,7 +221,7 @@ class RocketGame : public Game {
 
         // Still more targets - make a new random target
         if (targetsWon < targetsPerLevel) {
-          target.randomize(display->lengthStrips);
+          target.randomize(display->strip_length);
         }
 
         // Last target is on the ground
@@ -299,7 +300,7 @@ class RocketGame : public Game {
       case RocketGameLevelAdvance:
 
         // Boost way way up the screen
-        if (rocket.physics.Location < display->lengthStrips * 2) {
+        if (rocket.physics.Location < display->strip_length * 2) {
           rocket.SetBoost(rocket.physics.Thrust + 5);  // just keep boosting up
           rocket.Move(false);  // let it boost off the screen
 

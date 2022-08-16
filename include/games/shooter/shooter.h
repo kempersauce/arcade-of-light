@@ -16,8 +16,9 @@ class Shooter : public animation::Animation {
 
   void draw(display::Display* display) {
     int xLoc = physics.xLocation;
-    for (int x = max(xLoc - 1, 0); x < min(xLoc + 2, display->numStrips); x++) {
-      display->strips[x][(int)physics.Location] = CRGB::Magenta;
+    for (int x = max(xLoc - 1, 0); x < min(xLoc + 2, display->strip_count);
+         x++) {
+      display->Pixel(x, (int)physics.Location) = CRGB::Magenta;
     }
   }
 };

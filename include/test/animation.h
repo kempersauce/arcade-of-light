@@ -23,7 +23,7 @@ class AnimationTest : public games::Game {
 
   void setup() {
     flicker = new animation::Flicker(BoundaryBase, BoundaryHeight,
-                                     display->numStrips, 0, 55);
+                                     display->strip_count, 0, 55);
     bg = new animation::SingleColorBG(100, 0, 100);
     block = new animation::SingleColorBlock(0, 80, 0, 255, 255);
   }
@@ -32,9 +32,9 @@ class AnimationTest : public games::Game {
     bg->draw(display);
     block->draw(display);
     flicker->draw(display);
-    for (size_t i = 0; i < display->numStrips; i++) {
-      display->strips[i][BoundaryBase].setHSV(125, 255, 255);
-      display->strips[i][BoundaryBase + BoundaryHeight].setHSV(125, 255, 255);
+    for (size_t i = 0; i < display->strip_count; i++) {
+      display->Pixel(i, BoundaryBase).setHSV(125, 255, 255);
+      display->Pixel(i, BoundaryBase + BoundaryHeight).setHSV(125, 255, 255);
     }
   }
 };

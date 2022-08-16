@@ -22,7 +22,7 @@ class ElectricArc : public Animation {
     do {
       arc.clear();
       arc.push_back(yLocation);
-      for (size_t y = yLocation, x = 1; x < display->numStrips; x++) {
+      for (size_t y = yLocation, x = 1; x < display->strip_count; x++) {
         float r = engines::random::Float();
         if (r <= 0.4) {  // bottom 40%
           y += magnitude;
@@ -38,13 +38,13 @@ class ElectricArc : public Animation {
 
     for (size_t i = 0; i < arc.size(); i++) {
       int arcHeight = arc[i];
-      if (arcHeight >= 0 && arcHeight < display->lengthStrips) {
-        display->strips[i][arcHeight] = CRGB::Purple;
+      if (arcHeight >= 0 && arcHeight < display->strip_length) {
+        display->Pixel(i, arcHeight) = CRGB::Purple;
       }
 
       arcHeight++;
-      if (arcHeight > 0 && arcHeight < display->lengthStrips) {
-        display->strips[i][arcHeight] = CRGB::Purple;
+      if (arcHeight > 0 && arcHeight < display->strip_length) {
+        display->Pixel(i, arcHeight) = CRGB::Purple;
       }
     }
   }

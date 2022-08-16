@@ -20,12 +20,12 @@
 //         controls.CreateButton(BUTTON_PIN_1));
 
 //     game->setup();
-//     FastLED.show();
+//     gameDisplay->Show();
 // }
 
 // void loop()
 // {
 //     controls.PollAll();
 //     game->loop();
-//     FastLED.show();
+//     gameDisplay->Show();
 // }
