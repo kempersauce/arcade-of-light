@@ -57,10 +57,14 @@ class Display {
     BlendPixel(stripIndex, y_int + 1, color, dither * blend_factor);
   }
 
+  inline const bool IsInBounds(const size_t strip, const size_t pixel) {
+    return strip < 0 || strip >= strip_count || pixel < 0 ||
+           pixel >= strip_length;
+  }
+
  protected:
-  inline bool CheckLocation(size_t strip, size_t pixel) {
-    bool oob =
-        strip < 0 || strip >= strip_count || pixel < 0 || pixel >= strip_length;
+  inline const bool CheckLocation(size_t strip, size_t pixel) {
+    const bool oob = IsInBounds(strip, pixel);
 #ifdef DEBUG
     if (oob) {
       debug::println("ERROR: Accessing out of bounds pixel");

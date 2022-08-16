@@ -42,8 +42,8 @@ class RocketBoost : public animation::Animation {
     int middleStrip = display->strip_count / 2;
     for (size_t i = max(loc - boostHeight, 0);
          i < min(loc, display->strip_length); i++) {
-      display->Pixel(middleStrip, i).setRGB(
-          255, noise_generator.data[0][loc - i], 0);
+      display->Pixel(middleStrip, i)
+          .setRGB(255, noise_generator.data[0][loc - i], 0);
     }
   }
 };

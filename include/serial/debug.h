@@ -12,27 +12,27 @@
 namespace debug {
 
 inline void println(const char* msg) {
-    #ifdef DEBUG
-    Serial.println(msg);
-    #endif
+#ifdef DEBUG
+  Serial.println(msg);
+#endif
 }
 
 inline void print(const char* msg) {
-    #ifdef DEBUG
-    Serial.print(msg);
-    #endif
+#ifdef DEBUG
+  Serial.print(msg);
+#endif
 }
 
 inline void println(const String& msg) {
-    #ifdef DEBUG
-    Serial.println(msg);
-    #endif
+#ifdef DEBUG
+  Serial.println(msg);
+#endif
 }
 
 inline void print(const String& msg) {
-    #ifdef DEBUG
-    Serial.print(msg);
-    #endif
+#ifdef DEBUG
+  Serial.print(msg);
+#endif
 }
 
-} // namespace Debug
+}  // namespace debug

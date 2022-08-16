@@ -146,7 +146,8 @@ class RocketGame : public Game {
     }
 
     while (fireworks.size() < numFireworks) {
-      fireworks.push_back(Firework(display->strip_length, display->strip_count));
+      fireworks.push_back(
+          Firework(display->strip_length, display->strip_count));
     }
   }
 

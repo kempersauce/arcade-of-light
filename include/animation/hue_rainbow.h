@@ -24,7 +24,7 @@ class HueRainbow : public Animation {
   HueRainbow(int speed) : Animation() { ShiftSpeed = speed; }
   // Sets the starting hue, probably not needed since the hue shifts constantly
   void setHue(int hue) { HueStart = hue; }
-  
+
   // Sets the saturation, 0=white 255=full color
   void setSaturation(int sat) { Saturation = sat; }
 
@@ -53,7 +53,7 @@ class HueRainbow : public Animation {
       int Hue = HueStart + (i * ShiftSpeed);
       for (int j = 0; j < display->strip_length; j++) {
         Hue = (Hue + 256) % 256;  // black magic muwhahaha
-        display->Pixel(i,j) = CHSV(Hue, Saturation, Brightness);
+        display->Pixel(i, j) = CHSV(Hue, Saturation, Brightness);
 
         if (ShiftSpeed >= 0) {
           Hue++;

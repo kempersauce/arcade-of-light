@@ -4,7 +4,8 @@
 #include <FastLED.h>     // for CRGB
 #include <OctoWS2811.h>  // for octo-stuff
 
-#include "display/display.h"  // for Display
+#include "display/display.h"          // for Display
+#include "display/octo/controller.h"  // for octo stuff
 
 /*
 OctoDisplay Class
@@ -28,13 +29,16 @@ class OctoDisplay : Display {
 
   CRGB pixels[total_pixel_count];
   OctoWS2811 octo;
+  CTeensy4Controller<RGB, WS2811_800kHz> controller;
 
  public:
   OctoDisplay(const uint8_t* pin_list, int* displayMemory)
       : Display(kNumStrips, kLengthStrips),
         octo(strip_length, displayMemory, drawingMemory,
-             WS2811_RGB | WS2811_800kHz, strip_count, pin_list) {
+             WS2811_RGB | WS2811_800kHz, strip_count, pin_list),
+        controller(&octo) {
     octo.begin();
+    FastLED.addLeds(&controller, pixels, kNumStrips * kLengthStrips);
   }
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
@@ -44,12 +48,7 @@ class OctoDisplay : Display {
     return pixels[strip * strip_length + pixel];
   }
 
-  virtual void Show() override {
-    for (int i = 0; i < total_pixel_count; ++i) {
-      octo.setPixel(i, pixels[i].red, pixels[i].green, pixels[i].blue);
-    }
-    octo.show();
-  }
+  virtual void Show() override { FastLED.show(); }
 };
 
 }  // namespace display

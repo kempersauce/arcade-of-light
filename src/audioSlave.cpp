@@ -178,7 +178,8 @@
 // 			backgroundIsPlaying = false;
 // 			//hasNewBackGround = true;
 // 			Serial.println("BG checkWait: " +
-// (String)backgroundCheckWait); 			Serial.println("BG Elapsed:   "
+// (String)backgroundCheckWait); 			Serial.println("BG Elapsed:
+// "
 // + (String)timeElapsed); 			Serial.println("BG isPlaying: "
 // + (String)backgroundIsPlaying);
 // 			Serial.println("===============================");

@@ -4,14 +4,15 @@
 // hopefully this makes sound work
 // #define FASTLED_ALLOW_INTERRUPTS 0
 
-#include "display/display.h"               // for Display
-#include "display/octo_display.h"          // for OctoDisplay
-#include "display/standard_display.h"      // for StandardDisplay
-#include "display/five.h"               // for FiveDisplay
-#include "display/h2h.h"                // for H2HDisplay
-#include "display/rocket.h"             // for RocketDisplay
-#include "display/twenty.h"             // for TwentyDisplay
-#include "engines/framerate.h"  // for FrameRate
+#include "animation/noise.h"           // for NoiseAnimation
+#include "display/display.h"           // for Display
+#include "display/five.h"              // for FiveDisplay
+#include "display/h2h.h"               // for H2HDisplay
+#include "display/octo_display.h"      // for OctoDisplay
+#include "display/rocket.h"            // for RocketDisplay
+#include "display/standard_display.h"  // for StandardDisplay
+#include "display/twenty.h"            // for TwentyDisplay
+#include "engines/framerate.h"         // for FrameRate
 // #include "games/head2head/head2head.h"  // for Head2Head
 // #include "games/rocket/rocket_game.h"   // for RocketGame
 // #include "games/wav_player/wav_player.h"  // for WavPlayer
@@ -22,14 +23,15 @@
 // #include "games/life/glider_wars.h"  // for GliderWars
 // #include "games/marquee/marquee.h"           // for MarqueeGame
 // #include "games/noise/noise.h"  // for NoiseGame
-#include "games/rainbow/rainbow.h"           // for RainbowGame
-#include "games/rainbow/rainbow_static.h"    // for RainbowStatic
+#include "games/rainbow/rainbow.h"         // for RainbowGame
+#include "games/rainbow/rainbow_static.h"  // for RainbowStatic
 // #include "games/snake/snake_game.h"  // for SnakeGame
 // #include "test/animation.h"            // for AnimationTest
 // #include "test/dir_pad.h"            // for DirPadTest
 // #include "test/five_strip.h"         // for FiveStripTest
 // #include "test/serial.h"             // for SerialTest
 // #include "test/single_color.h"             // for SingleColorTest
+#include "test/single_animation.h"  // for SingleAnimation
 // #include "games/shooter/shooter_game.h"  // for ShooterGame
 // #include "games/falling/falling.h"                  // for FallingGame
 // #include "games/lane_runner/lane_runner.h"  // for LaneRunner
@@ -49,7 +51,7 @@ void setup() {
 
   // init audio stuff
   // audio::initAudio();
-  
+
   Serial.begin(9600);
   debug::println("Begin setup()");
 
@@ -57,7 +59,7 @@ void setup() {
   // gameDisplay = (display::Display*)new display::FiveDisplay();
   // gameDisplay = (display::Display*)new display::H2HDisplay();
   // gameDisplay = (display::Display*)new display::RocketDisplay();
-    gameDisplay = (display::Display*)new display::TwentyDisplay();
+  gameDisplay = (display::Display*)new display::TwentyDisplay();
 
   debug::println("gameDisplay created");
 
@@ -65,7 +67,7 @@ void setup() {
   // game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
   // game = (games::Game*)new games::life::LifeGame(gameDisplay);
   // game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
-  game = (games::Game*)new games::rainbow::RainbowStatic(gameDisplay);
+  // game = (games::Game*)new games::rainbow::RainbowStatic(gameDisplay);
   // game = (games::Game*)new games::marquee::MarqueeGame(gameDisplay);
   // game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
   // game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);
@@ -78,6 +80,12 @@ void setup() {
   // game = (games::Game*)new test::FiveStripTest(gameDisplay);
   // game = (games::Game*)new games::life::GliderWarsGame(gameDisplay);
   // game = (games::Game*)new test::AnimationTest(gameDisplay);
+
+  // Animation Test game
+  animation::Animation* test_animation =
+      (animation::Animation*)new animation::NoiseAnimation{
+          gameDisplay->strip_count, gameDisplay->strip_length};
+  game = (games::Game*)new test::SingleAnimation(gameDisplay, test_animation);
 
   debug::println("game created");
 
@@ -94,13 +102,13 @@ void setup() {
 }
 
 void loop() {
-  // debug::println("loop() entered");
+  //   debug::println("loop() entered");
 
   game->loop();
-  
-  // debug::println("loop() Show Display");
+
+  //   debug::println("loop() Show Display");
   gameDisplay->Show();
 
-  // debug::println("loops brother");
+  //   debug::println("loops brother");
   frameRate.PrintFrameRate();
 }

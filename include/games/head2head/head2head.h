@@ -58,7 +58,8 @@ class Head2Head : public Game {
         idleGame(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},
-        noise_generator{gameDisplay->strip_count, gameDisplay->strip_length, 30},
+        noise_generator{gameDisplay->strip_count, gameDisplay->strip_length,
+                        30},
         electricArc() {
     // Initialize each game strip
     gameStrips = new H2HGameStrip*[gameDisplay->strip_count];

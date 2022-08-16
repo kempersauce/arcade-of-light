@@ -195,7 +195,7 @@ class Flicker : public Animation {
       // Draw Flare
       if (hasFlare[i]) {
         CRGB color;
-        display->Pixel(i][flareLoc[i, 0]).setHSV(hueAccent, saturation, 255);
+        display->Pixel(i, flareLoc[i, 0]).setHSV(hueAccent, saturation, 255);
         // display->Pixel(i][flareLoc[i, 0]).setHSV(hueAccent, saturation,
         // brightness + noise.data[i][flareLoc[i][0]]);
       }

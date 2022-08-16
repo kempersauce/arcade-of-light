@@ -15,7 +15,9 @@ class FrameRate {
     const auto fps = 1000 / timeDiff;
     last_frame_millis_ = now;
 
-    Serial.println((String) "FPS: " + fps + " | " + timeDiff + "ms");
+    const auto fast_led_fps = FastLED.getFPS();
+    Serial.println((String) "FPS: " + fps + " | " + timeDiff +
+                   "ms | reported: " + fast_led_fps);
   }
 };
 
