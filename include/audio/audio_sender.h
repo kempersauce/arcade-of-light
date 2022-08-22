@@ -26,8 +26,8 @@ class AudioSender {
 
   // Constructor: starts serial connection to audioSlave
   AudioSender() {
-    serial.begin(9600);
-    // Serial5.begin(9600);
+    serial.begin(115200);
+    // Serial5.begin(115200);
   }
 
   // send message over serial to audioslave

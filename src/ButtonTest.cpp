@@ -15,7 +15,7 @@
 //     gameDisplay = new display::FiveDisplay();
 //     test = new test::FiveStripTest(gameDisplay);
 //     test->setup();
-// 	Serial.begin(9600);
+// 	Serial.begin(115200);
 // 	for (int i = 0; i < 32; i++)
 // 	{
 // 		buttons.push_back(Button(i));

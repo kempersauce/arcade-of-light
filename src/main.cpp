@@ -1,6 +1,3 @@
-// This enables/disables building debug-type stuff into the project
-#define DEBUG 1337
-
 // hopefully this makes sound work
 // #define FASTLED_ALLOW_INTERRUPTS 0
 
@@ -52,7 +49,7 @@ void setup() {
   // init audio stuff
   // audio::initAudio();
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   debug::println("Begin setup()");
 
   // Choose your Display type

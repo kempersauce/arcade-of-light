@@ -23,7 +23,7 @@
 // std::vector<MatrixController> controllers;
 
 // void setup() {
-//   Serial.begin(9600);
+//   Serial.begin(115200);
 
 //   // Initialize controls
 //   Serial.println("Initialize Controls");

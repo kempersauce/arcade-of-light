@@ -25,7 +25,7 @@ class Receiver {
   Receiver(HardwareSerial *serial) : serial{serial} {
     inputBuffer = (char *)malloc(numChars);
 
-    serial->begin(9600);
+    serial->begin(115200);
 
     led = 13;  // TODO get rid of test output led code
     pinMode(led, OUTPUT);
