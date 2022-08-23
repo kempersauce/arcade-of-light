@@ -167,7 +167,7 @@ class RocketGame : public Game {
     targetsWon = 0;
     rocket.SetGravity(gravityLevels[level]);
     rocket.Reset();
-    audio.playLevelIntro(level + 1);
+    audio.playLevelIntro(level);
   }
 
   void enterWinState() {

@@ -11,20 +11,24 @@ namespace life {
 class LifeAudio : public audio::AudioSender {
  public:
   // File names for single effects
-  char* shuffle = "<11GYCYCHIP.WAV>";
+  const char* shuffle = "GYCYCHIP.WAV";
   bool shuffleIsStarted = false;
-  char* stop = "<TRGTHIT5.WAV>";
-  char* unStop = "<TRGTHIT1.WAV>";
-  char* speedUp = "<11DIO.WAV>";
+
+  char* stop = "TRGTHIT5.WAV";
+  char* unStop = "TRGTHIT1.WAV";
+
+  char* speedUp = "DIO.WAV";
   bool isSpeedingUp = false;
-  char* speedDown = "<11TGTHIT1.WAV>";
+
+  char* speedDown = "TGTHIT1.WAV";
   bool isSpeedingDown = false;
-  char* colorShift = "<21ABORTSEQ.WAV>";
+
+  char* colorShift = "ABORTSEQ.WAV";
   bool colorIsShifting = false;
 
   // File names for Background
-  char* stdBG = "CDL";
-  char* idleBG = "CDL";
+  char* stdBG = "CDL.WAV";
+  char* idleBG = "CDL.WAV";
 
   // File names and controls for start/stop channels
 
@@ -32,62 +36,62 @@ class LifeAudio : public audio::AudioSender {
   LifeAudio() : AudioSender() {}
 
   // SINGLE EFFECT METHODS
-  void playTimeStop() { sendMsg(stop); }
+  void playTimeStop() { PlayWav(stop); }
 
-  void playTimeStart() { sendMsg(unStop); }
+  void playTimeStart() { PlayWav(unStop); }
 
   void startRandom() {
-    sendMsg(shuffle);
+    PlayWav(shuffle, 1);
     shuffleIsStarted = true;
   }
 
   void startSpeedUp() {
     if (!isSpeedingUp) {
       isSpeedingUp = true;
-      sendMsg(speedUp);
+      PlayWav(speedUp, 1);
     }
   }
 
   void startSpeedDown() {
     if (!isSpeedingDown) {
-      sendMsg(speedDown);
+      PlayWav(speedDown, 1);
       isSpeedingDown = true;
     }
   }
 
   void playColorShift() {
     if (!colorIsShifting) {
-      sendMsg(colorShift);
+      PlayWav(colorShift, 2);
       colorIsShifting = true;
     }
   }
 
   // START/STOP METHODS
   void stopChannels() {
-    sendMsg("<10>");
-    sendMsg("<20>");
+    StopChannel(1);
+    StopChannel(2);
   }
 
   void stopPlayRandom() {
     if (shuffleIsStarted) {
-      sendMsg("<10>");
+      StopChannel(1);
       shuffleIsStarted = false;
     }
   }
 
   void stopColorShift() {
     if (colorIsShifting) {
-      sendMsg("<20>");
+      StopChannel(2);
       colorIsShifting = false;
     }
   }
 
   void stopSpeed() {
     if (isSpeedingUp) {
-      sendMsg("<20>");
+      StopChannel(1);
       isSpeedingUp = false;
     } else if (isSpeedingDown) {
-      sendMsg("<20>");
+      StopChannel(1);
       isSpeedingDown = false;
     }
   }

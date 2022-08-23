@@ -101,7 +101,7 @@ class Head2Head : public Game {
     audio.playStdBG();
     audio.stopWinMusic();
     // dont forget to take this out lol
-    audio.itsTimeToDuel();
+    audio.ItsTimeToDuel();
     for (size_t i = 0; i < display->strip_count; i++) {
       gameStrips[i]->reset();
     }

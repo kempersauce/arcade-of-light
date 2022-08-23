@@ -11,7 +11,7 @@ class Receiver {
   std::queue<char *> outputQueue;
 
  public:
-  const static byte numChars = 32;
+  const static size_t numChars = 32;
 
   // char receivedChars[numChars];
   char *inputBuffer;

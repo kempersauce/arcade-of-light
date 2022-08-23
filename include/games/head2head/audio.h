@@ -10,20 +10,22 @@ namespace h2h {
 class H2HAudio : public audio::AudioSender {
  public:
   // File names for single effects
-  char* aHit = "TRGTHIT2";
-  char* aMiss = "TRGTMIS1";            // CHEWY VS DIO VERSION:
-  char* aWinLane = "<11THRUST1.WAV>";  //"<11THRUST1.WAV>"; //"<11DIO.WAV>";
-  char* aWinGame = "PONGWINA";  //"PONGWINA";                      //"TOBECON";
+  const char* aHit = "TRGTHIT2.WAV";
+  const char* aMiss = "TRGTMIS1.WAV";     // CHEWY VS DIO VERSION:
+  const char* aWinLane = "THRUST1.WAV";   //"THRUST1.WAV"; //"DIO.WAV";
+  const char* aWinGame = "PONGWINA.WAV";  //"PONGWINA.WAV"; //"TOBECON.WAV;
 
-  char* bHit = "TRGTHIT5";
-  char* bMiss = "TRGTHIT4";
-  char* bWinLane = "<11THRUST2.WAV>";  //"<21THRUST2.WAV>"; //"<21CHEWY.WAV>";
-  char* bWinGame = "PONGWINA";         //"CANTINA";
+  const char* bHit = "TRGTHIT5.WAV";
+  const char* bMiss = "TRGTHIT4.WAV";
+  const char* bWinLane = "THRUST2.WAV";   //"THRUST2.WAV"; //"CHEWY.WAV";
+  const char* bWinGame = "PONGWINA.WAV";  //"CANTINA.WAV";
+
+  const char* itsTimeToDuel = "CHALL.WAV";  // "DUEL.WAV"
 
   // File names for Background
-  char* winBG = "CDL";
-  char* stdBG = "GYCYCHIP";
-  char* idleBG = "PLUTO";
+  const char* winBG = "CDL.WAV";
+  const char* stdBG = "GYCYCHIP.WAV";
+  const char* idleBG = "PLUTO.WAV";
 
   // File names and controls for start/stop channels
 
@@ -31,34 +33,31 @@ class H2HAudio : public audio::AudioSender {
   H2HAudio() : AudioSender() {}
 
   // SINGLE EFFECT METHODS
-  void playTeamAHit() { playWav(aHit); }
-  void playTeamAMiss() { playWav(aMiss); }
+  void playTeamAHit() { PlayWav(aHit); }
+  void playTeamAMiss() { PlayWav(aMiss); }
   void playTeamAWinLane() {
     // hard coded this to channel so not to interfere with dot sounds
-    sendMsg(aWinLane);
+    PlayWav(aWinLane, 1);
   }
   void playTeamAWinGame() { setBackground(aWinGame); }
 
-  void playTeamBHit() { playWav(bHit); }
-  void playTeamBMiss() { playWav(bMiss); }
+  void playTeamBHit() { PlayWav(bHit); }
+  void playTeamBMiss() { PlayWav(bMiss); }
   void playTeamBWinLane() {
     // hard coded this to channel so not to interfere with dot sounds
-    sendMsg(bWinLane);
+    PlayWav(bWinLane, 1);
   }
   void playTeamBWinGame() {
     // hard coded this to channel so not to interfere with dot sounds
     setBackground(bWinGame);
   }
 
-  void itsTimeToDuel() {
-    // playWav("DUEL");
-    sendMsg("<CHALL.WAV>");  //"<CHALL.WAV>"
-  }
+  void ItsTimeToDuel() { PlayWav(itsTimeToDuel); }
 
   // START/STOP METHODS
   void stopWinMusic() {
-    sendMsg("<10>");
-    sendMsg("<20>");
+    StopChannel(1);
+    StopChannel(2);
   }
 
   // CHANNEL 1: FireworkLaunch

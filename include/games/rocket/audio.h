@@ -10,95 +10,70 @@ namespace rocket {
 class RocketAudio : public audio::AudioSender {
  public:
   // File names for single effects
-  char* explosion = "EXPLODE1";
-  char* win = "BOOM";
-  char* targetWin = "<TRGTHIT5.WAV>";
-  char* levelWin = "<11LIFTOFF.WAV>";
+  const char* explosion = "EXPLODE1.WAV";
+  const char* win = "BOOM.WAV";
+  const char* targetWin = "TRGTHIT5.WAV";
+  const char* levelWin = "LIFTOFF.WAV";
 
   // File names for Background
-  char* winBG = "EARTH";
-  char* stdBG = "<9EARTH.WAV>";
+  const char* winBG = "EARTH.WAV";
+  const char* stdBG = "EARTH.WAV";
 
   // Level Intro Sounds
-  char* level1Intro = "<EARTHVOX.WAV>";
-  char* level1BG = "<9EARTH.WAV>";
-  char* level2Intro = "<MOONVOX.WAV>";
-  char* level2BG = "<9MOONJAZZ.WAV>";
-  char* level3Intro = "<MARSVOX.WAV>";
-  char* level3BG = "<9MARS.WAV>";
-  char* level4Intro = "<JPTRVOX.WAV>";
-  char* level4BG = "<9JUPITER.WAV>";
-  char* level5Intro = "<PLUTOVOX.WAV>";
-  char* level5BG = "<9PLUTO.WAV>";
+  struct LevelSounds {
+    const char* intro;
+    const char* background;
+
+    LevelSounds(const char* intro, const char* background)
+        : intro{intro}, background{background} {}
+  };
+
+  LevelSounds level_sounds[5] = {
+      LevelSounds{"EARTHVOX.WAV", "EARTH.WAV"},
+      LevelSounds{"MOONVOX.WAV", "MOONJAZZ.WAV"},
+      LevelSounds{"MARSVOX.WAV", "MARS.WAV"},
+      LevelSounds{"JPTRVOX.WAV", "JUPITER.WAV"},
+      LevelSounds{"PLUTOVOX.WAV", "PLUTO.WAV"},
+  };
 
   // File names and controls for start/stop channels
-  char* boost = "THRUST2";
+  const char* boost = "THRUST2.WAV";
   bool boostIsPlaying = false;
-  char* targetHover = "TRGTSEQ";
-  char* targetHoverFull = "<21TRGTSEQ.WAV>";
+  const char* targetHover = "TRGTSEQ.WAV";
   bool targetHoverIsPlaying = false;
-  char* fireworkLaunch = "WHOOSH";
-  char* fireworkLaunchLong = "<TRGTMIS1.WAV>";
+  const char* fireworkLaunch = "TRGTMIS1.WAV";
   bool fireworkLaunchIsPlaying = false;
-  char* fireworkExplode = "EXPLODE1";
-  char* fireworkExplodeLong = "<EXPLODE1.WAV>";
+  const char* fireworkExplode = "EXPLODE1.WAV";
 
   // CONSTRUCTOR - starts Serial (inhereted from AudioSender)
   RocketAudio() : AudioSender() {}
 
   // SINGLE EFFECT METHODS
-  void playExplosion() { playWav(explosion); }
-  void playWin() { playWav(win); }
-  void playTargetWin() { sendMsg(targetWin); }
-  void playLevelWin() { serial.println(levelWin); }
+  void playExplosion() { PlayWav(explosion); }
+  void playWin() { PlayWav(win); }
+  void playTargetWin() { PlayWav(targetWin); }
+  void playLevelWin() { PlayWav(levelWin, 1); }
   void playLevelIntro() {
-    // playWav();
+    // PlayWav();
   }
-  void playFireWorkLaunch() { sendMsg(fireworkLaunchLong); }
-  void playFireWorkExplode() { sendMsg(fireworkExplodeLong); }
+  void playFireWorkLaunch() { PlayWav(fireworkLaunch); }
+  void playFireWorkExplode() { PlayWav(fireworkExplode); }
 
   void killChannels() {
-    serial.println("<20>");
+    StopChannel(2);
+    delay(5);  // TODO can we get rid of these delays?
+    StopChannel(1);
     delay(5);
-    serial.println("<10>");
-    delay(5);
-    serial.println("<aa>");
-    delay(5);
-    serial.println("<aa>");
-    delay(5);
+    // serial.println("<aa>"); // TODO what does this do exactly?
+    // delay(5);
+    // serial.println("<aa>");
+    // delay(5);
   }
 
-  void playLevelIntro(int levelNum) {
-    switch (levelNum) {
-      case 1:
-        // delay(100);
-        killChannels();
-        serial.println("<EARTHVOX.WAV>");
-        delay(5);
-        serial.println("<9EARTH.WAV>");
-        delay(5);
-        break;
-      case 2:
-        killChannels();
-        sendMsg(level2Intro);
-        sendMsg(level2BG);
-        break;
-      case 3:
-        killChannels();
-        sendMsg(level3Intro);
-        sendMsg(level3BG);
-        break;
-      case 4:
-        killChannels();
-        sendMsg(level4Intro);
-        sendMsg(level4BG);
-        break;
-      case 5:
-        killChannels();
-        sendMsg(level5Intro);
-        sendMsg(level5BG);
-        break;
-    }
+  void playLevelIntro(const size_t level) {
+    killChannels();
+    PlayWav(level_sounds[level].intro);
+    setBackground(level_sounds[level].background);
   }
 
   // START/STOP METHODS
@@ -106,33 +81,33 @@ class RocketAudio : public audio::AudioSender {
   // CHANNEL 1: BOOST
   void startPlayBoost() {
     if (!boostIsPlaying) {
-      startWavOnChannel(boost, 1);
+      PlayWav(boost, 1);
       boostIsPlaying = true;
     }
   }
 
   void stopPlayBoost() {
-    stopWavOnChannel(1);
+    StopChannel(1);
     boostIsPlaying = false;
   }
 
   // CHANNEL 2: TARGET
   void startPlayTargetHover() {
     if (!targetHoverIsPlaying) {
-      sendMsg(targetHoverFull);
+      PlayWav(targetHover, 2);
       targetHoverIsPlaying = true;
     }
   }
 
   void stopPlayTargetHover() {
-    sendMsg("<20>");
+    StopChannel(2);
     targetHoverIsPlaying = false;
   }
 
   // CHANNEL 1: FireworkLaunch
 
   // BACKGROUND METHODS
-  void playStdBG() { sendMsg(stdBG); }
+  void playStdBG() { setBackground(stdBG); }
   void playWinBG() { setBackground(winBG); }
 };
 
