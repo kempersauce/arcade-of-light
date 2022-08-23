@@ -6,6 +6,8 @@
 #include <SerialFlash.h>
 #include <Wire.h>
 
+#include "serial/debug.h"  // for debug::*
+
 namespace kss {
 namespace audio {
 
@@ -17,16 +19,17 @@ namespace audio {
 
 // Sounds
 AudioControlSGTL5000 sgtl5000_1;
-AudioOutputI2S i2s1;
+AudioOutputI2S audioOutput;
 
-void initAudio() {
-  AudioMemory(8);
+void InitAudio() {
+  AudioMemory(16);
   sgtl5000_1.enable();
   sgtl5000_1.volume(.5);
   SPI.setMOSI(SDCARD_MOSI_PIN);
   SPI.setSCK(SDCARD_SCK_PIN);
-  if (!SD.begin(SDCARD_CS_PIN)) {
-    Serial.println("Unable to access the SD card during audio setup");
+  while (!SD.begin(SDCARD_CS_PIN)) {
+    debug::println("Unable to access the SD card! Retrying in 500ms...");
+    delay(500);
   }
 }
 

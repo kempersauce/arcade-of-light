@@ -8,8 +8,11 @@
 // #include <iostream>
 // #include <string>
 
+// #include "audio/sounds.h"     // for initAudio
 // #include "serial/debug.h"     // for debug::*
 // #include "serial/receiver.h"  // for Receiver
+
+// using namespace kss;
 
 // // Use these with the Teensy Audio Shield
 // // This uses the audio shield's card reader
@@ -53,16 +56,10 @@
 // AudioConnection patchCordToMaster2b(bgMixer, 1, mixMaster, 3);
 
 // // Master Mixer out
-// AudioConnection patchCordOut1a(mixMaster, 0, audioOutput, 0);
-// AudioConnection patchCordOut1b(mixMaster, 1, audioOutput, 1);
-
-// AudioControlSGTL5000 sgtl5000_1;
+// AudioConnection patchCordOut1a(mixMaster, 0, audio::audioOutput, 0);
+// AudioConnection patchCordOut1b(mixMaster, 1, audio::audioOutput, 1);
 
 // float mixerGain = 0.7;
-
-// #define SDCARD_CS_PIN 10
-// #define SDCARD_MOSI_PIN 7
-// #define SDCARD_SCK_PIN 14
 
 // inline String ChannelLabel(const size_t channel) {
 //   if (channel == 0) {
@@ -87,11 +84,11 @@
 
 // #define CheckChannel(channel) CheckChannelIndex(__LINE__, channel)
 
-// kss::serial::Receiver serialReceiver[]{
-//     // kss::serial::Receiver(&Serial1),
-//     // kss::serial::Receiver(&Serial2),
-//     // kss::serial::Receiver(&Serial3),
-//     kss::serial::Receiver(&Serial4), kss::serial::Receiver(&Serial5)};
+// serial::Receiver serialReceiver[]{
+//     // serial::Receiver(&Serial1),
+//     // serial::Receiver(&Serial2),
+//     // serial::Receiver(&Serial3),
+//     serial::Receiver(&Serial4), serial::Receiver(&Serial5)};
 
 // void StopChannel(const size_t channel) {
 //   CheckChannel(channel);
@@ -103,6 +100,10 @@
 
 // void StartChannel(const size_t channel, const char* fileName) {
 //   CheckChannel(channel);
+//   if (playSdWav[channel].isPlaying()) {
+//     debug::println((String) "Channel " + channel +
+//                    " is already playing, but is requested to play " + fileName);
+//   }
 //   playSdWav[channel].play(fileName);
 //   PrintFileInfo(channel, fileName);
 // }
@@ -131,15 +132,7 @@
 // // SETUP AND LOOP
 // void setup() {
 //   Serial.begin(115200);
-//   AudioMemory(16);
-//   sgtl5000_1.enable();
-//   sgtl5000_1.volume(1);
-//   SPI.setMOSI(SDCARD_MOSI_PIN);
-//   SPI.setSCK(SDCARD_SCK_PIN);
-//   while (!SD.begin(SDCARD_CS_PIN)) {
-//     debug::println("Unable to access the SD card! Retrying in 500ms...");
-//     delay(500);
-//   }
+//   audio::InitAudio();
 
 //   mixMaster.gain(0, 0.5);
 //   mixMaster.gain(1, 0.5);

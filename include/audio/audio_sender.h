@@ -40,8 +40,9 @@ class AudioSender {
 
   // send message over serial to audioslave
   const void SendMsg(const char* msg) {
+	// Print this to both serial AND Serial
     serial.println(msg);
-    Serial.println(msg);  // TODO why do we need this again?
+    Serial.println(msg);
   }
 
  public:
