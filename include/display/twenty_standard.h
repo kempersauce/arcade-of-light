@@ -2,30 +2,23 @@
 
 #include <Constants.h>
 
-// #include "display/octo_display.h"  // for OctoDisplay
-#include "display/standard_display.h"
+#include "display/standard_display.h"  // for StandardDisplay
 
 namespace kss {
 namespace display {
 
-namespace {  // anonymous namespace - only used in this file
+namespace twenty_standard {
 
 constexpr size_t kNumStrips = 20;
-constexpr size_t kLengthStrips = 214;
+constexpr size_t kLengthStrips = 300;
 
-constexpr uint8_t kPinList[kNumStrips]{
-    LED_PIN_0,  LED_PIN_1,  LED_PIN_2,  LED_PIN_3,  LED_PIN_4,
-    LED_PIN_5,  LED_PIN_6,  LED_PIN_7,  LED_PIN_8,  LED_PIN_9,
-    LED_PIN_10, LED_PIN_11, LED_PIN_12, LED_PIN_13, LED_PIN_14,
-    LED_PIN_15, LED_PIN_16, LED_PIN_17, LED_PIN_18, LED_PIN_19};
+}  // namespace twenty_standard
 
-DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
-
-}  // namespace
-
-class TwentyDisplay : public StandardDisplay<kNumStrips, kLengthStrips> {
+class TwentyDisplayStandard
+    : public StandardDisplay<twenty_standard::kNumStrips,
+                             twenty_standard::kLengthStrips> {
  public:
-  TwentyDisplay() : StandardDisplay() {
+  TwentyDisplayStandard() : StandardDisplay() {
     RegisterStrip<LED_PIN_0>(0);
     RegisterStrip<LED_PIN_1>(1);
     RegisterStrip<LED_PIN_2>(2);

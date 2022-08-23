@@ -12,6 +12,7 @@
 #include "display/rocket.h"            // for RocketDisplay
 #include "display/standard_display.h"  // for StandardDisplay
 #include "display/twenty.h"            // for TwentyDisplay
+#include "display/twenty_standard.h"   // for TwentyDisplayStandard
 #include "engines/framerate.h"         // for FrameRate
 // #include "games/head2head/head2head.h"  // for Head2Head
 // #include "games/rocket/rocket_game.h"   // for RocketGame
@@ -60,6 +61,7 @@ void setup() {
   // gameDisplay = (display::Display*)new display::H2HDisplay();
   // gameDisplay = (display::Display*)new display::RocketDisplay();
   gameDisplay = (display::Display*)new display::TwentyDisplay();
+  // gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
 
   debug::println("gameDisplay created");
 
@@ -107,6 +109,7 @@ void loop() {
   game->loop();
 
   //   debug::println("loop() Show Display");
+  // delay(50);
   gameDisplay->Show();
 
   //   debug::println("loops brother");

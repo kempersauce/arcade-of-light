@@ -31,8 +31,11 @@ class StandardDisplay : public Display {
  protected:
   // Inherited classes need this to initialize their own strip pinouts
   template <uint8_t PIN>
-  void RegisterStrip(size_t index) {
-    FastLED.addLeds<WS2812B, PIN, GRB>(pixels[index], strip_length);
+  const void RegisterStrip(const size_t index) {
+    // Guard against registering extra strips on accident
+    if (index < strip_count) {
+      FastLED.addLeds<WS2812B, PIN, GRB>(pixels[index], strip_length);
+    }
   }
 };
 
