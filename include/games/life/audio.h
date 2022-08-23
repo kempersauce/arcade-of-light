@@ -1,8 +1,6 @@
 #pragma once
 
-#include <HardwareSerial.h>
-
-#include <memory>  // for std::make_shared
+#include <memory>  // for std::shared_ptr
 
 #include "audio/audio_sender.h"      // for AudioSender
 #include "audio/background_music.h"  // for BackgroundMusic
@@ -16,16 +14,13 @@ class LifeAudio {
       std::make_shared<audio::AudioSender>();
 
  public:
-  // File names for single effects
-  const char* shuffle = "GYCYCHIP.WAV";
-  bool shuffleIsStarted = false;
+  // Single Effects
+  audio::SoundEffectBespoke shuffle{audio_sender, 1, "GYCYCHIP.WAV"};
 
-  const char* stop = "TRGTHIT5.WAV";
-  const char* unStop = "TRGTHIT1.WAV";
+  audio::SoundEffect stop{audio_sender, "TRGTHIT5.WAV"};
+  audio::SoundEffect unStop{audio_sender, "TRGTHIT1.WAV"};
 
-  const char* speedUp = "DIO.WAV";
-  bool isSpeedingUp = false;
-
+  audio::SoundEffectBespoke speedUp{audio_sender, 1, "DIO.WAV"};
   audio::SoundEffectBespoke speedDown{audio_sender, 1, "TGTHIT1.WAV"};
 
   audio::SoundEffectBespoke colorShift{audio_sender, 2, "ABORTSEQ.WAV"};
@@ -34,53 +29,39 @@ class LifeAudio {
   audio::BackgroundMusic background{audio_sender, "CDL.WAV"};
 
   // SINGLE EFFECT METHODS
-  void playTimeStop() { audio_sender->PlayWav(stop); }
+  const void playTimeStop() { stop.Play(); }
 
-  void playTimeStart() { audio_sender->PlayWav(unStop); }
+  const void playTimeStart() { unStop.Play(); }
 
-  void startRandom() {
-    audio_sender->PlayWav(shuffle, 1);
-    shuffleIsStarted = true;
-  }
+  const void startRandom() { shuffle.Play(); }
 
-  void startSpeedUp() {
-    if (!isSpeedingUp) {
-      isSpeedingUp = true;
-      audio_sender->PlayWav(speedUp, 1);
+  const void startSpeedUp() {
+    if (!speedUp.is_playing) {
+      speedUp.Play();
     }
   }
 
-  void startSpeedDown() { speedDown.Play(); }
-
-  void playColorShift() { colorShift.Play(); }
-
-  // START/STOP METHODS
-  void stopChannels() {
-    audio_sender->StopChannel(1);
-    audio_sender->StopChannel(2);
-  }
-
-  void stopPlayRandom() {
-    if (shuffleIsStarted) {
-      audio_sender->StopChannel(1);
-      shuffleIsStarted = false;
+  const void startSpeedDown() {
+    if (!speedDown.is_playing) {
+      speedDown.Play();
     }
   }
 
-  void stopColorShift() { colorShift.Stop(); }
+  const void playColorShift() { colorShift.Play(); }
 
-  void stopSpeed() {
-    if (isSpeedingUp) {
-      audio_sender->StopChannel(1);
-      isSpeedingUp = false;
-    }
+  const void stopPlayRandom() { shuffle.Stop(); }
+
+  const void stopColorShift() { colorShift.Stop(); }
+
+  const void stopSpeed() {
+    speedUp.Stop();
     speedDown.Stop();
   }
 
   // CHANNEL 1: FireworkLaunch
 
   // BACKGROUND METHODS
-  void playStdBG() { background.Play(); }
+  const void playStdBG() { background.Play(); }
 };
 
 }  // namespace life
