@@ -12,9 +12,10 @@ namespace games {
 namespace life {
 
 class LifeAudio {
- public:
-  std::shared_ptr<audio::AudioSender> audio_sender;
+  std::shared_ptr<audio::AudioSender> audio_sender =
+      std::make_shared<audio::AudioSender>();
 
+ public:
   // File names for single effects
   const char* shuffle = "GYCYCHIP.WAV";
   bool shuffleIsStarted = false;
@@ -25,24 +26,12 @@ class LifeAudio {
   const char* speedUp = "DIO.WAV";
   bool isSpeedingUp = false;
 
-  const char* speedDown = "TGTHIT1.WAV";
-  bool isSpeedingDown = false;
+  audio::SoundEffectBespoke speedDown{audio_sender, 1, "TGTHIT1.WAV"};
 
-  const char* colorShift = "ABORTSEQ.WAV";
-  bool colorIsShifting = false;
+  audio::SoundEffectBespoke colorShift{audio_sender, 2, "ABORTSEQ.WAV"};
 
-  // File names for Background
-  const char* stdBG = "CDL.WAV";
-  const char* idleBG = "CDL.WAV";
-
-  audio::BackgroundMusic background;
-
-  // File names and controls for start/stop channels
-
-  // CONSTRUCTOR - starts Serial (inhereted from AudioSender)
-  LifeAudio()
-      : audio_sender(std::make_shared<audio::AudioSender>()),
-        background{audio_sender, stdBG} {}
+  // Background Music
+  audio::BackgroundMusic background{audio_sender, "CDL.WAV"};
 
   // SINGLE EFFECT METHODS
   void playTimeStop() { audio_sender->PlayWav(stop); }
@@ -61,19 +50,9 @@ class LifeAudio {
     }
   }
 
-  void startSpeedDown() {
-    if (!isSpeedingDown) {
-      audio_sender->PlayWav(speedDown, 1);
-      isSpeedingDown = true;
-    }
-  }
+  void startSpeedDown() { speedDown.Play(); }
 
-  void playColorShift() {
-    if (!colorIsShifting) {
-      audio_sender->PlayWav(colorShift, 2);
-      colorIsShifting = true;
-    }
-  }
+  void playColorShift() { colorShift.Play(); }
 
   // START/STOP METHODS
   void stopChannels() {
@@ -88,28 +67,20 @@ class LifeAudio {
     }
   }
 
-  void stopColorShift() {
-    if (colorIsShifting) {
-      audio_sender->StopChannel(2);
-      colorIsShifting = false;
-    }
-  }
+  void stopColorShift() { colorShift.Stop(); }
 
   void stopSpeed() {
     if (isSpeedingUp) {
       audio_sender->StopChannel(1);
       isSpeedingUp = false;
-    } else if (isSpeedingDown) {
-      audio_sender->StopChannel(1);
-      isSpeedingDown = false;
     }
+    speedDown.Stop();
   }
 
   // CHANNEL 1: FireworkLaunch
 
   // BACKGROUND METHODS
   void playStdBG() { background.Play(); }
-  void playH2HIdleBG() { audio_sender->setBackground(idleBG); }
 };
 
 }  // namespace life

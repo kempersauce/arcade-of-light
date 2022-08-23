@@ -18,7 +18,7 @@ class SoundEffectBespoke : public SoundEffect {
   bool is_playing{false};
 
   SoundEffectBespoke(std::shared_ptr<AudioSender> audio_sender,
-                     const char* filename, const size_t channel)
+                     const size_t channel, const char* filename)
       : SoundEffect{audio_sender, filename}, channel{channel} {}
 
   virtual const void Play() override {
