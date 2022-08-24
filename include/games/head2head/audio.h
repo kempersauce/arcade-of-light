@@ -1,72 +1,71 @@
 #pragma once
-#include <HardwareSerial.h>
 
-#include "audio/audio_sender.h"  // for AudioSender
+#include "audio/background_music.h"      // for BackgroundMusic
+#include "audio/manager.h"               // for audio::Manager
+#include "audio/sound_effect.h"          // for SoundEffect
+#include "audio/sound_effect_bespoke.h"  // for SoundEffectBespoke
 
 namespace kss {
 namespace games {
 namespace h2h {
 
-class H2HAudio : public audio::AudioSender {
+class H2HAudio : public audio::Manager {
  public:
-  // File names for single effects
-  const char* aHit = "TRGTHIT2.WAV";
-  const char* aMiss = "TRGTMIS1.WAV";     // CHEWY VS DIO VERSION:
-  const char* aWinLane = "THRUST1.WAV";   //"THRUST1.WAV"; //"DIO.WAV";
-  const char* aWinGame = "PONGWINA.WAV";  //"PONGWINA.WAV"; //"TOBECON.WAV;
+  // Single effects
+  audio::SoundEffect aHit{sender, "TRGTHIT2.WAV"};
+  audio::SoundEffect aMiss{sender, "TRGTMIS1.WAV"};  // CHEWY VS DIO VERSION:
+  audio::SoundEffectBespoke aWinLane{sender, 1, "THRUST1.WAV"};  //"DIO.WAV"
+  audio::BackgroundMusic aWinGame{sender, "PONGWINA.WAV"};       //"TOBECON.WAV
 
-  const char* bHit = "TRGTHIT5.WAV";
-  const char* bMiss = "TRGTHIT4.WAV";
-  const char* bWinLane = "THRUST2.WAV";   //"THRUST2.WAV"; //"CHEWY.WAV";
-  const char* bWinGame = "PONGWINA.WAV";  //"CANTINA.WAV";
+  audio::SoundEffect bHit{sender, "TRGTHIT5.WAV"};
+  audio::SoundEffect bMiss{sender, "TRGTHIT4.WAV"};
+  audio::SoundEffectBespoke bWinLane{sender, 1, "THRUST2.WAV"};  //"CHEWY.WAV"
+  audio::BackgroundMusic bWinGame{sender, "PONGWINA.WAV"};       //"CANTINA.WAV"
 
-  const char* itsTimeToDuel = "CHALL.WAV";  // "DUEL.WAV"
+  audio::SoundEffect itsTimeToDuel{sender, "CHALL.WAV"};  //"DUEL.WAV"
 
-  // File names for Background
-  const char* winBG = "CDL.WAV";
-  const char* stdBG = "GYCYCHIP.WAV";
-  const char* idleBG = "PLUTO.WAV";
+  // Background music
+  audio::BackgroundMusic winBG{sender, "CDL.WAV"};
+  audio::BackgroundMusic stdBG{sender, "GYCYCHIP.WAV"};
+  audio::BackgroundMusic idleBG{sender, "PLUTO.WAV"};
 
   // File names and controls for start/stop channels
 
-  // CONSTRUCTOR - starts Serial (inhereted from AudioSender)
-  H2HAudio() : AudioSender() {}
-
   // SINGLE EFFECT METHODS
-  void playTeamAHit() { PlayWav(aHit); }
-  void playTeamAMiss() { PlayWav(aMiss); }
+  void playTeamAHit() { aHit.Play(); }
+  void playTeamAMiss() { aMiss.Play(); }
   void playTeamAWinLane() {
     // hard coded this to channel so not to interfere with dot sounds
-    PlayWav(aWinLane, 1);
+    aWinLane.Play();
   }
-  void playTeamAWinGame() { setBackground(aWinGame); }
+  void playTeamAWinGame() { aWinGame.Play(); }
 
-  void playTeamBHit() { PlayWav(bHit); }
-  void playTeamBMiss() { PlayWav(bMiss); }
+  void playTeamBHit() { bHit.Play(); }
+  void playTeamBMiss() { bMiss.Play(); }
   void playTeamBWinLane() {
     // hard coded this to channel so not to interfere with dot sounds
-    PlayWav(bWinLane, 1);
+    bWinLane.Play();
   }
   void playTeamBWinGame() {
     // hard coded this to channel so not to interfere with dot sounds
-    setBackground(bWinGame);
+    bWinGame.Play();
   }
 
-  void ItsTimeToDuel() { PlayWav(itsTimeToDuel); }
+  void ItsTimeToDuel() { itsTimeToDuel.Play(); }
 
   // START/STOP METHODS
   void stopWinMusic() {
-    StopChannel(1);
-    StopChannel(2);
+    sender->StopChannel(1);
+    sender->StopChannel(2);
   }
 
   // CHANNEL 1: FireworkLaunch
 
   // BACKGROUND METHODS
-  void playStdBG() { setBackground(stdBG); }
-  void playWinBG() { setBackground(winBG); }
-  void playH2HIdleBG() { setBackground(idleBG); }
-  void playIdleBG() { setBackground(idleBG); }
+  void playStdBG() { stdBG.Play(); }
+  void playWinBG() { winBG.Play(); }
+  void playH2HIdleBG() { idleBG.Play(); }
+  void playIdleBG() { idleBG.Play(); }
 };
 
 }  // namespace h2h
