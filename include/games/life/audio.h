@@ -1,18 +1,15 @@
 #pragma once
 
-#include <memory>  // for std::shared_ptr
-
-#include "audio/audio_sender.h"      // for AudioSender
-#include "audio/background_music.h"  // for BackgroundMusic
+#include "audio/background_music.h"      // for BackgroundMusic
+#include "audio/manager.h"               // for audio::Manager
+#include "audio/sound_effect.h"          // for SoundEffect
+#include "audio/sound_effect_bespoke.h"  // for SoundEffectBespoke
 
 namespace kss {
 namespace games {
 namespace life {
 
-class LifeAudio {
-  std::shared_ptr<audio::AudioSender> audio_sender =
-      std::make_shared<audio::AudioSender>();
-
+class LifeAudio : public audio::Manager {
  public:
   // Single Effects
   audio::SoundEffectBespoke shuffle{audio_sender, 1, "GYCYCHIP.WAV"};

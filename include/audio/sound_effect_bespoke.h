@@ -12,6 +12,7 @@ namespace audio {
 // sparingly. The is_playing is tracked internally and doesn't account for other
 // sounds being played over this one on the same channel.
 class SoundEffectBespoke : public SoundEffect {
+ protected:
   const size_t channel;
 
  public:
