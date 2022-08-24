@@ -85,9 +85,9 @@
 // #define CheckChannel(channel) CheckChannelIndex(__LINE__, channel)
 
 // serial::Receiver serialReceiver[]{
-//     // serial::Receiver(&Serial1),
-//     // serial::Receiver(&Serial2),
-//     // serial::Receiver(&Serial3),
+//     serial::Receiver(&Serial1),
+//     serial::Receiver(&Serial2),
+//     serial::Receiver(&Serial3),
 //     serial::Receiver(&Serial4), serial::Receiver(&Serial5)};
 
 // void StopChannel(const size_t channel) {
@@ -153,9 +153,11 @@
 //   bgMixer.gain(2, mixerGain);
 //   bgMixer.gain(3, mixerGain);
 
-//   PlayWav("FUEL100.WAV");
-//   delay(50);
-//   PlayWav("FUEL50.WAV");
+//   PlayWav("SDTEST2.WAV");
+// //   delay(50);
+// //   PlayWav("FUEL50.WAV");
+// //   delay(50);
+// //   PlayWav("BRIAN.WAV");
 //   // delay(5000);
 
 //   debug::println("starting the loop");
