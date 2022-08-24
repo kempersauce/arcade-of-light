@@ -54,7 +54,7 @@ class AudioSender {
     char msg[12];
     strcpy(msg, startSymbol);
     if (channel >= 0) {
-      strcpy(msg, GetChannelChar(channel));
+      strcat(msg, GetChannelChar(channel));
       strcat(msg, startChannelChar);
     }
     strcat(msg, fileName);
