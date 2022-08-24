@@ -12,18 +12,18 @@ namespace life {
 class LifeAudio : public audio::Manager {
  public:
   // Single Effects
-  audio::SoundEffectBespoke shuffle{audio_sender, 1, "GYCYCHIP.WAV"};
+  audio::SoundEffectBespoke shuffle{sender, 1, "GYCYCHIP.WAV"};
 
-  audio::SoundEffect stop{audio_sender, "TRGTHIT5.WAV"};
-  audio::SoundEffect unStop{audio_sender, "TRGTHIT1.WAV"};
+  audio::SoundEffect stop{sender, "TRGTHIT5.WAV"};
+  audio::SoundEffect unStop{sender, "TRGTHIT1.WAV"};
 
-  audio::SoundEffectBespoke speedUp{audio_sender, 1, "DIO.WAV"};
-  audio::SoundEffectBespoke speedDown{audio_sender, 1, "TGTHIT1.WAV"};
+  audio::SoundEffectBespoke speedUp{sender, 1, "DIO.WAV"};
+  audio::SoundEffectBespoke speedDown{sender, 1, "TGTHIT1.WAV"};
 
-  audio::SoundEffectBespoke colorShift{audio_sender, 2, "ABORTSEQ.WAV"};
+  audio::SoundEffectBespoke colorShift{sender, 2, "ABORTSEQ.WAV"};
 
   // Background Music
-  audio::BackgroundMusic background{audio_sender, "CDL.WAV"};
+  audio::BackgroundMusic background{sender, "CDL.WAV"};
 
   // SINGLE EFFECT METHODS
   const void playTimeStop() { stop.Play(); }

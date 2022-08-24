@@ -18,39 +18,37 @@ class LevelAudio : public audio::Manager {
   audio::SoundEffect intro;
   audio::BackgroundMusic background;
 
-  LevelAudio(std::shared_ptr<audio::AudioSender> audio_sender,
-             const char* intro, const char* background)
-      : Manager(audio_sender),
-        intro{audio_sender, intro},
-        background{audio_sender, background} {}
+  LevelAudio(std::shared_ptr<audio::AudioSender> sender, const char* intro,
+             const char* background)
+      : Manager(sender), intro{sender, intro}, background{sender, background} {}
 };
 
 class RocketAudio : public audio::Manager {
  public:
   // Single effects
-  audio::SoundEffect explosion{audio_sender, "EXPLODE1.WAV"};
-  audio::SoundEffect win{audio_sender, "BOOM.WAV"};
-  audio::SoundEffect targetWin{audio_sender, "TRGTHIT5.WAV"};
-  audio::SoundEffectBespoke levelWin{audio_sender, 1, "LIFTOFF.WAV"};
+  audio::SoundEffect explosion{sender, "EXPLODE1.WAV"};
+  audio::SoundEffect win{sender, "BOOM.WAV"};
+  audio::SoundEffect targetWin{sender, "TRGTHIT5.WAV"};
+  audio::SoundEffectBespoke levelWin{sender, 1, "LIFTOFF.WAV"};
 
   // Background music
-  audio::BackgroundMusic winBG{audio_sender, "EARTH.WAV"};
-  audio::BackgroundMusic stdBG{audio_sender, "EARTH.WAV"};
+  audio::BackgroundMusic winBG{sender, "EARTH.WAV"};
+  audio::BackgroundMusic stdBG{sender, "EARTH.WAV"};
 
   // Level specific audio
   LevelAudio level_sounds[5] = {
-      LevelAudio{audio_sender, "EARTHVOX.WAV", "EARTH.WAV"},
-      LevelAudio{audio_sender, "MOONVOX.WAV", "MOONJAZZ.WAV"},
-      LevelAudio{audio_sender, "MARSVOX.WAV", "MARS.WAV"},
-      LevelAudio{audio_sender, "JPTRVOX.WAV", "JUPITER.WAV"},
-      LevelAudio{audio_sender, "PLUTOVOX.WAV", "PLUTO.WAV"},
+      LevelAudio{sender, "EARTHVOX.WAV", "EARTH.WAV"},
+      LevelAudio{sender, "MOONVOX.WAV", "MOONJAZZ.WAV"},
+      LevelAudio{sender, "MARSVOX.WAV", "MARS.WAV"},
+      LevelAudio{sender, "JPTRVOX.WAV", "JUPITER.WAV"},
+      LevelAudio{sender, "PLUTOVOX.WAV", "PLUTO.WAV"},
   };
 
   // File names and controls for start/stop channels
-  audio::SoundEffectBespoke boost{audio_sender, 1, "THRUST2.WAV"};
-  audio::SoundEffectBespoke targetHover{audio_sender, 2, "TRGTSEQ.WAV"};
-  audio::SoundEffect fireworkLaunch{audio_sender, "TRGTMIS1.WAV"};
-  audio::SoundEffect fireworkExplode{audio_sender, "EXPLODE1.WAV"};
+  audio::SoundEffectBespoke boost{sender, 1, "THRUST2.WAV"};
+  audio::SoundEffectBespoke targetHover{sender, 2, "TRGTSEQ.WAV"};
+  audio::SoundEffect fireworkLaunch{sender, "TRGTMIS1.WAV"};
+  audio::SoundEffect fireworkExplode{sender, "EXPLODE1.WAV"};
 
   // SINGLE EFFECT METHODS
   void playExplosion() { explosion.Play(); }
@@ -61,9 +59,9 @@ class RocketAudio : public audio::Manager {
   void playFireWorkExplode() { fireworkExplode.Play(); }
 
   void killChannels() {
-    audio_sender->StopChannel(2);
+    sender->StopChannel(2);
     delay(5);  // TODO can we get rid of these delays?
-    audio_sender->StopChannel(1);
+    sender->StopChannel(1);
     delay(5);
     // serial.println("<aa>"); // TODO what does this do exactly?
     // delay(5);

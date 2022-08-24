@@ -18,18 +18,18 @@ class SoundEffectBespoke : public SoundEffect {
  public:
   bool is_playing{false};
 
-  SoundEffectBespoke(std::shared_ptr<AudioSender> audio_sender,
-                     const size_t channel, const char* filename)
-      : SoundEffect{audio_sender, filename}, channel{channel} {}
+  SoundEffectBespoke(std::shared_ptr<AudioSender> sender, const size_t channel,
+                     const char* filename)
+      : SoundEffect{sender, filename}, channel{channel} {}
 
   virtual const void Play() override {
-    audio_sender->PlayWav(filename, channel);
+    sender->PlayWav(filename, channel);
     is_playing = true;
   }
 
   const void Stop() {
     if (is_playing) {
-      audio_sender->StopChannel(channel);
+      sender->StopChannel(channel);
       is_playing = false;
     }
   }

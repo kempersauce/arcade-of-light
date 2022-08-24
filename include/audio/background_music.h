@@ -10,9 +10,8 @@ namespace audio {
 
 class BackgroundMusic : public SoundEffectBespoke {
  public:
-  BackgroundMusic(std::shared_ptr<AudioSender> audio_sender,
-                  const char* filename)
-      : SoundEffectBespoke{audio_sender, 0, filename} {}
+  BackgroundMusic(std::shared_ptr<AudioSender> sender, const char* filename)
+      : SoundEffectBespoke{sender, 0, filename} {}
 };
 
 }  // namespace audio

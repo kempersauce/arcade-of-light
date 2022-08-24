@@ -9,14 +9,14 @@ namespace audio {
 
 class SoundEffect {
  protected:
-  const std::shared_ptr<AudioSender> audio_sender;
+  std::shared_ptr<AudioSender> sender;
   const char* filename;
 
  public:
-  SoundEffect(std::shared_ptr<AudioSender> audio_sender, const char* filename)
-      : audio_sender{audio_sender}, filename{filename} {}
+  SoundEffect(std::shared_ptr<AudioSender> sender, const char* filename)
+      : sender{sender}, filename{filename} {}
 
-  virtual const void Play() { audio_sender->PlayWav(filename); }
+  virtual const void Play() { sender->PlayWav(filename); }
 };
 
 }  // namespace audio
