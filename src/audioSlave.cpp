@@ -4,14 +4,16 @@
 // #include <SerialFlash.h>
 // #include <Wire.h>
 
-// #include <iostream>
 // #include <string>
+// #include <vector>
 
-// #include "audio/sounds.h"     // for initAudio
-// #include "serial/debug.h"     // for debug::*
-// #include "serial/receiver.h"  // for Receiver
+// #include "audio/constants.h"       // for k*
+// #include "audio/sounds.h"          // for InitAudio
+// #include "serial/debug.h"          // for debug::*
+// #include "serial/receiver_bank.h"  // for ReceiverBank
 
 // using namespace kss;
+// using namespace kss::audio;
 
 // // Use these with the Teensy Audio Shield
 // // This uses the audio shield's card reader
@@ -74,20 +76,13 @@
 
 // inline void CheckChannelIndex(const int line_no, const size_t channel) {
 //   if (channel >= kChannelCount) {
-//     debug::println((String) "ERROR (line " + line_no + "): channel " + channel +
-//                    " is out of bounds (max is " + (kChannelCount - 1) + ")");
+//     debug::println((String) "ERROR (on line " + line_no + "): channel " +
+//                    channel + " is out of bounds (max is " +
+//                    (kChannelCount - 1) + ")");
 //   }
 // }
 
 // #define CheckChannel(channel) CheckChannelIndex(__LINE__, channel)
-
-// serial::Receiver serialReceiver[]{
-//     serial::Receiver(&Serial1),
-//     // serial::Receiver(&Serial2), // TX2 & RX2 are used by audioshield
-//     // serial::Receiver(&Serial3), // AudioShield uses RX3 for volume control
-//     serial::Receiver(&Serial4),
-//     // serial::Receiver(&Serial5), // TX5 & RX5 are used by audioshield
-//     serial::Receiver(&Serial6), serial::Receiver(&Serial7)};
 
 // void StopChannel(const size_t channel) {
 //   CheckChannel(channel);
@@ -122,6 +117,15 @@
 //   return first_channel;
 // }
 
+// size_t GetChannel(const char channel_marker) {
+//   if (channel_marker == '?') {
+//     return GetIdleChannel();
+//   }
+
+//   return GetChannelIndex(channel_marker);
+// }
+
+// // This is left for debug convenience only, unused by production code
 // void PlayWav(const char* fileName) {
 //   const size_t channel = GetIdleChannel();
 //   StartChannel(channel, fileName);
@@ -153,38 +157,36 @@
 //   //   bgMixer.gain(3, mixerGain);
 
 //   PlayWav("FUEL50.WAV");
-//   delay(800);
+//   delay(1000);
 //   PlayWav("FUEL100.WAV");
 //   delay(1000);
 
 //   debug::println("starting the loop");
 // }
 
-// void channelChecker(char* message) {
-//   char channelChar = message[0];
-//   size_t channelNum = channelChar - '0';
-//   if (channelNum >= 0 && channelNum < kChannelCount) {
-//     const bool isStart = (message[1] == '1');
-//     if (isStart) {
-//       message++;
-//       message++;
-//       StartChannel(channelNum, message);
-//     } else {
-//       StopChannel(channelNum);
-//     }
+// void ProcessMessage(const char* message) {
+//   const char marker = message[0];
+//   const size_t index = GetChannel(marker);
+//   const char action = message[1];
+//   if (action == kStartChannelChar) {
+// 	const char* fileName = message + 2;
+//     StartChannel(index, fileName);
 //   } else {
-//     PlayWav(message);
+//     StopChannel(index);
 //   }
 // }
 
-// void loop() {
-//   for (size_t i = 0; i < 2; i++) {
-//     serialReceiver[i].recvWithStartEndMarkers();
-//     while (serialReceiver[i].hasMessages()) {
-//       char output[32];
-//       serialReceiver[i].getNextMessage(output);
-//       debug::println((String) "playing from serial[" + i + "]: " + output);
-//       channelChecker(output);
-//     }
-//   }
-// }
+// // Serials we listen on
+// const std::vector<HardwareSerial*> serials{
+//     &Serial1,  // OK
+//     //&Serial2,  // TX2 & RX2 are used by audioshield
+//     //&Serial3,  // AudioShield uses RX3 for volume control
+//     &Serial4,  // OK
+//     //&Serial5,  // TX5 & RX5 are used by audioshield
+//     &Serial6,  // OK
+//     &Serial7   // OK
+// };
+
+// serial::ReceiverBank receivers{ProcessMessage, serials};
+
+// void loop() { receivers.ReadAll(); }
