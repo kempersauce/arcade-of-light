@@ -1,6 +1,6 @@
+#include <Arduino.h>
 #include <SPI.h>
 
-#include <Arduino.h>
 #include <memory>  // for std::shared_ptr
 
 #include "audio/audio_sender.h"          // for AudioSender

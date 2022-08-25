@@ -1,4 +1,3 @@
-// #include <Arduino.h>
 // #include <Audio.h>
 // #include <SD.h>
 // #include <SPI.h>
@@ -19,8 +18,6 @@
 
 // const size_t kChannelCount = 5;
 // AudioPlaySdWav playSdWav[kChannelCount];
-
-// AudioOutputI2S audioOutput;
 
 // AudioMixer4 mixer1;
 // AudioMixer4 mixer2;
@@ -86,9 +83,11 @@
 
 // serial::Receiver serialReceiver[]{
 //     serial::Receiver(&Serial1),
-//     serial::Receiver(&Serial2),
-//     serial::Receiver(&Serial3),
-//     serial::Receiver(&Serial4), serial::Receiver(&Serial5)};
+//     // serial::Receiver(&Serial2), // TX2 & RX2 are used by audioshield
+//     // serial::Receiver(&Serial3), // AudioShield uses RX3 for volume control
+//     serial::Receiver(&Serial4),
+//     // serial::Receiver(&Serial5), // TX5 & RX5 are used by audioshield
+//     serial::Receiver(&Serial6), serial::Receiver(&Serial7)};
 
 // void StopChannel(const size_t channel) {
 //   CheckChannel(channel);
@@ -134,31 +133,29 @@
 //   Serial.begin(115200);
 //   audio::InitAudio();
 
-//   mixMaster.gain(0, 0.5);
-//   mixMaster.gain(1, 0.5);
-//   mixer1.gain(0, mixerGain);
-//   mixer1.gain(1, mixerGain);
-//   mixer1.gain(2, mixerGain);
-//   mixer1.gain(3, mixerGain);
-//   mixer2.gain(0, mixerGain);
-//   mixer2.gain(1, mixerGain);
-//   mixer2.gain(2, mixerGain);
-//   mixer2.gain(3, mixerGain);
-//   effectMixer.gain(0, mixerGain);
-//   effectMixer.gain(1, mixerGain);
-//   effectMixer.gain(2, mixerGain);
-//   effectMixer.gain(3, mixerGain);
-//   bgMixer.gain(0, mixerGain);
-//   bgMixer.gain(1, mixerGain);
-//   bgMixer.gain(2, mixerGain);
-//   bgMixer.gain(3, mixerGain);
+//   //   mixMaster.gain(0, 0.5);
+//   //   mixMaster.gain(1, 0.5);
+//   //   mixer1.gain(0, mixerGain);
+//   //   mixer1.gain(1, mixerGain);
+//   //   mixer1.gain(2, mixerGain);
+//   //   mixer1.gain(3, mixerGain);
+//   //   mixer2.gain(0, mixerGain);
+//   //   mixer2.gain(1, mixerGain);
+//   //   mixer2.gain(2, mixerGain);
+//   //   mixer2.gain(3, mixerGain);
+//   //   effectMixer.gain(0, mixerGain);
+//   //   effectMixer.gain(1, mixerGain);
+//   //   effectMixer.gain(2, mixerGain);
+//   //   effectMixer.gain(3, mixerGain);
+//   //   bgMixer.gain(0, mixerGain);
+//   //   bgMixer.gain(1, mixerGain);
+//   //   bgMixer.gain(2, mixerGain);
+//   //   bgMixer.gain(3, mixerGain);
 
-//   PlayWav("SDTEST2.WAV");
-// //   delay(50);
-// //   PlayWav("FUEL50.WAV");
-// //   delay(50);
-// //   PlayWav("BRIAN.WAV");
-//   // delay(5000);
+//   PlayWav("FUEL50.WAV");
+//   delay(800);
+//   PlayWav("FUEL100.WAV");
+//   delay(1000);
 
 //   debug::println("starting the loop");
 // }

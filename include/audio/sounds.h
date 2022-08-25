@@ -3,8 +3,6 @@
 #include <Audio.h>
 #include <SD.h>
 #include <SPI.h>
-#include <SerialFlash.h>
-#include <Wire.h>
 
 #include "serial/debug.h"  // for debug::*
 
@@ -22,9 +20,14 @@ AudioControlSGTL5000 sgtl5000_1;
 AudioOutputI2S audioOutput;
 
 void InitAudio() {
+
+  // Audio connections require memory to work.  For more
+  // detailed information, see the MemoryAndCpuUsage example
   AudioMemory(16);
+  
   sgtl5000_1.enable();
-  sgtl5000_1.volume(.5);
+  sgtl5000_1.volume(.666);
+
   SPI.setMOSI(SDCARD_MOSI_PIN);
   SPI.setSCK(SDCARD_SCK_PIN);
   while (!SD.begin(SDCARD_CS_PIN)) {
