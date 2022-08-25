@@ -1,7 +1,11 @@
 #pragma once
 
-#include <queue>
+#include <HardwareSerial.h>  // for HardwareSerial
+
 #include <string>
+
+#include "serial/constants.h"  // for serial::k*
+#include "serial/debug.h"      // for debug::*
 
 namespace kss {
 namespace serial {
@@ -9,24 +13,26 @@ namespace serial {
 class Transmitter {
  public:
   HardwareSerial* serial;
-  const static byte numChars = 32;
 
-  Transmitter(HardwareSerial* serial) : serial{serial} { serial->begin(115200); }
+  Transmitter(HardwareSerial* serial) : serial{serial} {
+    serial->begin(115200);
+  }
 
-  void sendMessage(String msg) {
-    int msgLength = msg.length();
-    {
-      if (msgLength > numChars) {
-        return;
-      } else {
-        String finalMsg = "<" + msg + ">";
-        serial->print(finalMsg);
-      }
+  inline const void Send(const char* msg) { Send((String)msg); }
+
+  const void Send(String msg) {
+    const String finalMsg =
+        (String)kMessageStartMarker + msg + kMessageEndMarker;
+    if (finalMsg.length() >= kMessageBufferSize) {
+      debug::println(
+          (String) "Transmission Error: message longer than buffer size (" +
+          kMessageBufferSize + "): \"" + finalMsg + "\"");
+    } else {
+      serial->println(finalMsg);
+      debug::println((String) "Transmitting: \"" + finalMsg + "\"");
     }
   }
 };
-
-Transmitter Transmitter5(&Serial5);
 
 }  // namespace serial
 }  // namespace kss
