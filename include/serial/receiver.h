@@ -4,53 +4,40 @@
 
 #include <queue>
 
+#include "serial/constants.h"  // for serial::k*
+
 namespace kss {
 namespace serial {
 
 class Receiver {
-  std::queue<char *> outputQueue;
+  std::queue<char*> outputQueue;
+
+  char* inputBuffer;
+  size_t ndx{0};
+  bool recvInProgress{false};
+
+  HardwareSerial* serial;
 
  public:
-  const static byte numChars = 32;
+  Receiver(HardwareSerial* serial) : serial{serial} {
+    inputBuffer = (char*)malloc(kMessageBufferSize);
 
-  // char receivedChars[numChars];
-  char *inputBuffer;
-
-  HardwareSerial *serial;
-
-  int led;
-  int mostRecentUnreadMessage;
-  int newestMessage;
-
-  Receiver(HardwareSerial *serial) : serial{serial} {
-    inputBuffer = (char *)malloc(numChars);
-
-    serial->begin(9600);
-
-    led = 13;  // TODO get rid of test output led code
-    pinMode(led, OUTPUT);
-    Serial.print("making a serial");
+    serial->begin(115200);
   }
 
- public:
-  bool recvWithStartEndMarkers() {
-    static boolean recvInProgress = false;
-    static byte ndx = 0;
-    char startMarker = '<';
-    char endMarker = '>';
-    char rc;
-
+  // TODO re-visit this: we allocate an oversized buffer
+  // since some of the total message size includes start/stop chars
+  // which are never included in the receiver buffer
+  bool ReceiveMessages() {
     while (serial->available() > 0) {
-      rc = serial->read();
-      // Serial.println(rc);//<--prints raw input stream to serial interface,
-      // use for bugtesting
+      const char rc = serial->read();
 
-      if (recvInProgress == true) {
-        if (rc != endMarker) {
+      if (recvInProgress) {
+        if (rc != kMessageEndMarker) {
           inputBuffer[ndx] = rc;
           ndx++;
-          if (ndx >= numChars) {
-            ndx = numChars - 1;
+          if (ndx >= kMessageBufferSize) {
+            ndx = kMessageBufferSize - 1;
           }
         } else {
           inputBuffer[ndx] = '\0';  // terminate the string
@@ -58,33 +45,31 @@ class Receiver {
           ndx = 0;
 
           outputQueue.push(inputBuffer);
-          inputBuffer = (char *)malloc(numChars);
+          inputBuffer = (char*)malloc(kMessageBufferSize);
         }
       }
 
-      else if (rc == startMarker) {
+      else if (rc == kMessageStartMarker) {
         recvInProgress = true;
       }
     }
 
-    return hasMessages();
+    return HasMessages();
   }
 
-  bool hasMessages() { return !outputQueue.empty(); }
+  bool HasMessages() { return !outputQueue.empty(); }
 
-  bool getNextMessage(char *readLocation) {
-    bool readMessage = false;
-
+  bool GetNextMessage(char* dest_buffer) {
     if (!outputQueue.empty()) {
-      readMessage = true;
-      char *messageLocation = outputQueue.front();
+      char* message = outputQueue.front();
       outputQueue.pop();
 
-      strcpy(readLocation, messageLocation);
-      free(messageLocation);
+      strcpy(dest_buffer, message);
+      free(message);
+      return true;
     }
 
-    return readMessage;
+    return false;
   }
 };
 

@@ -1,12 +1,15 @@
 #pragma once
 
+// This enables/disables building debug-type stuff into the project
+#define DEBUG 1337
+
 #ifdef DEBUG
 #include <HardwareSerial.h>  // for HardwareSerial
 #endif
 
 // Start serial if we're in debug mode (idk this doesnt work for some reason)
 // #ifdef DEBUG
-// Serial.begin(9600);
+// Serial.begin(115200);
 // #endif
 
 namespace debug {

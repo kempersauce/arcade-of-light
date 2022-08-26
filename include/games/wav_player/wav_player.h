@@ -50,21 +50,21 @@ class WavPlayer : public Game {
             std::shared_ptr<controls::Button> dBut,
             std::shared_ptr<controls::Button> eBut,
             std::shared_ptr<controls::Button> fBut)
-      : ABut{std::move(aBut)},
+      : Game{NULL},
+        ABut{std::move(aBut)},
         BBut{std::move(bBut)},
         CBut{std::move(cBut)},
         DBut{std::move(dBut)},
         EBut{std::move(eBut)},
         FBut{std::move(fBut)} {}
 
-  void setup() {
-    Serial.begin(9600);
+  virtual void setup() override {
+    Serial.begin(115200);
     audio::initAudio();
     delay(1000);
   }
 
-  void loop() {
-    // if (playSdWav1.isPlaying() == false) {
+  virtual void loop() override {
     if (ABut->IsPressed()) {
       playSdWav2.play("Guycey1.wav");
       Serial.println("Button A Pressed");
@@ -100,7 +100,6 @@ class WavPlayer : public Game {
       Serial.println("Button F Pressed");
       delay(500);
     }
-    //  }
   }
 };
 

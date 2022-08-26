@@ -1,44 +1,38 @@
-// This enables/disables building debug-type stuff into the project
-#define DEBUG 1337
-
 // hopefully this makes sound work
 // #define FASTLED_ALLOW_INTERRUPTS 0
 
-#include "animation/noise.h"           // for NoiseAnimation
-#include "display/display.h"           // for Display
-#include "display/five.h"              // for FiveDisplay
-#include "display/h2h.h"               // for H2HDisplay
-#include "display/octo_display.h"      // for OctoDisplay
-#include "display/rocket.h"            // for RocketDisplay
-#include "display/standard_display.h"  // for StandardDisplay
-#include "display/twenty.h"            // for TwentyDisplay
-#include "display/twenty_standard.h"   // for TwentyDisplayStandard
-#include "engines/framerate.h"         // for FrameRate
-// #include "games/head2head/head2head.h"  // for Head2Head
-// #include "games/rocket/rocket_game.h"   // for RocketGame
-// #include "games/wav_player/wav_player.h"  // for WavPlayer
-// #include "games/life/life.h"    // for LifeGame
-// #include "test/single_color.h"  // for SingleColorTest
-// #include "audio/sounds.h"  // for Sounds
-// #include "test/firework.h"  // for FireworkTest
-// #include "games/life/glider_wars.h"  // for GliderWars
-// #include "games/marquee/marquee.h"           // for MarqueeGame
-// #include "games/noise/noise.h"  // for NoiseGame
-#include "games/rainbow/rainbow.h"         // for RainbowGame
-#include "games/rainbow/rainbow_static.h"  // for RainbowStatic
-// #include "games/snake/snake_game.h"  // for SnakeGame
-// #include "test/animation.h"            // for AnimationTest
-// #include "test/dir_pad.h"            // for DirPadTest
-// #include "test/five_strip.h"         // for FiveStripTest
-// #include "test/serial.h"             // for SerialTest
-// #include "test/single_color.h"             // for SingleColorTest
-#include "test/single_animation.h"  // for SingleAnimation
-// #include "games/shooter/shooter_game.h"  // for ShooterGame
-// #include "games/falling/falling.h"                  // for FallingGame
-// #include "games/lane_runner/lane_runner.h"  // for LaneRunner
-// #include "games/life/single_player.h"  // for LifeGameSinglePlayer
-// #include "test/animation.h"                 // for AnimationTest
-#include "serial/debug.h"  // for serial debugging
+#include "animation/noise.h"                // for NoiseAnimation
+// #include "audio/sounds.h"                   // for Sounds
+#include "display/display.h"                // for Display
+#include "display/five.h"                   // for FiveDisplay
+#include "display/h2h.h"                    // for H2HDisplay
+#include "display/octo_display.h"           // for OctoDisplay
+#include "display/rocket.h"                 // for RocketDisplay
+#include "display/standard_display.h"       // for StandardDisplay
+#include "display/twenty.h"                 // for TwentyDisplay
+#include "display/twenty_standard.h"        // for TwentyDisplayStandard
+#include "engines/framerate.h"              // for FrameRate
+#include "games/falling/falling.h"          // for FallingGame
+#include "games/head2head/head2head.h"      // for Head2Head
+#include "games/lane_runner/lane_runner.h"  // for LaneRunner
+#include "games/life/glider_wars.h"         // for GliderWars
+#include "games/life/life.h"                // for LifeGame
+#include "games/life/single_player.h"       // for LifeGameSinglePlayer
+#include "games/marquee/marquee.h"          // for MarqueeGame
+#include "games/noise/noise.h"              // for NoiseGame
+#include "games/rainbow/rainbow.h"          // for RainbowGame
+#include "games/rainbow/rainbow_static.h"   // for RainbowStatic
+#include "games/rocket/rocket_game.h"       // for RocketGame
+#include "games/shooter/shooter_game.h"     // for ShooterGame
+#include "games/snake/snake_game.h"         // for SnakeGame
+// #include "games/wav_player/wav_player.h"    // for WavPlayer
+#include "serial/debug.h"                   // for serial debugging
+#include "test/animation.h"                 // for AnimationTest
+#include "test/dir_pad.h"                   // for DirPadTest
+#include "test/five_strip.h"                // for FiveStripTest
+#include "test/serial.h"                    // for SerialTest
+#include "test/single_animation.h"          // for SingleAnimation
+#include "test/single_color.h"              // for SingleColorTest
 
 using namespace kss;
 
@@ -53,7 +47,7 @@ void setup() {
   // init audio stuff
   // audio::initAudio();
 
-  Serial.begin(9600);
+  Serial.begin(115200);
   debug::println("Begin setup()");
 
   // Choose your Display type
@@ -96,9 +90,6 @@ void setup() {
 
   debug::println("End setup()");
 
-  // TODO what is this? can we remove it?
-  // pinMode(9, OUTPUT);
-
   // TODO should we show LEDs on setup?
   gameDisplay->Show();
 }
@@ -109,7 +100,6 @@ void loop() {
   game->loop();
 
   //   debug::println("loop() Show Display");
-  // delay(50);
   gameDisplay->Show();
 
   //   debug::println("loops brother");
