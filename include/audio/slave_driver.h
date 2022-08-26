@@ -107,9 +107,9 @@ class SlaveDriver {
   }
 
   void UpdateAll() {
-	for(auto& channel : channels) {
-		channel.Update();
-	}
+    for (auto& channel : channels) {
+      channel.Update();
+    }
   }
 };
 

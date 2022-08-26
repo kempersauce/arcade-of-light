@@ -19,11 +19,10 @@ namespace audio {
 AudioControlSGTL5000 sgtl5000_1;
 
 void InitAudio() {
-
   // Audio connections require memory to work.  For more
   // detailed information, see the MemoryAndCpuUsage example
   AudioMemory(16);
-  
+
   sgtl5000_1.enable();
   sgtl5000_1.volume(.666);
 

@@ -50,7 +50,8 @@ class WavPlayer : public Game {
             std::shared_ptr<controls::Button> dBut,
             std::shared_ptr<controls::Button> eBut,
             std::shared_ptr<controls::Button> fBut)
-      : Game{NULL}, ABut{std::move(aBut)},
+      : Game{NULL},
+        ABut{std::move(aBut)},
         BBut{std::move(bBut)},
         CBut{std::move(cBut)},
         DBut{std::move(dBut)},

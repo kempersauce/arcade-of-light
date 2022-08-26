@@ -25,7 +25,7 @@ class AudioSender {
   // prepare message for audioslave to play audio file
   const void PlayWav(const char* fileName, const int channel = -1) {
     char msg[15];
-	InitMessage(msg, channel, kChannelActionPlay);
+    InitMessage(msg, channel, kChannelActionPlay);
     strcat(msg, fileName);
     transmitter.Send(msg);
   }
@@ -33,7 +33,7 @@ class AudioSender {
   // prepare message for audioslave to repeat an audio file
   const void RepeatWav(const char* fileName, const size_t channel) {
     char msg[15];
-	InitMessage(msg, channel, kChannelActionRepeat);
+    InitMessage(msg, channel, kChannelActionRepeat);
     strcat(msg, fileName);
     transmitter.Send(msg);
   }
@@ -41,7 +41,7 @@ class AudioSender {
   // prepare message for audioslave to stop audio file
   const void StopChannel(const size_t channel) {
     char msg[3];
-	InitMessage(msg, channel, kChannelActionStop);
+    InitMessage(msg, channel, kChannelActionStop);
     transmitter.Send(msg);
   }
 };
