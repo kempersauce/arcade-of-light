@@ -29,9 +29,9 @@ class SerialTest : public games::Game {
   void loop() {
     background.draw(display);
 
-    if (ks.recvWithStartEndMarkers()) {
+    if (ks.ReceiveMessages()) {
       char output[32];
-      ks.getNextMessage(output);
+      ks.GetNextMessage(output);
 
       Serial.print("\noutput:");
       Serial.print(output);
