@@ -22,8 +22,13 @@ class SoundEffectBespoke : public SoundEffect {
                      const char* filename)
       : SoundEffect{sender, filename}, channel{channel} {}
 
-  virtual const void Play() override {
+  virtual void Play() override {
     sender->PlayWav(filename, channel);
+    is_playing = true;
+  }
+
+  virtual void Repeat() {
+    sender->RepeatWav(filename, channel);
     is_playing = true;
   }
 

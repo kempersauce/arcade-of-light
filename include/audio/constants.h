@@ -3,8 +3,11 @@
 namespace kss {
 namespace audio {
 
-constexpr char kStartChannelChar{'1'};
-constexpr char kStopChannelChar{'0'};
+constexpr size_t kChannelCount{5};
+
+constexpr char kChannelActionPlay{'1'};
+constexpr char kChannelActionStop{'0'};
+constexpr char kChannelActionRepeat{'2'};
 
 constexpr char kChannelMarkerBG{'0'};
 constexpr char kChannelMarker1{'1'};

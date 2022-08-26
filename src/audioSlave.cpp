@@ -7,135 +7,60 @@
 // #include <string>
 // #include <vector>
 
-// #include "audio/constants.h"       // for k*
-// #include "audio/sounds.h"          // for InitAudio
+// #include "audio/slave_driver.h"    // for SlaveDriver
 // #include "serial/debug.h"          // for debug::*
 // #include "serial/receiver_bank.h"  // for ReceiverBank
 
 // using namespace kss;
 // using namespace kss::audio;
 
-// // Use these with the Teensy Audio Shield
-// // This uses the audio shield's card reader
+// SlaveDriver slaveDriver;
 
-// const size_t kChannelCount = 5;
-// AudioPlaySdWav playSdWav[kChannelCount];
+// void ProcessMessage(const char* message) {
+//   const char marker = message[0];
+//   const char action = message[1];
+//   const char* fileName = message + 2;
+//   auto& channel = slaveDriver.GetChannel(marker);
+//   switch (action) {
+//     case kChannelActionPlay:
+//       channel.Play(fileName);
+//       break;
 
-// AudioMixer4 mixer1;
-// AudioMixer4 mixer2;
-// AudioMixer4 bgMixer;
-// AudioMixer4 effectMixer;
-// AudioMixer4 mixMaster;
+//     case kChannelActionRepeat:
+//       channel.Repeat(fileName);
+//       break;
 
-// // Sound effect channels to mixers
+//     case kChannelActionStop:
+//       channel.Stop();
+//       break;
 
-// AudioConnection patchCordBGa(playSdWav[0], 0, bgMixer, 0);
-// AudioConnection patchCordBGb(playSdWav[0], 1, bgMixer, 1);
-
-// AudioConnection patchCord1a(playSdWav[1], 0, mixer1, 0);
-// AudioConnection patchCord1b(playSdWav[1], 1, mixer1, 1);
-// AudioConnection patchCord2a(playSdWav[2], 0, mixer1, 2);
-// AudioConnection patchCord2b(playSdWav[2], 1, mixer1, 3);
-
-// AudioConnection patchCord3a(playSdWav[3], 0, mixer2, 0);
-// AudioConnection patchCord3b(playSdWav[3], 1, mixer2, 1);
-// AudioConnection patchCord4a(playSdWav[4], 0, mixer2, 2);
-// AudioConnection patchCord4b(playSdWav[4], 1, mixer2, 3);
-
-// // Sound effects to single mixer
-// AudioConnection patchCordEffects1a(mixer1, 0, effectMixer, 0);
-// AudioConnection patchCordEffects1b(mixer1, 1, effectMixer, 1);
-// AudioConnection patchCordEffects2a(mixer2, 0, effectMixer, 2);
-// AudioConnection patchCordEffects2b(mixer2, 1, effectMixer, 3);
-
-// // Effects and Background to Master Mixer
-// AudioConnection patchCordToMaster1a(effectMixer, 0, mixMaster, 0);
-// AudioConnection patchCordToMaster1b(effectMixer, 1, mixMaster, 1);
-// AudioConnection patchCordToMaster2a(bgMixer, 0, mixMaster, 2);
-// AudioConnection patchCordToMaster2b(bgMixer, 1, mixMaster, 3);
-
-// // Master Mixer out
-// AudioConnection patchCordOut1a(mixMaster, 0, audio::audioOutput, 0);
-// AudioConnection patchCordOut1b(mixMaster, 1, audio::audioOutput, 1);
-
-// float mixerGain = 0.7;
-
-// inline String ChannelLabel(const size_t channel) {
-//   if (channel == 0) {
-//     return (String) "CHANNEL " + channel + " (BACKGROUND)";
-//   } else {
-//     return (String) "CHANNEL " + channel;
+//     default:
+//       debug::println((String)"Error: Unrecognized channel action \"" + action +
+//                      "\" (message: \"" + message + "\")");
+//       break;
 //   }
 // }
 
-// inline void PrintFileInfo(const size_t channel, const char* fileName) {
-//   debug::println(ChannelLabel(channel));
-//   debug::println((String) "FILE:    " + fileName);
-//   debug::println("========================================");
-// }
+// // Serials we listen on
+// const std::vector<HardwareSerial*> serials{
+//     &Serial1,  // OK
+//     //&Serial2,  // TX2 & RX2 are used by audioshield
+//     //&Serial3,  // AudioShield uses RX3 for volume control
+//     &Serial4,  // OK
+//     //&Serial5,  // TX5 & RX5 are used by audioshield
+//     &Serial6,  // OK
+//     &Serial7   // OK
+// };
 
-// inline void CheckChannelIndex(const int line_no, const size_t channel) {
-//   if (channel >= kChannelCount) {
-//     debug::println((String) "ERROR (on line " + line_no + "): channel " +
-//                    channel + " is out of bounds (max is " +
-//                    (kChannelCount - 1) + ")");
-//   }
-// }
-
-// #define CheckChannel(channel) CheckChannelIndex(__LINE__, channel)
-
-// void StopChannel(const size_t channel) {
-//   CheckChannel(channel);
-//   playSdWav[channel].stop();
-
-//   debug::println(ChannelLabel(channel) + ": STOPPED");
-//   debug::println("========================================");
-// }
-
-// void StartChannel(const size_t channel, const char* fileName) {
-//   CheckChannel(channel);
-//   if (playSdWav[channel].isPlaying()) {
-//     debug::println((String) "Channel " + channel +
-//                    " is already playing, but is requested to play " + fileName);
-//   }
-//   playSdWav[channel].play(fileName);
-//   PrintFileInfo(channel, fileName);
-// }
-
-// size_t GetIdleChannel() {
-//   const static size_t first_channel = 3;
-
-//   // Find first available channel, starting with first_channel
-//   for (size_t channel = first_channel; channel < kChannelCount; ++channel) {
-//     if (!playSdWav[channel].isPlaying()) {
-//       return channel;
-//     }
-//   }
-
-//   // Default to first_channel if they're all already playing something
-//   debug::println("OVERWRITE==OVERWRITE==OVERWRITE (all channels playing)");
-//   return first_channel;
-// }
-
-// size_t GetChannel(const char channel_marker) {
-//   if (channel_marker == '?') {
-//     return GetIdleChannel();
-//   }
-
-//   return GetChannelIndex(channel_marker);
-// }
-
-// // This is left for debug convenience only, unused by production code
-// void PlayWav(const char* fileName) {
-//   const size_t channel = GetIdleChannel();
-//   StartChannel(channel, fileName);
-// }
+// serial::ReceiverBank receivers{ProcessMessage, serials};
 
 // //=============================================================================//
 // // SETUP AND LOOP
 // void setup() {
 //   Serial.begin(115200);
-//   audio::InitAudio();
+
+//   // Fire up the boombox
+//   InitAudio();
 
 //   //   mixMaster.gain(0, 0.5);
 //   //   mixMaster.gain(1, 0.5);
@@ -156,37 +81,17 @@
 //   //   bgMixer.gain(2, mixerGain);
 //   //   bgMixer.gain(3, mixerGain);
 
-//   PlayWav("FUEL50.WAV");
-//   delay(1000);
-//   PlayWav("FUEL100.WAV");
-//   delay(1000);
+//   auto& channel = slaveDriver.PlayWav("FUEL50.WAV");
+//   while (channel.IsPlaying()) {
+//     delay(1);
+//   }
+
+//   channel.Play("FUEL100.WAV");
 
 //   debug::println("starting the loop");
 // }
 
-// void ProcessMessage(const char* message) {
-//   const char marker = message[0];
-//   const size_t index = GetChannel(marker);
-//   const char action = message[1];
-//   if (action == kStartChannelChar) {
-// 	const char* fileName = message + 2;
-//     StartChannel(index, fileName);
-//   } else {
-//     StopChannel(index);
-//   }
+// void loop() {
+//   slaveDriver.UpdateAll();
+//   receivers.ReadAll();
 // }
-
-// // Serials we listen on
-// const std::vector<HardwareSerial*> serials{
-//     &Serial1,  // OK
-//     //&Serial2,  // TX2 & RX2 are used by audioshield
-//     //&Serial3,  // AudioShield uses RX3 for volume control
-//     &Serial4,  // OK
-//     //&Serial5,  // TX5 & RX5 are used by audioshield
-//     &Serial6,  // OK
-//     &Serial7   // OK
-// };
-
-// serial::ReceiverBank receivers{ProcessMessage, serials};
-
-// void loop() { receivers.ReadAll(); }

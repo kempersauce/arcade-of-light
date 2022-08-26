@@ -16,7 +16,7 @@ class SoundEffect {
   SoundEffect(std::shared_ptr<AudioSender> sender, const char* filename)
       : sender{sender}, filename{filename} {}
 
-  virtual const void Play() { sender->PlayWav(filename); }
+  virtual void Play() { sender->PlayWav(filename); }
 };
 
 }  // namespace audio

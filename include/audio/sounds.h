@@ -17,7 +17,6 @@ namespace audio {
 
 // Sounds
 AudioControlSGTL5000 sgtl5000_1;
-AudioOutputI2S audioOutput;
 
 void InitAudio() {
 
