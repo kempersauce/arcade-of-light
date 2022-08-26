@@ -63,7 +63,7 @@ class Display {
   }
 
  protected:
-  inline const bool CheckLocation(size_t strip, size_t pixel) {
+  inline const bool CheckLocation(const size_t strip, const size_t pixel) {
     const bool oob = IsInBounds(strip, pixel);
 #ifdef DEBUG
     if (oob) {
