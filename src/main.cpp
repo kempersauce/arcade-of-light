@@ -5,6 +5,7 @@
 // #include "audio/sounds.h"                   // for Sounds
 #include "display/display.h"                // for Display
 #include "display/five.h"                   // for FiveDisplay
+#include "display/four_panel.h"             // for FourPanelDisplay
 #include "display/h2h.h"                    // for H2HDisplay
 #include "display/octo_display.h"           // for OctoDisplay
 #include "display/rocket.h"                 // for RocketDisplay
@@ -52,9 +53,10 @@ void setup() {
 
   // Choose your Display type
   // gameDisplay = (display::Display*)new display::FiveDisplay();
+  gameDisplay = (display::Display*)new display::FourPanelDisplay();
   // gameDisplay = (display::Display*)new display::H2HDisplay();
   // gameDisplay = (display::Display*)new display::RocketDisplay();
-  gameDisplay = (display::Display*)new display::TwentyDisplay();
+  // gameDisplay = (display::Display*)new display::TwentyDisplay();
   // gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
 
   debug::println("gameDisplay created");
