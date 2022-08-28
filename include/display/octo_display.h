@@ -16,7 +16,7 @@ namespace kss {
 namespace display {
 
 template <size_t kNumStrips, size_t kLengthStrips>
-class OctoDisplay : Display {
+class OctoDisplay : public Display {
   static constexpr int total_pixel_count{kNumStrips * kLengthStrips};
 
   // These buffers need to be large enough for all the pixels.

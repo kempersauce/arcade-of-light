@@ -7,7 +7,7 @@
 namespace kss {
 namespace display {
 
-namespace twenty {
+namespace _twenty {
 
 constexpr size_t kNumStrips = 10;
 constexpr size_t kLengthStrips = 428;
@@ -41,12 +41,14 @@ constexpr uint8_t kPinList[kNumStrips]{
 
 DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 
-}  // namespace twenty
+}  // namespace _twenty
+using namespace _twenty;
 
 class TwentyDisplay
-    : public OctoDisplay<twenty::kNumStrips, twenty::kLengthStrips> {
+    : public OctoDisplay<kNumStrips, kLengthStrips> {
  public:
-  TwentyDisplay() : OctoDisplay(twenty::kPinList, twenty::kDisplayMemory) {}
+  TwentyDisplay() : OctoDisplay(kPinList, kDisplayMemory) {}
+
 };
 
 }  // namespace display
