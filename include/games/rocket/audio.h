@@ -56,11 +56,11 @@ class RocketAudio : public audio::Manager {
   void playLevelWin() { levelWin.Play(); }
 
   void killChannels() {
-	boost.Stop();
-	targetHover.Stop();
-	levelWin.Stop();
-	sender->StopChannel(3);
-	sender->StopChannel(4);
+    boost.Stop();
+    targetHover.Stop();
+    levelWin.Stop();
+    sender->StopChannel(3);
+    sender->StopChannel(4);
   }
 
   void playLevelIntro(const size_t level) {
