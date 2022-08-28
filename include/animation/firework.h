@@ -2,61 +2,69 @@
 
 #include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion
+#include "audio/sound_effect.h"   // for SoundEffect
 #include "display/display.h"      // for Display
 #include "engines/random.h"       // for random::*
-#include "games/rocket/audio.h"   // for RocketAudio
 
 namespace kss {
-namespace games {
-namespace rocket {
+namespace animation {
 
 // TODO move this to animations, this is a generic animation
-class Firework : public animation::Animation {
+class Firework : public Animation {
+  audio::SoundEffect* launch_sound;
+
   // Used to randomly select the strip and explosion height when resetting the
   // firework
-  int stripsHeight;
-  int stripsWidth;
+  const size_t strip_length;
+  const size_t strip_count;
 
  public:
   // Physics for the fireworks "rocket"
   engines::PhysicsInfo physics;
 
   // Fireworks explosion
-  animation::Explosion explosion;
+  Explosion explosion;
 
   // color for the firework rocket
-  int Hue;
+  uint8_t hue;
 
   bool isPlaying;
 
   /**
    * Firework Constructor
-   * @param stripLength - location on LED strip
+   * @param strip_length - location on LED strip
    * */
-  Firework(int stripLength, int strip_count)
-      : Animation(), physics(), explosion(50) {
-    stripsHeight = stripLength;
-    stripsWidth = strip_count;
-
+  Firework(int strip_length, int strip_count, audio::SoundEffect* launch_sound,
+           audio::SoundEffect* explode_sound)
+      : Animation(),
+        launch_sound{launch_sound},
+        explosion(50, explode_sound),
+        strip_length{strip_length},
+        strip_count{strip_count} {
     Reset();
-    isPlaying = false;
   }
 
   void Reset() {
-    isPlaying = true;
+    isPlaying = false;
     physics.Reset();
     physics.LocationMax = engines::random::Int16(
-        stripsHeight / 3, stripsHeight - 20);  // height the firework explodes
+        strip_length / 3, strip_length - 20);  // height the firework explodes
     physics.Velocity =
         engines::random::Int8(35, 75);  // how fast do we get there
 
     physics.xLocation = engines::random::Int8(
-        stripsWidth);  // select which strip this should be on
+        strip_count);  // select which strip this should be on
 
-    Hue = engines::random::Int8();
+    hue = engines::random::Int8();
   }
 
-  void Move(RocketAudio& audio) {
+  void Move() {
+    if (!isPlaying) {
+      if (launch_sound != NULL) {
+        launch_sound->Play();
+      }
+      isPlaying = true;
+    }
     bool wasExploded = physics.HasExploded;  // edge was set with LocationMax to
                                              // denote the explode height
 
@@ -65,7 +73,6 @@ class Firework : public animation::Animation {
     // Explode when we get to the designated height
     if (physics.HasExploded) {
       if (wasExploded == false) {
-        audio.playFireWorkExplode();
         explosion.Hue = engines::random::Int8();
         explosion.ExplodeAt(physics.xLocation, physics.Location);
       }
@@ -84,13 +91,12 @@ class Firework : public animation::Animation {
     } else {
       int Saturation = min(255 * (physics.Location / physics.LocationMax), 255);
       CRGB color;
-      color.setHSV(Hue, Saturation, 255);
+      color.setHSV(hue, Saturation, 255);
       display->DitherPixel((int)physics.xLocation, (int)physics.Location,
                            &color);
     }
   }
 };
 
-}  // namespace rocket
-}  // namespace games
+}  // namespace animation
 }  // namespace kss

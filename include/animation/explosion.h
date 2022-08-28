@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "animation/animation.h"   // for Animation
+#include "audio/sound_effect.h"    // for SoundEffect
 #include "display/display.h"       // for Display
 #include "engines/physics_info.h"  // for PhysicsInfo
 #include "engines/random.h"        // for random::*
@@ -11,6 +12,8 @@ namespace kss {
 namespace animation {
 
 class Explosion : Animation {
+  audio::SoundEffect* explode_sound;
+
  public:
   uint32_t birthTimeMillis;
 
@@ -24,7 +27,8 @@ class Explosion : Animation {
   uint32_t saturationPhaseMillis = 1000;
   uint32_t brightnessPhaseMillis = 1500;
 
-  Explosion(size_t shrapnelCount = 50) : Animation(), shrapnel{shrapnelCount} {
+  Explosion(size_t shrapnelCount, audio::SoundEffect* explode_sound = NULL)
+      : Animation(), explode_sound{explode_sound}, shrapnel{shrapnelCount} {
     birthTimeMillis = 0;  // not born yet
     Hue = engines::random::Int8();
     SetFriction(20, 5);
@@ -45,6 +49,11 @@ class Explosion : Animation {
 
   void ExplodeAt(int stripIndex, int location) {
     birthTimeMillis = millis();
+
+    // Play the sound effect
+    if (explode_sound != NULL) {
+      explode_sound->Play();
+    }
 
     for (size_t i = 0; i < shrapnel.size(); i++) {
       shrapnel[i].Reset();

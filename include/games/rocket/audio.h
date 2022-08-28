@@ -51,28 +51,22 @@ class RocketAudio : public audio::Manager {
   audio::SoundEffect fireworkExplode{sender, "EXPLODE1.WAV"};
 
   // SINGLE EFFECT METHODS
-  void playExplosion() { explosion.Play(); }
   void playWin() { win.Play(); }
   void playTargetWin() { targetWin.Play(); }
   void playLevelWin() { levelWin.Play(); }
-  void playFireWorkLaunch() { fireworkLaunch.Play(); }
-  void playFireWorkExplode() { fireworkExplode.Play(); }
 
   void killChannels() {
-    sender->StopChannel(2);
-    delay(5);  // TODO can we get rid of these delays?
-    sender->StopChannel(1);
-    delay(5);
-    // serial.println("<aa>"); // TODO what does this do exactly?
-    // delay(5);
-    // serial.println("<aa>");
-    // delay(5);
+	boost.Stop();
+	targetHover.Stop();
+	levelWin.Stop();
+	sender->StopChannel(3);
+	sender->StopChannel(4);
   }
 
   void playLevelIntro(const size_t level) {
     killChannels();
     level_sounds[level].intro.Play();
-    level_sounds[level].background.Play();
+    level_sounds[level].background.Repeat();
   }
 
   // START/STOP METHODS

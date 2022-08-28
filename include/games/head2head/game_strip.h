@@ -79,8 +79,8 @@ class H2HGameStrip : public animation::Animation {
                engines::NoiseGenerator* noise)
       : Animation(),
         dot(CRGB::White, stripIndex),
-        explosion(50),
-        dropExplosion(8),
+        explosion{50},
+        dropExplosion{8},
         zoneA(CRGB::Green, stripIndex, 0, 22, false),
         zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1,
               true),

@@ -18,11 +18,11 @@
 
 #include <memory>  // for shared_ptr
 
+#include "animation/firework.h"   // for Firework
 #include "animation/starscape.h"  // for Starscape
 #include "controls/button.h"
 #include "display/display.h"        // for Display
 #include "games/game.h"             // for Game
-#include "games/rocket/firework.h"  // for Firework
 #include "games/rocket/rocket.h"    // for Rocket
 #include "games/rocket/sky_fade.h"  // for SkyFade
 #include "games/rocket/target.h"    // for Target
@@ -104,7 +104,7 @@ class RocketGame : public Game {
   Target target;  // the target
 
   static const int numFireworks = 5;
-  std::vector<Firework> fireworks;  // win animation fireworks
+  std::vector<animation::Firework> fireworks;  // win animation fireworks
 
   // Game Lose animations
   animation::Explosion explosion;
@@ -131,8 +131,7 @@ class RocketGame : public Game {
         rocket(display->strip_length, new CRGB(255, 255, 255)),
         target(new CRGB(55, 0, 0)),
         explosionsInTheSky(),
-        explosion(80),
-        fireworks() {
+        explosion(80, &audio.explosion) {
     // Set explosion to red
     explosion.Hue = 0;                       // Red explosions
     explosion.brightnessPhaseMillis = 3000;  // slower, 3 second long burnout
@@ -146,8 +145,8 @@ class RocketGame : public Game {
     }
 
     while (fireworks.size() < numFireworks) {
-      fireworks.push_back(
-          Firework(display->strip_length, display->strip_count));
+      fireworks.emplace_back(display->strip_length, display->strip_count,
+                             &audio.fireworkLaunch, &audio.fireworkExplode);
     }
   }
 
@@ -181,8 +180,6 @@ class RocketGame : public Game {
   }
 
   void enterLoseState() {
-    // play sound
-    audio.playExplosion();
     // game stuff
     gameState = RocketGameLose;
     explosion.ExplodeAt(display->strip_count / 2, rocket.physics.Location);
@@ -333,9 +330,8 @@ class RocketGame : public Game {
 
       case RocketGameWin:
         for (int i = 0; i < numFireworks; i++) {
-          fireworks[i].Move(audio);
+          fireworks[i].Move();
           if (fireworks[i].isPlaying == false) {
-            // audio.playFireWorkLaunch();
             fireworks[i].Reset();
           }
         }

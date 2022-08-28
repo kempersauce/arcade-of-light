@@ -1,10 +1,10 @@
 
 #pragma once
 
+#include "animation/firework.h"                 // for Firework
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for DirPad
 #include "games/game.h"                         // for Game
-#include "games/rocket/firework.h"              // for Firework
 #include "games/shooter/shooter.h"              // for Shooter
 
 namespace kss {
@@ -14,15 +14,15 @@ namespace shooter {
 class ShooterGame : public Game {
   controls::DirPad controls;
   Shooter shooter;
-  rocket::Firework bullet;
+  animation::Firework bullet;
   animation::SingleColorBG background;
 
  public:
-  ShooterGame(display::Display* gameDisplay, controls::DirPad controls)
-      : Game(gameDisplay),
+  ShooterGame(display::Display* display, controls::DirPad controls)
+      : Game(display),
         controls{std::move(controls)},
         shooter(),
-        bullet(gameDisplay->strip_length, gameDisplay->strip_count),
+        bullet(display->strip_length, display->strip_count, NULL, NULL),
         background(0, 0, 0) {}
 
   virtual void setup() {
@@ -56,9 +56,10 @@ class ShooterGame : public Game {
     }
 
     shooter.physics.Move();
+	// TODO this will not work with the way we track isPlaying in firework.h
+	// Instead we should allocate and destroy fireworks as needed
     if (bullet.isPlaying) {
-      // TODO uncomment this once we find a generic solution for fireworks
-      // bullet.Move();
+      bullet.Move();
     }
 
     background.draw(display);

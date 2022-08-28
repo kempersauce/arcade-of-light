@@ -18,7 +18,6 @@ class ExplosionsInTheSky : public animation::Animation {
 
   void startAnimation(RocketAudio& audio) {
     timeStart = millis();
-    // audio.playExplosion();
   }
 
   bool isPlaying() { return timeStart != 0; }
