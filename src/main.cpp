@@ -43,10 +43,8 @@ games::Game* game;
 display::Display* gameDisplay;
 
 void setup() {
+  // This only works if we're not using octo
   // FastLED.setBrightness(100);
-
-  // init audio stuff
-  // audio::initAudio();
 
   Serial.begin(115200);
   debug::println("Begin setup()");
