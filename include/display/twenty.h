@@ -10,7 +10,7 @@ namespace display {
 namespace _twenty {
 
 constexpr size_t kNumStrips = 20;
-constexpr size_t kLengthStrips = 280;
+constexpr size_t kLengthStrips = 200;
 
 constexpr uint8_t kPinList[kNumStrips]{
     LED_PIN_0,
