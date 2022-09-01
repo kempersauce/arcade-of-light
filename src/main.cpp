@@ -38,7 +38,7 @@
 
 using namespace kss;
 
-engines::FrameRate frameRate;
+engines::FrameRate frameRate{60};
 
 games::Game* game;
 display::Display* gameDisplay;
