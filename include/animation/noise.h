@@ -1,4 +1,5 @@
 #pragma once
+
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 #include "engines/noise.h"        // for NoiseGenerator
@@ -8,14 +9,14 @@ namespace animation {
 
 class NoiseAnimation : public Animation {
  private:
-  int brightness = 255;
+  uint8_t brightness = 255;
   engines::NoiseGenerator noise_generator;
 
  public:
-  NoiseAnimation(int width, int height)
+  NoiseAnimation(size_t width, size_t height)
       : Animation(), noise_generator(width, height) {}
 
-  void setBrightness(int bright) { brightness = bright; }
+  void setBrightness(uint8_t bright) { brightness = bright; }
 
   virtual void draw(display::Display* display) override {
     static uint8_t ihue = 0;

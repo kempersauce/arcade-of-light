@@ -17,11 +17,13 @@ class HueRainbow : public Animation {
   int Saturation = 255;
   int Brightness = 150;
   int ShiftSpeed = 5;
-  bool WaveShift = false;
+  
+  bool WaveShift = true;
 
   // Initialize a HueRainbow that will shift at set rate, realistically this
   // should be between -20 and 20
-  HueRainbow(int speed) : Animation() { ShiftSpeed = speed; }
+  HueRainbow(int speed) : Animation(), ShiftSpeed{speed} {}
+
   // Sets the starting hue, probably not needed since the hue shifts constantly
   void setHue(int hue) { HueStart = hue; }
 

@@ -1,0 +1,51 @@
+#pragma once
+
+#include "animation/noise.h"                    // for NoiseAnimation
+#include "animation/single_color_background.h"  // for SingleColorBG
+#include "animation/starscape.h"                // for Starscape
+#include "display/display.h"                    // for Display
+#include "display/four_panel.h"                 // for FourPanelDisplay
+#include "games/game.h"                         // for Game
+#include "games/life/life.h"                    // for LifeGame
+#include "games/rainbow/rainbow.h"              // for RainbowGame
+#include "test/single_animation.h"              // for SingleAnimation
+
+namespace kss {
+namespace test {
+
+class MultiGameTest : public games::Game {
+  games::Game* games[4];
+
+ public:
+  MultiGameTest(display::FourPanelDisplay* gameDisplay)
+      : Game{(display::Display*)gameDisplay},
+        games{(games::Game*)new test::SingleAnimation{
+                  (display::Display*)&gameDisplay->panels[0],
+                  (animation::Animation*)new animation::NoiseAnimation{
+                      gameDisplay->panels[0].strip_count,
+                      gameDisplay->panels[0].strip_length}},
+              (games::Game*)new games::rainbow::RainbowGame{
+                  (display::Display*)&gameDisplay->panels[1]},
+              (games::Game*)new games::life::LifeGame{
+                  (display::Display*)&gameDisplay->panels[2]},
+              (games::Game*)new test::SingleAnimation{
+                  (display::Display*)&gameDisplay->panels[3],
+                  (animation::Animation*)new animation::Starscape{
+                      gameDisplay->panels[3].strip_count,
+                      gameDisplay->panels[3].strip_length, 140}}} {}
+
+  void setup() {
+    for (auto game : games) {
+      game->setup();
+    }
+  }
+
+  void loop() {
+    for (auto game : games) {
+      game->loop();
+    }
+  }
+};
+
+}  // namespace test
+}  // namespace kss
