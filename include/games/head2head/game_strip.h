@@ -66,16 +66,16 @@ class H2HGameStrip : public animation::Animation {
   // static because they all share the same mid bar
   static int midBar;
 
-  std::shared_ptr<controls::Button> buttonA;
-  std::shared_ptr<controls::Button> buttonB;
+  controls::Button* buttonA;
+  controls::Button* buttonB;
 
   engines::NoiseGenerator*
       noise_generator;  // this is maintained by the game class so we
                         // just need to hold onto the reference here
 
   H2HGameStrip(int stripIndex, int stripHeight,
-               std::shared_ptr<controls::Button> a,
-               std::shared_ptr<controls::Button> b,
+               controls::Button* a,
+               controls::Button* b,
                engines::NoiseGenerator* noise)
       : Animation(),
         dot(CRGB::White, stripIndex),

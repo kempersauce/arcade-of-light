@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>  // for std::shared_ptr
-
 #include "controls/button.h"       // for Button
 #include "display/display.h"       // for Display
 #include "games/game.h"            // for Game
@@ -13,21 +11,21 @@ namespace life {
 
 class GliderWarsGame : public Game {
   // Buttons
-  std::shared_ptr<controls::Button> randomizeButton1;
-  std::shared_ptr<controls::Button> randomizeButton2;
+  controls::Button* randomizeButton1;
+  controls::Button* randomizeButton2;
 
-  std::shared_ptr<controls::Button> gliderButton1;
-  std::shared_ptr<controls::Button> gliderButton2;
+  controls::Button* gliderButton1;
+  controls::Button* gliderButton2;
 
   // Animations
   LifeAnimation lifeGrid;
 
  public:
   GliderWarsGame(display::Display* display,
-                 std::shared_ptr<controls::Button> randomize_1,
-                 std::shared_ptr<controls::Button> randomize_2,
-                 std::shared_ptr<controls::Button> glider_1,
-                 std::shared_ptr<controls::Button> glider_2)
+                 controls::Button* randomize_1,
+                 controls::Button* randomize_2,
+                 controls::Button* glider_1,
+                 controls::Button* glider_2)
       : Game(display),
         randomizeButton1{randomize_1},
         randomizeButton2{randomize_2},

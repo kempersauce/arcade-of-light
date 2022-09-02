@@ -7,12 +7,9 @@
 #include <HardwareSerial.h>  // for HardwareSerial
 #endif
 
-// Start serial if we're in debug mode (idk this doesnt work for some reason)
-// #ifdef DEBUG
-// Serial.begin(115200);
-// #endif
-
 namespace debug {
+
+constexpr uint32_t kBaudRate{115200};
 
 inline void println(const char* msg) {
 #ifdef DEBUG
@@ -35,6 +32,14 @@ inline void println(const String& msg) {
 inline void print(const String& msg) {
 #ifdef DEBUG
   Serial.print(msg);
+#endif
+}
+
+// Start serial if we're in debug mode (idk this doesnt work for some reason)
+inline void Init() {
+#ifdef DEBUG
+  Serial.begin(kBaudRate);
+  println((String) "Beginning serial debug, baud rate=" + kBaudRate);
 #endif
 }
 
