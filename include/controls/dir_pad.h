@@ -3,8 +3,6 @@
 
 #include <PinSetup.h>
 
-#include <memory>  // for shared_ptr
-
 #include "controls/button.h"  // for Button
 
 namespace kss {
@@ -12,16 +10,15 @@ namespace controls {
 
 class DirPad {
  public:
-  std::shared_ptr<Button> up;
-  std::shared_ptr<Button> down;
-  std::shared_ptr<Button> left;
-  std::shared_ptr<Button> right;
-  std::shared_ptr<Button> a;
-  std::shared_ptr<Button> b;
+  Button* up;
+  Button* down;
+  Button* left;
+  Button* right;
+  Button* a;
+  Button* b;
 
-  DirPad(std::shared_ptr<Button> up, std::shared_ptr<Button> down,
-         std::shared_ptr<Button> left, std::shared_ptr<Button> right,
-         std::shared_ptr<Button> a, std::shared_ptr<Button> b)
+  DirPad(Button* up, Button* down, Button* left, Button* right, Button* a,
+         Button* b)
       : up{std::move(up)},        // BUTTON_PIN_4
         down{std::move(down)},    // BUTTON_PIN_3
         left{std::move(left)},    // BUTTON_PIN_5

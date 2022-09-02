@@ -16,10 +16,8 @@
 
 #define BRIGHTNESS 50
 
-#include <memory>  // for shared_ptr
-
-#include "animation/starscape.h"  // for Starscape
-#include "controls/button.h"
+#include "animation/starscape.h"    // for Starscape
+#include "controls/button.h"        // for Button
 #include "display/display.h"        // for Display
 #include "games/game.h"             // for Game
 #include "games/rocket/firework.h"  // for Firework
@@ -55,8 +53,8 @@ class RocketGame : public Game {
   RocketAudio audio;
 
   // Button time
-  std::shared_ptr<controls::Button> up_btn;
-  std::shared_ptr<controls::Button> reset_btn;
+  controls::Button* up_btn;
+  controls::Button* reset_btn;
 
   // Backgrounds
   animation::Starscape starBackground;  // just drawing black empty space for
@@ -121,8 +119,8 @@ class RocketGame : public Game {
   const uint32_t idleTimeoutMillis = 1000 * 30;  // 30 seconds
 
  public:
-  RocketGame(display::Display* display, std::shared_ptr<controls::Button> up,
-             std::shared_ptr<controls::Button> reset)
+  RocketGame(display::Display* display, controls::Button* up,
+             controls::Button* reset)
       : Game(display),
         up_btn{std::move(up)},
         reset_btn{std::move(reset)},
