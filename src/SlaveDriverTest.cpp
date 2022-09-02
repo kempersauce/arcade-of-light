@@ -6,7 +6,7 @@
 // SlaveDriver slaveDriver;
 
 // void setup() {
-//   Serial.begin(115200);
+//   debug::Init();
 //   debug::println("-=- Beginning SETUP -=-");
 
 //   delay(5000);

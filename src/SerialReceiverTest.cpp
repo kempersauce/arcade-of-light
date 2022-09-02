@@ -18,7 +18,7 @@
 // ReceiverBank receivers{ShowMessage, serials};
 
 // void setup() {
-//   Serial.begin(115200);
+//   debug::Init();
 //   debug::println("Serial Started");
 // }
 
