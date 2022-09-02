@@ -15,23 +15,21 @@ class Explosion : Animation {
   audio::SoundEffect* explode_sound;
 
  public:
-  uint32_t birthTimeMillis;
+  uint32_t birthTimeMillis{0};
 
   std::vector<engines::PhysicsInfo> shrapnel;
 
-  int explosionMagnitude = 100;
+  int explosionMagnitude = 20;
 
   // colors (HSV)
-  int Hue;
-  int SaturationFinal = 255;
+  uint8_t Hue;
+  uint8_t SaturationFinal = 255;
   uint32_t saturationPhaseMillis = 1000;
   uint32_t brightnessPhaseMillis = 1500;
 
   Explosion(size_t shrapnelCount, audio::SoundEffect* explode_sound = NULL)
-      : Animation(), explode_sound{explode_sound}, shrapnel{shrapnelCount} {
-    birthTimeMillis = 0;  // not born yet
-    Hue = engines::random::Int8();
-    SetFriction(20, 5);
+      : Animation(), explode_sound{explode_sound}, shrapnel{shrapnelCount}, Hue{engines::random::Int8()} {
+    SetFriction(4, 1);
   }
 
   void SetFriction(float xfriction, float friction) {
@@ -63,7 +61,7 @@ class Explosion : Animation {
     }
   }
 
-  void Move() {
+  virtual void Move() override {
     if (IsBurnedOut() == false) {
       for (size_t i = 0; i < shrapnel.size(); i++) {
         shrapnel[i].Move();
@@ -88,7 +86,7 @@ class Explosion : Animation {
     // Saturate Color while we're in the saturation phase
     int saturation;
     if (timeAliveMillis < saturationPhaseMillis) {
-      saturation = SaturationFinal * (float)timeAliveMillis /
+      saturation = (float)SaturationFinal * (float)timeAliveMillis /
                    (float)saturationPhaseMillis;
     } else {
       saturation = SaturationFinal;
@@ -98,7 +96,7 @@ class Explosion : Animation {
 
     // Then fade to Black for the brightness phase
     int brightness;
-    if (timeAliveMillis < 0) {
+    if (timeAliveMillis < saturationPhaseMillis) {
       brightness = 255;
     } else if (timeAliveMillis < brightnessPhaseMillis) {
       brightness =

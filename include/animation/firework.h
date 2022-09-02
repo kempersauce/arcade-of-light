@@ -9,7 +9,7 @@
 namespace kss {
 namespace animation {
 
-// TODO move this to animations, this is a generic animation
+// A single firework
 class Firework : public Animation {
   audio::SoundEffect* launch_sound;
 
@@ -19,6 +19,7 @@ class Firework : public Animation {
   const size_t strip_count;
 
  public:
+
   // Physics for the fireworks "rocket"
   engines::PhysicsInfo physics;
 
@@ -34,13 +35,14 @@ class Firework : public Animation {
    * Firework Constructor
    * @param strip_length - location on LED strip
    * */
-  Firework(int strip_length, int strip_count, audio::SoundEffect* launch_sound,
-           audio::SoundEffect* explode_sound)
+  Firework(size_t strip_length, size_t strip_count,
+           audio::SoundEffect* launch_sound = NULL,
+           audio::SoundEffect* explode_sound = NULL)
       : Animation(),
         launch_sound{launch_sound},
-        explosion(50, explode_sound),
         strip_length{strip_length},
-        strip_count{strip_count} {
+        strip_count{strip_count},
+        explosion{50, explode_sound} {
     Reset();
   }
 
@@ -58,7 +60,7 @@ class Firework : public Animation {
     hue = engines::random::Int8();
   }
 
-  void Move() {
+  virtual void Move() override {
     if (!isPlaying) {
       if (launch_sound != NULL) {
         launch_sound->Play();

@@ -1,10 +1,9 @@
 #pragma once
 
-#include <Constants.h>
+#include <vector>  // for vector
 
-#include "animation/flicker.h"                  // for Flicker
-#include "animation/single_color_background.h"  // for SingleColorBG
-#include "animation/single_color_block.h"       // for SingleColorBlock
+#include "animation/animation.h"                // for Animation
+#include "animation/single_color_background.h"  // for SingleColorBackground
 #include "games/game.h"                         // for Game
 
 namespace kss {
@@ -12,29 +11,30 @@ namespace test {
 
 // Test for Directional Pad
 class AnimationTest : public games::Game {
+  animation::SingleColorBG background{0, 0, 0};
+  std::vector<animation::Animation*> animes;
+
  public:
-  animation::Flicker* flicker;
-  animation::SingleColorBG* bg;
-  animation::SingleColorBlock* block;
-  int BoundaryBase = 80;
-  int BoundaryHeight = 10;
+  AnimationTest(display::Display* gameDisplay,
+                std::vector<animation::Animation*> animus)
+      : Game(gameDisplay), animes{animus} {}
 
-  AnimationTest(display::Display* gameDisplay) : Game(gameDisplay) {}
-
-  void setup() {
-    flicker = new animation::Flicker(BoundaryBase, BoundaryHeight,
-                                     display->strip_count, 0, 55);
-    bg = new animation::SingleColorBG(100, 0, 100);
-    block = new animation::SingleColorBlock(0, 80, 0, 255, 255);
+  AnimationTest(display::Display* gameDisplay, animation::Animation* animus)
+      : Game(gameDisplay) {
+    animes.push_back(animus);
   }
 
-  void loop() {
-    bg->draw(display);
-    block->draw(display);
-    flicker->draw(display);
-    for (size_t i = 0; i < display->strip_count; i++) {
-      display->Pixel(i, BoundaryBase).setHSV(125, 255, 255);
-      display->Pixel(i, BoundaryBase + BoundaryHeight).setHSV(125, 255, 255);
+  virtual void setup() override {}
+
+  virtual void loop() override {
+    for (auto anime : animes) {
+      anime->Move();
+    }
+
+    background.draw(display);
+
+    for (auto anime : animes) {
+      anime->draw(display);
     }
   }
 };

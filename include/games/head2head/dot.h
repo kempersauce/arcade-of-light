@@ -20,7 +20,7 @@ class H2HDot : public animation::Animation {
     physics.xLocation = stripIndex;
   }
 
-  void Move() { physics.Move(); }
+  virtual void Move() override { physics.Move(); }
 
   void setVelocity(float velocity) { physics.Velocity = (int)velocity; }
 
