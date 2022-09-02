@@ -14,13 +14,13 @@ class Transmitter {
  public:
   HardwareSerial* serial;
 
-  Transmitter(HardwareSerial* serial) : serial{serial} {
+  Transmitter(HardwareSerial* serial = &Serial1) : serial{serial} {
     serial->begin(115200);
   }
 
-  inline const void Send(const char* msg) { Send((String)msg); }
+  inline void Send(const String& msg) const { Send(msg.c_str()); }
 
-  const void Send(String msg) {
+  void Send(const char* msg) const {
     const String finalMsg =
         (String)kMessageStartMarker + msg + kMessageEndMarker;
     if (finalMsg.length() >= kMessageBufferSize) {

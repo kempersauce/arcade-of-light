@@ -1,41 +1,40 @@
-// #include <Arduino.h>
-// #include <FastLED.h>
-// #include <memory>  // for shared_ptr
-// #include "audio/synth_sender.h"  // for RocketGame
-// #include "controls/hardware/simple.h"  // for controls::hardware::Simple
-// #include "controls/button.h"
-// #include "PinSetup.h"
+#include <Arduino.h>
+#include <FastLED.h>
 
-// #include "audio/constants.h"     // for k*
-// #include "serial/transmitter.h"  // for Transmitter
-// #include "controls/dir_pad.h"    // for Inputs
-// #include "serial/debug.h"      // for debug::*
+#include <memory>  // for shared_ptr
 
+#include "PinSetup.h"
+#include "audio/constants.h"           // for k*
+#include "audio/synth_sender.h"        // for RocketGame
+#include "controls/button.h"           // for Button
+#include "controls/dir_pad.h"          // for Inputs
+#include "controls/hardware/matrix.h"  // for controls::hardware::Matrix
+#include "serial/debug.h"              // for debug::*
+#include "serial/transmitter.h"        // for Transmitter
 
-// kss::controls::hardware::Simple controls;
+kss::controls::hardware::Matrix controls;
 
-// kss::audio::SynthSender* synth = new kss::audio::SynthSender(
-//         controls.CreateButton(BUTTON_PIN_4),
-//         controls.CreateButton(BUTTON_PIN_3),
-//         controls.CreateButton(BUTTON_PIN_5),
-//         controls.CreateButton(BUTTON_PIN_2),
-//         controls.CreateButton(BUTTON_PIN_1),
-//         controls.CreateButton(BUTTON_PIN_0));
+kss::audio::SynthSender* synth = new kss::audio::SynthSender(  //
+    controls.CreateButton(2, BUTTON_PIN_4),                    //
+    controls.CreateButton(2, BUTTON_PIN_3),                    //
+    controls.CreateButton(2, BUTTON_PIN_5),                    //
+    controls.CreateButton(2, BUTTON_PIN_2),                    //
+    controls.CreateButton(2, BUTTON_PIN_1),                    //
+    controls.CreateButton(2, BUTTON_PIN_0));                   //
 
-// void setup()
-// {
+void setup() {
+  debug::Init();
 
-//     Serial.begin(115200);
+  debug::println((String) "ready 2 goooo");
+}
 
-//     debug::println((String) "ready 2 goooo");
+void loop() {
+  //   debug::println("Loops brother");
+  controls.PollAll();
+  //   debug::println("Poll'd");
+  synth->checkButtonChange();
+  //   debug::println("Next Loop!");
 
-// }
-
-// void loop()
-// {
-//     debug::println("Loops brother");
-//     controls.PollAll();
-//     debug::println("Poll'd");
-//     synth->checkButtonChange();
-//     debug::println("Next Loop!");
-// }
+  // Emulate ~150 fps
+  delay(7);
+}
