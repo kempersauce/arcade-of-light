@@ -57,7 +57,7 @@
 // //=============================================================================//
 // // SETUP AND LOOP
 // void setup() {
-//   Serial.begin(115200);
+//   debug::Init();
 
 //   // Fire up the boombox
 //   InitAudio();

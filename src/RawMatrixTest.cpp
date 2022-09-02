@@ -23,7 +23,7 @@
 //   //pinMode(12, INPUT);
 //   //pinMode(13, INPUT);
 
-//   Serial.begin(115200);
+//   debug::Init();
 
 //     digitalWrite(cont[0],LOW);
 //     digitalWrite(cont[1],HIGH);

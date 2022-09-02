@@ -47,7 +47,7 @@
 //   // This only works if we're not using octo
 //   // FastLED.setBrightness(100);
 
-//   Serial.begin(115200);
+//   debug::Init();
 //   debug::println("Begin setup()");
 
 //   // Choose your Display type

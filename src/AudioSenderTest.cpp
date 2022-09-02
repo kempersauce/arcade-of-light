@@ -41,7 +41,7 @@
 // uint32_t start_time;
 
 // void setup() {
-//   Serial.begin(115200);
+//   debug::Init();
 //   delay(5000);  // we need to wait for Serial to initialize or whatever
 //   start_time = millis();
 //   debug::println("::::SETUP Achieved::::");
