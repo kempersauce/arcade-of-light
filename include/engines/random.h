@@ -67,25 +67,29 @@ inline int16_t Int16_incl(int16_t min, int16_t max) {
 // 0 to UINT32_MAX (inclusive)
 inline uint32_t Int32() { return random32(); }
 
-// 0 to max (exclusive)
-inline uint32_t Int32(uint32_t max) {
-  return Int32() * (max + 1) / UINT32_MAX_INCL;
-}
+/****
+ * DANGER: These don't work, we hit overflow and always end up with the lower bound
+ ****/
 
-// min to max (exclusive)
-inline int32_t Int32(int32_t min, int32_t max) {
-  return Int32(max - min) + min;
-}
+// // 0 to max (exclusive)
+// inline uint32_t Int32(uint32_t max) {
+//   return Int32() * (max + 1) / UINT32_MAX_INCL;
+// }
 
-// 0 to max (inclusive)
-inline uint32_t Int32_incl(uint32_t max) {
-  return Int32() * (max + 1) / UINT32_MAX_INCL;
-}
+// // min to max (exclusive)
+// inline int32_t Int32(int32_t min, int32_t max) {
+//   return Int32(max - min) + min;
+// }
 
-// min to max (inclusive)
-inline int32_t Int32_incl(int32_t min, int32_t max) {
-  return Int32_incl(max - min) + min;
-}
+// // 0 to max (inclusive)
+// inline uint32_t Int32_incl(uint32_t max) {
+//   return Int32() * (max + 1) / UINT32_MAX_INCL;
+// }
+
+// // min to max (inclusive)
+// inline int32_t Int32_incl(int32_t min, int32_t max) {
+//   return Int32_incl(max - min) + min;
+// }
 
 //////// Floating point types
 

@@ -164,7 +164,7 @@ class H2HGameStrip : public animation::Animation {
     stripState = H2HStripDead;
     // Plan for when to start dropping a new ball
     stateTimeoutMillis =
-        millis() + engines::random::Int32(deadStateTimeoutMinMillis,
+        millis() + engines::random::Int16(deadStateTimeoutMinMillis,
                                           deadStateTimeoutMaxMillis);
   }
 

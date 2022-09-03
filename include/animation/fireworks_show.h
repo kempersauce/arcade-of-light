@@ -12,6 +12,15 @@
 namespace kss {
 namespace animation {
 
+namespace _fireworks_show {
+
+constexpr size_t kMaxFireworksCount{0};  // 0 for no-limit
+constexpr uint16_t kMinWaitTime{50};
+constexpr uint16_t kMaxWaitTime{1750};
+
+}  // namespace _fireworks_show
+using namespace _fireworks_show;
+
 class FireworksShow : Animation {
   std::vector<Firework*> fireworks;
 
@@ -63,10 +72,12 @@ class FireworksShow : Animation {
  private:
   uint32_t next_create{0};
   bool ShouldCreateAnother() {
-    const uint32_t now = millis();
-    if (now >= next_create) {
-      next_create = now + engines::random::Int32(100, 2500);
-      return true;
+    if (kMaxFireworksCount == 0 || fireworks.size() < kMaxFireworksCount) {
+      const uint32_t now = millis();
+      if (now >= next_create) {
+        next_create = now + engines::random::Int16(kMinWaitTime, kMaxWaitTime);
+        return true;
+      }
     }
     return false;
   }

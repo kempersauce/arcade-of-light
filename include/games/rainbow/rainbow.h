@@ -15,8 +15,8 @@ class RainbowGame : public Game {
 
  public:
   RainbowGame(display::Display* gameDisplay)
-      : Game(gameDisplay), background(2) {
-    background.setWaveShift(true);
+      : Game(gameDisplay), background(0) {
+    background.setWaveShift(false);
   }
 
   void setup() {
