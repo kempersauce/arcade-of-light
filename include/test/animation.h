@@ -11,7 +11,7 @@ namespace test {
 
 // Test for Directional Pad
 class AnimationTest : public games::Game {
-  animation::SingleColorBG background{0, 0, 0};
+  animation::SingleColorBG background;
   std::vector<animation::Animation*> animes;
 
  public:

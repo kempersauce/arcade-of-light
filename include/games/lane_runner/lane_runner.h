@@ -21,18 +21,15 @@ class LaneRunnerGame : public Game {
 
  public:
   LaneRunnerGame(display::Display* gameDisplay, controls::DirPad controller)
-      : Game(gameDisplay),
-        controller{std::move(controller)},
-        background(0, 0, 0),
-        dots() {}
+      : Game(gameDisplay), controller{std::move(controller)} {}
 
   virtual void setup() {
-    player.location.x = display->strip_count / 2;
-    player.location.y = display->strip_length * 2 / 3;
+    player.location.x = display->size.x / 2;
+    player.location.y = display->size.y * 2 / 3;
 
     // seed walls with initial stuff
     dots.clear();
-    while (dots.size() < display->strip_length - 1) {
+    while (dots.size() < display->size.y - 1) {
       dots.push_front(-1);
     }
   }
@@ -58,11 +55,11 @@ class LaneRunnerGame : public Game {
           break;
 
         case 1:
-          lane = display->strip_count / 2;
+          lane = display->size.x / 2;
           break;
 
         case 2:
-          lane = display->strip_count - 1;
+          lane = display->size.x - 1;
           break;
 
         default:  // This should not happen
@@ -86,16 +83,16 @@ class LaneRunnerGame : public Game {
     if (controller.left->IsPressed()) {
       player.location.x = 0;
     } else if (controller.right->IsPressed()) {
-      player.location.x = display->strip_count - 1;
+      player.location.x = display->size.x - 1;
     } else {
-      player.location.x = display->strip_count / 2;
+      player.location.x = display->size.x / 2;
     }
 
     player.Move();
     if (player.location.y < 0)
       player.location.y = 0;
-    else if (player.location.y >= display->strip_length)
-      player.location.y = display->strip_length - 1;
+    else if (player.location.y >= display->size.y)
+      player.location.y = display->size.y - 1;
 
     addDots();
 
@@ -106,7 +103,7 @@ class LaneRunnerGame : public Game {
     background.draw(display);
 
     // draw the dots
-    for (int y = 0; y < display->strip_length; y++) {
+    for (int y = 0; y < display->size.y; y++) {
       int lane = dots[y];
       if (lane >= 0) {
         display->Pixel(lane, y) = CRGB::Magenta;

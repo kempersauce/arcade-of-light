@@ -2,7 +2,6 @@
 
 #include <Constants.h>
 
-#include "animation/dot.h"                      // for Dot
 #include "animation/hue_rainbow.h"              // for HueRainbow
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for controls::DirPad
@@ -16,7 +15,6 @@ namespace test {
 class DirPadTest : public games::Game {
  public:
   controls::DirPad controls;
-  animation::Dot* player;
   animation::SingleColorBG* backgroundColor;
   animation::HueRainbow rainbow;
 

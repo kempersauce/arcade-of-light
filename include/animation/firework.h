@@ -15,8 +15,7 @@ class Firework : public Animation {
 
   // Used to randomly select the strip and explosion height when resetting the
   // firework
-  const size_t strip_length;
-  const size_t strip_count;
+  const math::Dimension display_size;
 
  public:
   // Physics for the fireworks "rocket"
@@ -32,15 +31,13 @@ class Firework : public Animation {
 
   /**
    * Firework Constructor
-   * @param strip_length - location on LED strip
    * */
-  Firework(size_t strip_length, size_t strip_count, float explosion_gravity,
+  Firework(const math::Dimension& display_size, float explosion_gravity,
            audio::SoundEffect* launch_sound = NULL,
            audio::SoundEffect* explode_sound = NULL)
       : Animation(),
         launch_sound{launch_sound},
-        strip_length{strip_length},
-        strip_count{strip_count},
+		display_size{display_size},
         explosion{100,
                   1000,
                   2000,
@@ -54,16 +51,18 @@ class Firework : public Animation {
     Reset();
   }
 
+  ~Firework(){};
+
   void Reset() {
     isPlaying = false;
     physics.Reset();
     physics.LocationMax = math::random::Int16(
-        strip_length / 3, strip_length - 20);  // height the firework explodes
+        display_size.y / 3, display_size.y - 20);  // height the firework explodes
     physics.velocity.y =
         math::random::Int8(35, 75);  // how fast do we get there
 
     physics.location.x = math::random::Int8(
-        strip_count);  // select which strip this should be on
+        display_size.x);  // select which strip this should be on
 
     hue = math::random::Int8();
   }
@@ -103,7 +102,7 @@ class Firework : public Animation {
           min(255 * (physics.location.y / physics.LocationMax), 255);
       CRGB color;
       color.setHSV(hue, Saturation, 255);
-      display->DitherPixel((int)physics.location.x, (int)physics.location.y,
+      display->DitherPixel((size_t)physics.location.x, (size_t)physics.location.y,
                            &color);
     }
   }

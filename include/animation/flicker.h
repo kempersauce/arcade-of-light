@@ -105,7 +105,7 @@ class Flicker : public Animation {
       heightCheck(0);
 
       Serial.println("FlameAni: 0 Height: " + (String)currentHeight[0]);
-      for (int i = 1; i < display->strip_count; i++) {
+      for (int i = 1; i < display->size.x; i++) {
         // Set flame height
         if (math::random::Bool()) {
           heightAdjust *= -1;
@@ -126,7 +126,7 @@ class Flicker : public Animation {
       // //flare logic
       // if((newMillis-lastLoopMillis)>=lastFlareMillis)
       // {
-      for (int i = 0; i < display->strip_count; i++) {
+      for (int i = 0; i < display->size.x; i++) {
         // move flare up one
         flareLoc[i][0] += 1;
         // if at max, remove flag to draw next loop
@@ -144,7 +144,7 @@ class Flicker : public Animation {
   }
 
   void drawFramesUp(display::Display* display) {
-    for (int i = 0; i < display->strip_count; i++) {
+    for (int i = 0; i < display->size.x; i++) {
       for (int j = origin; j <= currentHeight[i]; j++) {
         // Serial.println("Flame Ani: in the loops");
         // secondary color on last pixel
@@ -173,7 +173,7 @@ class Flicker : public Animation {
     }
   }
   void drawFramesDown(display::Display* display) {
-    for (int i = 0; i < display->strip_count; i++) {
+    for (int i = 0; i < display->size.x; i++) {
       for (int j = origin; j <= currentHeight[i]; j++) {
         // Serial.println("Flame Ani: in the loops");
         // secondary color on last pixel

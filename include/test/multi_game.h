@@ -22,8 +22,7 @@ class MultiGameTest : public games::Game {
         games{(games::Game*)new test::AnimationTest{
                   (display::Display*)&gameDisplay->panels[0],
                   (animation::Animation*)new animation::NoiseAnimation{
-                      gameDisplay->panels[0].strip_count,
-                      gameDisplay->panels[0].strip_length}},
+                      gameDisplay->panels[0].size}},
               (games::Game*)new games::rainbow::RainbowGame{
                   (display::Display*)&gameDisplay->panels[1]},
               (games::Game*)new games::life::LifeGame{
@@ -31,8 +30,7 @@ class MultiGameTest : public games::Game {
               (games::Game*)new test::AnimationTest{
                   (display::Display*)&gameDisplay->panels[3],
                   (animation::Animation*)new animation::Starscape{
-                      gameDisplay->panels[3].strip_count,
-                      gameDisplay->panels[3].strip_length, 140}}} {}
+                      gameDisplay->panels[3].size, 140}}} {}
 
   void setup() {
     for (auto game : games) {

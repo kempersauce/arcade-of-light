@@ -2,6 +2,7 @@
 
 #include <FastLED.h>  // for CRGB
 
+#include "math/vector2d.h"  // for Dimension
 #include "serial/debug.h"  // for debug::*
 
 /*
@@ -16,7 +17,8 @@ void Blend(CRGB& pixel, const CRGB* blend_color, const float blend_factor) {
   const auto unblend_factor = 1 - blend_factor;
 
   // get weighted blend values
-  const uint8_t red = pixel.red * unblend_factor + blend_color->red * blend_factor;
+  const uint8_t red =
+      pixel.red * unblend_factor + blend_color->red * blend_factor;
   const uint8_t green =
       pixel.green * unblend_factor + blend_color->green * blend_factor;
   const uint8_t blue =
@@ -28,11 +30,10 @@ void Blend(CRGB& pixel, const CRGB* blend_color, const float blend_factor) {
 
 class Display {
  public:
-  const size_t strip_count;
-  const size_t strip_length;
+  const math::Dimension size;
 
-  Display(const size_t strip_count, const size_t strip_length)
-      : strip_count{strip_count}, strip_length{strip_length} {}
+  Display(const math::Dimension& size)
+      : size{size} {}
 
   // Reference to the desired CRGB pixel for get/set and other operations
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) = 0;
@@ -58,8 +59,7 @@ class Display {
   }
 
   inline bool IsInBounds(const size_t strip, const size_t pixel) const {
-    return strip < 0 || strip >= strip_count || pixel < 0 ||
-           pixel >= strip_length;
+    return strip < 0 || strip >= size.x || pixel < 0 || pixel >= size.y;
   }
 
  protected:
@@ -68,10 +68,10 @@ class Display {
 #ifdef DEBUG
     if (oob) {
       debug::println("ERROR: Accessing out of bounds pixel");
-      debug::println((String) "strip: " + strip +
-                     " (max: " + (strip_count - 1) + ")");
-      debug::println((String) "pixel: " + pixel +
-                     " (max: " + (strip_length - 1) + ")");
+      debug::println((String) "strip: " + strip + " (max: " + (size.x - 1) +
+                     ")");
+      debug::println((String) "pixel: " + pixel + " (max: " + (size.y - 1) +
+                     ")");
     }
 #endif
     return !oob;

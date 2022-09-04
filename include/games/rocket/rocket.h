@@ -59,9 +59,9 @@ class Rocket : public animation::Animation {
 
   void draw(display::Display* display) {
     // Draw the rocket ship
-    const size_t middleStrip = display->strip_count / 2;
+    const size_t middleStrip = display->size.x / 2;
     for (size_t i = max(ceil(physics.location.y), 0);
-         i < min((int)physics.location.y + Height, display->strip_length);
+         i < min((int)physics.location.y + Height, display->size.y);
          i++) {
       display->Pixel(middleStrip, i) = *color;
     }

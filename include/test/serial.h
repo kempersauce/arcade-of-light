@@ -15,7 +15,7 @@ class SerialTest : public games::Game {
 
  public:
   SerialTest(display::Display *gameDisplay)
-      : Game(gameDisplay), ks(&Serial1), background(0, 0, 255) {}
+      : Game(gameDisplay), ks(&Serial1), background(CRGB::Blue) {}
 
   void setup() {
     delay(4000);

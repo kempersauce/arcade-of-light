@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>     // for std::vector
+#include <vector>  // for std::vector
 
 #include "animation/animation.h"  // for Animation
 #include "animation/firework.h"   // for Firework
@@ -26,28 +26,28 @@ class FireworksShow : Animation {
   audio::SoundEffect* launch_sound;
   audio::SoundEffect* explode_sound;
 
-  const size_t strip_count;
-  const size_t strip_length;
+  const math::Dimension display_size;
 
   float gravity;
 
  public:
-  FireworksShow(size_t strip_count, size_t strip_length, float gravity,
+  FireworksShow(const math::Dimension& display_size, float gravity,
                 audio::SoundEffect* launch_sound = NULL,
                 audio::SoundEffect* explode_sound = NULL)
       : Animation(),
         launch_sound{launch_sound},
         explode_sound{explode_sound},
-        strip_count{strip_count},
-        strip_length{strip_length},
+        display_size{display_size},
         gravity{gravity} {}
+
+  ~FireworksShow() { Clear(); }
 
   virtual void Move() override {
     // Launch 1-3 fireworks when it's time
     if (ShouldCreateAnother()) {
       for (auto count = math::random::Int8_incl(1, 3); count > 0; count--) {
-        fireworks.push_back(new Firework{strip_length, strip_count, gravity,
-                                         launch_sound, explode_sound});
+        fireworks.push_back(
+            new Firework{display_size, gravity, launch_sound, explode_sound});
       }
     }
 
@@ -73,7 +73,7 @@ class FireworksShow : Animation {
     }
   }
 
-  void Reset() {
+  void Clear() {
     for (auto firework : fireworks) {
       delete firework;
     }

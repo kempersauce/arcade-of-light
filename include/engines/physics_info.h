@@ -12,14 +12,14 @@ class PhysicsInfo {
 
  public:
   // Dynamic values
-  math::Vector2D location;
-  math::Vector2D velocity;
-  math::Vector2D thrust;
-  math::Vector2D gravity;
+  math::Vector2D<float> location;
+  math::Vector2D<float> velocity;
+  math::Vector2D<float> thrust;
+  math::Vector2D<float> gravity;
 
   // technically not a vector, but we set different values for x & y
   // coefficients since we dont have uniform directional dimension
-  math::Vector2D friction;
+  math::Vector2D<float> friction;
 
   // Edge detection
   bool respect_edges;  // Whether or not to perform edge detection at all
@@ -40,14 +40,14 @@ class PhysicsInfo {
   PhysicsInfo() { Reset(); }
 
   void RandomizeVelocityVector(float maxMagnitude) {
-    velocity = math::Vector2D::RandomVector(maxMagnitude);
+    velocity = math::Vector2D<float>::RandomVector(maxMagnitude);
   }
 
   void Reset() {
     // Re-init physical vectors
-    velocity = math::Vector2D();
-    location = math::Vector2D();
-    thrust = math::Vector2D();
+    velocity = math::Vector2D<float>();
+    location = math::Vector2D<float>();
+    thrust = math::Vector2D<float>();
 
     // Reset collision detection
     respect_edges = true;
@@ -69,7 +69,7 @@ class PhysicsInfo {
     last_move_time = now;
 
     // Equations
-    const math::Vector2D acceleration =
+    const auto acceleration =
         (thrust / Mass)           // force on the object
         - gravity                 // subtract for gravity
         - (velocity * friction);  // subtract for friction

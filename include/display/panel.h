@@ -18,9 +18,9 @@ class Panel : public Display {
   const size_t strip_offset;
 
  public:
-  Panel(Display* parent, const size_t strip_count, const size_t strip_length,
+  Panel(Display* parent, const math::Dimension& size,
         const size_t strip_offset)
-      : Display(strip_count, strip_length),
+      : Display(size),
         parent{parent},
         strip_offset{strip_offset} {}
 

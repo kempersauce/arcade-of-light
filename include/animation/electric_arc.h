@@ -11,7 +11,7 @@ namespace kss {
 namespace animation {
 
 class ElectricArc : public Animation {
-  std::vector<int> arc;
+  std::vector<size_t> arc;
   CRGB color = CRGB::Purple;
 
  public:
@@ -22,7 +22,7 @@ class ElectricArc : public Animation {
     do {
       arc.clear();
       arc.push_back(yLocation);
-      for (size_t y = yLocation, x = 1; x < display->strip_count; x++) {
+      for (size_t y = yLocation, x = 1; x < display->size.x; x++) {
         float r = math::random::Float();
         if (r <= 0.4) {  // bottom 40%
           y += magnitude;
@@ -38,12 +38,12 @@ class ElectricArc : public Animation {
 
     for (size_t i = 0; i < arc.size(); i++) {
       int arcHeight = arc[i];
-      if (arcHeight >= 0 && arcHeight < display->strip_length) {
+      if (arcHeight >= 0 && arcHeight < display->size.y) {
         display->Pixel(i, arcHeight) = CRGB::Purple;
       }
 
       arcHeight++;
-      if (arcHeight > 0 && arcHeight < display->strip_length) {
+      if (arcHeight > 0 && arcHeight < display->size.y) {
         display->Pixel(i, arcHeight) = CRGB::Purple;
       }
     }

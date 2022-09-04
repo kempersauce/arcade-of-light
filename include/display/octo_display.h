@@ -33,9 +33,9 @@ class OctoDisplay : public Display {
 
  public:
   OctoDisplay(const uint8_t* pin_list, int* displayMemory)
-      : Display(kNumStrips, kLengthStrips),
-        octo(strip_length, displayMemory, drawingMemory,
-             WS2811_RGB | WS2811_800kHz, strip_count, pin_list),
+      : Display({kNumStrips, kLengthStrips}),
+        octo(size.y, displayMemory, drawingMemory,
+             WS2811_RGB | WS2811_800kHz, size.x, pin_list),
         controller(&octo) {
     octo.begin();
     FastLED.addLeds(&controller, pixels, kNumStrips * kLengthStrips);
@@ -45,7 +45,7 @@ class OctoDisplay : public Display {
 #ifdef DEBUG
     CheckLocation(strip, pixel);
 #endif
-    return pixels[strip * strip_length + pixel];
+    return pixels[strip * size.y + pixel];
   }
 
   virtual void Show() override { FastLED.show(); }

@@ -22,8 +22,8 @@ class Explosion : Animation {
   uint32_t brightness_phase_ms{1500};  // then 1.5 sec brightness phase
 
   float magnitude{20.0f};
-  math::Vector2D friction{4, 1};
-  math::Vector2D gravity{0, 15};
+  math::Vector2D<float> friction{4, 1};
+  math::Vector2D<float> gravity{0, 15};
 
   uint8_t saturation_final{255};
   uint8_t hue{0};
@@ -75,7 +75,7 @@ class Explosion : Animation {
   void SetGravity(int grav) { gravity.y = grav; }
 
   void ExplodeAt(int stripIndex, int location,
-                 math::Vector2D additional = math::Vector2D{0, 0}) {
+                 math::Vector2D<float> additional = {0, 0}) {
     birthTimeMillis = millis();
 
     // Play the sound effect
@@ -87,8 +87,9 @@ class Explosion : Animation {
       shrap.Reset();
       shrap.friction = friction;
       shrap.gravity = gravity;
-      shrap.location = math::Vector2D{stripIndex, location};
-      shrap.velocity = math::Vector2D::RandomVector(magnitude) + additional;
+      shrap.location = math::Vector2D<float>{stripIndex, location};
+      shrap.velocity =
+          math::Vector2D<float>::RandomVector(magnitude) + additional;
     }
   }
 
@@ -147,14 +148,13 @@ class Explosion : Animation {
                    ", brightness=" + brightness);
 
     for (const auto& shrap : shrapnel) {
-      int loc = (int)shrap.location.y;
-      int xLoc = (int)shrap.location.x;
-      if (loc >= 0 && loc < display->strip_length && xLoc >= 0 &&
-          xLoc < display->strip_count) {
+      const auto& loc = shrap.location;
+      if (loc.y >= 0 && loc.y < display->size.y && loc.x >= 0 &&
+          loc.x < display->size.x) {
         CRGB clr;
         clr.setHSV(hue, saturation, brightness);
         const float blend = (float)brightness / 255.0f;
-        display->DitherPixel(xLoc, shrap.location.y, &clr, blend);
+        display->DitherPixel(loc.x, loc.y, &clr, blend);
       }
     }
   }

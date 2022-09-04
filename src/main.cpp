@@ -84,10 +84,9 @@ void setup() {
 
   // Animation Test game
   std::vector<animation::Animation*> test_animations{
-      (animation::Animation*)new animation::Starscape{
-          gameDisplay->strip_count, gameDisplay->strip_length, 140},
-      (animation::Animation*)new animation::FireworksShow{
-          gameDisplay->strip_count, gameDisplay->strip_length, 15}};
+      (animation::Animation*)new animation::Starscape{gameDisplay->size, 140},
+      (animation::Animation*)new animation::FireworksShow{gameDisplay->size,
+                                                          15}};
 
   game = (games::Game*)new test::AnimationTest(gameDisplay, test_animations);
 

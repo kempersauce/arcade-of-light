@@ -52,7 +52,7 @@ class LifeGameSinglePlayer : public Game {
       : Game(display),
         idleGame{display},
         dirPad{std::move(controls)},
-        lifeGrid{display->strip_count + 1, display->strip_length} {
+        lifeGrid{display->size.x + 1, display->size.y} {
     // Start BG music
     audio.playStdBG();
   }

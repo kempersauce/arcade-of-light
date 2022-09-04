@@ -44,8 +44,8 @@ class H2HGameStrip : public animation::Animation {
   // static const int zoneBHue = 0; // red
   static const int zoneBHue = 33;  // orange - this is wrong
 
-  int stripIndex;  // Which strip is this on?
-  int heightMax;   // length of this strip
+  const size_t stripIndex;  // Which strip is this on?
+  const size_t heightMax;   // length of this strip
 
   uint32_t
       stateTimeoutMillis;  // state timer used to time a handful of game states
@@ -73,7 +73,7 @@ class H2HGameStrip : public animation::Animation {
       noise_generator;  // this is maintained by the game class so we
                         // just need to hold onto the reference here
 
-  H2HGameStrip(int stripIndex, int stripHeight, controls::Button* a,
+  H2HGameStrip(size_t stripIndex, size_t stripHeight, controls::Button* a,
                controls::Button* b, engines::NoiseGenerator* noise)
       : Animation(),
         dot(CRGB::White, stripIndex),
@@ -84,13 +84,12 @@ class H2HGameStrip : public animation::Animation {
         buttonB{std::move(b)},
         noise_generator{noise},
         dropExplosion{8, 150, 200, 50, 20, 2, 0, 0, 0, NULL},
-        explosion{50, 1000, 1500, 20, 10, 3, 0, 255, 0, NULL} {
-    this->stripIndex = stripIndex;
-    heightMax = stripHeight;
-
+        explosion{50, 1000, 1500, 20, 10, 3, 0, 255, 0, NULL},
+        stripIndex{stripIndex},
+        heightMax{stripHeight} {
     // Set some physics on the explosion shrapnel so they'll bounce off the
     // ceiling and floor
-    for (auto shrap : explosion.shrapnel) {
+    for (auto& shrap : explosion.shrapnel) {
       shrap.LocationMax = stripHeight;
       shrap.BounceFactor = -.8;
     }
@@ -347,7 +346,7 @@ class H2HGameStrip : public animation::Animation {
   }
 
   void drawBackgroundA(display::Display* display) {
-    for (int y = 0; y < min(midBar, display->strip_length); y++) {
+    for (int y = 0; y < min(midBar, display->size.y); y++) {
       display->Pixel(stripIndex, y)
           .setHSV(zoneAHue, 255,
                   noise_generator->data[stripIndex][y]);  // blue team
@@ -379,7 +378,7 @@ class H2HGameStrip : public animation::Animation {
     const float waveWidth = 10;
     drawBackgroundA(display);
     if (timeDiff < 1000) {
-      float distance = (float)display->strip_length * (float)timeDiff / 1000;
+      float distance = (float)display->size.y * (float)timeDiff / 1000;
       for (int i = waveWidth / -2; i < waveWidth / 2; i++) {
         float presence = (waveWidth / 2 - abs(i)) / (waveWidth / 2);
         display->BlendPixel(stripIndex, distance + i, &teamAColor, presence);
@@ -395,8 +394,7 @@ class H2HGameStrip : public animation::Animation {
     const float waveWidth = 10;
     drawBackgroundB(display);
     if (timeDiff < 1000) {
-      float distance =
-          (float)display->strip_length * (float)(1000 - timeDiff) / 1000;
+      float distance = (float)display->size.y * (float)(1000 - timeDiff) / 1000;
       for (int i = waveWidth / -2; i < waveWidth / 2; i++) {
         float presence = (waveWidth / 2 - abs(i)) / (waveWidth / 2);
         display->BlendPixel(stripIndex, distance + i, &teamBColor, presence);

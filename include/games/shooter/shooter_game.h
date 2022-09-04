@@ -21,16 +21,14 @@ class ShooterGame : public Game {
   ShooterGame(display::Display* display, controls::DirPad controls)
       : Game(display),
         controls{std::move(controls)},
-        shooter(),
-        bullet(display->strip_length, display->strip_count, 0, NULL, NULL),
-        background(0, 0, 0) {}
+        bullet(display->size, 0, NULL, NULL) {}
 
-  virtual void setup() {
-    shooter.physics.location.x = display->strip_count / 2;
+  virtual void setup() override {
+    shooter.physics.location.x = display->size.x / 2;
     shooter.physics.location.y = 20;
   }
 
-  virtual void loop() {
+  virtual void loop() override {
     if (controls.up->IsPressed()) {
       shooter.physics.velocity.y = 5;
     } else if (controls.down->IsPressed()) {
@@ -56,8 +54,8 @@ class ShooterGame : public Game {
     }
 
     shooter.physics.Move();
-	// TODO this will not work with the way we track isPlaying in firework.h
-	// Instead we should allocate and destroy fireworks as needed
+    // TODO this will not work with the way we track isPlaying in firework.h
+    // Instead we should allocate and destroy fireworks as needed
     if (bullet.isPlaying) {
       bullet.Move();
     }
