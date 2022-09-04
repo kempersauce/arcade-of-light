@@ -1,13 +1,12 @@
 #pragma once
 
-#include <algorithm>  // for remove_if
 #include <vector>     // for std::vector
 
 #include "animation/animation.h"  // for Animation
 #include "animation/firework.h"   // for Firework
 #include "audio/sound_effect.h"   // for SoundEffect
 #include "display/display.h"      // for Display
-#include "engines/random.h"       // for random::*
+#include "math/random.h"          // for random::*
 
 namespace kss {
 namespace animation {
@@ -16,7 +15,7 @@ namespace _fireworks_show {
 
 constexpr size_t kMaxFireworksCount{0};  // 0 for no-limit
 constexpr uint16_t kMinWaitTime{50};
-constexpr uint16_t kMaxWaitTime{1750};
+constexpr uint16_t kMaxWaitTime{800};
 
 }  // namespace _fireworks_show
 using namespace _fireworks_show;
@@ -27,20 +26,36 @@ class FireworksShow : Animation {
   audio::SoundEffect* launch_sound;
   audio::SoundEffect* explode_sound;
 
-  const size_t strip_length;
   const size_t strip_count;
+  const size_t strip_length;
+
+  float gravity;
 
  public:
-  FireworksShow(size_t strip_length, size_t strip_count,
+  FireworksShow(size_t strip_count, size_t strip_length, float gravity,
                 audio::SoundEffect* launch_sound = NULL,
                 audio::SoundEffect* explode_sound = NULL)
       : Animation(),
         launch_sound{launch_sound},
         explode_sound{explode_sound},
+        strip_count{strip_count},
         strip_length{strip_length},
-        strip_count{strip_count} {}
+        gravity{gravity} {}
 
   virtual void Move() override {
+    // Launch 1-3 fireworks when it's time
+    if (ShouldCreateAnother()) {
+      for (auto count = math::random::Int8_incl(1, 3); count > 0; count--) {
+        fireworks.push_back(new Firework{strip_length, strip_count, gravity,
+                                         launch_sound, explode_sound});
+      }
+    }
+
+    // Move each firework, they're all active
+    for (auto firework : fireworks) {
+      firework->Move();
+    }
+
     // Remove dead fireworks
     for (auto it = fireworks.begin(); it < fireworks.end();) {
       if (!(*it)->isPlaying) {
@@ -50,17 +65,6 @@ class FireworksShow : Animation {
         ++it;
       }
     }
-
-    if (ShouldCreateAnother()) {
-      fireworks.push_back(
-          new Firework{strip_length, strip_count, launch_sound, explode_sound});
-      fireworks.back()->explosion.SetGravity(20);
-    }
-
-    // Move each firework that's left
-    for (auto firework : fireworks) {
-      firework->Move();
-    }
   }
 
   virtual void draw(display::Display* display) override {
@@ -69,13 +73,22 @@ class FireworksShow : Animation {
     }
   }
 
+  void Reset() {
+    for (auto firework : fireworks) {
+      delete firework;
+    }
+    fireworks.clear();
+  }
+
+  void SetGravity(float grav) { gravity = grav; }
+
  private:
   uint32_t next_create{0};
   bool ShouldCreateAnother() {
     if (kMaxFireworksCount == 0 || fireworks.size() < kMaxFireworksCount) {
       const uint32_t now = millis();
       if (now >= next_create) {
-        next_create = now + engines::random::Int16(kMinWaitTime, kMaxWaitTime);
+        next_create = now + math::random::Int16(kMinWaitTime, kMaxWaitTime);
         return true;
       }
     }

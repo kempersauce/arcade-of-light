@@ -87,7 +87,7 @@ void setup() {
       (animation::Animation*)new animation::Starscape{
           gameDisplay->strip_count, gameDisplay->strip_length, 140},
       (animation::Animation*)new animation::FireworksShow{
-          gameDisplay->strip_length, gameDisplay->strip_count}};
+          gameDisplay->strip_count, gameDisplay->strip_length, 15}};
 
   game = (games::Game*)new test::AnimationTest(gameDisplay, test_animations);
 

@@ -1,8 +1,8 @@
 // #include <Arduino.h>
 
+// #include "controls/button.h"           // for Button
 // #include "controls/hardware/matrix.h"  // for Matrix
-// #include "controls/button.h"  // for Button
-// #include "engines/random.h"            // for random::*
+// #include "math/random.h"               // for random::*
 // #include "serial/debug.h"              // for debug::*
 
 // using namespace kss;
@@ -27,9 +27,9 @@
 // void loop() {
 //   controller.PollAll();
 
-// //   if (but1->IsDepressing()) {
-// //     debug::println((String) "Int16()=" + random::Int16());
-// //   }
+//   //   if (but1->IsDepressing()) {
+//   //     debug::println((String) "Int16()=" + random::Int16());
+//   //   }
 //   if (but2->IsDepressing()) {
 //     debug::println((String) "Int16()=" + random::Int16());
 //   }

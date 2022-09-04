@@ -5,7 +5,7 @@
 
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
-#include "engines/random.h"       // for random::*
+#include "math/random.h"          // for random::*
 
 namespace kss {
 namespace animation {
@@ -23,7 +23,7 @@ class ElectricArc : public Animation {
       arc.clear();
       arc.push_back(yLocation);
       for (size_t y = yLocation, x = 1; x < display->strip_count; x++) {
-        float r = engines::random::Float();
+        float r = math::random::Float();
         if (r <= 0.4) {  // bottom 40%
           y += magnitude;
         } else if (r >= 0.6) {  // top 40%

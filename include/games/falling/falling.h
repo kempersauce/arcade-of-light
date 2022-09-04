@@ -7,8 +7,8 @@
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for DirPad
 #include "engines/physics_info.h"               // for PhysicsInfo
-#include "engines/random.h"                     // for random::*
 #include "games/game.h"                         // for Game
+#include "math/random.h"                        // for random::*
 
 namespace kss {
 namespace games {
@@ -30,8 +30,8 @@ class FallingGame : public Game {
         walls() {}
 
   virtual void setup() {
-    player.xLocation = display->strip_count / 2;
-    player.Location = display->strip_length * 2 / 3;
+    player.location.x = display->strip_count / 2;
+    player.location.y = display->strip_length * 2 / 3;
 
     // seed walls with initial stuff
     walls.clear();
@@ -44,8 +44,8 @@ class FallingGame : public Game {
     int left;
     int right;
     do {
-      left = walls.front().first + engines::random::Int8_incl(-1, 1);
-      right = walls.front().second + engines::random::Int8_incl(-1, 1);
+      left = walls.front().first + math::random::Int8_incl(-1, 1);
+      right = walls.front().second + math::random::Int8_incl(-1, 1);
 
       // Prevent the random walk from going more than 1 outside the visible
       // range
@@ -64,36 +64,36 @@ class FallingGame : public Game {
 
   virtual void loop() {
     if (controls.up->IsPressed()) {
-      player.Velocity = 10;
+      player.velocity.y = 10;
     } else if (controls.down->IsPressed()) {
-      player.Velocity = -10;
+      player.velocity.y = -10;
     } else {
-      player.Velocity = 0;
+      player.velocity.y = 0;
     }
 
     if (controls.left->IsPressed()) {
-      player.xVelocity = -10;
+      player.velocity.x = -10;
     } else if (controls.right->IsPressed()) {
-      player.xVelocity = 10;
+      player.velocity.x = 10;
     } else {
-      player.xVelocity = 0;
+      player.velocity.x = 0;
     }
 
     player.Move();
-    if (player.Location < 0)
-      player.Location = 0;
-    else if (player.Location >= display->strip_length)
-      player.Location = display->strip_length - 1;
+    if (player.location.y < 0)
+      player.location.y = 0;
+    else if (player.location.y >= display->strip_length)
+      player.location.y = display->strip_length - 1;
 
-    if (player.xLocation < 0)
-      player.xLocation = 0;
-    else if (player.xLocation >= display->strip_count)
-      player.xLocation = display->strip_count - 1;
+    if (player.location.x < 0)
+      player.location.x = 0;
+    else if (player.location.x >= display->strip_count)
+      player.location.x = display->strip_count - 1;
 
     addWalls();
 
-    if (player.xLocation <= walls[(int)player.Location].first ||
-        player.xLocation >= walls[(int)player.Location].second) {
+    if (player.location.x <= walls[(int)player.location.y].first ||
+        player.location.x >= walls[(int)player.location.y].second) {
       setup();
     }
 
@@ -111,7 +111,8 @@ class FallingGame : public Game {
     }
 
     // draw player
-    display->Pixel((int)player.xLocation, (int)player.Location) = CRGB::Green;
+    display->Pixel((int)player.location.x, (int)player.location.y) =
+        CRGB::Green;
   }
 };
 

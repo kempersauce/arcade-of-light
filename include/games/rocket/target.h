@@ -2,7 +2,7 @@
 
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
-#include "engines/random.h"       // for random::*
+#include "math/random.h"          // for random::*
 
 namespace kss {
 namespace games {
@@ -30,8 +30,8 @@ class Target : public animation::Animation {
   void setColor(CRGB* clr) { color = clr; }
 
   void randomize(int strip_length) {
-    Loc = engines::random::Int16(strip_length / 4, strip_length - 20);
-    Height = engines::random::Int8(10, 25);
+    Loc = math::random::Int16(strip_length / 4, strip_length - 20);
+    Height = math::random::Int8(10, 25);
   }
 
   void setToGround() {

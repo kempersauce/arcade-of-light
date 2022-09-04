@@ -6,66 +6,76 @@
 #include "audio/sound_effect.h"    // for SoundEffect
 #include "display/display.h"       // for Display
 #include "engines/physics_info.h"  // for PhysicsInfo
-#include "engines/random.h"        // for random::*
+#include "math/random.h"           // for random::*
+#include "math/vector2d.h"         // for Vector2D
 #include "serial/debug.h"          // for debug::*
 
 namespace kss {
 namespace animation {
 
 class Explosion : Animation {
-  enum Phase { Exploding, Fading, Done };
+  enum Phase { NotStarted, Exploding, Fading, Done };
 
-  audio::SoundEffect* explode_sound;
+  size_t shrapnel_count{50};
 
- public:
+  uint32_t saturation_phase_ms{1000};  // 1 sec sat phase
+  uint32_t brightness_phase_ms{1500};  // then 1.5 sec brightness phase
+
+  float magnitude{20.0f};
+  math::Vector2D friction{4, 1};
+  math::Vector2D gravity{0, 15};
+
+  uint8_t saturation_final{255};
+  uint8_t hue{0};
+
+  audio::SoundEffect* explode_sound{NULL};
+
   uint32_t birthTimeMillis{0};
 
-  uint32_t saturationPhaseMillis = 1000;  // 1 sec sat phase
-  uint32_t brightnessPhaseMillis = 1500;  // then 1.5 sec brightness phase
+  uint32_t TimeAliveMillis() const { return millis() - birthTimeMillis; }
 
- private:
-  Phase GetPhase(uint32_t time_alive) const {
-    if (time_alive < saturationPhaseMillis) {
+  Phase GetPhase() const {
+    if (birthTimeMillis == 0) {
+      return Phase::NotStarted;
+    }
+
+    const auto time_alive = TimeAliveMillis();
+
+    if (time_alive < saturation_phase_ms) {
       return Phase::Exploding;
     }
-    time_alive -= saturationPhaseMillis;
-    if (time_alive < brightnessPhaseMillis) {
+
+    if (time_alive < saturation_phase_ms + brightness_phase_ms) {
       return Phase::Fading;
     }
+
     return Phase::Done;
   }
 
  public:
   std::vector<engines::PhysicsInfo> shrapnel;
 
-  int explosionMagnitude = 20;
-
-  // colors (HSV)
-  uint8_t Hue;
-  uint8_t SaturationFinal = 255;
-
-  Explosion(size_t shrapnelCount, audio::SoundEffect* explode_sound = NULL)
+  Explosion(size_t shrapnel_count, uint32_t saturation_phase_ms,
+            uint32_t brightness_phase_ms, float magnitude, float friction_x,
+            float friction_y, float gravity, uint8_t saturation_final,
+            uint8_t hue, audio::SoundEffect* explode_sound)
       : Animation(),
-        explode_sound{explode_sound},
-        shrapnel{shrapnelCount},
-        Hue{engines::random::Int8()} {
-    SetFriction(4, 1);
-  }
+        shrapnel{shrapnel_count},
+        saturation_phase_ms{saturation_phase_ms},
+        brightness_phase_ms{brightness_phase_ms},
+        magnitude{magnitude},
+        friction{friction_x, friction_y},
+        gravity{0, gravity},
+        saturation_final{saturation_final},
+        hue{hue},
+        explode_sound{explode_sound} {}
 
-  void SetFriction(float xfriction, float friction) {
-    for (size_t i = 0; i < shrapnel.size(); i++) {
-      shrapnel[i].Friction = friction;
-      shrapnel[i].xFriction = xfriction;
-    }
-  }
+  void SetHue(uint8_t value) { hue = value; }
 
-  void SetGravity(int gravity) {
-    for (size_t i = 0; i < shrapnel.size(); i++) {
-      shrapnel[i].Gravity = gravity;
-    }
-  }
+  void SetGravity(int grav) { gravity.y = grav; }
 
-  void ExplodeAt(int stripIndex, int location) {
+  void ExplodeAt(int stripIndex, int location,
+                 math::Vector2D additional = math::Vector2D{0, 0}) {
     birthTimeMillis = millis();
 
     // Play the sound effect
@@ -73,60 +83,60 @@ class Explosion : Animation {
       explode_sound->Play();
     }
 
-    for (size_t i = 0; i < shrapnel.size(); i++) {
-      shrapnel[i].Reset();
-      shrapnel[i].Location = location;
-      shrapnel[i].xLocation = stripIndex;
-      shrapnel[i].RandomizeVelocityVector(explosionMagnitude);
+    for (auto& shrap : shrapnel) {
+      shrap.Reset();
+      shrap.friction = friction;
+      shrap.gravity = gravity;
+      shrap.location = math::Vector2D{stripIndex, location};
+      shrap.velocity = math::Vector2D::RandomVector(magnitude) + additional;
     }
   }
 
   virtual void Move() override {
-    if (IsBurnedOut() == false) {
-      for (size_t i = 0; i < shrapnel.size(); i++) {
-        shrapnel[i].Move();
-      }
-    }
-  }
+    const auto phase = GetPhase();
 
-  uint32_t TimeAliveMillis() const { return millis() - birthTimeMillis; }
-
-  bool IsBurnedOut() const {
-    return GetPhase(TimeAliveMillis()) == Phase::Done;
-  }
-
-  void draw(display::Display* display) {
-    if (IsBurnedOut())  // don't drawing after the explosion burns out
-    {
+    // don't draw before exploding or after the explosion burns out
+    if (phase == Phase::Done || phase == Phase::NotStarted) {
       return;
     }
 
-    const auto timeAliveMillis = TimeAliveMillis();
-    debug::println((String) "==== draw(), timeAlizeMillis = " +
-                   timeAliveMillis + ", sat-phase=" + saturationPhaseMillis +
-                   ", bright-phase=" + brightnessPhaseMillis);
+    for (auto& shrap : shrapnel) {
+      shrap.Move();
+    }
+  }
 
-    const auto phase = GetPhase(timeAliveMillis);
+  bool IsBurnedOut() const { return GetPhase() == Phase::Done; }
+
+  void draw(display::Display* display) {
+    const auto timeAliveMillis = TimeAliveMillis();
+    debug::println((String) "==== draw(), timeAliveMillis = " +
+                   timeAliveMillis + ", sat-phase=" + saturation_phase_ms +
+                   ", bright-phase=" + brightness_phase_ms);
+
+    const auto phase = GetPhase();
+
+    // don't draw before exploding or after the explosion burns out
+    if (phase == Phase::Done || phase == Phase::NotStarted) {
+      return;
+    }
 
     // Saturate Color while we're in the saturation phase
-    int saturation;
+    uint8_t saturation;
     if (phase == Phase::Exploding) {
-      saturation = (float)SaturationFinal * (float)timeAliveMillis /
-                   (float)saturationPhaseMillis;
+      saturation = (float)saturation_final * (float)timeAliveMillis /
+                   (float)saturation_phase_ms;
     } else {
-      saturation = SaturationFinal;
+      saturation = saturation_final;
     }
 
     // Then fade to Black for the brightness phase
-    int brightness;
+    uint8_t brightness;
     if (phase == Phase::Exploding) {
       brightness = 255;
       debug::print((String) "SATURATION phase");
     } else if (phase == Phase::Fading) {
-      brightness =
-          255 *
-          (1.0 - (float)(timeAliveMillis - saturationPhaseMillis) /
-                     (float)(brightnessPhaseMillis - saturationPhaseMillis));
+      brightness = 255 * (1.0 - (float)(timeAliveMillis - saturation_phase_ms) /
+                                    (float)brightness_phase_ms);
 
       debug::print((String) "BRIGHTNESS phase");
     } else {
@@ -136,15 +146,15 @@ class Explosion : Animation {
     debug::println((String) " saturation=" + saturation +
                    ", brightness=" + brightness);
 
-    for (size_t i = 0; i < shrapnel.size(); i++) {
-      int loc = (int)shrapnel[i].Location;
-      int xLoc = (int)shrapnel[i].xLocation;
+    for (const auto& shrap : shrapnel) {
+      int loc = (int)shrap.location.y;
+      int xLoc = (int)shrap.location.x;
       if (loc >= 0 && loc < display->strip_length && xLoc >= 0 &&
           xLoc < display->strip_count) {
         CRGB clr;
-        clr.setHSV(Hue, saturation, brightness);
-        float blend = (float)brightness / (float)255;
-        display->DitherPixel(xLoc, shrapnel[i].Location, &clr, blend);
+        clr.setHSV(hue, saturation, brightness);
+        const float blend = (float)brightness / 255.0f;
+        display->DitherPixel(xLoc, shrap.location.y, &clr, blend);
       }
     }
   }

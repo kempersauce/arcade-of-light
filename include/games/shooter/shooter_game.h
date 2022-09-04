@@ -22,36 +22,36 @@ class ShooterGame : public Game {
       : Game(display),
         controls{std::move(controls)},
         shooter(),
-        bullet(display->strip_length, display->strip_count, NULL, NULL),
+        bullet(display->strip_length, display->strip_count, 0, NULL, NULL),
         background(0, 0, 0) {}
 
   virtual void setup() {
-    shooter.physics.xLocation = display->strip_count / 2;
-    shooter.physics.Location = 20;
+    shooter.physics.location.x = display->strip_count / 2;
+    shooter.physics.location.y = 20;
   }
 
   virtual void loop() {
     if (controls.up->IsPressed()) {
-      shooter.physics.Velocity = 5;
+      shooter.physics.velocity.y = 5;
     } else if (controls.down->IsPressed()) {
-      shooter.physics.Velocity = -5;
+      shooter.physics.velocity.y = -5;
     } else {
-      shooter.physics.Velocity = 0;
+      shooter.physics.velocity.y = 0;
     }
 
     if (controls.left->IsPressed()) {
-      shooter.physics.xVelocity = -5;
+      shooter.physics.velocity.x = -5;
     } else if (controls.right->IsPressed()) {
-      shooter.physics.xVelocity = 5;
+      shooter.physics.velocity.x = 5;
     } else {
-      shooter.physics.xVelocity = 0;
+      shooter.physics.velocity.x = 0;
     }
 
     if (controls.a->IsDepressing()) {
       if (bullet.isPlaying == false) {
         bullet.Reset();
-        bullet.physics.xLocation = shooter.physics.xLocation;
-        bullet.physics.Location = shooter.physics.Location;
+        bullet.physics.location.x = shooter.physics.location.x;
+        bullet.physics.location.y = shooter.physics.location.y;
       }
     }
 

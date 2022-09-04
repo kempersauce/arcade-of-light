@@ -2,7 +2,7 @@
 
 #include <FastLED.h>  // for millis()
 
-#include "engines/random.h"  // for random::*
+#include "math/random.h"  // for random::*
 
 namespace kss {
 namespace engines {
@@ -38,9 +38,9 @@ class NoiseGenerator {
   // We'll use the z-axis for "time".  speed determines how fast time moves
   // forward.  Try 1 for a very slow moving effect, or 60 for something that
   // ends up looking like water. Initialize our coordinates
-  uint16_t x = engines::random::Int16();
-  uint16_t y = engines::random::Int16();
-  uint16_t z = engines::random::Int16();
+  uint16_t x = math::random::Int16();
+  uint16_t y = math::random::Int16();
+  uint16_t z = math::random::Int16();
 
   NoiseGenerator(size_t width, size_t height, uint16_t speed = 20)
       : width{width}, height{height}, speed{speed} {
