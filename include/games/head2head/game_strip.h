@@ -4,10 +4,10 @@
 #include "animation/explosion.h"    // for Explosion
 #include "controls/button.h"        // for Button
 #include "engines/noise.h"          // for NoiseGenerator
-#include "engines/random.h"         // for random::*
 #include "games/head2head/audio.h"  // for H2HAudio
 #include "games/head2head/dot.h"    // for H2HDot
 #include "games/head2head/zone.h"   // for H2HZone
+#include "math/random.h"            // for random::*
 
 namespace kss {
 namespace games {
@@ -44,8 +44,8 @@ class H2HGameStrip : public animation::Animation {
   // static const int zoneBHue = 0; // red
   static const int zoneBHue = 33;  // orange - this is wrong
 
-  int stripIndex;  // Which strip is this on?
-  int heightMax;   // length of this strip
+  const size_t stripIndex;  // Which strip is this on?
+  const size_t heightMax;   // length of this strip
 
   uint32_t
       stateTimeoutMillis;  // state timer used to time a handful of game states
@@ -73,37 +73,26 @@ class H2HGameStrip : public animation::Animation {
       noise_generator;  // this is maintained by the game class so we
                         // just need to hold onto the reference here
 
-  H2HGameStrip(int stripIndex, int stripHeight,
-               controls::Button* a,
-               controls::Button* b,
-               engines::NoiseGenerator* noise)
+  H2HGameStrip(size_t stripIndex, size_t stripHeight, controls::Button* a,
+               controls::Button* b, engines::NoiseGenerator* noise)
       : Animation(),
         dot(CRGB::White, stripIndex),
-        explosion(50),
-        dropExplosion(8),
         zoneA(CRGB::Green, stripIndex, 0, 22, false),
         zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1,
               true),
         buttonA{std::move(a)},
         buttonB{std::move(b)},
-        noise_generator{noise} {
-    this->stripIndex = stripIndex;
-    heightMax = stripHeight;
-
-    dropExplosion.SaturationFinal = 0;  // Gotta keep 'em desaturated
-    dropExplosion.saturationPhaseMillis =
-        150;  // hold saturation for a quarter second before fading away
-    dropExplosion.brightnessPhaseMillis = 200;  // quick little explosion
-    dropExplosion.SetFriction(20, 2);
-    dropExplosion.explosionMagnitude = 50;
-
+        noise_generator{noise},
+        dropExplosion{8, 150, 200, 50, 20, 2, 0, 0, 0, NULL},
+        explosion{50, 1000, 1500, 20, 10, 3, 0, 255, 0, NULL},
+        stripIndex{stripIndex},
+        heightMax{stripHeight} {
     // Set some physics on the explosion shrapnel so they'll bounce off the
     // ceiling and floor
-    for (size_t i = 0; i < explosion.shrapnel.size(); i++) {
-      explosion.shrapnel[i].LocationMax = stripHeight;
-      explosion.shrapnel[i].BounceFactor = -.8;
+    for (auto& shrap : explosion.shrapnel) {
+      shrap.LocationMax = stripHeight;
+      shrap.BounceFactor = -.8;
     }
-    explosion.SetFriction(10, 3);
 
     zoneAStart = zoneA.yMax;
     zoneBStart = zoneB.yMin;
@@ -122,10 +111,10 @@ class H2HGameStrip : public animation::Animation {
   void enterPlayingState() {
     stripState = H2HStripPlaying;
     dot.physics.Reset();
-    dot.physics.Location = midBar;
+    dot.physics.location.y = midBar;
 
     // randomly start in different directions
-    if (engines::random::Bool()) {
+    if (math::random::Bool()) {
       dot.setVelocity(20);
     } else {
       dot.setVelocity(-20);
@@ -137,8 +126,8 @@ class H2HGameStrip : public animation::Animation {
   void enterWinningStateA() {
     stripState = H2HStripWinningA;
 
-    explosion.Hue = zoneAHue;
-    explosion.ExplodeAt(stripIndex, dot.physics.Location);
+    explosion.SetHue(zoneAHue);
+    explosion.ExplodeAt(stripIndex, dot.physics.location.y);
     // TODO set this elsewhere once we have an animation for it
     midBar += 12;
 
@@ -150,8 +139,8 @@ class H2HGameStrip : public animation::Animation {
   void enterWinningStateB() {
     stripState = H2HStripWinningB;
 
-    explosion.Hue = zoneBHue;
-    explosion.ExplodeAt(stripIndex, dot.physics.Location);
+    explosion.SetHue(zoneBHue);
+    explosion.ExplodeAt(stripIndex, dot.physics.location.y);
     // TODO set this elsewhere once we have an animation for it
     midBar -= 12;
 
@@ -164,8 +153,8 @@ class H2HGameStrip : public animation::Animation {
     stripState = H2HStripDead;
     // Plan for when to start dropping a new ball
     stateTimeoutMillis =
-        millis() + engines::random::Int32(deadStateTimeoutMinMillis,
-                                          deadStateTimeoutMaxMillis);
+        millis() + math::random::Int16(deadStateTimeoutMinMillis,
+                                       deadStateTimeoutMaxMillis);
   }
 
   void enterDroppingState() {
@@ -190,13 +179,13 @@ class H2HGameStrip : public animation::Animation {
       case H2HStripPlaying:
 
         // Did team A just win this one?
-        if (dot.physics.Location >= heightMax) {
+        if (dot.physics.location.y >= heightMax) {
           audio.playTeamAWinLane();
           enterWinningStateA();
         }
 
         // Did team B just win this one?
-        else if (dot.physics.Location <= 0) {
+        else if (dot.physics.location.y <= 0) {
           audio.playTeamBWinLane();
           enterWinningStateB();
         }
@@ -204,10 +193,10 @@ class H2HGameStrip : public animation::Animation {
         else {
           // Team A hits the button
           if (buttonA->IsDepressing()) {
-            if (zoneA.checkZone(dot.physics.Location)) {
+            if (zoneA.checkZone(dot.physics.location.y)) {
               audio.playTeamAHit();
-              dot.setVelocity(-1 * (dot.physics.Velocity) +
-                              (zoneA.zoneDepth(dot.physics.Location) *
+              dot.setVelocity(-1 * (dot.physics.velocity.y) +
+                              (zoneA.zoneDepth(dot.physics.location.y) *
                                10));  // 20 to 40 px/sec
             } else {
               audio.playTeamAMiss();
@@ -220,10 +209,10 @@ class H2HGameStrip : public animation::Animation {
             digitalWriteFast(9, HIGH);
             delay(1);
             digitalWriteFast(9, LOW);
-            if (zoneB.checkZone(dot.physics.Location)) {
+            if (zoneB.checkZone(dot.physics.location.y)) {
               audio.playTeamBHit();
-              dot.setVelocity(-1 * (dot.physics.Velocity) -
-                              (zoneB.zoneDepth(dot.physics.Location) *
+              dot.setVelocity(-1 * (dot.physics.velocity.y) -
+                              (zoneB.zoneDepth(dot.physics.location.y) *
                                10));  // -20 to -40 px/sec
             } else {
               audio.playTeamBMiss();
@@ -357,7 +346,7 @@ class H2HGameStrip : public animation::Animation {
   }
 
   void drawBackgroundA(display::Display* display) {
-    for (int y = 0; y < min(midBar, display->strip_length); y++) {
+    for (int y = 0; y < min(midBar, display->size.y); y++) {
       display->Pixel(stripIndex, y)
           .setHSV(zoneAHue, 255,
                   noise_generator->data[stripIndex][y]);  // blue team
@@ -389,7 +378,7 @@ class H2HGameStrip : public animation::Animation {
     const float waveWidth = 10;
     drawBackgroundA(display);
     if (timeDiff < 1000) {
-      float distance = (float)display->strip_length * (float)timeDiff / 1000;
+      float distance = (float)display->size.y * (float)timeDiff / 1000;
       for (int i = waveWidth / -2; i < waveWidth / 2; i++) {
         float presence = (waveWidth / 2 - abs(i)) / (waveWidth / 2);
         display->BlendPixel(stripIndex, distance + i, &teamAColor, presence);
@@ -405,8 +394,7 @@ class H2HGameStrip : public animation::Animation {
     const float waveWidth = 10;
     drawBackgroundB(display);
     if (timeDiff < 1000) {
-      float distance =
-          (float)display->strip_length * (float)(1000 - timeDiff) / 1000;
+      float distance = (float)display->size.y * (float)(1000 - timeDiff) / 1000;
       for (int i = waveWidth / -2; i < waveWidth / 2; i++) {
         float presence = (waveWidth / 2 - abs(i)) / (waveWidth / 2);
         display->BlendPixel(stripIndex, distance + i, &teamBColor, presence);

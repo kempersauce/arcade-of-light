@@ -1,31 +1,28 @@
 #pragma once
 
-#include "engines/random.h"  // for random::*
+#include "math/random.h"    // for random::*
+#include "math/vector2d.h"  // for Vector2D
 
 namespace kss {
 namespace engines {
 
 class PhysicsInfo {
   // Track physics based on time not frames
-  long Time;
-
-  // This is calculated and overwritten immediately - instead set thrust
-  float Acceleration;
+  uint32_t last_move_time;
 
  public:
   // Dynamic values
-  // TODO make this handle Y values too ?!?! at least velocity and location are
-  // needed for firework.explosion
-  float Thrust;
-  float Velocity;
-  float Location;
-  float Friction = 0;
+  math::Vector2D<float> location;
+  math::Vector2D<float> velocity;
+  math::Vector2D<float> thrust;
+  math::Vector2D<float> gravity;
 
-  float xVelocity = 0;
-  float xLocation = 0;
-  float xFriction = 0;
+  // technically not a vector, but we set different values for x & y
+  // coefficients since we dont have uniform directional dimension
+  math::Vector2D<float> friction;
 
   // Edge detection
+  bool respect_edges;  // Whether or not to perform edge detection at all
   bool HasHitEdge;  // updated every round to determine if the edge was hit this
                     // round
   bool HasExploded;  // set to true when exploded, only reset on Reset()
@@ -35,87 +32,77 @@ class PhysicsInfo {
   int LocationMax = UINT16_MAX;  // default to this to have no ceiling ... 0 is
                                  // still hardcoded on the bottom
   float ThrustMax = 200;         // ???
-  int Mass = 1;                  // default to 1 so Thrust = Acceleration
-  int Gravity = 0;               // default to 0 for no gravity
-  float BounceFactor = 1.0;      // default to 1 for no bounce
-  int ExplodeVelocity = 0;       // default to 0 to explode on contact
+  int Mass = 1;                  // default to 1 so thrust = acceleration
+
+  float BounceFactor = 1.0;  // default to 1 for no bounce
+  int ExplodeVelocity = 0;   // default to 0 to explode on contact
 
   PhysicsInfo() { Reset(); }
 
   void RandomizeVelocityVector(float maxMagnitude) {
-    const float negMagnitude = maxMagnitude * -1;
-    const float hypotenuese = maxMagnitude * maxMagnitude;
-    do {
-      Velocity = random::Float(negMagnitude, maxMagnitude);
-      xVelocity = random::Float(negMagnitude, maxMagnitude);
-    } while (xVelocity * xVelocity + Velocity * Velocity >
-             hypotenuese);  // Repeat until we're within the unit circle
+    velocity = math::Vector2D<float>::RandomVector(maxMagnitude);
   }
 
   void Reset() {
-    Acceleration = 0;
-    Velocity = 0;
-    Location = 0;
-    Thrust = 0;
+    // Re-init physical vectors
+    velocity = math::Vector2D<float>();
+    location = math::Vector2D<float>();
+    thrust = math::Vector2D<float>();
+
+    // Reset collision detection
+    respect_edges = true;
     HasHitEdge = false;
     HasExploded = false;
-    Time = millis();
+
+    // Update time tracking
+    last_move_time = millis();
   }
 
-  void Move(bool respectEdges = true) {
-    if (Thrust > ThrustMax) {
-      Thrust = ThrustMax;
+  void Move() {
+    if (thrust.y > ThrustMax) {
+      thrust.y = ThrustMax;
     }
 
-    float timeDiff = (float)(millis() - Time) / 1000;
+    const auto now = millis();
+    const float timeDiff = (float)(now - last_move_time) / 1000.0f;
 
-    Time = millis();
+    last_move_time = now;
 
     // Equations
-    // Acceleration [A] = (.5 * (Thrust + Previous Thrust))/mass-gravity
-    Acceleration = (float)Thrust / (float)Mass - Gravity;
-    // will essentially be one of 3 values:
-    //                   no thrust Acceleration = -GRAVITY
-    //                   thrust initializing or ending = about 40% max thrust
-    //                   full thrust = 100% thrust
+    const auto acceleration =
+        (thrust / Mass)           // force on the object
+        - gravity                 // subtract for gravity
+        - (velocity * friction);  // subtract for friction
 
-    // Velocity [V] = Vp + delta T/1000 * Acceleration [A]
-    // equation is for seconds millis() returns an unsigned long in milliseconds
-    Velocity += Acceleration * timeDiff;
-    Velocity -= Velocity * Friction * timeDiff;
-    xVelocity -= xVelocity * xFriction * timeDiff;
+    // Adjust velocity
+    velocity += acceleration * timeDiff;
 
-    // needs to be min limited to 0 when position = 0
-    // should probably have a terminal velocity since we only have 300px to work
-    // with
+    // TODO we used to compute friction based on the new velocity, not the old
+    // one
+    // velocity -= velocity * friction * timeDiff;
 
-    // Position [Y] = Position Previous [Yp] + 0.5 * (Velocity [V] + Velocity
-    // Previous [Vp]) * delta T
-    Location += Velocity * timeDiff;
-    xLocation += xVelocity * timeDiff;
-    // needs to be min limited to 0
+    // Adjust location
+    location += velocity * timeDiff;
 
-    HasHitEdge = (Location < 0 || Location >= LocationMax);
+    HasHitEdge = (location.y < 0 || location.y >= LocationMax);
 
-    if (respectEdges) {
+    if (respect_edges) {
       // rocket has slammed into ceiling or floor
-      if (Location >= LocationMax) {
-        Location = LocationMax - 1;
-      } else if (Location <= 0) {
-        Location = 0;
+      if (location.y >= LocationMax) {
+        location.y = LocationMax - 1;
+      } else if (location.y < 0) {
+        location.y = 0;
       }
 
       if (HasHitEdge) {
-        Acceleration = 0;
-
         // and exploded
-        if (abs(Velocity) >= ExplodeVelocity) {
+        if (abs(velocity.y) >= ExplodeVelocity) {
           HasExploded = true;
         }
 
         // and bounced off ceiling/floor
         else {
-          Velocity *= BounceFactor;
+          velocity *= BounceFactor;
         }
       }
     }

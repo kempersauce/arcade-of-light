@@ -24,17 +24,6 @@ class Rocket : public animation::Animation {
   // colors (RGB)
   CRGB* color;
 
-  // Rocket State
-  // float Thrust;
-  // float ThrustMax = 200;
-  // float Acceleration;
-  // float Velocity;
-  // float ExploadVelocity = 50;
-  // float Location;
-  // int LocationMax;
-  // long Time;
-  // bool Exploded;
-
   RocketBoost boost;
 
   /**
@@ -56,28 +45,29 @@ class Rocket : public animation::Animation {
 
   void Reset() { physics.Reset(); }
 
-  void SetGravity(int gravity) { physics.Gravity = gravity; }
+  void SetGravity(float gravity) { physics.gravity.y = gravity; }
 
-  void SetBoost(int thrustLevel) { physics.Thrust = thrustLevel; }
+  void SetBoost(float thrustLevel) { physics.thrust.y = thrustLevel; }
 
-  void Move(bool respectEdges = true) {
-    physics.Move(respectEdges);
+  virtual void Move() override {
+    physics.Move();
 
     // Update boost location
-    boost.loc = physics.Location;
-    boost.boostFactor = physics.Thrust / physics.ThrustMax;
+    boost.loc = physics.location.y;
+    boost.boostFactor = physics.thrust.y / physics.ThrustMax;
   }
 
   void draw(display::Display* display) {
     // Draw the rocket ship
-    const size_t middleStrip = display->strip_count / 2;
-    for (size_t i = max(ceil(physics.Location), 0);
-         i < min((int)physics.Location + Height, display->strip_length); i++) {
+    const size_t middleStrip = display->size.x / 2;
+    for (size_t i = max(ceil(physics.location.y), 0);
+         i < min((int)physics.location.y + Height, display->size.y);
+         i++) {
       display->Pixel(middleStrip, i) = *color;
     }
-    display->DitherPixel(middleStrip, physics.Location + Height - 1,
+    display->DitherPixel(middleStrip, physics.location.y + Height - 1,
                          color);  // dither rocket nose
-    display->DitherPixel(middleStrip, physics.Location,
+    display->DitherPixel(middleStrip, physics.location.y,
                          color);  // dither rocket tail
 
     // Draw the rocket boost

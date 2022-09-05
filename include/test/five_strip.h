@@ -2,7 +2,6 @@
 
 #include <Constants.h>
 
-#include "animation/dot.h"                      // for Dot
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "display/display.h"                    // for Display
 #include "games/game.h"                         // for Game
@@ -13,14 +12,13 @@ namespace test {
 // Test for Directional Pad
 class FiveStripTest : public games::Game {
  public:
-  animation::Dot* player;
   animation::SingleColorBG* backgroundColor;
 
   FiveStripTest(display::Display* gameDisplay) : Game(gameDisplay) {}
 
   void setStrips() {
     // debug which strip is which
-    for (size_t i = 0; i < display->strip_length; i++) {
+    for (size_t i = 0; i < display->size.y; i++) {
       display->Pixel(0, i) = CRGB::Red;
       display->Pixel(1, i) = CRGB::Green;
       display->Pixel(2, i) = CRGB::Blue;

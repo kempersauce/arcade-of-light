@@ -16,14 +16,14 @@
 
 #define BRIGHTNESS 50
 
-#include "animation/starscape.h"    // for Starscape
-#include "controls/button.h"        // for Button
-#include "display/display.h"        // for Display
-#include "games/game.h"             // for Game
-#include "games/rocket/firework.h"  // for Firework
-#include "games/rocket/rocket.h"    // for Rocket
-#include "games/rocket/sky_fade.h"  // for SkyFade
-#include "games/rocket/target.h"    // for Target
+#include "animation/fireworks_show.h"  // for FireworksShow
+#include "animation/starscape.h"       // for Starscape
+#include "controls/button.h"           // for Button
+#include "display/display.h"           // for Display
+#include "games/game.h"                // for Game
+#include "games/rocket/rocket.h"       // for Rocket
+#include "games/rocket/sky_fade.h"     // for SkyFade
+#include "games/rocket/target.h"       // for Target
 //#include "audio/sounds.h"  // for Sounds
 #include <vector>
 
@@ -101,8 +101,7 @@ class RocketGame : public Game {
   Rocket rocket;  // the player
   Target target;  // the target
 
-  static const int numFireworks = 5;
-  std::vector<Firework> fireworks;  // win animation fireworks
+  animation::FireworksShow fireworks;  // win animation fireworks
 
   // Game Lose animations
   animation::Explosion explosion;
@@ -124,28 +123,18 @@ class RocketGame : public Game {
       : Game(display),
         up_btn{std::move(up)},
         reset_btn{std::move(reset)},
-        starBackground(display->strip_count, display->strip_length, 140),
+        starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),
-        rocket(display->strip_length, new CRGB(255, 255, 255)),
+        rocket(display->size.y, new CRGB(255, 255, 255)),
         target(new CRGB(55, 0, 0)),
         explosionsInTheSky(),
-        explosion(80),
-        fireworks() {
-    // Set explosion to red
-    explosion.Hue = 0;                       // Red explosions
-    explosion.brightnessPhaseMillis = 3000;  // slower, 3 second long burnout
-    explosion.SetFriction(18, 1.8);
-
+        explosion{80, 1000, 3000, 20, 18, 1.8, 0, 255, 0, &audio.explosion},
+        fireworks{display->size, 0} {
     // Set some physics on the explosion shrapnel so they'll bounce off the
     // ceiling and floor
-    for (size_t i = 0; i < explosion.shrapnel.size(); i++) {
-      explosion.shrapnel[i].LocationMax = display->strip_length;
-      explosion.shrapnel[i].BounceFactor = -.8;
-    }
-
-    while (fireworks.size() < numFireworks) {
-      fireworks.push_back(
-          Firework(display->strip_length, display->strip_count));
+    for (auto& shrap : explosion.shrapnel) {
+      shrap.LocationMax = display->size.y;
+      shrap.BounceFactor = -.8;
     }
   }
 
@@ -161,7 +150,7 @@ class RocketGame : public Game {
     gameState = RocketGameStart;
     skyFade.setFadeColor(skyFadeColors[level]);
     target.setColor(targetColors[level]);
-    target.randomize(display->strip_length);
+    target.randomize(display->size.y);
     targetsWon = 0;
     rocket.SetGravity(gravityLevels[level]);
     rocket.Reset();
@@ -170,20 +159,14 @@ class RocketGame : public Game {
 
   void enterWinState() {
     gameState = RocketGameWin;
-    for (int i = 0; i < numFireworks; i++) {
-      fireworks[i].Reset();
-      fireworks[i].explosion.SetGravity(
-          gravityLevels[min(level, levelMax - 1)]);
-    }
+    fireworks.SetGravity(gravityLevels[min(level, levelMax - 1)]);
     audio.playWinBG();
   }
 
   void enterLoseState() {
-    // play sound
-    audio.playExplosion();
     // game stuff
     gameState = RocketGameLose;
-    explosion.ExplodeAt(display->strip_count / 2, rocket.physics.Location);
+    explosion.ExplodeAt(display->size.x / 2, rocket.physics.location.y);
     explosionsInTheSky.startAnimation(audio);
   }
 
@@ -201,8 +184,8 @@ class RocketGame : public Game {
 
   void checkTarget() {
     bool wasInTarget = target.isInTarget;
-    target.isInTarget = rocket.physics.Location >= target.Loc &&
-                        rocket.physics.Location < target.Loc + target.Height;
+    target.isInTarget = rocket.physics.location.y >= target.Loc &&
+                        rocket.physics.location.y < target.Loc + target.Height;
     if (target.isInTarget) {
       // Check if we're just entering the target
       if (wasInTarget == false) {
@@ -219,7 +202,7 @@ class RocketGame : public Game {
 
         // Still more targets - make a new random target
         if (targetsWon < targetsPerLevel) {
-          target.randomize(display->strip_length);
+          target.randomize(display->size.y);
         }
 
         // Last target is on the ground
@@ -298,13 +281,15 @@ class RocketGame : public Game {
       case RocketGameLevelAdvance:
 
         // Boost way way up the screen
-        if (rocket.physics.Location < display->strip_length * 2) {
-          rocket.SetBoost(rocket.physics.Thrust + 5);  // just keep boosting up
-          rocket.Move(false);  // let it boost off the screen
+        if (rocket.physics.location.y < display->size.y * 2) {
+          rocket.SetBoost(rocket.physics.thrust.y +
+                          5);  // just keep boosting up
+          rocket.physics.respect_edges = false;
+          rocket.Move();  // let it boost off the screen
 
-          // shift stars and target down according to Rocket Thrust up to 10
+          // shift stars and target down according to Rocket thrust up to 10
           // px/frame
-          // int backgroundShift = min(rocket.Velocity / 32, 6);
+          // int backgroundShift = min(rocket.velocity.y / 32, 6);
 
           // jk since scale is so high, any higher than 1*scale is too fast, and
           // any lover than 1*cale causes tearing between pixels
@@ -330,13 +315,7 @@ class RocketGame : public Game {
         break;
 
       case RocketGameWin:
-        for (int i = 0; i < numFireworks; i++) {
-          fireworks[i].Move(audio);
-          if (fireworks[i].isPlaying == false) {
-            // audio.playFireWorkLaunch();
-            fireworks[i].Reset();
-          }
-        }
+        fireworks.Move();
         // TODO fill this in right now we just jump straight into the start
         // state of a new game
         // setup();
@@ -361,7 +340,7 @@ class RocketGame : public Game {
         // target.draw(display);
         // explosionsInTheSky.draw(display);
         // explosion.draw(display);
-        // for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+        // fireworks.draw(display);
         rocket.draw(display);
         break;
 
@@ -371,7 +350,7 @@ class RocketGame : public Game {
         target.draw(display);
         // explosionsInTheSky.draw(display);
         // explosion.draw(display);
-        // for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+        // fireworks.draw(display);
         rocket.draw(display);
         break;
 
@@ -381,7 +360,7 @@ class RocketGame : public Game {
         // target.draw(display);
         explosionsInTheSky.draw(display);
         explosion.draw(display);
-        // for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+        // fireworks.draw(display);
         // rocket.draw(display);
         break;
 
@@ -392,7 +371,7 @@ class RocketGame : public Game {
         // target.draw(display);
         // explosionsInTheSky.draw(display);
         // explosion.draw(display);
-        // for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+        // fireworks.draw(display);
         rocket.draw(display);
         break;
 
@@ -402,7 +381,7 @@ class RocketGame : public Game {
         // target.draw(display);
         // explosionsInTheSky.draw(display);
         // explosion.draw(display);
-        for (int i = 0; i < numFireworks; i++) fireworks[i].draw(display);
+        fireworks.draw(display);
         // rocket.draw(display);
         break;
     }

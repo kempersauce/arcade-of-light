@@ -1,10 +1,10 @@
 
 #pragma once
 
+#include "animation/firework.h"                 // for Firework
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for DirPad
 #include "games/game.h"                         // for Game
-#include "games/rocket/firework.h"              // for Firework
 #include "games/shooter/shooter.h"              // for Shooter
 
 namespace kss {
@@ -14,51 +14,50 @@ namespace shooter {
 class ShooterGame : public Game {
   controls::DirPad controls;
   Shooter shooter;
-  rocket::Firework bullet;
+  animation::Firework bullet;
   animation::SingleColorBG background;
 
  public:
-  ShooterGame(display::Display* gameDisplay, controls::DirPad controls)
-      : Game(gameDisplay),
+  ShooterGame(display::Display* display, controls::DirPad controls)
+      : Game(display),
         controls{std::move(controls)},
-        shooter(),
-        bullet(gameDisplay->strip_length, gameDisplay->strip_count),
-        background(0, 0, 0) {}
+        bullet(display->size, 0, NULL, NULL) {}
 
-  virtual void setup() {
-    shooter.physics.xLocation = display->strip_count / 2;
-    shooter.physics.Location = 20;
+  virtual void setup() override {
+    shooter.physics.location.x = display->size.x / 2;
+    shooter.physics.location.y = 20;
   }
 
-  virtual void loop() {
+  virtual void loop() override {
     if (controls.up->IsPressed()) {
-      shooter.physics.Velocity = 5;
+      shooter.physics.velocity.y = 5;
     } else if (controls.down->IsPressed()) {
-      shooter.physics.Velocity = -5;
+      shooter.physics.velocity.y = -5;
     } else {
-      shooter.physics.Velocity = 0;
+      shooter.physics.velocity.y = 0;
     }
 
     if (controls.left->IsPressed()) {
-      shooter.physics.xVelocity = -5;
+      shooter.physics.velocity.x = -5;
     } else if (controls.right->IsPressed()) {
-      shooter.physics.xVelocity = 5;
+      shooter.physics.velocity.x = 5;
     } else {
-      shooter.physics.xVelocity = 0;
+      shooter.physics.velocity.x = 0;
     }
 
     if (controls.a->IsDepressing()) {
       if (bullet.isPlaying == false) {
         bullet.Reset();
-        bullet.physics.xLocation = shooter.physics.xLocation;
-        bullet.physics.Location = shooter.physics.Location;
+        bullet.physics.location.x = shooter.physics.location.x;
+        bullet.physics.location.y = shooter.physics.location.y;
       }
     }
 
     shooter.physics.Move();
+    // TODO this will not work with the way we track isPlaying in firework.h
+    // Instead we should allocate and destroy fireworks as needed
     if (bullet.isPlaying) {
-      // TODO uncomment this once we find a generic solution for fireworks
-      // bullet.Move();
+      bullet.Move();
     }
 
     background.draw(display);

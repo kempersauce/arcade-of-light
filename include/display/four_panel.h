@@ -15,11 +15,11 @@ class FourPanelDisplay : public TwentyDisplay {
 
   FourPanelDisplay()
       : TwentyDisplay(),
-        panel_width{strip_count / 4},
-        panels{{this, panel_width, strip_length, 0 * panel_width},
-               {this, panel_width, strip_length, 1 * panel_width},
-               {this, panel_width, strip_length, 2 * panel_width},
-               {this, panel_width, strip_length, 3 * panel_width}} {}
+        panel_width{size.x / 4},
+        panels{{this, {panel_width, size.y}, 0 * panel_width},
+               {this, {panel_width, size.y}, 1 * panel_width},
+               {this, {panel_width, size.y}, 2 * panel_width},
+               {this, {panel_width, size.y}, 3 * panel_width}} {}
 };
 
 }  // namespace display

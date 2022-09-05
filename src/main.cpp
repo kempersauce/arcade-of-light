@@ -1,110 +1,114 @@
-// // hopefully this makes sound work
-// // #define FASTLED_ALLOW_INTERRUPTS 0
+// hopefully this makes sound work
+// #define FASTLED_ALLOW_INTERRUPTS 0
 
-// #include "animation/noise.h"                // for NoiseAnimation
-// // #include "audio/sounds.h"                   // for Sounds
-// #include "display/display.h"                // for Display
-// #include "display/five.h"                   // for FiveDisplay
-// #include "display/four_panel.h"             // for FourPanelDisplay
-// #include "display/h2h.h"                    // for H2HDisplay
-// #include "display/octo_display.h"           // for OctoDisplay
-// #include "display/rocket.h"                 // for RocketDisplay
-// #include "display/standard_display.h"       // for StandardDisplay
-// #include "display/twenty.h"                 // for TwentyDisplay
-// #include "display/twenty_standard.h"        // for TwentyDisplayStandard
-// #include "engines/framerate.h"              // for FrameRate
-// #include "games/falling/falling.h"          // for FallingGame
-// #include "games/head2head/head2head.h"      // for Head2Head
-// #include "games/lane_runner/lane_runner.h"  // for LaneRunner
-// #include "games/life/glider_wars.h"         // for GliderWars
-// #include "games/life/life.h"                // for LifeGame
-// #include "games/life/single_player.h"       // for LifeGameSinglePlayer
-// #include "games/marquee/marquee.h"          // for MarqueeGame
-// #include "games/noise/noise.h"              // for NoiseGame
-// #include "games/rainbow/rainbow.h"          // for RainbowGame
-// #include "games/rainbow/rainbow_static.h"   // for RainbowStatic
-// #include "games/rocket/rocket_game.h"       // for RocketGame
-// #include "games/shooter/shooter_game.h"     // for ShooterGame
-// #include "games/snake/snake_game.h"         // for SnakeGame
-// // #include "games/wav_player/wav_player.h"    // for WavPlayer
-// #include "serial/debug.h"           // for serial debugging
-// #include "test/animation.h"         // for AnimationTest
-// #include "test/dir_pad.h"           // for DirPadTest
-// #include "test/five_strip.h"        // for FiveStripTest
-// #include "test/multi_game.h"        // for MultiGameTest
-// #include "test/serial.h"            // for SerialTest
-// #include "test/single_animation.h"  // for SingleAnimation
-// #include "test/single_color.h"      // for SingleColorTest
+#include <vector>  // for vector
 
-// using namespace kss;
+#include "animation/fireworks_show.h"  // for FireworksShow
+#include "animation/noise.h"           // for NoiseAnimation
+// #include "audio/sounds.h"                   // for Sounds
+#include "display/display.h"                // for Display
+#include "display/five.h"                   // for FiveDisplay
+#include "display/four_panel.h"             // for FourPanelDisplay
+#include "display/h2h.h"                    // for H2HDisplay
+#include "display/octo_display.h"           // for OctoDisplay
+#include "display/rocket.h"                 // for RocketDisplay
+#include "display/standard_display.h"       // for StandardDisplay
+#include "display/twenty.h"                 // for TwentyDisplay
+#include "display/twenty_standard.h"        // for TwentyDisplayStandard
+#include "engines/framerate.h"              // for FrameRate
+#include "games/falling/falling.h"          // for FallingGame
+#include "games/head2head/head2head.h"      // for Head2Head
+#include "games/lane_runner/lane_runner.h"  // for LaneRunner
+#include "games/life/glider_wars.h"         // for GliderWars
+#include "games/life/life.h"                // for LifeGame
+#include "games/life/single_player.h"       // for LifeGameSinglePlayer
+#include "games/marquee/marquee.h"          // for MarqueeGame
+#include "games/noise/noise.h"              // for NoiseGame
+#include "games/rainbow/rainbow.h"          // for RainbowGame
+#include "games/rainbow/rainbow_static.h"   // for RainbowStatic
+#include "games/rocket/rocket_game.h"       // for RocketGame
+#include "games/shooter/shooter_game.h"     // for ShooterGame
+#include "games/snake/snake_game.h"         // for SnakeGame
+// #include "games/wav_player/wav_player.h"    // for WavPlayer
+#include "serial/debug.h"       // for serial debugging
+#include "test/animation.h"     // for AnimationTest
+#include "test/dir_pad.h"       // for DirPadTest
+#include "test/five_strip.h"    // for FiveStripTest
+#include "test/multi_game.h"    // for MultiGameTest
+#include "test/serial.h"        // for SerialTest
+#include "test/single_color.h"  // for SingleColorTest
 
-// engines::FrameRate frameRate;
+using namespace kss;
 
-// games::Game* game;
-// display::Display* gameDisplay;
+engines::FrameRate frameRate;
 
-// void setup() {
-//   // This only works if we're not using octo
-//   // FastLED.setBrightness(100);
+games::Game* game;
+display::Display* gameDisplay;
 
-//   debug::Init();
-//   debug::println("Begin setup()");
+void setup() {
+  // This only works if we're not using octo
+  // FastLED.setBrightness(100);
 
-//   // Choose your Display type
-// //   gameDisplay = (display::Display*)new display::FiveDisplay();
-//   gameDisplay = (display::Display*)new display::FourPanelDisplay();
-// //   gameDisplay = (display::Display*)new display::H2HDisplay();
-// //   gameDisplay = (display::Display*)new display::RocketDisplay();
-// //   gameDisplay = (display::Display*)new display::TwentyDisplay();
-// //   gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
+  debug::Init();
+  debug::println("Begin setup()");
 
-//   debug::println("gameDisplay created");
+  // Choose your Display type
+  //   gameDisplay = (display::Display*)new display::FiveDisplay();
+  //   gameDisplay = (display::Display*)new display::FourPanelDisplay();
+  //   gameDisplay = (display::Display*)new display::H2HDisplay();
+  //   gameDisplay = (display::Display*)new display::RocketDisplay();
+  gameDisplay = (display::Display*)new display::TwentyDisplay();
+  //   gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
 
-//   // Choose your Game type
-// //   game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
-// //   game = (games::Game*)new games::life::LifeGame(gameDisplay);
-// //   game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
-// //   game = (games::Game*)new games::rainbow::RainbowStatic(gameDisplay);
-// //   game = (games::Game*)new games::marquee::MarqueeGame(gameDisplay);
-// //   game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
-// //   game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);
-// //   game = (games::Game*)new games::falling::FallingGame(gameDisplay);
-// //   game = (games::Game*)new games::lane_runner::LaneRunnerGame(gameDisplay);
-// //   game = (games::Game*)new games::life::LifeGameSinglePlayer(gameDisplay);
+  debug::println("gameDisplay created");
 
-//   // Test Games
-// //   game = (games::Game*)new test::DirPadTest(gameDisplay);
-// //   game = (games::Game*)new test::FiveStripTest(gameDisplay);
-// //   game = (games::Game*)new games::life::GliderWarsGame(gameDisplay);
-// //   game = (games::Game*)new test::AnimationTest(gameDisplay);
-//   game = (games::Game*)new test::MultiGameTest{
-//       (display::FourPanelDisplay*)gameDisplay};
+  // Choose your Game type
+  //   game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
+  //   game = (games::Game*)new games::life::LifeGame(gameDisplay);
+  //   game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
+  //   game = (games::Game*)new games::rainbow::RainbowGame(gameDisplay);
+  //   game = (games::Game*)new games::rainbow::RainbowStatic(gameDisplay);
+  //   game = (games::Game*)new games::marquee::MarqueeGame(gameDisplay);
+  //   game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
+  //   game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);
+  //   game = (games::Game*)new games::falling::FallingGame(gameDisplay);
+  //   game = (games::Game*)new games::lane_runner::LaneRunnerGame(gameDisplay);
+  //   game = (games::Game*)new games::life::LifeGameSinglePlayer(gameDisplay);
 
-//   // Animation Test game
-// //   animation::Animation* test_animation =
-// //       (animation::Animation*)new animation::NoiseAnimation{
-// //           gameDisplay->strip_count, gameDisplay->strip_length};
-// //   game = (games::Game*)new test::SingleAnimation(gameDisplay, test_animation);
+  // Test Games
+  //   game = (games::Game*)new test::DirPadTest(gameDisplay);
+  //   game = (games::Game*)new test::FiveStripTest(gameDisplay);
+  //   game = (games::Game*)new games::life::GliderWarsGame(gameDisplay);
+  //   game = (games::Game*)new test::MultiGameTest{
+  //       (display::FourPanelDisplay*)gameDisplay};
 
-//   debug::println("game created");
+  // Animation Test game
+  std::vector<animation::Animation*> test_animations{
+      (animation::Animation*)new animation::Starscape{gameDisplay->size, 140},
+      (animation::Animation*)new animation::FireworksShow{gameDisplay->size,
+                                                          15}};
 
-//   game->setup();
-//   debug::println("game setup complete");
+  game = (games::Game*)new test::AnimationTest(gameDisplay, test_animations);
 
-//   debug::println("End setup()");
+  debug::println("game created");
 
-//   // TODO should we show LEDs on setup?
-//   gameDisplay->Show();
-// }
+  game->setup();
+  debug::println("game setup complete");
 
-// void loop() {
-//   //   debug::println("loop() entered");
+  debug::println("End setup()");
 
-//   game->loop();
+  // TODO should we show LEDs on setup?
+  gameDisplay->Show();
+}
 
-//   //   debug::println("loop() Show Display");
-//   gameDisplay->Show();
+void loop() {
+  //   debug::println("loop() entered");
 
-//   //   debug::println("loops brother");
-//   frameRate.PrintFrameRate();
-// }
+  game->loop();
+
+  //   debug::println("loop() Show Display");
+  gameDisplay->Show();
+
+  //   debug::println("loops brother");
+  // frameRate.PrintFrameRate();
+}

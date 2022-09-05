@@ -6,7 +6,7 @@
 
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
-#include "engines/random.h"       // for random::*
+#include "math/random.h"          // for random::*
 
 namespace kss {
 namespace games {
@@ -108,8 +108,8 @@ class LifeAnimation : public animation::Animation {
   }
 
   void draw(display::Display* display) {
-    for (size_t ledIndex = 0; ledIndex < display->strip_length; ledIndex++) {
-      for (size_t stripIndex = 0; stripIndex < display->strip_count;
+    for (size_t ledIndex = 0; ledIndex < display->size.y; ledIndex++) {
+      for (size_t stripIndex = 0; stripIndex < display->size.x;
            stripIndex++) {
         int age = (*nextRound)[stripIndex][ledIndex];
 
@@ -126,7 +126,7 @@ class LifeAnimation : public animation::Animation {
   void randomize() {
     for (size_t i = 0; i < width; i++) {
       for (size_t j = 0; j < height; j++) {
-        const bool alive = engines::random::Bool(randomizeDensity);
+        const bool alive = math::random::Bool(randomizeDensity);
         if (alive) {
           (*nextRound)[i][j] = 1;
         } else {
