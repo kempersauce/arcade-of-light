@@ -107,9 +107,9 @@ class LifeAnimation : public animation::Animation {
     }
   }
 
-  void draw(display::Display* display) {
-    for (size_t ledIndex = 0; ledIndex < display->size.y; ledIndex++) {
-      for (size_t stripIndex = 0; stripIndex < display->size.x;
+  void draw(display::Display& display) {
+    for (size_t ledIndex = 0; ledIndex < display.size.y; ledIndex++) {
+      for (size_t stripIndex = 0; stripIndex < display.size.x;
            stripIndex++) {
         int age = (*nextRound)[stripIndex][ledIndex];
 
@@ -118,7 +118,7 @@ class LifeAnimation : public animation::Animation {
           age = ageColors.size() - 1;
         }
 
-        display->Pixel(stripIndex, ledIndex) = ageColors[age];
+        display.Pixel(stripIndex, ledIndex) = ageColors[age];
       }
     }
   }

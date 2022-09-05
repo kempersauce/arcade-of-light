@@ -48,11 +48,11 @@ class LifeGameSinglePlayer : public Game {
   const static uint32_t idleTimeoutMillis = 1000 * 90;  // 90 seconds
 
  public:
-  LifeGameSinglePlayer(display::Display* display, controls::DirPad controls)
+  LifeGameSinglePlayer(display::Display& display, controls::DirPad controls)
       : Game(display),
         idleGame{display},
         dirPad{std::move(controls)},
-        lifeGrid{display->size.x + 1, display->size.y} {
+        lifeGrid{display.size.x + 1, display.size.y} {
     // Start BG music
     audio.playStdBG();
   }

@@ -22,13 +22,13 @@ class SkyFade : public animation::Animation {
 
   void setFadeColor(CRGB* fadeColor) { blendColor = fadeColor; }
 
-  void draw(display::Display* display) {
+  void draw(display::Display& display) {
     const size_t heightMax =
-        display->size.y / 3;  // only go a third of the way up
-    for (size_t i = 0; i < display->size.x; i++) {
+        display.size.y / 3;  // only go a third of the way up
+    for (size_t i = 0; i < display.size.x; i++) {
       for (int j = 0; j < heightMax; j++) {
         float blueFactor = ((float)(heightMax - j)) / ((float)heightMax);
-        display->BlendPixel(i, j, blendColor, blueFactor);
+        display.BlendPixel(i, j, blendColor, blueFactor);
       }
     }
   }

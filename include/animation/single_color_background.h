@@ -13,10 +13,10 @@ class SingleColorBG : public Animation {
  public:
   SingleColorBG(CRGB color = CRGB::Black) : Animation(), color{color} {}
 
-  void draw(display::Display* display) {
-    for (size_t x = 0; x < display->size.x; ++x) {
-      for (size_t y = 0; y < display->size.y; ++y) {
-        display->Pixel(x, y) = color;
+  void draw(display::Display& display) {
+    for (size_t x = 0; x < display.size.x; ++x) {
+      for (size_t y = 0; y < display.size.y; ++y) {
+        display.Pixel(x, y) = color;
       }
     }
   }

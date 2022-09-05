@@ -108,7 +108,7 @@ class Explosion : Animation {
 
   bool IsBurnedOut() const { return GetPhase() == Phase::Done; }
 
-  void draw(display::Display* display) {
+  void draw(display::Display& display) {
     const auto timeAliveMillis = TimeAliveMillis();
     debug::println((String) "==== draw(), timeAliveMillis = " +
                    timeAliveMillis + ", sat-phase=" + saturation_phase_ms +
@@ -149,12 +149,12 @@ class Explosion : Animation {
 
     for (const auto& shrap : shrapnel) {
       const auto& loc = shrap.location;
-      if (loc.y >= 0 && loc.y < display->size.y && loc.x >= 0 &&
-          loc.x < display->size.x) {
+      if (loc.y >= 0 && loc.y < display.size.y && loc.x >= 0 &&
+          loc.x < display.size.x) {
         CRGB clr;
         clr.setHSV(hue, saturation, brightness);
         const float blend = (float)brightness / 255.0f;
-        display->DitherPixel(loc.x, loc.y, &clr, blend);
+        display.DitherPixel(loc.x, loc.y, &clr, blend);
       }
     }
   }

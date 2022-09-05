@@ -22,17 +22,17 @@ class FallingGame : public Game {
   std::deque<std::pair<int, int>> walls;
 
  public:
-  FallingGame(display::Display* gameDisplay, controls::DirPad controls)
+  FallingGame(display::Display& gameDisplay, controls::DirPad controls)
       : Game(gameDisplay), controls{std::move(controls)} {}
 
   virtual void setup() {
-    player.location.x = display->size.x / 2;
-    player.location.y = display->size.y * 2 / 3;
+    player.location.x = display.size.x / 2;
+    player.location.y = display.size.y * 2 / 3;
 
     // seed walls with initial stuff
     walls.clear();
-    while (walls.size() < display->size.y - 1) {
-      walls.push_front(std::make_pair(-1, display->size.x));
+    while (walls.size() < display.size.y - 1) {
+      walls.push_front(std::make_pair(-1, display.size.x));
     }
   }
 
@@ -47,12 +47,12 @@ class FallingGame : public Game {
       // range
       if (left < -1) left = -1;
 
-      if (right > display->size.x) right = display->size.x;
+      if (right > display.size.x) right = display.size.x;
 
       // TODO check if left < right
 
       // Cap this at 2 pixel width tunnel
-    } while (right - left < (display->size.x + 1) / 2);
+    } while (right - left < (display.size.x + 1) / 2);
 
     walls.pop_back();
     walls.push_front(std::make_pair(left, right));
@@ -78,13 +78,13 @@ class FallingGame : public Game {
     player.Move();
     if (player.location.y < 0)
       player.location.y = 0;
-    else if (player.location.y >= display->size.y)
-      player.location.y = display->size.y - 1;
+    else if (player.location.y >= display.size.y)
+      player.location.y = display.size.y - 1;
 
     if (player.location.x < 0)
       player.location.x = 0;
-    else if (player.location.x >= display->size.x)
-      player.location.x = display->size.x - 1;
+    else if (player.location.x >= display.size.x)
+      player.location.x = display.size.x - 1;
 
     addWalls();
 
@@ -96,18 +96,18 @@ class FallingGame : public Game {
     background.draw(display);
 
     // draw the walls
-    for (int y = 0; y < display->size.y; y++) {
+    for (int y = 0; y < display.size.y; y++) {
       for (int x = 0; x <= walls[y].first; x++) {
-        display->Pixel(x, y) = CRGB::Magenta;
+        display.Pixel(x, y) = CRGB::Magenta;
       }
 
-      for (int x = walls[y].second; x < display->size.x; x++) {
-        display->Pixel(x, y) = CRGB::Magenta;
+      for (int x = walls[y].second; x < display.size.x; x++) {
+        display.Pixel(x, y) = CRGB::Magenta;
       }
     }
 
     // draw player
-    display->Pixel((int)player.location.x, (int)player.location.y) =
+    display.Pixel((int)player.location.x, (int)player.location.y) =
         CRGB::Green;
   }
 };

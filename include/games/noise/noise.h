@@ -12,9 +12,9 @@ class NoiseGame : public Game {
   animation::NoiseAnimation background;
 
  public:
-  NoiseGame(display::Display* gameDisplay)
+  NoiseGame(display::Display& gameDisplay)
       : Game{gameDisplay},
-        background{gameDisplay->size} {}
+        background{gameDisplay.size} {}
 
   void setup() {}
 

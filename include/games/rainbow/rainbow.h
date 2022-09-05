@@ -14,7 +14,7 @@ class RainbowGame : public Game {
   // audio::AudioSender* audio;
 
  public:
-  RainbowGame(display::Display* gameDisplay)
+  RainbowGame(display::Display& gameDisplay)
       : Game(gameDisplay), background(0) {
     background.setWaveShift(false);
   }

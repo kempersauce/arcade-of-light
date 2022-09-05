@@ -13,7 +13,7 @@ namespace animation {
 
 class Animation {
  public:
-  virtual void draw(display::Display* display);
+  virtual void draw(display::Display& display);
   virtual void Move(){};  // default empty since not all need this
 };
 
