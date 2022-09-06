@@ -11,9 +11,10 @@ namespace kss {
 namespace games {
 
 class Game {
- public:
+ protected:
   display::Display& display;
 
+ public:
   Game(display::Display& display) : display{display} {}
 
   virtual void setup();

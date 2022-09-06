@@ -13,23 +13,22 @@ holds the strips
 namespace kss {
 namespace display {
 
-class Panel : public Display {
+class SubDisplay : public Display {
   Display& parent;
-  const size_t strip_offset;
+  const math::Dimension location;
 
  public:
-  Panel(Display& parent, const math::Dimension& size,
-        const size_t strip_offset)
+  SubDisplay(Display& parent, const math::Dimension& location, const math::Dimension& size)
       : Display(size),
         parent{parent},
-        strip_offset{strip_offset} {}
+        location{location} {}
 
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) override {
 #ifdef DEBUG
-    // Run initial checking on this panel to detect bleedover
+    // Run initial checking on this SubDisplay to detect bleedover
     CheckLocation(strip, pixel);
 #endif
-    return parent.Pixel(strip + strip_offset, pixel);
+    return parent.Pixel(strip + location.x, pixel + location.y);
   };
 
   virtual void Show() override {

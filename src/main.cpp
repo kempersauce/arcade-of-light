@@ -25,6 +25,7 @@
 #include "games/noise/noise.h"              // for NoiseGame
 #include "games/rainbow/rainbow.h"          // for RainbowGame
 #include "games/rainbow/rainbow_static.h"   // for RainbowStatic
+#include "games/rhythm/rhythm_game.h"       // for RhythmGame
 #include "games/rocket/rocket_game.h"       // for RocketGame
 #include "games/shooter/shooter_game.h"     // for ShooterGame
 #include "games/snake/snake_game.h"         // for SnakeGame
