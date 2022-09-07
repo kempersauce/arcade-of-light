@@ -24,7 +24,7 @@
 //         controls.CreateButton(BUTTON_PIN_0)
 //     };
 
-//     game = (Game*)new LifeGameSinglePlayer(gameDisplay, dirPad);
+//     game = (Game*)new LifeGameSinglePlayer(*gameDisplay, dirPad);
 //     game->setup();
 //     gameDisplay->Show();
 // }

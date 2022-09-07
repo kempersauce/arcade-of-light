@@ -12,7 +12,7 @@ class RainbowStatic : public Game {
   animation::Rainbow background;
 
  public:
-  RainbowStatic(display::Display* gameDisplay) : Game(gameDisplay) {}
+  RainbowStatic(display::Display& gameDisplay) : Game(gameDisplay) {}
 
   virtual void setup() override {}
 

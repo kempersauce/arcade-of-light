@@ -36,7 +36,7 @@
 //     teamB.buttons[6] = controls.CreateButton(H2H_BUTTON_PIN_14);
 //     teamB.buttons[7] = controls.CreateButton(H2H_BUTTON_PIN_15);
 
-//     game = (Game*)new kss::games::h2h::Head2Head(gameDisplay, teamA, teamB);
+//     game = (Game*)new kss::games::h2h::Head2Head(*gameDisplay, teamA, teamB);
 //     game->setup();
 //     gameDisplay->Show();
 // }

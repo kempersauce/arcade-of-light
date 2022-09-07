@@ -94,7 +94,7 @@ class Firework : public Animation {
     }
   }
 
-  void draw(display::Display* display) {
+  void draw(display::Display& display) {
     if (physics.HasExploded) {
       explosion.draw(display);
     } else {
@@ -102,7 +102,7 @@ class Firework : public Animation {
           min(255 * (physics.location.y / physics.LocationMax), 255);
       CRGB color;
       color.setHSV(hue, Saturation, 255);
-      display->DitherPixel((size_t)physics.location.x, (size_t)physics.location.y,
+      display.DitherPixel((size_t)physics.location.x, (size_t)physics.location.y,
                            &color);
     }
   }

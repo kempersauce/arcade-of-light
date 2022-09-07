@@ -52,41 +52,41 @@ class Head2Head : public Game {
  public:
   H2HGameStrip** gameStrips;  // one for each strip
 
-  Head2Head(display::Display* gameDisplay, controls::H2HController teamA,
+  Head2Head(display::Display& gameDisplay, controls::H2HController teamA,
             controls::H2HController teamB)
       : Game(gameDisplay),
         idleGame(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},
-        noise_generator{gameDisplay->size, 30},
+        noise_generator{gameDisplay.size, 30},
         electricArc() {
     // Initialize each game strip
-    gameStrips = new H2HGameStrip*[gameDisplay->size.x];
+    gameStrips = new H2HGameStrip*[gameDisplay.size.x];
 
     // Do this one at a time so we can feed it pin numbers and button colors
     gameStrips[0] =
-        new H2HGameStrip(0, gameDisplay->size.y, teamA.buttons[0],
+        new H2HGameStrip(0, gameDisplay.size.y, teamA.buttons[0],
                          teamB.buttons[0], &noise_generator);
     gameStrips[1] =
-        new H2HGameStrip(1, gameDisplay->size.y, teamA.buttons[1],
+        new H2HGameStrip(1, gameDisplay.size.y, teamA.buttons[1],
                          teamB.buttons[1], &noise_generator);
     gameStrips[2] =
-        new H2HGameStrip(2, gameDisplay->size.y, teamA.buttons[2],
+        new H2HGameStrip(2, gameDisplay.size.y, teamA.buttons[2],
                          teamB.buttons[2], &noise_generator);
     gameStrips[3] =
-        new H2HGameStrip(3, gameDisplay->size.y, teamA.buttons[3],
+        new H2HGameStrip(3, gameDisplay.size.y, teamA.buttons[3],
                          teamB.buttons[3], &noise_generator);
     gameStrips[4] =
-        new H2HGameStrip(4, gameDisplay->size.y, teamA.buttons[4],
+        new H2HGameStrip(4, gameDisplay.size.y, teamA.buttons[4],
                          teamB.buttons[4], &noise_generator);
     gameStrips[5] =
-        new H2HGameStrip(5, gameDisplay->size.y, teamA.buttons[5],
+        new H2HGameStrip(5, gameDisplay.size.y, teamA.buttons[5],
                          teamB.buttons[5], &noise_generator);
     gameStrips[6] =
-        new H2HGameStrip(6, gameDisplay->size.y, teamA.buttons[6],
+        new H2HGameStrip(6, gameDisplay.size.y, teamA.buttons[6],
                          teamB.buttons[6], &noise_generator);
     gameStrips[7] =
-        new H2HGameStrip(7, gameDisplay->size.y, teamA.buttons[7],
+        new H2HGameStrip(7, gameDisplay.size.y, teamA.buttons[7],
                          teamB.buttons[7], &noise_generator);
   }
 
@@ -101,7 +101,7 @@ class Head2Head : public Game {
     audio.stopWinMusic();
     // dont forget to take this out lol
     audio.ItsTimeToDuel();
-    for (size_t i = 0; i < display->size.x; i++) {
+    for (size_t i = 0; i < display.size.x; i++) {
       gameStrips[i]->reset();
     }
   }
@@ -111,7 +111,7 @@ class Head2Head : public Game {
   void enterWinAState() {
     audio.playTeamAWinGame();
     gameState = H2HGameWinA;
-    for (size_t i = 0; i < display->size.x; i++) {
+    for (size_t i = 0; i < display.size.x; i++) {
       gameStrips[i]->enterTotalWinAState();
     }
     totalWinStart = millis();
@@ -120,7 +120,7 @@ class Head2Head : public Game {
   void enterWinBState() {
     audio.playTeamBWinGame();
     gameState = H2HGameWinB;
-    for (size_t i = 0; i < display->size.x; i++) {
+    for (size_t i = 0; i < display.size.x; i++) {
       gameStrips[i]->enterTotalWinBState();
     }
     totalWinStart = millis();
@@ -133,7 +133,7 @@ class Head2Head : public Game {
 
   void loop() {
     bool isIdle = true;
-    for (size_t i = 0; i < display->size.x; i++) {
+    for (size_t i = 0; i < display.size.x; i++) {
       // TODO Move this to the H2HController class IsIdle(..)
       // if any buttons aren't past the idle timeout yet, then we're not idling
       if (teamA.buttons[i]->GetMillisReleased() <= idleTimeoutMillis ||
@@ -167,11 +167,11 @@ class Head2Head : public Game {
         // Generate noise
         noise_generator.fillnoise8();
 
-        for (size_t i = 0; i < display->size.x; i++) {
+        for (size_t i = 0; i < display.size.x; i++) {
           gameStrips[i]->checkGameState(audio);
         }
 
-        for (size_t i = 0; i < display->size.x; i++) {
+        for (size_t i = 0; i < display.size.x; i++) {
           if (gameStrips[i]->stripState == H2HStripTotalWinA) {
             enterWinAState();
             break;
@@ -216,7 +216,7 @@ class Head2Head : public Game {
       case H2HGamePlaying:
       case H2HGameWinA:
       case H2HGameWinB:
-        for (size_t i = 0; i < display->size.x; i++) {
+        for (size_t i = 0; i < display.size.x; i++) {
           gameStrips[i]->draw(display);
         }
         electricArc.yLocation = H2HGameStrip::midBar;

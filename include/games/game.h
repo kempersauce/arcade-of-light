@@ -12,9 +12,9 @@ namespace games {
 
 class Game {
  public:
-  display::Display* display;
+  display::Display& display;
 
-  Game(display::Display* gameDisplay) { display = gameDisplay; }
+  Game(display::Display& display) : display{display} {}
 
   virtual void setup();
   virtual void loop();

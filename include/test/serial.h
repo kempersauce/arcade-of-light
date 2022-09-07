@@ -14,7 +14,7 @@ class SerialTest : public games::Game {
   animation::SingleColorBG background;
 
  public:
-  SerialTest(display::Display *gameDisplay)
+  SerialTest(display::Display& gameDisplay)
       : Game(gameDisplay), ks(&Serial1), background(CRGB::Blue) {}
 
   void setup() {

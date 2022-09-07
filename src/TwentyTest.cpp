@@ -12,7 +12,7 @@
 // {
 //     gameDisplay = (kss::display::Display*)new kss::display::TwentyDisplay();
 
-//     game = (Game*)new kss::games::noise::NoiseGame(gameDisplay);
+//     game = (Game*)new kss::games::noise::NoiseGame(*gameDisplay);
 //     game->setup();
 //     gameDisplay->Show();
 // }

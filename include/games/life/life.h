@@ -16,8 +16,8 @@ class LifeGame : public Game {
   static const int resetThreshold = 300;  // frames until reset
 
  public:
-  LifeGame(display::Display* display)
-      : Game(display), lifeGrid{display->size.x, display->size.y} {}
+  LifeGame(display::Display& display)
+      : Game(display), lifeGrid{display.size.x, display.size.y} {}
 
   void setup() {
     loopCount = 0;

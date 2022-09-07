@@ -18,13 +18,13 @@ class ShooterGame : public Game {
   animation::SingleColorBG background;
 
  public:
-  ShooterGame(display::Display* display, controls::DirPad controls)
+  ShooterGame(display::Display& display, controls::DirPad controls)
       : Game(display),
         controls{std::move(controls)},
-        bullet(display->size, 0, NULL, NULL) {}
+        bullet(display.size, 0, NULL, NULL) {}
 
   virtual void setup() override {
-    shooter.physics.location.x = display->size.x / 2;
+    shooter.physics.location.x = display.size.x / 2;
     shooter.physics.location.y = 20;
   }
 

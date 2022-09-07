@@ -14,11 +14,11 @@ namespace kss {
 namespace display {
 
 class Panel : public Display {
-  Display* parent;
+  Display& parent;
   const size_t strip_offset;
 
  public:
-  Panel(Display* parent, const math::Dimension& size,
+  Panel(Display& parent, const math::Dimension& size,
         const size_t strip_offset)
       : Display(size),
         parent{parent},
@@ -29,7 +29,7 @@ class Panel : public Display {
     // Run initial checking on this panel to detect bleedover
     CheckLocation(strip, pixel);
 #endif
-    return parent->Pixel(strip + strip_offset, pixel);
+    return parent.Pixel(strip + strip_offset, pixel);
   };
 
   virtual void Show() override {

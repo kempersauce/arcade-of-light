@@ -57,17 +57,17 @@ class Rocket : public animation::Animation {
     boost.boostFactor = physics.thrust.y / physics.ThrustMax;
   }
 
-  void draw(display::Display* display) {
+  void draw(display::Display& display) {
     // Draw the rocket ship
-    const size_t middleStrip = display->size.x / 2;
+    const size_t middleStrip = display.size.x / 2;
     for (size_t i = max(ceil(physics.location.y), 0);
-         i < min((int)physics.location.y + Height, display->size.y);
+         i < min((int)physics.location.y + Height, display.size.y);
          i++) {
-      display->Pixel(middleStrip, i) = *color;
+      display.Pixel(middleStrip, i) = *color;
     }
-    display->DitherPixel(middleStrip, physics.location.y + Height - 1,
+    display.DitherPixel(middleStrip, physics.location.y + Height - 1,
                          color);  // dither rocket nose
-    display->DitherPixel(middleStrip, physics.location.y,
+    display.DitherPixel(middleStrip, physics.location.y,
                          color);  // dither rocket tail
 
     // Draw the rocket boost

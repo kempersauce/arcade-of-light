@@ -50,12 +50,12 @@ class HueRainbow : public Animation {
   }
 
   // Taste the rainbow
-  void draw(display::Display* display) {
-    for (size_t x = 0; x < display->size.x; ++x) {
+  void draw(display::Display& display) {
+    for (size_t x = 0; x < display.size.x; ++x) {
       int Hue = HueStart + (x * ShiftSpeed);
-      for (size_t y = 0; y < display->size.y; ++y) {
+      for (size_t y = 0; y < display.size.y; ++y) {
         Hue = (Hue + 256) % 256;  // black magic muwhahaha
-        display->Pixel(x, y) = CHSV(Hue, Saturation, Brightness);
+        display.Pixel(x, y) = CHSV(Hue, Saturation, Brightness);
 
         if (ShiftSpeed >= 0) {
           Hue++;
