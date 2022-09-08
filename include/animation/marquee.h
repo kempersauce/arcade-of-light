@@ -74,65 +74,65 @@ class Marquee : public Animation {
   }
 
   // Need to add spaces somehow
-  void draw(display::Display& display) {
-    // for (int i = 0; i < display.size.x; i++)
+  void draw(display::Display* display) {
+    // for (int i = 0; i < display->size.x; i++)
     //   {
-    //     for (int j = YLocation; j < display.size.y; j++)
+    //     for (int j = YLocation; j < display->size.y; j++)
     //     {
 
     // int testX = 0;
     // int testY = 0;
     // if(test == 0){
     //   test = 1;
-    //   display.Pixel(testX, testY) = CRGB::Brown;
+    //   display->Pixel(testX, testY) = CRGB::Brown;
     // }else{
     //   test = 0;
-    //   display.Pixel(testX, testY) = CRGB::BlueViolet;
+    //   display->Pixel(testX, testY) = CRGB::BlueViolet;
     // }
 
     YLocation -= MarqueeSpeed;
     if (YLocation < 0) {
-      YLocation = display.size.y;
+      YLocation = display->size.y;
     }
 
     std::string text = "KEMPER SAUCE";
     drawString(text, display);
     // int lowerX = 0;
-    // drawLetter(lowerX, (10 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (10 + YLocation) % display->size.y, 3, display,
     // letters::E, beatsin8(2), 255, 255);
 
-    // drawLetter(lowerX, (30 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (30 + YLocation) % display->size.y, 3, display,
     // letters::C, beatsin8(8), 255, 255);
 
-    // drawLetter(lowerX, (50 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (50 + YLocation) % display->size.y, 3, display,
     // letters::U, beatsin8(30), 255, 255);
 
-    // drawLetter(lowerX, (10 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (10 + YLocation) % display->size.y, 3, display,
     // letters::A, beatsin8(2), 255, 255);
 
-    // drawLetter(lowerX, (30 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (30 + YLocation) % display->size.y, 3, display,
     // letters::S, beatsin8(8), 255, 255);
 
-    // drawLetter(lowerX, (50 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (50 + YLocation) % display->size.y, 3, display,
     // letters::R, beatsin8(30), 255, 255);
 
-    // drawLetter(lowerX, (70 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (70 + YLocation) % display->size.y, 3, display,
     // letters::E, beatsin8(45), 255, 255);
 
-    // drawLetter(lowerX, (10 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (10 + YLocation) % display->size.y, 3, display,
     // letters::P, beatsin8(2), 255, 255);
 
-    // drawLetter(lowerX, (30 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (30 + YLocation) % display->size.y, 3, display,
     // letters::M, beatsin8(8), 255, 255);
 
-    // drawLetter(lowerX, (50 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (50 + YLocation) % display->size.y, 3, display,
     // letters::E, beatsin8(30), 255, 255);
 
-    // drawLetter(lowerX, (70 + YLocation) % display.size.y, 3, display,
+    // drawLetter(lowerX, (70 + YLocation) % display->size.y, 3, display,
     // letters::K, beatsin8(45), 255, 255);
   }
 
-  void drawString(const std::string& text, display::Display& display) {
+  void drawString(const std::string& text, display::Display* display) {
     int spacer = 10 * text.length();  // measure the words out
     for (size_t i = 0; i < text.length(); i++) {
       int(*letter)[8][4];  // default is empty
@@ -286,14 +286,14 @@ class Marquee : public Animation {
 
       // becomes 2-54 based on the character (assuming capitals)
       int bpm = ((int)c - 63) * 2;
-      drawLetter(0, (spacer + YLocation) % display.size.y, 3, display,
+      drawLetter(0, (spacer + YLocation) % display->size.y, 3, display,
                  *letter, beatsin8(bpm), 255, 255);
       spacer -= 20;  // space for the next letter
     }
   }
 
   void drawLetter(int lowerLeftX, int lowerLeftY, int orientation,
-                  display::Display& display, const int (&letter)[8][4], int hue,
+                  display::Display* display, const int (&letter)[8][4], int hue,
                   int sat, int bright) {
     for (int j = 0; j < LetterHeight; j++) {
       for (int k = 0; k < LetterWidth; k++) {
@@ -314,9 +314,9 @@ class Marquee : public Animation {
             pixelY = lowerLeftY + LetterWidth - k - 1;
           }
 
-          if (pixelX >= 0 && pixelX < display.size.x && pixelY >= 0 &&
-              pixelY < display.size.y) {
-            display.Pixel(pixelX, pixelY) = CHSV(hue, sat, bright);
+          if (pixelX >= 0 && pixelX < display->size.x && pixelY >= 0 &&
+              pixelY < display->size.y) {
+            display->Pixel(pixelX, pixelY) = CHSV(hue, sat, bright);
           }
         }
       }

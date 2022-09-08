@@ -18,6 +18,13 @@ class StandardDisplay : public Display {
 
  public:
   StandardDisplay() : Display({STRIP_COUNT, STRIP_LENGTH}) {}
+  virtual ~StandardDisplay() = default;
+
+  // Delete copy constructor & assignment operator, force them to make their own
+  StandardDisplay(const StandardDisplay*) = delete;
+  StandardDisplay* operator=(const StandardDisplay*) = delete;
+  StandardDisplay(StandardDisplay*&) = delete;
+  StandardDisplay* operator=(StandardDisplay*&) = delete;
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
 #ifdef DEBUG

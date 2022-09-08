@@ -21,7 +21,7 @@ class NoiseGenerator {
 
   // Scale determines how far apart the pixels in our noise matrix are.  Try
   // changing these values around to see how it affects the motion of the
-  // display.  The higher the value of scale, the more "zoomed out" the noise
+  // display->  The higher the value of scale, the more "zoomed out" the noise
   // iwll be.  A value of 1 will be so zoomed in, you'll mostly see solid
   // colors.
 

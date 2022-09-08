@@ -40,6 +40,11 @@ class OctoDisplay : public Display {
     octo.begin();
     FastLED.addLeds(&controller, pixels, kNumStrips * kLengthStrips);
   }
+  virtual ~OctoDisplay() = default;
+  OctoDisplay(const OctoDisplay*) = delete;
+  OctoDisplay* operator=(const OctoDisplay*) = delete;
+  OctoDisplay(OctoDisplay*&) = delete;
+  OctoDisplay* operator=(OctoDisplay*&) = delete;
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
 #ifdef DEBUG

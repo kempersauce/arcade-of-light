@@ -18,11 +18,11 @@ class ElectricArc : public Animation {
   size_t yLocation;
   size_t magnitude = 2;
 
-  virtual void draw(display::Display& display) {
+  virtual void draw(display::Display* display) {
     do {
       arc.clear();
       arc.push_back(yLocation);
-      for (size_t y = yLocation, x = 1; x < display.size.x; x++) {
+      for (size_t y = yLocation, x = 1; x < display->size.x; x++) {
         float r = math::random::Float();
         if (r <= 0.4) {  // bottom 40%
           y += magnitude;
@@ -38,13 +38,13 @@ class ElectricArc : public Animation {
 
     for (size_t i = 0; i < arc.size(); i++) {
       int arcHeight = arc[i];
-      if (arcHeight >= 0 && arcHeight < display.size.y) {
-        display.Pixel(i, arcHeight) = CRGB::Purple;
+      if (arcHeight >= 0 && arcHeight < display->size.y) {
+        display->Pixel(i, arcHeight) = CRGB::Purple;
       }
 
       arcHeight++;
-      if (arcHeight > 0 && arcHeight < display.size.y) {
-        display.Pixel(i, arcHeight) = CRGB::Purple;
+      if (arcHeight > 0 && arcHeight < display->size.y) {
+        display->Pixel(i, arcHeight) = CRGB::Purple;
       }
     }
   }

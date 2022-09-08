@@ -118,22 +118,22 @@ class RocketGame : public Game {
   const uint32_t idleTimeoutMillis = 1000 * 30;  // 30 seconds
 
  public:
-  RocketGame(display::Display& display, controls::Button* up,
+  RocketGame(display::Display* display, controls::Button* up,
              controls::Button* reset)
       : Game(display),
         up_btn{std::move(up)},
         reset_btn{std::move(reset)},
-        starBackground(display.size, 140),
+        starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),
-        rocket(display.size.y, new CRGB(255, 255, 255)),
+        rocket(display->size.y, new CRGB(255, 255, 255)),
         target(new CRGB(55, 0, 0)),
         explosionsInTheSky(),
         explosion{80, 1000, 3000, 20, 18, 1.8, 0, 255, 0, &audio.explosion},
-        fireworks{display.size, 0} {
+        fireworks{display->size, 0} {
     // Set some physics on the explosion shrapnel so they'll bounce off the
     // ceiling and floor
     for (auto& shrap : explosion.shrapnel) {
-      shrap.LocationMax = display.size.y;
+      shrap.LocationMax = display->size.y;
       shrap.BounceFactor = -.8;
     }
   }
@@ -150,7 +150,7 @@ class RocketGame : public Game {
     gameState = RocketGameStart;
     skyFade.setFadeColor(skyFadeColors[level]);
     target.setColor(targetColors[level]);
-    target.randomize(display.size.y);
+    target.randomize(display->size.y);
     targetsWon = 0;
     rocket.SetGravity(gravityLevels[level]);
     rocket.Reset();
@@ -166,7 +166,7 @@ class RocketGame : public Game {
   void enterLoseState() {
     // game stuff
     gameState = RocketGameLose;
-    explosion.ExplodeAt(display.size.x / 2, rocket.physics.location.y);
+    explosion.ExplodeAt(display->size.x / 2, rocket.physics.location.y);
     explosionsInTheSky.startAnimation(audio);
   }
 
@@ -202,7 +202,7 @@ class RocketGame : public Game {
 
         // Still more targets - make a new random target
         if (targetsWon < targetsPerLevel) {
-          target.randomize(display.size.y);
+          target.randomize(display->size.y);
         }
 
         // Last target is on the ground
@@ -281,7 +281,7 @@ class RocketGame : public Game {
       case RocketGameLevelAdvance:
 
         // Boost way way up the screen
-        if (rocket.physics.location.y < display.size.y * 2) {
+        if (rocket.physics.location.y < display->size.y * 2) {
           rocket.SetBoost(rocket.physics.thrust.y +
                           5);  // just keep boosting up
           rocket.physics.respect_edges = false;

@@ -2,26 +2,45 @@
 
 #include <vector>  // for std::vector
 
-#include "display/display.h"             // for Display
+#include "display/four_panel.h"          // for FourPanelDisplay
+#include "display/sub_display.h"         // for SubDisplay
 #include "games/game.h"                  // for Game
 #include "games/rhythm/rhythm_single.h"  // for RhythmGameSingle
+#include "serial/debug.h"                // for debug::*
 
 namespace kss {
 namespace games {
 namespace rhythm {
 
+namespace _rhythm_game {
+
+constexpr size_t kNumPlayers{4};
+
+}  // namespace _rhythm_game
+using namespace _rhythm_game;
+
 class RhythmGame : public Game {
   // List of game instances playing. Infinite multiplayer!
-  std::vector<RhythmGameSingle*> players;
+  RhythmGameSingle* players[kNumPlayers];
 
  public:
-  RhythmGame(display::Display& display,
-             const std::vector<RhythmGameSingle*>& players)
-      : Game(display), players{players} {}
+  RhythmGame(display::FourPanelDisplay* display) : Game(display) {
+    for (size_t i = 0; i < kNumPlayers; ++i) {
+      players[i] = new RhythmGameSingle(&display->panels[i]);
+    }
+  }
 
-  virtual void setup() override {}
+  virtual void setup() override {
+    for (auto player : players) {
+      player->setup();
+    }
+  }
 
-  virtual void loop() override {}
+  virtual void loop() override {
+    for (auto player : players) {
+      player->loop();
+    }
+  }
 };
 
 }  // namespace rhythm

@@ -15,11 +15,11 @@ class AnimationTest : public games::Game {
   std::vector<animation::Animation*> animes;
 
  public:
-  AnimationTest(display::Display& gameDisplay,
+  AnimationTest(display::Display* gameDisplay,
                 std::vector<animation::Animation*> animus)
       : Game(gameDisplay), animes{animus} {}
 
-  AnimationTest(display::Display& gameDisplay, animation::Animation* animus)
+  AnimationTest(display::Display* gameDisplay, animation::Animation* animus)
       : Game(gameDisplay) {
     animes.push_back(animus);
   }

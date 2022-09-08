@@ -29,7 +29,7 @@ Add the .platformio/scripts folder to your PATH. The .platformio folder should b
 Ardiuno files consist of two methods: setup() and loop(). The setup method runs once when the program starts running.  Loop then loops infinitely until power is cut off.  This main file is in src/main.cpp.  All other classes are imported through .h header files. 
 
 The four main classes are detailed in the next section, but in summary:
-The game class holds all subclasses, logic, and states.  To initialize, it requires a Display object, which hold an array (or array of arrays) of CRGB objects.  The game takes in inputs from a Controls object and the draws them to the Display object using Animation objects.  Finally, display.Show() is called at the end of each loop to write to the LED strips.
+The game class holds all subclasses, logic, and states.  To initialize, it requires a Display object, which hold an array (or array of arrays) of CRGB objects.  The game takes in inputs from a Controls object and the draws them to the Display object using Animation objects.  Finally, display->Show() is called at the end of each loop to write to the LED strips.
 
 Controls and animations are kept within their respective class folders, so that we can reuse them between different games.  Feel free to keep all your stuff in a specific folder though, PlatformIO lets you just do an include on any .h file in the library, just make sure not to reuse names.
 

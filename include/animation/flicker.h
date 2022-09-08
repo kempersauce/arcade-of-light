@@ -90,7 +90,7 @@ class Flicker : public Animation {
   }
 
   // Conjure the Flame
-  void draw(display::Display& display) {
+  void draw(display::Display* display) {
     // noise.fillnoise8();
     newMillis = millis();
 
@@ -105,7 +105,7 @@ class Flicker : public Animation {
       heightCheck(0);
 
       Serial.println("FlameAni: 0 Height: " + (String)currentHeight[0]);
-      for (int i = 1; i < display.size.x; i++) {
+      for (int i = 1; i < display->size.x; i++) {
         // Set flame height
         if (math::random::Bool()) {
           heightAdjust *= -1;
@@ -126,7 +126,7 @@ class Flicker : public Animation {
       // //flare logic
       // if((newMillis-lastLoopMillis)>=lastFlareMillis)
       // {
-      for (int i = 0; i < display.size.x; i++) {
+      for (int i = 0; i < display->size.x; i++) {
         // move flare up one
         flareLoc[i][0] += 1;
         // if at max, remove flag to draw next loop
@@ -143,60 +143,60 @@ class Flicker : public Animation {
     drawFramesUp(display);
   }
 
-  void drawFramesUp(display::Display& display) {
-    for (int i = 0; i < display.size.x; i++) {
+  void drawFramesUp(display::Display* display) {
+    for (int i = 0; i < display->size.x; i++) {
       for (int j = origin; j <= currentHeight[i]; j++) {
         // Serial.println("Flame Ani: in the loops");
         // secondary color on last pixel
         if (j == (currentHeight[i]) || j == (currentHeight[i] - 1)) {
-          // display.Pixel(i, j) = CHSV(hueAccent, saturation, brightness);
-          // display.Pixel(i, j).setHSV(hueAccent, saturation, brightness +
+          // display->Pixel(i, j) = CHSV(hueAccent, saturation, brightness);
+          // display->Pixel(i, j).setHSV(hueAccent, saturation, brightness +
           // noise.data[i][flareLoc[i][0]]);
-          display.Pixel(i, j).setHSV(hueAccent, saturation, 255);
+          display->Pixel(i, j).setHSV(hueAccent, saturation, 255);
         }
         // main color on remaining pixel
         else {
-          // display.Pixel(i, j).setHSV(hueMain, saturation, brightness +
+          // display->Pixel(i, j).setHSV(hueMain, saturation, brightness +
           // noise.data[i][flareLoc[i][0]]);
-          display.Pixel(i, j).setHSV(hueMain, saturation, 255);
-          // display.Pixel(i, j) = CHSV(hueMain, saturation, brightness);
+          display->Pixel(i, j).setHSV(hueMain, saturation, 255);
+          // display->Pixel(i, j) = CHSV(hueMain, saturation, brightness);
         }
       }
 
       // Draw Flare
       if (hasFlare[i]) {
         CRGB color;
-        display.Pixel(i, flareLoc[i][0]).setHSV(hueAccent, saturation, 255);
-        // display.Pixel(i, flareLoc[i][0]).setHSV(hueAccent, saturation,
+        display->Pixel(i, flareLoc[i][0]).setHSV(hueAccent, saturation, 255);
+        // display->Pixel(i, flareLoc[i][0]).setHSV(hueAccent, saturation,
         // brightness + noise.data[i][flareLoc[i][0]]);
       }
     }
   }
-  void drawFramesDown(display::Display& display) {
-    for (int i = 0; i < display.size.x; i++) {
+  void drawFramesDown(display::Display* display) {
+    for (int i = 0; i < display->size.x; i++) {
       for (int j = origin; j <= currentHeight[i]; j++) {
         // Serial.println("Flame Ani: in the loops");
         // secondary color on last pixel
         if (j == (currentHeight[i]) || j == (currentHeight[i] - 1)) {
-          // display.Pixel(i, j) = CHSV(hueAccent, saturation, brightness);
-          // display.Pixel(i, j).setHSV(hueAccent, saturation, brightness +
+          // display->Pixel(i, j) = CHSV(hueAccent, saturation, brightness);
+          // display->Pixel(i, j).setHSV(hueAccent, saturation, brightness +
           // noise.data[i][flareLoc[i][0]]);
-          display.Pixel(i, j).setHSV(hueAccent, saturation, 255);
+          display->Pixel(i, j).setHSV(hueAccent, saturation, 255);
         }
         // main color on remaining pixel
         else {
-          // display.Pixel(i, j).setHSV(hueMain, saturation, brightness +
+          // display->Pixel(i, j).setHSV(hueMain, saturation, brightness +
           // noise.data[i][flareLoc[i][0]]);
-          display.Pixel(i, j).setHSV(hueMain, saturation, 255);
-          // display.Pixel(i, j) = CHSV(hueMain, saturation, brightness);
+          display->Pixel(i, j).setHSV(hueMain, saturation, 255);
+          // display->Pixel(i, j) = CHSV(hueMain, saturation, brightness);
         }
       }
 
       // Draw Flare
       if (hasFlare[i]) {
         CRGB color;
-        display.Pixel(i, flareLoc[i, 0]).setHSV(hueAccent, saturation, 255);
-        // display.Pixel(i][flareLoc[i, 0]).setHSV(hueAccent, saturation,
+        display->Pixel(i, flareLoc[i, 0]).setHSV(hueAccent, saturation, 255);
+        // display->Pixel(i][flareLoc[i, 0]).setHSV(hueAccent, saturation,
         // brightness + noise.data[i][flareLoc[i][0]]);
       }
     }

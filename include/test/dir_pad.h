@@ -18,7 +18,7 @@ class DirPadTest : public games::Game {
   animation::SingleColorBG* backgroundColor;
   animation::HueRainbow rainbow;
 
-  DirPadTest(display::Display& gameDisplay, controls::DirPad controls)
+  DirPadTest(display::Display* gameDisplay, controls::DirPad controls)
       : Game(gameDisplay), controls{std::move(controls)}, rainbow(2) {
     rainbow.setWaveShift(true);
   }

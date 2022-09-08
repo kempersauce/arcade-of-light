@@ -15,7 +15,7 @@ class MarqueeGame : public Game {
  public:
   animation::Marquee marquee;
 
-  MarqueeGame(display::Display& gameDisplay)
+  MarqueeGame(display::Display* gameDisplay)
       : Game(gameDisplay), background(2), marquee(1) {}
 
   void setup() {

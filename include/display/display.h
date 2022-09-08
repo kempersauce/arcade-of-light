@@ -3,7 +3,7 @@
 #include <FastLED.h>  // for CRGB
 
 #include "math/vector2d.h"  // for Dimension
-#include "serial/debug.h"  // for debug::*
+#include "serial/debug.h"   // for debug::*
 
 /*
 Display Class
@@ -32,11 +32,15 @@ class Display {
  public:
   const math::Dimension size;
 
-  Display(const math::Dimension& size)
-      : size{size} {}
+  Display(const math::Dimension& size) : size{size} {}
+  virtual ~Display() = default;
 
   // Reference to the desired CRGB pixel for get/set and other operations
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) = 0;
+
+  inline CRGB& Pixel(const math::Dimension& point) {
+    return Pixel(point.x, point.y);
+  }
 
   // Draw this Display object's contents to the LED strips
   virtual void Show() = 0;
@@ -59,19 +63,25 @@ class Display {
   }
 
   inline bool IsInBounds(const size_t strip, const size_t pixel) const {
-    return strip < 0 || strip >= size.x || pixel < 0 || pixel >= size.y;
+    return strip >= 0 && strip < size.x && pixel >= 0 && pixel < size.y;
+  }
+
+  inline bool IsInBounds(const math::Dimension& point) const {
+    return IsInBounds(point.x, point.y);
   }
 
  protected:
   inline bool CheckLocation(const size_t strip, const size_t pixel) const {
-    const bool oob = IsInBounds(strip, pixel);
+    const bool oob = !IsInBounds(strip, pixel);
 #ifdef DEBUG
     if (oob) {
-      debug::println("ERROR: Accessing out of bounds pixel");
-      debug::println((String) "strip: " + strip + " (max: " + (size.x - 1) +
-                     ")");
-      debug::println((String) "pixel: " + pixel + " (max: " + (size.y - 1) +
-                     ")");
+      if (size.x == 0 || size.y == 0) {
+        debug::print((String) "ERROR: Ill-defined display");
+      } else {
+        debug::print((String) "ERROR: Accessing out of bounds pixel");
+      }
+      debug::println((String) ": loc=" + strip + "x" + pixel +
+                     ", display=" + size.x + "x" + size.y);
     }
 #endif
     return !oob;

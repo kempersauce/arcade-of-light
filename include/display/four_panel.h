@@ -1,8 +1,8 @@
 #pragma once
 
-#include "display/display.h"  // for Display
-#include "display/sub_display.h"    // for SubDisplay
-#include "display/twenty.h"   // for TwentyDisplay
+#include "display/display.h"      // for Display
+#include "display/sub_display.h"  // for SubDisplay
+#include "display/twenty.h"       // for TwentyDisplay
 
 namespace kss {
 namespace display {
@@ -17,10 +17,10 @@ class FourPanelDisplay : public TwentyDisplay {
   FourPanelDisplay()
       : TwentyDisplay(),
         panel_width{size.x / 4},
-        panels{{*this, {panel_width, size.y}, {0 * panel_width, 0}},
-               {*this, {panel_width, size.y}, {1 * panel_width, 0}},
-               {*this, {panel_width, size.y}, {2 * panel_width, 0}},
-               {*this, {panel_width, size.y}, {3 * panel_width, 0}}} {}
+        panels{{this, {0 * panel_width, 0}, {panel_width, size.y}},
+               {this, {1 * panel_width, 0}, {panel_width, size.y}},
+               {this, {2 * panel_width, 0}, {panel_width, size.y}},
+               {this, {3 * panel_width, 0}, {panel_width, size.y}}} {}
 };
 
 }  // namespace display

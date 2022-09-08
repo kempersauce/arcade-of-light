@@ -67,7 +67,7 @@ class FireworksShow : Animation {
     }
   }
 
-  virtual void draw(display::Display& display) override {
+  virtual void draw(display::Display* display) override {
     for (auto firework : fireworks) {
       firework->draw(display);
     }

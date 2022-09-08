@@ -276,7 +276,7 @@ class H2HGameStrip : public animation::Animation {
     }
   }
 
-  void draw(display::Display& display) {
+  void draw(display::Display* display) {
     switch (stripState) {
       case H2HStripPlaying:
         drawBackgrounds(display);
@@ -337,7 +337,7 @@ class H2HGameStrip : public animation::Animation {
     }
   }
 
-  void drawBackgrounds(display::Display& display) {
+  void drawBackgrounds(display::Display* display) {
     // Team A background
     drawBackgroundA(display);
 
@@ -345,32 +345,32 @@ class H2HGameStrip : public animation::Animation {
     drawBackgroundB(display);
   }
 
-  void drawBackgroundA(display::Display& display) {
-    for (int y = 0; y < min(midBar, display.size.y); y++) {
-      display.Pixel(stripIndex, y)
+  void drawBackgroundA(display::Display* display) {
+    for (int y = 0; y < min(midBar, display->size.y); y++) {
+      display->Pixel(stripIndex, y)
           .setHSV(zoneAHue, 255,
                   noise_generator->data[stripIndex][y]);  // blue team
     }
   }
 
-  void drawBackgroundB(display::Display& display) {
+  void drawBackgroundB(display::Display* display) {
     for (int y = max(midBar, 0); y < heightMax; y++) {
-      display.Pixel(stripIndex, y)
+      display->Pixel(stripIndex, y)
           .setHSV(zoneBHue, 255,
                   noise_generator->data[stripIndex][y]);  // red team
     }
   }
 
-  void drawZones(display::Display& display) {
+  void drawZones(display::Display* display) {
     zoneA.draw(display);
     zoneB.draw(display);
   }
 
-  void drawMidBar(display::Display& display) {
-    // display.Pixel(stripIndex, midBar) = CRGB::White;
+  void drawMidBar(display::Display* display) {
+    // display->Pixel(stripIndex, midBar) = CRGB::White;
   }
 
-  void drawWinA(display::Display& display) {
+  void drawWinA(display::Display* display) {
     CRGB teamAColor;
     teamAColor.setHSV(zoneAHue, 255, 255);
     const uint32_t timeDiff =
@@ -378,15 +378,15 @@ class H2HGameStrip : public animation::Animation {
     const float waveWidth = 10;
     drawBackgroundA(display);
     if (timeDiff < 1000) {
-      float distance = (float)display.size.y * (float)timeDiff / 1000;
+      float distance = (float)display->size.y * (float)timeDiff / 1000;
       for (int i = waveWidth / -2; i < waveWidth / 2; i++) {
         float presence = (waveWidth / 2 - abs(i)) / (waveWidth / 2);
-        display.BlendPixel(stripIndex, distance + i, &teamAColor, presence);
+        display->BlendPixel(stripIndex, distance + i, &teamAColor, presence);
       }
     }
   }
 
-  void drawWinB(display::Display& display) {
+  void drawWinB(display::Display* display) {
     CRGB teamBColor;
     teamBColor.setHSV(zoneBHue, 255, 255);
     const uint32_t timeDiff =
@@ -394,10 +394,10 @@ class H2HGameStrip : public animation::Animation {
     const float waveWidth = 10;
     drawBackgroundB(display);
     if (timeDiff < 1000) {
-      float distance = (float)display.size.y * (float)(1000 - timeDiff) / 1000;
+      float distance = (float)display->size.y * (float)(1000 - timeDiff) / 1000;
       for (int i = waveWidth / -2; i < waveWidth / 2; i++) {
         float presence = (waveWidth / 2 - abs(i)) / (waveWidth / 2);
-        display.BlendPixel(stripIndex, distance + i, &teamBColor, presence);
+        display->BlendPixel(stripIndex, distance + i, &teamBColor, presence);
       }
     }
   }

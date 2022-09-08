@@ -43,19 +43,19 @@ class Target : public animation::Animation {
     return isInTarget && millis() - Time > targetLockTimeMillis;
   }
 
-  void draw(display::Display& display) {
+  void draw(display::Display* display) {
     const size_t bottom = Loc;
     const size_t top = bottom + Height;
 
     // Draw the target accross all strips
-    for (size_t x = 0; x < display.size.x; ++x) {
+    for (size_t x = 0; x < display->size.x; ++x) {
       // Target bookends
       if (bottom >= 0) {
-        display.Pixel(x, bottom) = *color;
+        display->Pixel(x, bottom) = *color;
       }
 
       if (top >= 0) {
-        display.Pixel(x, top) = *color;
+        display->Pixel(x, top) = *color;
       }
 
       if (isInTarget) {
@@ -69,17 +69,17 @@ class Target : public animation::Animation {
         size_t bottomFillStart = bottom;
         float bottomFillEnd = (float)bottomFillStart + offset;
         for (size_t i = bottomFillStart; i < bottomFillEnd; i++) {
-          display.Pixel(x, i) = *color;
+          display->Pixel(x, i) = *color;
         }
-        display.DitherPixel(x, bottomFillEnd, color);
+        display->DitherPixel(x, bottomFillEnd, color);
 
         // Top fill
         size_t topFillEnd = top;
         float topFillStart = (float)topFillEnd - offset;
         for (size_t i = ceil(topFillStart); i < topFillEnd; i++) {
-          display.Pixel(x, i) = *color;
+          display->Pixel(x, i) = *color;
         }
-        display.DitherPixel(x, topFillStart, color);
+        display->DitherPixel(x, topFillStart, color);
       }
     }
   }

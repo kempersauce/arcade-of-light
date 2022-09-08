@@ -21,7 +21,7 @@ class GliderWarsGame : public Game {
   LifeAnimation lifeGrid;
 
  public:
-  GliderWarsGame(display::Display& display,
+  GliderWarsGame(display::Display* display,
                  controls::Button* randomize_1,
                  controls::Button* randomize_2,
                  controls::Button* glider_1,
@@ -31,7 +31,7 @@ class GliderWarsGame : public Game {
         randomizeButton2{randomize_2},
         gliderButton1{glider_1},
         gliderButton2{glider_2},
-        lifeGrid{display.size.x, display.size.y} {}
+        lifeGrid{display->size.x, display->size.y} {}
 
   virtual void setup() {
     // start off randomized
@@ -55,11 +55,11 @@ class GliderWarsGame : public Game {
     }
 
     if (gliderButton2->IsDepressing()) {
-      lifeGrid.setCellState(2, display.size.y - 2, true);
-      lifeGrid.setCellState(2, display.size.y - 3, true);
-      lifeGrid.setCellState(2, display.size.y - 4, true);
-      lifeGrid.setCellState(3, display.size.y - 4, true);
-      lifeGrid.setCellState(4, display.size.y - 3, true);
+      lifeGrid.setCellState(2, display->size.y - 2, true);
+      lifeGrid.setCellState(2, display->size.y - 3, true);
+      lifeGrid.setCellState(2, display->size.y - 4, true);
+      lifeGrid.setCellState(3, display->size.y - 4, true);
+      lifeGrid.setCellState(4, display->size.y - 3, true);
     }
 
     // Draw to display

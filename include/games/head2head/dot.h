@@ -24,10 +24,10 @@ class H2HDot : public animation::Animation {
 
   void setVelocity(float velocity) { physics.velocity.y = (int)velocity; }
 
-  void draw(display::Display& display) {
+  void draw(display::Display* display) {
     // Don't draw outside the display boundaries
     if (physics.HasHitEdge == false) {
-      display.DitherPixel((int)physics.location.x, physics.location.y, &color);
+      display->DitherPixel((int)physics.location.x, physics.location.y, &color);
     }
   }
 };

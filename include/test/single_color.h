@@ -11,7 +11,7 @@ class SingleColorTest : public games::Game {
   animation::SingleColorBG background;
 
  public:
-  SingleColorTest(display::Display& gameDisplay)
+  SingleColorTest(display::Display* gameDisplay)
       : Game(gameDisplay), background(CRGB::Blue) {}
 
   void setup() {}
