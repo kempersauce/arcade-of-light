@@ -58,7 +58,7 @@ class Explosion : Animation {
   Explosion(size_t shrapnel_count, uint32_t saturation_phase_ms,
             uint32_t brightness_phase_ms, float magnitude, float friction_x,
             float friction_y, float gravity, uint8_t saturation_final,
-            uint8_t hue, audio::SoundEffect* explode_sound)
+            uint8_t hue, audio::SoundEffect* explode_sound = NULL)
       : Animation(),
         shrapnel{shrapnel_count},
         saturation_phase_ms{saturation_phase_ms},
@@ -110,9 +110,9 @@ class Explosion : Animation {
 
   void draw(display::Display* display) {
     const auto timeAliveMillis = TimeAliveMillis();
-    debug::println((String) "==== draw(), timeAliveMillis = " +
-                   timeAliveMillis + ", sat-phase=" + saturation_phase_ms +
-                   ", bright-phase=" + brightness_phase_ms);
+    // debug::println((String) "==== draw(), timeAliveMillis = " +
+    //                timeAliveMillis + ", sat-phase=" + saturation_phase_ms +
+    //                ", bright-phase=" + brightness_phase_ms);
 
     const auto phase = GetPhase();
 
@@ -134,18 +134,18 @@ class Explosion : Animation {
     uint8_t brightness;
     if (phase == Phase::Exploding) {
       brightness = 255;
-      debug::print((String) "SATURATION phase");
+    //   debug::print((String) "SATURATION phase");
     } else if (phase == Phase::Fading) {
       brightness = 255 * (1.0 - (float)(timeAliveMillis - saturation_phase_ms) /
                                     (float)brightness_phase_ms);
 
-      debug::print((String) "BRIGHTNESS phase");
+    //   debug::print((String) "BRIGHTNESS phase");
     } else {
       brightness = 0;
-      debug::print((String) "END phase");
+    //   debug::print((String) "END phase");
     }
-    debug::println((String) " saturation=" + saturation +
-                   ", brightness=" + brightness);
+    // debug::println((String) " saturation=" + saturation +
+    //                ", brightness=" + brightness);
 
     for (const auto& shrap : shrapnel) {
       const auto& loc = shrap.location;

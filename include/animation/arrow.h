@@ -4,56 +4,36 @@
 
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
+#include "math/arrows.h"          // for Arrow*
 #include "math/shape.h"           // for Shape
 #include "math/vector2d.h"        // for Dimension
 
 namespace kss {
 namespace animation {
 
-// // ARROW SHAPE
-// //  0 1 2 3 4
-// // | | |#|#|#| 4
-// // | |#| |#| | 3
-// // |#| |#| | | 2
-// // | |#| |#| | 1
-// // | | |#|#|#| 0
-// // const math::Shape left{{
-// // {2, 4}, {3, 4}, {4, 4},
-// // {1, 3}, {3, 3},
-// // {0, 2}, {2, 2},
-// // {1, 1}, {3, 1},
-// // {2, 0}, {3, 0}, {4, 0}
-// // }};
-
-// // ARROW SHAPE
-// //  0 1 2 3 4
-// // | | |#|#|#| 4
-// // | |#|#|#| | 3
-// // |#|#|#| | | 2
-// // | |#|#|#| | 1
-// // | | |#|#|#| 0
-const math::Shape left{{
-{2, 4}, {3, 4}, {4, 4},
-{1, 3}, {2, 3}, {3, 3},
-{0, 2}, {1, 2}, {2, 2},
-{1, 1}, {2, 1}, {3, 1},
-{2, 0}, {3, 0}, {4, 0}
-}};
-
-// const math::Shape right{left.FlipX()};
-// const math::Shape up{left.RotateClock()};
-// const math::Shape down{left.RotateCounterClock()};
+namespace _arrow {
+// const math::Shape* LeftArrow = new math::Shape(math::shapes::ArrowLeftFull());
+// const math::Shape* RightArrow = new math::Shape(math::shapes::ArrowRightFull());
+// const math::Shape* UpArrow = new math::Shape(math::shapes::ArrowUpFull());
+// const math::Shape* DownArrow = new math::Shape(math::shapes::ArrowDownFull());
+}  // namespace _arrow
+using namespace _arrow;
 
 class Arrow : public Animation {
-  math::Shape shape{left};
+  const math::Shape* shape = new math::Shape(math::shapes::ArrowLeftFull());
+//   const math::Shape* shapeR{RightArrow};
+//   const math::Shape* shapeU{UpArrow};
+//   const math::Shape* shapeD{DownArrow};
 
  public:
+  enum Stage {NOT_STARTED, PLAYING, DONE} stage;
+
   math::Dimension location;
 
   Arrow() : Animation() {}
 
   virtual void draw(display::Display* display) override {
-    for (const auto& offset : shape.points) {
+    for (const auto& offset : shape->points) {
       const auto point = location + offset;
       if (display->IsInBounds(point)) {
         auto& pixel = display->Pixel(point);

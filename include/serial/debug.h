@@ -5,6 +5,9 @@
 
 #ifdef DEBUG
 #include <HardwareSerial.h>  // for HardwareSerial
+#define Debug(msg)                                                            \
+  (debug::println((String)__FILE__ + ": " + __func__ + " (line " + __LINE__ + \
+                  "): " + msg))
 #endif
 
 namespace debug {

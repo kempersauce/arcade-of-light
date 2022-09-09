@@ -14,8 +14,7 @@ using namespace kss;
 engines::FrameRate frameRate;
 
 display::FourPanelDisplay* gameDisplay;
-games::rhythm::RhythmGameSingle* players[4];
-games::rhythm::RhythmGame* game;
+games::Game* game;
 
 void setup() {
   // This only works if we're not using octo
@@ -29,7 +28,8 @@ void setup() {
 
   debug::println("gameDisplay created");
 
-  game = new games::rhythm::RhythmGame(gameDisplay);
+//   game = (games::Game*)new games::rhythm::RhythmGame(gameDisplay);
+  game = (games::Game*)new games::rhythm::RhythmGameSingle(gameDisplay);
 
   debug::println("game created");
 
@@ -51,7 +51,7 @@ void loop() {
   gameDisplay->Show();
 
   //   debug::println("loops brother");
-  frameRate.PrintFrameRate();
+  //frameRate.PrintFrameRate();
 
   delay(20);
 }
