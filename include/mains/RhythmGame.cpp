@@ -1,6 +1,6 @@
 #include <vector>  // for vector
 
-#include "animation/fireworks_show.h"
+#include "animation/fireworks_show.h"    // for FireworksShow
 #include "animation/noise.h"             // for NoiseAnimation
 #include "display/display.h"             // for Display
 #include "display/four_panel.h"          // for FourPanelDisplay
@@ -43,7 +43,7 @@ void setup() {
 }
 
 void loop() {
-//   Debug_here();
+  //   Debug_here();
 
   game->loop();
 

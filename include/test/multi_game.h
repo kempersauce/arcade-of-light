@@ -20,14 +20,14 @@ class MultiGameTest : public games::Game {
   MultiGameTest(display::FourPanelDisplay* gameDisplay)
       : Game{gameDisplay},
         games{(games::Game*)new test::AnimationTest{
-                  gameDisplay->panels[0],
+                  &gameDisplay->panels[0],
                   (animation::Animation*)new animation::NoiseAnimation{
                       gameDisplay->panels[0].size}},
               (games::Game*)new games::rainbow::RainbowGame{
-                  gameDisplay->panels[1]},
-              (games::Game*)new games::life::LifeGame{gameDisplay->panels[2]},
+                  &gameDisplay->panels[1]},
+              (games::Game*)new games::life::LifeGame{&gameDisplay->panels[2]},
               (games::Game*)new test::AnimationTest{
-                  gameDisplay->panels[3],
+                  &gameDisplay->panels[3],
                   (animation::Animation*)new animation::Starscape{
                       gameDisplay->panels[3].size, 140}}} {}
 
