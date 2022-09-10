@@ -46,7 +46,6 @@ class RhythmGameSingle : public Game {
     arrow.location.y--;
     if (arrow.location.y == 0) {
       arrow.location.y = display->size.y + 5;
-      exploder.Clear();
     }
 
     if (arrow.location.y <= 35) {

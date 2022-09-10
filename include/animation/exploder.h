@@ -15,6 +15,7 @@ class Exploder : public Animation {
 
  public:
   math::Dimension location;
+  bool should_explode{false};
   Exploder(const Explosion& prototype, const math::Dimension& location,
            const uint32_t interval = 50)
       : Animation(),
@@ -67,10 +68,16 @@ class Exploder : public Animation {
  private:
   uint32_t next_create{0};
   bool ShouldCreateAnother() {
-    const uint32_t now = millis();
-    if (now >= next_create) {
-      next_create += interval;
-      return true;
+    if (should_explode) {
+      const uint32_t now = millis();
+      if (now >= next_create) {
+		// This will be problematic, needs to be aligned with actual beat time
+		if (next_create == 0) {
+			next_create = now;
+		}
+        next_create += interval;
+        return true;
+      }
     }
     return false;
   }
