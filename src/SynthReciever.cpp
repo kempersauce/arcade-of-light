@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "audio/slave_driver.h"    // for SlaveDriver
+// #include "audio/slave_driver.h"    // for SlaveDriver
 #include "serial/debug.h"          // for debug::*
 #include "serial/receiver_bank.h"  // for ReceiverBank
 #include "audio/synthy.h"           // for Synth
@@ -63,7 +63,7 @@ void setup() {
   debug::Init();
 
   // Fire up the boombox
-  InitAudio();
+//   InitAudio();
 
     // mixMaster.gain(0, 0.5);
     // mixMaster.gain(1, 0.5);
@@ -98,7 +98,7 @@ void setup() {
 }
 
 void loop() {
-  delay(2000);
+  delay(500);
   debug::println("starting the loop");
   synthy.Play();
 //   receivers.ReadAll();

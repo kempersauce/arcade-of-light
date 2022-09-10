@@ -1,7 +1,7 @@
 #pragma once
 
 // This enables/disables building debug-type stuff into the project
-#define __DEBUG 1337
+// #define __DEBUG 1337
 
 #ifdef __DEBUG
 
@@ -26,7 +26,7 @@
 
 namespace debug {
 
-constexpr uint32_t kBaudRate{115200};
+constexpr uint32_t kBaudRate{9600};
 
 inline void println() {
 #ifdef __DEBUG
