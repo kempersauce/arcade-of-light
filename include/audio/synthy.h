@@ -30,7 +30,7 @@ using namespace _synthy;
 class Synthy {
  public:
   float frequency = 256;  // middle C
-  float sequence[3] = {256, 329.63, 391.995};
+  float sequence[3] = {256, 311.13, 369.99};
   uint32_t next_hit = 0;
   size_t i = 0;
 
