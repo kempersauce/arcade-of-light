@@ -24,12 +24,10 @@ class Transmitter {
     const String finalMsg =
         (String)kMessageStartMarker + msg + kMessageEndMarker;
     if (finalMsg.length() >= kMessageBufferSize) {
-      debug::println(
-          (String) "Transmission Error: message longer than buffer size (" +
-          kMessageBufferSize + "): \"" + finalMsg + "\"");
+      Debug("Transmission Error: message longer than buffer size (" + kMessageBufferSize + "): \"" + finalMsg + "\"");
     } else {
       serial->println(finalMsg);
-      debug::println((String) "Transmitting: \"" + finalMsg + "\"");
+      Debug("Transmitting: \"" + finalMsg + "\"");
     }
   }
 };

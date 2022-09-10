@@ -13,8 +13,8 @@ class NoiseAnimation : public Animation {
   engines::NoiseGenerator noise_generator;
 
  public:
-  NoiseAnimation(size_t width, size_t height)
-      : Animation(), noise_generator(width, height) {}
+  NoiseAnimation(const math::Dimension& size)
+      : Animation(), noise_generator(size) {}
 
   void setBrightness(uint8_t bright) { brightness = bright; }
 
@@ -22,8 +22,8 @@ class NoiseAnimation : public Animation {
     static uint8_t ihue = 0;
     noise_generator.fillnoise8();
 
-    for (size_t i = 0; i < display->strip_count; i++) {
-      for (size_t j = 0; j < display->strip_length; j++) {
+    for (size_t i = 0; i < display->size.x; i++) {
+      for (size_t j = 0; j < display->size.y; j++) {
         // We use the value at the (i,j) coordinate in the noise
         // array for our brightness, and the flipped value from (j,i)
         // for our pixel's hue.

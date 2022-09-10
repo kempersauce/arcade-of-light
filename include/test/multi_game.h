@@ -8,7 +8,7 @@
 #include "games/game.h"                         // for Game
 #include "games/life/life.h"                    // for LifeGame
 #include "games/rainbow/rainbow.h"              // for RainbowGame
-#include "test/single_animation.h"              // for SingleAnimation
+#include "test/animation.h"                     // for AnimationTest
 
 namespace kss {
 namespace test {
@@ -18,21 +18,18 @@ class MultiGameTest : public games::Game {
 
  public:
   MultiGameTest(display::FourPanelDisplay* gameDisplay)
-      : Game{(display::Display*)gameDisplay},
-        games{(games::Game*)new test::SingleAnimation{
-                  (display::Display*)&gameDisplay->panels[0],
+      : Game{gameDisplay},
+        games{(games::Game*)new test::AnimationTest{
+                  gameDisplay->panels[0],
                   (animation::Animation*)new animation::NoiseAnimation{
-                      gameDisplay->panels[0].strip_count,
-                      gameDisplay->panels[0].strip_length}},
+                      gameDisplay->panels[0].size}},
               (games::Game*)new games::rainbow::RainbowGame{
-                  (display::Display*)&gameDisplay->panels[1]},
-              (games::Game*)new games::life::LifeGame{
-                  (display::Display*)&gameDisplay->panels[2]},
-              (games::Game*)new test::SingleAnimation{
-                  (display::Display*)&gameDisplay->panels[3],
+                  gameDisplay->panels[1]},
+              (games::Game*)new games::life::LifeGame{gameDisplay->panels[2]},
+              (games::Game*)new test::AnimationTest{
+                  gameDisplay->panels[3],
                   (animation::Animation*)new animation::Starscape{
-                      gameDisplay->panels[3].strip_count,
-                      gameDisplay->panels[3].strip_length, 140}}} {}
+                      gameDisplay->panels[3].size, 140}}} {}
 
   void setup() {
     for (auto game : games) {

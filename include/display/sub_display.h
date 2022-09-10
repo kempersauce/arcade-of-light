@@ -3,6 +3,7 @@
 #include <FastLED.h>  // for CRGB
 
 #include "display/display.h"  // for Display
+#include "math/vector2d.h"    // for Dimension
 #include "serial/debug.h"     // for debug::*
 
 /*
@@ -13,23 +14,23 @@ holds the strips
 namespace kss {
 namespace display {
 
-class Panel : public Display {
-  Display* parent;
-  const size_t strip_offset;
+class SubDisplay : public Display {
+  Display* const parent;
+  const math::Dimension location;
 
  public:
-  Panel(Display* parent, const size_t strip_count, const size_t strip_length,
-        const size_t strip_offset)
-      : Display(strip_count, strip_length),
-        parent{parent},
-        strip_offset{strip_offset} {}
+  SubDisplay(Display* parent, const math::Dimension& location,
+             const math::Dimension& size)
+      : Display(size), parent{parent}, location{location} {
+    Debug("loc=" + location.ToString() + ", size=" + size.ToString());
+  }
 
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) override {
 #ifdef DEBUG
-    // Run initial checking on this panel to detect bleedover
+    // Run initial checking on this SubDisplay to detect bleedover
     CheckLocation(strip, pixel);
 #endif
-    return parent->Pixel(strip + strip_offset, pixel);
+    return parent->Pixel(strip + location.x, pixel + location.y);
   };
 
   virtual void Show() override {

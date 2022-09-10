@@ -40,6 +40,7 @@ class TwentyDisplayStandard
     RegisterStrip<LED_PIN_18>(18);
     RegisterStrip<LED_PIN_19>(19);
   }
+  virtual ~TwentyDisplayStandard() = default;
 };
 
 }  // namespace display

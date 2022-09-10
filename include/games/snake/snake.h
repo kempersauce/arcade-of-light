@@ -15,6 +15,7 @@ enum Direction { Up, Down, Left, Right };
 
 class Snake : public animation::Animation {
  public:
+
   size_t xMax;
   size_t yMax;
 
@@ -43,7 +44,7 @@ class Snake : public animation::Animation {
 
   void Grow(int growth = 1) { lengthToGrow += growth; }
 
-  void Move() {
+  virtual void Move() override {
     // If we have more to grow, do so by just not removing the tail end
     if (lengthToGrow > 0) {
       lengthToGrow--;

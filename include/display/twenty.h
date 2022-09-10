@@ -48,6 +48,7 @@ class TwentyDisplay
     : public OctoDisplay<kNumStrips, kLengthStrips> {
  public:
   TwentyDisplay() : OctoDisplay(kPinList, kDisplayMemory) {}
+  virtual ~TwentyDisplay() = default;
 
 };
 

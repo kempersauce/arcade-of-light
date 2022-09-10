@@ -17,7 +17,7 @@ class RocketBoost : public animation::Animation {
   float boostFactor;
 
   RocketBoost(size_t heightMax)
-      : Animation(), noise_generator{1, heightMax, 100}, height{heightMax} {
+      : Animation(), noise_generator{{1, heightMax}, 100}, height{heightMax} {
     loc = 0;
     boostFactor = 0;
   }
@@ -39,9 +39,9 @@ class RocketBoost : public animation::Animation {
       boostHeight = 1;
     }
 
-    int middleStrip = display->strip_count / 2;
-    for (size_t i = max(loc - boostHeight, 0);
-         i < min(loc, display->strip_length); i++) {
+    int middleStrip = display->size.x / 2;
+    for (size_t i = max(loc - boostHeight, 0); i < min(loc, display->size.y);
+         i++) {
       display->Pixel(middleStrip, i)
           .setRGB(255, noise_generator.data[0][loc - i], 0);
     }

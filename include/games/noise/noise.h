@@ -14,7 +14,7 @@ class NoiseGame : public Game {
  public:
   NoiseGame(display::Display* gameDisplay)
       : Game{gameDisplay},
-        background{gameDisplay->strip_count, gameDisplay->strip_length} {}
+        background{gameDisplay->size} {}
 
   void setup() {}
 

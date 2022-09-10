@@ -2,7 +2,8 @@
 
 #include <FastLED.h>  // for CRGB
 
-#include "serial/debug.h"  // for debug::*
+#include "math/vector2d.h"  // for Dimension
+#include "serial/debug.h"   // for debug::*
 
 /*
 Display Class
@@ -16,7 +17,8 @@ void Blend(CRGB& pixel, const CRGB* blend_color, const float blend_factor) {
   const auto unblend_factor = 1 - blend_factor;
 
   // get weighted blend values
-  const uint8_t red = pixel.red * unblend_factor + blend_color->red * blend_factor;
+  const uint8_t red =
+      pixel.red * unblend_factor + blend_color->red * blend_factor;
   const uint8_t green =
       pixel.green * unblend_factor + blend_color->green * blend_factor;
   const uint8_t blue =
@@ -28,14 +30,17 @@ void Blend(CRGB& pixel, const CRGB* blend_color, const float blend_factor) {
 
 class Display {
  public:
-  const size_t strip_count;
-  const size_t strip_length;
+  const math::Dimension size;
 
-  Display(const size_t strip_count, const size_t strip_length)
-      : strip_count{strip_count}, strip_length{strip_length} {}
+  Display(const math::Dimension& size) : size{size} {}
+  virtual ~Display() = default;
 
   // Reference to the desired CRGB pixel for get/set and other operations
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) = 0;
+
+  inline CRGB& Pixel(const math::Dimension& point) {
+    return Pixel(point.x, point.y);
+  }
 
   // Draw this Display object's contents to the LED strips
   virtual void Show() = 0;
@@ -58,20 +63,25 @@ class Display {
   }
 
   inline bool IsInBounds(const size_t strip, const size_t pixel) const {
-    return strip < 0 || strip >= strip_count || pixel < 0 ||
-           pixel >= strip_length;
+    return strip >= 0 && strip < size.x && pixel >= 0 && pixel < size.y;
+  }
+
+  inline bool IsInBounds(const math::Dimension& point) const {
+    return IsInBounds(point.x, point.y);
   }
 
  protected:
   inline bool CheckLocation(const size_t strip, const size_t pixel) const {
-    const bool oob = IsInBounds(strip, pixel);
+    const bool oob = !IsInBounds(strip, pixel);
 #ifdef DEBUG
     if (oob) {
-      debug::println("ERROR: Accessing out of bounds pixel");
-      debug::println((String) "strip: " + strip +
-                     " (max: " + (strip_count - 1) + ")");
-      debug::println((String) "pixel: " + pixel +
-                     " (max: " + (strip_length - 1) + ")");
+      if (size.x == 0 || size.y == 0) {
+        Debug("ERROR: Ill-defined display: loc=" + strip + "x" + pixel +
+                     ", display=" + size.x + "x" + size.y);
+      } else {
+        Debug("ERROR: Accessing out of bounds pixel: loc=" + strip + "x" + pixel +
+                     ", display=" + size.x + "x" + size.y);
+      }
     }
 #endif
     return !oob;

@@ -36,14 +36,13 @@ class Channel {
 
   void PlayCurrentFile() {
     if (wav_player->isPlaying()) {
-      debug::println(
-          (String) "Channel is already playing, but is requested to play " +
-          current_file);
+      Debug("Channel is already playing, but is requested to play \"" +
+            current_file + "\"");
     }
 
     wav_player->play(current_file.c_str());
     start_time = millis();
-    debug::println("Playing file: \"" + current_file + "\"");
+    Debug("Playing file: \"" + current_file + "\"");
   }
 
  public:

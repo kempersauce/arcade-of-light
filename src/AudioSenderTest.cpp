@@ -44,7 +44,7 @@
 //   debug::Init();
 //   delay(5000);  // we need to wait for Serial to initialize or whatever
 //   start_time = millis();
-//   debug::println("::::SETUP Achieved::::");
+//   Debug("::::SETUP Achieved::::");
 // }
 
 // void loop() {
@@ -69,5 +69,5 @@
 //   }
 //   delay(1000);
 
-//   debug::println("-=- Loops, Brother -=-");
+//   Debug("-=- Loops, Brother -=-");
 // }

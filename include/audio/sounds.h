@@ -29,7 +29,7 @@ void InitAudio() {
   SPI.setMOSI(SDCARD_MOSI_PIN);
   SPI.setSCK(SDCARD_SCK_PIN);
   while (!SD.begin(SDCARD_CS_PIN)) {
-    debug::println("Unable to access the SD card! Retrying in 500ms...");
+    Debug("Unable to access the SD card! Retrying in 500ms...");
     delay(500);
   }
 }

@@ -2,21 +2,22 @@
 
 #include <FastLED.h>  // for random*
 
-// Anonymous namespace - these are only accessible in this file
-namespace {
+namespace kss {
+namespace math {
+namespace random {
+
+namespace _random {
+
 constexpr uint8_t BIT_MASK = 0x1;
 constexpr uint16_t UINT8_MAX_INCL = (uint16_t)UINT8_MAX + 1;
 constexpr uint32_t UINT16_MAX_INCL = (uint32_t)UINT16_MAX + 1;
 constexpr uint64_t UINT32_MAX_INCL = (uint64_t)UINT32_MAX + 1;
 
 // Include this outside the random namespace so we can reference it later
-inline int32_t random32() { return random(); }
+inline int32_t random32() { return ::random(); }
 
-}  // namespace
-
-namespace kss {
-namespace engines {
-namespace random {
+}  // namespace _random
+using namespace _random;
 
 //////// 8-bit ints
 
@@ -67,25 +68,30 @@ inline int16_t Int16_incl(int16_t min, int16_t max) {
 // 0 to UINT32_MAX (inclusive)
 inline uint32_t Int32() { return random32(); }
 
-// 0 to max (exclusive)
-inline uint32_t Int32(uint32_t max) {
-  return Int32() * (max + 1) / UINT32_MAX_INCL;
-}
+/****
+ * DANGER: These don't work, we hit overflow and always end up with the lower
+ *bound
+ ****/
 
-// min to max (exclusive)
-inline int32_t Int32(int32_t min, int32_t max) {
-  return Int32(max - min) + min;
-}
+// // 0 to max (exclusive)
+// inline uint32_t Int32(uint32_t max) {
+//   return Int32() * (max + 1) / UINT32_MAX_INCL;
+// }
 
-// 0 to max (inclusive)
-inline uint32_t Int32_incl(uint32_t max) {
-  return Int32() * (max + 1) / UINT32_MAX_INCL;
-}
+// // min to max (exclusive)
+// inline int32_t Int32(int32_t min, int32_t max) {
+//   return Int32(max - min) + min;
+// }
 
-// min to max (inclusive)
-inline int32_t Int32_incl(int32_t min, int32_t max) {
-  return Int32_incl(max - min) + min;
-}
+// // 0 to max (inclusive)
+// inline uint32_t Int32_incl(uint32_t max) {
+//   return Int32() * (max + 1) / UINT32_MAX_INCL;
+// }
+
+// // min to max (inclusive)
+// inline int32_t Int32_incl(int32_t min, int32_t max) {
+//   return Int32_incl(max - min) + min;
+// }
 
 //////// Floating point types
 
@@ -107,5 +113,5 @@ inline bool Bool() { return random16() & BIT_MASK == 0; }
 inline bool Bool(float chance) { return Float() < chance; }
 
 }  // namespace random
-}  // namespace engines
+}  // namespace math
 }  // namespace kss
