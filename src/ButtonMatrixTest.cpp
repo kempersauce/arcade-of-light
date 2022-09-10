@@ -23,7 +23,7 @@
 // std::vector<MatrixController> controllers;
 
 // void PrintButtonInfo(size_t controller, size_t button, const char *message) {
-//   debug::println((String) "T=" + millis() + " | controller: " + controller +
+//   Debug("T=" + millis() + " | controller: " + controller +
 //                  ", button: " + button + " | " + message);
 // }
 
@@ -31,7 +31,7 @@
 //   debug::Init();
 
 //   // Initialize controls
-//   debug::println("Initialize Controls");
+//   Debug("Initialize Controls");
 //   for (const size_t cont_pin : cont_pins) {
 //     controllers.emplace_back();
 //     MatrixController& controller = controllers.back();
@@ -40,14 +40,14 @@
 //           control_context.CreateButton(cont_pin, butt_pin));
 //     }
 //   }
-//   debug::println("Initialization Successful!");
+//   Debug("Initialization Successful!");
 
 //   // Poll for initial button state
-//   debug::println("Poll for initial button state");
+//   Debug("Poll for initial button state");
 //   control_context.PollAll();
 
 //   // Sound off initial button state
-//   debug::println("Sound off initial button state");
+//   Debug("Sound off initial button state");
 //   for (size_t cont = 0; cont < controllers.size(); cont++) {
 //     const auto &controller = controllers[cont];
 //     const auto &buttons = controller.buttons;
@@ -59,7 +59,7 @@
 //     }
 //   }
 
-//   debug::println("-- setup complete --");
+//   Debug("-- setup complete --");
 // }
 
 // void loop() {

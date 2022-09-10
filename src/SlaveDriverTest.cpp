@@ -7,7 +7,7 @@
 
 // void setup() {
 //   debug::Init();
-//   debug::println("-=- Beginning SETUP -=-");
+//   Debug("-=- Beginning SETUP -=-");
 
 //   delay(5000);
 
@@ -63,7 +63,7 @@
 // //   }
 // //   slaveDriver.GetIdleChannel().Repeat("JPTRVOX.WAV");
 
-//   debug::println("starting the loop");
+//   Debug("starting the loop");
 // }
 
 // void loop() { slaveDriver.UpdateAll(); }

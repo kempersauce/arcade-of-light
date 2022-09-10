@@ -25,24 +25,24 @@ class Exploder : public Animation {
   ~Exploder() { Clear(); }
 
   virtual void Move() override {
-    Debug("Start");
+    // Debug("Start");
     // Fire explosives when it's time
     if (ShouldCreateAnother()) {
-      Debug("Creating explosion...");
+      //   Debug("Creating explosion...");
       explosives.push_back(new Explosion{prototype});
       explosives.back()->ExplodeAt(location.x, location.y);
     }
 
     // Move each explosive, they're all active
     for (auto explosive : explosives) {
-      Debug("Moving explosion...");
+      //   Debug("Moving explosion...");
       explosive->Move();
     }
 
     // Remove dead explosives
     for (auto it = explosives.begin(); it < explosives.end();) {
       if ((*it)->IsBurnedOut()) {
-        Debug("Deleting explosion...");
+        // Debug("Deleting explosion...");
         delete *it;
         it = explosives.erase(it);
       } else {

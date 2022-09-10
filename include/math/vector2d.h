@@ -49,18 +49,27 @@ class Vector2D {
     return *this;
   }
 
+  template <typename U>
+  Vector2D<U> GetAs() {
+    return *this;
+  }
+
+  T GetMagnitude() { return x * x + y * y; }
+
+  String ToString() { return (String) "(" + x + "x" + y + ")"; }
+
   // Not sure how well this would work for non-floats, meh whatever
   static Vector2D RandomVector(T max_magnitude) {
     const T neg_magnitude = max_magnitude * -1;
     const T hypotenuese = max_magnitude * max_magnitude;
-    float x, y;
+    Vector2D<float> float_vec;
     do {
-      x = random::Float(neg_magnitude, max_magnitude);
-      y = random::Float(neg_magnitude, max_magnitude);
-    } while (x * x + y * y >
+      float_vec.x = random::Float(neg_magnitude, max_magnitude);
+      float_vec.y = random::Float(neg_magnitude, max_magnitude);
+    } while (float_vec.GetMagnitude() >
              hypotenuese);  // Repeat until we're within the unit circle
 
-    return Vector2D{x, y};
+    return float_vec.GetAs<T>();
   }
 
   Vector2D& operator+=(const Vector2D& rhs) {

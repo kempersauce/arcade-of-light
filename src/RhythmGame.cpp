@@ -21,37 +21,37 @@ void setup() {
   // FastLED.setBrightness(100);
 
   debug::Init();
-  debug::println("Begin setup()");
+  Debug("Begin setup()");
 
   // Choose your Display type
   gameDisplay = new display::FourPanelDisplay();
 
-  debug::println("gameDisplay created");
+  Debug("gameDisplay created");
 
-//   game = (games::Game*)new games::rhythm::RhythmGame(gameDisplay);
+  //   game = (games::Game*)new games::rhythm::RhythmGame(gameDisplay);
   game = (games::Game*)new games::rhythm::RhythmGameSingle(gameDisplay);
 
-  debug::println("game created");
+  Debug("game created");
 
   game->setup();
-  debug::println("game setup complete");
+  Debug("game setup complete");
 
-  debug::println("End setup()");
+  Debug("End setup()");
 
   // TODO should we show LEDs on setup?
   // gameDisplay->Show();
 }
 
 void loop() {
-  //   debug::println("loop() entered");
+//   Debug_here();
 
   game->loop();
 
-  //   debug::println("loop() Show Display");
+  //   Debug("Show Display");
   gameDisplay->Show();
 
-  //   debug::println("loops brother");
-  //frameRate.PrintFrameRate();
+  //   Debug("loops brother");
+  // frameRate.PrintFrameRate();
 
   delay(20);
 }

@@ -35,7 +35,7 @@
 //       break;
 
 //     default:
-//       debug::println((String)"Error: Unrecognized channel action \"" + action +
+//       Debug("Error: Unrecognized channel action \"" + action +
 //                      "\" (message: \"" + message + "\")");
 //       break;
 //   }
@@ -88,7 +88,7 @@
 
 //   channel.Play("FUEL100.WAV");
 
-//   debug::println("starting the loop");
+//   Debug("starting the loop");
 // }
 
 // void loop() {

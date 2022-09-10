@@ -22,8 +22,7 @@ class SubDisplay : public Display {
   SubDisplay(Display* parent, const math::Dimension& location,
              const math::Dimension& size)
       : Display(size), parent{parent}, location{location} {
-    debug::println((String) "SubDisplay: loc=" + location.x + "x" + location.y +
-                   ", size=" + size.x + "x" + size.y);
+    Debug("loc=" + location.ToString() + ", size=" + size.ToString());
   }
 
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) override {

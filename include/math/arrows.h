@@ -1,6 +1,6 @@
 #pragma once
 
-#include "math/shape.h"  // for Shape
+#include "math/shape.h"    // for Shape
 #include "serial/debug.h"  // for debug::*
 
 namespace kss {
@@ -15,7 +15,7 @@ namespace shapes {
 // // | |#|#|#| | 1
 // // | | |#|#|#| 0
 Shape ArrowLeftFull() {
-	debug::println("ArrowLeftFull");
+  Debug_here();
   return {{
       // clang-format off
 	  {2, 4}, {3, 4}, {4, 4}, // 4
@@ -28,11 +28,17 @@ Shape ArrowLeftFull() {
 }
 
 Shape ArrowRightFull() {
-	debug::println("ArrowRightFull"); return ArrowLeftFull().FlipX(); }
+  Debug_here();
+  return ArrowLeftFull().FlipX();
+}
 Shape ArrowUpFull() {
-	debug::println("ArrowRightFull"); return ArrowLeftFull().RotateClock(); }
+  Debug_here();
+  return ArrowLeftFull().RotateClock();
+}
 Shape ArrowDownFull() {
-	debug::println("ArrowDownFull"); return ArrowLeftFull().RotateCounterClock(); }
+  Debug_here();
+  return ArrowLeftFull().RotateCounterClock();
+}
 
 // ARROW SHAPE
 //  0 1 2 3 4
@@ -42,7 +48,7 @@ Shape ArrowDownFull() {
 // | |#| |#| | 1
 // | | |#|#|#| 0
 Shape ArrowLeftEmpty() {
-	debug::println("ArrowLeftEmpty");
+  Debug_here();
   return {{
       // clang-format off
 	  {2, 4}, {3, 4}, {4, 4}, // 4
@@ -54,10 +60,18 @@ Shape ArrowLeftEmpty() {
   }};
 }
 
-Shape ArrowRightEmpty() { return ArrowLeftEmpty().FlipX(); }
-Shape ArrowUpEmpty() { return ArrowLeftEmpty().RotateClock(); }
-Shape ArrowDownEmpty() { return ArrowLeftEmpty().RotateCounterClock(); }
-
+Shape ArrowRightEmpty() {
+  Debug_here();
+  return ArrowLeftEmpty().FlipX();
+}
+Shape ArrowUpEmpty() {
+  Debug_here();
+  return ArrowLeftEmpty().RotateClock();
+}
+Shape ArrowDownEmpty() {
+  Debug_here();
+  return ArrowLeftEmpty().RotateCounterClock();
+}
 
 }  // namespace shapes
 }  // namespace math

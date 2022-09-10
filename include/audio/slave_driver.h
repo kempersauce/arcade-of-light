@@ -86,7 +86,7 @@ class SlaveDriver {
     }
 
     // Default to first_channel if they're all already playing something
-    debug::println("OVERWRITE==OVERWRITE==OVERWRITE (all channels playing)");
+    Debug("OVERWRITE==OVERWRITE==OVERWRITE (all channels playing)");
     return channels[first_channel];
   }
 

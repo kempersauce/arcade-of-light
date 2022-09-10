@@ -76,12 +76,12 @@ class Display {
 #ifdef DEBUG
     if (oob) {
       if (size.x == 0 || size.y == 0) {
-        debug::print((String) "ERROR: Ill-defined display");
-      } else {
-        debug::print((String) "ERROR: Accessing out of bounds pixel");
-      }
-      debug::println((String) ": loc=" + strip + "x" + pixel +
+        Debug("ERROR: Ill-defined display: loc=" + strip + "x" + pixel +
                      ", display=" + size.x + "x" + size.y);
+      } else {
+        Debug("ERROR: Accessing out of bounds pixel: loc=" + strip + "x" + pixel +
+                     ", display=" + size.x + "x" + size.y);
+      }
     }
 #endif
     return !oob;

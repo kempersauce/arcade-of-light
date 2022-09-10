@@ -21,29 +21,28 @@
 
 // void setup() {
 //   debug::Init();
-//   debug::println("Serial Started");
 // }
 
 // void loop() {
 //   controller.PollAll();
 
 //   //   if (but1->IsDepressing()) {
-//   //     debug::println((String) "Int16()=" + random::Int16());
+//   //     Debug("Int16()=" + random::Int16());
 //   //   }
 //   if (but2->IsDepressing()) {
-//     debug::println((String) "Int16()=" + random::Int16());
+//     Debug("Int16()=" + random::Int16());
 //   }
 //   if (but3->IsDepressing()) {
-//     debug::println((String) "Int16(10)=" + random::Int16(10));
+//     Debug("Int16(10)=" + random::Int16(10));
 //   }
 //   if (but4->IsDepressing()) {
-//     debug::println((String) "Int16(10, 20)=" + random::Int16(10, 20));
+//     Debug("Int16(10, 20)=" + random::Int16(10, 20));
 //   }
 //   if (but5->IsDepressing()) {
-//     debug::println((String) "Int16_incl(10)=" + random::Int16_incl(10));
+//     Debug("Int16_incl(10)=" + random::Int16_incl(10));
 //   }
 //   if (but6->IsDepressing()) {
-//     debug::println((String) "Int16_incl(10, 20)=" + random::Int16_incl(10, 20));
+//     Debug("Int16_incl(10, 20)=" + random::Int16_incl(10, 20));
 //   }
 
 //   delay(7);

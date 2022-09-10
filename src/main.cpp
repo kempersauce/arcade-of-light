@@ -50,7 +50,7 @@
 //   // FastLED.setBrightness(100);
 
 //   debug::Init();
-//   debug::println("Begin setup()");
+//   Debug("Begin setup()");
 
 //   // Choose your Display type
 //   //   gameDisplay = (display::Display*)new display::FiveDisplay();
@@ -60,7 +60,7 @@
 // //   gameDisplay = (display::Display*)new display::TwentyDisplay();
 //   //   gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
 
-//   debug::println("gameDisplay created");
+//   Debug("gameDisplay created");
 
 //   // Choose your Game type
 //   //   game = (games::Game*)new games::h2h::Head2Head(*gameDisplay);
@@ -78,7 +78,7 @@
 //   // Rhythm Games
 //   //   game = (games::Game*)new games::rhythm::RhythmGameSingle(((display::FourPanelDisplay*)gameDisplay)->panels[0]);
 
-//   debug::println("MAIN Creating game...");
+//   Debug("Creating game...");
 //   game = (games::Game*)new games::rhythm::RhythmGameSingle(gameDisplay->panels[0]);
 
 //   // Test Games
@@ -96,26 +96,26 @@
 
 // //   game = (games::Game*)new test::AnimationTest(*gameDisplay, test_animations);
 
-//   debug::println("game created");
+//   Debug("game created");
 
 //   game->setup();
-//   debug::println("game setup complete");
+//   Debug("game setup complete");
 
-//   debug::println("End setup()");
+//   Debug("End setup()");
 
 //   // TODO should we show LEDs on setup?
 //   gameDisplay->Show();
 // }
 
 // void loop() {
-//   //   debug::println("loop() entered");
+//   //   Debug_here();
 
 //   game->loop();
 
-//   //   debug::println("loop() Show Display");
+//   //   Debug("Show Display");
 //   gameDisplay->Show();
 
-//   //   debug::println("loops brother");
+//   //   Debug("loops brother");
 //   // frameRate.PrintFrameRate();
 
 //   delay(20);

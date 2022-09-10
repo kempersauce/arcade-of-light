@@ -110,7 +110,7 @@ class Explosion : Animation {
 
   void draw(display::Display* display) {
     const auto timeAliveMillis = TimeAliveMillis();
-    // debug::println((String) "==== draw(), timeAliveMillis = " +
+    // Debug("==== draw(), timeAliveMillis = " +
     //                timeAliveMillis + ", sat-phase=" + saturation_phase_ms +
     //                ", bright-phase=" + brightness_phase_ms);
 
@@ -134,18 +134,16 @@ class Explosion : Animation {
     uint8_t brightness;
     if (phase == Phase::Exploding) {
       brightness = 255;
-    //   debug::print((String) "SATURATION phase");
+    // Debug("SATURATION phase sat=" + saturation + ", bright=" + brightness);
     } else if (phase == Phase::Fading) {
       brightness = 255 * (1.0 - (float)(timeAliveMillis - saturation_phase_ms) /
                                     (float)brightness_phase_ms);
 
-    //   debug::print((String) "BRIGHTNESS phase");
+    // Debug("BRIGHTNESS phase sat=" + saturation + ", bright=" + brightness);
     } else {
       brightness = 0;
-    //   debug::print((String) "END phase");
+    // Debug("END phase sat=" + saturation + ", bright=" + brightness);
     }
-    // debug::println((String) " saturation=" + saturation +
-    //                ", brightness=" + brightness);
 
     for (const auto& shrap : shrapnel) {
       const auto& loc = shrap.location;

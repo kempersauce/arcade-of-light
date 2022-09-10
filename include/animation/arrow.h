@@ -21,9 +21,9 @@ using namespace _arrow;
 
 class Arrow : public Animation {
   const math::Shape* shape = new math::Shape(math::shapes::ArrowLeftFull());
-//   const math::Shape* shapeR{RightArrow};
-//   const math::Shape* shapeU{UpArrow};
-//   const math::Shape* shapeD{DownArrow};
+  const math::Shape* shapeR = new math::Shape(math::shapes::ArrowRightFull());
+  const math::Shape* shapeU = new math::Shape(math::shapes::ArrowUpFull());
+  const math::Shape* shapeD = new math::Shape(math::shapes::ArrowDownFull());
 
  public:
   enum Stage {NOT_STARTED, PLAYING, DONE} stage;

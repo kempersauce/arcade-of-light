@@ -29,17 +29,17 @@ Dimension GetShapeSize(const std::vector<Dimension>& points) {
 
 class Shape {
  public:
-  std::vector<Dimension> points;
   Dimension bounds;
+  std::vector<Dimension> points;
 
   Shape(std::vector<Dimension> points)
-      : points{std::move(points)}, bounds{GetShapeSize(points)} {}
+      : bounds{GetShapeSize(points)}, points{points} {}
 
-  Shape(std::vector<Dimension> points, const Dimension& bounds)
-      : points{std::move(points)}, bounds{bounds} {}
+  Shape(std::vector<Dimension> points, Dimension bounds)
+      : bounds{bounds}, points{points} {}
 
   Shape FlipX() const {
-    debug::println("FlipX");
+	Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(bounds.x - point.x, point.y);
@@ -48,7 +48,7 @@ class Shape {
   }
 
   Shape FlipY() const {
-    debug::println("FlipY");
+	Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(point.x, bounds.y - point.y);
@@ -57,7 +57,7 @@ class Shape {
   }
 
   Shape FlipXY() const {
-    debug::println("FLipXY");
+	Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(bounds.x - point.x, bounds.y - point.y);
@@ -66,7 +66,7 @@ class Shape {
   }
 
   Shape RotateClock() const {
-    debug::println("RotateClock");
+	Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(point.y, bounds.x - point.x);
@@ -75,7 +75,7 @@ class Shape {
   }
 
   Shape RotateCounterClock() const {
-    debug::println("RotateCounterClock");
+	Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(point.y - bounds.y, point.x);
@@ -84,7 +84,7 @@ class Shape {
   }
 
   Shape Rotate180() const {
-    debug::println("Rotate180");
+	Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(point.y, point.x);

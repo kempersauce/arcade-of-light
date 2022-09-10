@@ -8,7 +8,7 @@
 // using namespace kss::serial;
 
 // void ShowMessage(const char* message) {
-//   debug::println((String) "callback(\"" + message + "\")");
+//   Debug("callback(\"" + message + "\")");
 // }
 
 // // Serials we listen on
@@ -19,7 +19,6 @@
 
 // void setup() {
 //   debug::Init();
-//   debug::println("Serial Started");
 // }
 
 // void loop() { receivers.ReadAll(); }
