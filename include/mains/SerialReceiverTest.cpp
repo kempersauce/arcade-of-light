@@ -17,6 +17,6 @@ const std::vector<HardwareSerial*> serials{
 
 ReceiverBank receivers{ShowMessage, serials};
 
-void setup() { debug::Init(); }
+void setup() { Debug_init(); }
 
 void loop() { receivers.ReadAll(); }

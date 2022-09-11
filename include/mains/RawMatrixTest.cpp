@@ -25,7 +25,7 @@ void setup() {
   // pinMode(12, INPUT);
   // pinMode(13, INPUT);
 
-  debug::Init();
+  Debug_init();
 
   digitalWrite(cont[0], LOW);
   digitalWrite(cont[1], HIGH);

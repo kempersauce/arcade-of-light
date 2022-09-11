@@ -57,7 +57,7 @@ serial::ReceiverBank receivers{ProcessMessage, serials};
 //=============================================================================//
 // SETUP AND LOOP
 void setup() {
-  debug::Init();
+  Debug_init();
 
   // Fire up the boombox
   InitAudio();

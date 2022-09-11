@@ -6,7 +6,7 @@ using namespace kss::audio;
 SlaveDriver slaveDriver;
 
 void setup() {
-  debug::Init();
+  Debug_init();
   Debug("-=- Beginning SETUP -=-");
 
   // Fire up the boombox

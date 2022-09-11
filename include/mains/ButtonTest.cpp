@@ -17,7 +17,7 @@ controls::hardware::Simple control_context;
 std::vector<controls::Button*> buttons;
 
 void setup() {
-  debug::Init();
+  Debug_init();
   gameDisplay = new display::FiveDisplay();
   five_strip_test = new test::FiveStripTest(gameDisplay);
   five_strip_test->setup();

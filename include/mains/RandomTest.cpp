@@ -19,7 +19,7 @@ controls::Button* but6 = control_context.CreateButton(2, 13);
 
 // Serials we listen on
 
-void setup() { debug::Init(); }
+void setup() { Debug_init(); }
 
 void loop() {
   control_context.PollAll();

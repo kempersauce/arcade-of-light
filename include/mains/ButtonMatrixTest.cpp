@@ -28,7 +28,7 @@ void PrintButtonInfo(size_t controller, size_t button, const char *message) {
 }
 
 void setup() {
-  debug::Init();
+  Debug_init();
 
   // Initialize controls
   Debug("Initialize Controls");

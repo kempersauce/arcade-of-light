@@ -49,7 +49,7 @@ void setup() {
   // This only works if we're not using octo
   // FastLED.setBrightness(100);
 
-  debug::Init();
+  Debug_init();
   Debug("Begin setup()");
 
   // Choose your Display type

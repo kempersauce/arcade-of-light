@@ -41,7 +41,7 @@ Tester tester;
 uint32_t start_time;
 
 void setup() {
-  debug::Init();
+  Debug_init();
   delay(5000);  // we need to wait for Serial to initialize or whatever
   start_time = millis();
   Debug("::::SETUP Achieved::::");

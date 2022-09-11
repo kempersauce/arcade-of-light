@@ -13,11 +13,13 @@
 #define Debug(msg) (debug::println(__DEBUG_INFO + msg))
 #define Debug_print(msg) (debug::print((String)msg))
 #define Debug_endl() (debug::println())
+#define Debug_init() (debug::Init())
 
 #else
 #define Debug(whateveridgaf)
 #define Debug_print(whateveridgaf)
 #define Debug_endl()
+#define Debug_init()
 #endif
 
 #define Debug_here() (Debug("Here I am! time=" + millis()))

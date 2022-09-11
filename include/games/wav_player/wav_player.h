@@ -57,7 +57,7 @@ class WavPlayer : public Game {
         FBut{std::move(fBut)} {}
 
   virtual void setup() override {
-    debug::Init();
+    Debug_init();
     audio::initAudio();
     delay(1000);
   }
