@@ -7,7 +7,7 @@
 #include "animation/starscape.h"  // for Starscape
 #include "controls/dir_pad.h"     // for DirPad
 #include "games/game.h"           // for Game
-#include "serial/debug.h"         // for debug::*
+#include "serial/debug.h"         // for Debug
 
 namespace kss {
 namespace games {

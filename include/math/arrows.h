@@ -1,7 +1,7 @@
 #pragma once
 
 #include "math/shape.h"    // for Shape
-#include "serial/debug.h"  // for debug::*
+#include "serial/debug.h"  // for Debug
 
 namespace kss {
 namespace math {

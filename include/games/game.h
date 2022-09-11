@@ -6,7 +6,7 @@ Where the magic happens
 */
 
 #include "display/display.h"  // for Display
-#include "serial/debug.h"     // for debug::*
+#include "serial/debug.h"     // for Debug
 
 namespace kss {
 namespace games {

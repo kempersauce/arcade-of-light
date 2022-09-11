@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "audio/slave_driver.h"    // for SlaveDriver
-#include "serial/debug.h"          // for debug::*
+#include "serial/debug.h"          // for Debug
 #include "serial/receiver_bank.h"  // for ReceiverBank
 
 using namespace kss;

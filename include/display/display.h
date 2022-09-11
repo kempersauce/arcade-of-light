@@ -3,7 +3,7 @@
 #include <FastLED.h>  // for CRGB
 
 #include "math/vector2d.h"  // for Dimension
-#include "serial/debug.h"   // for debug::*
+#include "serial/debug.h"   // for Debug
 
 /*
 Display Class

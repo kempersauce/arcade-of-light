@@ -5,7 +5,7 @@
 #include <string>
 
 #include "serial/constants.h"  // for serial::k*
-#include "serial/debug.h"      // for debug::*
+#include "serial/debug.h"      // for Debug
 
 namespace kss {
 namespace serial {

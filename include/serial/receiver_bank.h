@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "serial/debug.h"     // for debug::*
+#include "serial/debug.h"     // for Debug
 #include "serial/receiver.h"  // for Receiver
 
 namespace kss {

@@ -12,7 +12,7 @@
 #include "audio/channel.h"    // for Channel
 #include "audio/constants.h"  // for k*
 #include "audio/sounds.h"     // for InitAudio
-#include "serial/debug.h"     // for debug::*
+#include "serial/debug.h"     // for Debug
 
 namespace kss {
 namespace audio {
