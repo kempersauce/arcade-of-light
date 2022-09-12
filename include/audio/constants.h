@@ -1,5 +1,7 @@
 #pragma once
 
+#include "serial/debug.h"  // for Debug
+
 namespace kss {
 namespace audio {
 
@@ -13,6 +15,12 @@ constexpr char kChannelMarkerBG{'0'};
 constexpr char kChannelMarker1{'1'};
 constexpr char kChannelMarker2{'2'};
 constexpr char kChannelMarkerAny{'?'};
+
+struct AudioMessage {
+  char channel_selector;
+  char action_selector;
+  char filename[13];  // 8 chars for name, 1 for ., 3 for WAV, 1 for \0
+};
 
 // Translate an integer index into a channel marker
 const inline char GetChannelMarker(const int channel_index) {
@@ -46,6 +54,8 @@ const inline size_t GetChannelIndex(const char channel_marker) {
       return 2;
 
     default:  // target channel one by default I guess
+      Debug("ERROR: Received invalid channel marker character: '" +
+            channel_marker + "'");
       return kChannelMarker1;
   }
 }

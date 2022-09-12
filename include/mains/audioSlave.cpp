@@ -7,27 +7,24 @@
 #include <string>
 #include <vector>
 
-#include "audio/slave_driver.h"    // for SlaveDriver
-#include "serial/debug.h"          // for Debug
-#include "serial/receiver_bank.h"  // for ReceiverBank
+#include "audio/slave_driver.h"  // for SlaveDriver
+#include "serial/debug.h"        // for Debug
+#include "serial/ez_receiver.h"  // for EZReceiver
 
 using namespace kss;
 using namespace kss::audio;
 
 SlaveDriver slaveDriver;
 
-void ProcessMessage(const char* message) {
-  const char marker = message[0];
-  const char action = message[1];
-  const char* fileName = message + 2;
-  auto& channel = slaveDriver.GetChannel(marker);
-  switch (action) {
+void ProcessMessage(const AudioMessage& message) {
+  auto& channel = slaveDriver.GetChannel(message.channel_selector);
+  switch (message.action_selector) {
     case kChannelActionPlay:
-      channel.Play(fileName);
+      channel.Play(message.filename);
       break;
 
     case kChannelActionRepeat:
-      channel.Repeat(fileName);
+      channel.Repeat(message.filename);
       break;
 
     case kChannelActionStop:
@@ -35,24 +32,13 @@ void ProcessMessage(const char* message) {
       break;
 
     default:
-      Debug("Error: Unrecognized channel action \"" + action +
-                     "\" (message: \"" + message + "\")");
+      Debug("Error: Unrecognized channel action '" + message.action_selector +
+            "' (message: \"" + message.filename + "\")");
       break;
   }
 }
 
-// Serials we listen on
-const std::vector<HardwareSerial*> serials{
-    &Serial1,  // OK
-    //&Serial2,  // TX2 & RX2 are used by audioshield
-    //&Serial3,  // AudioShield uses RX3 for volume control
-    &Serial4,  // OK
-    //&Serial5,  // TX5 & RX5 are used by audioshield
-    &Serial6,  // OK
-    &Serial7   // OK
-};
-
-serial::ReceiverBank receivers{ProcessMessage, serials};
+serial::EZReceiver<AudioMessage> receiver{&Serial1};
 
 //=============================================================================//
 // SETUP AND LOOP
@@ -61,25 +47,6 @@ void setup() {
 
   // Fire up the boombox
   InitAudio();
-
-  //   mixMaster.gain(0, 0.5);
-  //   mixMaster.gain(1, 0.5);
-  //   mixer1.gain(0, mixerGain);
-  //   mixer1.gain(1, mixerGain);
-  //   mixer1.gain(2, mixerGain);
-  //   mixer1.gain(3, mixerGain);
-  //   mixer2.gain(0, mixerGain);
-  //   mixer2.gain(1, mixerGain);
-  //   mixer2.gain(2, mixerGain);
-  //   mixer2.gain(3, mixerGain);
-  //   effectMixer.gain(0, mixerGain);
-  //   effectMixer.gain(1, mixerGain);
-  //   effectMixer.gain(2, mixerGain);
-  //   effectMixer.gain(3, mixerGain);
-  //   bgMixer.gain(0, mixerGain);
-  //   bgMixer.gain(1, mixerGain);
-  //   bgMixer.gain(2, mixerGain);
-  //   bgMixer.gain(3, mixerGain);
 
   auto& channel = slaveDriver.PlayWav("FUEL50.WAV");
   while (channel.IsPlaying()) {
@@ -93,5 +60,10 @@ void setup() {
 
 void loop() {
   slaveDriver.UpdateAll();
-  receivers.ReadAll();
+  while (receiver.ReceiveMessages()) {
+  }
+  AudioMessage msg;
+  while (receiver.GetNextMessage(msg)) {
+    ProcessMessage(msg);
+  }
 }

@@ -9,67 +9,56 @@
 #include <string>
 #include <vector>
 
-#include "audio/channel.h"    // for Channel
-#include "audio/constants.h"  // for k*
-#include "audio/sounds.h"     // for InitAudio
-#include "serial/debug.h"     // for Debug
+#include <Audio.h>
+#include "audio/channel.h"      // for Channel
+#include "audio/constants.h"    // for k*
+#include "audio/sounds.h"       // for InitAudio
+#include "serial/debug.h"       // for Debug
 
 namespace kss {
 namespace audio {
 
-namespace slave_driver {
-
-AudioPlaySdWav playSdWav[kChannelCount];
-
-AudioMixer4 bgMixer;
-AudioMixer4 mixer1;
-AudioMixer4 mixer2;
-AudioMixer4 effectMixer;
-AudioMixer4 mixMaster;
-
-AudioOutputI2S audioOutput;
-
-// Sound effect channels to mixers
-
-AudioConnection patchCordBGa(playSdWav[0], 0, bgMixer, 0);
-AudioConnection patchCordBGb(playSdWav[0], 1, bgMixer, 1);
-
-AudioConnection patchCord1a(playSdWav[1], 0, mixer1, 0);
-AudioConnection patchCord1b(playSdWav[1], 1, mixer1, 1);
-AudioConnection patchCord2a(playSdWav[2], 0, mixer1, 2);
-AudioConnection patchCord2b(playSdWav[2], 1, mixer1, 3);
-
-AudioConnection patchCord3a(playSdWav[3], 0, mixer2, 0);
-AudioConnection patchCord3b(playSdWav[3], 1, mixer2, 1);
-AudioConnection patchCord4a(playSdWav[4], 0, mixer2, 2);
-AudioConnection patchCord4b(playSdWav[4], 1, mixer2, 3);
-
-// Sound effects to single mixer
-AudioConnection patchCordEffects1a(mixer1, 0, effectMixer, 0);
-AudioConnection patchCordEffects1b(mixer1, 1, effectMixer, 1);
-AudioConnection patchCordEffects2a(mixer2, 0, effectMixer, 2);
-AudioConnection patchCordEffects2b(mixer2, 1, effectMixer, 3);
-
-// Effects and Background to Master Mixer
-AudioConnection patchCordToMaster1a(effectMixer, 0, mixMaster, 0);
-AudioConnection patchCordToMaster1b(effectMixer, 1, mixMaster, 1);
-AudioConnection patchCordToMaster2a(bgMixer, 0, mixMaster, 2);
-AudioConnection patchCordToMaster2b(bgMixer, 1, mixMaster, 3);
-
-// Master Mixer out
-AudioConnection patchCordOut1a(mixMaster, 0, audioOutput, 0);
-AudioConnection patchCordOut1b(mixMaster, 1, audioOutput, 1);
-
-}  // namespace slave_driver
-using namespace slave_driver;
-
 class SlaveDriver {
   std::vector<Channel> channels;
 
+  static constexpr size_t block_count{kChannelCount};
+  static constexpr size_t mixer_count{2};
+
+  AudioPlaySdWav wav_players[kChannelCount];
+  AudioMixer4 mixers[mixer_count];
+  AudioMixer4 mixer_out;
+
+  AudioOutputI2S audioOutput;
+
+  std::vector<AudioConnection> patch_cords{
+      // Patch background directly to mixer_out
+      {wav_players[0], 0, mixer_out, 0},  //
+      {wav_players[0], 1, mixer_out, 1},  //
+
+      // Patch wav players to mixers
+      {wav_players[1], 0, mixers[0], 0},  //
+      {wav_players[1], 1, mixers[0], 1},  //
+      {wav_players[2], 0, mixers[0], 2},  //
+      {wav_players[2], 1, mixers[0], 3},  //
+
+      {wav_players[3], 0, mixers[1], 0},  //
+      {wav_players[3], 1, mixers[1], 1},  //
+      {wav_players[4], 0, mixers[1], 2},  //
+      {wav_players[4], 1, mixers[1], 3},  //
+
+      // Patch 2nd level mixers to output
+      {mixers[0], 0, mixer_out, 2},  //
+      {mixers[1], 0, mixer_out, 3},  //
+
+	  // Patch mixer_out to audioOutput
+      {mixer_out, 0, audioOutput, 0}, // 
+      {mixer_out, 0, audioOutput, 1} //
+  };
+
  public:
   SlaveDriver() {
-    for (size_t i = 0; i < kChannelCount; ++i) {
-      channels.emplace_back(&playSdWav[i]);
+    for (size_t i = 0; i < block_count; ++i) {
+      channels.emplace_back(&wav_players[i], i);
     }
   }
 
