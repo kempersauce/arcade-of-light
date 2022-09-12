@@ -1,14 +1,8 @@
-
 [submodule "EasyTransfer"]
 	path = lib/EasyTransfer
 	url = https://github.com/madsci1016/Arduino-EasyTransfer.git
 	branch = master
-	
 [submodule "OctoWS2811"]
-	path = lib/OctoWS2811
-	url = https://github.com/PaulStoffregen/OctoWS2811.git
-	branch = master
-[submodule "lib/OctoWS2811"]
 	path = lib/OctoWS2811
 	url = https://github.com/PaulStoffregen/OctoWS2811.git
 	branch = master
