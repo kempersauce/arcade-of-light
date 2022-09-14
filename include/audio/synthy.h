@@ -42,8 +42,8 @@ int n_chorus = 2;
 AudioConnection patchCordChorusL(waveform1, 0, l_chorusEffect, 0);
 AudioConnection patchCordChorusR(waveform1, 1, r_chorusEffect, 1);
 // Effects Mixer
-AudioConnection patchCordChorusLOut(waveform1, 0, effectMixer, 0);
-AudioConnection patchCordChorusROut(waveform1, 1, effectMixer, 1);
+AudioConnection patchCordChorusLOut(l_chorusEffect, 0, effectMixer, 0);
+AudioConnection patchCordChorusROut(r_chorusEffect, 1, effectMixer, 1);
 AudioConnection patchCordRawWave2L(waveform2, 0, effectMixer, 2);
 AudioConnection patchCordRawWave2R(waveform2, 1, effectMixer, 3);
 //mixer1 - input from other 4
@@ -52,8 +52,8 @@ AudioConnection patchCordRawWave4(waveform4, 0, mixer1, 1);
 AudioConnection patchCordRawWave5(waveform5, 0, mixer1, 2);
 AudioConnection patchCordRawWave6(waveform6, 0, mixer1, 3);
 //mixerMaster - put it all togeter
-AudioConnection patchCordRawWave3(mixer1, 0, mixerMaster, 0);
-AudioConnection patchCordRawWave4(effectMixer, 1, mixerMaster, 1);
+AudioConnection patchCordMaster1(mixer1, 0, mixerMaster, 0);
+AudioConnection patchCordMaster2(effectMixer, 1, mixerMaster, 1);
 
 // final output
 AudioConnection patchCord1(mixerMaster, 0, i2s1, 0);
