@@ -4,7 +4,7 @@
 
 #include "audio/constants.h"  // for k*
 #include "controls/button.h"
-#include "serial/debug.h"        // for debug::*
+#include "serial/debug.h"        // for Debug
 #include "serial/ez_transmitter.h"  // for Transmitter
 
 namespace kss {
@@ -41,6 +41,7 @@ class SynthSender {
     message msg;
     msg.action = kChannelActionPlay;
     transmitter.Send(msg);
+	Debug("Sent <PLay>");
   }
 
   // prepare input stop message for synth
@@ -48,6 +49,7 @@ class SynthSender {
     message msg;
     msg.action = kChannelActionStop;
     transmitter.Send(msg);
+	Debug("Sent <STop>");
   }
 
   // checks if any buttons have changed state

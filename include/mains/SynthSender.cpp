@@ -9,7 +9,7 @@
 #include "controls/button.h"           // for Button
 #include "controls/dir_pad.h"          // for Inputs
 #include "controls/hardware/matrix.h"  // for controls::hardware::Matrix
-#include "serial/debug.h"              // for debug::*
+#include "serial/debug.h"              // for Debug
 #include "serial/transmitter.h"        // for Transmitter
 
 kss::controls::hardware::Matrix controls;
@@ -23,17 +23,17 @@ kss::audio::SynthSender* synth = new kss::audio::SynthSender(  //
     controls.CreateButton(2, BUTTON_PIN_0));                   //
 
 void setup() {
-  debug::Init();
+  Debug_init();
 
-  debug::println((String) "ready 2 goooo");
+  Debug("ready 2 goooo");
 }
 
 void loop() {
-  //   debug::println("Loops brother");
+  //   Debug("Loops brother");
   controls.PollAll();
-  //   debug::println("Poll'd");
+  //   Debug("Poll'd");
   synth->checkButtonChange();
-  //   debug::println("Next Loop!");
+  //   Debug("Next Loop!");
 
   // Emulate ~150 fps
   delay(7);

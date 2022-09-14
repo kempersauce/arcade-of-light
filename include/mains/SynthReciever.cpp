@@ -8,7 +8,7 @@
 #include <vector>
 
 // #include "audio/slave_driver.h"    // for SlaveDriver
-#include "serial/debug.h"          // for debug::*
+#include "serial/debug.h"          // for Debug
 #include "audio/synthy.h"           // for Synth
 #include "serial/ez_receiver.h"    // for reciever
 
@@ -29,15 +29,15 @@ serial::EZReceiver <message> receiver(&Serial1);
 //=============================================================================//
 // SETUP AND LOOP
 void setup() {
-  debug::Init();
+  Debug_init();
 
   
   
-  debug::println("making synth");
+  Debug("making synth");
   synthy.InitSynth();
 
 
-  debug::println("synth maked");
+  Debug("synth maked");
   synthy.wave1Amplitude = 0;
   synthy.wave2Amplitude = 0;
   synthy.wave3Amplitude = 0;
@@ -66,7 +66,7 @@ void loop() {
       synthy.wave6Amplitude = 0;
     }
   }
-  debug::println("starting the loop");
+  Debug("starting the loop");
   synthy.Play();
 //   receivers.ReadAll();
 }

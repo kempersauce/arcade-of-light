@@ -10,7 +10,7 @@
 // #include "audio/channel.h"    // for Channel
 #include "audio/constants.h"  // for k*
 // #include "audio/sounds.h"     // for InitAudio
-#include "serial/debug.h"  // for debug::*
+#include "serial/debug.h"  // for Debug
 
 namespace kss {
 namespace audio {
@@ -85,7 +85,7 @@ class Synthy {
   size_t i = 0;
 
   Synthy() {
-    debug::println("hello");
+    Debug("hello");
   };
 
   const void InitSynth() {
@@ -179,7 +179,7 @@ class Synthy {
   waveform5.begin(WAVEFORM_SAWTOOTH);
   waveform6.begin(WAVEFORM_SAWTOOTH);
   AudioInterrupts();
-  debug::println("played note");
+  Debug("played note");
   //add effect
   l_chorusEffect.voices(n_chorus);
   r_chorusEffect.voices(n_chorus);
@@ -189,15 +189,15 @@ class Synthy {
   const void audioDebug() {
     if(0) {
       if(millis() - last_time >= 5000) {
-        debug::println("Proc = ");
-        debug::println(AudioProcessorUsage());
-        debug::println(" (");    
-        debug::println(AudioProcessorUsageMax());
-        debug::println("),  Mem = ");
-        debug::println(AudioMemoryUsage());
-        debug::println(" (");    
-        debug::println(AudioMemoryUsageMax());
-        debug::println(")");
+        Debug("Proc = ");
+        Debug(AudioProcessorUsage());
+        Debug(" (");    
+        Debug(AudioProcessorUsageMax());
+        Debug("),  Mem = ");
+        Debug(AudioMemoryUsage());
+        Debug(" (");    
+        Debug(AudioMemoryUsageMax());
+        Debug(")");
         last_time = millis();
       }
     }
