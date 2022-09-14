@@ -48,24 +48,24 @@ void setup() {
 }
 
 void loop() {
-  if (millis() - start_time <= 30000) {
+  if (millis() - start_time <= 12000) {
     if (!tester.background.is_playing) {
       tester.background.Repeat();
-      tester.background.Repeat();
+    //   tester.background.Repeat();
     }
     tester.bespoke.Play();
-    tester.bespoke.Play();
+    // tester.bespoke.Play();
     tester.effect.Play();
-    tester.effect.Play();
+    // tester.effect.Play();
   } else {
     if (!tester.sub.background.is_playing) {
       tester.sub.background.Repeat();
-      tester.sub.background.Repeat();
+    //   tester.sub.background.Repeat();
     }
     tester.sub.bespoke.Play();
-    tester.sub.bespoke.Play();
+    // tester.sub.bespoke.Play();
     tester.sub.effect.Play();
-    tester.sub.effect.Play();
+    // tester.sub.effect.Play();
   }
   delay(1000);
 

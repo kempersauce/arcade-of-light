@@ -11,7 +11,12 @@
 // #include "mains/RawMatrixTest.cpp"
 // #include "mains/RhythmGame.cpp"
 // #include "mains/RocketGame.cpp"
-// #include "mains/SerialReceiverTest.cpp"
-// #include "mains/SlaveDriverTest.cpp"
+// #include "mains/WavManagerTest.cpp"
 // #include "mains/synthest1.cpp"
 // #include "mains/TwentyTest.cpp"
+
+// Serial test programs
+// #include "mains/serial/EZReceiverTest.cpp"
+// #include "mains/serial/EZTransmitterTest.cpp"
+// #include "mains/serial/HardwareReceiverTest.cpp"
+// #include "mains/serial/HardwareTransmitterTest.cpp"

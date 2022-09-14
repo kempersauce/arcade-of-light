@@ -22,7 +22,7 @@ class Receiver {
   Receiver(HardwareSerial* serial) : serial{serial} {
     inputBuffer = (char*)malloc(kMessageBufferSize);
 
-    serial->begin(115200);
+    serial->begin(kBaudRate);
   }
 
   // TODO re-visit this: we allocate an oversized buffer
