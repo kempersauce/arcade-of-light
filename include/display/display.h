@@ -73,7 +73,7 @@ class Display {
  protected:
   inline bool CheckLocation(const size_t strip, const size_t pixel) const {
     const bool oob = !IsInBounds(strip, pixel);
-#ifdef DEBUG
+#ifdef __DEBUG
     if (oob) {
       if (size.x == 0 || size.y == 0) {
         Debug("ERROR: Ill-defined display: loc=" + strip + "x" + pixel +
