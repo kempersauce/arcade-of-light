@@ -6,7 +6,7 @@
 #include "display/sub_display.h"         // for SubDisplay
 #include "games/game.h"                  // for Game
 #include "games/rhythm/rhythm_single.h"  // for RhythmGameSingle
-#include "serial/debug.h"                // for debug::*
+#include "serial/debug.h"                // for Debug
 
 namespace kss {
 namespace games {

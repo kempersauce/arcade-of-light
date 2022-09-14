@@ -5,7 +5,7 @@
 #include <SPI.h>
 #include <SerialFlash.h>
 
-#include "serial/debug.h"  // for debug::*
+#include "serial/debug.h"  // for Debug
 
 namespace kss {
 namespace audio {

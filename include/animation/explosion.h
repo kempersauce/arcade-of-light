@@ -8,7 +8,7 @@
 #include "engines/physics_info.h"  // for PhysicsInfo
 #include "math/random.h"           // for random::*
 #include "math/vector2d.h"         // for Vector2D
-#include "serial/debug.h"          // for debug::*
+#include "serial/debug.h"          // for Debug
 
 namespace kss {
 namespace animation {

@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "audio/constants.h"  // for k*
-#include "serial/debug.h"     // for debug::*
+#include "serial/debug.h"     // for Debug
 
 namespace kss {
 namespace audio {
@@ -28,6 +28,7 @@ using namespace _channel;
 // a 3ms lag time
 
 class Channel {
+  const size_t channel_no;
   AudioPlaySdWav* wav_player;
 
   String current_file;
@@ -36,17 +37,19 @@ class Channel {
 
   void PlayCurrentFile() {
     if (wav_player->isPlaying()) {
-      Debug("Channel is already playing, but is requested to play \"" +
-            current_file + "\"");
+      Debug("Channel[" + channel_no +
+            "] is already playing, but is requested to play \"" + current_file +
+            "\"");
     }
 
     wav_player->play(current_file.c_str());
     start_time = millis();
-    Debug("Playing file: \"" + current_file + "\"");
+    Debug("Channel[" + channel_no + "] Playing file: \"" + current_file + "\"");
   }
 
  public:
-  Channel(AudioPlaySdWav* wav_player) : wav_player{wav_player} {}
+  Channel(AudioPlaySdWav* wav_player, size_t channel_no)
+      : channel_no{channel_no}, wav_player{wav_player} {}
 
   void Play(String file_name) {
     current_file = std::move(file_name);  // cant use file_name after this

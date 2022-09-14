@@ -5,7 +5,9 @@
 
 #ifdef __DEBUG
 
-#include <HardwareSerial.h>  // for HardwareSerial
+#include <SerialFlash.h>  // for Serial
+
+#include "serial/constants.h"  // for kBaudRate
 
 #define __DEBUG_INFO \
   ((String)__FILE__ + ": " + __func__ + " (line " + __LINE__ + "): ")
@@ -13,20 +15,20 @@
 #define Debug(msg) (debug::println(__DEBUG_INFO + msg))
 #define Debug_print(msg) (debug::print((String)msg))
 #define Debug_endl() (debug::println())
+#define Debug_init() (debug::Init())
 
 #else
 #define Debug(whateveridgaf)
 #define Debug_print(whateveridgaf)
 #define Debug_endl()
+#define Debug_init()
 #endif
 
 #define Debug_here() (Debug("Here I am! time=" + millis()))
 #define Debug_print_info() (Debug_print(__DEBUG_INFO))
-#define Debunny() (Debug("\n(\\_/\)\n(0.@\)\n(\"\)(\"\)"))
+#define Debunny() (Debug("\n(\\_/)\n(0.@)\n(\")(\")"))
 
 namespace debug {
-
-constexpr uint32_t kBaudRate{9600};
 
 inline void println() {
 #ifdef __DEBUG
@@ -61,11 +63,11 @@ inline void print(const String& msg) {
 // Start serial if we're in debug mode (idk this doesnt work for some reason)
 inline void Init() {
 #ifdef __DEBUG
-  Serial.begin(kBaudRate);
+  Serial.begin(kss::serial::kBaudRate);
   delay(5000);  // Wait for serial to actually start
-  Debug("Beginning serial debug, baud rate=" + kBaudRate);
-  Debug_here();
+  Debug("Beginning serial debug, baud rate=" + kss::serial::kBaudRate);
   Debunny();
+  Debug_here();
 #endif
 }
 

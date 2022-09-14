@@ -4,7 +4,7 @@
 
 #include "math/random.h"    // for random::*
 #include "math/vector2d.h"  // for Dimension
-#include "serial/debug.h"   // for debug::*
+#include "serial/debug.h"   // for Debug
 
 /**
  * @brief BE CAREFUL USING THIS IT DOESNT WORT QUITE RIGHT YET & LIKES TO CRASH

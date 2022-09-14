@@ -7,7 +7,7 @@
 #include "animation/starscape.h"  // for Starscape
 #include "controls/dir_pad.h"     // for DirPad
 #include "games/game.h"           // for Game
-#include "serial/debug.h"         // for debug::*
+#include "serial/debug.h"         // for Debug
 
 namespace kss {
 namespace games {
@@ -46,7 +46,6 @@ class RhythmGameSingle : public Game {
     arrow.location.y--;
     if (arrow.location.y == 0) {
       arrow.location.y = display->size.y + 5;
-      exploder.Clear();
     }
 
     if (arrow.location.y <= 35) {
