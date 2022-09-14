@@ -1,7 +1,7 @@
 #pragma once
 
 // This enables/disables building debug-type stuff into the project
-// #define __DEBUG 1337
+#define __DEBUG 1337
 
 #ifdef __DEBUG
 

@@ -44,16 +44,16 @@ Synthy synthy;
 //   }
 // }
 
-// // Serials we listen on
-// const std::vector<HardwareSerial*> serials{
-//     &Serial1,  // OK
-//     //&Serial2,  // TX2 & RX2 are used by audioshield
-//     //&Serial3,  // AudioShield uses RX3 for volume control
-//     &Serial4,  // OK
-//     //&Serial5,  // TX5 & RX5 are used by audioshield
-//     &Serial6,  // OK
-//     &Serial7   // OK
-// };
+// Serials we listen on
+const std::vector<HardwareSerial*> serials{
+    &Serial1,  // OK
+    //&Serial2,  // TX2 & RX2 are used by audioshield
+    //&Serial3,  // AudioShield uses RX3 for volume control
+    &Serial4,  // OK
+    //&Serial5,  // TX5 & RX5 are used by audioshield
+    &Serial6,  // OK
+    &Serial7   // OK
+};
 
 // serial::ReceiverBank receivers{ProcessMessage, serials};
 
@@ -62,33 +62,7 @@ Synthy synthy;
 void setup() {
   debug::Init();
 
-  // Fire up the boombox
-//   InitAudio();
-
-    // mixMaster.gain(0, 0.5);
-    // mixMaster.gain(1, 0.5);
-    // mixer1.gain(0, mixerGain);
-    // mixer1.gain(1, mixerGain);
-    // mixer1.gain(2, mixerGain);
-    // mixer1.gain(3, mixerGain);
-    // mixer2.gain(0, mixerGain);
-    // mixer2.gain(1, mixerGain);
-    // mixer2.gain(2, mixerGain);
-    // mixer2.gain(3, mixerGain);
-    // effectMixer.gain(0, mixerGain);
-    // effectMixer.gain(1, mixerGain);
-    // effectMixer.gain(2, mixerGain);
-    // effectMixer.gain(3, mixerGain);
-    // bgMixer.gain(0, mixerGain);
-    // bgMixer.gain(1, mixerGain);
-    // bgMixer.gain(2, mixerGain);
-    // bgMixer.gain(3, mixerGain);
-
-//   auto& channel = slaveDriver.PlayWav("FUEL50.WAV");
-//   while (channel.IsPlaying()) {
-    // delay(1);
-
-//   }
+  
   
   debug::println("making synth");
   synthy.InitSynth();
