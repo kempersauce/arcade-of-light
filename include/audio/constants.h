@@ -16,7 +16,7 @@ constexpr char kChannelMarker1{'1'};
 constexpr char kChannelMarker2{'2'};
 constexpr char kChannelMarkerAny{'?'};
 
-struct AudioMessage {
+struct WavAudioMessage  {
   char channel_selector;
   char action_selector;
   char filename[13];  // 8 chars for name, 1 for ., 3 for WAV, 1 for \0

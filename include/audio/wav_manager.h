@@ -18,7 +18,7 @@
 namespace kss {
 namespace audio {
 
-class SlaveDriver {
+class WavAudioManager {
   std::vector<Channel> channels;
 
   static constexpr size_t block_count{kChannelCount};
@@ -56,7 +56,7 @@ class SlaveDriver {
   };
 
  public:
-  SlaveDriver() {
+  WavAudioManager() {
     for (size_t i = 0; i < block_count; ++i) {
       channels.emplace_back(&wav_players[i], i);
     }
