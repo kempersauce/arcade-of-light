@@ -14,8 +14,8 @@
 // #include "mains/WavManagerTest.cpp"
 // #include "mains/synthest1.cpp"
 // #include "mains/TwentyTest.cpp"
-#include "mains/SynthReciever.cpp"
-// #include "mains/SynthSender.cpp"
+// #include "mains/SynthReciever.cpp"
+#include "mains/SynthSender.cpp"
 
 // Serial test programs
 // #include "mains/serial/EZReceiverTest.cpp"

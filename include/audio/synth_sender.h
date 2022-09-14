@@ -5,7 +5,7 @@
 #include "audio/constants.h"  // for k*
 #include "controls/button.h"
 #include "serial/debug.h"        // for debug::*
-#include "serial/transmitter.h"  // for Transmitter
+#include "serial/ez_transmitter.h"  // for Transmitter
 
 namespace kss {
 namespace audio {
@@ -19,13 +19,8 @@ class SynthSender {
   controls::Button* a_btn;
   controls::Button* b_btn;
 
-  serial::Transmitter transmitter;
-
-  // Set up a message with the header info regarding audio channel and action
-  inline const void InitMessage(char* buffer, char start_stop) {
-    buffer[0] = start_stop;
-    buffer[1] = '\0';
-  }
+  struct message{uint8_t action;};
+  serial::EZTransmitter<message> transmitter;
 
  public:
   // Constructor: starts serial connection to audioSlave
@@ -43,20 +38,16 @@ class SynthSender {
 
   // prepare input started message for synth
   const void StartInput(const char* inputName) {
-    char msg[15];
-    InitMessage(msg, kChannelActionPlay);
-    strcat(msg, inputName);
+    message msg;
+    msg.action = kChannelActionPlay;
     transmitter.Send(msg);
-    debug::println((String)msg);
   }
 
   // prepare input stop message for synth
   const void StopInput(const char* inputName) {
-    char msg[15];
-    InitMessage(msg, kChannelActionStop);
-    strcat(msg, inputName);
+    message msg;
+    msg.action = kChannelActionStop;
     transmitter.Send(msg);
-    debug::println((String)msg);
   }
 
   // checks if any buttons have changed state
