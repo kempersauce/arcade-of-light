@@ -14,6 +14,7 @@ namespace display {
 // BUT then we would need to make number of pins a parameter for that
 template <size_t row_count, size_t kLengthStrips>
 class SwitchbackOctoDisplay : public Display {
+  uint8_t pin_list[1];
   static constexpr int total_pixel_count{row_count * kLengthStrips};
 
   // These buffers need to be large enough for all the pixels.
@@ -31,8 +32,10 @@ class SwitchbackOctoDisplay : public Display {
  public:
   SwitchbackOctoDisplay(const uint8_t pin, int* displayMemory)
       : Display({row_count, kLengthStrips}),
+        pin_list{pin},
         octo(total_pixel_count, displayMemory, drawingMemory,
-             WS2811_RGB | WS2811_800kHz, 1, uint8_t[1]{pin}),
+             WS2811_RGB | WS2811_800kHz, 1,
+             pin_list),  // this works?
         controller(&octo) {
     octo.begin();
     FastLED.addLeds(&controller, pixels, size.y * size.x);

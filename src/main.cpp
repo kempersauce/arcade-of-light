@@ -1,6 +1,5 @@
-// #include "mains/AudioSenderTest.cpp"
-#include "mains/audioSlave.cpp"
-// #include "mains/audioTest.cpp"
+
+// #include "mains/audioSlave.cpp"
 // #include "mains/ButtonMatrixTest.cpp"
 // #include "mains/ButtonTest.cpp"
 // #include "mains/GliderWars.cpp"
@@ -11,9 +10,16 @@
 // #include "mains/RawMatrixTest.cpp"
 // #include "mains/RhythmGame.cpp"
 // #include "mains/RocketGame.cpp"
+
+// Audio test programs
+// #include "mains/AudioSenderTest.cpp"
+// #include "mains/audioTest.cpp"
 // #include "mains/WavManagerTest.cpp"
 // #include "mains/synthest1.cpp"
+
+// Display test programs
 // #include "mains/TwentyTest.cpp"
+#include "mains/InstructoPanelTest.cpp"
 
 // Serial test programs
 // #include "mains/serial/EZReceiverTest.cpp"
