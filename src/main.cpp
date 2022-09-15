@@ -18,8 +18,9 @@
 // #include "mains/synthest1.cpp"
 
 // Display test programs
-// #include "mains/TwentyTest.cpp"
 #include "mains/InstructoPanelTest.cpp"
+// #include "mains/LEDStripTest.cpp"
+// #include "mains/TwentyTest.cpp"
 
 // Serial test programs
 // #include "mains/serial/EZReceiverTest.cpp"

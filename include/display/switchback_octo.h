@@ -12,10 +12,10 @@ namespace display {
 
 // TODO this should be implemented by inheriting OctoDisplay
 // BUT then we would need to make number of pins a parameter for that
-template <size_t row_count, size_t kLengthStrips>
+template <size_t row_count, size_t column_count>
 class SwitchbackOctoDisplay : public Display {
   uint8_t pin_list[1];
-  static constexpr int total_pixel_count{row_count * kLengthStrips};
+  static constexpr int total_pixel_count{row_count * column_count};
 
   // These buffers need to be large enough for all the pixels.
   // The total number of pixels is "ledsPerStrip * numPins".
@@ -31,7 +31,7 @@ class SwitchbackOctoDisplay : public Display {
 
  public:
   SwitchbackOctoDisplay(const uint8_t pin, int* displayMemory)
-      : Display({row_count, kLengthStrips}),
+      : Display({row_count, column_count}),
         pin_list{pin},
         octo(total_pixel_count, displayMemory, drawingMemory,
              WS2811_RGB | WS2811_800kHz, 1,
@@ -47,14 +47,18 @@ class SwitchbackOctoDisplay : public Display {
   SwitchbackOctoDisplay* operator=(SwitchbackOctoDisplay*&) = delete;
 
  public:
+//  size_t sneaky = 0;
   virtual inline CRGB& Pixel(size_t x, size_t y) override {
 #ifdef __DEBUG
     CheckLocation(x, y);
 #endif
-    if (x % 2 == 0) {
-      y = size.y - y - 1;
+    if (y % 2 == 1) {
+      x = size.x - x - 1;
     }
-    return pixels[x * size.y + y];
+
+    return pixels[y * size.x + x];
+	// sneaky %= total_pixel_count;
+    // return pixels[sneaky++];
   }
 
   virtual void Show() override { FastLED.show(); }
