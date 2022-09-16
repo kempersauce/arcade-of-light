@@ -53,5 +53,5 @@ void loop() {
   //   Debug("loops brother");
   // frameRate.PrintFrameRate();
 
-  delay(20);
+  delay(7);
 }

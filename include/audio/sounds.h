@@ -3,6 +3,7 @@
 #include <Audio.h>
 #include <SD.h>
 #include <SPI.h>
+#include <SerialFlash.h>
 
 #include "serial/debug.h"  // for Debug
 
