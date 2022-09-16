@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "audio/constants.h"     // for SynthAudioMessage
 #include "audio/synthy.h"        // for Synth
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for reciever
@@ -17,11 +18,13 @@ using namespace kss::audio::_synthy;
 
 Synthy synthy;
 
-// TODO: Rewrite this to recieve new synth sender messages
-struct message {
-  uint8_t action;
-};
-serial::EZReceiver<message> receiver(&Serial1);
+serial::EZReceiver<SynthAudioMessage> receiver(&Serial1);
+
+const void audioDebug() {
+  Debug("Proc=" + AudioProcessorUsage() + " (max=" + AudioProcessorUsageMax() +
+        "), Mem=" + AudioMemoryUsage() + " (max=" + AudioMemoryUsageMax() +
+        ")");
+}
 
 //=============================================================================//
 // SETUP AND LOOP
@@ -32,34 +35,22 @@ void setup() {
   synthy.InitSynth();
 
   Debug("synth maked");
-  synthy.wave1Amplitude = 0;
-  synthy.wave2Amplitude = 0;
-  synthy.wave3Amplitude = 0;
-  synthy.wave4Amplitude = 0;
-  synthy.wave5Amplitude = 0;
-  synthy.wave6Amplitude = 0;
 }
 
 void loop() {
   receiver.ReceiveMessages();
-  message receivedMessage;
-  if (receiver.GetNextMessage(receivedMessage)) {
-    if (receivedMessage.action == kChannelActionPlay) {
-      synthy.wave1Amplitude = 1.0;
-      synthy.wave2Amplitude = 1.0;
-      synthy.wave3Amplitude = 1.0;
-      synthy.wave4Amplitude = 1.0;
-      synthy.wave5Amplitude = 1.0;
-      synthy.wave6Amplitude = 1.0;
+  SynthAudioMessage msg;
+  if (receiver.GetNextMessage(msg)) {
+    auto& channel = waveforms[msg.channel];
+    AudioNoInterrupts();
+    if (msg.action == kChannelActionPlay) {
+      Debug("Play channel " + msg.channel);
+      channel.amplitude(1.0);
     } else {
-      synthy.wave1Amplitude = 0;
-      synthy.wave2Amplitude = 0;
-      synthy.wave3Amplitude = 0;
-      synthy.wave4Amplitude = 0;
-      synthy.wave5Amplitude = 0;
-      synthy.wave6Amplitude = 0;
+      Debug("Stop channel " + msg.channel);
+      channel.amplitude(0);
     }
+    AudioInterrupts();
+    audioDebug();
   }
-  Debug("starting the loop");
-  synthy.Play();
 }
