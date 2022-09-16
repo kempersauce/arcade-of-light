@@ -20,6 +20,8 @@ constexpr float Bb[9]{29.14, 58.27, 116.5, 233.1, 466.2, 932.3, 1865, 3729, 7459
 constexpr float B[9]{30.87, 61.74, 123.5, 246.9, 493.9, 987.8, 1976, 3951, 7902};
 // clang-format on
 
+constexpr float all_notes[9][12]{*C, *Cs, *D, *Eb, *E, *F, *Fs, *G, *Gs, *A, *Bb, *B};
+
 }  // namespace notes
 }  // namespace audio
 }  // namespace kss
