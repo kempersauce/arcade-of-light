@@ -45,10 +45,10 @@ void loop() {
     AudioNoInterrupts();
     if (msg.action == kChannelActionPlay) {
       Debug("Play channel " + msg.channel);
-      channel.amplitude(1.0);
+      channel.envelope.noteOn();
     } else {
       Debug("Stop channel " + msg.channel);
-      channel.amplitude(0);
+      channel.envelope.noteOff();
     }
     AudioInterrupts();
     audioDebug();
