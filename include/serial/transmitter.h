@@ -18,9 +18,9 @@ class Transmitter {
     serial->begin(kBaudRate);
   }
 
-  inline void Send(const String& msg) const { Send(msg.c_str()); }
+  inline void Send(const char* msg) const { Send((String)msg); }
 
-  void Send(const char* msg) const {
+  void Send(String msg) const {
     const String finalMsg =
         (String)kMessageStartMarker + msg + kMessageEndMarker;
     if (finalMsg.length() >= kMessageBufferSize) {

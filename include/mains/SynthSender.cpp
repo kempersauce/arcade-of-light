@@ -14,13 +14,16 @@
 
 kss::controls::hardware::Matrix controls;
 
-kss::audio::SynthSender* synth = new kss::audio::SynthSender(  //
-    controls.CreateButton(2, BUTTON_PIN_4),                    //
-    controls.CreateButton(2, BUTTON_PIN_3),                    //
-    controls.CreateButton(2, BUTTON_PIN_5),                    //
-    controls.CreateButton(2, BUTTON_PIN_2),                    //
-    controls.CreateButton(2, BUTTON_PIN_1),                    //
-    controls.CreateButton(2, BUTTON_PIN_0));                   //
+kss::audio::SynthSender* synth = new kss::audio::SynthSender(
+    // clang-format off
+    controls.CreateButton(2, BUTTON_PIN_4),
+    controls.CreateButton(2, BUTTON_PIN_3),
+    controls.CreateButton(2, BUTTON_PIN_5),
+    controls.CreateButton(2, BUTTON_PIN_2),
+    controls.CreateButton(2, BUTTON_PIN_1),
+    controls.CreateButton(2, BUTTON_PIN_0)
+    // clang-format on
+);
 
 void setup() {
   Debug_init();

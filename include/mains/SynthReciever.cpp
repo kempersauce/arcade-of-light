@@ -7,35 +7,29 @@
 #include <string>
 #include <vector>
 
-// #include "audio/slave_driver.h"    // for SlaveDriver
-#include "serial/debug.h"          // for Debug
-#include "audio/synthy.h"           // for Synth
-#include "serial/ez_receiver.h"    // for reciever
+#include "audio/synthy.h"        // for Synth
+#include "serial/debug.h"        // for Debug
+#include "serial/ez_receiver.h"  // for reciever
 
 using namespace kss;
 using namespace kss::audio;
 using namespace kss::audio::_synthy;
 
-// SlaveDriver slaveDriver;
-
 Synthy synthy;
 
 // TODO: Rewrite this to recieve new synth sender messages
-struct message{uint8_t action;};
-serial::EZReceiver <message> receiver(&Serial1);
-
-// serial::ReceiverBank receivers{ProcessMessage, serials};
+struct message {
+  uint8_t action;
+};
+serial::EZReceiver<message> receiver(&Serial1);
 
 //=============================================================================//
 // SETUP AND LOOP
 void setup() {
   Debug_init();
 
-  
-  
   Debug("making synth");
   synthy.InitSynth();
-
 
   Debug("synth maked");
   synthy.wave1Amplitude = 0;
@@ -49,8 +43,8 @@ void setup() {
 void loop() {
   receiver.ReceiveMessages();
   message receivedMessage;
-  if(receiver.GetNextMessage(receivedMessage)) {
-    if(receivedMessage.action == kChannelActionPlay) {
+  if (receiver.GetNextMessage(receivedMessage)) {
+    if (receivedMessage.action == kChannelActionPlay) {
       synthy.wave1Amplitude = 1.0;
       synthy.wave2Amplitude = 1.0;
       synthy.wave3Amplitude = 1.0;
@@ -68,5 +62,4 @@ void loop() {
   }
   Debug("starting the loop");
   synthy.Play();
-//   receivers.ReadAll();
 }

@@ -20,8 +20,6 @@ namespace audio {
 AudioControlSGTL5000 sgtl5000_1;
 
 void InitAudio() {
-  
-  Serial.begin(9600);
   // Audio connections require memory to work.  For more
   // detailed information, see the MemoryAndCpuUsage example
   AudioMemory(16);
