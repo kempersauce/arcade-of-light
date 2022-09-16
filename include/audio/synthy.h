@@ -6,10 +6,10 @@
 #include <SPI.h>
 #include <Wire.h>
 
-// #include "audio/channel.h"    // for Channel
-#include "audio/constants.h"  // for k*
-// #include "audio/sounds.h"     // for InitAudio
-#include "serial/debug.h"  // for Debug
+#include "audio/constants.h"    // for k*
+#include "audio/music_notes.h"  // for notes::*
+#include "audio/sounds.h"       // for InitAudio
+#include "serial/debug.h"       // for Debug
 
 namespace kss {
 namespace audio {
@@ -52,8 +52,6 @@ AudioConnection patchCordMaster2(effectMixer, 0, mixerMaster, 1);
 AudioConnection patchCord1(mixerMaster, 0, i2s1, 0);
 AudioConnection patchCord2(mixerMaster, 0, i2s1, 1);
 
-AudioControlSGTL5000 sgtl5000_1;  // xy=239,232
-
 }  // namespace _synthy
 using namespace _synthy;
 
@@ -70,7 +68,7 @@ class Synthy {
   Synthy() { Debug("hello"); };
 
   const void InitSynth() {
-    AudioMemory(14);
+    InitAudio();
 
     // Comment these out if not using the audio adaptor board.
     // This may wait forever if the SDA & SCL pins lack
