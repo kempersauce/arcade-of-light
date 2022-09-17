@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "PinSetup.h"                  // for pins::*
 #include "controls/button.h"           // for Button
 #include "controls/hardware/matrix.h"  // for Matrix
 #include "math/random.h"               // for random::*
@@ -10,16 +11,26 @@ using namespace kss::math;
 
 controls::hardware::Matrix control_context;
 
-controls::Button* but1 = control_context.CreateButton(2, 8);
-controls::Button* but2 = control_context.CreateButton(2, 9);
-controls::Button* but3 = control_context.CreateButton(2, 10);
-controls::Button* but4 = control_context.CreateButton(2, 11);
-controls::Button* but5 = control_context.CreateButton(2, 12);
-controls::Button* but6 = control_context.CreateButton(2, 13);
+controls::Button* but1;
+controls::Button* but2;
+controls::Button* but3;
+controls::Button* but4;
+controls::Button* but5;
+controls::Button* but6;
 
 // Serials we listen on
 
-void setup() { Debug_init(); }
+void setup() {
+  Debug_init();
+  pins::Init();
+
+  but1 = control_context.CreateButton(pins::Controllers[0], pins::Buttons[0]);
+  but2 = control_context.CreateButton(pins::Controllers[0], pins::Buttons[1]);
+  but3 = control_context.CreateButton(pins::Controllers[0], pins::Buttons[2]);
+  but4 = control_context.CreateButton(pins::Controllers[0], pins::Buttons[3]);
+  but5 = control_context.CreateButton(pins::Controllers[0], pins::Buttons[4]);
+  but6 = control_context.CreateButton(pins::Controllers[0], pins::Buttons[5]);
+}
 
 void loop() {
   control_context.PollAll();
