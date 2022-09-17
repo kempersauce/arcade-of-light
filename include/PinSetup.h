@@ -55,14 +55,14 @@ Pin numbers for teensy setup
 */
 
 // LED STRIPS
-#define H2H_LED_PIN_0 20
-#define H2H_LED_PIN_1 17
-#define H2H_LED_PIN_2 16
-#define H2H_LED_PIN_3 39
-#define H2H_LED_PIN_4 38
-#define H2H_LED_PIN_5 37
-#define H2H_LED_PIN_6 36
-#define H2H_LED_PIN_7 35
+// #define H2H_LED_PIN_0 20
+// #define H2H_LED_PIN_1 17
+// #define H2H_LED_PIN_2 16
+// #define H2H_LED_PIN_3 39
+// #define H2H_LED_PIN_4 38
+// #define H2H_LED_PIN_5 37
+// #define H2H_LED_PIN_6 36
+// #define H2H_LED_PIN_7 35
 
 // BUTTONS
 
