@@ -1,14 +1,20 @@
-#include <HardwareSerial.h>  // for HardwareSerial
-
-#include "serial/debug.h"          // for Debug
+#include "serial/debug.h"        // for Debug
 #include "serial/transmitter.h"  // for Transmitter
 
 using namespace kss::serial;
 
-const String test_msg{"0123456789"};
+constexpr size_t transmitter_count{8};
 
-Transmitter transmitter{&Serial1};
+Transmitter transmitters_h[transmitter_count]{
+    {&Serial1}, {&Serial2}, {&Serial3}, {&Serial4},
+    {&Serial5}, {&Serial6}, {&Serial7}, {&Serial8}};
 
 void setup() { Debug_init(); }
 
-void loop() { transmitter.Send(test_msg); }
+void loop() {
+  for (size_t i = 0; i < transmitter_count; ++i) {
+    const String msg = "From HSerial" + (String)(i + 1);
+    transmitters_h[i].Send(msg);
+  }
+  delay(100);
+}

@@ -5,8 +5,6 @@
 
 using namespace kss::serial;
 
-const String test_msg{"0123456789"};
-
 struct SEND_DATA_STRUCTURE {
   // put your variable definitions here for the data you want to send
   // THIS MUST BE EXACTLY THE SAME ON THE OTHER ARDUINO
@@ -19,7 +17,11 @@ struct SEND_DATA_STRUCTURE {
   char test_str[20];
 };
 
-EZTransmitter<SEND_DATA_STRUCTURE> transmitter{&Serial1};
+constexpr size_t transmitter_count{8};
+
+EZTransmitter<SEND_DATA_STRUCTURE> transmitters[transmitter_count]{
+    {&Serial1}, {&Serial2}, {&Serial3}, {&Serial4},
+    {&Serial5}, {&Serial6}, {&Serial7}, {&Serial8}};
 
 void setup() { Debug_init(); }
 
@@ -28,8 +30,12 @@ void loop() {
   msg.test_uint32 = millis();
   static uint8_t message_no = 0;
   msg.test_uint8 = message_no++;
-  strcpy(msg.test_str, test_msg.c_str());
-  Debug("Sending msg[" + msg.test_uint8 + "] (t=" + msg.test_uint32 + ") \"" +
-        msg.test_str + "\"");
-  transmitter.Send(msg);
+  for (size_t i = 0; i < transmitter_count; ++i) {
+    const String serial_label = (String) "Serial" + (String)(i + 1);
+    strcpy(msg.test_str, serial_label.c_str());
+    Debug(serial_label + " sending msg[" + msg.test_uint8 +
+          "] (t=" + msg.test_uint32 + ") \"" + msg.test_str + "\"");
+    transmitters[i].Send(msg);
+  }
+  delay(100);
 }
