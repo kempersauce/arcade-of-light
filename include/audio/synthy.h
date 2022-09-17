@@ -104,7 +104,7 @@ class Synthy {
 
     // set up dat chord
     for (size_t i = 0; i < 6; ++i) {
-      waveforms[i].wave.frequency(notes::C_Pentatonic[i]);
+      waveforms[i].wave.frequency(notes::C_Pentatonic3[i]);
     }
 
     // waveforms[0].begin(WAVEFORM_SINE);
@@ -135,6 +135,10 @@ class Synthy {
     // add effect
     l_chorusEffect.voices(n_chorus);
     r_chorusEffect.voices(n_chorus);
+
+	for (auto& form : waveforms) {
+		form.envelope.noteOff();
+	}
 
     Debug("setup done");
     AudioProcessorUsageMaxReset();

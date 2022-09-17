@@ -28,6 +28,9 @@ kss::audio::SynthSender* synth = new kss::audio::SynthSender(
 void setup() {
   Debug_init();
 
+  // Get the controls poll'd up to start clean
+  controls.PollAll();
+  controls.PollAll();
   Debug("ready 2 goooo");
 }
 

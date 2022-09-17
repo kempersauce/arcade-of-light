@@ -2,50 +2,89 @@
 
 #include <HardwareSerial.h>  // for HardwareSerial
 
-#include "audio/constants.h"  // for k*
-#include "controls/button.h"
+#include "audio/constants.h"        // for SynthAudioMessage
+#include "controls/button.h"        // for Button
 #include "serial/debug.h"           // for Debug
 #include "serial/ez_transmitter.h"  // for Transmitter
 
 namespace kss {
 namespace audio {
 
+namespace _synth_sender {
+
+constexpr size_t button_array_size{4};
+constexpr size_t transmitter_count{2};
+
+}  // namespace _synth_sender
+using namespace _synth_sender;
+
 class SynthSender {
   // Button time
-  controls::Button* btns[6];
+  controls::Button* btns[button_array_size];
+  controls::Button* shift;
 
-  serial::EZTransmitter<SynthAudioMessage> transmitter;
+  size_t current_transmitter_index{0};
+  serial::EZTransmitter<SynthAudioMessage> transmitters[transmitter_count];
 
  public:
   // Constructor: starts serial connection to audioSlave
   SynthSender(controls::Button* up, controls::Button* down,
               controls::Button* left, controls::Button* right,
-              controls::Button* a, controls::Button* b,
-              HardwareSerial* serial = &Serial1)
-      : btns{up, down, left, right, a, b}, transmitter{serial} {}
+              controls::Button* a, controls::Button* b)
+      : btns{up, down, left, right},
+        shift{a},
+        transmitters{{&Serial1}, {&Serial2}} {}
 
-  const void Send(uint8_t channel, uint8_t action) {
+  void Send(uint8_t channel, uint8_t action) {
     SynthAudioMessage msg;
     msg.action = action;
     msg.channel = channel;
-    transmitter.Send(msg);
+    transmitters[current_transmitter_index].Send(msg);
+    Debug("Sending on transmitter[" + current_transmitter_index + "]");
   }
 
   // prepare input started message for synth
-  const void StartInput(uint8_t channel) {
+  void StartInput(uint8_t channel) {
     Send(channel, kChannelActionPlay);
     Debug("Sent <PLay> on channel " + channel);
   }
 
   // prepare input stop message for synth
-  const void StopInput(uint8_t channel) {
+  void StopInput(uint8_t channel) {
     Send(channel, kChannelActionStop);
     Debug("Sent <STop> on channel " + channel);
   }
 
+  void ShiftTo(size_t index) {
+    Debug("Shifting to transmitter[" + index + "]");
+    for (size_t i = 0; i < button_array_size; ++i) {
+      if (btns[i]->IsPressed()) {
+        StopInput(i);
+      }
+    }
+    current_transmitter_index = index;
+    for (size_t i = 0; i < button_array_size; ++i) {
+      if (btns[i]->IsPressed()) {
+        StartInput(i);
+      }
+    }
+    Debug("Shifting to transmitter[" + index + "] ~FiN~");
+  }
+
   // checks if any buttons have changed state
-  const void checkButtonChange() {
-    for (size_t i = 0; i < 6; ++i) {
+  void checkButtonChange() {
+    // Shift to transmitter B
+    if (shift->IsDepressing()) {
+      ShiftTo(1);
+    }
+
+    // Shift to transmitter A
+    if (shift->IsReleasing()) {
+      ShiftTo(0);
+    }
+
+    // Run channels normally
+    for (size_t i = 0; i < button_array_size; ++i) {
       if (btns[i]->IsDepressing()) {
         StartInput(i);
       }
