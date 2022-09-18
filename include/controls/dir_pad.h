@@ -19,12 +19,12 @@ class DirPad {
 
   DirPad(Button* up, Button* down, Button* left, Button* right, Button* a,
          Button* b)
-      : up{std::move(up)},        // BUTTON_PIN_4
-        down{std::move(down)},    // BUTTON_PIN_3
-        left{std::move(left)},    // BUTTON_PIN_5
-        right{std::move(right)},  // BUTTON_PIN_2
-        a{std::move(a)},          // BUTTON_PIN_1
-        b{std::move(b)}           // BUTTON_PIN_0
+      : up{std::move(up)},        // pins::Buttons[4]
+        down{std::move(down)},    // pins::Buttons[3]
+        left{std::move(left)},    // pins::Buttons[5]
+        right{std::move(right)},  // pins::Buttons[2]
+        a{std::move(a)},          // pins::Buttons[1]
+        b{std::move(b)}           // pins::Buttons[0]
   {}
 
   bool isIdle(uint32_t idleTimeout) {

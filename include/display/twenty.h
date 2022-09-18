@@ -1,7 +1,6 @@
 #pragma once
 
-#include <Constants.h>
-
+#include "PinSetup.h"
 #include "display/octo_display.h"  // for OctoDisplay
 
 namespace kss {
@@ -15,35 +14,35 @@ constexpr size_t kLengthStrips = 294;
 constexpr uint8_t kPinList[kNumStrips]{
     // clang-format off
 
-	// Cable 1
-    LED_PIN_0,
-    LED_PIN_1,
-    LED_PIN_2,
-    LED_PIN_3,
+    // Cable 1
+    pins::Leds[0],
+    pins::Leds[1],
+    pins::Leds[2],
+    pins::Leds[3],
 
-	// Cable 2
-    LED_PIN_4,
-    LED_PIN_5,
-    LED_PIN_6,
-    LED_PIN_7,
+    // Cable 2
+    pins::Leds[4],
+    pins::Leds[5],
+    pins::Leds[6],
+    pins::Leds[7],
 
-	// Cable 3
-    LED_PIN_8,
-    LED_PIN_9,
-    LED_PIN_10,
-    LED_PIN_11,
+    // Cable 3
+    pins::Leds[8],
+    pins::Leds[9],
+    pins::Leds[10],
+    pins::Leds[11],
 
-	// Cable 4
-    LED_PIN_12,
-    LED_PIN_13,
-    LED_PIN_14,
-    LED_PIN_15,
+    // Cable 4
+    pins::Leds[12],
+    pins::Leds[13],
+    pins::Leds[14],
+    pins::Leds[15],
 
-	// Cable 5
-    LED_PIN_16,
-    LED_PIN_17,
-    LED_PIN_18,
-    LED_PIN_19
+    // Cable 5
+    pins::Leds[16],
+    pins::Leds[17],
+    pins::Leds[18],
+    pins::Leds[19]
 
     // clang-format on
 };

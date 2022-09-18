@@ -50,13 +50,13 @@ class Vector2D {
   }
 
   template <typename U>
-  Vector2D<U> GetAs() {
+  Vector2D<U> GetAs() const {
     return *this;
   }
 
-  T GetMagnitude() { return x * x + y * y; }
+  T GetMagnitude() const { return x * x + y * y; }
 
-  String ToString() { return (String) "(" + x + "x" + y + ")"; }
+  String ToString() const { return (String) "(" + x + "x" + y + ")"; }
 
   // Not sure how well this would work for non-floats, meh whatever
   static Vector2D RandomVector(T max_magnitude) {

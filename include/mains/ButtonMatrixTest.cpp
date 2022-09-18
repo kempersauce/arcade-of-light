@@ -1,18 +1,14 @@
-
 #include <Arduino.h>
 #include <FastLED.h>
 
 #include <vector>  // for std::vector
 
+#include "PinSetup.h"  // for pins::*
 #include "controls/button.h"           // for controls::Button
 #include "controls/hardware/matrix.h"  // for controls::hardware::Matrix
 #include "games/game.h"                // for Game
 
 using namespace kss;
-
-// These are the pins we're using for each controller/button
-constexpr size_t cont_pins[]{2, 3, 4, 7};
-constexpr size_t butt_pins[]{8, 9, 10, 11, 12, 13};
 
 controls::hardware::Matrix control_context;
 
@@ -29,13 +25,14 @@ void PrintButtonInfo(size_t controller, size_t button, const char *message) {
 
 void setup() {
   Debug_init();
+  pins::Init();
 
   // Initialize controls
   Debug("Initialize Controls");
-  for (const size_t cont_pin : cont_pins) {
+  for (const auto cont_pin : pins::Controllers) {
     controllers.emplace_back();
     MatrixController& controller = controllers.back();
-    for (const size_t butt_pin : butt_pins) {
+    for (const auto butt_pin : pins::Buttons) {
       controller.buttons.push_back(
           control_context.CreateButton(cont_pin, butt_pin));
     }

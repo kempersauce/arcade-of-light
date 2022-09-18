@@ -10,6 +10,8 @@
 // #include "mains/RhythmGame.cpp"
 // #include "mains/RocketGame.cpp"
 
+// #include "mains/DipSwitchTest.cpp"
+
 // Audio test programs
 // #include "mains/AudioSenderTest.cpp"
 // #include "mains/audioTest.cpp"

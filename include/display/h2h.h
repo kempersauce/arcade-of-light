@@ -10,14 +10,14 @@ namespace display {
 class H2HDisplay : public StandardDisplay<8, 214> {
  public:
   H2HDisplay() : StandardDisplay() {
-    RegisterStrip<LED_PIN_0>(0);
-    RegisterStrip<LED_PIN_1>(1);
-    RegisterStrip<LED_PIN_2>(2);
-    RegisterStrip<LED_PIN_3>(3);
-    RegisterStrip<LED_PIN_4>(4);
-    RegisterStrip<LED_PIN_5>(5);
-    RegisterStrip<LED_PIN_6>(6);
-    RegisterStrip<LED_PIN_7>(7);
+    RegisterStrip<pins::Leds[0]>(0);
+    RegisterStrip<pins::Leds[1]>(1);
+    RegisterStrip<pins::Leds[2]>(2);
+    RegisterStrip<pins::Leds[3]>(3);
+    RegisterStrip<pins::Leds[4]>(4);
+    RegisterStrip<pins::Leds[5]>(5);
+    RegisterStrip<pins::Leds[6]>(6);
+    RegisterStrip<pins::Leds[7]>(7);
   }
 };
 
