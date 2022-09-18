@@ -4,6 +4,8 @@
 
 #include <queue>  // for std::queue
 
+#include "serial/constants.h"  // for kBaudRate
+
 namespace kss {
 namespace serial {
 

@@ -2,6 +2,8 @@
 
 #include <EasyTransfer.h>  // for EasyTransfer
 
+#include "serial/constants.h"  // for kBaudRate
+
 namespace kss {
 namespace serial {
 

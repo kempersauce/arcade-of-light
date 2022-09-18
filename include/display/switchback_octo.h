@@ -47,18 +47,14 @@ class SwitchbackOctoDisplay : public Display {
   SwitchbackOctoDisplay* operator=(SwitchbackOctoDisplay*&) = delete;
 
  public:
-//  size_t sneaky = 0;
   virtual inline CRGB& Pixel(size_t x, size_t y) override {
-#ifdef __DEBUG
     CheckLocation(x, y);
-#endif
+
     if (y % 2 == 1) {
       x = size.x - x - 1;
     }
 
     return pixels[y * size.x + x];
-	// sneaky %= total_pixel_count;
-    // return pixels[sneaky++];
   }
 
   virtual void Show() override { FastLED.show(); }

@@ -3,6 +3,7 @@
 
 #include <vector>  // for vector
 
+#include "PinSetup.h"                       // for pins::Init
 #include "animation/fireworks_show.h"       // for FireworksShow
 #include "animation/noise.h"                // for NoiseAnimation
 #include "display/display.h"                // for Display
@@ -50,14 +51,16 @@ void setup() {
   // FastLED.setBrightness(100);
 
   Debug_init();
+  pins::Init();
+
   Debug("Begin setup()");
 
   // Choose your Display type
   //   gameDisplay = (display::Display*)new display::FiveDisplay();
-    gameDisplay = new display::FourPanelDisplay();
+  gameDisplay = new display::FourPanelDisplay();
   //   gameDisplay = (display::Display*)new display::H2HDisplay();
   //   gameDisplay = (display::Display*)new display::RocketDisplay();
-//   gameDisplay = (display::Display*)new display::TwentyDisplay();
+  //   gameDisplay = (display::Display*)new display::TwentyDisplay();
   //   gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
 
   Debug("gameDisplay created");
@@ -72,14 +75,17 @@ void setup() {
   //   game = (games::Game*)new games::snake::SnakeGame(*gameDisplay);
   //   game = (games::Game*)new games::shooter::ShooterGame(*gameDisplay);
   //   game = (games::Game*)new games::falling::FallingGame(*gameDisplay);
-  //   game = (games::Game*)new games::lane_runner::LaneRunnerGame(*gameDisplay);
-  //   game = (games::Game*)new games::life::LifeGameSinglePlayer(*gameDisplay);
+  //   game = (games::Game*)new
+  //   games::lane_runner::LaneRunnerGame(*gameDisplay); game =
+  //   (games::Game*)new games::life::LifeGameSinglePlayer(*gameDisplay);
 
   // Rhythm Games
-  //   game = (games::Game*)new games::rhythm::RhythmGameSingle(((display::FourPanelDisplay*)gameDisplay)->panels[0]);
+  //   game = (games::Game*)new
+  //   games::rhythm::RhythmGameSingle(((display::FourPanelDisplay*)gameDisplay)->panels[0]);
 
   Debug("Creating game...");
-  game = (games::Game*)new games::rhythm::RhythmGameSingle(&gameDisplay->panels[0]);
+  game = (games::Game*)new games::rhythm::RhythmGameSingle(
+      &gameDisplay->panels[0]);
 
   // Test Games
   //   game = (games::Game*)new test::DirPadTest(*gameDisplay);
@@ -89,12 +95,14 @@ void setup() {
   //       *(display::FourPanelDisplay*)gameDisplay};
 
   // Animation Test game
-//   std::vector<animation::Animation*> test_animations{
-//       (animation::Animation*)new animation::Starscape{gameDisplay->size, 140},
-//       (animation::Animation*)new animation::FireworksShow{gameDisplay->size,
-//                                                           15}};
+  //   std::vector<animation::Animation*> test_animations{
+  //       (animation::Animation*)new animation::Starscape{gameDisplay->size,
+  //       140}, (animation::Animation*)new
+  //       animation::FireworksShow{gameDisplay->size,
+  //                                                           15}};
 
-//   game = (games::Game*)new test::AnimationTest(*gameDisplay, test_animations);
+  //   game = (games::Game*)new test::AnimationTest(*gameDisplay,
+  //   test_animations);
 
   Debug("game created");
 

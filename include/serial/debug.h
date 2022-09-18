@@ -1,9 +1,6 @@
 #pragma once
 
-// This enables/disables building debug-type stuff into the project
-#define __DEBUG 1337
-
-#ifdef __DEBUG
+#ifdef KSS_DEBUG
 
 #include <SerialFlash.h>  // for Serial
 
@@ -24,45 +21,45 @@
 #define Debug_init()
 #endif
 
-#define Debug_here() (Debug("Here I am! time=" + millis()))
-#define Debug_print_info() (Debug_print(__DEBUG_INFO))
-#define Debunny() (Debug("\n(\\_/)\n(0.@)\n(\")(\")"))
+#define Debug_here() Debug("Here I am! time=" + millis())
+#define Debug_print_info() Debug_print(__DEBUG_INFO)
+#define Debunny() Debug("\n(\\_/)\n(0.@)\n(\")(\")")
 
 namespace debug {
 
 inline void println() {
-#ifdef __DEBUG
+#ifdef KSS_DEBUG
   Serial.println();
 #endif
 }
 
 inline void println(const char* msg) {
-#ifdef __DEBUG
+#ifdef KSS_DEBUG
   Serial.println(msg);
 #endif
 }
 
 inline void print(const char* msg) {
-#ifdef __DEBUG
+#ifdef KSS_DEBUG
   Serial.print(msg);
 #endif
 }
 
 inline void println(const String& msg) {
-#ifdef __DEBUG
+#ifdef KSS_DEBUG
   Serial.println(msg);
 #endif
 }
 
 inline void print(const String& msg) {
-#ifdef __DEBUG
+#ifdef KSS_DEBUG
   Serial.print(msg);
 #endif
 }
 
 // Start serial if we're in debug mode (idk this doesnt work for some reason)
 inline void Init() {
-#ifdef __DEBUG
+#ifdef KSS_DEBUG
   Serial.begin(kss::serial::kBaudRate);
   delay(5000);  // Wait for serial to actually start
   Debug("Beginning serial debug, baud rate=" + kss::serial::kBaudRate);

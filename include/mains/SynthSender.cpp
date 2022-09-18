@@ -3,7 +3,7 @@
 
 #include <memory>  // for shared_ptr
 
-#include "PinSetup.h"
+#include "PinSetup.h"                  // for pins::*
 #include "audio/constants.h"           // for k*
 #include "audio/synth_sender.h"        // for RocketGame
 #include "controls/button.h"           // for Button
@@ -14,19 +14,22 @@
 
 kss::controls::hardware::Matrix controls;
 
-kss::audio::SynthSender* synth = new kss::audio::SynthSender(
-    // clang-format off
-    controls.CreateButton(2, BUTTON_PIN_4),
-    controls.CreateButton(2, BUTTON_PIN_3),
-    controls.CreateButton(2, BUTTON_PIN_5),
-    controls.CreateButton(2, BUTTON_PIN_2),
-    controls.CreateButton(2, BUTTON_PIN_1),
-    controls.CreateButton(2, BUTTON_PIN_0)
-    // clang-format on
-);
+kss::audio::SynthSender* synth;
 
 void setup() {
   Debug_init();
+  pins::Init();
+
+  synth = new kss::audio::SynthSender(
+      // clang-format off
+    controls.CreateButton(pins::Controllers[0], pins::Buttons[4]),
+    controls.CreateButton(pins::Controllers[0], pins::Buttons[3]),
+    controls.CreateButton(pins::Controllers[0], pins::Buttons[5]),
+    controls.CreateButton(pins::Controllers[0], pins::Buttons[2]),
+    controls.CreateButton(pins::Controllers[0], pins::Buttons[1]),
+    controls.CreateButton(pins::Controllers[0], pins::Buttons[0])
+      // clang-format on
+  );
 
   Debug("ready 2 goooo");
 }
