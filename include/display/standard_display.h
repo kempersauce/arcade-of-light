@@ -27,7 +27,7 @@ class StandardDisplay : public Display {
   StandardDisplay* operator=(StandardDisplay*&) = delete;
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
-#ifdef DEBUG
+#ifdef __DEBUG
     CheckLocation(strip, pixel);
 #endif
     return pixels[strip][pixel];

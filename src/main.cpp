@@ -19,6 +19,7 @@
 // #include "mains/WavManagerTest.cpp"
 
 // Display test programs
+// #include "mains/InstructoPanelTest.cpp"
 // #include "mains/LEDStripTest.cpp"
 // #include "mains/TwentyTest.cpp"
 
