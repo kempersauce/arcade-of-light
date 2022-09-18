@@ -23,6 +23,9 @@ struct Envelope {
   AudioConnection patch_wave_out;
   AudioConnection patch_filter_out;
 
+  float frequency;
+  float frequencyOffset;
+
   Envelope()
       : patch_wave_out{wave, 0, filter, 0},
         patch_filter_out{filter, 0, envelope, 0} {
@@ -39,6 +42,62 @@ struct Envelope {
     envelope.sustain(0.5);
     envelope.release(200);
   }
+
+  void setFrequency(float newFrequency) {
+    frequency = newFrequency;
+    wave.frequency(frequency + frequencyOffset);
+  }
+
+  void setOffset(float newOffset) {
+    frequencyOffset = newOffset;
+    wave.frequency(frequency + frequencyOffset);
+  }
+
+  uint32_t bendStartTime;
+  boolean bendStarted = false;
+  float bendSlope;
+  float bendLength = 500;
+  float bendMax;
+
+  const void pitchBend() {
+    const uint32_t now = millis();
+    const uint32_t timePassed = now - bendStartTime;
+    float newOffset = bendSlope * timePassed;
+    if (newOffset > bendMax ) {
+      newOffset = bendMax;
+    }
+    
+    setOffset(newOffset);
+  }
+
+  
+  const void pitchBendStart(float frequency, boolean isUP = true) {
+    // calculate max range
+    // figure out linear formula
+    if(!bendStarted) {
+      bendStarted = true;
+      bendStartTime = millis();
+      bendSlope = frequency/bendLength;
+      //set for an octave currently
+      bendMax = frequency;
+    }
+    const uint32_t now = millis();
+    const uint32_t timePassed = now - bendStartTime;
+    Debug("==================================");
+    Debug("bendslope:  ");
+    Debug(bendSlope);
+    Debug(bendSlope * timePassed);
+    //remove next line when broken out
+    setOffset(bendSlope * timePassed);
+    // may want to change this to return just the offset not the final frequency
+    // return bendSlope * timePassed + frequency;
+  }
+
+  const void pitchBendStop() {
+    bendStarted = false;
+    setOffset(0);
+  }
+
 };
 
 Envelope waveforms[6];
@@ -59,11 +118,11 @@ short r_delayline[CHORUS_DELAY_LENGTH];
 int n_chorus = 5;
 
 // only send moving note to chorus effect
-AudioConnection patchCordChorusL(waveforms[0].envelope, 0, l_chorusEffect, 0);
-AudioConnection patchCordChorusR(waveforms[0].envelope, 0, r_chorusEffect, 0);
+// AudioConnection patchCordChorusL(waveforms[0].envelope, 0, l_chorusEffect, 0);
+// AudioConnection patchCordChorusR(waveforms[0].envelope, 0, r_chorusEffect, 0);
 // Effects Mixer
-AudioConnection patchCordChorusLOut(l_chorusEffect, 0, effectMixer, 0);
-AudioConnection patchCordChorusROut(r_chorusEffect, 0, effectMixer, 1);
+AudioConnection patchCordRawWave1L(waveforms[0].envelope, 0, effectMixer, 0);
+AudioConnection patchCordRawWave1R(waveforms[0].envelope, 0, effectMixer, 1);
 AudioConnection patchCordRawWave2L(waveforms[1].envelope, 0, effectMixer, 2);
 AudioConnection patchCordRawWave2R(waveforms[1].envelope, 0, effectMixer, 3);
 // mixer1 - input from other 4
@@ -85,7 +144,7 @@ using namespace _synthy;
 class Synthy {
  public:
   // NOTE REFERENCE: https://pages.mtu.edu/~suits/notefreqs.html
-  float sequence[4] = {256, 311.13, 369.99, 554.37};
+  float sequence[5] = {220, 329.63, 369.99, 554.37, 830.61};
   uint32_t next_hit = 0;
   unsigned long last_time = millis();
 
@@ -103,8 +162,8 @@ class Synthy {
     sgtl5000_1.volume(0.8);  // caution: very loud - use oscilloscope only!
 
     // set up dat chord
-    for (size_t i = 0; i < 6; ++i) {
-      waveforms[i].wave.frequency(notes::C_Pentatonic[i]);
+    for (size_t i = 0; i < 5; ++i) {
+      waveforms[i].wave.frequency(sequence[i]);
     }
 
     // waveforms[0].begin(WAVEFORM_SINE);
@@ -139,6 +198,31 @@ class Synthy {
     Debug("setup done");
     AudioProcessorUsageMaxReset();
     AudioMemoryUsageMaxReset();
+  }
+
+  // Method to play next note in sequence (may want to pass in sequence here?)
+  const float playSequence() {
+    const uint32_t now = millis();
+    // if (now >= next_hit) {
+      // do it
+      if (++i >= 5) {
+        i = 0;
+      }
+    // }
+    next_hit = now + 500;
+    return sequence[i];
+  }
+
+  const float reverseSequence() {
+    const uint32_t now = millis();
+    // if (now >= next_hit) {
+      // do it
+      if (--i <= 0) {
+        i = 4;
+      }
+    // }
+    next_hit = now + 500;
+    return sequence[i];
   }
 
 };  // class
