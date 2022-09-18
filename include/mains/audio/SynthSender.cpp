@@ -1,8 +1,6 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include <memory>  // for shared_ptr
-
 #include "PinSetup.h"                  // for pins::*
 #include "audio/constants.h"           // for k*
 #include "audio/synth_sender.h"        // for RocketGame
@@ -12,9 +10,10 @@
 #include "serial/debug.h"              // for Debug
 #include "serial/transmitter.h"        // for Transmitter
 
-kss::controls::hardware::Matrix controls;
+using namespace kss;
 
-kss::audio::SynthSender* synth;
+controls::hardware::Matrix control_context;
+audio::SynthSender* synth;
 
 void setup() {
   Debug_init();
@@ -22,12 +21,12 @@ void setup() {
 
   synth = new kss::audio::SynthSender(
       // clang-format off
-    controls.CreateButton(pins::Controllers[0], pins::Buttons[4]),
-    controls.CreateButton(pins::Controllers[0], pins::Buttons[3]),
-    controls.CreateButton(pins::Controllers[0], pins::Buttons[5]),
-    controls.CreateButton(pins::Controllers[0], pins::Buttons[2]),
-    controls.CreateButton(pins::Controllers[0], pins::Buttons[1]),
-    controls.CreateButton(pins::Controllers[0], pins::Buttons[0])
+    control_context.CreateButton(pins::Controllers[0], pins::Buttons[4]),
+    control_context.CreateButton(pins::Controllers[0], pins::Buttons[3]),
+    control_context.CreateButton(pins::Controllers[0], pins::Buttons[5]),
+    control_context.CreateButton(pins::Controllers[0], pins::Buttons[2]),
+    control_context.CreateButton(pins::Controllers[0], pins::Buttons[1]),
+    control_context.CreateButton(pins::Controllers[0], pins::Buttons[0])
       // clang-format on
   );
 
@@ -36,7 +35,7 @@ void setup() {
 
 void loop() {
   //   Debug("Loops brother");
-  controls.PollAll();
+  control_context.PollAll();
   //   Debug("Poll'd");
   synth->checkButtonChange();
   //   Debug("Next Loop!");
