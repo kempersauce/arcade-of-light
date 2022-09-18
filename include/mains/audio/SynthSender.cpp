@@ -20,14 +20,14 @@ void setup() {
   pins::Init();
 
   synth = new kss::audio::SynthSender(
-      // clang-format off
+    // clang-format off
     control_context.CreateButton(pins::Controllers[0], pins::Buttons[4]),
     control_context.CreateButton(pins::Controllers[0], pins::Buttons[3]),
     control_context.CreateButton(pins::Controllers[0], pins::Buttons[5]),
     control_context.CreateButton(pins::Controllers[0], pins::Buttons[2]),
     control_context.CreateButton(pins::Controllers[0], pins::Buttons[1]),
     control_context.CreateButton(pins::Controllers[0], pins::Buttons[0])
-      // clang-format on
+    // clang-format on
   );
 
   Debug("ready 2 goooo");
