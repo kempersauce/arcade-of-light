@@ -19,23 +19,11 @@
 // #include "mains/audio/audioTest.cpp"
 // #include "mains/audio/synthest1.cpp"
 
-<<<<<<< HEAD
-// Audio test programs
-// #include "mains/AudioSenderTest.cpp"
-// #include "mains/audioTest.cpp"
-// #include "mains/synthest1.cpp"
-#include "mains/SynthSender.cpp"
-// #include "mains/SynthReciever.cpp"
-// #include "mains/SynthDrumReciever.cpp"
-
-// #include "mains/WavManagerTest.cpp"
-=======
 // Controller programs
 // #include "mains/controls/ButtonMatrixTest.cpp"
 // #include "mains/controls/ButtonTest.cpp"
 // #include "mains/controls/DipSwitchTest.cpp"
 // #include "mains/controls/RawMatrixTest.cpp"
->>>>>>> aaab245c6969e3cc9209a8672137f1767ac7e5a3
 
 // Display test programs
 // #include "mains/displays/InstructoPanelTest.cpp"
