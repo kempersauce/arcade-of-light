@@ -33,6 +33,7 @@ void InitAudio() {
     Debug("Unable to access the SD card! Retrying in 500ms...");
     delay(500);
   }
+  Debug("Audio Initialized!!");
 }
 
 }  // namespace audio

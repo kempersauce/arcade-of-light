@@ -1,8 +1,7 @@
 #pragma once
 
-#include <Constants.h>
-#include <FastLED.h>     // for CRGB
 #include <OctoWS2811.h>  // for octo-stuff
+#include <pixeltypes.h>  // for CRGB
 
 #include "display/display.h"          // for Display
 #include "display/octo/controller.h"  // for octo stuff
@@ -34,8 +33,8 @@ class OctoDisplay : public Display {
  public:
   OctoDisplay(const uint8_t* pin_list, int* displayMemory)
       : Display({kNumStrips, kLengthStrips}),
-        octo(size.y, displayMemory, drawingMemory,
-             WS2811_RGB | WS2811_800kHz, size.x, pin_list),
+        octo(size.y, displayMemory, drawingMemory, WS2811_RGB | WS2811_800kHz,
+             size.x, pin_list),
         controller(&octo) {
     octo.begin();
     FastLED.addLeds(&controller, pixels, kNumStrips * kLengthStrips);
@@ -47,7 +46,7 @@ class OctoDisplay : public Display {
   OctoDisplay* operator=(OctoDisplay*&) = delete;
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
-#ifdef DEBUG
+#ifdef __DEBUG
     CheckLocation(strip, pixel);
 #endif
     return pixels[strip * size.y + pixel];

@@ -15,10 +15,11 @@
 // #include "mains/audioTest.cpp"
 // #include "mains/synthest1.cpp"
 // #include "mains/SynthSender.cpp"
-#include "mains/SynthReciever.cpp"
+// #include "mains/SynthReciever.cpp"
 // #include "mains/WavManagerTest.cpp"
 
 // Display test programs
+// #include "mains/InstructoPanelTest.cpp"
 // #include "mains/LEDStripTest.cpp"
 // #include "mains/TwentyTest.cpp"
 
