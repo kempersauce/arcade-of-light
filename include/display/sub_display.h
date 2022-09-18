@@ -1,6 +1,6 @@
 #pragma once
 
-#include <FastLED.h>  // for CRGB
+#include <pixeltypes.h>  // for CRGB
 
 #include "display/display.h"  // for Display
 #include "math/vector2d.h"    // for Dimension
@@ -26,7 +26,7 @@ class SubDisplay : public Display {
   }
 
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) override {
-#ifdef DEBUG
+#ifdef __DEBUG
     // Run initial checking on this SubDisplay to detect bleedover
     CheckLocation(strip, pixel);
 #endif

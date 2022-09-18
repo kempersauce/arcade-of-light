@@ -9,10 +9,10 @@ namespace kss {
 namespace audio {
 
 class AudioSender {
-  serial::EZTransmitter<WavAudioMessage > transmitter;
+  serial::EZTransmitter<WavAudioMessage> transmitter;
 
   inline void Send(const char* fileName, const int channel, const char action) {
-    WavAudioMessage  msg;
+    WavAudioMessage msg;
     msg.action_selector = action;
     msg.channel_selector = GetChannelMarker(channel);
     strcpy(msg.filename, fileName);
