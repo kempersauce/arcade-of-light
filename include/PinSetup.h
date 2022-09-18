@@ -29,7 +29,8 @@ void Init() {
   }
 
   // Dip0 "ON" (==0) means we switch these pins for frankenstein boards
-  if (digitalRead(Dips[0]) == 0) {
+  bool frankenstein_mode = digitalRead(Dips[0]) == 0;
+  if (frankenstein_mode) {
     Controllers[3] = 5;
     Buttons[0] = 6;
   }
@@ -46,7 +47,10 @@ void Init() {
     pinMode(pin, INPUT);
   }
 
-  Debug("Pin Initialization Complete");
+  Debug("Pinout initialized for chip role: KSS_CHIP_ROLE=" + KSS_CHIP_ROLE);
+  if (frankenstein_mode) {
+    Debug("Configured for Frankenstein Mode");
+  }
   Debug("DipSwitches=[" + (String)digitalRead(Dips[0]) +
         (String)digitalRead(Dips[1]) + (String)digitalRead(Dips[2]) +
         (String)digitalRead(Dips[3]) + "]");
