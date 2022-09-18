@@ -42,9 +42,13 @@ class Channel {
             "\"");
     }
 
-    wav_player->play(current_file.c_str());
-    start_time = millis();
-    Debug("Channel[" + channel_no + "] Playing file: \"" + current_file + "\"");
+    if (!wav_player->play(current_file.c_str())) {
+      Debug("Channel[" + channel_no + "]: Error playing file: \"" + current_file + "\"");
+    } else {
+      start_time = millis();
+      Debug("Channel[" + channel_no + "] Playing file: \"" + current_file +
+            "\"");
+    }
   }
 
  public:

@@ -3,6 +3,7 @@
 #include <Audio.h>
 #include <SD.h>
 #include <SPI.h>
+#include <SerialFlash.h>
 
 #include "serial/debug.h"  // for Debug
 
@@ -32,6 +33,7 @@ void InitAudio() {
     Debug("Unable to access the SD card! Retrying in 500ms...");
     delay(500);
   }
+  Debug("Audio Initialized!!");
 }
 
 }  // namespace audio
