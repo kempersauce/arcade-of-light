@@ -30,7 +30,7 @@ class WavAudioManager {
 
   AudioOutputI2S audioOutput;
 
-  std::vector<AudioConnection> patch_cords{
+  AudioConnection patch_cords[14]{
       // Patch background directly to mixer_out
       {wav_players[0], 0, mixer_out, 0},  //
       {wav_players[0], 1, mixer_out, 1},  //

@@ -1,5 +1,6 @@
+#include "audio/sounds.h"       // for InitAudio
 #include "audio/wav_manager.h"  // for WavAudioManager
-#include "serial/debug.h"        // for Debug
+#include "serial/debug.h"       // for Debug
 
 using namespace kss::audio;
 
@@ -7,16 +8,16 @@ WavAudioManager wav_manager;
 
 void setup() {
   Debug_init();
-  Debug("-=- Beginning SETUP -=-");
-
   // Fire up the boombox
   InitAudio();
 
-//   auto& channel = wav_manager.GetChannelByIndex(2);
-//   channel.Play("FUEL50.WAV");
+  Debug("-=- Beginning SETUP -=-");
 
-//   auto& channel2 = wav_manager.GetIdleChannel();
-//   channel2.Play("MARSVOX.WAV");
+  auto& channel = wav_manager.GetChannelByIndex(2);
+  channel.Play("FUEL50.WAV");
+
+  auto& channel2 = wav_manager.GetIdleChannel();
+  channel2.Play("MARSVOX.WAV");
   wav_manager.GetChannelByIndex(0).Play("MOONJAZZ.WAV");
   wav_manager.GetIdleChannel().Play("MOONVOX.WAV");
 
@@ -49,17 +50,17 @@ void setup() {
   }
   wav_manager.GetChannelByIndex(0).Play("BOOM.WAV");
 
-//   wav_manager.GetChannelByIndex(1).Repeat("BOOM.WAV");
+  //   wav_manager.GetChannelByIndex(1).Repeat("BOOM.WAV");
 
-  //channel.Play("FUEL100.WAV");
+  // channel.Play("FUEL100.WAV");
 
-//   wav_manager.GetIdleChannel().Repeat("MOONVOX.WAV");
+  //   wav_manager.GetIdleChannel().Repeat("MOONVOX.WAV");
 
   // Wait for at least one idle channel to free-up
-//   while (channel2.IsPlaying()) {
-//     delay(1);
-//   }
-//   wav_manager.GetIdleChannel().Repeat("JPTRVOX.WAV");
+  //   while (channel2.IsPlaying()) {
+  //     delay(1);
+  //   }
+  //   wav_manager.GetIdleChannel().Repeat("JPTRVOX.WAV");
 
   Debug("starting the loop");
 }
