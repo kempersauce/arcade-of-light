@@ -11,6 +11,8 @@
 #include "audio/synthy.h"        // for Synth
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for reciever
+// #include "PinSetup.h"
+
 
 using namespace kss;
 using namespace kss::audio;
@@ -30,6 +32,7 @@ const void audioDebug() {
 // SETUP AND LOOP
 void setup() {
   Debug_init();
+  // pins::Init();
 
   Debug("making synth");
   synthy.InitSynth();

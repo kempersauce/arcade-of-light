@@ -7,6 +7,7 @@
 #include <Wire.h>
 
 #include <synth_simple_drum.h>
+#include <synth_whitenoise.h>
 
 #include "audio/constants.h"    // for k*
 #include "audio/music_notes.h"  // for notes::*
@@ -22,7 +23,13 @@ AudioSynthSimpleDrum     drum2;          //xy=399,244
 AudioSynthSimpleDrum     drum3;          //xy=424,310
 AudioSynthSimpleDrum     drum1;          //xy=431,197
 AudioSynthSimpleDrum     drum4;          //xy=464,374
+AudioSynthSimpleDrum     drum5;
+AudioSynthSimpleDrum     drum6;
+AudioSynthNoiseWhite     noise1;
+AudioSynthNoiseWhite     noise2;
 AudioMixer4              mixer1;         //xy=737,265
+AudioMixer4              mixer2;
+AudioMixer4              mixerMain;
 AudioOutputI2S           i2s1;           //xy=979,214
 AudioConnection          patchCord1(drum2, 0, mixer1, 1);
 AudioConnection          patchCord2(drum3, 0, mixer1, 2);
