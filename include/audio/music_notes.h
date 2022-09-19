@@ -19,14 +19,17 @@ constexpr float A[9]{27.50, 55.00, 110.0, 220.0, 440.0, 880.0, 1760, 3520, 7040}
 constexpr float Bb[9]{29.14, 58.27, 116.5, 233.1, 466.2, 932.3, 1865, 3729, 7459};
 constexpr float B[9]{30.87, 61.74, 123.5, 246.9, 493.9, 987.8, 1976, 3951, 7902};
 
-float C_Pentatonic[10] { C[3], D[3], F[3], G[3], A[3],
+constexpr float all_notes[9][12]{*C, *Cs, *D, *Eb, *E, *F, *Fs, *G, *Gs, *A, *Bb, *B};
+
+constexpr float C_Pentatonic[10] { C[3], D[3], F[3], G[3], A[3],
                          C[4], D[4], F[4], G[4], A[4]};
 
-float Cs_HarmonicMinor[21] {Cs[3], Eb[3], E[3], Fs[3], Gs[3], A[3], C[3],
+constexpr float Cs_HarmonicMinor[21] {Cs[3], Eb[3], E[3], Fs[3], Gs[3], A[3], C[3],
                             Cs[4], Eb[4], E[4], Fs[4], Gs[4], A[4], C[4],
                             Cs[5], Eb[5], E[5], Fs[5], Gs[5], A[5], C[5],};
 
-constexpr float all_notes[9][12]{*C, *Cs, *D, *Eb, *E, *F, *Fs, *G, *Gs, *A, *Bb, *B};
+
+constexpr float Cmajor[6] {E[2], C[3], E[3], G[3], C[4], E[4]};  // C - E - G
 // clang-format on
 
 

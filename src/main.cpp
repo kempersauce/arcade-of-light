@@ -12,7 +12,7 @@
 // #include "mains/audio/PaulSynth.cpp"
 // #include "mains/audio/SynthDrumReciever.cpp"
 // #include "mains/audio/WavDrumReciever.cpp"
-#include "mains/audio/SynthGuitarReciever.cpp"
+// #include "mains/audio/SynthGuitarReciever.cpp"
 // #include "mains/audio/SynthReciever.cpp"
 // #include "mains/audio/SynthSender.cpp"
 // #include "mains/audio/TrackTest.cpp"
