@@ -3,7 +3,7 @@
 
 #include <vector>  // for std::vector
 
-#include "PinSetup.h"  // for pins::*
+#include "PinSetup.h"                  // for pins::*
 #include "controls/button.h"           // for controls::Button
 #include "controls/hardware/matrix.h"  // for controls::hardware::Matrix
 #include "games/game.h"                // for Game
@@ -19,8 +19,9 @@ struct MatrixController {
 std::vector<MatrixController> controllers;
 
 void PrintButtonInfo(size_t controller, size_t button, const char *message) {
-  Debug("T=" + millis() + " | controller: " + controller +
-                 ", button: " + button + " | " + message);
+  Debug("T=" + millis() + " | controller[" + controller + "] (pin " +
+        pins::Controllers[controller] + "), button[" + button + "] (pin " +
+        pins::Buttons[button] + ") | " + message);
 }
 
 void setup() {
@@ -31,7 +32,7 @@ void setup() {
   Debug("Initialize Controls");
   for (const auto cont_pin : pins::Controllers) {
     controllers.emplace_back();
-    MatrixController& controller = controllers.back();
+    MatrixController &controller = controllers.back();
     for (const auto butt_pin : pins::Buttons) {
       controller.buttons.push_back(
           control_context.CreateButton(cont_pin, butt_pin));
