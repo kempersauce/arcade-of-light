@@ -16,6 +16,11 @@ constexpr char kChannelMarker1{'1'};
 constexpr char kChannelMarker2{'2'};
 constexpr char kChannelMarkerAny{'?'};
 
+struct SynthAudioMessage {
+  uint8_t action;
+  uint8_t channel;
+};
+
 struct WavAudioMessage  {
   char channel_selector;
   char action_selector;

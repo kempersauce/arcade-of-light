@@ -6,22 +6,102 @@
 #include <SPI.h>
 #include <Wire.h>
 
-// #include "audio/channel.h"    // for Channel
-#include "audio/constants.h"  // for k*
-// #include "audio/sounds.h"     // for InitAudio
-#include "serial/debug.h"  // for Debug
+#include "audio/constants.h"    // for k*
+#include "audio/music_notes.h"  // for notes::*
+#include "audio/sounds.h"       // for InitAudio
+#include "serial/debug.h"       // for Debug
 
 namespace kss {
 namespace audio {
 namespace _synthy {
-AudioSynthWaveform waveform1;   // xy=171,84 PAUL SHIT
-AudioSynthWaveform waveform2;   // xy=178,148 PAUL SHIT
-AudioSynthWaveform waveform3;   // xy=171,84 PAUL SHIT
-AudioSynthWaveform waveform4;   // xy=178,148 PAUL SHIT
-AudioSynthWaveform waveform5;   // xy=171,84 PAUL SHIT
-AudioSynthWaveform waveform6;   // xy=178,148 PAUL SHIT
-AudioOutputI2S i2s1;            // xy=360,98 PAUL SHIT
-AudioOutputAnalogStereo dacs1;  // xy=372,173
+
+struct Envelope {
+  AudioSynthWaveform wave;
+  AudioFilterBiquad filter;
+  AudioEffectEnvelope envelope;
+
+  AudioConnection patch_wave_out;
+  AudioConnection patch_filter_out;
+
+  float frequency;
+  float frequencyOffset;
+
+  Envelope()
+      : patch_wave_out{wave, 0, filter, 0},
+        patch_filter_out{filter, 0, envelope, 0} {
+    // Set up wave
+    wave.begin(1, notes::C[4], WAVEFORM_SINE);
+
+    // set up filter
+    filter.setLowpass(0, 800, 0.707);
+
+    // set up envelope
+    envelope.attack(1);
+    envelope.hold(100);
+    envelope.decay(200);
+    envelope.sustain(0.5);
+    envelope.release(200);
+  }
+
+  void setFrequency(float newFrequency) {
+    frequency = newFrequency;
+    wave.frequency(frequency + frequencyOffset);
+  }
+
+  void setOffset(float newOffset) {
+    frequencyOffset = newOffset;
+    wave.frequency(frequency + frequencyOffset);
+  }
+
+  uint32_t bendStartTime;
+  boolean bendStarted = false;
+  float bendSlope;
+  float bendLength = 500;
+  float bendMax;
+
+  const void pitchBend() {
+    const uint32_t now = millis();
+    const uint32_t timePassed = now - bendStartTime;
+    float newOffset = bendSlope * timePassed;
+    if (newOffset > bendMax ) {
+      newOffset = bendMax;
+    }
+    
+    setOffset(newOffset);
+  }
+
+  
+  const void pitchBendStart(float frequency, boolean isUP = true) {
+    // calculate max range
+    // figure out linear formula
+    if(!bendStarted) {
+      bendStarted = true;
+      bendStartTime = millis();
+      bendSlope = frequency/bendLength;
+      //set for an octave currently
+      bendMax = frequency;
+    }
+    const uint32_t now = millis();
+    const uint32_t timePassed = now - bendStartTime;
+    Debug("==================================");
+    Debug("bendslope:  ");
+    Debug(bendSlope);
+    Debug(bendSlope * timePassed);
+    //remove next line when broken out
+    setOffset(bendSlope * timePassed);
+    // may want to change this to return just the offset not the final frequency
+    // return bendSlope * timePassed + frequency;
+  }
+
+  const void pitchBendStop() {
+    bendStarted = false;
+    setOffset(0);
+  }
+
+};
+
+Envelope waveforms[6];
+AudioOutputI2S i2s1;  // xy=360,98 PAUL SHIT
 AudioMixer4 effectMixer;
 AudioMixer4 mixer1;
 AudioMixer4 mixerMaster;
@@ -35,58 +115,45 @@ AudioEffectChorus r_chorusEffect;
 short l_delayline[CHORUS_DELAY_LENGTH];
 short r_delayline[CHORUS_DELAY_LENGTH];
 // number of "voices" in the chorus which INCLUDES the original voice
-int n_chorus = 2;
+int n_chorus = 5;
 
 // only send moving note to chorus effect
-AudioConnection patchCordChorusL(waveform1, 0, l_chorusEffect, 0);
-AudioConnection patchCordChorusR(waveform1, 1, r_chorusEffect, 1);
+// AudioConnection patchCordChorusL(waveforms[0].envelope, 0, l_chorusEffect, 0);
+// AudioConnection patchCordChorusR(waveforms[0].envelope, 0, r_chorusEffect, 0);
 // Effects Mixer
-AudioConnection patchCordChorusLOut(l_chorusEffect, 0, effectMixer, 0);
-AudioConnection patchCordChorusROut(r_chorusEffect, 1, effectMixer, 1);
-AudioConnection patchCordRawWave2L(waveform2, 0, effectMixer, 2);
-AudioConnection patchCordRawWave2R(waveform2, 1, effectMixer, 3);
+AudioConnection patchCordRawWave1L(waveforms[0].envelope, 0, effectMixer, 0);
+AudioConnection patchCordRawWave1R(waveforms[0].envelope, 0, effectMixer, 1);
+AudioConnection patchCordRawWave2L(waveforms[1].envelope, 0, effectMixer, 2);
+AudioConnection patchCordRawWave2R(waveforms[1].envelope, 0, effectMixer, 3);
 // mixer1 - input from other 4
-AudioConnection patchCordRawWave3(waveform3, 0, mixer1, 0);
-AudioConnection patchCordRawWave4(waveform4, 0, mixer1, 1);
-AudioConnection patchCordRawWave5(waveform5, 0, mixer1, 2);
-AudioConnection patchCordRawWave6(waveform6, 0, mixer1, 3);
+AudioConnection patchCordRawWave3(waveforms[2].envelope, 0, mixer1, 0);
+AudioConnection patchCordRawWave4(waveforms[3].envelope, 0, mixer1, 1);
+AudioConnection patchCordRawWave5(waveforms[4].envelope, 0, mixer1, 2);
+AudioConnection patchCordRawWave6(waveforms[5].envelope, 0, mixer1, 3);
 // mixerMaster - put it all togeter
 AudioConnection patchCordMaster1(mixer1, 0, mixerMaster, 0);
-AudioConnection patchCordMaster2(effectMixer, 1, mixerMaster, 1);
+AudioConnection patchCordMaster2(effectMixer, 0, mixerMaster, 1);
 
 // final output
 AudioConnection patchCord1(mixerMaster, 0, i2s1, 0);
 AudioConnection patchCord2(mixerMaster, 0, i2s1, 1);
-AudioConnection patchCord3(mixerMaster, 0, dacs1, 0);
-AudioConnection patchCord4(mixerMaster, 0, dacs1, 1);
 
-AudioControlSGTL5000 sgtl5000_1;  // xy=239,232
 }  // namespace _synthy
 using namespace _synthy;
 
 class Synthy {
  public:
-  float frequency = 256;  // middle C
-
   // NOTE REFERENCE: https://pages.mtu.edu/~suits/notefreqs.html
-  float sequence[4] = {256, 311.13, 369.99, 554.37};
-  float cMaj7[6] = {256.00, 329.63, 392.00, 493.88, 659.25, 783.99};
+  float sequence[5] = {220, 329.63, 369.99, 554.37, 830.61};
   uint32_t next_hit = 0;
   unsigned long last_time = millis();
-
-  float wave1Amplitude = 0;
-  float wave2Amplitude = 0;
-  float wave3Amplitude = 0;
-  float wave4Amplitude = 0;
-  float wave5Amplitude = 0;
-  float wave6Amplitude = 0;
 
   size_t i = 0;
 
   Synthy() { Debug("hello"); };
 
   const void InitSynth() {
-    AudioMemory(14);
+    InitAudio();
 
     // Comment these out if not using the audio adaptor board.
     // This may wait forever if the SDA & SCL pins lack
@@ -95,21 +162,11 @@ class Synthy {
     sgtl5000_1.volume(0.8);  // caution: very loud - use oscilloscope only!
 
     // set up dat chord
-    waveform1.frequency(cMaj7[0]);
-    waveform2.frequency(cMaj7[1]);
-    waveform3.frequency(cMaj7[2]);
-    waveform4.frequency(cMaj7[3]);
-    waveform5.frequency(cMaj7[4]);
-    waveform6.frequency(cMaj7[5]);
+    for (size_t i = 0; i < 5; ++i) {
+      waveforms[i].wave.frequency(sequence[i]);
+    }
 
-    waveform1.amplitude(wave1Amplitude);
-    waveform2.amplitude(wave2Amplitude);
-    waveform3.amplitude(wave3Amplitude);
-    waveform4.amplitude(wave4Amplitude);
-    waveform5.amplitude(wave5Amplitude);
-    waveform6.amplitude(wave6Amplitude);
-
-    waveform1.begin(WAVEFORM_TRIANGLE);
+    // waveforms[0].begin(WAVEFORM_SINE);
 
     // Initialize the effect - left channel
     // address of delayline
@@ -130,72 +187,42 @@ class Synthy {
       while (1)
         ;
     }
-    // Initially the effect is off. It is switched on when the
-    // PASSTHRU button is pushed.
-    l_chorusEffect.voices(0);
-    r_chorusEffect.voices(0);
 
     effectMixer.gain(0, 0.5);
     effectMixer.gain(1, 0.5);
+
+    // add effect
+    l_chorusEffect.voices(n_chorus);
+    r_chorusEffect.voices(n_chorus);
 
     Debug("setup done");
     AudioProcessorUsageMaxReset();
     AudioMemoryUsageMaxReset();
   }
 
-  const void Play() {
-    audioDebug();
-    AudioNoInterrupts();
+  // Method to play next note in sequence (may want to pass in sequence here?)
+  const float playSequence() {
     const uint32_t now = millis();
-    if (now >= next_hit) {
+    // if (now >= next_hit) {
       // do it
-      if (++i >= 4) {
+      if (++i >= 5) {
         i = 0;
       }
-    }
+    // }
     next_hit = now + 500;
-
-    // waveform1.frequency(sequence[i]);
-    // waveform2.frequency(391.995);
-    AudioNoInterrupts();
-    waveform1.amplitude(wave1Amplitude);
-    waveform2.amplitude(wave2Amplitude);
-    waveform3.amplitude(wave3Amplitude);
-    waveform4.amplitude(wave4Amplitude);
-    waveform5.amplitude(wave5Amplitude);
-    waveform6.amplitude(wave6Amplitude);
-    AudioInterrupts();
-
-    AudioNoInterrupts();
-    waveform1.begin(WAVEFORM_SAWTOOTH);
-    waveform2.begin(WAVEFORM_SAWTOOTH);
-    waveform3.begin(WAVEFORM_SAWTOOTH);
-    waveform4.begin(WAVEFORM_SAWTOOTH);
-    waveform5.begin(WAVEFORM_SAWTOOTH);
-    waveform6.begin(WAVEFORM_SAWTOOTH);
-    AudioInterrupts();
-    Debug("played note");
-    // add effect
-    l_chorusEffect.voices(n_chorus);
-    r_chorusEffect.voices(n_chorus);
-    audioDebug();
+    return sequence[i];
   }
 
-  const void audioDebug() {
-    if (0) {
-      if (millis() - last_time >= 5000) {
-        Debug("Proc = ");
-        Debug(AudioProcessorUsage());
-        Debug(" (");
-        Debug(AudioProcessorUsageMax());
-        Debug("),  Mem = ");
-        Debug(AudioMemoryUsage());
-        Debug(" (");
-        Debug(AudioMemoryUsageMax());
-        Debug(")");
-        last_time = millis();
+  const float reverseSequence() {
+    const uint32_t now = millis();
+    // if (now >= next_hit) {
+      // do it
+      if (--i <= 0) {
+        i = 4;
       }
-    }
+    // }
+    next_hit = now + 500;
+    return sequence[i];
   }
 
 };  // class
