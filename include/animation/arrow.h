@@ -26,7 +26,7 @@ class Arrow : public Animation {
   const math::Shape* shapeD = new math::Shape(math::shapes::ArrowDownFull());
 
  public:
-  enum Stage {NOT_STARTED, PLAYING, DONE} stage;
+  enum Stage { NOT_STARTED, PLAYING, DONE } stage;
 
   math::Dimension location;
 

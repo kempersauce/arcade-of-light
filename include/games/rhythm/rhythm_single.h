@@ -15,8 +15,8 @@ namespace rhythm {
 
 namespace _rhythm_single {
 
-const animation::Explosion kExploderPrototype{2, 350, 150,  25,  0,
-                                              0,  0,   128, 160};
+const animation::Explosion kExploderPrototype{2, 350, 150, 25, 0,
+                                              0, 0,   128, 160};
 
 }  // namespace _rhythm_single
 using namespace _rhythm_single;

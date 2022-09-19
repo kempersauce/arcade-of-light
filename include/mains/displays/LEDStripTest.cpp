@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "PinSetup.h"                 // for LED_PIN_*
 #include "display/display.h"          // for Display
 #include "display/instructo_panel.h"  // for InstructoDisplay
+#include "pins/pin_setup.h"           // for LED_PIN_*
 #include "serial/debug.h"             // for Debug
 
 using namespace kss;
@@ -15,7 +15,7 @@ void showColor(CRGB color) {
     for (size_t y = 0; y < gameDisplay->size.y; ++y) {
       gameDisplay->Pixel(x, y) = color;
       gameDisplay->Show();
-	  delay(50);
+      delay(50);
     }
   }
 }

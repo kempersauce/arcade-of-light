@@ -10,7 +10,7 @@ namespace animation {
 class SingleColorBlock : public Animation {
   const size_t height_min;
   const size_t height_max;
-  
+
   const CRGB color;
 
  public:

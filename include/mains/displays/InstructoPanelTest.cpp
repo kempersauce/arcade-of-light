@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "PinSetup.h"                 // for LED_PIN_*
 #include "display/display.h"          // for Display
 #include "display/instructo_panel.h"  // for InstructoDisplay
 #include "engines/framerate.h"        // for FrameRate
 #include "games/game.h"               // for Game
 #include "games/rainbow/rainbow.h"    // for RainbowGame
+#include "pins/pin_setup.h"           // for LED_PIN_*
 #include "serial/debug.h"             // for Debug
 
 using namespace kss;

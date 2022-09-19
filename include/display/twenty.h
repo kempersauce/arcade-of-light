@@ -1,7 +1,7 @@
 #pragma once
 
-#include "PinSetup.h"
 #include "display/octo_display.h"  // for OctoDisplay
+#include "pins/pin_setup.h"
 
 namespace kss {
 namespace display {

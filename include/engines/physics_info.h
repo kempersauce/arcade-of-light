@@ -69,10 +69,9 @@ class PhysicsInfo {
     last_move_time = now;
 
     // Equations
-    const auto acceleration =
-        (thrust / Mass)           // force on the object
-        - gravity                 // subtract for gravity
-        - (velocity * friction);  // subtract for friction
+    const auto acceleration = (thrust / Mass)           // force on the object
+                              - gravity                 // subtract for gravity
+                              - (velocity * friction);  // subtract for friction
 
     // Adjust velocity
     velocity += acceleration * timeDiff;

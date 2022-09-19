@@ -1,6 +1,6 @@
 #pragma once
 
-#include <map>     // for std::map
+#include <map>  // for std::map
 
 #include "controls/button.h"            // for Button
 #include "controls/hardware/context.h"  // for Context

@@ -61,8 +61,7 @@ class Rocket : public animation::Animation {
     // Draw the rocket ship
     const size_t middleStrip = display->size.x / 2;
     for (size_t i = max(ceil(physics.location.y), 0);
-         i < min((int)physics.location.y + Height, display->size.y);
-         i++) {
+         i < min((int)physics.location.y + Height, display->size.y); i++) {
       display->Pixel(middleStrip, i) = *color;
     }
     display->DitherPixel(middleStrip, physics.location.y + Height - 1,

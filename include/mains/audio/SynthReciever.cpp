@@ -11,8 +11,7 @@
 #include "audio/synthy.h"        // for Synth
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for reciever
-// #include "PinSetup.h"
-
+// #include "pins/pin_setup.h"
 
 using namespace kss;
 using namespace kss::audio;
@@ -48,8 +47,8 @@ void loop() {
     auto& channel = waveforms[msg.channel];
 
     // RIGHT BUTTON
-    if(msg.channel == 0) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 0) {
+      if (msg.action == kChannelActionPlay) {
         Debug("Play channel " + msg.channel);
         channel.envelope.noteOn();
       } else {
@@ -59,8 +58,8 @@ void loop() {
       }
     }
     // LEFT BUTTON
-    if(msg.channel == 1) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 1) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         channel.envelope.noteOn();
@@ -71,8 +70,8 @@ void loop() {
       }
     }
     // UP BUTTON
-    if(msg.channel == 2) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 2) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         waveforms[4].pitchBendStart(waveforms[4].frequency);
@@ -84,8 +83,8 @@ void loop() {
       }
     }
     // DOWN BUTTON
-    if(msg.channel == 3) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 3) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         channel.envelope.noteOn();
@@ -96,8 +95,8 @@ void loop() {
       }
     }
     // A BUTTON
-    if(msg.channel == 4) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 4) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         float note = synthy.playSequence();
@@ -111,8 +110,8 @@ void loop() {
       }
     }
     // B BUTTON
-    if(msg.channel == 5) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 5) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         float note = synthy.reverseSequence();
         waveforms[4].setFrequency(note);
@@ -127,7 +126,7 @@ void loop() {
     }
   }
 
-  if(waveforms[4].bendStarted) {
+  if (waveforms[4].bendStarted) {
     waveforms[4].pitchBend();
   }
 }

@@ -21,10 +21,8 @@ class GliderWarsGame : public Game {
   LifeAnimation lifeGrid;
 
  public:
-  GliderWarsGame(display::Display* display,
-                 controls::Button* randomize_1,
-                 controls::Button* randomize_2,
-                 controls::Button* glider_1,
+  GliderWarsGame(display::Display* display, controls::Button* randomize_1,
+                 controls::Button* randomize_2, controls::Button* glider_1,
                  controls::Button* glider_2)
       : Game(display),
         randomizeButton1{randomize_1},

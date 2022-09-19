@@ -7,12 +7,11 @@
 #include <string>
 #include <vector>
 
-#include "audio/constants.h"     // for SynthAudioMessage
-#include "audio/guitar_synthy.h"        // for Synth
-#include "serial/debug.h"        // for Debug
-#include "serial/ez_receiver.h"  // for reciever
-// #include "PinSetup.h"
-
+#include "audio/constants.h"      // for SynthAudioMessage
+#include "audio/guitar_synthy.h"  // for Synth
+#include "serial/debug.h"         // for Debug
+#include "serial/ez_receiver.h"   // for reciever
+// #include "pins/pin_setup.h"
 
 using namespace kss;
 using namespace kss::audio;
@@ -48,8 +47,8 @@ void loop() {
     // auto& channel = waveforms[msg.channel];
 
     // RIGHT BUTTON
-    if(msg.channel == 0) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 0) {
+      if (msg.action == kChannelActionPlay) {
         Debug("Play channel " + msg.channel);
         guitar.playString1();
       } else {
@@ -59,8 +58,8 @@ void loop() {
       }
     }
     // LEFT BUTTON
-    if(msg.channel == 1) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 1) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         guitar.playString2();
@@ -71,8 +70,8 @@ void loop() {
       }
     }
     // UP BUTTON
-    if(msg.channel == 2) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 2) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         guitar.playString3();
@@ -84,8 +83,8 @@ void loop() {
       }
     }
     // DOWN BUTTON
-    if(msg.channel == 3) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 3) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         guitar.playString4();
@@ -96,8 +95,8 @@ void loop() {
       }
     }
     // A BUTTON
-    if(msg.channel == 4) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 4) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         guitar.playString5();
@@ -108,8 +107,8 @@ void loop() {
       }
     }
     // B BUTTON
-    if(msg.channel == 5) {
-      if(msg.action == kChannelActionPlay) {
+    if (msg.channel == 5) {
+      if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         guitar.playString6();

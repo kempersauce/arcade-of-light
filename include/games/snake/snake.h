@@ -15,7 +15,6 @@ enum Direction { Up, Down, Left, Right };
 
 class Snake : public animation::Animation {
  public:
-
   size_t xMax;
   size_t yMax;
 

@@ -63,22 +63,21 @@ struct Envelope {
     const uint32_t now = millis();
     const uint32_t timePassed = now - bendStartTime;
     float newOffset = bendSlope * timePassed;
-    if (newOffset > bendMax ) {
+    if (newOffset > bendMax) {
       newOffset = bendMax;
     }
-    
+
     setOffset(newOffset);
   }
 
-  
   const void pitchBendStart(float frequency, boolean isUP = true) {
     // calculate max range
     // figure out linear formula
-    if(!bendStarted) {
+    if (!bendStarted) {
       bendStarted = true;
       bendStartTime = millis();
-      bendSlope = frequency/bendLength;
-      //set for an octave currently
+      bendSlope = frequency / bendLength;
+      // set for an octave currently
       bendMax = frequency;
     }
     const uint32_t now = millis();
@@ -87,7 +86,7 @@ struct Envelope {
     Debug("bendslope:  ");
     Debug(bendSlope);
     Debug(bendSlope * timePassed);
-    //remove next line when broken out
+    // remove next line when broken out
     setOffset(bendSlope * timePassed);
     // may want to change this to return just the offset not the final frequency
     // return bendSlope * timePassed + frequency;
@@ -97,7 +96,6 @@ struct Envelope {
     bendStarted = false;
     setOffset(0);
   }
-
 };
 
 Envelope waveforms[6];
@@ -118,9 +116,9 @@ short r_delayline[CHORUS_DELAY_LENGTH];
 int n_chorus = 5;
 
 // only send moving note to chorus effect
-// AudioConnection patchCordChorusL(waveforms[0].envelope, 0, l_chorusEffect, 0);
-// AudioConnection patchCordChorusR(waveforms[0].envelope, 0, r_chorusEffect, 0);
-// Effects Mixer
+// AudioConnection patchCordChorusL(waveforms[0].envelope, 0, l_chorusEffect,
+// 0); AudioConnection patchCordChorusR(waveforms[0].envelope, 0,
+// r_chorusEffect, 0); Effects Mixer
 AudioConnection patchCordRawWave1L(waveforms[0].envelope, 0, effectMixer, 0);
 AudioConnection patchCordRawWave1R(waveforms[0].envelope, 0, effectMixer, 1);
 AudioConnection patchCordRawWave2L(waveforms[1].envelope, 0, effectMixer, 2);
@@ -204,10 +202,10 @@ class Synthy {
   const float playSequence() {
     const uint32_t now = millis();
     // if (now >= next_hit) {
-      // do it
-      if (++i >= 5) {
-        i = 0;
-      }
+    // do it
+    if (++i >= 5) {
+      i = 0;
+    }
     // }
     next_hit = now + 500;
     return sequence[i];
@@ -216,10 +214,10 @@ class Synthy {
   const float reverseSequence() {
     const uint32_t now = millis();
     // if (now >= next_hit) {
-      // do it
-      if (--i <= 0) {
-        i = 4;
-      }
+    // do it
+    if (--i <= 0) {
+      i = 4;
+    }
     // }
     next_hit = now + 500;
     return sequence[i];

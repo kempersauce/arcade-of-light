@@ -42,12 +42,9 @@ class WavPlayer : public Game {
   controls::Button* FBut;
 
  public:
-  WavPlayer(controls::Button* aBut,
-            controls::Button* bBut,
-            controls::Button* cBut,
-            controls::Button* dBut,
-            controls::Button* eBut,
-            controls::Button* fBut)
+  WavPlayer(controls::Button* aBut, controls::Button* bBut,
+            controls::Button* cBut, controls::Button* dBut,
+            controls::Button* eBut, controls::Button* fBut)
       : Game{NULL},
         ABut{std::move(aBut)},
         BBut{std::move(bBut)},

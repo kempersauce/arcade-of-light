@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "audio/wav_manager.h"  // for WavAudioManager
+#include "audio/wav_manager.h"   // for WavAudioManager
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for EZReceiver
 
@@ -16,7 +16,7 @@ using namespace kss::audio;
 
 WavAudioManager wav_manager;
 
-void ProcessMessage(const WavAudioMessage & message) {
+void ProcessMessage(const WavAudioMessage& message) {
   auto& channel = wav_manager.GetChannel(message.channel_selector);
   switch (message.action_selector) {
     case kChannelActionPlay:
@@ -38,7 +38,7 @@ void ProcessMessage(const WavAudioMessage & message) {
   }
 }
 
-serial::EZReceiver<WavAudioMessage > receiver{&Serial1};
+serial::EZReceiver<WavAudioMessage> receiver{&Serial1};
 
 //=============================================================================//
 // SETUP AND LOOP
@@ -62,7 +62,7 @@ void loop() {
   wav_manager.UpdateAll();
   while (receiver.ReceiveMessages()) {
   }
-  WavAudioMessage  msg;
+  WavAudioMessage msg;
   while (receiver.GetNextMessage(msg)) {
     ProcessMessage(msg);
   }

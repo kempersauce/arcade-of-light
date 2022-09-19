@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Constants.h>
-
 #include "animation/hue_rainbow.h"              // for HueRainbow
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for controls::DirPad

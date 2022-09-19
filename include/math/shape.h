@@ -8,7 +8,7 @@
 
 /**
  * @brief BE CAREFUL USING THIS IT DOESNT WORT QUITE RIGHT YET & LIKES TO CRASH
- * 
+ *
  */
 
 namespace kss {
@@ -39,7 +39,7 @@ class Shape {
       : bounds{bounds}, points{points} {}
 
   Shape FlipX() const {
-	Debug_here();
+    Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(bounds.x - point.x, point.y);
@@ -48,7 +48,7 @@ class Shape {
   }
 
   Shape FlipY() const {
-	Debug_here();
+    Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(point.x, bounds.y - point.y);
@@ -57,7 +57,7 @@ class Shape {
   }
 
   Shape FlipXY() const {
-	Debug_here();
+    Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(bounds.x - point.x, bounds.y - point.y);
@@ -66,7 +66,7 @@ class Shape {
   }
 
   Shape RotateClock() const {
-	Debug_here();
+    Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(point.y, bounds.x - point.x);
@@ -75,7 +75,7 @@ class Shape {
   }
 
   Shape RotateCounterClock() const {
-	Debug_here();
+    Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(point.y - bounds.y, point.x);
@@ -84,7 +84,7 @@ class Shape {
   }
 
   Shape Rotate180() const {
-	Debug_here();
+    Debug_here();
     std::vector<Dimension> flipped{points.size()};
     for (const auto& point : points) {
       flipped.emplace_back(point.y, point.x);

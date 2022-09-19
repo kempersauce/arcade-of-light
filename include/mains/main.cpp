@@ -3,7 +3,6 @@
 
 #include <vector>  // for vector
 
-#include "PinSetup.h"                       // for pins::Init
 #include "animation/fireworks_show.h"       // for FireworksShow
 #include "animation/noise.h"                // for NoiseAnimation
 #include "display/display.h"                // for Display
@@ -31,6 +30,7 @@
 #include "games/rocket/rocket_game.h"       // for RocketGame
 #include "games/shooter/shooter_game.h"     // for ShooterGame
 #include "games/snake/snake_game.h"         // for SnakeGame
+#include "pins/pin_setup.h"                 // for pins::Init
 #include "serial/debug.h"                   // for serial debugging
 #include "test/animation.h"                 // for AnimationTest
 #include "test/dir_pad.h"                   // for DirPadTest

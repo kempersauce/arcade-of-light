@@ -37,7 +37,7 @@ class Firework : public Animation {
            audio::SoundEffect* explode_sound = NULL)
       : Animation(),
         launch_sound{launch_sound},
-		display_size{display_size},
+        display_size{display_size},
         explosion{100,
                   1000,
                   2000,
@@ -57,7 +57,8 @@ class Firework : public Animation {
     isPlaying = false;
     physics.Reset();
     physics.LocationMax = math::random::Int16(
-        display_size.y / 3, display_size.y - 20);  // height the firework explodes
+        display_size.y / 3,
+        display_size.y - 20);  // height the firework explodes
     physics.velocity.y =
         math::random::Int8(35, 75);  // how fast do we get there
 
@@ -102,8 +103,8 @@ class Firework : public Animation {
           min(255 * (physics.location.y / physics.LocationMax), 255);
       CRGB color;
       color.setHSV(hue, Saturation, 255);
-      display->DitherPixel((size_t)physics.location.x, (size_t)physics.location.y,
-                           &color);
+      display->DitherPixel((size_t)physics.location.x,
+                           (size_t)physics.location.y, &color);
     }
   }
 };

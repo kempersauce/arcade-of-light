@@ -2,12 +2,12 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "PinSetup.h"                  // for pins::*
 #include "controls/dir_pad.h"          // for DirPad
 #include "controls/hardware/simple.h"  // for controls::hardware::Simple
 #include "display/five.h"              // for FiveDisplay
 #include "games/game.h"                // for Game
 #include "games/life/single_player.h"  // for LifeGameSinglePlayer
+#include "pins/pin_setup.h"            // for pins::*
 #include "serial/debug.h"              // for Debug
 
 using namespace kss;

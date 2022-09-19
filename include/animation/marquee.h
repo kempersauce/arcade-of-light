@@ -286,8 +286,8 @@ class Marquee : public Animation {
 
       // becomes 2-54 based on the character (assuming capitals)
       int bpm = ((int)c - 63) * 2;
-      drawLetter(0, (spacer + YLocation) % display->size.y, 3, display,
-                 *letter, beatsin8(bpm), 255, 255);
+      drawLetter(0, (spacer + YLocation) % display->size.y, 3, display, *letter,
+                 beatsin8(bpm), 255, 255);
       spacer -= 20;  // space for the next letter
     }
   }

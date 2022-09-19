@@ -71,10 +71,10 @@ class Exploder : public Animation {
     if (should_explode) {
       const uint32_t now = millis();
       if (now >= next_create) {
-		// This will be problematic, needs to be aligned with actual beat time
-		if (next_create == 0) {
-			next_create = now;
-		}
+        // This will be problematic, needs to be aligned with actual beat time
+        if (next_create == 0) {
+          next_create = now;
+        }
         next_create += interval;
         return true;
       }

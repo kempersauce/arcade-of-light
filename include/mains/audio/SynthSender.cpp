@@ -1,12 +1,12 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "PinSetup.h"                  // for pins::*
 #include "audio/constants.h"           // for k*
 #include "audio/synth_sender.h"        // for RocketGame
 #include "controls/button.h"           // for Button
 #include "controls/dir_pad.h"          // for Inputs
 #include "controls/hardware/matrix.h"  // for controls::hardware::Matrix
+#include "pins/pin_setup.h"            // for pins::*
 #include "serial/debug.h"              // for Debug
 #include "serial/hw_serials.h"         // for kHwSerials
 #include "serial/transmitter.h"        // for Transmitter

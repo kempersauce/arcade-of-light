@@ -1,9 +1,8 @@
 
 #pragma once
 
-#include <PinSetup.h>
-
 #include "controls/button.h"  // for Button
+#include "pins/pin_setup.h"
 
 namespace kss {
 namespace controls {

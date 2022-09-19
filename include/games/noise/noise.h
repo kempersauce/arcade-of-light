@@ -13,8 +13,7 @@ class NoiseGame : public Game {
 
  public:
   NoiseGame(display::Display* gameDisplay)
-      : Game{gameDisplay},
-        background{gameDisplay->size} {}
+      : Game{gameDisplay}, background{gameDisplay->size} {}
 
   void setup() {}
 

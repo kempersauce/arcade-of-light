@@ -134,15 +134,15 @@ class Explosion : Animation {
     uint8_t brightness;
     if (phase == Phase::Exploding) {
       brightness = 255;
-    // Debug("SATURATION phase sat=" + saturation + ", bright=" + brightness);
+      // Debug("SATURATION phase sat=" + saturation + ", bright=" + brightness);
     } else if (phase == Phase::Fading) {
       brightness = 255 * (1.0 - (float)(timeAliveMillis - saturation_phase_ms) /
                                     (float)brightness_phase_ms);
 
-    // Debug("BRIGHTNESS phase sat=" + saturation + ", bright=" + brightness);
+      // Debug("BRIGHTNESS phase sat=" + saturation + ", bright=" + brightness);
     } else {
       brightness = 0;
-    // Debug("END phase sat=" + saturation + ", bright=" + brightness);
+      // Debug("END phase sat=" + saturation + ", bright=" + brightness);
     }
 
     for (const auto& shrap : shrapnel) {

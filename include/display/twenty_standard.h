@@ -1,22 +1,12 @@
 #pragma once
 
-#include <Constants.h>
-
 #include "display/standard_display.h"  // for StandardDisplay
+#include "pins/pin_setup.h"            // for pins::*
 
 namespace kss {
 namespace display {
 
-namespace twenty_standard {
-
-constexpr size_t kNumStrips = 20;
-constexpr size_t kLengthStrips = 300;
-
-}  // namespace twenty_standard
-
-class TwentyDisplayStandard
-    : public StandardDisplay<twenty_standard::kNumStrips,
-                             twenty_standard::kLengthStrips> {
+class TwentyDisplayStandard : public StandardDisplay<20, 300> {
  public:
   TwentyDisplayStandard() : StandardDisplay() {
     RegisterStrip<pins::Leds[0]>(0);

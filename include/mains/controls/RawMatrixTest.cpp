@@ -2,8 +2,8 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "PinSetup.h"      // for pins::*
-#include "serial/debug.h"  // for Debug
+#include "pins/pin_setup.h"  // for pins::*
+#include "serial/debug.h"    // for Debug
 
 using namespace kss;
 

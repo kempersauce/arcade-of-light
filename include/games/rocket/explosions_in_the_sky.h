@@ -16,9 +16,7 @@ class ExplosionsInTheSky : public animation::Animation {
  public:
   ExplosionsInTheSky() : Animation(), color{new CRGB(255, 0, 0)} {}
 
-  void startAnimation(RocketAudio& audio) {
-    timeStart = millis();
-  }
+  void startAnimation(RocketAudio& audio) { timeStart = millis(); }
 
   bool isPlaying() { return timeStart != 0; }
 
@@ -29,8 +27,8 @@ class ExplosionsInTheSky : public animation::Animation {
     for (size_t j = 0; j < display->size.x; j++) {
       // sets the top 2/3 pixels in a fade from red to black
       int explosionHeight = display->size.y * 2 / 3;
-      for (size_t i = display->size.y - explosionHeight;
-           i < display->size.y; i++) {
+      for (size_t i = display->size.y - explosionHeight; i < display->size.y;
+           i++) {
         float blendStrength = (float)timeDiff / (float)animationLengthMillis;
         float positionFactor =
             (float)(i - (display->size.y - explosionHeight)) /

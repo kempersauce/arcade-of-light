@@ -3,10 +3,10 @@
 
 #include <vector>  // for std::vector
 
-#include "PinSetup.h"                  // for pins::*
 #include "controls/button.h"           // for controls::Button
 #include "controls/hardware/matrix.h"  // for controls::hardware::Matrix
 #include "games/game.h"                // for Game
+#include "pins/pin_setup.h"            // for pins::*
 
 using namespace kss;
 

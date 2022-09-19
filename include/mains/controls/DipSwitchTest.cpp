@@ -1,14 +1,14 @@
 #include <Arduino.h>
 
-#include "PinSetup.h"
+#include "pins/pin_setup.h"
 #include "serial/debug.h"  // for Debug
 
 using namespace kss;
 
 constexpr size_t dip_switch_count{4};
 
-constexpr uint8_t dip_pins[dip_switch_count]{
-    pins::Dips[0], pins::Dips[1], pins::Dips[2], pins::Dips[3]};
+constexpr uint8_t dip_pins[dip_switch_count]{pins::Dips[0], pins::Dips[1],
+                                             pins::Dips[2], pins::Dips[3]};
 
 void setup() {
   Debug_init();

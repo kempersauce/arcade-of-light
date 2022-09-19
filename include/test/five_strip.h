@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Constants.h>
+#include <FastLED.h>  // for CRGB
 
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "display/display.h"                    // for Display

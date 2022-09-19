@@ -1,9 +1,7 @@
 #pragma once
 
-#include <Constants.h>
-
-#include "PinSetup.h"                  // for pins::*
 #include "display/standard_display.h"  // for StandardDisplay
+#include "pins/pin_setup.h"            // for pins::*
 
 namespace kss {
 namespace display {

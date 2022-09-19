@@ -26,27 +26,27 @@
 // This example code is in the public domain.
 
 #include <Audio.h>
-#include <Wire.h>
-#include <SPI.h>
 #include <SD.h>
+#include <SPI.h>
 #include <SerialFlash.h>
+#include <Wire.h>
 
-AudioPlaySdWav           playWav1;
+AudioPlaySdWav playWav1;
 // Use one of these 3 output types: Digital I2S, Digital S/PDIF, or Analog DAC
-AudioOutputI2S           audioOutput;
-//AudioOutputSPDIF       audioOutput;
-//AudioOutputAnalog      audioOutput;
-//On Teensy LC, use this for the Teensy Audio Shield:
-//AudioOutputI2Sslave    audioOutput;
+AudioOutputI2S audioOutput;
+// AudioOutputSPDIF       audioOutput;
+// AudioOutputAnalog      audioOutput;
+// On Teensy LC, use this for the Teensy Audio Shield:
+// AudioOutputI2Sslave    audioOutput;
 
-AudioConnection          patchCord1(playWav1, 0, audioOutput, 0);
-AudioConnection          patchCord2(playWav1, 1, audioOutput, 1);
-AudioControlSGTL5000     sgtl5000_1;
+AudioConnection patchCord1(playWav1, 0, audioOutput, 0);
+AudioConnection patchCord2(playWav1, 1, audioOutput, 1);
+AudioControlSGTL5000 sgtl5000_1;
 
 // Use these with the Teensy Audio Shield
-#define SDCARD_CS_PIN    10
-#define SDCARD_MOSI_PIN  7
-#define SDCARD_SCK_PIN   14
+#define SDCARD_CS_PIN 10
+#define SDCARD_MOSI_PIN 7
+#define SDCARD_SCK_PIN 14
 
 // Use these with the Teensy 3.5 & 3.6 SD card
 //#define SDCARD_CS_PIN    BUILTIN_SDCARD
@@ -82,8 +82,7 @@ void setup() {
   }
 }
 
-void playFile(const char *filename)
-{
+void playFile(const char *filename) {
   Serial.print("Playing file: ");
   Serial.println(filename);
 
@@ -98,8 +97,8 @@ void playFile(const char *filename)
   while (playWav1.isPlaying()) {
     // uncomment these lines if you audio shield
     // has the optional volume pot soldered
-    //float vol = analogRead(15);
-    //vol = vol / 1024;
+    // float vol = analogRead(15);
+    // vol = vol / 1024;
     // sgtl5000_1.volume(vol);
   }
 }

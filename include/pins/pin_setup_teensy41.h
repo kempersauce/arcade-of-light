@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Arduino.h>
+#include <Arduino.h>  // for digitalRead, pinMode
 
 #include "serial/debug.h"  // for Debug
 
@@ -22,6 +22,16 @@ constexpr uint8_t Leds[]{18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
 // Dips: 38-41
 constexpr uint8_t Dips[]{38, 39, 40, 41};
 
+// Read the value of the corresponding DipSwitch pin
+inline uint8_t ReadDipRaw(const size_t dip_index) {
+  return digitalRead(Dips[dip_index]);
+}
+
+// Return the value of the corresponding DipSwitch pin as a boolean
+inline bool ReadDip(const size_t dip_index) {
+  return ReadDipRaw(dip_index) == 0;
+}
+
 void Init() {
   // Set dip switch pins to input mode
   for (const auto pin : Dips) {
@@ -29,7 +39,7 @@ void Init() {
   }
 
   // Dip0 "ON" (==0) means we switch these pins for frankenstein boards
-  bool frankenstein_mode = digitalRead(Dips[0]) == 0;
+  bool frankenstein_mode = ReadDip(0);
   if (frankenstein_mode) {
     Controllers[3] = 5;
     Buttons[0] = 6;
@@ -47,13 +57,13 @@ void Init() {
     pinMode(pin, INPUT);
   }
 
-  Debug("Pinout initialized for chip role: KSS_CHIP_ROLE=" + KSS_CHIP_ROLE);
+  Debug("Pinout initialized for Teensy4.1 configuration");
   if (frankenstein_mode) {
     Debug("Configured for Frankenstein Mode");
   }
-  Debug("DipSwitches=[" + (String)digitalRead(Dips[0]) +
-        (String)digitalRead(Dips[1]) + (String)digitalRead(Dips[2]) +
-        (String)digitalRead(Dips[3]) + "]");
+
+  Debug("DipSwitches=[" + ReadDipRaw(0) + ReadDipRaw(1) + ReadDipRaw(2) +
+        ReadDipRaw(3) + "]");
 }
 
 /*
@@ -80,10 +90,6 @@ void Init() {
 #define H2H_BUTTON_PIN_13 32
 #define H2H_BUTTON_PIN_14 33
 #define H2H_BUTTON_PIN_15 34
-
-// AUDIO
-// We dont have an audio volume pin....
-// #define AUDIO_VOLUME_PIN 13
 
 }  // namespace pins
 }  // namespace kss

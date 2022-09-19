@@ -76,10 +76,10 @@ class Display {
     if (!in_bounds) {
       if (size.x == 0 || size.y == 0) {
         Debug("ERROR: Ill-defined display: loc=" + strip + "x" + pixel +
-                     ", display=" + size.x + "x" + size.y);
+              ", display=" + size.x + "x" + size.y);
       } else {
-        Debug("ERROR: Accessing out of bounds pixel: loc=" + strip + "x" + pixel +
-                     ", display=" + size.x + "x" + size.y);
+        Debug("ERROR: Accessing out of bounds pixel: loc=" + strip + "x" +
+              pixel + ", display=" + size.x + "x" + size.y);
       }
     }
     return in_bounds;

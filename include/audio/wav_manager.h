@@ -9,11 +9,10 @@
 #include <string>
 #include <vector>
 
-#include <Audio.h>
-#include "audio/channel.h"      // for Channel
-#include "audio/constants.h"    // for k*
-#include "audio/sounds.h"       // for InitAudio
-#include "serial/debug.h"       // for Debug
+#include "audio/channel.h"    // for Channel
+#include "audio/constants.h"  // for k*
+#include "audio/sounds.h"     // for InitAudio
+#include "serial/debug.h"     // for Debug
 
 namespace kss {
 namespace audio {
@@ -50,9 +49,9 @@ class WavAudioManager {
       {mixers[0], 0, mixer_out, 2},  //
       {mixers[1], 0, mixer_out, 3},  //
 
-	  // Patch mixer_out to audioOutput
-      {mixer_out, 0, audioOutput, 0}, // 
-      {mixer_out, 0, audioOutput, 1} //
+      // Patch mixer_out to audioOutput
+      {mixer_out, 0, audioOutput, 0},  //
+      {mixer_out, 0, audioOutput, 1}   //
   };
 
  public:

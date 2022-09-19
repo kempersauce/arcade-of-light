@@ -1,9 +1,9 @@
 #include <Arduino.h>
 
-#include "PinSetup.h"                  // for pins::*
 #include "controls/button.h"           // for Button
 #include "controls/hardware/matrix.h"  // for Matrix
 #include "math/random.h"               // for random::*
+#include "pins/pin_setup.h"            // for pins::*
 #include "serial/debug.h"              // for Debug
 
 using namespace kss;

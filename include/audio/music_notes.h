@@ -32,7 +32,6 @@ constexpr float Cs_HarmonicMinor[21] {Cs[3], Eb[3], E[3], Fs[3], Gs[3], A[3], C[
 constexpr float Cmajor[6] {E[2], C[3], E[3], G[3], C[4], E[4]};  // C - E - G
 // clang-format on
 
-
 }  // namespace notes
 }  // namespace audio
 }  // namespace kss
