@@ -25,7 +25,7 @@ class Exploder : public Animation {
 
   ~Exploder() { Clear(); }
 
-  virtual void Move() override {
+  void Move() override {
     // Debug("Start");
     // Fire explosives when it's time
     if (ShouldCreateAnother()) {
@@ -52,7 +52,7 @@ class Exploder : public Animation {
     }
   }
 
-  virtual void draw(display::Display* display) override {
+  void draw(display::Display* display) override {
     for (auto explosive : explosives) {
       explosive->draw(display);
     }

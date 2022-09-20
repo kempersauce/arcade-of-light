@@ -18,7 +18,7 @@ class NoiseAnimation : public Animation {
 
   void setBrightness(uint8_t bright) { brightness = bright; }
 
-  virtual void draw(display::Display* display) override {
+  void draw(display::Display* display) override {
     static uint8_t ihue = 0;
     noise_generator.fillnoise8();
 

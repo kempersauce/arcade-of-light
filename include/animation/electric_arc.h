@@ -18,7 +18,7 @@ class ElectricArc : public Animation {
   size_t yLocation;
   size_t magnitude = 2;
 
-  virtual void draw(display::Display* display) {
+  void draw(display::Display* display) override {
     do {
       arc.clear();
       arc.push_back(yLocation);
@@ -37,13 +37,13 @@ class ElectricArc : public Animation {
     } while (arc.back() != yLocation);
 
     for (size_t i = 0; i < arc.size(); i++) {
-      int arcHeight = arc[i];
-      if (arcHeight >= 0 && arcHeight < display->size.y) {
+      size_t arcHeight = arc[i];
+      if (display->IsInBounds(i, arcHeight)) {
         display->Pixel(i, arcHeight) = CRGB::Purple;
       }
 
       arcHeight++;
-      if (arcHeight > 0 && arcHeight < display->size.y) {
+      if (display->IsInBounds(i, arcHeight)) {
         display->Pixel(i, arcHeight) = CRGB::Purple;
       }
     }

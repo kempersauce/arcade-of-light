@@ -93,7 +93,7 @@ class Explosion : Animation {
     }
   }
 
-  virtual void Move() override {
+  void Move() override {
     const auto phase = GetPhase();
 
     // don't draw before exploding or after the explosion burns out

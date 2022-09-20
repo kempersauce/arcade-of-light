@@ -49,7 +49,7 @@ class Rocket : public animation::Animation {
 
   void SetBoost(float thrustLevel) { physics.thrust.y = thrustLevel; }
 
-  virtual void Move() override {
+  void Move() override {
     physics.Move();
 
     // Update boost location

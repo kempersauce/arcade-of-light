@@ -68,7 +68,7 @@ class Firework : public Animation {
     hue = math::random::Int8();
   }
 
-  virtual void Move() override {
+  void Move() override {
     if (!isPlaying) {
       if (launch_sound != NULL) {
         launch_sound->Play();

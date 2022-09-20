@@ -42,7 +42,7 @@ class FireworksShow : Animation {
 
   ~FireworksShow() { Clear(); }
 
-  virtual void Move() override {
+  void Move() override {
     // Launch 1-3 fireworks when it's time
     if (ShouldCreateAnother()) {
       for (auto count = math::random::Int8_incl(1, 3); count > 0; count--) {
@@ -67,7 +67,7 @@ class FireworksShow : Animation {
     }
   }
 
-  virtual void draw(display::Display* display) override {
+  void draw(display::Display* display) override {
     for (auto firework : fireworks) {
       firework->draw(display);
     }

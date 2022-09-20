@@ -32,7 +32,7 @@ class Arrow : public Animation {
 
   Arrow() : Animation() {}
 
-  virtual void draw(display::Display* display) override {
+  void draw(display::Display* display) override {
     for (const auto& offset : shape->points) {
       const auto point = location + offset;
       if (display->IsInBounds(point)) {
