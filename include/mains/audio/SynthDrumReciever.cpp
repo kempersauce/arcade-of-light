@@ -90,6 +90,7 @@ void loop() {
     if (msg.channel == 5) {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
+        Debug("Play channel " + msg.channel);
         synthy.playDrum4();
       }
     }

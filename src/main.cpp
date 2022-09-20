@@ -15,6 +15,7 @@
 // #include "mains/audio/SynthGuitarReciever.cpp"
 // #include "mains/audio/SynthReciever.cpp"
 // #include "mains/audio/SynthSender.cpp"
+// #include "mains/audio/TrackSenderTest.cpp"
 // #include "mains/audio/TrackTest.cpp"
 // #include "mains/audio/WavManagerTest.cpp"
 // #include "mains/audio/audioSlave.cpp"

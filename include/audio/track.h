@@ -2,69 +2,89 @@
 
 #include <Arduino.h>
 
-#include <vector>  // for vector
+#include <map>  // for multimap
 
-#include "audio/synth_note.h"  // for SynthNote
-#include "serial/debug.h"      // for Debug
+#include "audio/synth_sender_raw.h"  // for SynthSenderRaw
+#include "serial/debug.h"            // for Debug
+#include "serial/hw_serials.h"       // for kHwSerials
 
 namespace kss {
 namespace audio {
 
-constexpr uint32_t kBpm110OffsetMillis{1000 * 60 / 110};
+struct ScoreFloat {
+  std::multimap<uint32_t, uint8_t> notes;  // stored by timestamp->channel
+  const size_t channel_cnt{6};
+  const uint32_t note_offset_millis;
 
-struct NoteInfo {
-  const uint32_t start_time;
-  const uint32_t note_length;
-  const float frequency;
+  ScoreFloat(float bpm) : note_offset_millis{1000 * 60 / bpm} {}
 
-  NoteInfo(uint32_t start_time, uint32_t note_length, float frequency)
-      : start_time{start_time},
-        note_length{note_length},
-        frequency{frequency} {}
+  // using float for the beat allows us to do things
+  // like beat 2.25 for 16th notes
+  // or 3.0, 3.333, 3.666 for a triplet (I think?)
+  // maybe 1.05 for double bass?
+  void SetNote(uint8_t channel, float beat) {
+    // Subtrack 1 offset to make this 1-based
+    const uint32_t note_ts = (beat * note_offset_millis) - note_offset_millis;
+    notes.emplace(note_ts, channel);
+  }
+
+  void SetBeatEveryMeasure(size_t channel, float beat, size_t measures) {
+    for (size_t measure = 0; measure < measures; ++measure) {
+      const float beat_ts = beat + measure * 4;
+      if (beat_ts >= 0) {
+        SetNote(channel, beat_ts);
+      }
+    }
+  }
 };
 
 class AudioTrack {
-  uint32_t start_time;
-  std::vector<uint32_t> note_times;
-  size_t next_note_index{0};
+  SynthSenderRaw synth;
+
+  uint32_t start_time{0};
+  ScoreFloat score{110};
+  std::multimap<uint32_t, uint8_t>::const_iterator it;
+  bool is_playing{false};
 
  public:
-  SynthNote synth;
-
-  AudioTrack() {
-    for (uint8_t i = 0; i < 110; i++) {
-      note_times.push_back(i * kBpm110OffsetMillis);
-    }
+  AudioTrack(size_t serial_id) : synth{serial::kHwSerials[serial_id]} {
+    score.SetBeatEveryMeasure(4, 1, 32);
+    score.SetBeatEveryMeasure(3, 2, 32);
+    score.SetBeatEveryMeasure(3, 2.333, 32);
+    score.SetBeatEveryMeasure(3, 2.666, 32);
+    score.SetBeatEveryMeasure(5, 3, 32);
+    score.SetBeatEveryMeasure(3, 4, 32);
   }
 
   void Play() {
     Debug_here();
     start_time = millis();
-    next_note_index = 0;
-    next_stop = 0;
+    score.notes.cbegin();
+    it = score.notes.cbegin();
+    is_playing = true;
     Update();
   }
 
-  bool IsPlaying() const { return next_note_index < note_times.size(); }
-
-  uint32_t next_stop{0};
   void Update() {
-    const uint32_t now = millis();
-    const uint32_t track_time = now - start_time;
-
-    while (IsPlaying() && track_time >= note_times[next_note_index]) {
-      // Play the note
-      synth.envelope.noteOn();
-      Debug("Playing note " + note_times[next_note_index] +
-            " at t=" + track_time);
-      next_stop = note_times[next_note_index] + 5;
-      next_note_index++;
+    if (!is_playing) {
+      return;
     }
 
-    if (next_stop != 0 && track_time >= next_stop) {
-      Debug("Stopping note at " + next_stop + " at t=" + track_time);
-      synth.envelope.noteOff();
-      next_stop = 0;
+    if (it == score.notes.cend()) {
+      is_playing = false;
+      Debug("End of score reached. Done playing.");
+      return;
+    }
+
+    const uint32_t track_time = millis() - start_time;
+    while (it != score.notes.cend() && track_time >= it->first) {
+      // Play the note(s)
+      synth.StartInput(it->second);
+
+      Debug("Playing note_t=" + it->first + " on ch" + it->second +
+            " at actual_t=" + track_time);
+
+      ++it;
     }
   }
 };

@@ -26,7 +26,7 @@ constexpr float C_Pentatonic[10] { C[3], D[3], F[3], G[3], A[3],
 
 constexpr float Cs_HarmonicMinor[21] {Cs[3], Eb[3], E[3], Fs[3], Gs[3], A[3], C[3],
                             Cs[4], Eb[4], E[4], Fs[4], Gs[4], A[4], C[4],
-                            Cs[5], Eb[5], E[5], Fs[5], Gs[5], A[5], C[5],};
+                            Cs[5], Eb[5], E[5], Fs[5], Gs[5], A[5], C[5]};
 
 
 constexpr float Cmajor[6] {E[2], C[3], E[3], G[3], C[4], E[4]};  // C - E - G
