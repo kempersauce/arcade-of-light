@@ -1,9 +1,6 @@
 #pragma once
 
-#include <Arduino.h>
-
-#include <map>  // for multimap
-
+#include "audio/score.h"             // for Score
 #include "audio/synth_sender_raw.h"  // for SynthSenderRaw
 #include "serial/debug.h"            // for Debug
 #include "serial/hw_serials.h"       // for kHwSerials
@@ -11,57 +8,45 @@
 namespace kss {
 namespace audio {
 
-struct ScoreFloat {
-  std::multimap<uint32_t, uint8_t> notes;  // stored by timestamp->channel
-  const size_t channel_cnt{6};
-  const uint32_t note_offset_millis;
-
-  ScoreFloat(float bpm) : note_offset_millis{1000 * 60 / bpm} {}
-
-  // using float for the beat allows us to do things
-  // like beat 2.25 for 16th notes
-  // or 3.0, 3.333, 3.666 for a triplet (I think?)
-  // maybe 1.05 for double bass?
-  void SetNote(uint8_t channel, float beat) {
-    // Subtrack 1 offset to make this 1-based
-    const uint32_t note_ts = (beat * note_offset_millis) - note_offset_millis;
-    notes.emplace(note_ts, channel);
-  }
-
-  void SetBeatEveryMeasure(size_t channel, float beat, size_t measures) {
-    for (size_t measure = 0; measure < measures; ++measure) {
-      const float beat_ts = beat + measure * 4;
-      if (beat_ts >= 0) {
-        SetNote(channel, beat_ts);
-      }
-    }
-  }
-};
-
 class AudioTrack {
   SynthSenderRaw synth;
 
   uint32_t start_time{0};
-  ScoreFloat score{110};
-  std::multimap<uint32_t, uint8_t>::const_iterator it;
+
+  Score score;
+  Score::const_iterator next_note;
   bool is_playing{false};
 
  public:
   AudioTrack(size_t serial_id) : synth{serial::kHwSerials[serial_id]} {
-    score.SetBeatEveryMeasure(4, 1, 32);
-    score.SetBeatEveryMeasure(3, 2, 32);
-    score.SetBeatEveryMeasure(3, 2.333, 32);
-    score.SetBeatEveryMeasure(3, 2.666, 32);
-    score.SetBeatEveryMeasure(5, 3, 32);
-    score.SetBeatEveryMeasure(3, 4, 32);
+    ScoreBuilder main_score{220, 32};
+    main_score.SetBeatEveryMeasure(4, 1);
+    main_score.SetBeatEveryMeasure(3, 2);
+    main_score.SetBeatEveryMeasure(5, 3);
+    main_score.SetBeatEveryMeasure(3, 4);
+
+    ScoreBuilder flare_score{220, 28};
+    // Double bass, starts .25 beats before measure 3, beat 1, every 4 measures
+    flare_score.SetBeatEveryMeasure(4, 8.75, 4);
+
+    // cymbal roll on beat 2 every 2nd & 4th measure
+    flare_score.SetBeatEveryMeasure(3, 2, 2);
+    flare_score.SetBeatEveryMeasure(3, 2.1667, 2);
+    flare_score.SetBeatEveryMeasure(3, 2.3333, 2);
+
+	// Lay the flare track over the main track after 16 beats (4 measures)
+    main_score.AddScore(flare_score.GetScore(), 16);
+
+    score = main_score.GetScore();
   }
 
   void Play() {
     Debug_here();
     start_time = millis();
-    score.notes.cbegin();
-    it = score.notes.cbegin();
+    next_note = score.cbegin();
     is_playing = true;
+
+    // Go ahead and play NOW, they probably have a 0ms note on beat 1
     Update();
   }
 
@@ -70,21 +55,21 @@ class AudioTrack {
       return;
     }
 
-    if (it == score.notes.cend()) {
+    if (next_note == score.cend()) {
       is_playing = false;
       Debug("End of score reached. Done playing.");
       return;
     }
 
     const uint32_t track_time = millis() - start_time;
-    while (it != score.notes.cend() && track_time >= it->first) {
+    while (next_note != score.cend() && track_time >= next_note->first) {
       // Play the note(s)
-      synth.StartInput(it->second);
+      synth.StartInput(next_note->second);
 
-      Debug("Playing note_t=" + it->first + " on ch" + it->second +
-            " at actual_t=" + track_time);
+      Debug("Playing note_t=" + next_note->first + " on ch" +
+            next_note->second + " at actual_t=" + track_time);
 
-      ++it;
+      ++next_note;
     }
   }
 };
