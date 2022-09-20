@@ -21,7 +21,7 @@ class EZTransmitter {
     ET.begin(details(outgoing), serial);
   }
 
-  const void Send(SEND_DATA_STRUCTURE& msg) {
+  void Send(SEND_DATA_STRUCTURE& msg) {
     outgoing = msg;
     ET.sendData();
   }
