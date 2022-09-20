@@ -30,7 +30,7 @@ struct Envelope {
       : patch_wave_out{wave, 0, filter, 0},
         patch_filter_out{filter, 0, envelope, 0} {
     // Set up wave
-    wave.begin(1, notes::C[4], WAVEFORM_SINE);
+    wave.begin(1, notes::C[4], WAVEFORM_SQUARE);
 
     // set up filter
     filter.setLowpass(0, 800, 0.707);
@@ -56,29 +56,63 @@ struct Envelope {
   uint32_t bendStartTime;
   boolean bendStarted = false;
   float bendSlope;
-  float bendLength = 500;
+  float bendLength = 1000;
   float bendMax;
+  boolean bendUp;
 
   const void pitchBend() {
     const uint32_t now = millis();
     const uint32_t timePassed = now - bendStartTime;
     float newOffset = bendSlope * timePassed;
-    if (newOffset > bendMax) {
+    Debug(newOffset);
+    if (bendUp && newOffset > bendMax) {
       newOffset = bendMax;
+      Debug(newOffset);
+
+    } 
+    if (!bendUp && newOffset < bendMax) {
+      newOffset = -bendMax;
+      Debug("downshift bendMax exceeded");
+      Debug(newOffset);
+
     }
 
     setOffset(newOffset);
   }
 
-  const void pitchBendStart(float frequency, boolean isUP = true) {
+  const void adjustPitchBend(float frequency) {
+    Debug("adjusting Bend by");
+    Debug(bendUp);
+    if(bendUp) {
+      bendMax = frequency * 2;
+      Debug("new max set");
+      Debug(bendMax);
+
+    } else {
+      bendMax = frequency / 2;
+      Debug("new max set");
+      Debug(bendMax);
+
+    }
+  }
+
+  const void pitchBendStart(float frequency, boolean isUp = true) {
     // calculate max range
     // figure out linear formula
     if (!bendStarted) {
       bendStarted = true;
       bendStartTime = millis();
-      bendSlope = frequency / bendLength;
-      // set for an octave currently
-      bendMax = frequency;
+      bendUp = isUp;
+      if(bendUp) {
+        bendSlope = frequency / bendLength;
+        // set for an octave currently
+        bendMax = frequency;
+      } else {
+        bendSlope = - (frequency/2) / bendLength;
+        // set for an octave currently
+        bendMax = frequency/2;
+      }
+      
     }
     const uint32_t now = millis();
     const uint32_t timePassed = now - bendStartTime;
@@ -86,8 +120,10 @@ struct Envelope {
     Debug("bendslope:  ");
     Debug(bendSlope);
     Debug(bendSlope * timePassed);
+    Debug(bendMax);
     // remove next line when broken out
     setOffset(bendSlope * timePassed);
+
     // may want to change this to return just the offset not the final frequency
     // return bendSlope * timePassed + frequency;
   }
@@ -102,6 +138,9 @@ Envelope waveforms[6];
 AudioOutputI2S i2s1;  // xy=360,98 PAUL SHIT
 AudioMixer4 effectMixer;
 AudioMixer4 mixer1;
+AudioMixer4 mixer2;
+AudioEffectFreeverb freeverb1;
+
 AudioMixer4 mixerMaster;
 
 // CHORUS EFFECT
@@ -118,19 +157,25 @@ int n_chorus = 5;
 // only send moving note to chorus effect
 // AudioConnection patchCordChorusL(waveforms[0].envelope, 0, l_chorusEffect,
 // 0); AudioConnection patchCordChorusR(waveforms[0].envelope, 0,
-// r_chorusEffect, 0); Effects Mixer
-AudioConnection patchCordRawWave1L(waveforms[0].envelope, 0, effectMixer, 0);
-AudioConnection patchCordRawWave1R(waveforms[0].envelope, 0, effectMixer, 1);
-AudioConnection patchCordRawWave2L(waveforms[1].envelope, 0, effectMixer, 2);
-AudioConnection patchCordRawWave2R(waveforms[1].envelope, 0, effectMixer, 3);
+// mixer for first two waves
+AudioConnection patchCordRawWave1L(waveforms[0].envelope, 0, mixer2, 0);
+AudioConnection patchCordRawWave1R(waveforms[0].envelope, 0, mixer2, 1);
+AudioConnection patchCordRawWave2L(waveforms[1].envelope, 0, mixer2, 2);
+AudioConnection patchCordRawWave2R(waveforms[1].envelope, 0, mixer2, 3);
 // mixer1 - input from other 4
 AudioConnection patchCordRawWave3(waveforms[2].envelope, 0, mixer1, 0);
 AudioConnection patchCordRawWave4(waveforms[3].envelope, 0, mixer1, 1);
 AudioConnection patchCordRawWave5(waveforms[4].envelope, 0, mixer1, 2);
 AudioConnection patchCordRawWave6(waveforms[5].envelope, 0, mixer1, 3);
-// mixerMaster - put it all togeter
-AudioConnection patchCordMaster1(mixer1, 0, mixerMaster, 0);
-AudioConnection patchCordMaster2(effectMixer, 0, mixerMaster, 1);
+// EffectMixer - add reverb
+AudioConnection patchCordEffect1(mixer1, 0, effectMixer, 0);
+AudioConnection patchCordEffect2(mixer2, 0, effectMixer, 1);
+AudioConnection patchCordEffect3(freeverb1, 0, effectMixer, 3);
+// MasterMix - put it all togeteher
+AudioConnection patchCordMaster(effectMixer, 0, mixerMaster, 0);
+
+
+
 
 // final output
 AudioConnection patchCord1(mixerMaster, 0, i2s1, 0);
@@ -144,6 +189,7 @@ class Synthy {
   // NOTE REFERENCE: https://pages.mtu.edu/~suits/notefreqs.html
   float sequence[5] = {220, 329.63, 369.99, 554.37, 830.61};
   uint32_t next_hit = 0;
+  uint8_t current_note = sequence[0];
   unsigned long last_time = millis();
 
   size_t i = 0;
@@ -186,8 +232,8 @@ class Synthy {
         ;
     }
 
-    effectMixer.gain(0, 0.5);
-    effectMixer.gain(1, 0.5);
+    effectMixer.gain(0, 0.1); //percent "wet" reverb
+    effectMixer.gain(1, 0.9); // percent "dry" reverb
 
     // add effect
     l_chorusEffect.voices(n_chorus);
@@ -203,11 +249,13 @@ class Synthy {
     const uint32_t now = millis();
     // if (now >= next_hit) {
     // do it
-    if (++i >= 5) {
+    if (i == 4) {
       i = 0;
+    } else {
+      i++;
     }
     // }
-    next_hit = now + 500;
+    // next_hit = now + 500;
     return sequence[i];
   }
 
@@ -215,13 +263,31 @@ class Synthy {
     const uint32_t now = millis();
     // if (now >= next_hit) {
     // do it
-    if (--i <= 0) {
+    if (i == 0) {
       i = 4;
+    } else {
+      i--;
     }
     // }
-    next_hit = now + 500;
+    // next_hit = now + 500;
     return sequence[i];
   }
+
+  const void actionUp() {
+
+  }  
+  const void actionDown() {
+  }  
+  const void actionLeft() {
+  }  
+  const void actionRight() {
+  }  
+  const void actionA() {
+    float pitch = reverseSequence();
+  }  
+  const void actionB() {
+    float pitch = playSequence();
+  }  
 
 };  // class
 }  // namespace audio

@@ -8,16 +8,16 @@
 #include <vector>
 
 #include "audio/constants.h"     // for SynthAudioMessage
-#include "audio/synthy.h"        // for Synth
+#include "audio/synthy_moog.h"        // for Synth
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for reciever
 // #include "pins/pin_setup.h"
 
 using namespace kss;
 using namespace kss::audio;
-using namespace kss::audio::_synthy;
+using namespace kss::audio::moog;
 
-Synthy synthy;
+MoogSynthy synthy;
 
 serial::EZReceiver<SynthAudioMessage> receiver(&Serial1);
 
@@ -34,101 +34,85 @@ void setup() {
   // pins::Init();
 
   Debug("making synth");
-  synthy.InitSynth();
+  synthy.InitMoogSynthy();
 
   Debug("synth maked");
 }
+
 
 void loop() {
   receiver.ReceiveMessages();
   SynthAudioMessage msg;
 
   if (receiver.GetNextMessage(msg)) {
-    auto& channel = waveforms[msg.channel];
+    // auto& channel = waveforms[msg.channel];
 
     // RIGHT BUTTON
     if (msg.channel == 0) {
       if (msg.action == kChannelActionPlay) {
         Debug("Play channel " + msg.channel);
-        channel.envelope.noteOn();
+        synthy.actionRight();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        channel.envelope.noteOff();
+        synthy.stopNote();
       }
     }
     // LEFT BUTTON
     if (msg.channel == 1) {
       if (msg.action == kChannelActionPlay) {
-        // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        channel.envelope.noteOn();
+        synthy.actionLeft();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        channel.envelope.noteOff();
+        synthy.stopNote();
       }
     }
     // UP BUTTON
     if (msg.channel == 2) {
       if (msg.action == kChannelActionPlay) {
-        // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        waveforms[4].pitchBendStart(waveforms[4].frequency, true);
-        // channel.envelope.noteOn();
+        synthy.actionUp();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        waveforms[4].pitchBendStop();
+        synthy.stopNote();
       }
     }
     // DOWN BUTTON
     if (msg.channel == 3) {
       if (msg.action == kChannelActionPlay) {
-        // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        waveforms[4].pitchBendStart(waveforms[4].frequency, false);
+        synthy.actionDown();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        waveforms[4].pitchBendStop();
+        synthy.stopNote();
       }
     }
     // A BUTTON
     if (msg.channel == 4) {
       if (msg.action == kChannelActionPlay) {
-        // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        float note = synthy.playSequence();
-        Debug(note);
-        waveforms[4].setFrequency(note);
-        waveforms[4].adjustPitchBend(note);
-        waveforms[4].envelope.noteOn();
+        synthy.actionA();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        waveforms[4].envelope.noteOff();
+        synthy.stopNote();
       }
     }
     // B BUTTON
     if (msg.channel == 5) {
       if (msg.action == kChannelActionPlay) {
-        // What it do if pressing button
-        float note = synthy.reverseSequence();
-        waveforms[4].setFrequency(note);
-        Debug(note);
         Debug("Play channel " + msg.channel);
-        waveforms[4].adjustPitchBend(note);
-        waveforms[4].envelope.noteOn();
+        synthy.actionB();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        waveforms[4].envelope.noteOff();
+        synthy.stopNote();
       }
     }
   }
 
-  if (waveforms[4].bendStarted) {
-    waveforms[4].pitchBend();
-  }
 }

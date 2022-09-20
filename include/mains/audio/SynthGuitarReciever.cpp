@@ -50,7 +50,7 @@ void loop() {
     if (msg.channel == 0) {
       if (msg.action == kChannelActionPlay) {
         Debug("Play channel " + msg.channel);
-        guitar.playString1();
+        guitar.actionRight();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
@@ -62,7 +62,7 @@ void loop() {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        guitar.playString2();
+        guitar.actionLeft();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
@@ -74,7 +74,7 @@ void loop() {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        guitar.playString3();
+        guitar.actionUp();
         // channel.envelope.noteOn();
       } else {
         // What it do when releast button
@@ -87,7 +87,7 @@ void loop() {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        guitar.playString4();
+        guitar.actionDown();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
@@ -99,7 +99,7 @@ void loop() {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        guitar.playString5();
+        guitar.actionA();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
@@ -111,7 +111,7 @@ void loop() {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        guitar.playString6();
+        guitar.actionB();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);

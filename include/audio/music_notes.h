@@ -30,6 +30,15 @@ constexpr float Cs_HarmonicMinor[21] {Cs[3], Eb[3], E[3], Fs[3], Gs[3], A[3], C[
 
 
 constexpr float Cmajor[6] {E[2], C[3], E[3], G[3], C[4], E[4]};  // C - E - G
+
+constexpr float CmajorGuitar[6] {C[3], G[3], C[4], E[4], G[4], C[5]};  // C - E - G
+constexpr float DminorGuitar[6] {D[3], A[3], D[4], F[4], A[4], D[5]};  // D - F - A
+constexpr float FmajorGuitar[6] {F[3], C[4], F[4], A[4], C[5], F[5]};  // F - A - C
+constexpr float GmajorGuitar[6] {G[3], D[4], G[4], B[4], D[5], G[5]};  // G - B - D
+
+constexpr float GuitarChords[6][4] {*CmajorGuitar, *DminorGuitar, *FmajorGuitar, *GmajorGuitar};
+
+
 // clang-format on
 
 }  // namespace notes
