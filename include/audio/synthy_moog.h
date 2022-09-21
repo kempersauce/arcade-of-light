@@ -44,13 +44,17 @@ AudioConnection patchCord8(filter1, 0, i2s1, 1);
 
 class MoogSynthy {
 
-    float sequence[6] = {notes::C[2], notes::Eb[2], notes::F[2], notes::Fs[2], notes::G[2], notes::Bb[2]};
+    // float sequence[6] = {notes::C[2], notes::Eb[2], notes::F[2], notes::Fs[2], notes::G[2], notes::Bb[2]};  //C BLUES
+    float sequence[6] = {notes::C[2], notes::D[2], notes::E[2], notes::G[2], notes::A[2], notes::C[3]};
+
 
 
     public:
 
     MoogSynthy() {Debug("luv u Bob");}
     float theSauce[5] = {-0.2, -0.3, 0.2, 0.5, 0.1};
+    const float koffNote = 999;
+    float notesPressed[3] = {koffNote, koffNote, koffNote};
 
     const void InitMoogSynthy() {
       InitAudio();
@@ -87,9 +91,16 @@ class MoogSynthy {
       Serial.println("%");
       filter1.processorUsageMaxReset();
       AudioProcessorUsageMaxReset();
-      waveform1.amplitude(1);
-      waveform2.amplitude(1);
-      waveform3.amplitude(1);
+      float frequency = getFrequency();
+      if (frequency == koffNote) {
+        stopNote();
+      } else {
+        setFrequencies(frequency);
+        
+        waveform1.amplitude(1);
+        waveform2.amplitude(1);
+        waveform3.amplitude(1);
+      }
     }
 
     const float plusOctave(float baseFrequency) {
@@ -114,33 +125,60 @@ class MoogSynthy {
       waveform3.frequency(plusTwoOctaves(frequency));
     }
 
+    // low note priority for monosynth
+    const float getFrequency() {
+      float frequency = notesPressed[0];
+      if (notesPressed [1] < frequency) {
+        frequency = notesPressed[1];
+      }
+      if (notesPressed[2] < frequency) {
+        frequency = notesPressed[2];
+      }
+      return frequency;
+    }
+
     const void actionUp() {
-      setFrequencies(sequence[0]);
+      notesPressed[1] = sequence[3];
       playNote();
     }
 
     const void actionDown() {
-      setFrequencies(sequence[1]);
+      notesPressed[1] = sequence[1];
       playNote();
     }
 
     const void actionLeft() {
-      setFrequencies(sequence[2]);
+      notesPressed[1] = sequence[2];
       playNote();
     }
 
     const void actionRight() {
-      setFrequencies(sequence[3]);
+      notesPressed[1] = sequence[4];
       playNote();
     }
 
     const void actionA() {
-      setFrequencies(sequence[4]);
+      notesPressed[0] = sequence[0];
       playNote();
     }
 
     const void actionB() {
-      setFrequencies(sequence[5]);
+      notesPressed[2] = sequence[5];
+      playNote();
+    }
+
+    const void stopJoystick() {
+      notesPressed[1] = koffNote;
+      playNote();
+    }
+
+    const void stopA() {
+      notesPressed[0] = koffNote;
+      playNote();
+    }
+
+        const void stopB() {
+      notesPressed[2] = koffNote;
       playNote();
     }
 

@@ -55,7 +55,7 @@ void loop() {
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        synthy.stopNote();
+        synthy.stopJoystick();
       }
     }
     // LEFT BUTTON
@@ -66,7 +66,7 @@ void loop() {
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        synthy.stopNote();
+        synthy.stopJoystick();
       }
     }
     // UP BUTTON
@@ -77,7 +77,7 @@ void loop() {
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        synthy.stopNote();
+        synthy.stopJoystick();
       }
     }
     // DOWN BUTTON
@@ -88,7 +88,7 @@ void loop() {
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        synthy.stopNote();
+        synthy.stopJoystick();
       }
     }
     // A BUTTON
@@ -99,7 +99,7 @@ void loop() {
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        synthy.stopNote();
+        synthy.stopA();
       }
     }
     // B BUTTON
@@ -110,7 +110,7 @@ void loop() {
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        synthy.stopNote();
+        synthy.stopB();
       }
     }
   }

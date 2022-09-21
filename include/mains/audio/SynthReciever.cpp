@@ -50,11 +50,11 @@ void loop() {
     if (msg.channel == 0) {
       if (msg.action == kChannelActionPlay) {
         Debug("Play channel " + msg.channel);
-        channel.envelope.noteOn();
+        waveforms[2].envelope.noteOn();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        channel.envelope.noteOff();
+        waveforms[2].envelope.noteOff();
       }
     }
     // LEFT BUTTON
@@ -62,11 +62,11 @@ void loop() {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        channel.envelope.noteOn();
+        waveforms[3].envelope.noteOn();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        channel.envelope.noteOff();
+        waveforms[3].envelope.noteOff();
       }
     }
     // UP BUTTON

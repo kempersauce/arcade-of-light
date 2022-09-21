@@ -56,7 +56,7 @@ struct Envelope {
   uint32_t bendStartTime;
   boolean bendStarted = false;
   float bendSlope;
-  float bendLength = 1000;
+  float bendLength = 200;
   float bendMax;
   boolean bendUp;
 
@@ -64,17 +64,14 @@ struct Envelope {
     const uint32_t now = millis();
     const uint32_t timePassed = now - bendStartTime;
     float newOffset = bendSlope * timePassed;
+    Debug(timePassed);
+    Debug(newOffset);
     Debug(newOffset);
     if (bendUp && newOffset > bendMax) {
       newOffset = bendMax;
-      Debug(newOffset);
-
     } 
-    if (!bendUp && newOffset < bendMax) {
+    if (!bendUp && newOffset < -bendMax) {
       newOffset = -bendMax;
-      Debug("downshift bendMax exceeded");
-      Debug(newOffset);
-
     }
 
     setOffset(newOffset);
@@ -108,7 +105,7 @@ struct Envelope {
         // set for an octave currently
         bendMax = frequency;
       } else {
-        bendSlope = - (frequency/2) / bendLength;
+        bendSlope = - frequency / (bendLength * 2);
         // set for an octave currently
         bendMax = frequency/2;
       }
@@ -135,51 +132,54 @@ struct Envelope {
 };
 
 Envelope waveforms[6];
-AudioOutputI2S i2s1;  // xy=360,98 PAUL SHIT
+AudioOutputI2S i2s1;
 AudioMixer4 effectMixer;
 AudioMixer4 mixer1;
 AudioMixer4 mixer2;
-AudioEffectFreeverb freeverb1;
+// AudioEffectDelay delay1;   
 
 AudioMixer4 mixerMaster;
 
 // CHORUS EFFECT
-AudioEffectChorus l_chorusEffect;
-AudioEffectChorus r_chorusEffect;
+// AudioEffectChorus l_chorusEffect;
+// AudioEffectChorus r_chorusEffect;
 // Number of samples in each delay line
-#define CHORUS_DELAY_LENGTH (16 * AUDIO_BLOCK_SAMPLES)
+// #define CHORUS_DELAY_LENGTH (16 * AUDIO_BLOCK_SAMPLES)
 // Allocate the delay lines for left and right channels
-short l_delayline[CHORUS_DELAY_LENGTH];
-short r_delayline[CHORUS_DELAY_LENGTH];
+// short l_delayline[CHORUS_DELAY_LENGTH];
+// short r_delayline[CHORUS_DELAY_LENGTH];/
 // number of "voices" in the chorus which INCLUDES the original voice
-int n_chorus = 5;
+// int n_chorus = 5;
 
 // only send moving note to chorus effect
 // AudioConnection patchCordChorusL(waveforms[0].envelope, 0, l_chorusEffect,
 // 0); AudioConnection patchCordChorusR(waveforms[0].envelope, 0,
 // mixer for first two waves
-AudioConnection patchCordRawWave1L(waveforms[0].envelope, 0, mixer2, 0);
-AudioConnection patchCordRawWave1R(waveforms[0].envelope, 0, mixer2, 1);
-AudioConnection patchCordRawWave2L(waveforms[1].envelope, 0, mixer2, 2);
-AudioConnection patchCordRawWave2R(waveforms[1].envelope, 0, mixer2, 3);
+// AudioConnection patchCordRawWave1L(waveforms[0].envelope, 0, mixer2, 0);
+// AudioConnection patchCordRawWave1R(waveforms[0].envelope, 0, mixer2, 1);
+// AudioConnection patchCordRawWave2L(waveforms[1].envelope, 0, mixer2, 2);
+// AudioConnection patchCordRawWave2R(waveforms[1].envelope, 0, mixer2, 3);
 // mixer1 - input from other 4
 AudioConnection patchCordRawWave3(waveforms[2].envelope, 0, mixer1, 0);
 AudioConnection patchCordRawWave4(waveforms[3].envelope, 0, mixer1, 1);
 AudioConnection patchCordRawWave5(waveforms[4].envelope, 0, mixer1, 2);
 AudioConnection patchCordRawWave6(waveforms[5].envelope, 0, mixer1, 3);
 // EffectMixer - add reverb
-AudioConnection patchCordEffect1(mixer1, 0, effectMixer, 0);
-AudioConnection patchCordEffect2(mixer2, 0, effectMixer, 1);
-AudioConnection patchCordEffect3(freeverb1, 0, effectMixer, 3);
+// AudioConnection patchCordEffect1(waveforms[4].envelope, delay1);
+// AudioConnection patchCordEffect2(delay1, 0, effectMixer, 0);
+// AudioConnection patchCordEffect3(delay1, 0, effectMixer, 1);
+// AudioConnection patchCordEffect4(delay1, 0, effectMixer, 2);
+// AudioConnection patchCordEffect5(delay1, 0, effectMixer, 3);
 // MasterMix - put it all togeteher
-AudioConnection patchCordMaster(effectMixer, 0, mixerMaster, 0);
+// AudioConnection patchCordMaster1(mixer1, 0, mixerMaster, 0);
+// AudioConnection patchCordMaster2(mixer1, 0, mixerMaster, 1);
 
 
 
 
 // final output
-AudioConnection patchCord1(mixerMaster, 0, i2s1, 0);
-AudioConnection patchCord2(mixerMaster, 0, i2s1, 1);
+AudioConnection patchCordFinalL(mixer1, 0, i2s1, 0);
+AudioConnection patchCordFinalR(mixer1, 0, i2s1, 1);
 
 }  // namespace _synthy
 using namespace _synthy;
@@ -187,7 +187,7 @@ using namespace _synthy;
 class Synthy {
  public:
   // NOTE REFERENCE: https://pages.mtu.edu/~suits/notefreqs.html
-  float sequence[5] = {220, 329.63, 369.99, 554.37, 830.61};
+  float sequence[5] = {notes::C[4], notes::D[4], notes::E[4], notes::G[4], notes::A[4]};
   uint32_t next_hit = 0;
   uint8_t current_note = sequence[0];
   unsigned long last_time = millis();
@@ -206,38 +206,20 @@ class Synthy {
     sgtl5000_1.volume(0.8);  // caution: very loud - use oscilloscope only!
 
     // set up dat chord
-    for (size_t i = 0; i < 5; ++i) {
-      waveforms[i].wave.frequency(sequence[i]);
-    }
+    waveforms[2].wave.frequency(sequence[0]); //hard code to root note
+    waveforms[3].wave.frequency(sequence[3]); // hard code to fifth
 
-    // waveforms[0].begin(WAVEFORM_SINE);
-
-    // Initialize the effect - left channel
-    // address of delayline
-    // total number of samples in the delay line
-    // number of voices in the chorus INCLUDING the original voice
-    if (!l_chorusEffect.begin(l_delayline, CHORUS_DELAY_LENGTH, n_chorus)) {
-      Debug("AudioEffectChorus - left channel begin failed");
-      while (1)
-        ;
-    }
-
-    // Initialize the effect - right channel
-    // address of delayline
-    // total number of samples in the delay line
-    // number of voices in the chorus INCLUDING the original voice
-    if (!r_chorusEffect.begin(r_delayline, CHORUS_DELAY_LENGTH, n_chorus)) {
-      Debug("AudioEffectChorus - right channel begin failed");
-      while (1)
-        ;
-    }
-
-    effectMixer.gain(0, 0.1); //percent "wet" reverb
-    effectMixer.gain(1, 0.9); // percent "dry" reverb
+    mixer1.gain(3, 0.5); //percent "wet" reverb
+    mixer1.gain(2, 0.5);
+    mixer1.gain(1, 0.5); // percent "dry" reverb
+    mixer1.gain(0, 0.5);
 
     // add effect
-    l_chorusEffect.voices(n_chorus);
-    r_chorusEffect.voices(n_chorus);
+    // l_chorusEffect.voices(n_chorus);
+    // r_chorusEffect.voices(n_chorus);
+    // delay1.delay(0, 110);
+    // delay1.delay(1, 220);
+    // delay1.delay(2, 330);
 
     Debug("setup done");
     AudioProcessorUsageMaxReset();
