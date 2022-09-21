@@ -19,13 +19,13 @@ class AudioTrack {
 
  public:
   AudioTrack(size_t serial_id) : synth{serial::kHwSerials[serial_id]} {
-    ScoreBuilder main_score{220, 32};
+    ScoreBuilder main_score{165, 32};
     main_score.SetBeatEveryMeasure(4, 1);
     main_score.SetBeatEveryMeasure(3, 2);
     main_score.SetBeatEveryMeasure(5, 3);
     main_score.SetBeatEveryMeasure(3, 4);
 
-    ScoreBuilder flare_score{220, 28};
+    ScoreBuilder flare_score{165, 28};
     // Double bass, starts .25 beats before measure 3, beat 1, every 4 measures
     flare_score.SetBeatEveryMeasure(4, 8.75, 4);
 

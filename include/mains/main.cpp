@@ -44,7 +44,7 @@ using namespace kss;
 engines::FrameRate frameRate;
 
 games::Game* game;
-display::FourPanelDisplay* gameDisplay;
+display::Display* gameDisplay;
 
 void setup() {
   // This only works if we're not using octo
@@ -57,10 +57,10 @@ void setup() {
 
   // Choose your Display type
   //   gameDisplay = (display::Display*)new display::FiveDisplay();
-  gameDisplay = new display::FourPanelDisplay();
+  //   gameDisplay = new display::FourPanelDisplay();
   //   gameDisplay = (display::Display*)new display::H2HDisplay();
   //   gameDisplay = (display::Display*)new display::RocketDisplay();
-  //   gameDisplay = (display::Display*)new display::TwentyDisplay();
+  gameDisplay = (display::Display*)new display::TwentyDisplay();
   //   gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
 
   Debug("gameDisplay created");
@@ -83,9 +83,9 @@ void setup() {
   //   game = (games::Game*)new
   //   games::rhythm::RhythmGameSingle(((display::FourPanelDisplay*)gameDisplay)->panels[0]);
 
-  Debug("Creating game...");
-  game = (games::Game*)new games::rhythm::RhythmGameSingle(
-      &gameDisplay->panels[0]);
+  //   Debug("Creating game...");
+  //   game = (games::Game*)new games::rhythm::RhythmGameSingle(
+  //       &gameDisplay->panels[0]);
 
   // Test Games
   //   game = (games::Game*)new test::DirPadTest(*gameDisplay);
@@ -95,14 +95,12 @@ void setup() {
   //       *(display::FourPanelDisplay*)gameDisplay};
 
   // Animation Test game
-  //   std::vector<animation::Animation*> test_animations{
-  //       (animation::Animation*)new animation::Starscape{gameDisplay->size,
-  //       140}, (animation::Animation*)new
-  //       animation::FireworksShow{gameDisplay->size,
-  //                                                           15}};
+  std::vector<animation::Animation*> test_animations{
+      (animation::Animation*)new animation::Starscape{gameDisplay->size, 140},
+      (animation::Animation*)new animation::FireworksShow{gameDisplay->size,
+                                                          15}};
 
-  //   game = (games::Game*)new test::AnimationTest(*gameDisplay,
-  //   test_animations);
+  game = (games::Game*)new test::AnimationTest(gameDisplay, test_animations);
 
   Debug("game created");
 
@@ -116,15 +114,15 @@ void setup() {
 }
 
 void loop() {
-  //   Debug_here();
+  Debug_here();
 
   game->loop();
 
-  //   Debug("Show Display");
+  Debug("Show Display");
   gameDisplay->Show();
 
   //   Debug("loops brother");
-  // frameRate.PrintFrameRate();
+  frameRate.PrintFrameRate();
 
   delay(20);
 }

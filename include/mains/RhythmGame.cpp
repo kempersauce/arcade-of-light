@@ -7,6 +7,7 @@
 #include "engines/framerate.h"           // for FrameRate
 #include "games/rhythm/rhythm_game.h"    // for RhythmGame
 #include "games/rhythm/rhythm_single.h"  // for RhythmGameSingle
+#include "pins/pin_setup.h"              // for pins::Init
 #include "serial/debug.h"                // for serial debugging
 
 using namespace kss;
@@ -17,10 +18,8 @@ display::FourPanelDisplay* gameDisplay;
 games::Game* game;
 
 void setup() {
-  // This only works if we're not using octo
-  // FastLED.setBrightness(100);
-
   Debug_init();
+  pins::Init();
   Debug("Begin setup()");
 
   // Choose your Display type
@@ -28,8 +27,8 @@ void setup() {
 
   Debug("gameDisplay created");
 
-  //   game = (games::Game*)new games::rhythm::RhythmGame(gameDisplay);
-  game = (games::Game*)new games::rhythm::RhythmGameSingle(gameDisplay);
+  game = (games::Game*)new games::rhythm::RhythmGame(gameDisplay);
+    // game = (games::Game*)new games::rhythm::RhythmGameSingle(&gameDisplay->panels[0]);
 
   Debug("game created");
 
@@ -51,7 +50,7 @@ void loop() {
   gameDisplay->Show();
 
   //   Debug("loops brother");
-  // frameRate.PrintFrameRate();
+  frameRate.PrintFrameRate();
 
-  delay(7);
+  //   delay(7);
 }

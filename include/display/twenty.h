@@ -9,7 +9,7 @@ namespace display {
 namespace _twenty {
 
 constexpr size_t kNumStrips = 20;
-constexpr size_t kLengthStrips = 294;
+constexpr size_t kLengthStrips = 220;
 
 constexpr uint8_t kPinList[kNumStrips]{
     // clang-format off

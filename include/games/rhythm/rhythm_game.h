@@ -30,13 +30,13 @@ class RhythmGame : public Game {
     }
   }
 
-  virtual void setup() override {
+  void setup() override {
     for (auto player : players) {
       player->setup();
     }
   }
 
-  virtual void loop() override {
+  void loop() override {
     for (auto player : players) {
       player->loop();
     }
