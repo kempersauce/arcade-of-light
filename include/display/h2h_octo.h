@@ -9,7 +9,7 @@ namespace display {
 namespace _h2h_octo {
 
 constexpr size_t kNumStrips = 8;
-constexpr size_t kLengthStrips = 220;
+constexpr size_t kLengthStrips = 214;
 
 constexpr uint8_t kPinList[kNumStrips]{
     // clang-format off

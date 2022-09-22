@@ -54,5 +54,7 @@ void loop() {
     Debug("Int16_incl(10, 20)=" + random::Int16_incl(10, 20));
   }
 
-  delay(7);
+  Debug_var(random::Int16(500, 5000));
+
+  delay(100);
 }

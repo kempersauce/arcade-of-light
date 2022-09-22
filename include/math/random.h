@@ -8,7 +8,7 @@ namespace random {
 
 namespace _random {
 
-constexpr uint8_t BIT_MASK = 0x1;
+constexpr uint16_t BIT_MASK = 0x1;
 constexpr uint16_t UINT8_MAX_INCL = (uint16_t)UINT8_MAX + 1;
 constexpr uint32_t UINT16_MAX_INCL = (uint32_t)UINT16_MAX + 1;
 constexpr uint64_t UINT32_MAX_INCL = (uint64_t)UINT32_MAX + 1;
@@ -107,7 +107,7 @@ inline float Float(float min, float max) { return Float(max - min) + min; }
 //////// Booleans
 
 // true to false
-inline bool Bool() { return random16() & BIT_MASK == 0; }
+inline bool Bool() { return (random16() & BIT_MASK) == 0; }
 
 // true to false (chance% of being true)
 inline bool Bool(float chance) { return Float() < chance; }
