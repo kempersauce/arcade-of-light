@@ -1,9 +1,8 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "controls/hardware/simple.h"  // for controls::hardware::Simple
+#include "controls/hardware/matrix.h"  // for Matrix
 #include "display/display.h"           // for Display
-#include "display/h2h.h"               // for H2HDisplay
 #include "display/rocket.h"            // for RocketDisplay
 #include "engines/framerate.h"         // for Framerate
 #include "games/game.h"                // for Game
@@ -14,7 +13,7 @@
 using namespace kss;
 
 display::RocketDisplay* gameDisplay = new display::RocketDisplay();
-controls::hardware::Simple control_context;
+controls::hardware::Matrix control_context;
 games::rocket::RocketGame* game;
 engines::FrameRate framerate;
 
@@ -23,8 +22,9 @@ void setup() {
   pins::Init();
 
   game = new games::rocket::RocketGame(
-      gameDisplay, control_context.CreateButton(pins::Buttons[0]),
-      control_context.CreateButton(pins::Buttons[1]));
+      gameDisplay,
+      control_context.CreateButton(pins::Controllers[0], pins::Buttons[0]),
+      control_context.CreateButton(pins::Controllers[0], pins::Buttons[1]));
   game->setup();
   Debug("Setup Complete");
 }

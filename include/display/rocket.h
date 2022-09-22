@@ -1,17 +1,39 @@
 #pragma once
 
-#include "display/standard_display.h"  // for StandardDisplay
-#include "pins/pin_setup.h"            // for pins::*
+#include "display/octo_display.h"  // for OctoDisplay
+#include "pins/pin_setup.h"        // for pins::*
 
 namespace kss {
 namespace display {
 
-class RocketDisplay : public StandardDisplay<3, 300> {
+namespace _rocket {
+
+constexpr size_t kNumStrips = 5;
+constexpr size_t kLengthStrips = 294;
+
+constexpr uint8_t kPinList[kNumStrips]{
+    // clang-format off
+
+    // Cable 1
+    pins::Leds[0],
+    pins::Leds[1],
+    pins::Leds[2],
+    pins::Leds[3],
+
+    // Cable 2
+    pins::Leds[4]
+
+    // clang-format on
+};
+
+DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
+
+}  // namespace _rocket
+using namespace _rocket;
+
+class RocketDisplay : public OctoDisplay<kNumStrips, kLengthStrips> {
  public:
-  RocketDisplay() : StandardDisplay() {
-    RegisterStrip<pins::Leds[0]>(0);
-    RegisterStrip<pins::Leds[1]>(1);
-    RegisterStrip<pins::Leds[2]>(2);
+  RocketDisplay() : OctoDisplay(kPinList, kDisplayMemory) {
   }
 };
 
