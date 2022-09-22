@@ -177,20 +177,20 @@ class H2HGameStrip : public animation::Animation {
 
   void checkGameState(H2HAudio& audio) {
     // Debug("Checking game state on strip " + stripIndex);
-    Debug_var(stripState);
+    // Debug_var(stripState);
     switch (stripState) {
       case H2HStripPlaying:
 
         // Did team A just win this one?
         if (dot.physics.location.y >= heightMax) {
-          Debug("Team A wins strip " + stripIndex);
+        //   Debug("Team A wins strip " + stripIndex);
           audio.playTeamAWinLane();
           enterWinningStateA();
         }
 
         // Did team B just win this one?
         else if (dot.physics.location.y <= 0) {
-          Debug("Team B wins strip " + stripIndex);
+        //   Debug("Team B wins strip " + stripIndex);
           audio.playTeamBWinLane();
           enterWinningStateB();
         }
@@ -198,7 +198,7 @@ class H2HGameStrip : public animation::Animation {
         else {
           // Team A hits the button
           if (buttonA->IsDepressing()) {
-            Debug("Team A hits button on strip" + stripIndex);
+            Debug("Team A hits button on strip " + stripIndex);
             if (zoneA.checkZone(dot.physics.location.y)) {
               audio.playTeamAHit();
               dot.setVelocity(-1 * (dot.physics.velocity.y) +
@@ -223,7 +223,6 @@ class H2HGameStrip : public animation::Animation {
           }
 
           // dot moves either way
-          Debug("Dot moves on strip" + stripIndex);
           dot.Move();
 
           // play out the residual drop explosion

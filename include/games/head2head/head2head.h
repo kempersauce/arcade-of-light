@@ -87,7 +87,6 @@ class Head2Head : public Game {
   }
 
   void enterStartState() {
-    Debug("Entering Start State");
     gameState = H2HGameStart;
     audio.playStdBG();
     audio.stopWinMusic();
@@ -125,18 +124,32 @@ class Head2Head : public Game {
   }
 
   void loop() override {
-    Debug("Loop Begins here");
     bool isIdle = true;
     for (size_t i = 0; i < display->size.x; i++) {
       // TODO Move this to the H2HController class IsIdle(..)
       // if any buttons aren't past the idle timeout yet, then we're not idling
-      if (teamA.buttons[i]->GetMillisReleased() <= idleTimeoutMillis ||
-          teamB.buttons[i]->GetMillisReleased() <= idleTimeoutMillis) {
-        isIdle = false;
-        break;
+
+	  // Check teamA for Idle
+      if (i != 0 && i != 4) {  // HACK skip button[5] on team A (it jiggles)
+        if (teamA.buttons[i]->GetMillisReleased() <= idleTimeoutMillis) {
+          isIdle = false;
+          break;
+        }
+      }
+
+	  // Check teamB for idle
+      if (i != 3 && i != 7) {  // HACK skip button[5] on team B (it jiggles)
+        if (teamB.buttons[i]->GetMillisReleased() <= idleTimeoutMillis) {
+          isIdle = false;
+          break;
+        }
       }
     }
 
+    if (isIdle) {
+      Debug("Game is idle!");
+      Debug_var(gameState);
+    }
     // Switch to idling if we're not already doing it
     if (gameState != H2HGameIdle && isIdle) {
       enterIdleState();
@@ -148,8 +161,7 @@ class Head2Head : public Game {
     }
 
     // Play the game for one round according to game state
-    Debug("Entering gameState switch");
-    Debug_var(gameState);
+    // Debug_var(gameState);
     switch (gameState) {
       case H2HGameIdle:
         idleGame.loop();
@@ -164,12 +176,10 @@ class Head2Head : public Game {
         // Generate noise
         noise_generator.fillnoise8();
 
-        Debug("Checking game strip states...");
         for (size_t i = 0; i < display->size.x; i++) {
           gameStrips[i]->checkGameState(audio);
         }
 
-        Debug("Checking strip win states...");
         for (size_t i = 0; i < display->size.x; i++) {
           if (gameStrips[i]->stripState == H2HStripTotalWinA) {
             enterWinAState();
@@ -201,8 +211,6 @@ class Head2Head : public Game {
         }
         break;
     }
-
-    Debug("Drawing Begins here");
 
     // Draw the game according to game state
     switch (gameState) {
