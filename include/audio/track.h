@@ -14,7 +14,7 @@ class AudioTrack {
   uint32_t start_time{0};
 
   Score score;
-  Score::const_iterator next_note;
+  Score::Iterator next_note;
   bool is_playing{false};
 
  public:
@@ -43,7 +43,7 @@ class AudioTrack {
   void Play() {
     Debug_here();
     start_time = millis();
-    next_note = score.cbegin();
+    next_note = score.begin();
     is_playing = true;
 
     // Go ahead and play NOW, they probably have a 0ms note on beat 1
@@ -55,14 +55,14 @@ class AudioTrack {
       return;
     }
 
-    if (next_note == score.cend()) {
+    if (next_note == score.end()) {
       is_playing = false;
       Debug("End of score reached. Done playing.");
       return;
     }
 
     const uint32_t track_time = millis() - start_time;
-    while (next_note != score.cend() && track_time >= next_note->first) {
+    while (next_note != score.end() && track_time >= next_note->first) {
       // Play the note(s)
       synth.StartInput(next_note->second);
 

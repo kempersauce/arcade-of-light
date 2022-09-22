@@ -14,7 +14,7 @@ namespace rhythm {
 
 namespace _rhythm_game {
 
-constexpr size_t kNumPlayers{4};
+constexpr uint8_t kNumPlayers{4};
 
 }  // namespace _rhythm_game
 using namespace _rhythm_game;
@@ -25,8 +25,8 @@ class RhythmGame : public Game {
 
  public:
   RhythmGame(display::FourPanelDisplay* display) : Game(display) {
-    for (size_t i = 0; i < kNumPlayers; ++i) {
-      players[i] = new RhythmGameSingle(&display->panels[i]);
+    for (uint8_t i = 0; i < kNumPlayers; ++i) {
+      players[i] = new RhythmGameSingle(&display->panels[i], i);
     }
   }
 

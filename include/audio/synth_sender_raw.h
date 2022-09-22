@@ -26,13 +26,13 @@ class SynthSenderRaw {
   // prepare input started message for synth
   void StartInput(uint8_t channel) {
     Send(channel, kChannelActionPlay);
-    Debug("Sent <PLay> on channel " + channel);
+    // Debug("Sent <PLay> on channel " + channel);
   }
 
   // prepare input stop message for synth
   void StopInput(uint8_t channel) {
     Send(channel, kChannelActionStop);
-    Debug("Sent <STop> on channel " + channel);
+    // Debug("Sent <STop> on channel " + channel);
   }
 };
 

@@ -23,6 +23,7 @@
 
 #define Debug_here() Debug("Here I am! time=" + millis())
 #define Debug_print_info() Debug_print(__DEBUG_INFO)
+#define Debug_var(var) (Debug(#var+"="+(var)))
 #define Debunny() Debug("\n(\\_/)\n(0.@)\n(\")(\")")
 
 namespace debug {
