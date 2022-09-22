@@ -22,12 +22,12 @@ void setup() {
 
   for (size_t i = 0; i < 4; ++i) {
     synths[i] = new audio::SynthSender(
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[0]),
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[1]),
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[2]),
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[3]),
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[4]),
         control_context.CreateButton(pins::Controllers[i], pins::Buttons[5]),
+        control_context.CreateButton(pins::Controllers[i], pins::Buttons[4]),
+        control_context.CreateButton(pins::Controllers[i], pins::Buttons[3]),
+        control_context.CreateButton(pins::Controllers[i], pins::Buttons[2]),
+        control_context.CreateButton(pins::Controllers[i], pins::Buttons[1]),
+        control_context.CreateButton(pins::Controllers[i], pins::Buttons[0]),
         serial::kHwSerials[i]);
   }
 

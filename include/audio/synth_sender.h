@@ -15,11 +15,11 @@ class SynthSender : SynthSenderRaw {
 
  public:
   // Constructor: starts serial connection to audioSlave
-  SynthSender(controls::Button* up, controls::Button* down,
-              controls::Button* left, controls::Button* right,
-              controls::Button* a, controls::Button* b,
+  SynthSender(controls::Button* up, controls::Button* right,
+              controls::Button* left, controls::Button* down,
+              controls::Button* b, controls::Button* a,
               HardwareSerial* serial = &Serial1)
-      : SynthSenderRaw{serial}, btns{right, left, up, down, a, b} {}
+      : SynthSenderRaw{serial}, btns{up, right, left, down, b, a} {}
 
   // checks if any buttons have changed state
   void checkButtonChange() {
