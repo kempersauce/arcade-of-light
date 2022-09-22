@@ -2,7 +2,8 @@
 #include <FastLED.h>
 
 #include "display/display.h"  // for Display
-#include "display/single.h"   // for SingleDisplay
+// #include "display/single.h"   // for SingleDisplay
+#include "display/h2h_octo.h" // for H2HDisplay
 #include "pins/pin_setup.h"   // for LED_PIN_*
 #include "serial/debug.h"     // for Debug
 
@@ -15,7 +16,7 @@ void showColor(CRGB color) {
     for (size_t y = 0; y < gameDisplay->size.y; ++y) {
       gameDisplay->Pixel(x, y) = color;
       gameDisplay->Show();
-      delay(50);
+      delay(10);
     }
   }
 }
@@ -23,7 +24,7 @@ void showColor(CRGB color) {
 void setup() {
   Debug_init();
   // LED_PIN_12 (pin 30) is first pin on cable 4
-  gameDisplay = (display::Display*)new display::SingleDisplay();
+  gameDisplay = (display::Display*)new display::H2HDisplay();
 
   Debug("End setup()");
 }

@@ -12,10 +12,11 @@ namespace kss {
 namespace animation {
 
 class ElectricArc : public Animation {
-  constexpr uint32_t update_speed{33};
-  uint32_t last_changed;
+  static constexpr uint32_t update_speed{33};
+  uint32_t last_changed{0};
+
   std::vector<size_t> arc;
-  CRGB color = CRGB::Purple;
+  const CRGB color = CRGB::Purple;
 
  public:
   size_t yLocation;
@@ -23,7 +24,7 @@ class ElectricArc : public Animation {
 
   void draw(display::Display* display) override {
     const uint32_t now = time::Now();
-    if (now - last_changed < update_speed) {
+    if (now - last_changed >= update_speed) {
       last_changed = now;
       do {
         arc.clear();
@@ -46,12 +47,12 @@ class ElectricArc : public Animation {
     for (size_t i = 0; i < arc.size(); i++) {
       size_t arcHeight = arc[i];
       if (display->IsInBounds(i, arcHeight)) {
-        display->Pixel(i, arcHeight) = CRGB::Purple;
+        display->Pixel(i, arcHeight) = color;
       }
 
       arcHeight++;
       if (display->IsInBounds(i, arcHeight)) {
-        display->Pixel(i, arcHeight) = CRGB::Purple;
+        display->Pixel(i, arcHeight) = color;
       }
     }
   }
