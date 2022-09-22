@@ -4,7 +4,7 @@
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/button.h"                    // for Button
 #include "controls/h2h_controller.h"            // for H2HController
-#include "display/h2h.h"                        // for H2HDisplay
+#include "display/h2h_octo.h"                   // for H2HDisplay
 #include "engines/noise.h"                      // for NoiseGenerator
 #include "games/game.h"                         // for Game
 #include "games/head2head/audio.h"              // for H2HAudio

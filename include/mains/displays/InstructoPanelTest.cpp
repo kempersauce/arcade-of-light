@@ -18,7 +18,8 @@ display::Display* gameDisplay;
 
 void setup() {
   Debug_init();
-  // LED_PIN_12 (pin 30) is first pin on cable 4
+  pins::Init();
+  // LED_PIN_12 (pin 24) is first pin on cable 4
   gameDisplay = (display::Display*)new display::InstructoDisplay(LED_PIN_12);
 
   game = (games::Game*)new games::rainbow::RainbowGame(gameDisplay);

@@ -5,7 +5,7 @@
 #include "controls/h2h_controller.h"    // for H2HController
 #include "controls/hardware/matrix.h"   // for Matrix
 #include "display/display.h"            // for Display
-#include "display/h2h.h"                // for H2HDisplay
+#include "display/h2h_octo.h"           // for H2HDisplay
 #include "engines/framerate.h"          // for Framerate
 #include "games/game.h"                 // for Game
 #include "games/head2head/head2head.h"  // for Head2Head

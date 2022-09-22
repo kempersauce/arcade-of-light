@@ -1,10 +1,10 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "display/display.h"          // for Display
-#include "display/instructo_panel.h"  // for InstructoDisplay
-#include "pins/pin_setup.h"           // for LED_PIN_*
-#include "serial/debug.h"             // for Debug
+#include "display/display.h"  // for Display
+#include "display/single.h"   // for SingleDisplay
+#include "pins/pin_setup.h"   // for LED_PIN_*
+#include "serial/debug.h"     // for Debug
 
 using namespace kss;
 
@@ -23,7 +23,7 @@ void showColor(CRGB color) {
 void setup() {
   Debug_init();
   // LED_PIN_12 (pin 30) is first pin on cable 4
-  gameDisplay = (display::Display*)new display::InstructoDisplay(LED_PIN_12);
+  gameDisplay = (display::Display*)new display::SingleDisplay();
 
   Debug("End setup()");
 }
