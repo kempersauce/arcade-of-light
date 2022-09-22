@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Arduino.h>
 #include <FastLED.h>
 #include <OctoWS2811.h>

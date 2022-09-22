@@ -19,6 +19,8 @@ uint8_t Buttons[]{8, 9, 10, 11, 12, 13};
 constexpr uint8_t Leds[]{18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
                          28, 29, 30, 31, 32, 33, 34, 35, 36, 37};
 
+constexpr uint8_t LedInstructo{Leds[12]};
+
 // Dips: 38-41
 constexpr uint8_t Dips[]{38, 39, 40, 41};
 

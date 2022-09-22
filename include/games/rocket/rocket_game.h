@@ -26,9 +26,6 @@ namespace kss {
 namespace games {
 namespace rocket {
 
-bool boostIsPlaying = false;
-bool targetIsPlaying = false;
-
 // Game states
 enum RocketGameState {
   RocketGameStart,
@@ -261,7 +258,6 @@ class RocketGame : public Game {
         }
         if (up_btn->IsReleasing()) {
           audio.stopPlayBoost();
-          boostIsPlaying = false;
         }
 
         rocket.Move();
