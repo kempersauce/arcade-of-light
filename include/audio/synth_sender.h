@@ -19,7 +19,7 @@ class SynthSender : SynthSenderRaw {
               controls::Button* left, controls::Button* right,
               controls::Button* a, controls::Button* b,
               HardwareSerial* serial = &Serial1)
-      : SynthSenderRaw{serial}, btns{up, down, left, right, a, b} {}
+      : SynthSenderRaw{serial}, btns{right, left, up, down, a, b} {}
 
   // checks if any buttons have changed state
   void checkButtonChange() {

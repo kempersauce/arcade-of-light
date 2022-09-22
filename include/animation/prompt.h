@@ -38,20 +38,13 @@ class Prompt : public Animation {
 
   void UpdatePhysics() {
     const uint32_t now = millis();
-    Debug("UpdatePhysics");
-    Debug_var(desired_time);
-    Debug_var(now);
-    Debug_var(desired_time - now);
-    Debug_var(physics.location.y);
-    Debug_var(desired_y);
-    Debug_var(physics.location.y - desired_y);
-    Debug_endl();
     if (desired_time <= now || physics.location.y <= desired_y) {
       Debug("Overshoot: t=" + now + " target_t=" + desired_time +
             ", y=" + physics.location.y + " target_y=" + desired_y);
       return;
     }
 
+    //const float time_diff = (desired_time - now) / 1000.0f;
     const float time_diff = desired_time - now;
     const float y_diff = physics.location.y - desired_y;
     physics.velocity.y = -y_diff / time_diff;
