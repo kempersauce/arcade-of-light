@@ -21,7 +21,7 @@ engines::FrameRate framerate;
 void setup() {
   Debug_init();
   pins::Init();
-  gameDisplay = (display::Display*)new display::H2HDisplay();
+  gameDisplay = new display::H2HDisplay();
 
   controls::H2HController teamA;
   teamA.buttons[0] =
@@ -61,7 +61,7 @@ void setup() {
   teamB.buttons[7] =
       control_context.CreateButton(pins::Controllers[2], pins::Buttons[5]);
 
-  game = (games::Game*)new games::h2h::Head2Head(gameDisplay, teamA, teamB);
+  game = new games::h2h::Head2Head(gameDisplay, teamA, teamB);
   game->setup();
   gameDisplay->Show();
   Debug("Setup Complete");

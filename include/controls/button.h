@@ -14,6 +14,7 @@ class Button {
   // Track button up/down state (false = released = up) (true = pressed = down)
   bool was_pressed{false};
   bool is_pressed{false};
+  bool bounce_check{false};
 
   // Used to track how long the button has been held down
   int frames_held{0};
@@ -28,9 +29,16 @@ class Button {
   // This gets called by whichever controls::hardware::Context created this
   // button each time through the game loop to keep the button state up-to-date
   void SetState(bool state) {
+
+	// Press for longer than 1 frame before it registers to eliminate bounce
+	// This incurs a 1-frame lag on controls, idk
+	if (bounce_check != state) {
+		bounce_check = state;
+		return;
+	}
     // Save the old button state and record the new state
     was_pressed = is_pressed;
-    is_pressed = state;
+    bounce_check = is_pressed = state;
 
     // Keep track of how long the button has been held
     if (IsDepressing()) {

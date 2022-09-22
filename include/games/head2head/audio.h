@@ -62,10 +62,10 @@ class H2HAudio : public audio::Manager {
   // CHANNEL 1: FireworkLaunch
 
   // BACKGROUND METHODS
-  void playStdBG() { stdBG.Play(); }
-  void playWinBG() { winBG.Play(); }
-  void playH2HIdleBG() { idleBG.Play(); }
-  void playIdleBG() { idleBG.Play(); }
+  void playStdBG() { stdBG.Repeat(); }
+  void playWinBG() { winBG.Repeat(); }
+  void playH2HIdleBG() { idleBG.Repeat(); }
+  void playIdleBG() { idleBG.Repeat(); }
 };
 
 }  // namespace h2h

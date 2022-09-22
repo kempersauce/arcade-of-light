@@ -10,19 +10,19 @@ namespace games {
 namespace rocket {
 
 class ExplosionsInTheSky : public animation::Animation {
-  long timeStart = 0;
-  long animationLengthMillis = 7000;
-  CRGB* color;
+  static constexpr uint32_t animationLengthMillis{7000};
+  const CRGB color;
+  uint32_t timeStart = 0;
 
  public:
-  ExplosionsInTheSky() : Animation(), color{new CRGB(255, 0, 0)} {}
+  ExplosionsInTheSky() : Animation(), color{CRGB::Red} {}
 
   void startAnimation(RocketAudio& audio) { timeStart = time::Now(); }
 
   bool isPlaying() { return timeStart != 0; }
 
   void draw(display::Display* display) {
-    long timeDiff = time::Now() - timeStart;
+    uint32_t timeDiff = time::Now() - timeStart;
 
     // Draw explosion accross all strips
     for (size_t j = 0; j < display->size.x; j++) {
@@ -35,7 +35,7 @@ class ExplosionsInTheSky : public animation::Animation {
             (float)(i - (display->size.y - explosionHeight)) /
             (float)explosionHeight;
         blendStrength *= positionFactor;
-        display->BlendPixel(j, i, color, blendStrength);
+        display->BlendPixel(j, i, &color, blendStrength);
       }
     }
 

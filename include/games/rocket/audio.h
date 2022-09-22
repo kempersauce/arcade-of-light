@@ -92,8 +92,8 @@ class RocketAudio : public audio::Manager {
   // CHANNEL 1: FireworkLaunch
 
   // BACKGROUND METHODS
-  void playStdBG() { stdBG.Play(); }
-  void playWinBG() { winBG.Play(); }
+  void playStdBG() { stdBG.Repeat(); }
+  void playWinBG() { winBG.Repeat(); }
 };
 
 }  // namespace rocket

@@ -28,7 +28,7 @@ class OctoDisplay : public Display {
 
   CRGB pixels[total_pixel_count];
   OctoWS2811 octo;
-  CTeensy4Controller<RGB, WS2811_800kHz> controller;
+  CTeensy4Controller<GRB, WS2811_800kHz> controller;
 
  public:
   OctoDisplay(const uint8_t* pin_list, int* displayMemory)

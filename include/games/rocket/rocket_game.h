@@ -8,30 +8,19 @@
 // https://docs.google.com/spreadsheets/d/1KmZhmGb0J_XdEv5SdoHkTPB8KuGs9kxIDECwj5WWMT0/edit#gid=1271681145
 // Version 0.1
 
-#define LED_PIN \
-  1  // OUTPUT pin WS2812B LED Strip is attached to input is GRB not RGB
-
-#define delayval 25        // controls the "speed" of the rocket dot
-#define animationDelay 50  // controls the speed of the win animation
-
-#define BRIGHTNESS 50
-
-#include "animation/fireworks_show.h"  // for FireworksShow
-#include "animation/starscape.h"       // for Starscape
-#include "controls/button.h"           // for Button
-#include "display/display.h"           // for Display
-#include "games/game.h"                // for Game
-#include "games/rocket/rocket.h"       // for Rocket
-#include "games/rocket/sky_fade.h"     // for SkyFade
-#include "games/rocket/target.h"       // for Target
-#include "time/now.h"                  // for Now
-//#include "audio/sounds.h"  // for Sounds
-#include <vector>
-
 #include "animation/explosion.h"                 // for Explosion
+#include "animation/fireworks_show.h"            // for FireworksShow
+#include "animation/starscape.h"                 // for Starscape
+#include "controls/button.h"                     // for Button
+#include "display/display.h"                     // for Display
+#include "games/game.h"                          // for Game
 #include "games/life/life.h"                     // for LifeGame
 #include "games/rocket/audio.h"                  // for RocketAudio
 #include "games/rocket/explosions_in_the_sky.h"  // for ExplosionsInTheSky
+#include "games/rocket/rocket.h"                 // for Rocket
+#include "games/rocket/sky_fade.h"               // for SkyFade
+#include "games/rocket/target.h"                 // for Target
+#include "time/now.h"                            // for Now
 
 namespace kss {
 namespace games {
@@ -122,8 +111,8 @@ class RocketGame : public Game {
   RocketGame(display::Display* display, controls::Button* up,
              controls::Button* reset)
       : Game(display),
-        up_btn{std::move(up)},
-        reset_btn{std::move(reset)},
+        up_btn{up},
+        reset_btn{reset},
         starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),
         rocket(display->size.y, new CRGB(255, 255, 255)),
@@ -148,6 +137,7 @@ class RocketGame : public Game {
 
   // Reset level
   void enterLevelStartState() {
+    Debug("Starting level " + level);
     gameState = RocketGameStart;
     skyFade.setFadeColor(skyFadeColors[level]);
     target.setColor(targetColors[level]);
@@ -159,28 +149,28 @@ class RocketGame : public Game {
   }
 
   void enterWinState() {
+    Debug("Entering Win state");
     gameState = RocketGameWin;
     fireworks.SetGravity(gravityLevels[min(level, levelMax - 1)]);
     audio.playWinBG();
   }
 
   void enterLoseState() {
-    // game stuff
+    Debug("Entering Lose state");
     gameState = RocketGameLose;
     explosion.ExplodeAt(display->size.x / 2, rocket.physics.location.y);
     explosionsInTheSky.startAnimation(audio);
   }
 
   void enterLevelAdvanceState() {
-    // AUDIO HERE MUST BE SERIAL PRINT OTHERWISE BREAKS GAME STATE!!!
+    Debug("Entering Level Advance state");
     audio.playLevelWin();
     gameState = RocketGameLevelAdvance;
-    // No other changes required for this state change
   }
 
   void enterPlayingState() {
+    Debug("Entering Playing state");
     gameState = RocketGamePlaying;
-    // No other changes required for this state change
   }
 
   void checkTarget() {
@@ -190,12 +180,14 @@ class RocketGame : public Game {
     if (target.isInTarget) {
       // Check if we're just entering the target
       if (wasInTarget == false) {
+        Debug("Rocket entering target!");
         target.Time = time::Now();
         audio.startPlayTargetHover();
       }
 
       // Check if we've closed out this target
       else if (target.isTargetLocked()) {
+        Debug("Target " + targetsWon + " Locked!!");
         // Win state
         targetsWon++;
         audio.stopPlayTargetHover();
@@ -218,6 +210,7 @@ class RocketGame : public Game {
       }
     } else if (!target.isInTarget) {
       if (wasInTarget == true) {
+        Debug("Rocket leaving target...");
         audio.stopPlayTargetHover();
       }
     }
@@ -238,6 +231,7 @@ class RocketGame : public Game {
     // Reset this game if we're just coming out of idle
     if (gameState == RocketGameWin &&
         (up_btn->IsDepressing() || reset_btn->IsDepressing())) {
+      Debug("Cancelling Win State due to button press");
       setup();  // this sets game state to RocketGameStart
     }
 
@@ -293,7 +287,7 @@ class RocketGame : public Game {
           // int backgroundShift = min(rocket.velocity.y / 32, 6);
 
           // jk since scale is so high, any higher than 1*scale is too fast, and
-          // any lover than 1*cale causes tearing between pixels
+          // any lover than 1*scale causes tearing between pixels
           int backgroundShift = 1;
           starBackground.noise_generator.y +=
               backgroundShift *

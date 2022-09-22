@@ -12,14 +12,16 @@
 
 using namespace kss;
 
-display::RocketDisplay* gameDisplay = new display::RocketDisplay();
+games::Game* game;
+display::Display* gameDisplay;
 controls::hardware::Matrix control_context;
-games::rocket::RocketGame* game;
 engines::FrameRate framerate;
 
 void setup() {
   Debug_init();
   pins::Init();
+
+  gameDisplay = new display::RocketDisplay();
 
   game = new games::rocket::RocketGame(
       gameDisplay,
@@ -33,5 +35,5 @@ void loop() {
   control_context.PollAll();
   game->loop();
   gameDisplay->Show();
-  framerate.PrintFrameRate();
+//   framerate.PrintFrameRate();
 }
