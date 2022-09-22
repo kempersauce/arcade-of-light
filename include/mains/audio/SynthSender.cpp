@@ -2,7 +2,7 @@
 #include <FastLED.h>
 
 #include "audio/constants.h"           // for k*
-#include "audio/synth_sender.h"        // for RocketGame
+#include "audio/synth_sender.h"        // for SynthSender
 #include "controls/button.h"           // for Button
 #include "controls/dir_pad.h"          // for Inputs
 #include "controls/hardware/matrix.h"  // for controls::hardware::Matrix

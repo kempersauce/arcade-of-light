@@ -9,7 +9,7 @@
 namespace kss {
 namespace test {
 
-// Test for Directional Pad
+// Test Game for Animation(s)
 class AnimationTest : public games::Game {
   animation::SingleColorBG background;
   std::vector<animation::Animation*> animes;
