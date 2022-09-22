@@ -31,7 +31,7 @@ class H2HGameStrip : public animation::Animation {
   animation::Explosion explosion;
 
   // Explode the ball out of the gate
-  //   animation::Explosion dropExplosion;
+  animation::Explosion dropExplosion;
 
   // nearside team
   H2HZone zoneA;
