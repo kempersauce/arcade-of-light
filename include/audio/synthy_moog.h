@@ -177,7 +177,7 @@ class MoogSynthy {
       playNote();
     }
 
-        const void stopB() {
+    const void stopB() {
       notesPressed[2] = koffNote;
       playNote();
     }
