@@ -36,9 +36,9 @@ class RhythmGame : public Game {
     }
   }
 
-  void loop() override {
+  void loop(const uint32_t now = millis()) override {
     for (auto player : players) {
-      player->loop();
+      player->loop(now);
     }
   }
 };

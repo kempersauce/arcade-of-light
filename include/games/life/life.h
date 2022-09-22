@@ -19,13 +19,13 @@ class LifeGame : public Game {
   LifeGame(display::Display* display)
       : Game(display), lifeGrid{display->size.x, display->size.y} {}
 
-  void setup() {
+  void setup() override {
     loopCount = 0;
     // start off randomized
     lifeGrid.randomize();
   }
 
-  virtual void loop() {
+  void loop(const uint32_t now = millis()) override {
     if (loopCount++ >= resetThreshold) {
       setup();
     }

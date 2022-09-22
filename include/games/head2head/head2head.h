@@ -121,7 +121,7 @@ class Head2Head : public Game {
     idleGame.setup();
   }
 
-  void loop() {
+  void loop(const uint32_t now = millis()) override {
     bool isIdle = true;
     for (size_t i = 0; i < display->size.x; i++) {
       // TODO Move this to the H2HController class IsIdle(..)
@@ -145,7 +145,7 @@ class Head2Head : public Game {
     // Play the game for one round according to game state
     switch (gameState) {
       case H2HGameIdle:
-        idleGame.loop();
+        idleGame.loop(now);
         break;
 
       case H2HGameStart:

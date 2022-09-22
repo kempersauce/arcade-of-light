@@ -32,8 +32,7 @@ void setup() {
   Debug("gameDisplay created");
 
   game = (games::Game*)new games::rhythm::RhythmGame(gameDisplay);
-  //   game = (games::Game*)new
-  //   games::rhythm::RhythmGameSingle(&gameDisplay->panels[0]);
+  // game = (games::Game*)new games::rhythm::RhythmGameSingle(&gameDisplay->panels[0]);
 
   for (size_t i = 0; i < 4; ++i) {
     synths[i] = new audio::SynthSender(

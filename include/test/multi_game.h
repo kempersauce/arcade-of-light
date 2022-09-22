@@ -31,15 +31,15 @@ class MultiGameTest : public games::Game {
                   (animation::Animation*)new animation::Starscape{
                       gameDisplay->panels[3].size, 140}}} {}
 
-  void setup() {
+  void setup() override {
     for (auto game : games) {
       game->setup();
     }
   }
 
-  void loop() {
+  void loop(const uint32_t now = millis()) override {
     for (auto game : games) {
-      game->loop();
+      game->loop(now);
     }
   }
 };

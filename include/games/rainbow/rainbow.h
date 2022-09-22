@@ -17,12 +17,12 @@ class RainbowGame : public Game {
   RainbowGame(display::Display* gameDisplay)
       : Game(gameDisplay), background(2, gameDisplay->size.y) {}
 
-  void setup() {
+  void setup() override {
     // audio = new audio::AudioSender();
     // audio->playIdleBG();
   }
 
-  void loop() { background.draw(display); }
+  void loop(const uint32_t now = millis()) override { background.draw(display); }
 };
 
 }  // namespace rainbow

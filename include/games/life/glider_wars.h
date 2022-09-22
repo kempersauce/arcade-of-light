@@ -31,12 +31,12 @@ class GliderWarsGame : public Game {
         gliderButton2{glider_2},
         lifeGrid{display->size.x, display->size.y} {}
 
-  virtual void setup() {
+  void setup() override {
     // start off randomized
     lifeGrid.randomize();
   }
 
-  virtual void loop() {
+  void loop(const uint32_t now = millis()) override {
     // Calculate new game state
     if (randomizeButton1->IsPressed() || randomizeButton2->IsPressed()) {
       lifeGrid.randomize();

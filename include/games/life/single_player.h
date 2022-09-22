@@ -57,7 +57,7 @@ class LifeGameSinglePlayer : public Game {
     audio.playStdBG();
   }
 
-  void setup() {
+  void setup() override {
     // Start off on blue
     setHue(140);
 
@@ -77,8 +77,7 @@ class LifeGameSinglePlayer : public Game {
     idleGame.setup();
   }
 
-  virtual void loop() {
-    const auto now = millis();
+  void loop(const uint32_t now = millis()) override {
     long timeDiff = now - lastFrameMillis;
     lastFrameMillis = now;
 
@@ -95,7 +94,7 @@ class LifeGameSinglePlayer : public Game {
     }
 
     if (gameState == LifeGameIdle) {
-      idleGame.loop();
+      idleGame.loop(now);
       return;
     }
 
@@ -169,7 +168,7 @@ class LifeGameSinglePlayer : public Game {
 
     lifeGrid.ageColors.clear();
     lifeGrid.ageColors.push_back(CRGB::Black);
-    for (int i = 0; i < hueOffsets.size(); i++) {
+    for (size_t i = 0; i < hueOffsets.size(); i++) {
       CRGB color;
       color.setHSV(((int)startHue + hueOffsets[i]) % 256, 255, 255);
       lifeGrid.ageColors.push_back(color);

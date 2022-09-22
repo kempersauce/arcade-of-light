@@ -223,7 +223,7 @@ class RocketGame : public Game {
   }
 
   // Game Loop
-  void loop() {
+  void loop(const uint32_t now = millis()) override {
     // CHECK FOR MANUALLY-INDUCED GAME STATE CHANGES
 
     // IDLE CHECK: This enters idle after idleTimeoutMillis, and falls out of

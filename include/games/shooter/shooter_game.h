@@ -23,12 +23,12 @@ class ShooterGame : public Game {
         controls{std::move(controls)},
         bullet(display->size, 0, NULL, NULL) {}
 
-  virtual void setup() override {
+  void setup() override {
     shooter.physics.location.x = display->size.x / 2;
     shooter.physics.location.y = 20;
   }
 
-  virtual void loop() override {
+  void loop(const uint32_t now = millis()) override {
     if (controls.up->IsPressed()) {
       shooter.physics.velocity.y = 5;
     } else if (controls.down->IsPressed()) {

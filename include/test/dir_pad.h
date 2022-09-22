@@ -22,9 +22,9 @@ class DirPadTest : public games::Game {
     rainbow.setWaveShift(true);
   }
 
-  void setup() {}
+  void setup() override {}
 
-  void loop() {
+  void loop(const uint32_t now = millis()) override {
     if (controls.up->IsPressed()) {
       Debug("UP DIR BUTTON PRESSED");
       int newSpeed;

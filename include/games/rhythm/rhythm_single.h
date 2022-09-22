@@ -162,12 +162,12 @@ class RhythmGameSingle : public Game {
     }
   }
 
-  void loop() override {
-    AddNewPrompts();
+  void loop(const uint32_t now = millis()) override {
+    AddNewPrompts(now);
     MovePrompts();
     CleanDeadPrompts();
 
-    PlayNotes();
+    PlayNotes(now);
 
     background.draw(display);
 

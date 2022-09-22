@@ -58,7 +58,7 @@ class FallingGame : public Game {
     walls.push_front(std::make_pair(left, right));
   }
 
-  virtual void loop() {
+  void loop(const uint32_t now = millis()) override {
     if (controls.up->IsPressed()) {
       player.velocity.y = 10;
     } else if (controls.down->IsPressed()) {

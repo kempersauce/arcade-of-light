@@ -15,9 +15,9 @@ class NoiseGame : public Game {
   NoiseGame(display::Display* gameDisplay)
       : Game{gameDisplay}, background{gameDisplay->size} {}
 
-  void setup() {}
+  void setup() override {}
 
-  void loop() { background.draw(display); }
+  void loop(const uint32_t now = millis()) override { background.draw(display); }
 };
 
 }  // namespace noise

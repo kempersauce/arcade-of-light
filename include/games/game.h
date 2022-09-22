@@ -20,7 +20,7 @@ class Game {
   virtual ~Game() = default;
 
   virtual void setup() = 0;
-  virtual void loop() = 0;
+  virtual void loop(const uint32_t now = millis()) = 0;
 };
 
 }  // namespace games

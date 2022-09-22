@@ -17,7 +17,7 @@ class SerialTest : public games::Game {
   SerialTest(display::Display* gameDisplay)
       : Game(gameDisplay), ks(&Serial1), background(CRGB::Blue) {}
 
-  void setup() {
+  void setup() override {
     delay(4000);
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, HIGH);
@@ -26,7 +26,7 @@ class SerialTest : public games::Game {
     Serial.print("starting Serial Test");
   }
 
-  void loop() {
+  void loop(const uint32_t now = millis()) override {
     background.draw(display);
 
     if (ks.ReceiveMessages()) {

@@ -14,9 +14,9 @@ class RainbowStatic : public Game {
  public:
   RainbowStatic(display::Display* gameDisplay) : Game(gameDisplay) {}
 
-  virtual void setup() override {}
+  void setup() override {}
 
-  virtual void loop() override { background.draw(display); }
+  void loop(const uint32_t now = millis()) override { background.draw(display); }
 };
 
 }  // namespace rainbow

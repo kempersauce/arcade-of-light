@@ -53,13 +53,13 @@ class WavPlayer : public Game {
         EBut{std::move(eBut)},
         FBut{std::move(fBut)} {}
 
-  virtual void setup() override {
+  void setup() override {
     Debug_init();
     audio::initAudio();
     delay(1000);
   }
 
-  virtual void loop() override {
+  void loop(const uint32_t now = millis()) override {
     if (ABut->IsPressed()) {
       playSdWav2.play("Guycey1.wav");
       Serial.println("Button A Pressed");

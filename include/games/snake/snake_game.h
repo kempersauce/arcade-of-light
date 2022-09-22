@@ -21,9 +21,9 @@ class SnakeGame : public Game {
         snake{gameDisplay->size.x, gameDisplay->size.y},
         background{CRGB::Black} {}
 
-  virtual void setup() { snake.Reset(); }
+  void setup() override { snake.Reset(); }
 
-  virtual void loop() {
+  void loop(const uint32_t now = millis()) override {
     if (controls.up->IsDepressing() && snake.currentDirection != Down) {
       snake.currentDirection = Up;
     } else if (controls.down->IsDepressing() && snake.currentDirection != Up) {

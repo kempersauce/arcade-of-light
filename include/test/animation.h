@@ -24,9 +24,9 @@ class AnimationTest : public games::Game {
     animes.push_back(animus);
   }
 
-  virtual void setup() override {}
+  void setup() override {}
 
-  virtual void loop() override {
+  void loop(const uint32_t now = millis()) override {
     for (auto anime : animes) {
       anime->Move();
     }
