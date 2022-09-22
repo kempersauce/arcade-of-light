@@ -87,7 +87,7 @@ class Head2Head : public Game {
   }
 
   void enterStartState() {
-	Debug("Entering Start State");
+    Debug("Entering Start State");
     gameState = H2HGameStart;
     audio.playStdBG();
     audio.stopWinMusic();
@@ -119,13 +119,13 @@ class Head2Head : public Game {
   }
 
   void enterIdleState() {
-	Debug("Entering Idle State");
+    Debug("Entering Idle State");
     gameState = H2HGameIdle;
     idleGame.setup();
   }
 
   void loop() override {
-	Debug("Loop Begins here");
+    Debug("Loop Begins here");
     bool isIdle = true;
     for (size_t i = 0; i < display->size.x; i++) {
       // TODO Move this to the H2HController class IsIdle(..)
@@ -133,7 +133,7 @@ class Head2Head : public Game {
       if (teamA.buttons[i]->GetMillisReleased() <= idleTimeoutMillis ||
           teamB.buttons[i]->GetMillisReleased() <= idleTimeoutMillis) {
         isIdle = false;
-		break;
+        break;
       }
     }
 
@@ -148,8 +148,8 @@ class Head2Head : public Game {
     }
 
     // Play the game for one round according to game state
-	Debug("Entering gameState switch");
-	Debug_var(gameState);
+    Debug("Entering gameState switch");
+    Debug_var(gameState);
     switch (gameState) {
       case H2HGameIdle:
         idleGame.loop();
@@ -164,12 +164,12 @@ class Head2Head : public Game {
         // Generate noise
         noise_generator.fillnoise8();
 
-		Debug("Checking game strip states...");
+        Debug("Checking game strip states...");
         for (size_t i = 0; i < display->size.x; i++) {
           gameStrips[i]->checkGameState(audio);
         }
 
-		Debug("Checking strip win states...");
+        Debug("Checking strip win states...");
         for (size_t i = 0; i < display->size.x; i++) {
           if (gameStrips[i]->stripState == H2HStripTotalWinA) {
             enterWinAState();
@@ -202,8 +202,7 @@ class Head2Head : public Game {
         break;
     }
 
-	
-	Debug("Drawing Begins here");
+    Debug("Drawing Begins here");
 
     // Draw the game according to game state
     switch (gameState) {

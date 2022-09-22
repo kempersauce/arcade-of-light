@@ -1,10 +1,10 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "display/display.h"    // for Display
-#include "display/twenty_standard.h"     // for TwentyStandardDisplay
-#include "games/game.h"         // for Game
-#include "games/noise/noise.h"  // for NoiseGame
+#include "display/display.h"          // for Display
+#include "display/twenty_standard.h"  // for TwentyStandardDisplay
+#include "games/game.h"               // for Game
+#include "games/noise/noise.h"        // for NoiseGame
 
 using namespace kss;
 

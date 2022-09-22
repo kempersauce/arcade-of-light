@@ -1,7 +1,7 @@
 #pragma once
 
-#include "time/now.h"  // for Now
 #include "serial/debug.h"  // for Debug
+#include "time/now.h"      // for Now
 /*
         Button Class
         Tracks whether or not, and for how long the button is pressed

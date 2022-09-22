@@ -3,9 +3,9 @@
 
 #include "display/display.h"  // for Display
 // #include "display/single.h"   // for SingleDisplay
-#include "display/h2h_octo.h" // for H2HDisplay
-#include "pins/pin_setup.h"   // for LED_PIN_*
-#include "serial/debug.h"     // for Debug
+#include "display/h2h_octo.h"  // for H2HDisplay
+#include "pins/pin_setup.h"    // for LED_PIN_*
+#include "serial/debug.h"      // for Debug
 
 using namespace kss;
 

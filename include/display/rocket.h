@@ -33,8 +33,7 @@ using namespace _rocket;
 
 class RocketDisplay : public OctoDisplay<kNumStrips, kLengthStrips> {
  public:
-  RocketDisplay() : OctoDisplay(kPinList, kDisplayMemory) {
-  }
+  RocketDisplay() : OctoDisplay(kPinList, kDisplayMemory) {}
 };
 
 }  // namespace display
