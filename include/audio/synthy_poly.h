@@ -278,7 +278,7 @@ class SynthyPoly {
   const void actionB() {
     arpOn = true;
     Debug("Arp turned ON");
-    beat_start = millis();   
+    beat_start = millis() - next_hit; //so it starts on press and doesn't wait a beat   
     playArp();
   }  
 
