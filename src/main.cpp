@@ -11,12 +11,12 @@
 // #include "mains/audio/AudioSenderTest.cpp"
 // #include "mains/audio/PaulSynth.cpp"
 // #include "mains/audio/SynthDrumReciever.cpp"
-// #include "mains/audio/WavDrumReciever.cpp"
-// #include "mains/audio/SynthMoogReciever.cpp"
+// #include "mains/audio/WavDrumReciever.cpp"  // serial 1
+// #include "mains/audio/SynthMoogReciever.cpp"  // serial 2
 // #include "mains/audio/SynthGuitarReciever.cpp"
-// #include "mains/audio/SynthPolyReciever.cpp"
-// #include "mains/audio/SynthReciever.cpp"
-// #include "mains/audio/SynthSender.cpp"
+// #include "mains/audio/SynthPolyReciever.cpp" // serial 3
+// #include "mains/audio/SynthReciever.cpp"  // serial 4
+// #include "mains/audio/SynthSender.cpp" // main
 // #include "mains/audio/TrackSenderTest.cpp"
 // #include "mains/audio/TrackTest.cpp"
 // #include "mains/audio/WavManagerTest.cpp"
