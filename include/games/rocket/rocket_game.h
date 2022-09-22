@@ -24,6 +24,7 @@
 #include "games/rocket/rocket.h"       // for Rocket
 #include "games/rocket/sky_fade.h"     // for SkyFade
 #include "games/rocket/target.h"       // for Target
+#include "time/now.h"                  // for Now
 //#include "audio/sounds.h"  // for Sounds
 #include <vector>
 
@@ -189,7 +190,7 @@ class RocketGame : public Game {
     if (target.isInTarget) {
       // Check if we're just entering the target
       if (wasInTarget == false) {
-        target.Time = millis();
+        target.Time = time::Now();
         audio.startPlayTargetHover();
       }
 
@@ -223,7 +224,7 @@ class RocketGame : public Game {
   }
 
   // Game Loop
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     // CHECK FOR MANUALLY-INDUCED GAME STATE CHANGES
 
     // IDLE CHECK: This enters idle after idleTimeoutMillis, and falls out of

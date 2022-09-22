@@ -24,6 +24,7 @@ audio::SynthSender* synths[4];
 void setup() {
   Debug_init();
   pins::Init();
+  time::SetLoopTime();
   Debug("Begin setup()");
 
   // Choose your Display type
@@ -32,7 +33,8 @@ void setup() {
   Debug("gameDisplay created");
 
   game = (games::Game*)new games::rhythm::RhythmGame(gameDisplay);
-  // game = (games::Game*)new games::rhythm::RhythmGameSingle(&gameDisplay->panels[0]);
+  // game = (games::Game*)new
+  // games::rhythm::RhythmGameSingle(&gameDisplay->panels[0]);
 
   for (size_t i = 0; i < 4; ++i) {
     synths[i] = new audio::SynthSender(
@@ -57,6 +59,7 @@ void setup() {
 }
 
 void loop() {
+  time::SetLoopTime();
   //   Debug_here();
   control_context.PollAll();
   //   Debug("Poll'd");

@@ -71,7 +71,7 @@ class LaneRunnerGame : public Game {
     }
   }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     if (controller.up->IsPressed()) {
       player.velocity.y = 20;
     } else if (controller.down->IsPressed()) {

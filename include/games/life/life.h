@@ -25,7 +25,7 @@ class LifeGame : public Game {
     lifeGrid.randomize();
   }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     if (loopCount++ >= resetThreshold) {
       setup();
     }

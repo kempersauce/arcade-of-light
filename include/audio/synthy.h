@@ -10,6 +10,7 @@
 #include "audio/music_notes.h"  // for notes::*
 #include "audio/sounds.h"       // for InitAudio
 #include "serial/debug.h"       // for Debug
+#include "time/now.h"           // for Now
 
 namespace kss {
 namespace audio {
@@ -61,7 +62,7 @@ struct Envelope {
   boolean bendUp;
 
   const void pitchBend() {
-    const uint32_t now = millis();
+    const uint32_t now = time::Now();
     const uint32_t timePassed = now - bendStartTime;
     float newOffset = bendSlope * timePassed;
     Debug(timePassed);
@@ -69,7 +70,7 @@ struct Envelope {
     Debug(newOffset);
     if (bendUp && newOffset > bendMax) {
       newOffset = bendMax;
-    } 
+    }
     if (!bendUp && newOffset < -bendMax) {
       newOffset = -bendMax;
     }
@@ -80,7 +81,7 @@ struct Envelope {
   const void adjustPitchBend(float frequency) {
     Debug("adjusting Bend by");
     Debug(bendUp);
-    if(bendUp) {
+    if (bendUp) {
       bendMax = frequency * 2;
       Debug("new max set");
       Debug(bendMax);
@@ -89,7 +90,6 @@ struct Envelope {
       bendMax = frequency / 2;
       Debug("new max set");
       Debug(bendMax);
-
     }
   }
 
@@ -98,20 +98,19 @@ struct Envelope {
     // figure out linear formula
     if (!bendStarted) {
       bendStarted = true;
-      bendStartTime = millis();
+      bendStartTime = time::Now();
       bendUp = isUp;
-      if(bendUp) {
+      if (bendUp) {
         bendSlope = frequency / bendLength;
         // set for an octave currently
         bendMax = frequency;
       } else {
-        bendSlope = - frequency / (bendLength * 2);
+        bendSlope = -frequency / (bendLength * 2);
         // set for an octave currently
-        bendMax = frequency/2;
+        bendMax = frequency / 2;
       }
-      
     }
-    const uint32_t now = millis();
+    const uint32_t now = time::Now();
     const uint32_t timePassed = now - bendStartTime;
     Debug("==================================");
     Debug("bendslope:  ");
@@ -136,7 +135,7 @@ AudioOutputI2S i2s1;
 AudioMixer4 effectMixer;
 AudioMixer4 mixer1;
 AudioMixer4 mixer2;
-// AudioEffectDelay delay1;   
+// AudioEffectDelay delay1;
 
 AudioMixer4 mixerMaster;
 
@@ -174,9 +173,6 @@ AudioConnection patchCordRawWave6(waveforms[5].envelope, 0, mixer1, 3);
 // AudioConnection patchCordMaster1(mixer1, 0, mixerMaster, 0);
 // AudioConnection patchCordMaster2(mixer1, 0, mixerMaster, 1);
 
-
-
-
 // final output
 AudioConnection patchCordFinalL(mixer1, 0, i2s1, 0);
 AudioConnection patchCordFinalR(mixer1, 0, i2s1, 1);
@@ -187,10 +183,11 @@ using namespace _synthy;
 class Synthy {
  public:
   // NOTE REFERENCE: https://pages.mtu.edu/~suits/notefreqs.html
-  float sequence[5] = {notes::C[4], notes::D[4], notes::E[4], notes::G[4], notes::A[4]};
+  float sequence[5] = {notes::C[4], notes::D[4], notes::E[4], notes::G[4],
+                       notes::A[4]};
   uint32_t next_hit = 0;
   uint8_t current_note = sequence[0];
-  unsigned long last_time = millis();
+  unsigned long last_time = time::Now();
 
   size_t i = 0;
 
@@ -206,12 +203,12 @@ class Synthy {
     sgtl5000_1.volume(0.8);  // caution: very loud - use oscilloscope only!
 
     // set up dat chord
-    waveforms[2].wave.frequency(sequence[0]); //hard code to root note
-    waveforms[3].wave.frequency(sequence[3]); // hard code to fifth
+    waveforms[2].wave.frequency(sequence[0]);  // hard code to root note
+    waveforms[3].wave.frequency(sequence[3]);  // hard code to fifth
 
-    mixer1.gain(3, 0.5); //percent "wet" reverb
+    mixer1.gain(3, 0.5);  // percent "wet" reverb
     mixer1.gain(2, 0.5);
-    mixer1.gain(1, 0.5); // percent "dry" reverb
+    mixer1.gain(1, 0.5);  // percent "dry" reverb
     mixer1.gain(0, 0.5);
 
     // add effect
@@ -228,7 +225,7 @@ class Synthy {
 
   // Method to play next note in sequence (may want to pass in sequence here?)
   const float playSequence() {
-    const uint32_t now = millis();
+    const uint32_t now = time::Now();
     // if (now >= next_hit) {
     // do it
     if (i == 4) {
@@ -242,7 +239,7 @@ class Synthy {
   }
 
   const float reverseSequence() {
-    const uint32_t now = millis();
+    const uint32_t now = time::Now();
     // if (now >= next_hit) {
     // do it
     if (i == 0) {
@@ -255,21 +252,12 @@ class Synthy {
     return sequence[i];
   }
 
-  const void actionUp() {
-
-  }  
-  const void actionDown() {
-  }  
-  const void actionLeft() {
-  }  
-  const void actionRight() {
-  }  
-  const void actionA() {
-    float pitch = reverseSequence();
-  }  
-  const void actionB() {
-    float pitch = playSequence();
-  }  
+  const void actionUp() {}
+  const void actionDown() {}
+  const void actionLeft() {}
+  const void actionRight() {}
+  const void actionA() { float pitch = reverseSequence(); }
+  const void actionB() { float pitch = playSequence(); }
 
 };  // class
 }  // namespace audio

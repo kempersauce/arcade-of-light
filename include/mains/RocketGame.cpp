@@ -5,6 +5,7 @@
 #include "display/display.h"           // for Display
 #include "display/h2h.h"               // for H2HDisplay
 #include "display/rocket.h"            // for RocketDisplay
+#include "engines/framerate.h"         // for Framerate
 #include "games/game.h"                // for Game
 #include "games/rocket/rocket_game.h"  // for RocketGame
 #include "pins/pin_setup.h"            // for pins::*
@@ -15,6 +16,7 @@ using namespace kss;
 display::RocketDisplay* gameDisplay = new display::RocketDisplay();
 controls::hardware::Simple control_context;
 games::rocket::RocketGame* game;
+engines::FrameRate framerate;
 
 void setup() {
   Debug_init();
@@ -24,10 +26,12 @@ void setup() {
       gameDisplay, control_context.CreateButton(pins::Buttons[0]),
       control_context.CreateButton(pins::Buttons[1]));
   game->setup();
+  Debug("Setup Complete");
 }
 
 void loop() {
   control_context.PollAll();
   game->loop();
   gameDisplay->Show();
+  framerate.PrintFrameRate();
 }

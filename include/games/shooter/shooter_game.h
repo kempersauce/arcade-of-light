@@ -28,7 +28,7 @@ class ShooterGame : public Game {
     shooter.physics.location.y = 20;
   }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     if (controls.up->IsPressed()) {
       shooter.physics.velocity.y = 5;
     } else if (controls.down->IsPressed()) {

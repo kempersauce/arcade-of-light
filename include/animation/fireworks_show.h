@@ -7,6 +7,7 @@
 #include "audio/sound_effect.h"   // for SoundEffect
 #include "display/display.h"      // for Display
 #include "math/random.h"          // for random::*
+#include "time/now.h"             // for Now
 
 namespace kss {
 namespace animation {
@@ -86,7 +87,7 @@ class FireworksShow : Animation {
   uint32_t next_create{0};
   bool ShouldCreateAnother() {
     if (kMaxFireworksCount == 0 || fireworks.size() < kMaxFireworksCount) {
-      const uint32_t now = millis();
+      const uint32_t now = time::Now();
       if (now >= next_create) {
         next_create = now + math::random::Int16(kMinWaitTime, kMaxWaitTime);
         return true;

@@ -37,9 +37,9 @@ class MultiGameTest : public games::Game {
     }
   }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     for (auto game : games) {
-      game->loop(now);
+      game->loop();
     }
   }
 };

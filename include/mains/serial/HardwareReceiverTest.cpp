@@ -4,6 +4,7 @@
 
 #include "serial/debug.h"          // for Debug
 #include "serial/receiver_bank.h"  // for Receiver
+#include "time/now.h"              // for Now
 
 using namespace kss::serial;
 
@@ -21,7 +22,7 @@ void setup() { Debug_init(); }
 
 uint32_t next = 0;
 void loop() {
-  uint32_t now = millis();
+  uint32_t now = time::Now();
   if (now >= next) {
     next = now + 1000;
     Debug("Loops brother t=" + now);

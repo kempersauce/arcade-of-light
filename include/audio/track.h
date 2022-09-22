@@ -4,6 +4,7 @@
 #include "audio/synth_sender_raw.h"  // for SynthSenderRaw
 #include "serial/debug.h"            // for Debug
 #include "serial/hw_serials.h"       // for kHwSerials
+#include "time/now.h"                // for Now
 
 namespace kss {
 namespace audio {
@@ -34,7 +35,7 @@ class AudioTrack {
     flare_score.SetBeatEveryMeasure(3, 2.1667, 2);
     flare_score.SetBeatEveryMeasure(3, 2.3333, 2);
 
-	// Lay the flare track over the main track after 16 beats (4 measures)
+    // Lay the flare track over the main track after 16 beats (4 measures)
     main_score.AddScore(flare_score.GetScore(), 16);
 
     score = main_score.GetScore();
@@ -42,7 +43,7 @@ class AudioTrack {
 
   void Play() {
     Debug_here();
-    start_time = millis();
+    start_time = time::Now();
     next_note = score.begin();
     is_playing = true;
 
@@ -61,7 +62,7 @@ class AudioTrack {
       return;
     }
 
-    const uint32_t track_time = millis() - start_time;
+    const uint32_t track_time = time::Now() - start_time;
     while (next_note != score.end() && track_time >= next_note->first) {
       // Play the note(s)
       synth.StartInput(next_note->second);

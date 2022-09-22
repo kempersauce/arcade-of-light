@@ -39,23 +39,30 @@ AudioControlSGTL5000 sgtl5000_1;
 
 class GuitarSynthy {
  public:
-
   GuitarSynthy() { Debug("hello"); }
   const int finger_delay = 200;
 
-  const float CmajorGuitar[6] {notes::C[3], notes::G[3], notes::C[4], notes::E[4], notes::G[4], notes::C[5]};  // C - E - G
-//   const float DminorGuitar[6] {notes::D[3], notes::A[3], notes::D[4], notes::F[4], notes::A[4], notes::D[5]};  // D - F - A
-  const float CmajorInversionGuitar[6] {notes::E[3], notes::C[4], notes::E[4], notes::G[4], notes::C[5], notes::E[5]};
-//   const float FmajorGuitar[6] {notes::F[3], notes::C[4], notes::F[4], notes::A[4], notes::C[5], notes::F[5]};  // F - A - C
-  const float AminorGuitar[6] {notes::A[3], notes::E[4], notes::A[4], notes::C[5], notes::E[5], notes::A[5]};
-//   const float GmajorGuitar[6] {notes::G[3], notes::D[4], notes::G[4], notes::B[4], notes::D[5], notes::G[5]};  // G - B - D
-  const float AminorInversionGuitar[6] {notes::E[3], notes::A[3], notes::C[4], notes::E[4], notes::A[4], notes::E[5]};
+  const float CmajorGuitar[6]{notes::C[3], notes::G[3],
+                              notes::C[4], notes::E[4],
+                              notes::G[4], notes::C[5]};  // C - E - G
+  //   const float DminorGuitar[6] {notes::D[3], notes::A[3], notes::D[4],
+  //   notes::F[4], notes::A[4], notes::D[5]};  // D - F - A
+  const float CmajorInversionGuitar[6]{notes::E[3], notes::C[4], notes::E[4],
+                                       notes::G[4], notes::C[5], notes::E[5]};
+  //   const float FmajorGuitar[6] {notes::F[3], notes::C[4], notes::F[4],
+  //   notes::A[4], notes::C[5], notes::F[5]};  // F - A - C
+  const float AminorGuitar[6]{notes::A[3], notes::E[4], notes::A[4],
+                              notes::C[5], notes::E[5], notes::A[5]};
+  //   const float GmajorGuitar[6] {notes::G[3], notes::D[4], notes::G[4],
+  //   notes::B[4], notes::D[5], notes::G[5]};  // G - B - D
+  const float AminorInversionGuitar[6]{notes::E[3], notes::A[3], notes::C[4],
+                                       notes::E[4], notes::A[4], notes::E[5]};
   float *chord = CmajorGuitar;
 
   int8_t chordNum = 0;
 
-//   static constexpr float chords[6][4] {*notes::CmajorGuitar, *notes::DminorGuitar, *notes::FmajorGuitar, *notes::GmajorGuitar};
-
+  //   static constexpr float chords[6][4] {*notes::CmajorGuitar,
+  //   *notes::DminorGuitar, *notes::FmajorGuitar, *notes::GmajorGuitar};
 
   void InitGuitarSynth() {
     // put your setup code here, to run once:
@@ -76,21 +83,21 @@ class GuitarSynthy {
     delay(700);
   }
 
-//   const void playString1() { string1.noteOn(chords[chordNum][0], 1); }
+  //   const void playString1() { string1.noteOn(chords[chordNum][0], 1); }
 
-//   const void playString2() { string2.noteOn(chords[chordNum][1], 1); }
+  //   const void playString2() { string2.noteOn(chords[chordNum][1], 1); }
 
-//   const void playString3() { string3.noteOn(chords[chordNum][2], 1); }
+  //   const void playString3() { string3.noteOn(chords[chordNum][2], 1); }
 
-//   const void playString4() { string4.noteOn(chords[chordNum][3], 1); }
+  //   const void playString4() { string4.noteOn(chords[chordNum][3], 1); }
 
-//   const void playString5() { string5.noteOn(chords[chordNum][4], 1); }
+  //   const void playString5() { string5.noteOn(chords[chordNum][4], 1); }
 
-//   const void playString6() { string6.noteOn(chords[chordNum][5], 1); }
+  //   const void playString6() { string6.noteOn(chords[chordNum][5], 1); }
 
   const void setChord(int8_t newChordNum) {
     chordNum = newChordNum;
-    if(chordNum == 0) {
+    if (chordNum == 0) {
       chord = CmajorGuitar;
     } else if (chordNum == 1) {
       chord = CmajorInversionGuitar;
@@ -101,7 +108,7 @@ class GuitarSynthy {
     }
   }
 
-  const void strumUp(float velocity=1) {
+  const void strumUp(float velocity = 1) {
     string1.noteOn(chord[0], velocity);
     delay(finger_delay);
     string2.noteOn(chord[1], velocity);
@@ -116,7 +123,7 @@ class GuitarSynthy {
     delay(finger_delay);
   }
 
-  const void strumDown(float velocity=1) {
+  const void strumDown(float velocity = 1) {
     string1.noteOn(chord[5], velocity);
     delay(finger_delay);
     string2.noteOn(chord[4], velocity);
@@ -131,26 +138,14 @@ class GuitarSynthy {
     delay(finger_delay);
   }
 
-  const void actionUp() {
-    setChord(1);
-  }  
-  const void actionDown() {
-    setChord(0);
-  }  
-  const void actionLeft() {
-    setChord(2);
-  }  
-  const void actionRight() {
-    setChord(3);
-  }  
-  const void actionA() {
-    strumUp();
-  }  
-  const void actionB() {
-    strumDown();
-  }  
+  const void actionUp() { setChord(1); }
+  const void actionDown() { setChord(0); }
+  const void actionLeft() { setChord(2); }
+  const void actionRight() { setChord(3); }
+  const void actionA() { strumUp(); }
+  const void actionB() { strumDown(); }
 
-};   // class
+};  // class
 
 }  // namespace _guitar
 }  // namespace audio

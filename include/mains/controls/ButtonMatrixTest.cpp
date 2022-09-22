@@ -7,6 +7,7 @@
 #include "controls/hardware/matrix.h"  // for controls::hardware::Matrix
 #include "games/game.h"                // for Game
 #include "pins/pin_setup.h"            // for pins::*
+#include "time/now.h"                  // for Now
 
 using namespace kss;
 
@@ -19,7 +20,7 @@ struct MatrixController {
 std::vector<MatrixController> controllers;
 
 void PrintButtonInfo(size_t controller, size_t button, const char *message) {
-  Debug("T=" + millis() + " | controller[" + controller + "] (pin " +
+  Debug("T=" + time::Now() + " | controller[" + controller + "] (pin " +
         pins::Controllers[controller] + "), button[" + button + "] (pin " +
         pins::Buttons[button] + ") | " + message);
 }

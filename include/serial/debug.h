@@ -5,6 +5,7 @@
 #include <SerialFlash.h>  // for Serial
 
 #include "serial/constants.h"  // for kBaudRate
+#include "time/now.h"          // for Now
 
 #define __DEBUG_INFO \
   ((String)__FILE__ + ": " + __func__ + " (line " + __LINE__ + "): ")
@@ -21,9 +22,9 @@
 #define Debug_init()
 #endif
 
-#define Debug_here() Debug("Here I am! time=" + millis())
+#define Debug_here() Debug("Here I am! time=" + kss::time::Now())
 #define Debug_print_info() Debug_print(__DEBUG_INFO)
-#define Debug_var(var) (Debug(#var+"="+(var)))
+#define Debug_var(var) (Debug(#var + "=" + (var)))
 #define Debunny() Debug("\n(\\_/)\n(0.@)\n(\")(\")")
 
 namespace debug {

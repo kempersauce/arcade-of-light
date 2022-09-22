@@ -7,6 +7,7 @@ Where the magic happens
 
 #include "display/display.h"  // for Display
 #include "serial/debug.h"     // for Debug
+#include "time/now.h"         // for Now
 
 namespace kss {
 namespace games {
@@ -20,7 +21,7 @@ class Game {
   virtual ~Game() = default;
 
   virtual void setup() = 0;
-  virtual void loop(const uint32_t now = millis()) = 0;
+  virtual void loop() = 0;
 };
 
 }  // namespace games

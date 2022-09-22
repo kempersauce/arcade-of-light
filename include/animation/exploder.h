@@ -3,6 +3,7 @@
 #include "animation/animation.h"  // for Animation
 #include "animation/explosion.h"  // for Explosion
 #include "math/vector2d.h"        // for Dimension
+#include "time/now.h"             // for Now
 
 namespace kss {
 namespace animation {
@@ -69,7 +70,7 @@ class Exploder : public Animation {
   uint32_t next_create{0};
   bool ShouldCreateAnother() {
     if (should_explode) {
-      const uint32_t now = millis();
+      const uint32_t now = time::Now();
       if (now >= next_create) {
         // This will be problematic, needs to be aligned with actual beat time
         if (next_create == 0) {

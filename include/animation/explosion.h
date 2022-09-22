@@ -9,6 +9,7 @@
 #include "math/random.h"           // for random::*
 #include "math/vector2d.h"         // for Vector2D
 #include "serial/debug.h"          // for Debug
+#include "time/now.h"              // for Now
 
 namespace kss {
 namespace animation {
@@ -32,7 +33,7 @@ class Explosion : Animation {
 
   uint32_t birthTimeMillis{0};
 
-  uint32_t TimeAliveMillis() const { return millis() - birthTimeMillis; }
+  uint32_t TimeAliveMillis() const { return time::Now() - birthTimeMillis; }
 
   Phase GetPhase() const {
     if (birthTimeMillis == 0) {
@@ -76,7 +77,7 @@ class Explosion : Animation {
 
   void ExplodeAt(int stripIndex, int location,
                  math::Vector2D<float> additional = {0, 0}) {
-    birthTimeMillis = millis();
+    birthTimeMillis = time::Now();
 
     // Play the sound effect
     if (explode_sound != NULL) {

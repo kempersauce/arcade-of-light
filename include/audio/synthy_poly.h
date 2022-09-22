@@ -10,11 +10,11 @@
 #include "audio/music_notes.h"  // for notes::*
 #include "audio/sounds.h"       // for InitAudio
 #include "serial/debug.h"       // for Debug
+#include "time/now.h"           // for Now
 
 namespace kss {
 namespace audio {
 namespace _synthy_poly {
-
 
 AudioSynthWaveform wave1;
 AudioSynthWaveform wave2;
@@ -37,7 +37,7 @@ AudioOutputI2S i2s1;
 AudioMixer4 effectMixer;
 AudioMixer4 mixer1;
 AudioMixer4 mixer2;
-// AudioEffectDelay delay1;   
+// AudioEffectDelay delay1;
 
 AudioMixer4 mixerMaster;
 
@@ -70,7 +70,6 @@ AudioConnection patchFilter1(mixer1, 0, filter1, 0);
 // AudioConnection patchFilter3(lfo2, 0, filter1, 2);
 AudioConnection patchFilter4(mixer2, 0, filter2, 0);
 
-
 // AudioConnection patchEnv1(filter1, 0, envelope, 0);
 
 AudioConnection patchMaster1(filter1, 0, mixerMaster, 0);
@@ -79,16 +78,18 @@ AudioConnection patchMaster2(filter2, 0, mixerMaster, 1);
 AudioConnection patchCordFinalL(mixerMaster, 0, i2s1, 0);
 AudioConnection patchCordFinalR(mixerMaster, 0, i2s1, 1);
 
-
 }  // namespace _synthy_poly
 using namespace _synthy_poly;
 
 class SynthyPoly {
  public:
-  const float Cmajor[4] {notes::C[3], notes::G[3], notes::C[4], notes::E[4]};  // C - E - G
-  const float CmajorInversion[4] {notes::E[3], notes::C[4], notes::E[4], notes::G[4]};
-  const float Aminor[4] {notes::A[3], notes::E[4], notes::A[4], notes::C[5]};
-  const float AminorInversion[4] {notes::E[3], notes::A[3], notes::C[4], notes::E[4]};
+  const float Cmajor[4]{notes::C[3], notes::G[3], notes::C[4],
+                        notes::E[4]};  // C - E - G
+  const float CmajorInversion[4]{notes::E[3], notes::C[4], notes::E[4],
+                                 notes::G[4]};
+  const float Aminor[4]{notes::A[3], notes::E[4], notes::A[4], notes::C[5]};
+  const float AminorInversion[4]{notes::E[3], notes::A[3], notes::C[4],
+                                 notes::E[4]};
   float *chord = Cmajor;
 
   int8_t chordNum = 0;
@@ -103,8 +104,6 @@ class SynthyPoly {
 
   uint32_t next_hit = 200;
   uint32_t beat_start;
-
-
 
   SynthyPoly() { Debug("hello"); };
 
@@ -122,14 +121,11 @@ class SynthyPoly {
     wave2.frequency(chord[1]);
     wave3.frequency(chord[2]);
     wave4.frequency(chord[3]);
-    wave5.frequency(chord[0]*2);
-
+    wave5.frequency(chord[0] * 2);
 
     // set up filter
     filter1.setHighpass(0, 800, 0.3);
     filter2.setHighpass(0, 800, 0.3);
-
-
 
     // set up envelopes
     envelope1.attack(1);
@@ -162,11 +158,11 @@ class SynthyPoly {
     envelope5.sustain(0.5);
     envelope5.release(200);
 
-    mixer1.gain(3, 0.5); 
+    mixer1.gain(3, 0.5);
     mixer1.gain(2, 0.5);
-    mixer1.gain(1, 0.5); 
+    mixer1.gain(1, 0.5);
     mixer1.gain(0, 0.5);
-    mixer2.gain(0,0.7);
+    mixer2.gain(0, 0.7);
     // lfo1.frequency(0.2);
     // lfo1.amplitude(0.99);
     // lfo1.phase(270);
@@ -185,7 +181,6 @@ class SynthyPoly {
     wave4.begin(1, Cmajor[3], WAVEFORM_BANDLIMIT_SAWTOOTH);
     wave5.begin(1, Cmajor[0], WAVEFORM_BANDLIMIT_SAWTOOTH);
 
-
     Debug("setup done");
     AudioProcessorUsageMaxReset();
     AudioMemoryUsageMaxReset();
@@ -194,7 +189,7 @@ class SynthyPoly {
   // Method to play next note in sequence (may want to pass in sequence here?)
   const void setChord(int8_t newChordNum) {
     chordNum = newChordNum;
-    if(chordNum == 0) {
+    if (chordNum == 0) {
       chord = Cmajor;
     } else if (chordNum == 1) {
       chord = CmajorInversion;
@@ -224,19 +219,19 @@ class SynthyPoly {
   }
 
   const void playArp() {
-    uint32_t now = millis();
-    if(now - beat_start > next_hit) {
+    uint32_t now = time::Now();
+    if (now - beat_start > next_hit) {
       Debug("Arp Play Note");
       beat_start = now;
       arpNote--;
       if (arpNote < 0) {
         arpNote = chordVoices - 1;
       }
-      float note = chord[arpNote] * 2; //arp will be an octave above chord
+      float note = chord[arpNote] * 2;  // arp will be an octave above chord
       Debug("note: " + note);
       wave5.frequency(note);
       envelope5.noteOn();
-    } 
+    }
   }
 
   const void stopArp() {
@@ -245,46 +240,43 @@ class SynthyPoly {
     envelope5.noteOff();
   }
 
-  const void resetArp() {
-    arpNote = chordVoices - 1;
-  }
+  const void resetArp() { arpNote = chordVoices - 1; }
 
   const void actionUp() {
     setChord(1);
     resetArp();
-  }  
+  }
   const void actionDown() {
     setChord(0);
     resetArp();
-  }  
+  }
   const void actionLeft() {
     setChord(2);
     resetArp();
-  }  
+  }
   const void actionRight() {
     setChord(3);
     resetArp();
-  }  
+  }
   const void actionA() {
     chordOn = true;
     playChord();
-  } 
+  }
 
   const void stopA() {
     chordOn = false;
-    playChord();  
+    playChord();
   }
 
   const void actionB() {
     arpOn = true;
     Debug("Arp turned ON");
-    beat_start = millis() - next_hit; //so it starts on press and doesn't wait a beat   
+    beat_start = time::Now() -
+                 next_hit;  // so it starts on press and doesn't wait a beat
     playArp();
-  }  
-
-  const void stopB() {
-    stopArp();
   }
+
+  const void stopB() { stopArp(); }
 
 };  // class
 }  // namespace audio

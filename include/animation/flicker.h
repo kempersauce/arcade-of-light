@@ -4,6 +4,7 @@
 #include "display/display.h"      // for Display
 #include "engines/noise.h"        // for NoiseGenerator
 #include "math/random.h"          // for random::*
+#include "time/now.h"             // for Now
 
 namespace kss {
 namespace animation {
@@ -92,7 +93,7 @@ class Flicker : public Animation {
   // Conjure the Flame
   void draw(display::Display* display) {
     // noise.fillnoise8();
-    newMillis = millis();
+    newMillis = time::Now();
 
     // Serial.println("old: " + (String)lastLoopMillis);
     // Serial.println("new: " + (String)newMillis);
@@ -121,7 +122,7 @@ class Flicker : public Animation {
         heightCheck(i - 1);
       }
       heightCheck(width - 1);
-      lastLoopMillis = millis();
+      lastLoopMillis = time::Now();
       // }
       // //flare logic
       // if((newMillis-lastLoopMillis)>=lastFlareMillis)
@@ -136,7 +137,7 @@ class Flicker : public Animation {
           hasFlare[i] = false;
         }
       }
-      // lastFlareMillis = millis();
+      // lastFlareMillis = time::Now();
     }
 
     // draw flames

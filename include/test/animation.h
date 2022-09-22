@@ -26,7 +26,7 @@ class AnimationTest : public games::Game {
 
   void setup() override {}
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     for (auto anime : animes) {
       anime->Move();
     }

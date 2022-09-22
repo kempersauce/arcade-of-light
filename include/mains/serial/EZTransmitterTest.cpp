@@ -2,6 +2,7 @@
 
 #include "serial/debug.h"           // for Debug
 #include "serial/ez_transmitter.h"  // for EZTransmitter
+#include "time/now.h"               // for Now
 
 using namespace kss::serial;
 
@@ -27,7 +28,7 @@ void setup() { Debug_init(); }
 
 void loop() {
   SEND_DATA_STRUCTURE msg;
-  msg.test_uint32 = millis();
+  msg.test_uint32 = time::Now();
   static uint8_t message_no = 0;
   msg.test_uint8 = message_no++;
   for (size_t i = 0; i < transmitter_count; ++i) {

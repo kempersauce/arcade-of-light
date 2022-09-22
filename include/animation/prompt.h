@@ -5,6 +5,7 @@
 #include "engines/physics_info.h"  // for PhysicsInfo
 #include "math/vector2d.h"         // for Dimension
 #include "serial/debug.h"          // for Debug
+#include "time/now.h"              // for Now
 
 namespace kss {
 namespace animation {
@@ -32,19 +33,17 @@ class Prompt : public Animation {
 
   inline float GetY() const { return physics.location.y; }
 
-  bool IsDone() {
-    return physics.location.y < 0;
-  }
+  bool IsDone() { return physics.location.y < 0; }
 
   void UpdatePhysics() {
-    const uint32_t now = millis();
+    const uint32_t now = time::Now();
     if (desired_time <= now || physics.location.y <= desired_y) {
       Debug("Overshoot: t=" + now + " target_t=" + desired_time +
             ", y=" + physics.location.y + " target_y=" + desired_y);
       return;
     }
 
-    //const float time_diff = (desired_time - now) / 1000.0f;
+    // const float time_diff = (desired_time - now) / 1000.0f;
     const float time_diff = desired_time - now;
     const float y_diff = physics.location.y - desired_y;
     physics.velocity.y = -y_diff / time_diff;

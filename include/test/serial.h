@@ -26,7 +26,7 @@ class SerialTest : public games::Game {
     Serial.print("starting Serial Test");
   }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     background.draw(display);
 
     if (ks.ReceiveMessages()) {

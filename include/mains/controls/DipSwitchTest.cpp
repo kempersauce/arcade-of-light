@@ -1,7 +1,8 @@
 #include <Arduino.h>
 
-#include "pins/pin_setup.h"
-#include "serial/debug.h"  // for Debug
+#include "pins/pin_setup.h"  // for pins::Dips
+#include "serial/debug.h"    // for Debug
+#include "time/now.h"        // for Now
 
 using namespace kss;
 
@@ -22,6 +23,6 @@ void loop() {
   for (auto pin : dip_pins) {
     msg += (String)digitalRead(pin);
   }
-  Debug(msg + "] t=" + millis());
+  Debug(msg + "] t=" + time::Now());
   delay(100);
 }

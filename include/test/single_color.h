@@ -16,7 +16,7 @@ class SingleColorTest : public games::Game {
 
   void setup() override {}
 
-  void loop(const uint32_t now = millis()) override { background.draw(display); }
+  void loop() override { background.draw(display); }
 };
 
 }  // namespace test

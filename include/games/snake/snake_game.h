@@ -23,7 +23,7 @@ class SnakeGame : public Game {
 
   void setup() override { snake.Reset(); }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     if (controls.up->IsDepressing() && snake.currentDirection != Down) {
       snake.currentDirection = Up;
     } else if (controls.down->IsDepressing() && snake.currentDirection != Up) {

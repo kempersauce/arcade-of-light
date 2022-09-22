@@ -41,9 +41,9 @@ class ScoreBuilder {
   // 1.15 for double bass
   void SetBeat(uint8_t channel, float beat) {
     // Subtrack 1 offset to make this 1-based
-	if (--beat < 0) {
-		return;
-	}
+    if (--beat < 0) {
+      return;
+    }
     const uint32_t note_ts = beat * beat_length_millis;
     score.data.emplace(note_ts, channel);
   }

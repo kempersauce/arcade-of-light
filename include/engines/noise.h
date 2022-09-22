@@ -1,8 +1,9 @@
 #pragma once
 
-#include <FastLED.h>  // for millis()
+#include <FastLED.h>  // for time::Now()
 
 #include "math/random.h"  // for random::*
+#include "time/now.h"     // for Now
 
 namespace kss {
 namespace engines {
@@ -51,7 +52,7 @@ class NoiseGenerator {
 
   // Fill the x/y array of 8-bit noise values using the inoise8 function.
   void fillnoise8() {
-    const auto now = millis();
+    const auto now = time::Now();
 
     // Adjust our speed based on our timing
     if (lastFrameMillis != 0) {

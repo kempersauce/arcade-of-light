@@ -7,10 +7,10 @@
 #include <string>
 #include <vector>
 
-#include "audio/constants.h"      // for SynthAudioMessage
-#include "audio/synthy_poly.h"  // for Synth
-#include "serial/debug.h"         // for Debug
-#include "serial/ez_receiver.h"   // for reciever
+#include "audio/constants.h"     // for SynthAudioMessage
+#include "audio/synthy_poly.h"   // for Synth
+#include "serial/debug.h"        // for Debug
+#include "serial/ez_receiver.h"  // for reciever
 // #include "pins/pin_setup.h"
 
 using namespace kss;
@@ -121,7 +121,7 @@ void loop() {
       }
     }
   }
-  if(synth.arpOn) {
+  if (synth.arpOn) {
     synth.playArp();
   }
 }

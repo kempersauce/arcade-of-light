@@ -77,8 +77,9 @@ class LifeGameSinglePlayer : public Game {
     idleGame.setup();
   }
 
-  void loop(const uint32_t now = millis()) override {
-    long timeDiff = now - lastFrameMillis;
+  void loop() override {
+    const uint32_t now = time::Now();
+    uint32_t timeDiff = now - lastFrameMillis;
     lastFrameMillis = now;
 
     bool isIdle = dirPad.isIdle(idleTimeoutMillis);
@@ -94,7 +95,7 @@ class LifeGameSinglePlayer : public Game {
     }
 
     if (gameState == LifeGameIdle) {
-      idleGame.loop(now);
+      idleGame.loop();
       return;
     }
 

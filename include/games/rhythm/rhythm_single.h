@@ -13,6 +13,7 @@
 #include "games/game.h"              // for Game
 #include "serial/debug.h"            // for Debug
 #include "serial/hw_serials.h"       // for kHwSerials
+#include "time/now.h"                // for Now
 
 namespace kss {
 namespace games {
@@ -45,7 +46,7 @@ class RhythmGameSingle : public Game {
   // controls::DirPad controller;
 
   // Sounds
-//   audio::SynthSenderRaw synth;
+  //   audio::SynthSenderRaw synth;
 
   // Animations
   animation::Starscape background;
@@ -81,7 +82,7 @@ class RhythmGameSingle : public Game {
     Debug_here();
 
     // Start creating prompts
-    prompt_start_time = millis();
+    prompt_start_time = time::Now();
     next_prompt = score.begin();
 
     // Start playing notes after prompts have had time to catch up
@@ -89,7 +90,8 @@ class RhythmGameSingle : public Game {
     next_note = score.begin();
   }
 
-  void AddNewPrompts(const uint32_t now = millis()) {
+  void AddNewPrompts() {
+    const uint32_t now = time::Now();
     const uint32_t track_time = now - prompt_start_time;
 
     if (next_prompt == score.end()) {
@@ -98,14 +100,14 @@ class RhythmGameSingle : public Game {
     }
 
     // Don't make prompts if we're ahead of time
-	// DO this here to catch track_time underflow
+    // DO this here to catch track_time underflow
     if (prompt_start_time > now) {
       return;
     }
 
     while (next_prompt != score.end() && track_time >= next_prompt->first) {
       // Target a time that's prompt_lead_time past the note time,
-	  // adjusted to system time by prompt_start_time
+      // adjusted to system time by prompt_start_time
       const uint32_t prompt_target_time =
           prompt_start_time + next_prompt->first + prompt_lead_time;
 
@@ -139,8 +141,8 @@ class RhythmGameSingle : public Game {
     }
   }
 
-  void PlayNotes(const uint32_t now = millis()) {
-
+  void PlayNotes() {
+    const uint32_t now = time::Now();
     const uint32_t track_time = now - note_start_time;
 
     // Repeat if we're at the end
@@ -150,24 +152,24 @@ class RhythmGameSingle : public Game {
     }
 
     // Don't play if we're ahead of time
-	// DO this here to catch track_time underflow
+    // DO this here to catch track_time underflow
     if (note_start_time > now) {
       return;
     }
 
     while (next_note != score.end() && track_time >= next_note->first) {
-    //   synth.StartInput(next_note->second);
+      //   synth.StartInput(next_note->second);
 
       ++next_note;
     }
   }
 
-  void loop(const uint32_t now = millis()) override {
-    AddNewPrompts(now);
+  void loop() override {
+    AddNewPrompts();
     MovePrompts();
     CleanDeadPrompts();
 
-    PlayNotes(now);
+    PlayNotes();
 
     background.draw(display);
 

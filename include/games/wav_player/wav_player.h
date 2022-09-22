@@ -59,7 +59,7 @@ class WavPlayer : public Game {
     delay(1000);
   }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     if (ABut->IsPressed()) {
       playSdWav2.play("Guycey1.wav");
       Serial.println("Button A Pressed");

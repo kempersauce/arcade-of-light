@@ -8,6 +8,7 @@
 #include "games/head2head/dot.h"    // for H2HDot
 #include "games/head2head/zone.h"   // for H2HZone
 #include "math/random.h"            // for random::*
+#include "time/now.h"               // for Now
 
 namespace kss {
 namespace games {
@@ -30,7 +31,7 @@ class H2HGameStrip : public animation::Animation {
   animation::Explosion explosion;
 
   // Explode the ball out of the gate
-  animation::Explosion dropExplosion;
+  //   animation::Explosion dropExplosion;
 
   // nearside team
   H2HZone zoneA;
@@ -80,8 +81,8 @@ class H2HGameStrip : public animation::Animation {
         zoneA(CRGB::Green, stripIndex, 0, 22, false),
         zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1,
               true),
-        buttonA{std::move(a)},
-        buttonB{std::move(b)},
+        buttonA{a},
+        buttonB{b},
         noise_generator{noise},
         dropExplosion{8, 150, 200, 50, 20, 2, 0, 0, 0, NULL},
         explosion{50, 1000, 1500, 20, 10, 3, 0, 255, 0, NULL},
@@ -111,7 +112,7 @@ class H2HGameStrip : public animation::Animation {
   void enterPlayingState() {
     stripState = H2HStripPlaying;
     dot.physics.Reset();
-    dot.physics.location.y = midBar;
+    dot.physics.location = {stripIndex, midBar};
 
     // randomly start in different directions
     if (math::random::Bool()) {
@@ -153,39 +154,43 @@ class H2HGameStrip : public animation::Animation {
     stripState = H2HStripDead;
     // Plan for when to start dropping a new ball
     stateTimeoutMillis =
-        millis() + math::random::Int16(deadStateTimeoutMinMillis,
-                                       deadStateTimeoutMaxMillis);
+        time::Now() + math::random::Int16(deadStateTimeoutMinMillis,
+                                          deadStateTimeoutMaxMillis);
   }
 
   void enterDroppingState() {
     stripState = H2HStripDropping;
 
     // Plan for when the ball actually drops
-    stateTimeoutMillis = millis() + droppingStateTimeoutMillis;
+    stateTimeoutMillis = time::Now() + droppingStateTimeoutMillis;
   }
 
   void enterTotalWinAState() {
     stripState = H2HStripTotalWinA;
-    stateTimeoutMillis = millis();
+    stateTimeoutMillis = time::Now();
   }
 
   void enterTotalWinBState() {
     stripState = H2HStripTotalWinB;
-    stateTimeoutMillis = millis();
+    stateTimeoutMillis = time::Now();
   }
 
   void checkGameState(H2HAudio& audio) {
+    // Debug("Checking game state on strip " + stripIndex);
+    Debug_var(stripState);
     switch (stripState) {
       case H2HStripPlaying:
 
         // Did team A just win this one?
         if (dot.physics.location.y >= heightMax) {
+          Debug("Team A wins strip " + stripIndex);
           audio.playTeamAWinLane();
           enterWinningStateA();
         }
 
         // Did team B just win this one?
         else if (dot.physics.location.y <= 0) {
+          Debug("Team B wins strip " + stripIndex);
           audio.playTeamBWinLane();
           enterWinningStateB();
         }
@@ -193,6 +198,7 @@ class H2HGameStrip : public animation::Animation {
         else {
           // Team A hits the button
           if (buttonA->IsDepressing()) {
+            Debug("Team A hits button on strip" + stripIndex);
             if (zoneA.checkZone(dot.physics.location.y)) {
               audio.playTeamAHit();
               dot.setVelocity(-1 * (dot.physics.velocity.y) +
@@ -205,10 +211,7 @@ class H2HGameStrip : public animation::Animation {
 
           // Team B hits the button
           if (buttonB->IsDepressing()) {
-            // TODO wtf is this for?
-            digitalWriteFast(9, HIGH);
-            delay(1);
-            digitalWriteFast(9, LOW);
+            Debug("Team B hits button on strip" + stripIndex);
             if (zoneB.checkZone(dot.physics.location.y)) {
               audio.playTeamBHit();
               dot.setVelocity(-1 * (dot.physics.velocity.y) -
@@ -220,6 +223,7 @@ class H2HGameStrip : public animation::Animation {
           }
 
           // dot moves either way
+          Debug("Dot moves on strip" + stripIndex);
           dot.Move();
 
           // play out the residual drop explosion
@@ -244,13 +248,13 @@ class H2HGameStrip : public animation::Animation {
         break;
 
       case H2HStripDead:
-        if (millis() > stateTimeoutMillis) {
+        if (time::Now() > stateTimeoutMillis) {
           enterDroppingState();
         }
         break;
 
       case H2HStripDropping:
-        if (millis() <= stateTimeoutMillis) {
+        if (time::Now() <= stateTimeoutMillis) {
           if (dropExplosion.IsBurnedOut()) {
             dropExplosion.ExplodeAt(stripIndex, midBar);
           }
@@ -277,6 +281,7 @@ class H2HGameStrip : public animation::Animation {
   }
 
   void draw(display::Display* display) {
+    // Debug("Drawing strip" + stripIndex);
     switch (stripState) {
       case H2HStripPlaying:
         drawBackgrounds(display);
@@ -374,7 +379,7 @@ class H2HGameStrip : public animation::Animation {
     CRGB teamAColor;
     teamAColor.setHSV(zoneAHue, 255, 255);
     const uint32_t timeDiff =
-        (millis() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
+        (time::Now() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
     const float waveWidth = 10;
     drawBackgroundA(display);
     if (timeDiff < 1000) {
@@ -390,7 +395,7 @@ class H2HGameStrip : public animation::Animation {
     CRGB teamBColor;
     teamBColor.setHSV(zoneBHue, 255, 255);
     const uint32_t timeDiff =
-        (millis() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
+        (time::Now() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
     const float waveWidth = 10;
     drawBackgroundB(display);
     if (timeDiff < 1000) {

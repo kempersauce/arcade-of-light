@@ -13,6 +13,7 @@
 #include "games/head2head/zone.h"               // for H2HZone
 #include "games/life/life.h"                    // for LifeGame
 #include "games/rainbow/rainbow.h"              // for RainbowGame
+#include "time/now.h"                           // for Now
 
 namespace kss {
 namespace games {
@@ -86,6 +87,7 @@ class Head2Head : public Game {
   }
 
   void enterStartState() {
+	Debug("Entering Start State");
     gameState = H2HGameStart;
     audio.playStdBG();
     audio.stopWinMusic();
@@ -104,7 +106,7 @@ class Head2Head : public Game {
     for (size_t i = 0; i < display->size.x; i++) {
       gameStrips[i]->enterTotalWinAState();
     }
-    totalWinStart = millis();
+    totalWinStart = time::Now();
   }
 
   void enterWinBState() {
@@ -113,15 +115,17 @@ class Head2Head : public Game {
     for (size_t i = 0; i < display->size.x; i++) {
       gameStrips[i]->enterTotalWinBState();
     }
-    totalWinStart = millis();
+    totalWinStart = time::Now();
   }
 
   void enterIdleState() {
+	Debug("Entering Idle State");
     gameState = H2HGameIdle;
     idleGame.setup();
   }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
+	Debug("Loop Begins here");
     bool isIdle = true;
     for (size_t i = 0; i < display->size.x; i++) {
       // TODO Move this to the H2HController class IsIdle(..)
@@ -129,6 +133,7 @@ class Head2Head : public Game {
       if (teamA.buttons[i]->GetMillisReleased() <= idleTimeoutMillis ||
           teamB.buttons[i]->GetMillisReleased() <= idleTimeoutMillis) {
         isIdle = false;
+		break;
       }
     }
 
@@ -143,9 +148,11 @@ class Head2Head : public Game {
     }
 
     // Play the game for one round according to game state
+	Debug("Entering gameState switch");
+	Debug_var(gameState);
     switch (gameState) {
       case H2HGameIdle:
-        idleGame.loop(now);
+        idleGame.loop();
         break;
 
       case H2HGameStart:
@@ -157,10 +164,12 @@ class Head2Head : public Game {
         // Generate noise
         noise_generator.fillnoise8();
 
+		Debug("Checking game strip states...");
         for (size_t i = 0; i < display->size.x; i++) {
           gameStrips[i]->checkGameState(audio);
         }
 
+		Debug("Checking strip win states...");
         for (size_t i = 0; i < display->size.x; i++) {
           if (gameStrips[i]->stripState == H2HStripTotalWinA) {
             enterWinAState();
@@ -177,7 +186,7 @@ class Head2Head : public Game {
         noise_generator.fillnoise8();
         H2HGameStrip::midBar++;
 
-        if (millis() - totalWinStart > totalWinTimeoutMillis) {
+        if (time::Now() - totalWinStart > totalWinTimeoutMillis) {
           enterStartState();
         }
         break;
@@ -187,11 +196,14 @@ class Head2Head : public Game {
         noise_generator.fillnoise8();
         H2HGameStrip::midBar--;
 
-        if (millis() - totalWinStart > totalWinTimeoutMillis) {
+        if (time::Now() - totalWinStart > totalWinTimeoutMillis) {
           enterStartState();
         }
         break;
     }
+
+	
+	Debug("Drawing Begins here");
 
     // Draw the game according to game state
     switch (gameState) {

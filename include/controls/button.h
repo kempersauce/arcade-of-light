@@ -1,5 +1,7 @@
 #pragma once
 
+#include "time/now.h"  // for Now
+#include "serial/debug.h"  // for Debug
 /*
         Button Class
         Tracks whether or not, and for how long the button is pressed
@@ -19,7 +21,7 @@ class Button {
 
   // Used to track how long since the button's been released
   int frames_released{1};
-  uint32_t released_start_time{millis()};
+  uint32_t released_start_time{time::Now()};
 
  public:
   // Update the button state and some internals about it.
@@ -35,7 +37,7 @@ class Button {
       // Record when the button went down
       frames_held = 1;  // We're counting the first frame here, so anything
                         // using this field can have an immediate response
-      hold_start_time = millis();
+      hold_start_time = time::Now();
 
       frames_released = 0;
       released_start_time = 0;
@@ -46,7 +48,7 @@ class Button {
     } else if (IsReleasing()) {
       // Record when the button released
       frames_released = 1;
-      released_start_time = millis();
+      released_start_time = time::Now();
     } else {
       // Clear hold state - this button was released in a previous frame
       frames_held = 0;
@@ -96,7 +98,7 @@ class Button {
     if (hold_start_time == 0) {
       return 0;
     } else {
-      return millis() - hold_start_time;
+      return time::Now() - hold_start_time;
     }
   }
 
@@ -115,7 +117,7 @@ class Button {
     if (released_start_time == 0) {
       return 0;
     } else {
-      return millis() - released_start_time;
+      return time::Now() - released_start_time;
     }
   }
 };

@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "audio/constants.h"     // for SynthAudioMessage
-#include "audio/synthy_moog.h"        // for Synth
+#include "audio/synthy_moog.h"   // for Synth
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for reciever
 // #include "pins/pin_setup.h"
@@ -38,7 +38,6 @@ void setup() {
 
   Debug("synth maked");
 }
-
 
 void loop() {
   receiver.ReceiveMessages();
@@ -114,5 +113,4 @@ void loop() {
       }
     }
   }
-
 }

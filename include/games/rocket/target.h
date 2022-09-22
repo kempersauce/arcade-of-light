@@ -3,6 +3,7 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 #include "math/random.h"          // for random::*
+#include "time/now.h"             // for Now
 
 namespace kss {
 namespace games {
@@ -40,7 +41,7 @@ class Target : public animation::Animation {
   }
 
   bool isTargetLocked() const {
-    return isInTarget && millis() - Time > targetLockTimeMillis;
+    return isInTarget && time::Now() - Time > targetLockTimeMillis;
   }
 
   void draw(display::Display* display) {
@@ -59,7 +60,7 @@ class Target : public animation::Animation {
       }
 
       if (isInTarget) {
-        long timeHeld = millis() - Time;
+        long timeHeld = time::Now() - Time;
         float offset = (float)(Height / 2) *
                        ((float)timeHeld /
                         (float)targetLockTimeMillis);  // up to half height over

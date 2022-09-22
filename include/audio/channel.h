@@ -11,6 +11,7 @@
 
 #include "audio/constants.h"  // for k*
 #include "serial/debug.h"     // for Debug
+#include "time/now.h"         // for Now
 
 namespace kss {
 namespace audio {
@@ -46,7 +47,7 @@ class Channel {
       Debug("Channel[" + channel_no + "]: Error playing file: \"" +
             current_file + "\"");
     } else {
-      start_time = millis();
+      start_time = time::Now();
       Debug("Channel[" + channel_no + "] Playing file: \"" + current_file +
             "\"");
     }
@@ -79,7 +80,7 @@ class Channel {
     // but wav_player has stopped before Update() was called
 
     // Show as active if we've just started, isPlaying() may not be true yet
-    if (start_time != 0 && millis() - start_time <= kStartLeadTimeMillis) {
+    if (start_time != 0 && time::Now() - start_time <= kStartLeadTimeMillis) {
       return true;
     }
 

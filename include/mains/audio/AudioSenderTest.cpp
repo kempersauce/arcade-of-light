@@ -8,7 +8,8 @@
 #include "audio/manager.h"               // for audio::Manager
 #include "audio/sound_effect.h"          // for SoundEffect
 #include "audio/sound_effect_bespoke.h"  // for SoundEffectBespoke
-#include "serial/debug.h"
+#include "serial/debug.h"                // for Debug
+#include "time/now.h"                    // for Now
 
 using namespace kss::audio;
 
@@ -43,12 +44,12 @@ uint32_t start_time;
 void setup() {
   Debug_init();
   delay(5000);  // we need to wait for Serial to initialize or whatever
-  start_time = millis();
+  start_time = time::Now();
   Debug("::::SETUP Achieved::::");
 }
 
 void loop() {
-  if (millis() - start_time <= 12000) {
+  if (time::Now() - start_time <= 12000) {
     if (!tester.background.is_playing) {
       tester.background.Repeat();
       //   tester.background.Repeat();

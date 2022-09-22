@@ -3,6 +3,7 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 #include "games/rocket/audio.h"   // for RocketAudio
+#include "time/now.h"             // for Now
 
 namespace kss {
 namespace games {
@@ -16,12 +17,12 @@ class ExplosionsInTheSky : public animation::Animation {
  public:
   ExplosionsInTheSky() : Animation(), color{new CRGB(255, 0, 0)} {}
 
-  void startAnimation(RocketAudio& audio) { timeStart = millis(); }
+  void startAnimation(RocketAudio& audio) { timeStart = time::Now(); }
 
   bool isPlaying() { return timeStart != 0; }
 
   void draw(display::Display* display) {
-    long timeDiff = millis() - timeStart;
+    long timeDiff = time::Now() - timeStart;
 
     // Draw explosion accross all strips
     for (size_t j = 0; j < display->size.x; j++) {

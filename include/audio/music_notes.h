@@ -38,7 +38,6 @@ constexpr float GmajorGuitar[6] {G[3], D[4], G[4], B[4], D[5], G[5]};  // G - B 
 
 constexpr float GuitarChords[6][4] {*CmajorGuitar, *DminorGuitar, *FmajorGuitar, *GmajorGuitar};
 
-
 // clang-format on
 
 }  // namespace notes

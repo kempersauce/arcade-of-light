@@ -24,7 +24,7 @@ class DirPadTest : public games::Game {
 
   void setup() override {}
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     if (controls.up->IsPressed()) {
       Debug("UP DIR BUTTON PRESSED");
       int newSpeed;

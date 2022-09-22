@@ -29,7 +29,7 @@ class FiveStripTest : public games::Game {
 
   void setup() override { setStrips(); }
 
-  void loop(const uint32_t now = millis()) override { setStrips(); }
+  void loop() override { setStrips(); }
 };
 
 }  // namespace test

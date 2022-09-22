@@ -23,7 +23,7 @@ class MarqueeGame : public Game {
     background.setSaturation(255);
   }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     background.draw(display);
     marquee.draw(display);
   }

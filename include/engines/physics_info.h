@@ -2,6 +2,7 @@
 
 #include "math/random.h"    // for random::*
 #include "math/vector2d.h"  // for Vector2D
+#include "time/now.h"       // for Now
 
 namespace kss {
 namespace engines {
@@ -55,7 +56,7 @@ class PhysicsInfo {
     HasExploded = false;
 
     // Update time tracking
-    last_move_time = millis();
+    last_move_time = time::Now();
   }
 
   void Move() {
@@ -63,7 +64,7 @@ class PhysicsInfo {
       thrust.y = ThrustMax;
     }
 
-    const auto now = millis();
+    const auto now = time::Now();
     const float timeDiff = (float)(now - last_move_time) / 1000.0f;
 
     last_move_time = now;

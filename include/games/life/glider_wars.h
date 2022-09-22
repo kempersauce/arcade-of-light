@@ -36,7 +36,7 @@ class GliderWarsGame : public Game {
     lifeGrid.randomize();
   }
 
-  void loop(const uint32_t now = millis()) override {
+  void loop() override {
     // Calculate new game state
     if (randomizeButton1->IsPressed() || randomizeButton2->IsPressed()) {
       lifeGrid.randomize();
