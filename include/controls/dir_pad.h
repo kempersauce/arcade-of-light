@@ -12,9 +12,9 @@ struct DirPad {
   union {
     struct {
       Button* up;
-      Button* down;
-      Button* left;
       Button* right;
+      Button* left;
+      Button* down;
       Button* a;
       Button* b;
     };
@@ -23,7 +23,7 @@ struct DirPad {
 
   DirPad(Button* up, Button* down, Button* left, Button* right, Button* a,
          Button* b)
-      : up{up}, down{down}, left{left}, right{right}, a{a}, b{b} {}
+      : up{up}, right{right}, left{left}, down{down}, a{a}, b{b} {}
 
   bool isIdle(uint32_t idleTimeout) {
     return up->GetMillisReleased() >= idleTimeout &&

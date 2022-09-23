@@ -35,12 +35,12 @@ void setup() {
 
   for (uint8_t controller_pin : pins::Controllers) {
     dir_pads.emplace_back(
-        control_context.CreateButton(controller_pin, pins::Buttons[0]),
-        control_context.CreateButton(controller_pin, pins::Buttons[1]),
-        control_context.CreateButton(controller_pin, pins::Buttons[2]),
-        control_context.CreateButton(controller_pin, pins::Buttons[3]),
+        control_context.CreateButton(controller_pin, pins::Buttons[5]),
         control_context.CreateButton(controller_pin, pins::Buttons[4]),
-        control_context.CreateButton(controller_pin, pins::Buttons[5]));
+        control_context.CreateButton(controller_pin, pins::Buttons[3]),
+        control_context.CreateButton(controller_pin, pins::Buttons[2]),
+        control_context.CreateButton(controller_pin, pins::Buttons[1]),
+        control_context.CreateButton(controller_pin, pins::Buttons[0]));
   }
 
   game = new games::rhythm::RhythmGame(gameDisplay, dir_pads);
