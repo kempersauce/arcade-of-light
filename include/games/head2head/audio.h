@@ -22,7 +22,7 @@ class H2HAudio : public audio::Manager {
   audio::SoundEffectBespoke bWinLane{sender, 1, "THRUST2.WAV"};  //"CHEWY.WAV"
   audio::BackgroundMusic bWinGame{sender, "PONGWINA.WAV"};       //"CANTINA.WAV"
 
-  audio::SoundEffect itsTimeToDuel{sender, "CHALL.WAV"};  //"DUEL.WAV"
+  audio::SoundEffect itsTimeToDuel{sender, "TRBOTENS.WAV"};  //"DUEL.WAV"
 
   // Background music
   audio::BackgroundMusic winBG{sender, "CDL.WAV"};

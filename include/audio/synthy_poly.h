@@ -102,7 +102,7 @@ class SynthyPoly {
   int8_t arpNote = 0;
   int8_t chordVoices = 4;
 
-  uint32_t next_hit = 200;
+  uint32_t next_hit = 250;
   uint32_t beat_start;
 
   SynthyPoly() { Debug("hello"); };

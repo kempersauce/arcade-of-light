@@ -18,7 +18,7 @@ class Rocket : public animation::Animation {
 
   // Rocket constants
   // int Mass = 2;
-  int Height = 2;
+  int Height = 5;
   // int Gravity; // this gets set according to the level
 
   // colors (RGB)
