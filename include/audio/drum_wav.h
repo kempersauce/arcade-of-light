@@ -72,7 +72,7 @@ class DrumWav {
   const void playDrum2() { drum2.play("808CRSH1.WAV"); }
 
   const void stopDrum2() { drum2.stop(); }
-  const void playDrum3() { drum3.play("808CLAV.WAV"); }
+  const void playDrum3() { drum3.play("808TOMH.WAV"); }
   const void playDrum4() { drum4.play("808HHCL.WAV"); }
   const void playDrum5() { drum5.play("808BD01.WAV"); }
   const void playDrum6() { drum6.play("808SNR.WAV"); }
