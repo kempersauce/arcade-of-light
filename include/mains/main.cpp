@@ -8,9 +8,10 @@
 #include "display/display.h"                // for Display
 #include "display/five.h"                   // for FiveDisplay
 #include "display/four_panel.h"             // for FourPanelDisplay
-#include "display/h2h.h"                    // for H2HDisplay
+#include "display/h2h_octo.h"               // for H2HDisplay
 #include "display/octo_display.h"           // for OctoDisplay
 #include "display/rocket.h"                 // for RocketDisplay
+#include "display/single.h"                 // for SingleDisplay
 #include "display/standard_display.h"       // for StandardDisplay
 #include "display/twenty.h"                 // for TwentyDisplay
 #include "display/twenty_standard.h"        // for TwentyDisplayStandard
@@ -60,15 +61,16 @@ void setup() {
   //   gameDisplay = new display::FourPanelDisplay();
   //   gameDisplay = (display::Display*)new display::H2HDisplay();
   //   gameDisplay = (display::Display*)new display::RocketDisplay();
-  gameDisplay = (display::Display*)new display::TwentyDisplay();
+  //   gameDisplay = (display::Display*)new display::TwentyDisplay();
   //   gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
+  gameDisplay = new display::SingleDisplay();
 
   Debug("gameDisplay created");
 
   // Choose your Game type
-  //   game = (games::Game*)new games::h2h::Head2Head(*gameDisplay);
-  //   game = (games::Game*)new games::life::LifeGame(*gameDisplay);
-  //   game = (games::Game*)new games::rainbow::RainbowGame(*gameDisplay);
+  //   game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
+  //   game = (games::Game*)new games::life::LifeGame(gameDisplay);
+  game = (games::Game*)new games::rainbow::RainbowGame(gameDisplay);
   //   game = (games::Game*)new games::rainbow::RainbowStatic(*gameDisplay);
   //   game = (games::Game*)new games::rocket::RocketGame(*gameDisplay);
   //   game = (games::Game*)new games::marquee::MarqueeGame(*gameDisplay);
@@ -95,12 +97,14 @@ void setup() {
   //       *(display::FourPanelDisplay*)gameDisplay};
 
   // Animation Test game
-  std::vector<animation::Animation*> test_animations{
-      (animation::Animation*)new animation::Starscape{gameDisplay->size, 140},
-      (animation::Animation*)new animation::FireworksShow{gameDisplay->size,
-                                                          15}};
+  //   std::vector<animation::Animation*> test_animations{
+  //       (animation::Animation*)new animation::Starscape{gameDisplay->size,
+  //       140}, (animation::Animation*)new
+  //       animation::FireworksShow{gameDisplay->size,
+  //                                                           15}};
 
-  game = (games::Game*)new test::AnimationTest(gameDisplay, test_animations);
+  //   game = (games::Game*)new test::AnimationTest(gameDisplay,
+  //   test_animations);
 
   Debug("game created");
 

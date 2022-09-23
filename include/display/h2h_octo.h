@@ -6,7 +6,7 @@
 namespace kss {
 namespace display {
 
-namespace _h2h_octo {
+namespace _h2h {
 
 constexpr size_t kNumStrips = 8;
 constexpr size_t kLengthStrips = 214;
@@ -37,12 +37,11 @@ constexpr uint8_t kPinList[kNumStrips]{
 
 DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 
-}  // namespace _h2h_octo
-using namespace _h2h_octo;
+}  // namespace _h2h
 
-class H2HDisplay : public OctoDisplay<kNumStrips, kLengthStrips> {
+class H2HDisplay : public OctoDisplay<_h2h::kNumStrips, _h2h::kLengthStrips> {
  public:
-  H2HDisplay() : OctoDisplay(kPinList, kDisplayMemory) {}
+  H2HDisplay() : OctoDisplay(_h2h::kPinList, _h2h::kDisplayMemory) {}
 };
 
 }  // namespace display

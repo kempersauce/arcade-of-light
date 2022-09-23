@@ -115,7 +115,7 @@ class RocketGame : public Game {
         rocket(display->size.y, new CRGB(255, 255, 255)),
         target(new CRGB(55, 0, 0)),
         explosionsInTheSky(),
-        explosion{80, 1000, 3000, 20, 18, 1.8, 0, 255, 0, &audio.explosion},
+        explosion{80, 1000, 3000, 55, 12, 0, 0, 255, 0, &audio.explosion},
         fireworks{display->size, 0} {
     // Set some physics on the explosion shrapnel so they'll bounce off the
     // ceiling and floor
@@ -141,6 +141,7 @@ class RocketGame : public Game {
     target.randomize(display->size.y);
     targetsWon = 0;
     rocket.SetGravity(gravityLevels[level]);
+	explosion.SetGravity(gravityLevels[level]);
     rocket.Reset();
     audio.playLevelIntro(level);
   }

@@ -17,7 +17,7 @@ class Exploder : public Animation {
  public:
   math::Dimension location;
   bool should_explode{false};
-  Exploder(const Explosion& prototype, const math::Dimension& location,
+  Exploder(const Explosion& prototype, math::Dimension location,
            const uint32_t interval = 50)
       : Animation(),
         prototype{prototype},

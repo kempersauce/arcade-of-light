@@ -39,7 +39,9 @@ class Head2Head : public Game {
   const static uint32_t totalWinTimeoutMillis =
       1000 * 10;  // 10 seconds in win state
 
-  H2HAudio audio;
+  // Each team gets their own audio (well, they will)
+  H2HAudio audioA{0};
+  H2HAudio audioB{1};
 
   controls::H2HController teamA;
   controls::H2HController teamB;
@@ -88,10 +90,13 @@ class Head2Head : public Game {
 
   void enterStartState() {
     gameState = H2HGameStart;
-    audio.playStdBG();
-    audio.stopWinMusic();
+    audioA.playStdBG();
+    audioB.playStdBG();
+    audioA.stopWinMusic();
+    audioB.stopWinMusic();
     // dont forget to take this out lol
-    audio.ItsTimeToDuel();
+    audioA.ItsTimeToDuel();
+    audioB.ItsTimeToDuel();
     for (size_t i = 0; i < display->size.x; i++) {
       gameStrips[i]->reset();
     }
@@ -100,7 +105,8 @@ class Head2Head : public Game {
   void enterPlayingState() { gameState = H2HGamePlaying; }
 
   void enterWinAState() {
-    audio.playTeamAWinGame();
+    audioA.playTeamAWinGame();
+    audioB.playTeamAWinGame();
     gameState = H2HGameWinA;
     for (size_t i = 0; i < display->size.x; i++) {
       gameStrips[i]->enterTotalWinAState();
@@ -109,7 +115,8 @@ class Head2Head : public Game {
   }
 
   void enterWinBState() {
-    audio.playTeamBWinGame();
+    audioA.playTeamBWinGame();
+    audioB.playTeamBWinGame();
     gameState = H2HGameWinB;
     for (size_t i = 0; i < display->size.x; i++) {
       gameStrips[i]->enterTotalWinBState();
@@ -129,7 +136,7 @@ class Head2Head : public Game {
       // TODO Move this to the H2HController class IsIdle(..)
       // if any buttons aren't past the idle timeout yet, then we're not idling
 
-	  // Check teamA for Idle
+      // Check teamA for Idle
       if (i != 0 && i != 4) {  // HACK skip button[5] on team A (it jiggles)
         if (teamA.buttons[i]->GetMillisReleased() <= idleTimeoutMillis) {
           isIdle = false;
@@ -137,7 +144,7 @@ class Head2Head : public Game {
         }
       }
 
-	  // Check teamB for idle
+      // Check teamB for idle
       if (i != 3 && i != 7) {  // HACK skip button[5] on team B (it jiggles)
         if (teamB.buttons[i]->GetMillisReleased() <= idleTimeoutMillis) {
           isIdle = false;
@@ -177,7 +184,7 @@ class Head2Head : public Game {
         noise_generator.fillnoise8();
 
         for (size_t i = 0; i < display->size.x; i++) {
-          gameStrips[i]->checkGameState(audio);
+          gameStrips[i]->checkGameState(audioA, audioB);
         }
 
         for (size_t i = 0; i < display->size.x; i++) {

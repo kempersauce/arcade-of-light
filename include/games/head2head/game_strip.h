@@ -175,7 +175,7 @@ class H2HGameStrip : public animation::Animation {
     stateTimeoutMillis = time::Now();
   }
 
-  void checkGameState(H2HAudio& audio) {
+  void checkGameState(H2HAudio& audioA, H2HAudio& audioB) {
     // Debug("Checking game state on strip " + stripIndex);
     // Debug_var(stripState);
     switch (stripState) {
@@ -183,15 +183,17 @@ class H2HGameStrip : public animation::Animation {
 
         // Did team A just win this one?
         if (dot.physics.location.y >= heightMax) {
-        //   Debug("Team A wins strip " + stripIndex);
-          audio.playTeamAWinLane();
+          //   Debug("Team A wins strip " + stripIndex);
+          audioA.playTeamAWinLane();
+          audioB.playTeamAWinLane();
           enterWinningStateA();
         }
 
         // Did team B just win this one?
         else if (dot.physics.location.y <= 0) {
-        //   Debug("Team B wins strip " + stripIndex);
-          audio.playTeamBWinLane();
+          //   Debug("Team B wins strip " + stripIndex);
+          audioA.playTeamBWinLane();
+          audioB.playTeamBWinLane();
           enterWinningStateB();
         }
 
@@ -200,12 +202,12 @@ class H2HGameStrip : public animation::Animation {
           if (buttonA->IsDepressing()) {
             Debug("Team A hits button on strip " + stripIndex);
             if (zoneA.checkZone(dot.physics.location.y)) {
-              audio.playTeamAHit();
+              audioA.playTeamAHit();
               dot.setVelocity(-1 * (dot.physics.velocity.y) +
                               (zoneA.zoneDepth(dot.physics.location.y) *
                                10));  // 20 to 40 px/sec
             } else {
-              audio.playTeamAMiss();
+              audioA.playTeamAMiss();
             }
           }
 
@@ -213,12 +215,12 @@ class H2HGameStrip : public animation::Animation {
           if (buttonB->IsDepressing()) {
             Debug("Team B hits button on strip" + stripIndex);
             if (zoneB.checkZone(dot.physics.location.y)) {
-              audio.playTeamBHit();
+              audioB.playTeamBHit();
               dot.setVelocity(-1 * (dot.physics.velocity.y) -
                               (zoneB.zoneDepth(dot.physics.location.y) *
                                10));  // -20 to -40 px/sec
             } else {
-              audio.playTeamBMiss();
+              audioB.playTeamBMiss();
             }
           }
 

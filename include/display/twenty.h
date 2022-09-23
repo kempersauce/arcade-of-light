@@ -50,11 +50,11 @@ constexpr uint8_t kPinList[kNumStrips]{
 DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 
 }  // namespace _twenty
-using namespace _twenty;
 
-class TwentyDisplay : public OctoDisplay<kNumStrips, kLengthStrips> {
+class TwentyDisplay
+    : public OctoDisplay<_twenty::kNumStrips, _twenty::kLengthStrips> {
  public:
-  TwentyDisplay() : OctoDisplay(kPinList, kDisplayMemory) {}
+  TwentyDisplay() : OctoDisplay(_twenty::kPinList, _twenty::kDisplayMemory) {}
   virtual ~TwentyDisplay() = default;
 };
 

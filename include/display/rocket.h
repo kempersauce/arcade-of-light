@@ -9,7 +9,7 @@ namespace display {
 namespace _rocket {
 
 constexpr size_t kNumStrips = 5;
-constexpr size_t kLengthStrips = 294;
+constexpr size_t kLengthStrips = 214;
 
 constexpr uint8_t kPinList[kNumStrips]{
     // clang-format off
@@ -21,7 +21,7 @@ constexpr uint8_t kPinList[kNumStrips]{
     pins::Leds[3],
 
     // Cable 2
-    pins::Leds[4]
+    pins::Leds[8]
 
     // clang-format on
 };
@@ -29,11 +29,10 @@ constexpr uint8_t kPinList[kNumStrips]{
 DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 
 }  // namespace _rocket
-using namespace _rocket;
 
-class RocketDisplay : public OctoDisplay<kNumStrips, kLengthStrips> {
+class RocketDisplay : public OctoDisplay<_rocket::kNumStrips, _rocket::kLengthStrips> {
  public:
-  RocketDisplay() : OctoDisplay(kPinList, kDisplayMemory) {}
+  RocketDisplay() : OctoDisplay(_rocket::kPinList, _rocket::kDisplayMemory) {}
 };
 
 }  // namespace display

@@ -1,9 +1,11 @@
 #pragma once
 
+#include "audio/audio_sender.h"          // for AudioSender
 #include "audio/background_music.h"      // for BackgroundMusic
 #include "audio/manager.h"               // for audio::Manager
 #include "audio/sound_effect.h"          // for SoundEffect
 #include "audio/sound_effect_bespoke.h"  // for SoundEffectBespoke
+#include "serial/hw_serials.h"           // for kHwSerials
 
 namespace kss {
 namespace games {
@@ -11,6 +13,11 @@ namespace h2h {
 
 class H2HAudio : public audio::Manager {
  public:
+  H2HAudio(uint8_t serial_no)
+      : Manager(
+            std::make_shared<audio::AudioSender>(serial::kHwSerials[serial_no])) {
+  }
+
   // Single effects
   audio::SoundEffect aHit{sender, "TRGTHIT2.WAV"};
   audio::SoundEffect aMiss{sender, "TRGTMIS1.WAV"};  // CHEWY VS DIO VERSION:

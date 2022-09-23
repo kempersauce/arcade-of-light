@@ -19,7 +19,6 @@ display::FourPanelDisplay* gameDisplay;
 games::Game* game;
 
 controls::hardware::Matrix control_context;
-audio::SynthSender* synths[4];
 
 void setup() {
   Debug_init();
@@ -32,20 +31,21 @@ void setup() {
 
   Debug("gameDisplay created");
 
-  game = (games::Game*)new games::rhythm::RhythmGame(gameDisplay);
-  // game = (games::Game*)new
-  // games::rhythm::RhythmGameSingle(&gameDisplay->panels[0]);
+  std::vector<controls::DirPad> dir_pads;
 
-  for (size_t i = 0; i < 4; ++i) {
-    synths[i] = new audio::SynthSender(
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[0]),
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[1]),
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[2]),
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[3]),
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[4]),
-        control_context.CreateButton(pins::Controllers[i], pins::Buttons[5]),
-        serial::kHwSerials[i]);
+  for (uint8_t controller_pin : pins::Controllers) {
+    dir_pads.emplace_back(
+        control_context.CreateButton(controller_pin, pins::Buttons[0]),
+        control_context.CreateButton(controller_pin, pins::Buttons[1]),
+        control_context.CreateButton(controller_pin, pins::Buttons[2]),
+        control_context.CreateButton(controller_pin, pins::Buttons[3]),
+        control_context.CreateButton(controller_pin, pins::Buttons[4]),
+        control_context.CreateButton(controller_pin, pins::Buttons[5]));
   }
+
+  game = new games::rhythm::RhythmGame(gameDisplay, dir_pads);
+//   game = new games::rhythm::RhythmGameSingle(&gameDisplay->panels[0],
+//   dir_pads[0]);
 
   Debug("game created");
 
@@ -60,12 +60,8 @@ void setup() {
 
 void loop() {
   time::SetLoopTime();
-  //   Debug_here();
+
   control_context.PollAll();
-  //   Debug("Poll'd");
-  for (auto synth : synths) {
-    synth->checkButtonChange();
-  }
 
   game->loop();
 
@@ -73,7 +69,7 @@ void loop() {
   gameDisplay->Show();
 
   //   Debug("loops brother");
-  frameRate.PrintFrameRate();
+//   frameRate.PrintFrameRate();
 
   //   delay(7);
 }

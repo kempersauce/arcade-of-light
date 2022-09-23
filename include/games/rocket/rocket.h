@@ -18,7 +18,7 @@ class Rocket : public animation::Animation {
 
   // Rocket constants
   // int Mass = 2;
-  int Height = 5;
+  static constexpr uint8_t height{4};
   // int Gravity; // this gets set according to the level
 
   // colors (RGB)
@@ -31,7 +31,7 @@ class Rocket : public animation::Animation {
    * @param loc - location on LED strip
    * @param clr - Color of the rocket ship
    */
-  Rocket(int strip_length, CRGB* clr) : Animation(), physics(), boost(5) {
+  Rocket(size_t strip_length, CRGB* clr) : Animation(), physics(), boost(5) {
     // Init physics settings
     physics.LocationMax = strip_length;
     physics.BounceFactor = -0.7;
@@ -61,10 +61,10 @@ class Rocket : public animation::Animation {
     // Draw the rocket ship
     const size_t middleStrip = display->size.x / 2;
     for (size_t i = max(ceil(physics.location.y), 0);
-         i < min((int)physics.location.y + Height, display->size.y); i++) {
+         i < min((int)physics.location.y + height, display->size.y); i++) {
       display->Pixel(middleStrip, i) = *color;
     }
-    display->DitherPixel(middleStrip, physics.location.y + Height - 1,
+    display->DitherPixel(middleStrip, physics.location.y + height - 1,
                          color);  // dither rocket nose
     display->DitherPixel(middleStrip, physics.location.y,
                          color);  // dither rocket tail

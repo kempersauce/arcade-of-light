@@ -7,24 +7,23 @@
 namespace kss {
 namespace controls {
 
-class DirPad {
- public:
-  Button* up;
-  Button* down;
-  Button* left;
-  Button* right;
-  Button* a;
-  Button* b;
+struct DirPad {
+ static constexpr size_t button_count{6};
+  union {
+    struct {
+      Button* up;
+      Button* down;
+      Button* left;
+      Button* right;
+      Button* a;
+      Button* b;
+    };
+    Button* buttons[button_count];
+  };
 
   DirPad(Button* up, Button* down, Button* left, Button* right, Button* a,
          Button* b)
-      : up{std::move(up)},        // pins::Buttons[4]
-        down{std::move(down)},    // pins::Buttons[3]
-        left{std::move(left)},    // pins::Buttons[5]
-        right{std::move(right)},  // pins::Buttons[2]
-        a{std::move(a)},          // pins::Buttons[1]
-        b{std::move(b)}           // pins::Buttons[0]
-  {}
+      : up{up}, down{down}, left{left}, right{right}, a{a}, b{b} {}
 
   bool isIdle(uint32_t idleTimeout) {
     return up->GetMillisReleased() >= idleTimeout &&

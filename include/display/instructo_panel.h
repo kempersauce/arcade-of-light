@@ -5,22 +5,21 @@
 namespace kss {
 namespace display {
 
-namespace _instructo_panel {
+namespace _instructo {
 
 constexpr size_t kPanelRows{8};
 constexpr size_t kPanelColumns{32};
 constexpr size_t kTotalPixelCount{kPanelRows * kPanelColumns};
 
-DMAMEM int displayMemory[kTotalPixelCount * 3 / 4];
+DMAMEM int kDisplayMemory[kTotalPixelCount * 3 / 4];
 
-}  // namespace _instructo_panel
-using namespace _instructo_panel;
+}  // namespace _instructo
 
 class InstructoDisplay
-    : public SwitchbackOctoDisplay<kPanelRows, kPanelColumns> {
+    : public SwitchbackOctoDisplay<_instructo::kPanelRows, _instructo::kPanelColumns> {
  public:
   InstructoDisplay(const uint8_t pin)
-      : SwitchbackOctoDisplay(pin, displayMemory) {}
+      : SwitchbackOctoDisplay(pin, _instructo::kDisplayMemory) {}
 };
 
 }  // namespace display

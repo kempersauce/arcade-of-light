@@ -32,14 +32,14 @@ class RocketBoost : public animation::Animation {
     }
 
     // Draw as much boost as we needs
-    int boostHeight = boostFactor * height;
+    size_t boostHeight = boostFactor * height;
 
     // At least keep it to 1 pixel minimum when we're actually boosting
     if (boostFactor > 0 && boostHeight < 1) {
       boostHeight = 1;
     }
 
-    int middleStrip = display->size.x / 2;
+    const size_t middleStrip = display->size.x / 2;
     for (size_t i = max(loc - boostHeight, 0); i < min(loc, display->size.y);
          i++) {
       display->Pixel(middleStrip, i)

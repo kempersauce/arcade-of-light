@@ -16,7 +16,7 @@ namespace _fireworks_show {
 
 constexpr size_t kMaxFireworksCount{0};  // 0 for no-limit
 constexpr uint16_t kMinWaitTime{50};
-constexpr uint16_t kMaxWaitTime{800};
+constexpr uint16_t kMaxWaitTime{2000};
 
 }  // namespace _fireworks_show
 using namespace _fireworks_show;
@@ -46,7 +46,7 @@ class FireworksShow : Animation {
   void Move() override {
     // Launch 1-3 fireworks when it's time
     if (ShouldCreateAnother()) {
-      for (auto count = math::random::Int8_incl(1, 3); count > 0; count--) {
+      for (auto count = math::random::Int8_incl(1, 2); count > 0; count--) {
         fireworks.push_back(
             new Firework{display_size, gravity, launch_sound, explode_sound});
       }
