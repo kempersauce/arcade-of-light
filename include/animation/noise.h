@@ -10,29 +10,29 @@ namespace animation {
 class NoiseAnimation : public Animation {
   engines::NoiseGenerator noise_generator;
   const math::Dimension size;
-  const math::Dimension location;
 
+ public:
   bool use_rainbow_hue;
   uint8_t hue;
 
- public:
+  math::Dimension location;
   uint8_t brightness{255};
 
   NoiseAnimation(math::Dimension size)
       : Animation(),
         noise_generator{size},
         size{size},
-        location{0, 0},
-        use_rainbow_hue{true} {}
+        use_rainbow_hue{true},
+        location{0, 0} {}
 
   NoiseAnimation(uint8_t hue, float speed, math::Dimension size,
                  math::Dimension location = {0, 0})
       : Animation(),
         noise_generator{size, speed},
         size{size},
-        location{location},
         use_rainbow_hue{false},
-        hue{hue} {}
+        hue{hue},
+        location{location} {}
 
   void setBrightness(uint8_t bright) { brightness = bright; }
 

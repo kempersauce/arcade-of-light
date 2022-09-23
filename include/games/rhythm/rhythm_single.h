@@ -2,17 +2,18 @@
 
 #include <vector>  // for vector
 
-#include "animation/animation.h"     // for Animation
-#include "animation/exploder.h"      // for Exploder
-#include "animation/explosion.h"     // for Explosion
-#include "animation/starscape.h"     // for Starscape
-#include "audio/synth_sender_raw.h"  // for SynthSenderRaw
-#include "controls/dir_pad.h"        // for DirPad
-#include "games/game.h"              // for Game
-#include "math/random.h"             // for random::*
-#include "serial/debug.h"            // for Debug
-#include "serial/hw_serials.h"       // for kHwSerials
-#include "time/now.h"                // for Now
+#include "animation/animation.h"                // for Animation
+#include "animation/exploder.h"                 // for Exploder
+#include "animation/explosion.h"                // for Explosion
+#include "animation/single_color_background.h"  // for SingleColorBG
+#include "animation/starscape.h"                // for Starscape
+#include "audio/synth_sender_raw.h"             // for SynthSenderRaw
+#include "controls/dir_pad.h"                   // for DirPad
+#include "games/game.h"                         // for Game
+#include "math/random.h"                        // for random::*
+#include "serial/debug.h"                       // for Debug
+#include "serial/hw_serials.h"                  // for kHwSerials
+#include "time/now.h"                           // for Now
 
 namespace kss {
 namespace games {
@@ -22,7 +23,7 @@ namespace _rhythm_single {
 constexpr float bpm{120};
 constexpr uint32_t beat_length_millis{1000 * 60 / bpm};
 
-constexpr uint32_t beat_proximity_threshold{75};
+constexpr uint32_t beat_proximity_threshold{100};
 constexpr uint32_t beat_proximity_threshold_shift{25};
 
 constexpr uint8_t bg_brightness_max{75};
@@ -56,27 +57,53 @@ class RhythmGameSingle : public Game {
   audio::SynthSenderRaw synth;
 
   // Animations
-  animation::NoiseAnimation background;
+  animation::SingleColorBG background;  // black bg
+  animation::NoiseAnimation noise_block;
 
   std::vector<animation::Explosion*> explosives;
 
-  void CreateExplosion(uint8_t explosion_hue) {
-    animation::Explosion* explody = new animation::Explosion(
-        75, 0, beat_length_millis * 2, 45, 15, 0, 0, 255, explosion_hue);
-    explody->ExplodeAt(math::random::Int8(display->size.x),
-                       math::random::Int16(display->size.y));
-    explosives.push_back(explody);
+  // Success tracking
+  uint8_t on_beat_count{0};
+  static constexpr uint8_t on_beat_count_threshold{8};
+
+ public:
+  struct ExternalExplosion {
+    uint8_t hue;
+    uint8_t count;
+    uint8_t size;
+    ExternalExplosion(uint8_t hue, uint8_t count, uint8_t size)
+        : hue{hue}, count{count}, size{size} {}
+  };
+
+ private:
+  void CreateExplosion(ExternalExplosion explo) {
+    Debug("Creating Explo:::");
+    Debug_var(explo.hue);
+    Debug_var(explo.count);
+    Debug_var(explo.size);
+    Debug_endl();
+    for (size_t i = 0; i < explo.count; ++i) {
+      animation::Explosion* explody = new animation::Explosion(
+          50 + (explo.size * 20), 0, beat_length_millis * explo.size,
+          25 * explo.size, 15, 0, 0, 255, explo.hue);
+      explody->ExplodeAt(math::random::Int8(display->size.x),
+                         math::random::Int16(display->size.y));
+      explosives.push_back(explody);
+    }
   }
 
-  std::vector<uint8_t>* external_explosion_hues;
+  std::vector<ExternalExplosion>* external_explosions;
 
-  void ExplodeForBeatProximity(uint8_t explosion_hue) {
-    if (external_explosion_hues != NULL) {
+  void ExplodeForBeatProximity(ExternalExplosion explo) {
+    if (on_beat_count < on_beat_count_threshold + 5) {
+      ++on_beat_count;
+    }
+    if (external_explosions != NULL) {
       //   Debug("Adding External explosion from player " + player_no);
-      external_explosion_hues->push_back(player_hues[player_no]);
+      external_explosions->push_back(explo);
     } else {
       //   Debug("Explodiong");
-      CreateExplosion(explosion_hue);
+      CreateExplosion(explo);
     }
   }
 
@@ -105,9 +132,9 @@ class RhythmGameSingle : public Game {
  public:
   // called by main game
   void AddExternalExplosions() {
-    if (external_explosion_hues != NULL) {
-      for (auto explosion_hue : *external_explosion_hues) {
-        CreateExplosion(explosion_hue);
+    if (external_explosions != NULL) {
+      for (auto& explo : *external_explosions) {
+        CreateExplosion(explo);
       }
     }
   }
@@ -117,23 +144,35 @@ class RhythmGameSingle : public Game {
         player_no{0},
         controller{controller},
         synth{serial::kHwSerials[player_no]},
-        background{player_hues[player_no], 20, display->size},
-        external_explosion_hues{NULL} {}
+        noise_block{
+            player_hues[player_no], 20, {display->size.x, display->size.y / 4}},
+        external_explosions{NULL} {}
 
   RhythmGameSingle(display::Display* display, controls::DirPad controller,
                    uint8_t player_no,
-                   std::vector<uint8_t>* external_explosion_hues)
+                   std::vector<ExternalExplosion>* external_explosions)
       : Game(display),
         player_no{player_no},
         controller{controller},
         synth{serial::kHwSerials[player_no]},
-        background{player_hues[player_no], 20, display->size},
-        external_explosion_hues{external_explosion_hues} {}
+        noise_block{
+            player_hues[player_no], 20, {display->size.x, display->size.y / 4}},
+        external_explosions{external_explosions} {}
 
+  // Track the beat so we can draw backgrounds
+  uint8_t beat{0};
   void UpdateMetronome() {
     // Using while to catch up if behind - bad?
     while (metronome_last_hit + beat_length_millis <= time::Now()) {
       metronome_last_hit += beat_length_millis;
+      if (++beat == 4) {
+        beat = 0;
+        if (on_beat_count > 0) {
+          --on_beat_count;
+        }
+      }
+      noise_block.location.y = beat * display->size.y / 4;
+
       // synth.StartInput(??);
       Debug("BEAT!");
       Debug_var(metronome_last_hit);
@@ -152,7 +191,7 @@ class RhythmGameSingle : public Game {
       const uint8_t brightness_offset = t_factor * bg_brightness_diff;
 
       // bg_brightness_max -> bg_brightness_base over bg_pulse_fade_millis
-      background.brightness = bg_brightness_max - brightness_offset;
+      noise_block.brightness = bg_brightness_max - brightness_offset;
     } else if (beat_length_millis - time_since_beat < bg_pulse_ramp_millis) {
       // bg_pulse_ramp_millis -> 0
       const uint32_t time_until_beat = beat_length_millis - time_since_beat;
@@ -165,9 +204,9 @@ class RhythmGameSingle : public Game {
       const uint8_t brightness_offset = t_factor * bg_brightness_diff;
 
       // bg_brightness_base -> bg_brightness_max over bg_pulse_ramp_millis
-      background.brightness = bg_brightness_max - brightness_offset;
+      noise_block.brightness = bg_brightness_max - brightness_offset;
     } else {
-      background.brightness = bg_brightness_base;
+      noise_block.brightness = bg_brightness_base;
     }
   }
 
@@ -175,10 +214,35 @@ class RhythmGameSingle : public Game {
     const uint32_t last_beat_distance = time::Now() - metronome_last_hit;
     const uint32_t next_beat_distance =
         (metronome_last_hit + beat_length_millis) - time::Now();
+
     const uint32_t beat_distance = min(last_beat_distance, next_beat_distance);
-    if (beat_distance <= beat_proximity_threshold) {
-      ExplodeForBeatProximity(player_hues[player_no]);
+    if (last_beat_distance <=
+            beat_proximity_threshold + beat_proximity_threshold_shift ||
+        next_beat_distance <=
+            beat_proximity_threshold - beat_proximity_threshold_shift) {
+      Debug("Exploding Full Beat");
+      Debug_var(beat_distance);
+      ExplodeForBeatProximity({player_hues[player_no], 1, 3});
+      return;
     }
+
+    const uint32_t half_beat_distance = beat_length_millis / 2 - beat_distance;
+    if (half_beat_distance <=
+        (beat_proximity_threshold + beat_proximity_threshold_shift) / 2) {
+      Debug("Exploding Half Beat");
+      Debug_var(beat_distance);
+      ExplodeForBeatProximity({player_hues[player_no], 2, 1});
+      return;
+    }
+
+    // const uint32_t quarter_beat_distance =
+    //     beat_length_millis / 4 - half_beat_distance;
+    // if (beat_length_millis / 4 - beat_distance <= beat_proximity_threshold)
+    // {
+    //   ExplodeForBeatProximity(
+    //       {player_hues[player_no], math::random::Int8_incl(2, 3), 1});
+    //   return;
+    // }
   }
 
   void setup() override {}
@@ -206,7 +270,22 @@ class RhythmGameSingle : public Game {
     MoveExplosions();
     RemoveDeadExplosions();
 
+    // Draw Time
     background.draw(display);
+
+    // Draw double rainbow on success
+    if (on_beat_count >= on_beat_count_threshold) {
+      noise_block.use_rainbow_hue = true;
+      noise_block.draw(display);
+      const size_t old_y = noise_block.location.y;
+      noise_block.location.y = ((beat + 6) % 4) * display->size.y / 4;
+      noise_block.draw(display);
+      noise_block.location.y = old_y;
+    } else {
+      // Single block no rainbow, no success
+      noise_block.use_rainbow_hue = false;
+      noise_block.draw(display);
+    }
 
     for (auto explosive : explosives) {
       explosive->draw(display);

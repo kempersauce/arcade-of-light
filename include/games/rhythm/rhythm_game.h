@@ -25,7 +25,7 @@ class RhythmGame : public Game {
   // List of game instances playing. Infinite multiplayer!
   RhythmGameSingle* players[kNumPlayers];
 
-  std::vector<uint8_t> external_explosion_hues;
+  std::vector<RhythmGameSingle::ExternalExplosion> external_explosion_hues;
 
  public:
   RhythmGame(display::FourPanelDisplay* display,
@@ -51,7 +51,9 @@ class RhythmGame : public Game {
     // Test
     // if (math::random::Bool(.01)) {
     //   Debug("Adding explosion");
-    //   external_explosion_hues.push_back(math::random::Int8());
+    //   external_explosion_hues.push_back({math::random::Int8(),
+    //                                      math::random::Int8_incl(1, 3),
+    //                                      math::random::Int8_incl(1, 3)});
     // }
 
     if (!external_explosion_hues.empty()) {
@@ -59,7 +61,9 @@ class RhythmGame : public Game {
         player->AddExternalExplosions();
       }
 
+	  Debug("Clearing explosives");
       external_explosion_hues.clear();
+	  Debug("Clearing explosives... DONE");
     }
   }
 };
