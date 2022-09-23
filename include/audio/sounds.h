@@ -25,7 +25,7 @@ void InitAudio() {
   AudioMemory(16);
 
   sgtl5000_1.enable();
-  sgtl5000_1.volume(.666);
+  sgtl5000_1.volume(0.9);
 
   SPI.setMOSI(SDCARD_MOSI_PIN);
   SPI.setSCK(SDCARD_SCK_PIN);
