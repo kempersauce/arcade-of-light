@@ -47,7 +47,7 @@ void loop() {
     auto& channel = waveforms[msg.channel];
 
     // RIGHT BUTTON
-    if (msg.channel == 0) {
+    if (msg.channel == kRightChannelNum) {
       if (msg.action == kChannelActionPlay) {
         Debug("Play channel " + msg.channel);
         waveforms[2].envelope.noteOn();
@@ -58,7 +58,7 @@ void loop() {
       }
     }
     // LEFT BUTTON
-    if (msg.channel == 1) {
+    if (msg.channel == kLeftChannelNum) {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
@@ -70,7 +70,7 @@ void loop() {
       }
     }
     // UP BUTTON
-    if (msg.channel == 2) {
+    if (msg.channel == kUpChannelNum) {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
@@ -83,7 +83,7 @@ void loop() {
       }
     }
     // DOWN BUTTON
-    if (msg.channel == 3) {
+    if (msg.channel == kDownChannelNum) {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
@@ -95,12 +95,11 @@ void loop() {
       }
     }
     // A BUTTON
-    if (msg.channel == 4) {
+    if (msg.channel == kAChannelNum) {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         float note = synthy.playSequence();
-        Debug(note);
         waveforms[4].setFrequency(note);
         waveforms[4].adjustPitchBend(note);
         waveforms[4].envelope.noteOn();
@@ -111,12 +110,11 @@ void loop() {
       }
     }
     // B BUTTON
-    if (msg.channel == 5) {
+    if (msg.channel == kBChannelNum) {
       if (msg.action == kChannelActionPlay) {
         // What it do if pressing button
         float note = synthy.reverseSequence();
         waveforms[4].setFrequency(note);
-        Debug(note);
         Debug("Play channel " + msg.channel);
         waveforms[4].adjustPitchBend(note);
         waveforms[4].envelope.noteOn();

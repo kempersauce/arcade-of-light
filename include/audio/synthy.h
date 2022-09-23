@@ -65,9 +65,6 @@ struct Envelope {
     const uint32_t now = time::Now();
     const uint32_t timePassed = now - bendStartTime;
     float newOffset = bendSlope * timePassed;
-    Debug(timePassed);
-    Debug(newOffset);
-    Debug(newOffset);
     if (bendUp && newOffset > bendMax) {
       newOffset = bendMax;
     }
@@ -79,17 +76,10 @@ struct Envelope {
   }
 
   const void adjustPitchBend(float frequency) {
-    Debug("adjusting Bend by");
-    Debug(bendUp);
     if (bendUp) {
       bendMax = frequency * 2;
-      Debug("new max set");
-      Debug(bendMax);
-
     } else {
       bendMax = frequency / 2;
-      Debug("new max set");
-      Debug(bendMax);
     }
   }
 
@@ -112,11 +102,6 @@ struct Envelope {
     }
     const uint32_t now = time::Now();
     const uint32_t timePassed = now - bendStartTime;
-    Debug("==================================");
-    Debug("bendslope:  ");
-    Debug(bendSlope);
-    Debug(bendSlope * timePassed);
-    Debug(bendMax);
     // remove next line when broken out
     setOffset(bendSlope * timePassed);
 
