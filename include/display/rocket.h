@@ -21,7 +21,7 @@ constexpr uint8_t kPinList[kNumStrips]{
     pins::Leds[3],
 
     // Cable 2
-    pins::Leds[8]
+    pins::Leds[4]
 
     // clang-format on
 };

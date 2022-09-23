@@ -174,9 +174,9 @@ class RhythmGameSingle : public Game {
       noise_block.location.y = beat * display->size.y / 4;
 
       // synth.StartInput(??);
-      Debug("BEAT!");
-      Debug_var(metronome_last_hit);
-      Debug_var(time::Now());
+    //   Debug("BEAT!");
+    //   Debug_var(metronome_last_hit);
+    //   Debug_var(time::Now());
     }
   }
 
