@@ -10,7 +10,6 @@
 
 #include "audio/constants.h"    // for k*
 #include "audio/music_notes.h"  // for notes::*
-#include "audio/sounds.h"       // for InitAudio
 #include "serial/debug.h"       // for Debug
 
 namespace kss {
@@ -45,20 +44,11 @@ AudioConnection patchCordMixer3_1(mixer3, 0, mixerMain, 3);
 AudioConnection patchCordMain1(mixerMain, 0, i2s1, 0);
 AudioConnection patchCOrdMain2(mixerMain, 0, i2s1, 1);
 
-AudioControlSGTL5000 sgtl5000_1;  // xy=930,518
-
 class DrumSynthy {
  public:
   DrumSynthy() { Debug("hello"); };
 
   void InitDrumSynth() {
-    // put your setup code here, to run once:
-
-    Serial.begin(115200);
-
-    // audio library init
-    InitAudio();
-
     drum1.frequency(60);
     drum1.length(1500);
     drum1.secondMix(0.0);
@@ -92,9 +82,6 @@ class DrumSynthy {
     drum6.pitchMod(0.0);
 
     noise2.amplitude(1.0);
-
-    sgtl5000_1.enable();
-    sgtl5000_1.volume(0.8);
 
     AudioInterrupts();
   }

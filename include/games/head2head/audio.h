@@ -14,9 +14,8 @@ namespace h2h {
 class H2HAudio : public audio::Manager {
  public:
   H2HAudio(uint8_t serial_no)
-      : Manager(
-            std::make_shared<audio::AudioSender>(serial::kHwSerials[serial_no])) {
-  }
+      : Manager(std::make_shared<audio::AudioSender>(
+            serial::kHwSerials[serial_no])) {}
 
   // Single effects
   audio::SoundEffect aHit{sender, "TRGTHIT2.WAV"};

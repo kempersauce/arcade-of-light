@@ -2,10 +2,12 @@
 
 #include <vector>
 
+#include "pins/pin_setup.h"        // for pins::Init()
 #include "serial/debug.h"          // for Debug
 #include "serial/receiver_bank.h"  // for Receiver
 #include "time/now.h"              // for Now
 
+using namespace kss;
 using namespace kss::serial;
 
 void ShowMessage(const char* message) {
@@ -18,7 +20,10 @@ const std::vector<HardwareSerial*> serials{
 
 ReceiverBank receivers{ShowMessage, serials};
 
-void setup() { Debug_init(); }
+void setup() {
+  Debug_init();
+  pins::Init();
+}
 
 uint32_t next = 0;
 void loop() {

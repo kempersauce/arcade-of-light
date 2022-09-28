@@ -8,7 +8,7 @@ namespace kss {
 namespace controls {
 
 struct DirPad {
- static constexpr size_t button_count{6};
+  static constexpr size_t button_count{6};
   union {
     struct {
       Button* up;

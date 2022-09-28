@@ -2,8 +2,10 @@
 
 #include "serial/debug.h"           // for Debug
 #include "serial/ez_transmitter.h"  // for EZTransmitter
+#include "serial/hw_serials.h"      // for kHwSerials
 #include "time/now.h"               // for Now
 
+using namespace kss;
 using namespace kss::serial;
 
 struct SEND_DATA_STRUCTURE {
@@ -18,11 +20,24 @@ struct SEND_DATA_STRUCTURE {
   char test_str[20];
 };
 
-constexpr size_t transmitter_count{8};
+EZTransmitter<SEND_DATA_STRUCTURE> transmitters[kHwSerialCount]{
+    // clang-format off
+    {kHwSerials[0]},
+    {kHwSerials[1]},
+    {kHwSerials[2]},
+    {kHwSerials[3]},
+    {kHwSerials[4]},
+    {kHwSerials[5]}
 
-EZTransmitter<SEND_DATA_STRUCTURE> transmitters[transmitter_count]{
-    {&Serial1}, {&Serial2}, {&Serial3}, {&Serial4},
-    {&Serial5}, {&Serial6}, {&Serial7}, {&Serial8}};
+#if defined(ARDUINO_TEENSY41) || defined(ARDUINO_TEENSY40)
+    ,{kHwSerials[6]}
+#endif
+
+#if defined(ARDUINO_TEENSY41)
+    ,{kHwSerials[7]}
+#endif
+    // clang-format on
+};
 
 void setup() { Debug_init(); }
 
@@ -31,7 +46,7 @@ void loop() {
   msg.test_uint32 = time::Now();
   static uint8_t message_no = 0;
   msg.test_uint8 = message_no++;
-  for (size_t i = 0; i < transmitter_count; ++i) {
+  for (size_t i = 0; i < kHwSerialCount; ++i) {
     const String serial_label = (String) "Serial" + (String)(i + 1);
     strcpy(msg.test_str, serial_label.c_str());
     Debug(serial_label + " sending msg[" + msg.test_uint8 +

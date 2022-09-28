@@ -1,14 +1,10 @@
-#pragma once
-
 #include <Audio.h>
-#include <SD.h>
-#include <SPI.h>
-#include <SerialFlash.h>
-#include <Wire.h>
+#include <HardwareSerial.h>
 
-#include "audio/constants.h"  // for SynthAudioMessage
-#include "audio/drum_wav.h"
-#include "pins/pin_setup.h"
+#include "audio/constants.h"     // for SynthAudioMessage
+#include "audio/drum_wav.h"      // for DrumWav
+#include "audio/sounds.h"        // for InitAudio
+#include "pins/pin_setup.h"      // for pins::Init
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for reciever
 
@@ -20,20 +16,12 @@ DrumWav drums;
 
 serial::EZReceiver<SynthAudioMessage> receiver(&Serial1);
 
-const void audioDebug() {
-  Debug("Proc=" + AudioProcessorUsage() + " (max=" + AudioProcessorUsageMax() +
-        "), Mem=" + AudioMemoryUsage() + " (max=" + AudioMemoryUsageMax() +
-        ")");
-}
-
 //=============================================================================//
 // SETUP AND LOOP
 void setup() {
   Debug_init();
   pins::Init();
-
-  Debug("making drums");
-  drums.InitDrums();
+  audio::InitAudio();
 
   Debug("drums maked");
 }

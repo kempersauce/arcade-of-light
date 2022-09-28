@@ -4,6 +4,7 @@
 
 #include "audio/constants.h"        // for k*
 #include "serial/ez_transmitter.h"  // for EZTransmitter
+#include "serial/hw_serials.h"      // for kHwSerials
 
 namespace kss {
 namespace audio {

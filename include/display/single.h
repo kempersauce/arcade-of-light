@@ -24,7 +24,8 @@ DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 
 }  // namespace _single
 
-class SingleDisplay : public OctoDisplay<_single::kNumStrips, _single::kLengthStrips> {
+class SingleDisplay
+    : public OctoDisplay<_single::kNumStrips, _single::kLengthStrips> {
  public:
   SingleDisplay() : OctoDisplay(_single::kPinList, _single::kDisplayMemory) {}
 };

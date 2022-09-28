@@ -141,7 +141,7 @@ class RocketGame : public Game {
     target.randomize(display->size.y);
     targetsWon = 0;
     rocket.SetGravity(gravityLevels[level]);
-	explosion.SetGravity(gravityLevels[level]);
+    explosion.SetGravity(gravityLevels[level]);
     rocket.Reset();
     audio.playLevelIntro(level);
   }

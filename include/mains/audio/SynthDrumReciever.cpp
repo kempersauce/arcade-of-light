@@ -1,16 +1,12 @@
 #pragma once
 
 #include <Audio.h>
-#include <SD.h>
-#include <SPI.h>
-#include <SerialFlash.h>
-#include <Wire.h>
-#include <synth_simple_drum.h>
+#include <HardwareSerial.h>
 
-#include "audio/constants.h"  // for SynthAudioMessage
-// #include "audio/synthy.h"        // for Synth
-#include "audio/drum_synthy.h"
-#include "pins/pin_setup.h"
+#include "audio/constants.h"     // for SynthAudioMessage
+#include "audio/drum_synthy.h"   // for DrumSynthy
+#include "audio/sounds.h"        // for InitAudio
+#include "pins/pin_setup.h"      // for pins::Init
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for reciever
 
@@ -20,19 +16,16 @@ using namespace kss::audio::_synthy;
 
 DrumSynthy synthy;
 
-serial::EZReceiver<SynthAudioMessage> receiver(&Serial1);
-
-const void audioDebug() {
-  Debug("Proc=" + AudioProcessorUsage() + " (max=" + AudioProcessorUsageMax() +
-        "), Mem=" + AudioMemoryUsage() + " (max=" + AudioMemoryUsageMax() +
-        ")");
-}
+serial::EZReceiver<SynthAudioMessage> receiver{&Serial1};
 
 //=============================================================================//
 // SETUP AND LOOP
 void setup() {
   Debug_init();
   pins::Init();
+
+  // audio library init
+  audio::InitAudio();
 
   Debug("making synth");
   synthy.InitDrumSynth();

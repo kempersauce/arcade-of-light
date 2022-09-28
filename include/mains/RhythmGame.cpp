@@ -44,8 +44,8 @@ void setup() {
   }
 
   game = new games::rhythm::RhythmGame(gameDisplay, dir_pads);
-//   game = new games::rhythm::RhythmGameSingle(&gameDisplay->panels[0],
-//   dir_pads[0]);
+  //   game = new games::rhythm::RhythmGameSingle(&gameDisplay->panels[0],
+  //   dir_pads[0]);
 
   Debug("game created");
 
@@ -69,7 +69,7 @@ void loop() {
   gameDisplay->Show();
 
   //   Debug("loops brother");
-//   frameRate.PrintFrameRate();
+  //   frameRate.PrintFrameRate();
 
   //   delay(7);
 }

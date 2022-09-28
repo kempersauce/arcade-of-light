@@ -16,7 +16,8 @@ DMAMEM int kDisplayMemory[kTotalPixelCount * 3 / 4];
 }  // namespace _instructo
 
 class InstructoDisplay
-    : public SwitchbackOctoDisplay<_instructo::kPanelRows, _instructo::kPanelColumns> {
+    : public SwitchbackOctoDisplay<_instructo::kPanelRows,
+                                   _instructo::kPanelColumns> {
  public:
   InstructoDisplay(const uint8_t pin)
       : SwitchbackOctoDisplay(pin, _instructo::kDisplayMemory) {}

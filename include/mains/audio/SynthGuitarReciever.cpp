@@ -1,17 +1,11 @@
 #include <Audio.h>
-#include <SD.h>
-#include <SPI.h>
-#include <SerialFlash.h>
-#include <Wire.h>
-
-#include <string>
-#include <vector>
 
 #include "audio/constants.h"      // for SynthAudioMessage
 #include "audio/guitar_synthy.h"  // for Synth
+#include "audio/sounds.h"         // for InitAudio
+#include "pins/pin_setup.h"       // pins::Init
 #include "serial/debug.h"         // for Debug
 #include "serial/ez_receiver.h"   // for reciever
-// #include "pins/pin_setup.h"
 
 using namespace kss;
 using namespace kss::audio;
@@ -19,19 +13,14 @@ using namespace kss::audio::_guitar;
 
 GuitarSynthy guitar;
 
-serial::EZReceiver<SynthAudioMessage> receiver(&Serial1);
-
-const void audioDebug() {
-  Debug("Proc=" + AudioProcessorUsage() + " (max=" + AudioProcessorUsageMax() +
-        "), Mem=" + AudioMemoryUsage() + " (max=" + AudioMemoryUsageMax() +
-        ")");
-}
+serial::EZReceiver<SynthAudioMessage> receiver{&Serial1};
 
 //=============================================================================//
 // SETUP AND LOOP
 void setup() {
   Debug_init();
-  // pins::Init();
+  pins::Init();
+  audio::InitAudio();
 
   Debug("making synth");
   guitar.InitGuitarSynth();

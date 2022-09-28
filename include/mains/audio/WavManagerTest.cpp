@@ -1,15 +1,18 @@
 #include "audio/sounds.h"       // for InitAudio
 #include "audio/wav_manager.h"  // for WavAudioManager
+#include "pins/pin_setup.h"     // for pins::Init
 #include "serial/debug.h"       // for Debug
 
+using namespace kss;
 using namespace kss::audio;
 
 WavAudioManager wav_manager;
 
 void setup() {
   Debug_init();
+  pins::Init();
   // Fire up the boombox
-  InitAudio();
+  audio::InitAudio();
 
   Debug("-=- Beginning SETUP -=-");
 

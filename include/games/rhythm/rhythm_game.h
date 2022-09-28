@@ -61,9 +61,9 @@ class RhythmGame : public Game {
         player->AddExternalExplosions();
       }
 
-	  Debug("Clearing explosives");
+      Debug("Clearing explosives");
       external_explosion_hues.clear();
-	  Debug("Clearing explosives... DONE");
+      Debug("Clearing explosives... DONE");
     }
   }
 };

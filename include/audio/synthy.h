@@ -8,7 +8,6 @@
 
 #include "audio/constants.h"    // for k*
 #include "audio/music_notes.h"  // for notes::*
-#include "audio/sounds.h"       // for InitAudio
 #include "serial/debug.h"       // for Debug
 #include "time/now.h"           // for Now
 
@@ -179,14 +178,6 @@ class Synthy {
   Synthy() { Debug("hello"); };
 
   const void InitSynth() {
-    InitAudio();
-
-    // Comment these out if not using the audio adaptor board.
-    // This may wait forever if the SDA & SCL pins lack
-    // pullup resistors
-    sgtl5000_1.enable();
-    sgtl5000_1.volume(0.8);  // caution: very loud - use oscilloscope only!
-
     // set up dat chord
     waveforms[2].wave.frequency(sequence[0]);  // hard code to root note
     waveforms[3].wave.frequency(sequence[3]);  // hard code to fifth

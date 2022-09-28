@@ -1,16 +1,8 @@
 #pragma once
 
 #include <Audio.h>
-#include <Bounce.h>
-#include <SD.h>
-#include <SPI.h>
-#include <Wire.h>
-#include <synth_simple_drum.h>
-#include <synth_whitenoise.h>
 
-#include "audio/constants.h"    // for k*
 #include "audio/music_notes.h"  // for notes::*
-#include "audio/sounds.h"       // for InitAudio
 #include "serial/debug.h"       // for Debug
 
 namespace kss {
@@ -35,7 +27,6 @@ AudioConnection patchCord6(string5, 0, mixer2, 1);
 AudioConnection patchCord7(string6, 0, mixer2, 2);
 AudioConnection patchCord8(mixer2, 0, i2s1, 0);
 AudioConnection patchCord9(mixer2, 0, i2s1, 1);
-AudioControlSGTL5000 sgtl5000_1;
 
 class GuitarSynthy {
  public:
@@ -57,7 +48,7 @@ class GuitarSynthy {
   //   notes::B[4], notes::D[5], notes::G[5]};  // G - B - D
   const float AminorInversionGuitar[6]{notes::E[3], notes::A[3], notes::C[4],
                                        notes::E[4], notes::A[4], notes::E[5]};
-  float *chord = CmajorGuitar;
+  const float *chord = CmajorGuitar;
 
   int8_t chordNum = 0;
 
@@ -65,22 +56,12 @@ class GuitarSynthy {
   //   *notes::DminorGuitar, *notes::FmajorGuitar, *notes::GmajorGuitar};
 
   void InitGuitarSynth() {
-    // put your setup code here, to run once:
-
-    Serial.begin(115200);
-
-    // audio library init
-    InitAudio();
-
-    sgtl5000_1.enable();
-    sgtl5000_1.volume(0.6);
     mixer1.gain(0, 0.15);
     mixer1.gain(1, 0.15);
     mixer1.gain(2, 0.15);
     mixer1.gain(3, 0.15);
     mixer2.gain(1, 0.15);
     mixer2.gain(2, 0.15);
-    delay(700);
   }
 
   //   const void playString1() { string1.noteOn(chords[chordNum][0], 1); }
@@ -144,8 +125,7 @@ class GuitarSynthy {
   const void actionRight() { setChord(3); }
   const void actionA() { strumUp(); }
   const void actionB() { strumDown(); }
-
-};  // class
+};
 
 }  // namespace _guitar
 }  // namespace audio

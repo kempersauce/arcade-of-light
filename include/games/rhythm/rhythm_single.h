@@ -84,7 +84,7 @@ class RhythmGameSingle : public Game {
     Debug_endl();
     for (size_t i = 0; i < explo.count; ++i) {
       animation::Explosion* explody = new animation::Explosion(
-          50 + (explo.size * 20), 0, beat_length_millis * explo.size,
+          40 + (explo.size * 15), 0, beat_length_millis * explo.size,
           25 * explo.size, 15, 0, 0, 255, explo.hue);
       explody->ExplodeAt(math::random::Int8(display->size.x),
                          math::random::Int16(display->size.y));
@@ -174,9 +174,9 @@ class RhythmGameSingle : public Game {
       noise_block.location.y = beat * display->size.y / 4;
 
       // synth.StartInput(??);
-    //   Debug("BEAT!");
-    //   Debug_var(metronome_last_hit);
-    //   Debug_var(time::Now());
+      //   Debug("BEAT!");
+      //   Debug_var(metronome_last_hit);
+      //   Debug_var(time::Now());
     }
   }
 
@@ -222,7 +222,7 @@ class RhythmGameSingle : public Game {
             beat_proximity_threshold - beat_proximity_threshold_shift) {
       Debug("Exploding Full Beat");
       Debug_var(beat_distance);
-      ExplodeForBeatProximity({player_hues[player_no], 1, 3});
+      ExplodeForBeatProximity({player_hues[player_no], 1, 2});
       return;
     }
 
@@ -231,7 +231,7 @@ class RhythmGameSingle : public Game {
         (beat_proximity_threshold + beat_proximity_threshold_shift) / 2) {
       Debug("Exploding Half Beat");
       Debug_var(beat_distance);
-      ExplodeForBeatProximity({player_hues[player_no], 2, 1});
+      ExplodeForBeatProximity({player_hues[player_no], 1, 1});
       return;
     }
 

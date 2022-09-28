@@ -17,6 +17,7 @@ namespace audio {
 #define SDCARD_SCK_PIN 14
 
 // Sounds
+constexpr float kAudioVolume{0.9};
 AudioControlSGTL5000 sgtl5000_1;
 
 void InitAudio() {
@@ -24,8 +25,9 @@ void InitAudio() {
   // detailed information, see the MemoryAndCpuUsage example
   AudioMemory(16);
 
+  // Enable audio output
   sgtl5000_1.enable();
-  sgtl5000_1.volume(0.9);
+  sgtl5000_1.volume(kAudioVolume);
 
   SPI.setMOSI(SDCARD_MOSI_PIN);
   SPI.setSCK(SDCARD_SCK_PIN);
@@ -34,6 +36,12 @@ void InitAudio() {
     delay(500);
   }
   Debug("Audio Initialized!!");
+}
+
+inline void AudioDebug() {
+  Debug("Proc=" + AudioProcessorUsage() + " (max=" + AudioProcessorUsageMax() +
+        "), Mem=" + AudioMemoryUsage() + " (max=" + AudioMemoryUsageMax() +
+        ")");
 }
 
 }  // namespace audio

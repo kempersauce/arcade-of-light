@@ -8,7 +8,6 @@
 
 #include "audio/constants.h"    // for k*
 #include "audio/music_notes.h"  // for notes::*
-#include "audio/sounds.h"       // for InitAudio
 #include "serial/debug.h"       // for Debug
 #include "time/now.h"           // for Now
 
@@ -108,14 +107,6 @@ class SynthyPoly {
   SynthyPoly() { Debug("hello"); };
 
   const void InitSynth() {
-    InitAudio();
-
-    // Comment these out if not using the audio adaptor board.
-    // This may wait forever if the SDA & SCL pins lack
-    // pullup resistors
-    sgtl5000_1.enable();
-    sgtl5000_1.volume(0.8);  // caution: very loud - use oscilloscope only!
-
     // set up dat chord
     wave1.frequency(chord[0]);
     wave2.frequency(chord[1]);

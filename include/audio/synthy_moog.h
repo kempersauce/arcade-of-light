@@ -12,7 +12,6 @@
 #include "audio/constants.h"    // for k*
 #include "audio/music_notes.h"  // for notes::*
 #include "audio/music_notes.h"  // for notes
-#include "audio/sounds.h"       // for InitAudio
 #include "serial/debug.h"       // for Debug
 
 namespace kss {
@@ -27,8 +26,6 @@ AudioFilterLadder filter1;
 AudioSynthWaveform lfo1;
 AudioSynthWaveform lfo2;
 AudioOutputI2S i2s1;
-
-AudioControlSGTL5000 sgtl5000_1;
 
 AudioConnection patchCord1(waveform1, 0, mixer1, 0);
 AudioConnection patchCord2(waveform2, 0, mixer1, 1);
@@ -52,10 +49,6 @@ class MoogSynthy {
   float notesPressed[3] = {koffNote, koffNote, koffNote};
 
   const void InitMoogSynthy() {
-    InitAudio();
-    sgtl5000_1.enable();
-    sgtl5000_1.volume(0.8);
-
     filter1.resonance(0.55);  // "lfo2" waveform overrides this setting
     filter1.frequency(800);   // "lfo1" modifies this 800 Hz setting
     filter1.octaveControl(

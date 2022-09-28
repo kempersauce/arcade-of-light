@@ -62,6 +62,9 @@ void Init() {
   Debug("Pinout initialized for Teensy4.1 configuration");
   if (frankenstein_mode) {
     Debug("Configured for Frankenstein Mode");
+  } else {
+    Debug("WARNING, FRANKENMODE NOT ACTIVATED");
+    Debug("If using Serial2, then Controller[3] WILL NOT WORK");
   }
 
   Debug("DipSwitches=[" + ReadDipRaw(0) + ReadDipRaw(1) + ReadDipRaw(2) +

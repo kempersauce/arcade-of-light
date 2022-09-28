@@ -1,18 +1,8 @@
 #pragma once
 
 #include <Audio.h>
-#include <SD.h>
-#include <SPI.h>
-#include <SerialFlash.h>
-#include <Wire.h>
 
-#include <string>
-#include <vector>
-
-#include "audio/channel.h"    // for Channel
-#include "audio/constants.h"  // for k*
-#include "audio/sounds.h"     // for InitAudio
-#include "serial/debug.h"     // for Debug
+#include "serial/debug.h"  // for Debug
 
 namespace kss {
 namespace audio {
@@ -46,27 +36,9 @@ AudioConnection patchCordMain2(mixer2, 0, mixerMain, 1);
 AudioConnection patchCordOut1(mixerMain, 0, i2s1, 0);
 AudioConnection patchCordOut2(mixerMain, 0, i2s1, 1);
 
-AudioControlSGTL5000 sgtl5000_1;  // xy=930,518
-
 class DrumWav {
  public:
   DrumWav() { Debug("Pa rum pa pa pum"); }
-
-  const void InitDrums() {
-    InitAudio();
-    sgtl5000_1.enable();
-    sgtl5000_1.volume(0.8);
-
-    SPI.setMOSI(SDCARD_MOSI_PIN);
-    SPI.setSCK(SDCARD_SCK_PIN);
-    if (!(SD.begin(SDCARD_CS_PIN))) {
-      // stop here, but print a message repetitively
-      while (1) {
-        Serial.println("Unable to access the SD card");
-        delay(500);
-      }
-    }
-  }
 
   const void playDrum1() { drum1.play("808CLAP.WAV"); }
   const void playDrum2() { drum2.play("808CRSH1.WAV"); }
@@ -78,6 +50,7 @@ class DrumWav {
   const void playDrum6() { drum6.play("808SNR.WAV"); }
 
 };  // class DrumWav
+
 }  // namespace drumWav
 }  // namespace audio
 }  // namespace kss
