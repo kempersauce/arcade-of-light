@@ -22,6 +22,7 @@ void setup() {
 }
 
 void loop() {
+  time::SetLoopTime();
   for (auto& track : tracks) {
     track.Update();
   }

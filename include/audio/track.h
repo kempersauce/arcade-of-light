@@ -16,7 +16,6 @@ class AudioTrack {
 
   Score* score;
   Score::Iterator next_note;
-  bool is_playing{false};
 
  public:
   AudioTrack(size_t serial_id, Score* score)
@@ -47,20 +46,18 @@ class AudioTrack {
     Debug_here();
     start_time = time::Now();
     next_note = score->begin();
-    is_playing = true;
 
     // Go ahead and play NOW, they probably have a 0ms note on beat 1
     Update();
   }
 
   void Update() {
-    if (!is_playing) {
-      return;
+    if (next_note == score->end()) {
+      next_note = score->begin();
+      start_time += score->length_millis;
     }
 
-    if (next_note == score->end()) {
-      is_playing = false;
-      Debug("End of score reached. Done playing.");
+	if (start_time > time::Now()) {
       return;
     }
 
