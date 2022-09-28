@@ -15,11 +15,12 @@ class AudioTrack {
   uint32_t start_time{0};
 
   Score* score;
+  Score* next_score;
   Score::Iterator next_note;
 
  public:
-  AudioTrack(size_t serial_id, Score* score)
-      : synth{serial::kHwSerials[serial_id]}, score{score} {
+  AudioTrack(size_t serial_id, Score* score, Score* next_score = NULL)
+      : synth{serial::kHwSerials[serial_id]}, score{score}, next_score{next_score} {
     //   ScoreBuilder main_score{165, 32};
     //   main_score.SetBeatEveryMeasure(4, 1);
     //   main_score.SetBeatEveryMeasure(3, 2);
@@ -53,11 +54,16 @@ class AudioTrack {
 
   void Update() {
     if (next_note == score->end()) {
-      next_note = score->begin();
       start_time += score->length_millis;
+      if (next_score != NULL) {
+		std::swap(score, next_score);
+        // score = next_score;
+        // next_score = NULL;
+      }
+      next_note = score->begin();
     }
 
-	if (start_time > time::Now()) {
+    if (start_time > time::Now()) {
       return;
     }
 
