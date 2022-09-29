@@ -19,15 +19,15 @@ WavAudioManager wav_manager;
 void ProcessMessage(const WavAudioMessage& message) {
   auto& channel = wav_manager.GetChannel(message.channel_selector);
   switch (message.action_selector) {
-    case kChannelActionPlay:
+    case kActionChannelPlay:
       channel.Play(message.filename);
       break;
 
-    case kChannelActionRepeat:
+    case kActionChannelRepeat:
       channel.Repeat(message.filename);
       break;
 
-    case kChannelActionStop:
+    case kActionChannelStop:
       channel.Stop();
       break;
 

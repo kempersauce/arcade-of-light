@@ -30,19 +30,29 @@ void loop() {
   receiver.ReceiveMessages();
   SynthAudioMessage msg;
 
-  if (receiver.GetNextMessage(msg)) {
-    // auto& channel = waveforms[msg.channel];
+  while (receiver.GetNextMessage(msg)) {
+    // Click track action
+    if (msg.action == kActionClickTrack) {
+      Debug("Click track received for beat " + msg.channel);
+      // TODO figure out what to do with this click track
+      if (msg.channel == 0) {
+        drums.playDrum6();
+      } else {
+        drums.playDrum4();
+      }
+      continue;
+    }
 
     // RIGHT BUTTON
     if (msg.channel == kRightChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
         drums.playDrum1();
       }
     }
     // LEFT BUTTON
     if (msg.channel == kLeftChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         drums.playDrum2();
@@ -52,7 +62,7 @@ void loop() {
     }
     // UP BUTTON
     if (msg.channel == kUpChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         drums.playDrum3();
@@ -60,7 +70,7 @@ void loop() {
     }
     // DOWN BUTTON
     if (msg.channel == kDownChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         drums.playDrum4();
@@ -68,7 +78,7 @@ void loop() {
     }
     // A BUTTON
     if (msg.channel == kAChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         drums.playDrum5();
@@ -76,8 +86,9 @@ void loop() {
     }
     // B BUTTON
     if (msg.channel == kBChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
+        Debug("Play channel " + msg.channel);
         drums.playDrum6();
       }
     }

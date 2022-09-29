@@ -32,12 +32,12 @@ void loop() {
   receiver.ReceiveMessages();
   SynthAudioMessage msg;
 
-  if (receiver.GetNextMessage(msg)) {
+  while (receiver.GetNextMessage(msg)) {
     // auto& channel = waveforms[msg.channel];
 
     // RIGHT BUTTON
     if (msg.channel == kRightChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
         synthy.actionRight();
       } else {
@@ -48,7 +48,7 @@ void loop() {
     }
     // LEFT BUTTON
     if (msg.channel == kLeftChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
         synthy.actionLeft();
       } else {
@@ -59,7 +59,7 @@ void loop() {
     }
     // UP BUTTON
     if (msg.channel == kUpChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
         synthy.actionUp();
       } else {
@@ -70,7 +70,7 @@ void loop() {
     }
     // DOWN BUTTON
     if (msg.channel == kDownChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
         synthy.actionDown();
       } else {
@@ -81,7 +81,7 @@ void loop() {
     }
     // A BUTTON
     if (msg.channel == kAChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
         synthy.actionA();
       } else {
@@ -92,7 +92,7 @@ void loop() {
     }
     // B BUTTON
     if (msg.channel == kBChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
         synthy.actionB();
       } else {

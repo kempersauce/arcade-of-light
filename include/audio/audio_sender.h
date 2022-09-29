@@ -25,15 +25,15 @@ class AudioSender {
   AudioSender(HardwareSerial* serial = &Serial1) : transmitter{serial} {}
 
   const void PlayWav(const char* fileName, const int channel = -1) {
-    Send(fileName, channel, kChannelActionPlay);
+    Send(fileName, channel, kActionChannelPlay);
   }
 
   const void RepeatWav(const char* fileName, const size_t channel) {
-    Send(fileName, channel, kChannelActionRepeat);
+    Send(fileName, channel, kActionChannelRepeat);
   }
 
   const void StopChannel(const size_t channel) {
-    Send("", channel, kChannelActionStop);
+    Send("", channel, kActionChannelStop);
   }
 };
 

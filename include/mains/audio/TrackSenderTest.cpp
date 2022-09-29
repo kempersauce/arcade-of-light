@@ -1,6 +1,6 @@
+#include "audio/beat_patterns/conga.h"   // for Conga
 #include "audio/beat_patterns/reggae.h"  // for Reggae
 #include "audio/beat_patterns/twist.h"   // for Twist
-#include "audio/beat_patterns/conga.h"   // for Conga
 #include "audio/track.h"                 // for AudioTrack
 #include "pins/pin_setup.h"              // for pins::Init()
 #include "serial/debug.h"                // for Debug

@@ -167,13 +167,19 @@ class RhythmGameSingle : public Game {
       metronome_last_hit += beat_length_millis;
       if (++beat == 4) {
         beat = 0;
+
+        // Track how on-the-beat the player is
         if (on_beat_count > 0) {
           --on_beat_count;
         }
       }
+
+      // Move the block animation up the tower
       noise_block.location.y = beat * display->size.y / 4;
 
-      // synth.StartInput(??);
+      // Trigger the click track to the audio chip
+      synth.SendClickTrack(beat);
+
       //   Debug("BEAT!");
       //   Debug_var(metronome_last_hit);
       //   Debug_var(time::Now());

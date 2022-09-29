@@ -32,12 +32,12 @@ void loop() {
   receiver.ReceiveMessages();
   SynthAudioMessage msg;
 
-  if (receiver.GetNextMessage(msg)) {
+  while (receiver.GetNextMessage(msg)) {
     auto& channel = waveforms[msg.channel];
 
     // RIGHT BUTTON
     if (msg.channel == kRightChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
         waveforms[2].envelope.noteOn();
       } else {
@@ -48,7 +48,7 @@ void loop() {
     }
     // LEFT BUTTON
     if (msg.channel == kLeftChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         waveforms[3].envelope.noteOn();
@@ -60,7 +60,7 @@ void loop() {
     }
     // UP BUTTON
     if (msg.channel == kUpChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         waveforms[4].pitchBendStart(waveforms[4].frequency, true);
@@ -73,7 +73,7 @@ void loop() {
     }
     // DOWN BUTTON
     if (msg.channel == kDownChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         waveforms[4].pitchBendStart(waveforms[4].frequency, false);
@@ -85,7 +85,7 @@ void loop() {
     }
     // A BUTTON
     if (msg.channel == kAChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         float note = synthy.playSequence();
@@ -100,7 +100,7 @@ void loop() {
     }
     // B BUTTON
     if (msg.channel == kBChannelNum) {
-      if (msg.action == kChannelActionPlay) {
+      if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         float note = synthy.reverseSequence();
         waveforms[4].setFrequency(note);

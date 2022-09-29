@@ -7,22 +7,25 @@ namespace audio {
 
 constexpr size_t kChannelCount{5};
 
-constexpr char kChannelActionPlay{'1'};
-constexpr char kChannelActionStop{'0'};
-constexpr char kChannelActionRepeat{'2'};
+// Message actions
+constexpr char kActionChannelPlay{'1'};
+constexpr char kActionChannelStop{'0'};
+constexpr char kActionChannelRepeat{'2'};
+constexpr char kActionClickTrack{'c'};
 
+// Message channels
 constexpr char kChannelMarkerBG{'0'};
 constexpr char kChannelMarker1{'1'};
 constexpr char kChannelMarker2{'2'};
 constexpr char kChannelMarkerAny{'?'};
 
 // SYNTH RECIEVER CONTROL MAPPINGS
-const int8_t kRightChannelNum = 3;
-const int8_t kLeftChannelNum = 2;
-const int8_t kUpChannelNum = 0;
-const int8_t kDownChannelNum = 1;
-const int8_t kAChannelNum = 4;
-const int8_t kBChannelNum = 5;
+constexpr uint8_t kRightChannelNum = 3;
+constexpr uint8_t kLeftChannelNum = 2;
+constexpr uint8_t kUpChannelNum = 0;
+constexpr uint8_t kDownChannelNum = 1;
+constexpr uint8_t kAChannelNum = 4;
+constexpr uint8_t kBChannelNum = 5;
 
 struct SynthAudioMessage {
   uint8_t action;
