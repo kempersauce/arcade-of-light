@@ -15,33 +15,14 @@ class AudioTrack {
   uint32_t start_time{0};
 
   Score* score;
-  Score* next_score;
+  Score* next_score{NULL};
   Score::Iterator next_note;
 
  public:
-  AudioTrack(size_t serial_id, Score* score, Score* next_score = NULL)
-      : synth{serial::kHwSerials[serial_id]}, score{score}, next_score{next_score} {
-    //   ScoreBuilder main_score{165, 32};
-    //   main_score.SetBeatEveryMeasure(4, 1);
-    //   main_score.SetBeatEveryMeasure(3, 2);
-    //   main_score.SetBeatEveryMeasure(5, 3);
-    //   main_score.SetBeatEveryMeasure(3, 4);
-
-    //   ScoreBuilder flare_score{165, 28};
-    //   // Double bass, starts .25 beats before measure 3, beat 1, every 4
-    //   // measures
-    //   flare_score.SetBeatEveryMeasure(4, 8.75, 4);
-
-    //   // cymbal roll on beat 2 every 2nd & 4th measure
-    //   flare_score.SetBeatEveryMeasure(3, 2, 2);
-    //   flare_score.SetBeatEveryMeasure(3, 2.1667, 2);
-    //   flare_score.SetBeatEveryMeasure(3, 2.3333, 2);
-
-    //   // Lay the flare track over the main track after 16 beats (4 measures)
-    //   main_score.AddScore(flare_score.GetScore(), 16);
-
-    //   score = main_score.GetScore();
-  }
+  AudioTrack(size_t serial_id, Score* score)
+      : synth{serial::kHwSerials[serial_id]},
+        score{score},
+        next_note{score->begin()} {}
 
   void Play() {
     Debug_here();
@@ -53,29 +34,82 @@ class AudioTrack {
   }
 
   void Update() {
+    // Looping at the end of the score
     if (next_note == score->end()) {
+      // Shift start_time by the length of the last score
       start_time += score->length_millis;
+
+      // Switch to the next score if one was requested
       if (next_score != NULL) {
-		std::swap(score, next_score);
-        // score = next_score;
-        // next_score = NULL;
+        score = next_score;
+        next_score = NULL;
       }
+
+      // Set the score iterator to the beginning of the new score
       next_note = score->begin();
     }
 
+    // If we haven't started the score yet, then just chill
     if (start_time > time::Now()) {
       return;
     }
 
+    // Play notes that need to be played or until we hit the end
     const uint32_t track_time = time::Now() - start_time;
     while (next_note != score->end() && track_time >= next_note->first) {
       // Play the note(s)
       synth.StartInput(next_note->second);
 
-      Debug("Playing note_t=" + next_note->first + " on ch" +
-            next_note->second + " at actual_t=" + track_time);
+      //   Debug("Playing note_t=" + next_note->first + " on ch" +
+      //         next_note->second + " at track_t=" + track_time);
 
       ++next_note;
+    }
+  }
+
+  // Switch to a new score after this one is done
+  void SwitchTo(Score* new_score) { next_score = new_score; }
+
+  // Switch immediately to the new score
+  // jumping in at the same time we were through the old score
+  void SwitchImmediatelyTo(Score* new_score) {
+    // Cancel any pending score changes
+    next_score = NULL;
+
+    // Switch over to the new score
+    score = new_score;
+    next_note = score->begin();
+
+    // If we haven't started the score yet, then just chill
+    if (start_time > time::Now()) {
+      return;
+    }
+
+    // Adjust start_time if track_time is past the end of the new score
+    uint32_t track_time = time::Now() - start_time;
+    while (track_time >= score->length_millis) {
+      // This should never pass Now since the conditional above
+      start_time += score->length_millis;
+      track_time = time::Now() - start_time;  // Recalculate
+	  Debug("Adjusting track time for shorter score");
+    }
+
+	// Test for the unthinkable
+    while (start_time > time::Now()) {
+      Debug("Time is a flat circle!");
+      // loop forever
+    }
+
+    // FFWD the next_note iterator to the current track time
+    bool fasted_forward = false;
+    while (next_note != score->end() && track_time >= next_note->first) {
+      ++next_note;
+      fasted_forward = true;
+    }
+
+    if (fasted_forward) {
+      Debug("FFW'd to note_t=" + next_note->first +
+            " at track_t=" + track_time);
     }
   }
 };

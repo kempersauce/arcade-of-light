@@ -1,9 +1,9 @@
 // #include "mains/main.cpp"
 
+// Games
 // #include "mains/GliderWars.cpp"
 // #include "mains/HeadToHead.cpp"
 // #include "mains/LifeGame.cpp"
-// #include "mains/RandomTest.cpp"
 // #include "mains/RhythmGame.cpp"
 // #include "mains/RocketGame.cpp"
 
@@ -40,3 +40,6 @@
 // #include "mains/serial/EZTransmitterTest.cpp"
 // #include "mains/serial/HardwareReceiverTest.cpp"
 // #include "mains/serial/HardwareTransmitterTest.cpp"
+
+// Other test programs
+#include "mains/RandomTest.cpp"
