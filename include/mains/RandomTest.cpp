@@ -32,6 +32,28 @@ void setup() {
   but6 = control_context.CreateButton(pins::Controllers[0], pins::Buttons[5]);
 }
 
+void PrintBoolF() {
+  static uint32_t count = 0;
+  static uint32_t sum = 0;
+  ++count;
+  if (random::Bool(0.0069f)) {
+    ++sum;
+  }
+  const float pct = 100.0f * (float)sum / count;
+  Debug("Bool(.0069) avg=" + pct + "%");
+}
+
+void PrintBool() {
+  static uint32_t count = 0;
+  static uint32_t sum = 0;
+  ++count;
+  if (random::Bool()) {
+    ++sum;
+  }
+  const float pct = 100.0f * (float)sum / count;
+  Debug("Bool() avg=" + pct + "%");
+}
+
 void loop() {
   control_context.PollAll();
 
@@ -54,7 +76,14 @@ void loop() {
     Debug("Int16_incl(10, 20)=" + random::Int16_incl(10, 20));
   }
 
-  Debug_var(random::Int16(500, 5000));
+    PrintBool();
+  //   PrintBoolF();
 
-  delay(100);
+//   Debug_var(random::Int8(10));
+//   Debug_var(random::Int8_incl(10));
+
+//   Debug_var(random::Int16(10));
+//   Debug_var(random::Int16_incl(10));
+
+    // delay(100);
 }
