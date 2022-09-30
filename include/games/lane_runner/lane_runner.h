@@ -100,9 +100,9 @@ class LaneRunnerGame : public Game {
       dots[(int)player.location.y] = -1;
     }
 
-    background.draw(display);
+    background.Draw(display);
 
-    // draw the dots
+    // Draw the dots
     for (int y = 0; y < display->size.y; y++) {
       int lane = dots[y];
       if (lane >= 0) {
@@ -110,7 +110,7 @@ class LaneRunnerGame : public Game {
       }
     }
 
-    // draw player
+    // Draw player
     display->Pixel((int)player.location.x, (int)player.location.y) =
         CRGB::Green;
   }

@@ -95,9 +95,9 @@ class Firework : public Animation {
     }
   }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     if (physics.HasExploded) {
-      explosion.draw(display);
+      explosion.Draw(display);
     } else {
       int Saturation =
           min(255 * (physics.location.y / physics.LocationMax), 255);

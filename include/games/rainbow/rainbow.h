@@ -22,7 +22,7 @@ class RainbowGame : public Game {
     // audio->playIdleBG();
   }
 
-  void loop() override { background.draw(display); }
+  void loop() override { background.Draw(display); }
 };
 
 }  // namespace rainbow

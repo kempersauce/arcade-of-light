@@ -20,7 +20,7 @@ class Starscape : public Animation {
         brightness_threshold{brightness_threshold},
         noise_generator{size, 7} {}
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     noise_generator.fillnoise8();
 
     for (size_t x = 0; x < display->size.x; ++x) {
@@ -33,7 +33,7 @@ class Starscape : public Animation {
           uint8_t value = 255 * (brightness - brightness_threshold) /
                           (255 - brightness_threshold);
 
-          // draw onto the blackness of space
+          // Draw onto the blackness of space
           display->Pixel(x, y) =
               CHSV(46, value, value);  // Amber is 46, 100, 100 - we scale from
                                        // black up to amber here

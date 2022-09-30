@@ -21,7 +21,7 @@ class ExplosionsInTheSky : public animation::Animation {
 
   bool isPlaying() { return timeStart != 0; }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     uint32_t timeDiff = time::Now() - timeStart;
 
     // Draw explosion accross all strips

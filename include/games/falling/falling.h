@@ -93,9 +93,9 @@ class FallingGame : public Game {
       setup();
     }
 
-    background.draw(display);
+    background.Draw(display);
 
-    // draw the walls
+    // Draw the walls
     for (int y = 0; y < display->size.y; y++) {
       for (int x = 0; x <= walls[y].first; x++) {
         display->Pixel(x, y) = CRGB::Magenta;
@@ -106,7 +106,7 @@ class FallingGame : public Game {
       }
     }
 
-    // draw player
+    // Draw player
     display->Pixel((int)player.location.x, (int)player.location.y) =
         CRGB::Green;
   }

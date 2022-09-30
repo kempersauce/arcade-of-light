@@ -62,7 +62,7 @@ class Charge : Animation {
     }
   }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     if (yStart < yMax) {
       for (int i = yStart; i < yLoc; i++) {
         display->Pixel(xLoc, i) = CHSV(Hue, Saturation, Brightness);

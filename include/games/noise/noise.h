@@ -17,7 +17,7 @@ class NoiseGame : public Game {
 
   void setup() override {}
 
-  void loop() override { background.draw(display); }
+  void loop() override { background.Draw(display); }
 };
 
 }  // namespace noise

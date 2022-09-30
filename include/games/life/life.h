@@ -34,7 +34,7 @@ class LifeGame : public Game {
     lifeGrid.GoOneRound();
 
     // Draw to display
-    lifeGrid.draw(display);
+    lifeGrid.Draw(display);
   }
 };
 

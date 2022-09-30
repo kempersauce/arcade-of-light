@@ -22,7 +22,7 @@ class SkyFade : public animation::Animation {
 
   void setFadeColor(CRGB* fadeColor) { blendColor = fadeColor; }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     const size_t heightMax =
         display->size.y / 3;  // only go a third of the way up
     for (size_t i = 0; i < display->size.x; i++) {

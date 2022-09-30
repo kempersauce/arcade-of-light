@@ -97,7 +97,7 @@ class Explosion : Animation {
   void Move() override {
     const auto phase = GetPhase();
 
-    // don't draw before exploding or after the explosion burns out
+    // don't Draw before exploding or after the explosion burns out
     if (phase == Phase::Done || phase == Phase::NotStarted) {
       return;
     }
@@ -109,15 +109,15 @@ class Explosion : Animation {
 
   bool IsBurnedOut() const { return GetPhase() == Phase::Done; }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     const auto timeAliveMillis = TimeAliveMillis();
-    // Debug("==== draw(), timeAliveMillis = " +
+    // Debug("==== Draw(), timeAliveMillis = " +
     //                timeAliveMillis + ", sat-phase=" + saturation_phase_ms +
     //                ", bright-phase=" + brightness_phase_ms);
 
     const auto phase = GetPhase();
 
-    // don't draw before exploding or after the explosion burns out
+    // don't Draw before exploding or after the explosion burns out
     if (phase == Phase::Done || phase == Phase::NotStarted) {
       return;
     }

@@ -74,7 +74,7 @@ class Marquee : public Animation {
   }
 
   // Need to add spaces somehow
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     // for (int i = 0; i < display->size.x; i++)
     //   {
     //     for (int j = YLocation; j < display->size.y; j++)

@@ -53,7 +53,7 @@ class HueRainbow : public Animation {
   }
 
   // Taste the rainbow
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     for (size_t x = 0; x < display->size.x; ++x) {
       float hue = HueStart + ((int)x * ShiftSpeed);
       for (size_t y = 0; y < display->size.y; ++y) {

@@ -102,7 +102,7 @@ class Prompt : public Animation {
     drawPixel(display, {4, physics.location.y + 1});
   }
 
-  void draw(display::Display* display) override {
+  void Draw(display::Display* display) override {
     switch (direction) {
       case LEFT:
         DrawLeft(display);

@@ -47,8 +47,8 @@ class SnakeGame : public Game {
       setup();
     }
 
-    background.draw(display);
-    snake.draw(display);
+    background.Draw(display);
+    snake.Draw(display);
   }
 };
 

@@ -61,7 +61,7 @@ class GliderWarsGame : public Game {
     }
 
     // Draw to display
-    lifeGrid.draw(display);
+    lifeGrid.Draw(display);
   }
 };
 

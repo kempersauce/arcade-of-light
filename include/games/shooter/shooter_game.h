@@ -60,10 +60,10 @@ class ShooterGame : public Game {
       bullet.Move();
     }
 
-    background.draw(display);
-    shooter.draw(display);
+    background.Draw(display);
+    shooter.Draw(display);
     if (bullet.isPlaying) {
-      bullet.draw(display);
+      bullet.Draw(display);
     }
   }
 };

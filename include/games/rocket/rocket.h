@@ -57,7 +57,7 @@ class Rocket : public animation::Animation {
     boost.boostFactor = physics.thrust.y / physics.ThrustMax;
   }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     // Draw the rocket ship
     const size_t middleStrip = display->size.x / 2;
     for (size_t i = max(ceil(physics.location.y), 0);
@@ -70,7 +70,7 @@ class Rocket : public animation::Animation {
                          color);  // dither rocket tail
 
     // Draw the rocket boost
-    boost.draw(display);
+    boost.Draw(display);
   }
 };
 

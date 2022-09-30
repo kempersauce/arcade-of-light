@@ -53,9 +53,9 @@ class Exploder : public Animation {
     }
   }
 
-  void draw(display::Display* display) override {
+  void Draw(display::Display* display) override {
     for (auto explosive : explosives) {
-      explosive->draw(display);
+      explosive->Draw(display);
     }
   }
 

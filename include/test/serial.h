@@ -27,7 +27,7 @@ class SerialTest : public games::Game {
   }
 
   void loop() override {
-    background.draw(display);
+    background.Draw(display);
 
     if (ks.ReceiveMessages()) {
       char output[32];

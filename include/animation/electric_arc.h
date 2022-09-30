@@ -22,7 +22,7 @@ class ElectricArc : public Animation {
   size_t yLocation;
   size_t magnitude = 2;
 
-  void draw(display::Display* display) override {
+  void Draw(display::Display* display) override {
     const uint32_t now = time::Now();
     if (now - last_changed >= update_speed) {
       last_changed = now;

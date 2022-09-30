@@ -31,10 +31,10 @@ class AnimationTest : public games::Game {
       anime->Move();
     }
 
-    background.draw(display);
+    background.Draw(display);
 
     for (auto anime : animes) {
-      anime->draw(display);
+      anime->Draw(display);
     }
   }
 };

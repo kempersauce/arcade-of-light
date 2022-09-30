@@ -44,7 +44,7 @@ class H2HZone : public animation::Animation {
     }
   }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     display->Pixel(xLoc, yMin) = CRGB::White;
     display->Pixel(xLoc, yMax) = CRGB::White;
   }

@@ -159,7 +159,7 @@ class RhythmGameSingle : public Game {
             player_hues[player_no], 20, {display->size.x, display->size.y / 4}},
         external_explosions{external_explosions} {}
 
-  // Track the beat so we can draw backgrounds
+  // Track the beat so we can Draw backgrounds
   uint8_t beat{0};
   void UpdateMetronome() {
     // Using while to catch up if behind - bad?
@@ -277,27 +277,27 @@ class RhythmGameSingle : public Game {
     RemoveDeadExplosions();
 
     // Draw Time
-    background.draw(display);
+    background.Draw(display);
 
     // Draw double rainbow on success
     if (on_beat_count >= on_beat_count_threshold) {
       noise_block.use_rainbow_hue = true;
-      noise_block.draw(display);
+      noise_block.Draw(display);
       const size_t old_y = noise_block.location.y;
       noise_block.location.y = ((beat + 6) % 4) * display->size.y / 4;
-      noise_block.draw(display);
+      noise_block.Draw(display);
       noise_block.location.y = old_y;
     } else {
       // Single block no rainbow, no success
       noise_block.use_rainbow_hue = false;
-      noise_block.draw(display);
+      noise_block.Draw(display);
     }
 
     for (auto explosive : explosives) {
-      explosive->draw(display);
+      explosive->Draw(display);
     }
 
-    // exploder.draw(display);
+    // exploder.Draw(display);
   }
 };
 

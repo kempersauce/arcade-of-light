@@ -68,9 +68,9 @@ class FireworksShow : Animation {
     }
   }
 
-  void draw(display::Display* display) override {
+  void Draw(display::Display* display) override {
     for (auto firework : fireworks) {
-      firework->draw(display);
+      firework->Draw(display);
     }
   }
 
