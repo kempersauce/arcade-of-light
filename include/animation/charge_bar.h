@@ -11,8 +11,8 @@ class ChargeBar : public Animation {
   const size_t height_min = 0;
   const CRGB color;
 
- public:
-  const size_t height;
+public:
+  size_t height;
   const float blendFactor = 0.5;
 
 
@@ -20,12 +20,11 @@ class ChargeBar : public Animation {
       : Animation(),
         color{color} {}
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     //TODO: we could use dithering here 
-    totalHeight = unitsFilled * unitHeight;
     for (size_t y = 0; y < height; ++y) {
-      display->BlendPixel(0, y, color, blendFactor);
-      display->BlendPixel(display->size.x - 1, y, color, blendFacor);
+      display->BlendPixel(0, y, &color, blendFactor);
+      display->BlendPixel(display->size.x - 1, y, &color, blendFactor);
     }
   }
 };

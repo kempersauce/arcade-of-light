@@ -43,6 +43,7 @@
 
 // Animation test programs
 // #include "mains/animation/CircleTest.cpp"
+// #include "mains/animation/ChargeBarTest.cpp"
 
 // Other test programs
 // #include "mains/RandomTest.cpp"
