@@ -5,6 +5,7 @@
 #include "animation/animation.h"                // for Animation
 #include "animation/single_color_background.h"  // for SingleColorBackground
 #include "games/game.h"                         // for Game
+#include "serial/debug.h"                       // for Debug
 
 namespace kss {
 namespace test {
@@ -24,7 +25,7 @@ class AnimationTest : public games::Game {
     animes.push_back(animus);
   }
 
-  void setup() override {}
+  void setup() override { Debug("Game setup complete"); }
 
   void loop() override {
     for (auto anime : animes) {
