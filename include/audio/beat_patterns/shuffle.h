@@ -1,59 +1,54 @@
 #pragma once
 
-#include "audio/score.h"
-
-// channels:
-// 0 - tom h
-// 1 - hh closed
-// 2 - crash
-// 3 - clap
-// 4 - bd
-// 5 - sd
+#include "audio/beat_patterns/constants.h"  // for kChannel*
+#include "audio/score.h"                    // for Score
 
 namespace kss {
 namespace audio {
+namespace beats {
 
 const Score GetShuffleScore() {
   ScoreBuilder shuffle{60, 1};
 
   // tom h
-//   shuffle.SetBeat(0, 5);
-//   shuffle.SetBeat(0, 5.5);
-//   shuffle.SetBeat(0, 6);
-//   shuffle.SetBeat(0, 6.5);
+  //   shuffle.SetBeat(kChannelTom, 5);
+  //   shuffle.SetBeat(kChannelTom, 5.5);
+  //   shuffle.SetBeat(kChannelTom, 6);
+  //   shuffle.SetBeat(kChannelTom, 6.5);
 
   // hh closed
-  shuffle.SetBeat(1, 1);
-  shuffle.SetBeat(1, 2);
-  shuffle.SetBeat(1, 2.7);
-  shuffle.SetBeat(1, 3);
-  shuffle.SetBeat(1, 4);
-  shuffle.SetBeat(1, 4.7);
+  shuffle.SetBeat(kChannelHHClosed, 1);
+  shuffle.SetBeat(kChannelHHClosed, 2);
+  shuffle.SetBeat(kChannelHHClosed, 2.7);
+  shuffle.SetBeat(kChannelHHClosed, 3);
+  shuffle.SetBeat(kChannelHHClosed, 4);
+  shuffle.SetBeat(kChannelHHClosed, 4.7);
 
   // crash
-//   shuffle.SetBeat(2, 7.75);
+  //   shuffle.SetBeat(kChannelCrash, 7.75);
 
   // clap
-  shuffle.SetBeat(3, 2);
-  shuffle.SetBeat(3, 2.69);
-  shuffle.SetBeat(3, 4);
+  shuffle.SetBeat(kChannelClap, 2);
+  shuffle.SetBeat(kChannelClap, 2.69);
+  shuffle.SetBeat(kChannelClap, 4);
 
   // bd
-  shuffle.SetBeat(4, 1);
-  shuffle.SetBeat(4, 2);
-  shuffle.SetBeat(4, 2.75);
-  shuffle.SetBeat(4, 3);
-  shuffle.SetBeat(4, 4);
-  shuffle.SetBeat(4, 4.75);
+  shuffle.SetBeat(kChannelBassDrum, 1);
+  shuffle.SetBeat(kChannelBassDrum, 2);
+  shuffle.SetBeat(kChannelBassDrum, 2.75);
+  shuffle.SetBeat(kChannelBassDrum, 3);
+  shuffle.SetBeat(kChannelBassDrum, 4);
+  shuffle.SetBeat(kChannelBassDrum, 4.75);
 
   // sd
-  shuffle.SetBeat(5, 2);
-  shuffle.SetBeat(5, 4);
+  shuffle.SetBeat(kChannelSnare, 2);
+  shuffle.SetBeat(kChannelSnare, 4);
 
   return shuffle.GetScore();
 }
 
 Score Shuffle = GetShuffleScore();
 
+}  // namespace beats
 }  // namespace audio
 }  // namespace kss

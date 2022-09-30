@@ -22,9 +22,11 @@
 #define Debug_init()
 #endif
 
+#define NameOf(var) (#var)
+
 #define Debug_here() Debug("Here I am! time=" + kss::time::Now())
 #define Debug_print_info() Debug_print(__DEBUG_INFO)
-#define Debug_var(var) (Debug(#var + "=" + (var)))
+#define Debug_var(var) (Debug(NameOf(var) + "=" + (var)))
 #define Debunny() Debug("\n(\\_/)\n(0.@)\n(\")(\")")
 
 namespace debug {

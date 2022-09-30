@@ -1,5 +1,7 @@
 #pragma once
 
+#include <queue>  // for queue
+
 #include "audio/score.h"             // for Score
 #include "audio/synth_sender_raw.h"  // for SynthSenderRaw
 #include "serial/debug.h"            // for Debug
@@ -15,7 +17,7 @@ class AudioTrack {
   uint32_t start_time{0};
 
   Score* score;
-  Score* next_score{NULL};
+  std::queue<Score*> playlist;
   Score::Iterator next_note;
 
  public:
@@ -40,9 +42,9 @@ class AudioTrack {
       start_time += score->length_millis;
 
       // Switch to the next score if one was requested
-      if (next_score != NULL) {
-        score = next_score;
-        next_score = NULL;
+      if (!playlist.empty()) {
+        score = playlist.front();
+        playlist.pop();
       }
 
       // Set the score iterator to the beginning of the new score
@@ -68,13 +70,15 @@ class AudioTrack {
   }
 
   // Switch to a new score after this one is done
-  void SwitchTo(Score* new_score) { next_score = new_score; }
+  void SwitchTo(Score* new_score) { playlist.push(new_score); }
 
   // Switch immediately to the new score
   // jumping in at the same time we were through the old score
   void SwitchImmediatelyTo(Score* new_score) {
     // Cancel any pending score changes
-    next_score = NULL;
+    while (!playlist.empty()) {
+      playlist.pop();
+    }
 
     // Switch over to the new score
     score = new_score;
@@ -91,26 +95,27 @@ class AudioTrack {
       // This should never pass Now since the conditional above
       start_time += score->length_millis;
       track_time = time::Now() - start_time;  // Recalculate
-	  Debug("Adjusting track time for shorter score");
+
+      // Debug("Adjusting track time for shorter score");
     }
 
-	// Test for the unthinkable
+    // Test for the unthinkable
     while (start_time > time::Now()) {
       Debug("Time is a flat circle!");
       // loop forever
     }
 
     // FFWD the next_note iterator to the current track time
-    bool fasted_forward = false;
+    // bool fasted_forward = false;
     while (next_note != score->end() && track_time >= next_note->first) {
       ++next_note;
-      fasted_forward = true;
+      //   fasted_forward = true;
     }
 
-    if (fasted_forward) {
-      Debug("FFW'd to note_t=" + next_note->first +
-            " at track_t=" + track_time);
-    }
+    // if (fasted_forward) {
+    //   Debug("FFW'd to note_t=" + next_note->first +
+    //         " at track_t=" + track_time);
+    // }
   }
 };
 

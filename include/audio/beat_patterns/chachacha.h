@@ -1,81 +1,76 @@
 #pragma once
 
-#include "audio/score.h"
-
-// channels:
-// 0 - tom h
-// 1 - hh closed
-// 2 - crash
-// 3 - clap
-// 4 - bd
-// 5 - sd
+#include "audio/beat_patterns/constants.h"  // for kChannel*
+#include "audio/score.h"                    // for Score
 
 namespace kss {
 namespace audio {
+namespace beats {
 
 const Score GetChachachaScore() {
   ScoreBuilder chachacha{120, 2};
 
   // tom h
-  chachacha.SetBeat(0, 2.5);
-  chachacha.SetBeat(0, 4);
-  chachacha.SetBeat(0, 6);
-  chachacha.SetBeat(0, 7);
-  chachacha.SetBeat(0, 7.5);
-  chachacha.SetBeat(0, 8);
+  chachacha.SetBeat(kChannelTom, 2.5);
+  chachacha.SetBeat(kChannelTom, 4);
+  chachacha.SetBeat(kChannelTom, 6);
+  chachacha.SetBeat(kChannelTom, 7);
+  chachacha.SetBeat(kChannelTom, 7.5);
+  chachacha.SetBeat(kChannelTom, 8);
 
   // hh closed
-  chachacha.SetBeat(1, 1);
-  chachacha.SetBeat(1, 1.5);
-  chachacha.SetBeat(1, 2);
-  chachacha.SetBeat(1, 3);
-  chachacha.SetBeat(1, 3.5);
-  chachacha.SetBeat(1, 4);
-  chachacha.SetBeat(1, 5);
-  chachacha.SetBeat(1, 5.5);
-  chachacha.SetBeat(1, 6);
-  chachacha.SetBeat(1, 7);
-  chachacha.SetBeat(1, 7.5);
-  chachacha.SetBeat(1, 8);
+  chachacha.SetBeat(kChannelHHClosed, 1);
+  chachacha.SetBeat(kChannelHHClosed, 1.5);
+  chachacha.SetBeat(kChannelHHClosed, 2);
+  chachacha.SetBeat(kChannelHHClosed, 3);
+  chachacha.SetBeat(kChannelHHClosed, 3.5);
+  chachacha.SetBeat(kChannelHHClosed, 4);
+  chachacha.SetBeat(kChannelHHClosed, 5);
+  chachacha.SetBeat(kChannelHHClosed, 5.5);
+  chachacha.SetBeat(kChannelHHClosed, 6);
+  chachacha.SetBeat(kChannelHHClosed, 7);
+  chachacha.SetBeat(kChannelHHClosed, 7.5);
+  chachacha.SetBeat(kChannelHHClosed, 8);
 
   // crash
-  chachacha.SetBeat(2, 2);
-  chachacha.SetBeat(2, 4);
-  chachacha.SetBeat(2, 6);
-  chachacha.SetBeat(2, 8);
+  chachacha.SetBeat(kChannelCrash, 2);
+  chachacha.SetBeat(kChannelCrash, 4);
+  chachacha.SetBeat(kChannelCrash, 6);
+  chachacha.SetBeat(kChannelCrash, 8);
 
   // clap
-  chachacha.SetBeat(3, 7);
-  chachacha.SetBeat(3, 7.5);
-  chachacha.SetBeat(3, 8);
+  chachacha.SetBeat(kChannelClap, 7);
+  chachacha.SetBeat(kChannelClap, 7.5);
+  chachacha.SetBeat(kChannelClap, 8);
 
   // bd
-  chachacha.SetBeat(4, 1);
-  chachacha.SetBeat(4, 2);
-  chachacha.SetBeat(4, 3);
-  chachacha.SetBeat(4, 4);
-  chachacha.SetBeat(4, 4.5);
-  chachacha.SetBeat(4, 5);
-  chachacha.SetBeat(4, 6);
-  chachacha.SetBeat(4, 7);  
-  chachacha.SetBeat(4, 8);
+  chachacha.SetBeat(kChannelBassDrum, 1);
+  chachacha.SetBeat(kChannelBassDrum, 2);
+  chachacha.SetBeat(kChannelBassDrum, 3);
+  chachacha.SetBeat(kChannelBassDrum, 4);
+  chachacha.SetBeat(kChannelBassDrum, 4.5);
+  chachacha.SetBeat(kChannelBassDrum, 5);
+  chachacha.SetBeat(kChannelBassDrum, 6);
+  chachacha.SetBeat(kChannelBassDrum, 7);
+  chachacha.SetBeat(kChannelBassDrum, 8);
 
   // sd
-  chachacha.SetBeat(5, 1);
-  chachacha.SetBeat(5, 1.5);
-  chachacha.SetBeat(5, 1.75);
-  chachacha.SetBeat(5, 2);
-  chachacha.SetBeat(5, 3);
-  chachacha.SetBeat(5, 3.5);
-  chachacha.SetBeat(5, 4.5);
-  chachacha.SetBeat(5, 5);
-  chachacha.SetBeat(5, 5.5);
-  chachacha.SetBeat(5, 6.5);
+  chachacha.SetBeat(kChannelSnare, 1);
+  chachacha.SetBeat(kChannelSnare, 1.5);
+  chachacha.SetBeat(kChannelSnare, 1.75);
+  chachacha.SetBeat(kChannelSnare, 2);
+  chachacha.SetBeat(kChannelSnare, 3);
+  chachacha.SetBeat(kChannelSnare, 3.5);
+  chachacha.SetBeat(kChannelSnare, 4.5);
+  chachacha.SetBeat(kChannelSnare, 5);
+  chachacha.SetBeat(kChannelSnare, 5.5);
+  chachacha.SetBeat(kChannelSnare, 6.5);
 
   return chachacha.GetScore();
 }
 
 Score Chachacha = GetChachachaScore();
 
+}  // namespace beats
 }  // namespace audio
 }  // namespace kss
