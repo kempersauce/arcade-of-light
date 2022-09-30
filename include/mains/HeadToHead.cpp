@@ -10,6 +10,7 @@
 #include "games/game.h"                 // for Game
 #include "games/head2head/head2head.h"  // for Head2Head
 #include "pins/pin_setup.h"             // for pins::Init
+#include "time/now.h"                   // for SetLoopTime
 
 using namespace kss;
 
@@ -68,6 +69,7 @@ void setup() {
 }
 
 void loop() {
+  time::SetLoopTime();
   control_context.PollAll();
   game->loop();
   gameDisplay->Show();

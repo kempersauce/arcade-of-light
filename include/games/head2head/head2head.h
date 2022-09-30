@@ -41,7 +41,7 @@ class Head2Head : public Game {
 
   // Each team gets their own audio (well, they will)
   H2HAudio audioA{0};
-  H2HAudio audioB{1};
+  H2HAudio audioB{2};
 
   controls::H2HController teamA;
   controls::H2HController teamB;

@@ -29,6 +29,9 @@ void Blend(CRGB& pixel, const CRGB* blend_color, const float blend_factor) {
 }
 
 class Display {
+ protected:
+  CRGB dummy_pixel;
+
  public:
   const math::Dimension size;
 

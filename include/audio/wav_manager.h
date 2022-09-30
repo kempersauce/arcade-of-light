@@ -1,12 +1,7 @@
 #pragma once
 
 #include <Audio.h>
-#include <SD.h>
-#include <SPI.h>
-#include <SerialFlash.h>
-#include <Wire.h>
 
-#include <string>
 #include <vector>
 
 #include "audio/channel.h"    // for Channel

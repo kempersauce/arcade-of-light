@@ -2,6 +2,7 @@
 
 #include <vector>  // for vector
 
+#include "audio/beat_patterns/constants.h"  // for kChannel*
 #include "animation/animation.h"     // for Animation
 #include "animation/exploder.h"      // for Exploder
 #include "animation/explosion.h"     // for Explosion
@@ -69,13 +70,13 @@ class RhythmGameSingle : public Game {
 
   void setup() override {
     audio::ScoreBuilder main_score{240, 16};
-    main_score.SetBeatEveryMeasure(4, 1);
-    main_score.SetBeat(4, 1.1);
-    main_score.SetBeat(4, 1.2);
-    main_score.SetBeatEveryMeasure(3, 2);
-    main_score.SetBeatEveryMeasure(3, 6.5, 2);
-    main_score.SetBeatEveryMeasure(5, 3);
-    main_score.SetBeatEveryMeasure(3, 4);
+    main_score.SetBeatEveryMeasure(audio::beats::kChannelBassDrum, 1);
+    main_score.SetBeat(audio::beats::kChannelBassDrum, 1.1);
+    main_score.SetBeat(audio::beats::kChannelBassDrum, 1.2);
+    main_score.SetBeatEveryMeasure(audio::beats::kChannelHHClosed, 2);
+    main_score.SetBeatEveryMeasure(audio::beats::kChannelHHClosed, 6.5, 2);
+    main_score.SetBeatEveryMeasure(audio::beats::kChannelSnare, 3);
+    main_score.SetBeatEveryMeasure(audio::beats::kChannelHHClosed, 4);
     score = main_score.GetScore();
 
     // THIS should be setup - create track outside of here

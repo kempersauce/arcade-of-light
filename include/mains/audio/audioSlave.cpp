@@ -4,9 +4,7 @@
 #include <SerialFlash.h>
 #include <Wire.h>
 
-#include <string>
-#include <vector>
-
+#include "audio/sounds.h"        // for InitAudio
 #include "audio/wav_manager.h"   // for WavAudioManager
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for EZReceiver
@@ -46,7 +44,7 @@ void setup() {
   Debug_init();
 
   // Fire up the boombox
-  InitAudio();
+  audio::InitAudio();
 
   auto& channel = wav_manager.PlayWav("FUEL50.WAV");
   while (channel.IsPlaying()) {
