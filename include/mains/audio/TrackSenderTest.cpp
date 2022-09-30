@@ -10,7 +10,7 @@
 using namespace kss;
 
 audio::Score *scores[3]{&audio::Conga, &audio::Twist, &audio::Reggae};
-audio::AudioTrack tracks[]{{0, &audio::Conga}};
+audio::AudioTrack tracks[]{{0, &audio::Twist}};
 
 void setup() {
   Debug_init();
@@ -31,6 +31,8 @@ void loop() {
     Debug("Switching beat to scores[" + which + "]");
     tracks[0].SwitchImmediatelyTo(scores[which]);
   }
+
+  // Update the tracks
   for (auto &track : tracks) {
     track.Update();
   }

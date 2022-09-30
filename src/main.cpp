@@ -41,5 +41,8 @@
 // #include "mains/serial/HardwareReceiverTest.cpp"
 // #include "mains/serial/HardwareTransmitterTest.cpp"
 
+// Animation test programs
+// #include "mains/animation/CircleTest.cpp"
+
 // Other test programs
-#include "mains/RandomTest.cpp"
+// #include "mains/RandomTest.cpp"
