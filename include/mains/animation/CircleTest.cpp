@@ -46,19 +46,21 @@ void setup() {
 
   // 3" radius
   circle = new animation::Circle(3, CRGB::Red);
-  circle->physics.location = {2, 7};
+  circle->physics.location = {2, 57};
+  circle->physics.velocity = {.2, 0};
+  circle->physics.gravity = {0, -1};
   animes.push_back(circle);
 
   circle = new animation::Circle(3, CRGB::Red);
-  circle->physics.location = {2, 17.5};
+  circle->physics.location = {2, 77.5};
   animes.push_back(circle);
 
   circle = new animation::Circle(3, CRGB::Red);
-  circle->physics.location = {2.5, 27};
+  circle->physics.location = {2.5, 97};
   animes.push_back(circle);
 
   circle = new animation::Circle(3, CRGB::Red);
-  circle->physics.location = {2.5, 37.5};
+  circle->physics.location = {2.5, 137.5};
   animes.push_back(circle);
 
   game = new test::AnimationTest(gameDisplay, animes);
