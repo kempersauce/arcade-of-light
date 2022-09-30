@@ -38,8 +38,18 @@ class Circle : public Animation {
   void Draw(display::Display* display) override {
     math::Vector2D<float> box_size_px = radius / _circle::grid_spacing;
     math::Vector2D<int> start = (physics.location - box_size_px).GetAs<int>();
-    math::Vector2D<int> end = (physics.location + box_size_px + 1).GetAs<int>();
+    math::Vector2D<int> end = (physics.location + box_size_px + 2).GetAs<int>();
     for (size_t x = max(0, start.x); x < end.x; ++x) {
+      // Draw bounding rect
+    //   if (x == max(0, start.x) || x == end.x - 1) {
+    //     for (size_t y = max(0, start.y); y < end.y; ++y) {
+    //       display->Pixel(x, y) = CRGB::GreenYellow;
+    //     }
+    //   } else {
+    //     display->Pixel(x, max(0, start.y)) = CRGB::GreenYellow;
+    //     display->Pixel(x, end.y - 1) = CRGB::GreenYellow;
+    //   }
+
       for (size_t y = max(0, start.y); y < end.y; ++y) {
         if (!display->IsInBounds(x, y)) {
           continue;
@@ -50,7 +60,7 @@ class Circle : public Animation {
                                           abs(physics.location.y - y)};
         float distance_in =
             (distance_px * _circle::grid_spacing).GetMagnitude();
-        if (distance_in <= radius) {
+        if (distance_in < radius) {
           display->Pixel(x, y) = color;
         } else {
           const float overshoot_in = distance_in - radius;
@@ -60,7 +70,7 @@ class Circle : public Animation {
           const float overshoot_px =
               (overshoot_in / _circle::grid_spacing).GetMagnitude();
           if (overshoot_px <= 1) {
-            display->BlendPixel(x, y, &color, 1-overshoot_px);
+            display->BlendPixel(x, y, &color, 1 - overshoot_px);
           }
         }
       }

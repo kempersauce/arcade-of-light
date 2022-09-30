@@ -48,7 +48,9 @@ class SwitchbackOctoDisplay : public Display {
 
  public:
   virtual inline CRGB& Pixel(size_t x, size_t y) override {
-    CheckLocation(x, y);
+    if (!CheckLocation(x, y)) {
+		return dummy_pixel;
+	}
 
     if (y % 2 == 1) {
       x = size.x - x - 1;

@@ -46,7 +46,9 @@ class OctoDisplay : public Display {
   OctoDisplay* operator=(OctoDisplay*&) = delete;
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
-    CheckLocation(strip, pixel);
+    if (!CheckLocation(strip, pixel)) {
+		return dummy_pixel;
+	}
     return pixels[strip * size.y + pixel];
   }
 
