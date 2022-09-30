@@ -22,8 +22,8 @@ class RocketBoost : public animation::Animation {
     boostFactor = 0;
   }
 
-  // override rainbow draw function
-  void draw(display::Display* display) {
+  // override rainbow Draw function
+  void Draw(display::Display* display) {
     noise_generator.fillnoise8();
 
     // normalize boostFactor to 0-1 range

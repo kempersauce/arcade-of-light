@@ -24,8 +24,8 @@ class MarqueeGame : public Game {
   }
 
   void loop() override {
-    background.draw(display);
-    marquee.draw(display);
+    background.Draw(display);
+    marquee.Draw(display);
   }
 };
 

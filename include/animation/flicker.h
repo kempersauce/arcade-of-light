@@ -91,7 +91,7 @@ class Flicker : public Animation {
   }
 
   // Conjure the Flame
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     // noise.fillnoise8();
     newMillis = time::Now();
 
@@ -130,7 +130,7 @@ class Flicker : public Animation {
       for (int i = 0; i < display->size.x; i++) {
         // move flare up one
         flareLoc[i][0] += 1;
-        // if at max, remove flag to draw next loop
+        // if at max, remove flag to Draw next loop
         if (flareLoc[i][0] == maxHeight + 1) {
           hasFlare[i] = false;
         } else if (math::random::Bool()) {
@@ -140,7 +140,7 @@ class Flicker : public Animation {
       // lastFlareMillis = time::Now();
     }
 
-    // draw flames
+    // Draw flames
     drawFramesUp(display);
   }
 

@@ -20,7 +20,7 @@ class SingleColorBlock : public Animation {
         height_max{height_max},
         color{color} {}
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     for (size_t x = 0; x < display->size.x; ++x) {
       for (size_t y = height_min; y < height_max; ++y) {
         display->Pixel(x, y) = color;

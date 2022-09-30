@@ -24,8 +24,8 @@ class H2HDot : public animation::Animation {
 
   void setVelocity(float velocity) { physics.velocity.y = velocity; }
 
-  void draw(display::Display* display) {
-    // Don't draw outside the display boundaries
+  void Draw(display::Display* display) {
+    // Don't Draw outside the display boundaries
     if (physics.HasHitEdge == false) {
       display->DitherPixel((int)physics.location.x, physics.location.y, &color);
     }

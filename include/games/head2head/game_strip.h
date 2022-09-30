@@ -281,16 +281,16 @@ class H2HGameStrip : public animation::Animation {
     }
   }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     // Debug("Drawing strip" + stripIndex);
     switch (stripState) {
       case H2HStripPlaying:
         drawBackgrounds(display);
         drawZones(display);
         drawMidBar(display);
-        // explosion.draw(display);
-        dropExplosion.draw(display);  // play out the last residual explosion
-        dot.draw(display);
+        // explosion.Draw(display);
+        dropExplosion.Draw(display);  // play out the last residual explosion
+        dot.Draw(display);
         break;
 
       case H2HStripWinningA:
@@ -298,36 +298,36 @@ class H2HGameStrip : public animation::Animation {
         drawBackgrounds(display);
         drawZones(display);
         drawMidBar(display);
-        explosion.draw(display);
-        // dropExplosion.draw(display);
-        // dot.draw(display);
+        explosion.Draw(display);
+        // dropExplosion.Draw(display);
+        // dot.Draw(display);
         break;
 
       case H2HStripDead:
         drawBackgrounds(display);
         drawZones(display);
         drawMidBar(display);
-        // explosion.draw(display);
-        // dropExplosion.draw(display);
-        // dot.draw(display);
+        // explosion.Draw(display);
+        // dropExplosion.Draw(display);
+        // dot.Draw(display);
         break;
 
       case H2HStripDropping:
         drawBackgrounds(display);
         drawZones(display);
         drawMidBar(display);
-        // explosion.draw(display);
-        dropExplosion.draw(display);
-        // dot.draw(display);
+        // explosion.Draw(display);
+        dropExplosion.Draw(display);
+        // dot.Draw(display);
         break;
 
       case H2HStripTotalWinA:
         drawBackgrounds(display);
         // drawZones(display);
         drawMidBar(display);
-        explosion.draw(display);
-        dropExplosion.draw(display);
-        dot.draw(display);
+        explosion.Draw(display);
+        dropExplosion.Draw(display);
+        dot.Draw(display);
         drawWinA(display);
         break;
 
@@ -335,9 +335,9 @@ class H2HGameStrip : public animation::Animation {
         drawBackgrounds(display);
         // drawZones(display);
         drawMidBar(display);
-        explosion.draw(display);
-        dropExplosion.draw(display);
-        dot.draw(display);
+        explosion.Draw(display);
+        dropExplosion.Draw(display);
+        dot.Draw(display);
         drawWinB(display);
         break;
     }
@@ -368,8 +368,8 @@ class H2HGameStrip : public animation::Animation {
   }
 
   void drawZones(display::Display* display) {
-    zoneA.draw(display);
-    zoneB.draw(display);
+    zoneA.Draw(display);
+    zoneB.Draw(display);
   }
 
   void drawMidBar(display::Display* display) {

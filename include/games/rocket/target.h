@@ -44,7 +44,7 @@ class Target : public animation::Animation {
     return isInTarget && time::Now() - Time > targetLockTimeMillis;
   }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     const size_t bottom = Loc;
     const size_t top = bottom + Height;
 

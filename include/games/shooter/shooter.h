@@ -14,7 +14,7 @@ class Shooter : public animation::Animation {
 
   Shooter() : Animation(), physics() {}
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     int xLoc = physics.location.x;
     for (int x = max(xLoc - 1, 0); x < min(xLoc + 2, display->size.x); x++) {
       display->Pixel(x, (int)physics.location.y) = CRGB::Magenta;

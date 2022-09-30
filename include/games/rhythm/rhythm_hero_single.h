@@ -171,16 +171,16 @@ class RhythmGameSingle : public Game {
 
     PlayNotes();
 
-    background.draw(display);
+    background.Draw(display);
 
     // Draw hit-line
     for (size_t x = 0; x < display->size.x; ++x) {
       display->Pixel(x, hit_line_height) = CRGB::White;
     }
 
-    exploder.draw(display);
+    exploder.Draw(display);
     for (auto prompt : prompts) {
-      prompt->draw(display);
+      prompt->Draw(display);
     }
   }
 };

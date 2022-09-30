@@ -79,7 +79,7 @@ class DirPadTest : public games::Game {
     //     //Debug("no Buttons pressed");
     // }
 
-    rainbow.draw(display);
+    rainbow.Draw(display);
   }
 };
 

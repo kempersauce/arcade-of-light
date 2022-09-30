@@ -327,54 +327,54 @@ class RocketGame : public Game {
     switch (gameState) {
       case RocketGameStart:
         // TODO how should this look?
-        starBackground.draw(display);
-        skyFade.draw(display);
-        // target.draw(display);
-        // explosionsInTheSky.draw(display);
-        // explosion.draw(display);
-        // fireworks.draw(display);
-        rocket.draw(display);
+        starBackground.Draw(display);
+        skyFade.Draw(display);
+        // target.Draw(display);
+        // explosionsInTheSky.Draw(display);
+        // explosion.Draw(display);
+        // fireworks.Draw(display);
+        rocket.Draw(display);
         break;
 
       case RocketGamePlaying:
-        starBackground.draw(display);
-        skyFade.draw(display);
-        target.draw(display);
-        // explosionsInTheSky.draw(display);
-        // explosion.draw(display);
-        // fireworks.draw(display);
-        rocket.draw(display);
+        starBackground.Draw(display);
+        skyFade.Draw(display);
+        target.Draw(display);
+        // explosionsInTheSky.Draw(display);
+        // explosion.Draw(display);
+        // fireworks.Draw(display);
+        rocket.Draw(display);
         break;
 
       case RocketGameLose:
-        starBackground.draw(display);
-        skyFade.draw(display);
-        // target.draw(display);
-        explosionsInTheSky.draw(display);
-        explosion.draw(display);
-        // fireworks.draw(display);
-        // rocket.draw(display);
+        starBackground.Draw(display);
+        skyFade.Draw(display);
+        // target.Draw(display);
+        explosionsInTheSky.Draw(display);
+        explosion.Draw(display);
+        // fireworks.Draw(display);
+        // rocket.Draw(display);
         break;
 
       case RocketGameLevelAdvance:
         // audio.playLevelWin();
-        starBackground.draw(display);
-        skyFade.draw(display);
-        // target.draw(display);
-        // explosionsInTheSky.draw(display);
-        // explosion.draw(display);
-        // fireworks.draw(display);
-        rocket.draw(display);
+        starBackground.Draw(display);
+        skyFade.Draw(display);
+        // target.Draw(display);
+        // explosionsInTheSky.Draw(display);
+        // explosion.Draw(display);
+        // fireworks.Draw(display);
+        rocket.Draw(display);
         break;
 
       case RocketGameWin:
-        starBackground.draw(display);
-        skyFade.draw(display);
-        // target.draw(display);
-        // explosionsInTheSky.draw(display);
-        // explosion.draw(display);
-        fireworks.draw(display);
-        // rocket.draw(display);
+        starBackground.Draw(display);
+        skyFade.Draw(display);
+        // target.Draw(display);
+        // explosionsInTheSky.Draw(display);
+        // explosion.Draw(display);
+        fireworks.Draw(display);
+        // rocket.Draw(display);
         break;
     }
   }

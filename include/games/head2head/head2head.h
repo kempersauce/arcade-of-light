@@ -233,10 +233,10 @@ class Head2Head : public Game {
       case H2HGameWinA:
       case H2HGameWinB:
         for (size_t i = 0; i < display->size.x; i++) {
-          gameStrips[i]->draw(display);
+          gameStrips[i]->Draw(display);
         }
         electricArc.yLocation = H2HGameStrip::midBar;
-        electricArc.draw(display);
+        electricArc.Draw(display);
         break;
     }
   }

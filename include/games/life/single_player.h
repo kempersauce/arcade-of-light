@@ -156,7 +156,7 @@ class LifeGameSinglePlayer : public Game {
     }
 
     // Draw to display
-    lifeGrid.draw(display);
+    lifeGrid.Draw(display);
   }
 
   void setHue(float hue) {
