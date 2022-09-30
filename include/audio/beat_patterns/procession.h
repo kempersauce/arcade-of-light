@@ -45,7 +45,7 @@ const Score GetProcessionScore() {
 
 
   // crash
-  procession.SetBeat(2, 1);
+  procession.SetBeat(2, 2);
 
   // clap
   procession.SetBeat(3, 1);

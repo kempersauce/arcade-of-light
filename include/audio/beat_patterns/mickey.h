@@ -48,11 +48,11 @@ const Score GetMickeyScore() {
   mickey.SetBeat(4, 8);
 
   // sd
-  mickey.SetBeatEveryMeasure(5, 2);
-  mickey.SetBeatEveryMeasure(5, 4);
-  mickey.SetBeatEveryMeasure(5, 6);
-  mickey.SetBeatEveryMeasure(5, 7.5);
-  mickey.SetBeatEveryMeasure(5, 8);
+  mickey.SetBeat(5, 2);
+  mickey.SetBeat(5, 4);
+  mickey.SetBeat(5, 6);
+  mickey.SetBeat(5, 7.5);
+  mickey.SetBeat(5, 8);
 
   return mickey.GetScore();
 }

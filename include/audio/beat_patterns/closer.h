@@ -30,9 +30,7 @@ const Score GetCloserScore() {
 //   closer.SetBeat(2, 1);
 
   // clap
-  closer.SetBeat(3, 2);
   closer.SetBeat(3, 4);
-  closer.SetBeat(3, 6);
   closer.SetBeat(3, 8);
 
   // bd
@@ -47,9 +45,9 @@ const Score GetCloserScore() {
 
   // sd
   closer.SetBeat(5, 2);
-//   closer.SetBeatEveryMeasure(5, 4);
+  closer.SetBeat(5, 4);
   closer.SetBeat(5, 6);
-//   closer.SetBeatEveryMeasure(5, 8);
+  closer.SetBeat(5, 8);
 
   return closer.GetScore();
 }

@@ -17,10 +17,10 @@ const Score GetShuffleScore() {
   ScoreBuilder shuffle{60, 1};
 
   // tom h
-  shuffle.SetBeat(0, 5);
-  shuffle.SetBeat(0, 5.5);
-  shuffle.SetBeat(0, 6);
-  shuffle.SetBeat(0, 6.5);
+//   shuffle.SetBeat(0, 5);
+//   shuffle.SetBeat(0, 5.5);
+//   shuffle.SetBeat(0, 6);
+//   shuffle.SetBeat(0, 6.5);
 
   // hh closed
   shuffle.SetBeat(1, 1);
@@ -36,6 +36,7 @@ const Score GetShuffleScore() {
   // clap
   shuffle.SetBeat(3, 2);
   shuffle.SetBeat(3, 2.69);
+  shuffle.SetBeat(3, 4);
 
   // bd
   shuffle.SetBeat(4, 1);
