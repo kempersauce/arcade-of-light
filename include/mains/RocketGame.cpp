@@ -3,6 +3,7 @@
 
 #include "controls/hardware/matrix.h"  // for Matrix
 #include "display/display.h"           // for Display
+#include "display/instructo_panel.h"   // for InstructoDisplay
 #include "display/rocket.h"            // for RocketDisplay
 #include "engines/framerate.h"         // for Framerate
 #include "games/game.h"                // for Game
@@ -15,6 +16,7 @@ using namespace kss;
 
 games::Game* game;
 display::Display* gameDisplay;
+display::Display* instructo_display;
 controls::hardware::Matrix control_context;
 engines::FrameRate framerate;
 
@@ -24,11 +26,13 @@ void setup() {
   time::Init();
 
   gameDisplay = new display::RocketDisplay();
+  instructo_display = new display::InstructoDisplay(pins::Leds[12]);
 
   game = new games::rocket::RocketGame(
       gameDisplay,
       control_context.CreateButton(pins::Controllers[0], pins::Buttons[1]),
       control_context.CreateButton(pins::Controllers[0], pins::Buttons[0]));
+      gameDisplay, instructo_display,
   game->setup();
   Debug("Setup Complete");
 }
@@ -38,5 +42,5 @@ void loop() {
   control_context.PollAll();
   game->loop();
   gameDisplay->Show();
-  //   framerate.PrintFrameRate();
+  framerate.PrintFrameRate();
 }

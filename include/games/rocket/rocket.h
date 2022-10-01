@@ -5,6 +5,7 @@
 
 #include "animation/animation.h"        // for Animation
 #include "display/display.h"            // for Display
+#include "display/instructo_panel.h"    // for InstructoDisplay
 #include "engines/physics_info.h"       // for PhysicsInfo
 #include "games/rocket/rocket_boost.h"  // for RocketBoost
 
@@ -13,13 +14,12 @@ namespace games {
 namespace rocket {
 
 class Rocket : public animation::Animation {
+
  public:
   engines::PhysicsInfo physics;
 
   // Rocket constants
-  // int Mass = 2;
   static constexpr uint8_t height{4};
-  // int Gravity; // this gets set according to the level
 
   // colors (RGB)
   CRGB* color;
@@ -65,9 +65,9 @@ class Rocket : public animation::Animation {
       display->Pixel(middleStrip, i) = *color;
     }
     display->DitherPixelY(middleStrip, physics.location.y + height - 1,
-                         color);  // dither rocket nose
+                          color);  // dither rocket nose
     display->DitherPixelY(middleStrip, physics.location.y,
-                         color);  // dither rocket tail
+                          color);  // dither rocket tail
 
     // Draw the rocket boost
     boost.Draw(display);

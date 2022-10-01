@@ -72,7 +72,7 @@ void setup() {
   //   game = (games::Game*)new games::life::LifeGame(gameDisplay);
   game = (games::Game*)new games::rainbow::RainbowGame(gameDisplay);
   //   game = (games::Game*)new games::rainbow::RainbowStatic(*gameDisplay);
-  //   game = (games::Game*)new games::rocket::RocketGame(*gameDisplay);
+  //   game = (games::Game*)new games::rocket::RocketGame(*gameDisplay, NULL);
   //   game = (games::Game*)new games::marquee::MarqueeGame(*gameDisplay);
   //   game = (games::Game*)new games::snake::SnakeGame(*gameDisplay);
   //   game = (games::Game*)new games::shooter::ShooterGame(*gameDisplay);

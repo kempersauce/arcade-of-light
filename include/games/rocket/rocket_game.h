@@ -36,6 +36,8 @@ enum RocketGameState {
 };
 
 class RocketGame : public Game {
+  display::Display* const instructo_display;
+
   // Audio
   RocketAudio audio;
 
@@ -105,9 +107,10 @@ class RocketGame : public Game {
   const uint32_t idleTimeoutMillis = 1000 * 30;  // 30 seconds
 
  public:
-  RocketGame(display::Display* display, controls::Button* up,
-             controls::Button* reset)
+  RocketGame(display::Display* display, display::Display* instructo_display,
+             controls::Button* up, controls::Button* reset)
       : Game(display),
+        instructo_display{instructo_display},
         up_btn{up},
         reset_btn{reset},
         starBackground(display->size, 140),
