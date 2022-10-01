@@ -19,6 +19,8 @@ private:
   uint8_t Brightness = 150;
   int8_t ShiftSpeed = 1;
   float hue_diff_per_pixel = 1;
+  float zone_size = 20;
+  float border_blend = 1;
 
   bool WaveShift = true;
 
@@ -54,9 +56,13 @@ private:
 
   // Taste the rainbow
   void Draw(display::Display* display) {
+    uint8_t y_limit = display->size.y - 1;
+    uint8_t x_limit = display->size.x - 1;
+    CRGB color;
+
     for (size_t x = 0; x < display->size.x; ++x) {
       float hue = HueStart + ((int)x * ShiftSpeed);
-      for (size_t y = 0; y < display->size.y; ++y) {
+      for (size_t y = 0; y < display->size.y / 2; ++y) {
         // Normalize hue to 0-255
         if (hue < 0) {
           hue += 256;
@@ -64,15 +70,19 @@ private:
         if (hue >= 256) {
           hue -= 256;
         }
-        display->Pixel(x, y) = CHSV((uint8_t)hue, Saturation, Brightness);
-
+        color.setHSV(hue, Saturation, 255);
+        if(x == 0 || x == x_limit || y==0 ) { 
+          display->BlendPixel(x, y, &color, border_blend);
+          display->BlendPixel(x, y_limit - y, &color, border_blend);
+        } else if ( y < zone_size) {
+          float blendFactor = (zone_size - y)/zone_size;
+          display->BlendPixel(x, y, &color, blendFactor * border_blend);
+          display->BlendPixel(x, y_limit - y, &color, blendFactor * border_blend);
+        } 
         hue += hue_diff_per_pixel;
       }
     }
 
-    if (WaveShift) {
-      ShiftSpeed = beatsin8(bpm, 0, speed_max - speed_min) + speed_min;
-    }
 
     HueStart += ShiftSpeed;
   }

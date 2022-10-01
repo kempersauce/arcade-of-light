@@ -17,7 +17,7 @@ namespace audio {
 #define SDCARD_SCK_PIN 14
 
 // Sounds
-constexpr float kAudioVolume{0.8};
+constexpr float kAudioVolume{0.666};
 AudioControlSGTL5000 sgtl5000_1;
 
 void InitAudio() {

@@ -39,11 +39,16 @@ void loop() {
     if (msg.channel == kRightChannelNum) {
       if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
-        waveforms[2].envelope.noteOn();
+        waveforms[4].filterSweepStart(true);
+
+        waveforms[4].envelope.noteOn();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        waveforms[2].envelope.noteOff();
+        waveforms[4].filterSweepStop();
+        if (!synthy.sequencerOn) {
+          waveforms[4].envelope.noteOff();
+        }
       }
     }
     // LEFT BUTTON
@@ -51,11 +56,15 @@ void loop() {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
-        waveforms[3].envelope.noteOn();
+        waveforms[4].filterSweepStart(false);
+        waveforms[4].envelope.noteOn();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
-        waveforms[3].envelope.noteOff();
+        waveforms[4].filterSweepStop();
+        if (!synthy.sequencerOn) {
+          waveforms[4].envelope.noteOff();
+        }
       }
     }
     // UP BUTTON
@@ -64,11 +73,15 @@ void loop() {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         waveforms[4].pitchBendStart(waveforms[4].frequency, true);
+        waveforms[4].envelope.noteOn();
         // channel.envelope.noteOn();
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
         waveforms[4].pitchBendStop();
+        if (!synthy.sequencerOn) {
+          waveforms[4].envelope.noteOff();
+        }
       }
     }
     // DOWN BUTTON
@@ -77,10 +90,15 @@ void loop() {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         waveforms[4].pitchBendStart(waveforms[4].frequency, false);
+        waveforms[4].envelope.noteOn();
+
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
         waveforms[4].pitchBendStop();
+        if (!synthy.sequencerOn) {
+          waveforms[4].envelope.noteOff();
+        }
       }
     }
     // A BUTTON
@@ -92,10 +110,12 @@ void loop() {
         waveforms[4].setFrequency(note);
         waveforms[4].adjustPitchBend(note);
         waveforms[4].envelope.noteOn();
+        synthy.sequencerOn = true;
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
         waveforms[4].envelope.noteOff();
+        synthy.sequencerOn = false;
       }
     }
     // B BUTTON
@@ -107,15 +127,20 @@ void loop() {
         Debug("Play channel " + msg.channel);
         waveforms[4].adjustPitchBend(note);
         waveforms[4].envelope.noteOn();
+        synthy.sequencerOn = true;
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
         waveforms[4].envelope.noteOff();
+        synthy.sequencerOn = false;
       }
     }
   }
 
   if (waveforms[4].bendStarted) {
     waveforms[4].pitchBend();
-  }
+  } 
+  if (waveforms[4].sweepStarted) {
+    waveforms[4].filterSweep();
+  } 
 }
