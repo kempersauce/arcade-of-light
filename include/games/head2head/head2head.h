@@ -1,19 +1,15 @@
 #pragma once
 
-#include "animation/electric_arc.h"             // for ElectricArc
-#include "animation/single_color_background.h"  // for SingleColorBG
-#include "controls/button.h"                    // for Button
-#include "controls/h2h_controller.h"            // for H2HController
-#include "display/h2h_octo.h"                   // for H2HDisplay
-#include "engines/noise.h"                      // for NoiseGenerator
-#include "games/game.h"                         // for Game
-#include "games/head2head/audio.h"              // for H2HAudio
-#include "games/head2head/dot.h"                // for H2HDot
-#include "games/head2head/game_strip.h"         // for H2HGameStrip
-#include "games/head2head/zone.h"               // for H2HZone
-#include "games/life/life.h"                    // for LifeGame
-#include "games/rainbow/rainbow.h"              // for RainbowGame
-#include "time/now.h"                           // for Now
+#include "animation/electric_arc.h"      // for ElectricArc
+#include "controls/h2h_controller.h"     // for H2HController
+#include "engines/noise.h"               // for NoiseGenerator
+#include "games/game.h"                  // for Game
+#include "games/head2head/audio.h"       // for H2HAudio
+#include "games/head2head/dot.h"         // for H2HDot
+#include "games/head2head/game_strip.h"  // for H2HGameStrip
+#include "games/head2head/zone.h"        // for H2HZone
+#include "games/rainbow/rainbow.h"       // for RainbowGame
+#include "time/now.h"                    // for Now
 
 namespace kss {
 namespace games {
@@ -65,22 +61,10 @@ class Head2Head : public Game {
     gameStrips = new H2HGameStrip*[gameDisplay->size.x];
 
     // Do this one at a time so we can feed it pin numbers and button colors
-    gameStrips[0] = new H2HGameStrip(0, gameDisplay->size.y, teamA.buttons[0],
-                                     teamB.buttons[0], &noise_generator);
-    gameStrips[1] = new H2HGameStrip(1, gameDisplay->size.y, teamA.buttons[1],
-                                     teamB.buttons[1], &noise_generator);
-    gameStrips[2] = new H2HGameStrip(2, gameDisplay->size.y, teamA.buttons[2],
-                                     teamB.buttons[2], &noise_generator);
-    gameStrips[3] = new H2HGameStrip(3, gameDisplay->size.y, teamA.buttons[3],
-                                     teamB.buttons[3], &noise_generator);
-    gameStrips[4] = new H2HGameStrip(4, gameDisplay->size.y, teamA.buttons[4],
-                                     teamB.buttons[4], &noise_generator);
-    gameStrips[5] = new H2HGameStrip(5, gameDisplay->size.y, teamA.buttons[5],
-                                     teamB.buttons[5], &noise_generator);
-    gameStrips[6] = new H2HGameStrip(6, gameDisplay->size.y, teamA.buttons[6],
-                                     teamB.buttons[6], &noise_generator);
-    gameStrips[7] = new H2HGameStrip(7, gameDisplay->size.y, teamA.buttons[7],
-                                     teamB.buttons[7], &noise_generator);
+    for (size_t i = 0; i < gameDisplay->size.x; ++i) {
+      gameStrips[i] = new H2HGameStrip(i, gameDisplay->size.y, teamA.buttons[i],
+                                       teamB.buttons[i], &noise_generator);
+    }
   }
 
   void setup() {
