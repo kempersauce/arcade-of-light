@@ -10,6 +10,7 @@
 #include "pins/pin_setup.h"              // for pins::Init
 #include "serial/debug.h"                // for serial debugging
 #include "serial/hw_serials.h"           // for kHwSerials
+#include "time/now.h"                    // for time::*
 
 using namespace kss;
 
@@ -23,7 +24,8 @@ controls::hardware::Matrix control_context;
 void setup() {
   Debug_init();
   pins::Init();
-  time::SetLoopTime();
+  time::Init();
+  
   Debug("Begin setup()");
 
   // Choose your Display type

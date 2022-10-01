@@ -2,6 +2,8 @@
 
 #include <Arduino.h>  // for millis()
 
+#include "serial/debug.h"  // for Debug
+
 namespace kss {
 namespace time {
 
@@ -9,6 +11,12 @@ namespace _now {
 uint32_t last_loop_time{0};
 uint32_t loop_time{0};
 }  // namespace _now
+
+inline const void Init() {
+  _now::loop_time = millis();
+  _now::last_loop_time = _now::loop_time - 10;
+  Debug("Loop time initialized at t=" + _now::loop_time);
+}
 
 inline const void SetLoopTime() {
   _now::last_loop_time = _now::loop_time;

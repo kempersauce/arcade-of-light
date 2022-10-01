@@ -10,7 +10,7 @@
 #include "games/game.h"                 // for Game
 #include "games/head2head/head2head.h"  // for Head2Head
 #include "pins/pin_setup.h"             // for pins::Init
-#include "time/now.h"                   // for SetLoopTime
+#include "time/now.h"                   // for time::*
 
 using namespace kss;
 
@@ -22,6 +22,8 @@ engines::FrameRate framerate;
 void setup() {
   Debug_init();
   pins::Init();
+  time::Init();
+
   gameDisplay = new display::H2HDisplay();
 
   controls::H2HController teamA;

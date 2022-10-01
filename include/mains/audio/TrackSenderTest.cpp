@@ -56,8 +56,8 @@ const char *score_names[beats_count]{
 void setup() {
   Debug_init();
   pins::Init();
+  time::Init();
 
-  time::SetLoopTime();
   for (auto &track : tracks) {
     track.Play();
   }
