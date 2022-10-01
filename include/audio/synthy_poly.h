@@ -15,6 +15,7 @@ namespace kss {
 namespace audio {
 namespace _synthy_poly {
 
+AudioSynthWaveform wave0;
 AudioSynthWaveform wave1;
 AudioSynthWaveform wave2;
 AudioSynthWaveform wave3;
@@ -26,6 +27,7 @@ AudioSynthWaveform wave5;
 AudioFilterBiquad filter1;
 AudioFilterBiquad filter2;
 
+AudioEffectEnvelope envelope0;
 AudioEffectEnvelope envelope1;
 AudioEffectEnvelope envelope2;
 AudioEffectEnvelope envelope3;
@@ -51,12 +53,14 @@ AudioEffectChorus r_chorusEffect;
 // number of "voices" in the chorus which INCLUDES the original voice
 // int n_chorus = 5;
 
+AudioConnection patchEnv0(wave0, envelope0);
 AudioConnection patchEnv1(wave1, envelope1);
 AudioConnection patchEnv2(wave2, envelope2);
 AudioConnection patchEnv3(wave3, envelope3);
 AudioConnection patchEnv4(wave4, envelope4);
 AudioConnection patchEnv5(wave5, envelope5);
 
+AudioConnection patchCord0(envelope0, 0, mixer2, 1);
 AudioConnection patchCord1(envelope1, 0, mixer1, 0);
 AudioConnection patchCord2(envelope2, 0, mixer1, 1);
 AudioConnection patchCord3(envelope3, 0, mixer1, 2);
@@ -108,6 +112,7 @@ class SynthyPoly {
 
   const void InitSynth() {
     // set up dat chord
+    wave0.frequency(notes::C[2]);
     wave1.frequency(chord[0]);
     wave2.frequency(chord[1]);
     wave3.frequency(chord[2]);
@@ -119,6 +124,12 @@ class SynthyPoly {
     filter2.setHighpass(0, 800, 0.3);
 
     // set up envelopes
+    envelope0.attack(1);
+    envelope0.hold(100);
+    envelope0.decay(200);
+    envelope0.sustain(0.5);
+    envelope0.release(200);
+
     envelope1.attack(1);
     envelope1.hold(100);
     envelope1.decay(200);
@@ -149,11 +160,13 @@ class SynthyPoly {
     envelope5.sustain(0.5);
     envelope5.release(200);
 
-    mixer1.gain(3, 0.5);
-    mixer1.gain(2, 0.5);
-    mixer1.gain(1, 0.5);
-    mixer1.gain(0, 0.5);
-    mixer2.gain(0, 0.7);
+    mixer1.gain(3, 0.3);
+    mixer1.gain(2, 0.3);
+    mixer1.gain(1, 0.3);
+    mixer1.gain(0, 0.3);
+    mixer2.gain(0, 0.5);
+    mixer2.gain(1, 0.4);
+
     // lfo1.frequency(0.2);
     // lfo1.amplitude(0.99);
     // lfo1.phase(270);
@@ -165,7 +178,8 @@ class SynthyPoly {
     // add effect
     // l_chorusEffect.voices(n_chorus);
     // r_chorusEffect.voices(n_chorus);
-
+    
+    wave0.begin(1, notes::C[2], WAVEFORM_SQUARE);
     wave1.begin(1, Cmajor[0], WAVEFORM_BANDLIMIT_SAWTOOTH);
     wave2.begin(1, Cmajor[1], WAVEFORM_BANDLIMIT_SAWTOOTH);
     wave3.begin(1, Cmajor[2], WAVEFORM_BANDLIMIT_SAWTOOTH);
@@ -236,18 +250,38 @@ class SynthyPoly {
   const void actionUp() {
     setChord(1);
     resetArp();
+    wave0.frequency(notes::G[3]);
+    envelope0.noteOn();
+  }
+  const void stopUp() {  
+    envelope0.noteOff();
   }
   const void actionDown() {
     setChord(0);
     resetArp();
+    wave0.frequency(notes::C[3]);
+    envelope0.noteOn();
+  }
+  const void stopDown() {
+    envelope0.noteOff();
   }
   const void actionLeft() {
     setChord(2);
     resetArp();
+    wave0.frequency(notes::A[3]);
+    envelope0.noteOn();
+  }
+  const void stopLeft() {
+    envelope0.noteOff();
   }
   const void actionRight() {
     setChord(3);
     resetArp();
+    wave0.frequency(notes::E[3]);
+    envelope0.noteOn();
+  }
+  const void stopRight() {
+    envelope0.noteOff();
   }
   const void actionA() {
     chordOn = true;

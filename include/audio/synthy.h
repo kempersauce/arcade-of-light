@@ -17,7 +17,7 @@ namespace _synthy {
 
 struct Envelope {
   AudioSynthWaveform wave;
-  AudioFilterBiquad filter;
+  AudioFilterLadder filter;
   AudioEffectEnvelope envelope;
 
   AudioConnection patch_wave_out;
@@ -26,6 +26,9 @@ struct Envelope {
   float frequency;
   float frequencyOffset;
 
+  float filterCutoff;
+  float filterCutoffDefault = 800;
+
   Envelope()
       : patch_wave_out{wave, 0, filter, 0},
         patch_filter_out{filter, 0, envelope, 0} {
@@ -33,7 +36,9 @@ struct Envelope {
     wave.begin(1, notes::C[4], WAVEFORM_SQUARE);
 
     // set up filter
-    filter.setLowpass(0, 800, 0.707);
+    filter.resonance(0.4);
+    filter.frequency(filterCutoffDefault);
+    filter.octaveControl(2.6);
 
     // set up envelope
     envelope.attack(1);
@@ -53,12 +58,27 @@ struct Envelope {
     wave.frequency(frequency + frequencyOffset);
   }
 
+  void setFilterCutoff(float frequency) {
+    filterCutoff = frequency;
+    Debug(filterCutoff);
+    AudioNoInterrupts();
+    filter.frequency(filterCutoff);
+    AudioInterrupts();
+  }
+
   uint32_t bendStartTime;
   boolean bendStarted = false;
   float bendSlope;
   float bendLength = 200;
   float bendMax;
   boolean bendUp;
+
+  uint32_t sweepStartTime;
+  boolean sweepStarted = false;
+  float sweepSlope = 0.0005;
+  float sweepMin = 400;
+  float sweepMax = 1800;
+  boolean sweepUp = true;
 
   const void pitchBend() {
     const uint32_t now = time::Now();
@@ -72,6 +92,45 @@ struct Envelope {
     }
 
     setOffset(newOffset);
+  }
+
+  const void filterSweep() {
+    const uint32_t now = time::Now();
+    const uint32_t timePassed = now - sweepStartTime;
+    float newCutoff = filterCutoff + sweepSlope * timePassed;
+    if (newCutoff > sweepMax) {
+      newCutoff = sweepMax;
+      sweepSlope = sweepSlope * -1;
+    }
+    if (newCutoff < sweepMin) {
+      newCutoff = sweepMin;
+      sweepSlope = sweepSlope * -1;
+    }
+    setFilterCutoff(newCutoff);
+
+  }
+
+  
+  const void filterSweepStart(boolean isUp = true) {
+    // calculate max range
+    // figure out linear formula
+    if (!sweepStarted) {
+      sweepStarted = true;
+      sweepStartTime = time::Now();
+      if (!isUp == sweepUp){
+        sweepSlope = sweepSlope * -1;
+        Debug("SlopE:: " + sweepSlope);
+      }
+      sweepUp = isUp;
+
+    }
+    Debug("CUTOFF:: " + filterCutoff);
+    // may want to change this to return just the offset not the final frequency
+    // return bendSlope * timePassed + frequency;
+  }
+
+  const void filterSweepStop() {
+    sweepStarted = false;
   }
 
   const void adjustPitchBend(float frequency) {
@@ -172,6 +231,7 @@ class Synthy {
   uint32_t next_hit = 0;
   uint8_t current_note = sequence[0];
   unsigned long last_time = time::Now();
+  boolean sequencerOn = false;
 
   size_t i = 0;
 

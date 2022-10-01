@@ -136,7 +136,6 @@ class RocketGame : public Game {
 
   // Reset Game
   void setup() {
-    audio.playStdBG();
     level = 0;
     enterLevelStartState();
   }
@@ -159,7 +158,6 @@ class RocketGame : public Game {
     Debug("Entering Win state");
     gameState = RocketGameWin;
     fireworks.SetGravity(gravityLevels[min(level, levelMax - 1)]);
-    audio.playWinBG();
   }
 
   void enterLoseState() {

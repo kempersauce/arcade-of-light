@@ -42,6 +42,7 @@ void loop() {
         synth.actionRight();
       } else {
         // What it do when releast button
+        synth.stopRight();
         Debug("Stop channel " + msg.channel);
         // guitar.stopString1();
       }
@@ -54,6 +55,7 @@ void loop() {
         synth.actionLeft();
       } else {
         // What it do when releast button
+        synth.stopLeft();
         Debug("Stop channel " + msg.channel);
         // guitar.stopString2();
       }
@@ -67,6 +69,7 @@ void loop() {
         // channel.envelope.noteOn();
       } else {
         // What it do when releast button
+        synth.stopLeft();
         Debug("Stop channel " + msg.channel);
         // guitar.stopString3();
       }
@@ -79,6 +82,7 @@ void loop() {
         synth.actionDown();
       } else {
         // What it do when releast button
+        synth.stopDown();
         Debug("Stop channel " + msg.channel);
         // guitar.stopString4();
       }
