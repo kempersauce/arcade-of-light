@@ -72,7 +72,7 @@ class Target : public animation::Animation {
         for (size_t i = bottomFillStart; i < bottomFillEnd; i++) {
           display->Pixel(x, i) = *color;
         }
-        display->DitherPixel(x, bottomFillEnd, color);
+        display->DitherPixelY(x, bottomFillEnd, color);
 
         // Top fill
         size_t topFillEnd = top;
@@ -80,7 +80,7 @@ class Target : public animation::Animation {
         for (size_t i = ceil(topFillStart); i < topFillEnd; i++) {
           display->Pixel(x, i) = *color;
         }
-        display->DitherPixel(x, topFillStart, color);
+        display->DitherPixelY(x, topFillStart, color);
       }
     }
   }
