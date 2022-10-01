@@ -3,7 +3,7 @@
 namespace kss {
 namespace display {
 
-constexpr size_t kTableStripLength{218};
+constexpr size_t kTableStripLength{215};
 constexpr size_t kTableStripCount{8};
 
 constexpr size_t kTowerStripLength{294};

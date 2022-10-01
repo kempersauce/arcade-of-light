@@ -29,7 +29,8 @@ class OctoDisplay : public Display {
   OctoWS2811 octo;
 
  protected:
-  CRGB pixels[total_pixel_count];
+  // pixels initializes to all zeros
+  CRGB pixels[total_pixel_count] = {};
 
  public:
   OctoDisplay(const uint8_t* pin_list, int* displayMemory)

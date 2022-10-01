@@ -37,7 +37,7 @@ enum RocketGameState {
 };
 
 class RocketGame : public Game {
-  display::Display* const instructo_display;
+  display::Display* const instructo;
   animation::HueRainbow* const instructo_animation;
 
   // Audio
@@ -109,14 +109,14 @@ class RocketGame : public Game {
   const uint32_t idleTimeoutMillis = 1000 * 30;  // 30 seconds
 
  public:
-  RocketGame(display::Display* display, display::Display* instructo_display,
+  RocketGame(display::Display* display, display::Display* instructo,
              controls::Button* up, controls::Button* reset)
       : Game(display),
-        instructo_display{instructo_display},
+        instructo{instructo},
         instructo_animation{
-            instructo_display == NULL
+            instructo == NULL
                 ? NULL
-                : new animation::HueRainbow(2, instructo_display->size.y)},
+                : new animation::HueRainbow(2, instructo->size.y)},
         up_btn{up},
         reset_btn{reset},
         starBackground(display->size, 140),
@@ -387,9 +387,11 @@ class RocketGame : public Game {
         break;
     }
 
-    if (instructo_display != NULL) {
+	// Draw instructo
+	
+    if (instructo != NULL) {
       instructo_animation->Move();
-      instructo_animation->Draw(instructo_display);
+      instructo_animation->Draw(instructo);
     }
   }
 };

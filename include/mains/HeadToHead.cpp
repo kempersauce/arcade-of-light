@@ -1,21 +1,18 @@
-
 #include <Arduino.h>
 #include <FastLED.h>
 
 #include "controls/h2h_controller.h"    // for H2HController
 #include "controls/hardware/matrix.h"   // for Matrix
-#include "display/display.h"            // for Display
-#include "display/octo/h2h_octo.h"           // for H2HDisplay
+#include "display//h2h.h"               // for H2HDisplay
 #include "engines/framerate.h"          // for Framerate
-#include "games/game.h"                 // for Game
 #include "games/head2head/head2head.h"  // for Head2Head
 #include "pins/pin_setup.h"             // for pins::Init
 #include "time/now.h"                   // for time::*
 
 using namespace kss;
 
-games::Game* game;
-display::Display* gameDisplay;
+games::h2h::Head2Head* game;
+display::H2HDisplay* gameDisplay;
 controls::hardware::Matrix control_context;
 engines::FrameRate framerate;
 
@@ -31,7 +28,9 @@ void setup() {
   controls::H2HController teamB =
       controls::H2HController::TeamB(control_context);
 
-  game = new games::h2h::Head2Head(gameDisplay, teamA, teamB);
+  game = new games::h2h::Head2Head(&gameDisplay->main_display,
+                                   &gameDisplay->instructo_a,
+                                   &gameDisplay->instructo_b, teamA, teamB);
   game->setup();
   gameDisplay->Show();
   Debug("Setup Complete");
@@ -42,5 +41,5 @@ void loop() {
   control_context.PollAll();
   game->loop();
   gameDisplay->Show();
-  //   framerate.PrintFrameRate();
+  framerate.PrintFrameRate();
 }
