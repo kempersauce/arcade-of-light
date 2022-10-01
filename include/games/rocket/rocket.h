@@ -5,7 +5,6 @@
 
 #include "animation/animation.h"        // for Animation
 #include "display/display.h"            // for Display
-#include "display/instructo_panel.h"    // for InstructoDisplay
 #include "engines/physics_info.h"       // for PhysicsInfo
 #include "games/rocket/rocket_boost.h"  // for RocketBoost
 
