@@ -27,8 +27,8 @@ void setup() {
 
   game = new games::rocket::RocketGame(
       gameDisplay,
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[1]),
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[0]));
+      control_context.CreateButton(pins::Controllers[0], pins::Buttons[5]),
+      control_context.CreateButton(pins::Controllers[0], pins::Buttons[4]));
   game->setup();
   Debug("Setup Complete");
 }

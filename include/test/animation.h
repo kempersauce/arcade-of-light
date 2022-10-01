@@ -12,7 +12,7 @@ namespace test {
 
 // Test Game for Animation(s)
 class AnimationTest : public games::Game {
-  animation::SingleColorBG background;
+  animation::SingleColorBG background{CRGB::Green};
   std::vector<animation::Animation*> animes;
 
  public:
