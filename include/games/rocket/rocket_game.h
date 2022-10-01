@@ -10,6 +10,7 @@
 
 #include "animation/explosion.h"                 // for Explosion
 #include "animation/fireworks_show.h"            // for FireworksShow
+#include "animation/hue_rainbow.h"               // for HueRainbow
 #include "animation/starscape.h"                 // for Starscape
 #include "controls/button.h"                     // for Button
 #include "display/display.h"                     // for Display
@@ -37,6 +38,7 @@ enum RocketGameState {
 
 class RocketGame : public Game {
   display::Display* const instructo_display;
+  animation::HueRainbow* const instructo_animation;
 
   // Audio
   RocketAudio audio;
@@ -111,6 +113,10 @@ class RocketGame : public Game {
              controls::Button* up, controls::Button* reset)
       : Game(display),
         instructo_display{instructo_display},
+        instructo_animation{
+            instructo_display == NULL
+                ? NULL
+                : new animation::HueRainbow(2, instructo_display->size.y)},
         up_btn{up},
         reset_btn{reset},
         starBackground(display->size, 140),
@@ -379,6 +385,11 @@ class RocketGame : public Game {
         fireworks.Draw(display);
         // rocket.Draw(display);
         break;
+    }
+
+    if (instructo_display != NULL) {
+      instructo_animation->Move();
+      instructo_animation->Draw(instructo_display);
     }
   }
 };
