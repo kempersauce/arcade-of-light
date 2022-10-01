@@ -153,7 +153,7 @@ class Explosion : Animation {
         CRGB clr;
         clr.setHSV(hue, saturation, brightness);
         const float blend = (float)brightness / 255.0f;
-        display->DitherPixel(loc.x, loc.y, &clr, blend);
+        display->DitherPixelY(loc.x, loc.y, &clr, blend);
       }
     }
   }

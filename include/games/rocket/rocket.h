@@ -64,9 +64,9 @@ class Rocket : public animation::Animation {
          i < min((int)physics.location.y + height, display->size.y); i++) {
       display->Pixel(middleStrip, i) = *color;
     }
-    display->DitherPixel(middleStrip, physics.location.y + height - 1,
+    display->DitherPixelY(middleStrip, physics.location.y + height - 1,
                          color);  // dither rocket nose
-    display->DitherPixel(middleStrip, physics.location.y,
+    display->DitherPixelY(middleStrip, physics.location.y,
                          color);  // dither rocket tail
 
     // Draw the rocket boost

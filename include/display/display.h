@@ -56,13 +56,25 @@ class Display {
     }
   }
 
+  // Dither the pixels on the strip left and right of x, blending them to color
+  void DitherPixelX(const float x, const size_t y, const CRGB* color,
+                    const float blend_factor = 1) {
+    const size_t x_int = x;
+    const float dither = x - x_int;
+    BlendPixel(x_int, y, color, (1 - dither) * blend_factor);
+    BlendPixel(x_int + 1, y, color, dither * blend_factor);
+  }
+
+  // TODO remove this once it's no longer used
+#define DitherPixel(a, b, c, d) DitherPixelY(a, b, c, d)
+
   // Dither the pixels on the strip above and below y, blending them to color
-  void DitherPixel(const size_t stripIndex, const float y, const CRGB* color,
-                   const float blend_factor = 1) {
+  void DitherPixelY(const size_t x, const float y, const CRGB* color,
+                    const float blend_factor = 1) {
     const size_t y_int = y;
     const float dither = y - y_int;
-    BlendPixel(stripIndex, y_int, color, (1 - dither) * blend_factor);
-    BlendPixel(stripIndex, y_int + 1, color, dither * blend_factor);
+    BlendPixel(x, y_int, color, (1 - dither) * blend_factor);
+    BlendPixel(x, y_int + 1, color, dither * blend_factor);
   }
 
   inline bool IsInBounds(const size_t strip, const size_t pixel) const {
