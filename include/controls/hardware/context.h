@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>  // for shared_ptr
-
 #include "controls/button.h"  // for Button
 
 namespace kss {

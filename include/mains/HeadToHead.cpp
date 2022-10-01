@@ -26,43 +26,10 @@ void setup() {
 
   gameDisplay = new display::H2HDisplay();
 
-  controls::H2HController teamA;
-  teamA.buttons[0] =
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[5]);
-  teamA.buttons[1] =
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[4]);
-  teamA.buttons[2] =
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[3]);
-  teamA.buttons[3] =
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[2]);
-
-  teamA.buttons[4] =
-      control_context.CreateButton(pins::Controllers[1], pins::Buttons[5]);
-  teamA.buttons[5] =
-      control_context.CreateButton(pins::Controllers[1], pins::Buttons[4]);
-  teamA.buttons[6] =
-      control_context.CreateButton(pins::Controllers[1], pins::Buttons[3]);
-  teamA.buttons[7] =
-      control_context.CreateButton(pins::Controllers[1], pins::Buttons[2]);
-
-  controls::H2HController teamB;
-  teamB.buttons[0] =
-      control_context.CreateButton(pins::Controllers[3], pins::Buttons[2]);
-  teamB.buttons[1] =
-      control_context.CreateButton(pins::Controllers[3], pins::Buttons[3]);
-  teamB.buttons[2] =
-      control_context.CreateButton(pins::Controllers[3], pins::Buttons[4]);
-  teamB.buttons[3] =
-      control_context.CreateButton(pins::Controllers[3], pins::Buttons[5]);
-
-  teamB.buttons[4] =
-      control_context.CreateButton(pins::Controllers[2], pins::Buttons[2]);
-  teamB.buttons[5] =
-      control_context.CreateButton(pins::Controllers[2], pins::Buttons[3]);
-  teamB.buttons[6] =
-      control_context.CreateButton(pins::Controllers[2], pins::Buttons[4]);
-  teamB.buttons[7] =
-      control_context.CreateButton(pins::Controllers[2], pins::Buttons[5]);
+  controls::H2HController teamA =
+      controls::H2HController::TeamA(control_context);
+  controls::H2HController teamB =
+      controls::H2HController::TeamB(control_context);
 
   game = new games::h2h::Head2Head(gameDisplay, teamA, teamB);
   game->setup();

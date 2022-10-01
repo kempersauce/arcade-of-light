@@ -27,7 +27,7 @@ inline const uint32_t Now() {
   return _now::loop_time;
 }
 
-inline const uint32_t ElapsedMillis() {
+inline const uint32_t LoopElapsedMillis() {
   return _now::loop_time - _now::last_loop_time;
 }
 
