@@ -15,19 +15,19 @@ class H2HDot : public animation::Animation {
   engines::PhysicsInfo physics;
   CRGB color;
 
-  H2HDot(CRGB startColor, int stripIndex) : Animation(), physics() {
+  H2HDot(CRGB startColor, size_t stripIndex) : Animation(), physics() {
     color = startColor;
-    physics.xLocation = stripIndex;
+    physics.location.x = stripIndex;
   }
 
-  void Move() { physics.Move(); }
+  void Move() override { physics.Move(); }
 
-  void setVelocity(float velocity) { physics.Velocity = (int)velocity; }
+  void setVelocity(float velocity) { physics.velocity.y = velocity; }
 
-  void draw(display::Display* display) {
-    // Don't draw outside the display boundaries
+  void Draw(display::Display* display) {
+    // Don't Draw outside the display boundaries
     if (physics.HasHitEdge == false) {
-      display->DitherPixel((int)physics.xLocation, physics.Location, &color);
+      display->DitherPixelY((int)physics.location.x, physics.location.y, &color);
     }
   }
 };

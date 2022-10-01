@@ -1,139 +1,99 @@
 #pragma once
-#include <HardwareSerial.h>
 
-#include "audio/audio_sender.h"  // for AudioSender
+#include <memory>  // for std::shared_ptr
+
+#include "audio/audio_sender.h"          // for AudioSender
+#include "audio/background_music.h"      // for BackgroundMusic
+#include "audio/manager.h"               // for audio::Manager
+#include "audio/sound_effect.h"          // for SoundEffect
+#include "audio/sound_effect_bespoke.h"  // for SoundEffectBespoke
 
 namespace kss {
 namespace games {
 namespace rocket {
 
-class RocketAudio : public audio::AudioSender {
+// Sub-manager handles level-specific sounds
+class LevelAudio : public audio::Manager {
  public:
-  // File names for single effects
-  char* explosion = "EXPLODE1";
-  char* win = "BOOM";
-  char* targetWin = "<TRGTHIT5.WAV>";
-  char* levelWin = "<11LIFTOFF.WAV>";
+  audio::SoundEffect intro;
+  audio::BackgroundMusic background;
 
-  // File names for Background
-  char* winBG = "EARTH";
-  char* stdBG = "<9EARTH.WAV>";
+  LevelAudio(std::shared_ptr<audio::AudioSender> sender, const char* intro,
+             const char* background)
+      : Manager(sender), intro{sender, intro}, background{sender, background} {}
+};
 
-  // Level Intro Sounds
-  char* level1Intro = "<EARTHVOX.WAV>";
-  char* level1BG = "<9EARTH.WAV>";
-  char* level2Intro = "<MOONVOX.WAV>";
-  char* level2BG = "<9MOONJAZZ.WAV>";
-  char* level3Intro = "<MARSVOX.WAV>";
-  char* level3BG = "<9MARS.WAV>";
-  char* level4Intro = "<JPTRVOX.WAV>";
-  char* level4BG = "<9JUPITER.WAV>";
-  char* level5Intro = "<PLUTOVOX.WAV>";
-  char* level5BG = "<9PLUTO.WAV>";
+class RocketAudio : public audio::Manager {
+ public:
+  // Single effects
+  audio::SoundEffect explosion{sender, "EXPLODE1.WAV"};
+  audio::SoundEffect win{sender, "BOOM.WAV"};
+  audio::SoundEffect targetWin{sender, "TRGTHIT5.WAV"};
+  audio::SoundEffectBespoke levelWin{sender, 1, "LIFTOFF.WAV"};
+
+  // Background music
+  audio::BackgroundMusic winBG{sender, "EARTH.WAV"};
+  audio::BackgroundMusic stdBG{sender, "EARTH.WAV"};
+
+  // Level specific audio
+  LevelAudio level_sounds[5] = {
+      LevelAudio{sender, "EARTHVOX.WAV", "EARTH.WAV"},
+      LevelAudio{sender, "MOONVOX.WAV", "MOONJAZZ.WAV"},
+      LevelAudio{sender, "MARSVOX.WAV", "MARS.WAV"},
+      LevelAudio{sender, "JPTRVOX.WAV", "JUPITER.WAV"},
+      LevelAudio{sender, "PLUTOVOX.WAV", "PLUTO.WAV"},
+  };
 
   // File names and controls for start/stop channels
-  char* boost = "THRUST2";
-  bool boostIsPlaying = false;
-  char* targetHover = "TRGTSEQ";
-  char* targetHoverFull = "<21TRGTSEQ.WAV>";
-  bool targetHoverIsPlaying = false;
-  char* fireworkLaunch = "WHOOSH";
-  char* fireworkLaunchLong = "<TRGTMIS1.WAV>";
-  bool fireworkLaunchIsPlaying = false;
-  char* fireworkExplode = "EXPLODE1";
-  char* fireworkExplodeLong = "<EXPLODE1.WAV>";
-
-  // CONSTRUCTOR - starts Serial (inhereted from AudioSender)
-  RocketAudio() : AudioSender() {}
+  audio::SoundEffectBespoke boost{sender, 1, "THRUST2.WAV"};
+  audio::SoundEffectBespoke targetHover{sender, 2, "TRGTSEQ.WAV"};
+  audio::SoundEffect fireworkLaunch{sender, "TRGTMIS1.WAV"};
+  audio::SoundEffect fireworkExplode{sender, "EXPLODE1.WAV"};
 
   // SINGLE EFFECT METHODS
-  void playExplosion() { playWav(explosion); }
-  void playWin() { playWav(win); }
-  void playTargetWin() { sendMsg(targetWin); }
-  void playLevelWin() { serial.println(levelWin); }
-  void playLevelIntro() {
-    // playWav();
-  }
-  void playFireWorkLaunch() { sendMsg(fireworkLaunchLong); }
-  void playFireWorkExplode() { sendMsg(fireworkExplodeLong); }
+  void playWin() { win.Play(); }
+  void playTargetWin() { targetWin.Play(); }
+  void playLevelWin() { levelWin.Play(); }
 
   void killChannels() {
-    serial.println("<20>");
-    delay(5);
-    serial.println("<10>");
-    delay(5);
-    serial.println("<aa>");
-    delay(5);
-    serial.println("<aa>");
-    delay(5);
+    boost.Stop();
+    targetHover.Stop();
+    levelWin.Stop();
+    sender->StopChannel(3);
+    sender->StopChannel(4);
   }
 
-  void playLevelIntro(int levelNum) {
-    switch (levelNum) {
-      case 1:
-        // delay(100);
-        killChannels();
-        serial.println("<EARTHVOX.WAV>");
-        delay(5);
-        serial.println("<9EARTH.WAV>");
-        delay(5);
-        break;
-      case 2:
-        killChannels();
-        sendMsg(level2Intro);
-        sendMsg(level2BG);
-        break;
-      case 3:
-        killChannels();
-        sendMsg(level3Intro);
-        sendMsg(level3BG);
-        break;
-      case 4:
-        killChannels();
-        sendMsg(level4Intro);
-        sendMsg(level4BG);
-        break;
-      case 5:
-        killChannels();
-        sendMsg(level5Intro);
-        sendMsg(level5BG);
-        break;
-    }
+  void playLevelIntro(const size_t level) {
+    killChannels();
+    level_sounds[level].intro.Play();
+    level_sounds[level].background.Repeat();
   }
 
   // START/STOP METHODS
 
   // CHANNEL 1: BOOST
   void startPlayBoost() {
-    if (!boostIsPlaying) {
-      startWavOnChannel(boost, 1);
-      boostIsPlaying = true;
+    if (!boost.is_playing) {
+      boost.Play();
     }
   }
 
-  void stopPlayBoost() {
-    stopWavOnChannel(1);
-    boostIsPlaying = false;
-  }
+  void stopPlayBoost() { boost.Stop(); }
 
   // CHANNEL 2: TARGET
   void startPlayTargetHover() {
-    if (!targetHoverIsPlaying) {
-      sendMsg(targetHoverFull);
-      targetHoverIsPlaying = true;
+    if (!targetHover.is_playing) {
+      targetHover.Play();
     }
   }
 
-  void stopPlayTargetHover() {
-    sendMsg("<20>");
-    targetHoverIsPlaying = false;
-  }
+  void stopPlayTargetHover() { targetHover.Stop(); }
 
   // CHANNEL 1: FireworkLaunch
 
   // BACKGROUND METHODS
-  void playStdBG() { sendMsg(stdBG); }
-  void playWinBG() { setBackground(winBG); }
+  void playStdBG() { stdBG.Repeat(); }
+  void playWinBG() { winBG.Repeat(); }
 };
 
 }  // namespace rocket

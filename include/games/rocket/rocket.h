@@ -18,22 +18,11 @@ class Rocket : public animation::Animation {
 
   // Rocket constants
   // int Mass = 2;
-  int Height = 2;
+  static constexpr uint8_t height{4};
   // int Gravity; // this gets set according to the level
 
   // colors (RGB)
   CRGB* color;
-
-  // Rocket State
-  // float Thrust;
-  // float ThrustMax = 200;
-  // float Acceleration;
-  // float Velocity;
-  // float ExploadVelocity = 50;
-  // float Location;
-  // int LocationMax;
-  // long Time;
-  // bool Exploded;
 
   RocketBoost boost;
 
@@ -42,7 +31,7 @@ class Rocket : public animation::Animation {
    * @param loc - location on LED strip
    * @param clr - Color of the rocket ship
    */
-  Rocket(int strip_length, CRGB* clr) : Animation(), physics(), boost(5) {
+  Rocket(size_t strip_length, CRGB* clr) : Animation(), physics(), boost(5) {
     // Init physics settings
     physics.LocationMax = strip_length;
     physics.BounceFactor = -0.7;
@@ -56,32 +45,32 @@ class Rocket : public animation::Animation {
 
   void Reset() { physics.Reset(); }
 
-  void SetGravity(int gravity) { physics.Gravity = gravity; }
+  void SetGravity(float gravity) { physics.gravity.y = gravity; }
 
-  void SetBoost(int thrustLevel) { physics.Thrust = thrustLevel; }
+  void SetBoost(float thrustLevel) { physics.thrust.y = thrustLevel; }
 
-  void Move(bool respectEdges = true) {
-    physics.Move(respectEdges);
+  void Move() override {
+    physics.Move();
 
     // Update boost location
-    boost.loc = physics.Location;
-    boost.boostFactor = physics.Thrust / physics.ThrustMax;
+    boost.loc = physics.location.y;
+    boost.boostFactor = physics.thrust.y / physics.ThrustMax;
   }
 
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     // Draw the rocket ship
-    const size_t middleStrip = display->strip_count / 2;
-    for (size_t i = max(ceil(physics.Location), 0);
-         i < min((int)physics.Location + Height, display->strip_length); i++) {
+    const size_t middleStrip = display->size.x / 2;
+    for (size_t i = max(ceil(physics.location.y), 0);
+         i < min((int)physics.location.y + height, display->size.y); i++) {
       display->Pixel(middleStrip, i) = *color;
     }
-    display->DitherPixel(middleStrip, physics.Location + Height - 1,
+    display->DitherPixelY(middleStrip, physics.location.y + height - 1,
                          color);  // dither rocket nose
-    display->DitherPixel(middleStrip, physics.Location,
+    display->DitherPixelY(middleStrip, physics.location.y,
                          color);  // dither rocket tail
 
     // Draw the rocket boost
-    boost.draw(display);
+    boost.Draw(display);
   }
 };
 

@@ -17,12 +17,19 @@ class StandardDisplay : public Display {
   CRGB pixels[STRIP_COUNT][STRIP_LENGTH];
 
  public:
-  StandardDisplay() : Display(STRIP_COUNT, STRIP_LENGTH) {}
+  StandardDisplay() : Display({STRIP_COUNT, STRIP_LENGTH}) {}
+  virtual ~StandardDisplay() = default;
+
+  // Delete copy constructor & assignment operator, force them to make their own
+  StandardDisplay(const StandardDisplay*) = delete;
+  StandardDisplay* operator=(const StandardDisplay*) = delete;
+  StandardDisplay(StandardDisplay*&) = delete;
+  StandardDisplay* operator=(StandardDisplay*&) = delete;
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
-#ifdef DEBUG
-    CheckLocation(strip, pixel);
-#endif
+    if (!CheckLocation(strip, pixel)) {
+		return dummy_pixel;
+	}
     return pixels[strip][pixel];
   }
 
@@ -33,8 +40,8 @@ class StandardDisplay : public Display {
   template <uint8_t PIN>
   const void RegisterStrip(const size_t index) {
     // Guard against registering extra strips on accident
-    if (index < strip_count) {
-      FastLED.addLeds<WS2812B, PIN, GRB>(pixels[index], strip_length);
+    if (index < size.x) {
+      FastLED.addLeds<WS2812B, PIN, GRB>(pixels[index], size.y);
     }
   }
 };

@@ -6,8 +6,6 @@
 #include <SerialFlash.h>
 #include <Wire.h>
 
-#include <memory>  // for shared_ptr
-
 #include "audio/sounds.h"     // for Sounds
 #include "controls/button.h"  // for Button
 #include "games/game.h"       // for Game
@@ -36,35 +34,32 @@ AudioConnection patchCord4(playSdWav4, 0, audio::i2s1, 3);
 class WavPlayer : public Game {
  private:
   // Buttons go here
-  std::shared_ptr<controls::Button> ABut;
-  std::shared_ptr<controls::Button> BBut;
-  std::shared_ptr<controls::Button> CBut;
-  std::shared_ptr<controls::Button> DBut;
-  std::shared_ptr<controls::Button> EBut;
-  std::shared_ptr<controls::Button> FBut;
+  controls::Button* ABut;
+  controls::Button* BBut;
+  controls::Button* CBut;
+  controls::Button* DBut;
+  controls::Button* EBut;
+  controls::Button* FBut;
 
  public:
-  WavPlayer(std::shared_ptr<controls::Button> aBut,
-            std::shared_ptr<controls::Button> bBut,
-            std::shared_ptr<controls::Button> cBut,
-            std::shared_ptr<controls::Button> dBut,
-            std::shared_ptr<controls::Button> eBut,
-            std::shared_ptr<controls::Button> fBut)
-      : ABut{std::move(aBut)},
+  WavPlayer(controls::Button* aBut, controls::Button* bBut,
+            controls::Button* cBut, controls::Button* dBut,
+            controls::Button* eBut, controls::Button* fBut)
+      : Game{NULL},
+        ABut{std::move(aBut)},
         BBut{std::move(bBut)},
         CBut{std::move(cBut)},
         DBut{std::move(dBut)},
         EBut{std::move(eBut)},
         FBut{std::move(fBut)} {}
 
-  void setup() {
-    Serial.begin(9600);
+  void setup() override {
+    Debug_init();
     audio::initAudio();
     delay(1000);
   }
 
-  void loop() {
-    // if (playSdWav1.isPlaying() == false) {
+  void loop() override {
     if (ABut->IsPressed()) {
       playSdWav2.play("Guycey1.wav");
       Serial.println("Button A Pressed");
@@ -100,7 +95,6 @@ class WavPlayer : public Game {
       Serial.println("Button F Pressed");
       delay(500);
     }
-    //  }
   }
 };
 

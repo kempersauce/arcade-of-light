@@ -2,7 +2,8 @@
 
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
-#include "engines/random.h"       // for random::*
+#include "math/random.h"          // for random::*
+#include "time/now.h"             // for Now
 
 namespace kss {
 namespace games {
@@ -12,12 +13,12 @@ namespace rocket {
 Class that sets a series of dots in a specific location on the LED strip
 */
 class Target : public animation::Animation {
-  const static long targetLockTimeMillis = 1000 * 3;  // 3 second lock time
+  const static uint32_t targetLockTimeMillis = 1000 * 3;  // 3 second lock time
  public:
-  int Loc;
-  int Height;
+  size_t Loc;
+  size_t Height;
   CRGB* color;
-  long Time;
+  uint32_t Time;
   bool isInTarget;
 
   // Constructor
@@ -30,8 +31,8 @@ class Target : public animation::Animation {
   void setColor(CRGB* clr) { color = clr; }
 
   void randomize(int strip_length) {
-    Loc = engines::random::Int16(strip_length / 4, strip_length - 20);
-    Height = engines::random::Int8(10, 25);
+    Loc = math::random::Int16(strip_length / 4, strip_length - 20);
+    Height = math::random::Int8(10, 25);
   }
 
   void setToGround() {
@@ -39,43 +40,47 @@ class Target : public animation::Animation {
     Height = 10;
   }
 
-  bool isTargetLocked() {
-    return isInTarget && millis() - Time > targetLockTimeMillis;
+  bool isTargetLocked() const {
+    return isInTarget && time::Now() - Time > targetLockTimeMillis;
   }
 
-  void draw(display::Display* display) {
-    int bottom = Loc;
-    int top = bottom + Height;
+  void Draw(display::Display* display) {
+    const size_t bottom = Loc;
+    const size_t top = bottom + Height;
 
-    // Draw the target accross all strip_count
-    for (int j = 0; j < display->strip_count; j++) {
+    // Draw the target accross all strips
+    for (size_t x = 0; x < display->size.x; ++x) {
       // Target bookends
-      if (bottom >= 0) display->Pixel(j, bottom) = *color;
+      if (bottom >= 0) {
+        display->Pixel(x, bottom) = *color;
+      }
 
-      if (top >= 0) display->Pixel(j, top) = *color;
+      if (top >= 0) {
+        display->Pixel(x, top) = *color;
+      }
 
       if (isInTarget) {
-        long timeHeld = millis() - Time;
+        long timeHeld = time::Now() - Time;
         float offset = (float)(Height / 2) *
                        ((float)timeHeld /
                         (float)targetLockTimeMillis);  // up to half height over
                                                        // target lock time
 
         // Bottom fill
-        int bottomFillStart = bottom;
+        size_t bottomFillStart = bottom;
         float bottomFillEnd = (float)bottomFillStart + offset;
-        for (int i = bottomFillStart; i < bottomFillEnd; i++) {
-          display->Pixel(j, i) = *color;
+        for (size_t i = bottomFillStart; i < bottomFillEnd; i++) {
+          display->Pixel(x, i) = *color;
         }
-        display->DitherPixel(j, bottomFillEnd, color);
+        display->DitherPixelY(x, bottomFillEnd, color);
 
         // Top fill
-        int topFillEnd = top;
+        size_t topFillEnd = top;
         float topFillStart = (float)topFillEnd - offset;
-        for (int i = ceil(topFillStart); i < topFillEnd; i++) {
-          display->Pixel(j, i) = *color;
+        for (size_t i = ceil(topFillStart); i < topFillEnd; i++) {
+          display->Pixel(x, i) = *color;
         }
-        display->DitherPixel(j, topFillStart, color);
+        display->DitherPixelY(x, topFillStart, color);
       }
     }
   }

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>  // for std::shared_ptr
-
 #include "controls/button.h"       // for Button
 #include "display/display.h"       // for Display
 #include "games/game.h"            // for Game
@@ -13,34 +11,32 @@ namespace life {
 
 class GliderWarsGame : public Game {
   // Buttons
-  std::shared_ptr<controls::Button> randomizeButton1;
-  std::shared_ptr<controls::Button> randomizeButton2;
+  controls::Button* randomizeButton1;
+  controls::Button* randomizeButton2;
 
-  std::shared_ptr<controls::Button> gliderButton1;
-  std::shared_ptr<controls::Button> gliderButton2;
+  controls::Button* gliderButton1;
+  controls::Button* gliderButton2;
 
   // Animations
   LifeAnimation lifeGrid;
 
  public:
-  GliderWarsGame(display::Display* display,
-                 std::shared_ptr<controls::Button> randomize_1,
-                 std::shared_ptr<controls::Button> randomize_2,
-                 std::shared_ptr<controls::Button> glider_1,
-                 std::shared_ptr<controls::Button> glider_2)
+  GliderWarsGame(display::Display* display, controls::Button* randomize_1,
+                 controls::Button* randomize_2, controls::Button* glider_1,
+                 controls::Button* glider_2)
       : Game(display),
         randomizeButton1{randomize_1},
         randomizeButton2{randomize_2},
         gliderButton1{glider_1},
         gliderButton2{glider_2},
-        lifeGrid{display->strip_count, display->strip_length} {}
+        lifeGrid{display->size.x, display->size.y} {}
 
-  virtual void setup() {
+  void setup() override {
     // start off randomized
     lifeGrid.randomize();
   }
 
-  virtual void loop() {
+  void loop() override {
     // Calculate new game state
     if (randomizeButton1->IsPressed() || randomizeButton2->IsPressed()) {
       lifeGrid.randomize();
@@ -57,15 +53,15 @@ class GliderWarsGame : public Game {
     }
 
     if (gliderButton2->IsDepressing()) {
-      lifeGrid.setCellState(2, display->strip_length - 2, true);
-      lifeGrid.setCellState(2, display->strip_length - 3, true);
-      lifeGrid.setCellState(2, display->strip_length - 4, true);
-      lifeGrid.setCellState(3, display->strip_length - 4, true);
-      lifeGrid.setCellState(4, display->strip_length - 3, true);
+      lifeGrid.setCellState(2, display->size.y - 2, true);
+      lifeGrid.setCellState(2, display->size.y - 3, true);
+      lifeGrid.setCellState(2, display->size.y - 4, true);
+      lifeGrid.setCellState(3, display->size.y - 4, true);
+      lifeGrid.setCellState(4, display->size.y - 3, true);
     }
 
     // Draw to display
-    lifeGrid.draw(display);
+    lifeGrid.Draw(display);
   }
 };
 

@@ -3,7 +3,8 @@
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
 #include "engines/noise.h"        // for NoiseGenerator
-#include "engines/random.h"       // for random::*
+#include "math/random.h"          // for random::*
+#include "time/now.h"             // for Now
 
 namespace kss {
 namespace animation {
@@ -61,7 +62,7 @@ class Flicker : public Animation {
     }
 
     // randomly set first height
-    int heightMod = engines::random::Int16_incl(height);
+    int heightMod = math::random::Int16_incl(height);
     int newHeight = origin + heightMod;
     currentHeight[0] = newHeight;
   }
@@ -90,9 +91,9 @@ class Flicker : public Animation {
   }
 
   // Conjure the Flame
-  void draw(display::Display* display) {
+  void Draw(display::Display* display) {
     // noise.fillnoise8();
-    newMillis = millis();
+    newMillis = time::Now();
 
     // Serial.println("old: " + (String)lastLoopMillis);
     // Serial.println("new: " + (String)newMillis);
@@ -100,14 +101,14 @@ class Flicker : public Animation {
 
     if ((newMillis - lastLoopMillis) >= frameRateMillis) {
       // adjust
-      int16_t heightAdjust = engines::random::Int16_incl(-2, 2);
+      int16_t heightAdjust = math::random::Int16_incl(-2, 2);
       currentHeight[0] += heightAdjust;
       heightCheck(0);
 
       Serial.println("FlameAni: 0 Height: " + (String)currentHeight[0]);
-      for (int i = 1; i < display->strip_count; i++) {
+      for (int i = 1; i < display->size.x; i++) {
         // Set flame height
-        if (engines::random::Bool()) {
+        if (math::random::Bool()) {
           heightAdjust *= -1;
         }
         currentHeight[i] = currentHeight[i - 1] + heightAdjust;
@@ -121,30 +122,30 @@ class Flicker : public Animation {
         heightCheck(i - 1);
       }
       heightCheck(width - 1);
-      lastLoopMillis = millis();
+      lastLoopMillis = time::Now();
       // }
       // //flare logic
       // if((newMillis-lastLoopMillis)>=lastFlareMillis)
       // {
-      for (int i = 0; i < display->strip_count; i++) {
+      for (int i = 0; i < display->size.x; i++) {
         // move flare up one
         flareLoc[i][0] += 1;
-        // if at max, remove flag to draw next loop
+        // if at max, remove flag to Draw next loop
         if (flareLoc[i][0] == maxHeight + 1) {
           hasFlare[i] = false;
-        } else if (engines::random::Bool()) {
+        } else if (math::random::Bool()) {
           hasFlare[i] = false;
         }
       }
-      // lastFlareMillis = millis();
+      // lastFlareMillis = time::Now();
     }
 
-    // draw flames
+    // Draw flames
     drawFramesUp(display);
   }
 
   void drawFramesUp(display::Display* display) {
-    for (int i = 0; i < display->strip_count; i++) {
+    for (int i = 0; i < display->size.x; i++) {
       for (int j = origin; j <= currentHeight[i]; j++) {
         // Serial.println("Flame Ani: in the loops");
         // secondary color on last pixel
@@ -173,7 +174,7 @@ class Flicker : public Animation {
     }
   }
   void drawFramesDown(display::Display* display) {
-    for (int i = 0; i < display->strip_count; i++) {
+    for (int i = 0; i < display->size.x; i++) {
       for (int j = origin; j <= currentHeight[i]; j++) {
         // Serial.println("Flame Ani: in the loops");
         // secondary color on last pixel

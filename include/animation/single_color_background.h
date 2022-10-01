@@ -8,28 +8,15 @@ namespace animation {
 
 // Single color background
 class SingleColorBG : public Animation {
+  const CRGB color;
+
  public:
-  // colors (RGB)
-  int red;
-  int green;
-  int blue;
+  SingleColorBG(CRGB color = CRGB::Black) : Animation(), color{color} {}
 
-  SingleColorBG(int redColor, int greenColor, int blueColor) : Animation() {
-    red = redColor;
-    green = greenColor;
-    blue = blueColor;
-  }
-
-  void setColor(int redColor, int greenColor, int blueColor) {
-    red = redColor;
-    green = greenColor;
-    blue = blueColor;
-  }
-
-  void draw(display::Display* display) {
-    for (int i = 0; i < display->strip_length; i++) {
-      for (int j = 0; j < display->strip_count; j++) {
-        display->Pixel(j, i).setRGB(red, green, blue);
+  void Draw(display::Display* display) {
+    for (size_t x = 0; x < display->size.x; ++x) {
+      for (size_t y = 0; y < display->size.y; ++y) {
+        display->Pixel(x, y) = color;
       }
     }
   }

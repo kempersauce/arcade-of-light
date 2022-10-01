@@ -18,12 +18,12 @@ class SnakeGame : public Game {
   SnakeGame(display::Display* gameDisplay, controls::DirPad controls)
       : Game(gameDisplay),
         controls{std::move(controls)},
-        snake{gameDisplay->strip_count, gameDisplay->strip_length},
-        background{0, 0, 0} {}
+        snake{gameDisplay->size.x, gameDisplay->size.y},
+        background{CRGB::Black} {}
 
-  virtual void setup() { snake.Reset(); }
+  void setup() override { snake.Reset(); }
 
-  virtual void loop() {
+  void loop() override {
     if (controls.up->IsDepressing() && snake.currentDirection != Down) {
       snake.currentDirection = Up;
     } else if (controls.down->IsDepressing() && snake.currentDirection != Up) {
@@ -42,13 +42,13 @@ class SnakeGame : public Game {
 
     snake.Move();
 
-    if (snake.head.first < 0 || snake.head.first >= display->strip_count ||
-        snake.head.second < 0 || snake.head.second >= display->strip_length) {
+    if (snake.head.first < 0 || snake.head.first >= display->size.x ||
+        snake.head.second < 0 || snake.head.second >= display->size.y) {
       setup();
     }
 
-    background.draw(display);
-    snake.draw(display);
+    background.Draw(display);
+    snake.Draw(display);
   }
 };
 

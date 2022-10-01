@@ -1,117 +1,49 @@
-// This enables/disables building debug-type stuff into the project
-#define DEBUG 1337
+// #include "mains/main.cpp"
 
-// hopefully this makes sound work
-// #define FASTLED_ALLOW_INTERRUPTS 0
+// Games
+// #include "mains/GliderWars.cpp"
+// #include "mains/HeadToHead.cpp"
+// #include "mains/LifeGame.cpp"
+// #include "mains/RhythmGame.cpp"
+// #include "mains/RocketGame.cpp"
 
-#include "animation/noise.h"           // for NoiseAnimation
-#include "display/display.h"           // for Display
-#include "display/five.h"              // for FiveDisplay
-#include "display/h2h.h"               // for H2HDisplay
-#include "display/octo_display.h"      // for OctoDisplay
-#include "display/rocket.h"            // for RocketDisplay
-#include "display/standard_display.h"  // for StandardDisplay
-#include "display/twenty.h"            // for TwentyDisplay
-#include "display/twenty_standard.h"   // for TwentyDisplayStandard
-#include "engines/framerate.h"         // for FrameRate
-// #include "games/head2head/head2head.h"  // for Head2Head
-// #include "games/rocket/rocket_game.h"   // for RocketGame
-// #include "games/wav_player/wav_player.h"  // for WavPlayer
-// #include "games/life/life.h"    // for LifeGame
-// #include "test/single_color.h"  // for SingleColorTest
-// #include "audio/sounds.h"  // for Sounds
-// #include "test/firework.h"  // for FireworkTest
-// #include "games/life/glider_wars.h"  // for GliderWars
-// #include "games/marquee/marquee.h"           // for MarqueeGame
-// #include "games/noise/noise.h"  // for NoiseGame
-#include "games/rainbow/rainbow.h"         // for RainbowGame
-#include "games/rainbow/rainbow_static.h"  // for RainbowStatic
-// #include "games/snake/snake_game.h"  // for SnakeGame
-// #include "test/animation.h"            // for AnimationTest
-// #include "test/dir_pad.h"            // for DirPadTest
-// #include "test/five_strip.h"         // for FiveStripTest
-// #include "test/serial.h"             // for SerialTest
-// #include "test/single_color.h"             // for SingleColorTest
-#include "test/single_animation.h"  // for SingleAnimation
-// #include "games/shooter/shooter_game.h"  // for ShooterGame
-// #include "games/falling/falling.h"                  // for FallingGame
-// #include "games/lane_runner/lane_runner.h"  // for LaneRunner
-// #include "games/life/single_player.h"  // for LifeGameSinglePlayer
-// #include "test/animation.h"                 // for AnimationTest
-#include "serial/debug.h"  // for serial debugging
+// Audio programs
+// #include "mains/audio/AudioSenderTest.cpp"
+// #include "mains/audio/PaulSynth.cpp"
+// #include "mains/audio/SynthDrumReciever.cpp"
+// #include "mains/audio/WavDrumReciever.cpp"  // serial 1
+// #include "mains/audio/SynthMoogReciever.cpp"  // serial 2
+// #include "mains/audio/SynthGuitarReciever.cpp"
+// #include "mains/audio/SynthPolyReciever.cpp" // serial 3
+// #include "mains/audio/SynthReciever.cpp"  // serial 4
+// #include "mains/audio/SynthSender.cpp" // main
+// #include "mains/audio/TrackSenderTest.cpp"
+// #include "mains/audio/TrackTest.cpp"
+// #include "mains/audio/WavManagerTest.cpp"
+// #include "mains/audio/audioSlave.cpp"
+// #include "mains/audio/audioTest.cpp"
+// #include "mains/audio/synthest1.cpp"
 
-using namespace kss;
+// Controller programs
+// #include "mains/controls/ButtonMatrixTest.cpp"
+// #include "mains/controls/ButtonTest.cpp"
+// #include "mains/controls/DipSwitchTest.cpp"
+// #include "mains/controls/RawMatrixTest.cpp"
 
-engines::FrameRate frameRate;
+// Display test programs
+// #include "mains/displays/InstructoPanelTest.cpp"
+// #include "mains/displays/LEDStripTest.cpp"
+// #include "mains/displays/TwentyTest.cpp"
 
-games::Game* game;
-display::Display* gameDisplay;
+// Serial test programs
+// #include "mains/serial/EZReceiverTest.cpp"
+// #include "mains/serial/EZTransmitterTest.cpp"
+// #include "mains/serial/HardwareReceiverTest.cpp"
+// #include "mains/serial/HardwareTransmitterTest.cpp"
 
-void setup() {
-  // FastLED.setBrightness(100);
+// Animation test programs
+// #include "mains/animation/CircleTest.cpp"
+// #include "mains/animation/SineWaveTest.cpp"
 
-  // init audio stuff
-  // audio::initAudio();
-
-  Serial.begin(9600);
-  debug::println("Begin setup()");
-
-  // Choose your Display type
-  // gameDisplay = (display::Display*)new display::FiveDisplay();
-  // gameDisplay = (display::Display*)new display::H2HDisplay();
-  // gameDisplay = (display::Display*)new display::RocketDisplay();
-  gameDisplay = (display::Display*)new display::TwentyDisplay();
-  // gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
-
-  debug::println("gameDisplay created");
-
-  // Choose your Game type
-  // game = (games::Game*)new games::h2h::Head2Head(gameDisplay);
-  // game = (games::Game*)new games::life::LifeGame(gameDisplay);
-  // game = (games::Game*)new games::rocket::RocketGame(gameDisplay);
-  // game = (games::Game*)new games::rainbow::RainbowStatic(gameDisplay);
-  // game = (games::Game*)new games::marquee::MarqueeGame(gameDisplay);
-  // game = (games::Game*)new games::snake::SnakeGame(gameDisplay);
-  // game = (games::Game*)new games::shooter::ShooterGame(gameDisplay);
-  // game = (games::Game*)new games::falling::FallingGame(gameDisplay);
-  // game = (games::Game*)new games::lane_runner::LaneRunnerGame(gameDisplay);
-  // game = (games::Game*)new games::life::LifeGameSinglePlayer(gameDisplay);
-
-  // Test Games
-  // game = (games::Game*)new test::DirPadTest(gameDisplay);
-  // game = (games::Game*)new test::FiveStripTest(gameDisplay);
-  // game = (games::Game*)new games::life::GliderWarsGame(gameDisplay);
-  // game = (games::Game*)new test::AnimationTest(gameDisplay);
-
-  // Animation Test game
-  animation::Animation* test_animation =
-      (animation::Animation*)new animation::NoiseAnimation{
-          gameDisplay->strip_count, gameDisplay->strip_length};
-  game = (games::Game*)new test::SingleAnimation(gameDisplay, test_animation);
-
-  debug::println("game created");
-
-  game->setup();
-  debug::println("game setup complete");
-
-  debug::println("End setup()");
-
-  // TODO what is this? can we remove it?
-  // pinMode(9, OUTPUT);
-
-  // TODO should we show LEDs on setup?
-  gameDisplay->Show();
-}
-
-void loop() {
-  //   debug::println("loop() entered");
-
-  game->loop();
-
-  //   debug::println("loop() Show Display");
-  // delay(50);
-  gameDisplay->Show();
-
-  //   debug::println("loops brother");
-  frameRate.PrintFrameRate();
-}
+// Other test programs
+// #include "mains/RandomTest.cpp"

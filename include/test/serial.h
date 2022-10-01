@@ -14,10 +14,10 @@ class SerialTest : public games::Game {
   animation::SingleColorBG background;
 
  public:
-  SerialTest(display::Display *gameDisplay)
-      : Game(gameDisplay), ks(&Serial1), background(0, 0, 255) {}
+  SerialTest(display::Display* gameDisplay)
+      : Game(gameDisplay), ks(&Serial1), background(CRGB::Blue) {}
 
-  void setup() {
+  void setup() override {
     delay(4000);
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, HIGH);
@@ -26,12 +26,12 @@ class SerialTest : public games::Game {
     Serial.print("starting Serial Test");
   }
 
-  void loop() {
-    background.draw(display);
+  void loop() override {
+    background.Draw(display);
 
-    if (ks.recvWithStartEndMarkers()) {
+    if (ks.ReceiveMessages()) {
       char output[32];
-      ks.getNextMessage(output);
+      ks.GetNextMessage(output);
 
       Serial.print("\noutput:");
       Serial.print(output);

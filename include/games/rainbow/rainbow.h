@@ -15,16 +15,14 @@ class RainbowGame : public Game {
 
  public:
   RainbowGame(display::Display* gameDisplay)
-      : Game(gameDisplay), background(2) {
-    background.setWaveShift(true);
-  }
+      : Game(gameDisplay), background(2, gameDisplay->size.y) {}
 
-  void setup() {
+  void setup() override {
     // audio = new audio::AudioSender();
     // audio->playIdleBG();
   }
 
-  void loop() { background.draw(display); }
+  void loop() override { background.Draw(display); }
 };
 
 }  // namespace rainbow

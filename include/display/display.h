@@ -2,7 +2,8 @@
 
 #include <FastLED.h>  // for CRGB
 
-#include "serial/debug.h"  // for debug::*
+#include "math/vector2d.h"  // for Dimension
+#include "serial/debug.h"   // for Debug
 
 /*
 Display Class
@@ -15,11 +16,12 @@ namespace display {
 void Blend(CRGB& pixel, const CRGB* blend_color, const float blend_factor) {
   const auto unblend_factor = 1 - blend_factor;
 
-  // get weighted blend values values
-  const auto red = pixel.red * unblend_factor + blend_color->red * blend_factor;
-  const auto green =
+  // get weighted blend values
+  const uint8_t red =
+      pixel.red * unblend_factor + blend_color->red * blend_factor;
+  const uint8_t green =
       pixel.green * unblend_factor + blend_color->green * blend_factor;
-  const auto blue =
+  const uint8_t blue =
       pixel.blue * unblend_factor + blend_color->blue * blend_factor;
 
   // set the new values onto the pixel
@@ -27,54 +29,75 @@ void Blend(CRGB& pixel, const CRGB* blend_color, const float blend_factor) {
 }
 
 class Display {
- public:
-  const size_t strip_count;
-  const size_t strip_length;
+ protected:
+  CRGB dummy_pixel;
 
-  Display(const size_t numberOfStrips, const size_t lengthOfStrips)
-      : strip_count(numberOfStrips), strip_length(lengthOfStrips) {}
+ public:
+  const math::Dimension size;
+
+  Display(const math::Dimension& size) : size{size} {}
+  virtual ~Display() = default;
 
   // Reference to the desired CRGB pixel for get/set and other operations
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) = 0;
+
+  inline CRGB& Pixel(const math::Dimension& point) {
+    return Pixel(point.x, point.y);
+  }
 
   // Draw this Display object's contents to the LED strips
   virtual void Show() = 0;
 
   // Blend the pixel at (x, y) with blend_color according to a blend_factor
-  void BlendPixel(const int x, const int y, const CRGB* blend_color,
+  void BlendPixel(const size_t x, const size_t y, const CRGB* blend_color,
                   const float blend_factor) {
     if (CheckLocation(x, y)) {
       Blend(Pixel(x, y), blend_color, blend_factor);
     }
   }
 
-  // Dither the pixels on the strip above and below y, blending them to color
-  void DitherPixel(const int stripIndex, const float y, const CRGB* color,
-                   const float blend_factor = 1) {
-    const int y_int = y;
-    const float dither = y - y_int;
-    BlendPixel(stripIndex, y_int, color, (1 - dither) * blend_factor);
-    BlendPixel(stripIndex, y_int + 1, color, dither * blend_factor);
+  // Dither the pixels on the strip left and right of x, blending them to color
+  void DitherPixelX(const float x, const size_t y, const CRGB* color,
+                    const float blend_factor = 1) {
+    const size_t x_int = x;
+    const float dither = x - x_int;
+    BlendPixel(x_int, y, color, (1 - dither) * blend_factor);
+    BlendPixel(x_int + 1, y, color, dither * blend_factor);
   }
 
-  inline const bool IsInBounds(const size_t strip, const size_t pixel) {
-    return strip < 0 || strip >= strip_count || pixel < 0 ||
-           pixel >= strip_length;
+  // TODO remove this once it's no longer used
+#define DitherPixel(a, b, c, d) DitherPixelY(a, b, c, d)
+
+  // Dither the pixels on the strip above and below y, blending them to color
+  void DitherPixelY(const size_t x, const float y, const CRGB* color,
+                    const float blend_factor = 1) {
+    const size_t y_int = y;
+    const float dither = y - y_int;
+    BlendPixel(x, y_int, color, (1 - dither) * blend_factor);
+    BlendPixel(x, y_int + 1, color, dither * blend_factor);
+  }
+
+  inline bool IsInBounds(const size_t strip, const size_t pixel) const {
+    return strip >= 0 && strip < size.x && pixel >= 0 && pixel < size.y;
+  }
+
+  inline bool IsInBounds(const math::Dimension& point) const {
+    return IsInBounds(point.x, point.y);
   }
 
  protected:
-  inline const bool CheckLocation(const size_t strip, const size_t pixel) {
-    const bool oob = IsInBounds(strip, pixel);
-#ifdef DEBUG
-    if (oob) {
-      debug::println("ERROR: Accessing out of bounds pixel");
-      debug::println((String) "strip: " + strip +
-                     " (max: " + (strip_count - 1) + ")");
-      debug::println((String) "pixel: " + pixel +
-                     " (max: " + (strip_length - 1) + ")");
-    }
-#endif
-    return !oob;
+  inline bool CheckLocation(const size_t strip, const size_t pixel) const {
+    const bool in_bounds = IsInBounds(strip, pixel);
+    // if (!in_bounds) {
+    //   if (size.x == 0 || size.y == 0) {
+    //     Debug("ERROR: Ill-defined display: loc=" + strip + "x" + pixel +
+    //           ", display=" + size.x + "x" + size.y);
+    //   } else {
+    //     Debug("ERROR: Accessing out of bounds pixel: loc=" + strip + "x" +
+    //           pixel + ", display=" + size.x + "x" + size.y);
+    //   }
+    // }
+    return in_bounds;
   }
 };
 

@@ -1,34 +1,29 @@
 
 #pragma once
 
-#include <PinSetup.h>
-
-#include <memory>  // for shared_ptr
-
 #include "controls/button.h"  // for Button
+#include "pins/pin_setup.h"
 
 namespace kss {
 namespace controls {
 
-class DirPad {
- public:
-  std::shared_ptr<Button> up;
-  std::shared_ptr<Button> down;
-  std::shared_ptr<Button> left;
-  std::shared_ptr<Button> right;
-  std::shared_ptr<Button> a;
-  std::shared_ptr<Button> b;
+struct DirPad {
+  static constexpr size_t button_count{6};
+  union {
+    struct {
+      Button* up;
+      Button* right;
+      Button* left;
+      Button* down;
+      Button* a;
+      Button* b;
+    };
+    Button* buttons[button_count];
+  };
 
-  DirPad(std::shared_ptr<Button> up, std::shared_ptr<Button> down,
-         std::shared_ptr<Button> left, std::shared_ptr<Button> right,
-         std::shared_ptr<Button> a, std::shared_ptr<Button> b)
-      : up{std::move(up)},        // BUTTON_PIN_4
-        down{std::move(down)},    // BUTTON_PIN_3
-        left{std::move(left)},    // BUTTON_PIN_5
-        right{std::move(right)},  // BUTTON_PIN_2
-        a{std::move(a)},          // BUTTON_PIN_1
-        b{std::move(b)}           // BUTTON_PIN_0
-  {}
+  DirPad(Button* up, Button* down, Button* left, Button* right, Button* a,
+         Button* b)
+      : up{up}, right{right}, left{left}, down{down}, a{a}, b{b} {}
 
   bool isIdle(uint32_t idleTimeout) {
     return up->GetMillisReleased() >= idleTimeout &&

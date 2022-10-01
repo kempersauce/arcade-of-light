@@ -17,15 +17,15 @@ class LifeGame : public Game {
 
  public:
   LifeGame(display::Display* display)
-      : Game(display), lifeGrid{display->strip_count, display->strip_length} {}
+      : Game(display), lifeGrid{display->size.x, display->size.y} {}
 
-  void setup() {
+  void setup() override {
     loopCount = 0;
     // start off randomized
     lifeGrid.randomize();
   }
 
-  virtual void loop() {
+  void loop() override {
     if (loopCount++ >= resetThreshold) {
       setup();
     }
@@ -34,7 +34,7 @@ class LifeGame : public Game {
     lifeGrid.GoOneRound();
 
     // Draw to display
-    lifeGrid.draw(display);
+    lifeGrid.Draw(display);
   }
 };
 

@@ -1,7 +1,6 @@
 #pragma once
 
-#include <map>     // for std::map
-#include <memory>  // for std::shared_ptr
+#include <map>  // for std::map
 
 #include "controls/button.h"            // for Button
 #include "controls/hardware/context.h"  // for Context
@@ -11,18 +10,26 @@ namespace kss {
 namespace controls {
 namespace hardware {
 
-// A Matrix context is really just a series of Simple contexts that get polled
-// efficiently
-class Matrix : public Context {
- public:
-  using InputMatrix = std::map<uint8_t, Simple>;
+namespace _matrix {
 
-  std::shared_ptr<Button> CreateButton(uint8_t channel, uint8_t pin) {
+constexpr uint8_t kUnusedPin{255};
+
+}  // namespace _matrix
+using namespace _matrix;
+
+// A Matrix context is a series of Simple contexts that get polled efficiently
+class Matrix : public Context {
+  uint8_t active_pin{kUnusedPin};
+
+  std::map<uint8_t, Simple> inputs;
+
+ public:
+  Button* CreateButton(uint8_t channel, uint8_t pin) {
     // Add the channel if it hasn't been registered yet
-    auto channel_it = inputs_.find(channel);
-    if (channel_it == inputs_.end()) {
+    auto channel_it = inputs.find(channel);
+    if (channel_it == inputs.end()) {
       // Add the input channel and grab an iterator to it
-      const auto emplace_result = inputs_.emplace(channel, Simple{LOW});
+      auto emplace_result = inputs.emplace(channel, Simple{LOW});
       channel_it = emplace_result.first;
 
       // If this is a new channel, set it inactive initially
@@ -37,34 +44,27 @@ class Matrix : public Context {
   }
 
   void PollAll() override {
-    for (auto channel_it = inputs_.begin(); channel_it != inputs_.end();
-         channel_it++) {
+    for (auto& channel : inputs) {
       // Set the current channel to active and grab a reference to it
-      SetActiveChannel(channel_it->first);
-      channel_it->second.PollAll();
+      SetActiveChannel(channel.first);
+      channel.second.PollAll();
     }
   }
 
  private:
-  // Using pin 0 as a dummy null pin
-  uint8_t active_pin_{
-      0};  // TODO - is there such a thing as pin 0? or should we revisit this?
-
-  InputMatrix inputs_;
-
   // Switch to the appropriate pin (if we need to, avoiding extra switching)
   void SetActiveChannel(const uint8_t channel) {
-    if (active_pin_ != channel) {
+    if (active_pin != channel) {
       // Set the old pin to Inactive (Hi)
-      if (active_pin_ != 0) {
-        digitalWriteFast(active_pin_, HIGH);
+      if (active_pin != kUnusedPin) {
+        digitalWriteFast(active_pin, HIGH);
       }
 
       // Set the appropriate pin to Active (Lo)
       digitalWriteFast(channel, LOW);
 
       // Keep track of the current channel
-      active_pin_ = channel;
+      active_pin = channel;
 
       // Allow the signal to settle after switching channels
       delayMicroseconds(5);

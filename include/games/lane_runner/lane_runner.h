@@ -5,8 +5,8 @@
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for controls::DirPad
 #include "engines/physics_info.h"               // for PhysicsInfo
-#include "engines/random.h"                     // for random::*
 #include "games/game.h"                         // for Game
+#include "math/random.h"                        // for random::*
 
 namespace kss {
 namespace games {
@@ -21,18 +21,15 @@ class LaneRunnerGame : public Game {
 
  public:
   LaneRunnerGame(display::Display* gameDisplay, controls::DirPad controller)
-      : Game(gameDisplay),
-        controller{std::move(controller)},
-        background(0, 0, 0),
-        dots() {}
+      : Game(gameDisplay), controller{std::move(controller)} {}
 
   virtual void setup() {
-    player.xLocation = display->strip_count / 2;
-    player.Location = display->strip_length * 2 / 3;
+    player.location.x = display->size.x / 2;
+    player.location.y = display->size.y * 2 / 3;
 
     // seed walls with initial stuff
     dots.clear();
-    while (dots.size() < display->strip_length - 1) {
+    while (dots.size() < display->size.y - 1) {
       dots.push_front(-1);
     }
   }
@@ -50,7 +47,7 @@ class LaneRunnerGame : public Game {
     if (anyDots) {
       dots.push_front(-1);
     } else {
-      int lane = engines::random::Int8_incl(2);
+      int lane = math::random::Int8_incl(2);
       switch (lane) {
         case 0:
           // nothing we'll keep this at 0
@@ -58,11 +55,11 @@ class LaneRunnerGame : public Game {
           break;
 
         case 1:
-          lane = display->strip_count / 2;
+          lane = display->size.x / 2;
           break;
 
         case 2:
-          lane = display->strip_count - 1;
+          lane = display->size.x - 1;
           break;
 
         default:  // This should not happen
@@ -74,47 +71,48 @@ class LaneRunnerGame : public Game {
     }
   }
 
-  virtual void loop() {
+  void loop() override {
     if (controller.up->IsPressed()) {
-      player.Velocity = 20;
+      player.velocity.y = 20;
     } else if (controller.down->IsPressed()) {
-      player.Velocity = -20;
+      player.velocity.y = -20;
     } else {
-      player.Velocity = 0;
+      player.velocity.y = 0;
     }
 
     if (controller.left->IsPressed()) {
-      player.xLocation = 0;
+      player.location.x = 0;
     } else if (controller.right->IsPressed()) {
-      player.xLocation = display->strip_count - 1;
+      player.location.x = display->size.x - 1;
     } else {
-      player.xLocation = display->strip_count / 2;
+      player.location.x = display->size.x / 2;
     }
 
     player.Move();
-    if (player.Location < 0)
-      player.Location = 0;
-    else if (player.Location >= display->strip_length)
-      player.Location = display->strip_length - 1;
+    if (player.location.y < 0)
+      player.location.y = 0;
+    else if (player.location.y >= display->size.y)
+      player.location.y = display->size.y - 1;
 
     addDots();
 
-    if ((int)player.xLocation == dots[(int)player.Location]) {
-      dots[(int)player.Location] = -1;
+    if ((int)player.location.x == dots[(int)player.location.y]) {
+      dots[(int)player.location.y] = -1;
     }
 
-    background.draw(display);
+    background.Draw(display);
 
-    // draw the dots
-    for (int y = 0; y < display->strip_length; y++) {
+    // Draw the dots
+    for (int y = 0; y < display->size.y; y++) {
       int lane = dots[y];
       if (lane >= 0) {
         display->Pixel(lane, y) = CRGB::Magenta;
       }
     }
 
-    // draw player
-    display->Pixel((int)player.xLocation, (int)player.Location) = CRGB::Green;
+    // Draw player
+    display->Pixel((int)player.location.x, (int)player.location.y) =
+        CRGB::Green;
   }
 };
 

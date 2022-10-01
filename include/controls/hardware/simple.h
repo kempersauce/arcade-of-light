@@ -1,7 +1,6 @@
 #pragma once
 
-#include <map>     // for std::map
-#include <memory>  // for std::shared_ptr
+#include <map>  // for std::map
 
 #include "controls/button.h"            // for Button
 #include "controls/hardware/context.h"  // for Context
@@ -11,14 +10,16 @@ namespace controls {
 namespace hardware {
 
 class Simple : public Context {
+  const uint8_t pressed_signal;
+
+  std::map<uint8_t, Button*> inputs;
+
  public:
-  Simple(uint8_t pressed_signal = HIGH) : pressed_signal_{pressed_signal} {}
+  Simple(uint8_t pressed_signal = HIGH) : pressed_signal{pressed_signal} {}
 
-  using InputMap = std::map<uint8_t, std::shared_ptr<Button>>;
-
-  std::shared_ptr<Button> CreateButton(uint8_t pin) {
+  Button* CreateButton(uint8_t pin) {
     // Register this pin out on the input channel, and set that pin as INPUT
-    const auto result = inputs_.emplace(pin, std::make_shared<Button>());
+    const auto& result = inputs.emplace(pin, new Button());
     if (result.second) {
       pinMode(pin, INPUT);
     }
@@ -28,16 +29,11 @@ class Simple : public Context {
 
   void PollAll() override {
     // Loop through registered inputs and update their in-memory state
-    for (auto input_it = inputs_.begin(); input_it != inputs_.end();
-         input_it++) {
-      const auto state = digitalRead(input_it->first) == pressed_signal_;
-      input_it->second->SetState(state);
+    for (auto& input : inputs) {
+      const auto state = digitalRead(input.first) == pressed_signal;
+      input.second->SetState(state);
     }
   }
-
- private:
-  const uint8_t pressed_signal_;
-  InputMap inputs_;
 };
 
 }  // namespace hardware

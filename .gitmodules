@@ -1,0 +1,4 @@
+[submodule "EasyTransfer"]
+	path = lib/EasyTransfer
+	url = https://github.com/madsci1016/Arduino-EasyTransfer.git
+	branch = master

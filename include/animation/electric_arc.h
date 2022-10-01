@@ -5,46 +5,54 @@
 
 #include "animation/animation.h"  // for Animation
 #include "display/display.h"      // for Display
-#include "engines/random.h"       // for random::*
+#include "math/random.h"          // for random::*
+#include "time/now.h"             // for Now
 
 namespace kss {
 namespace animation {
 
 class ElectricArc : public Animation {
-  std::vector<int> arc;
-  CRGB color = CRGB::Purple;
+  static constexpr uint32_t update_speed{33};
+  uint32_t last_changed{0};
+
+  std::vector<size_t> arc;
+  const CRGB color = CRGB::Purple;
 
  public:
   size_t yLocation;
   size_t magnitude = 2;
 
-  virtual void draw(display::Display* display) {
-    do {
-      arc.clear();
-      arc.push_back(yLocation);
-      for (size_t y = yLocation, x = 1; x < display->strip_count; x++) {
-        float r = engines::random::Float();
-        if (r <= 0.4) {  // bottom 40%
-          y += magnitude;
-        } else if (r >= 0.6) {  // top 40%
-          y -= magnitude;
-        } else {  // middle 20%
-          // nothing
-        }
+  void Draw(display::Display* display) override {
+    const uint32_t now = time::Now();
+    if (now - last_changed >= update_speed) {
+      last_changed = now;
+      do {
+        arc.clear();
+        arc.push_back(yLocation);
+        for (size_t y = yLocation, x = 1; x < display->size.x; x++) {
+          float r = math::random::Float();
+          if (r <= 0.4) {  // bottom 40%
+            y += magnitude;
+          } else if (r >= 0.6) {  // top 40%
+            y -= magnitude;
+          } else {  // middle 20%
+            // nothing
+          }
 
-        arc.push_back(y);
-      }
-    } while (arc.back() != yLocation);
+          arc.push_back(y);
+        }
+      } while (arc.back() != yLocation);
+    }
 
     for (size_t i = 0; i < arc.size(); i++) {
-      int arcHeight = arc[i];
-      if (arcHeight >= 0 && arcHeight < display->strip_length) {
-        display->Pixel(i, arcHeight) = CRGB::Purple;
+      size_t arcHeight = arc[i];
+      if (display->IsInBounds(i, arcHeight)) {
+        display->Pixel(i, arcHeight) = color;
       }
 
       arcHeight++;
-      if (arcHeight > 0 && arcHeight < display->strip_length) {
-        display->Pixel(i, arcHeight) = CRGB::Purple;
+      if (display->IsInBounds(i, arcHeight)) {
+        display->Pixel(i, arcHeight) = color;
       }
     }
   }

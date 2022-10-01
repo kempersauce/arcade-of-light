@@ -13,12 +13,11 @@ class NoiseGame : public Game {
 
  public:
   NoiseGame(display::Display* gameDisplay)
-      : Game{gameDisplay},
-        background{gameDisplay->strip_count, gameDisplay->strip_length} {}
+      : Game{gameDisplay}, background{gameDisplay->size} {}
 
-  void setup() {}
+  void setup() override {}
 
-  void loop() { background.draw(display); }
+  void loop() override { background.Draw(display); }
 };
 
 }  // namespace noise

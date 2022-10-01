@@ -6,18 +6,22 @@ Where the magic happens
 */
 
 #include "display/display.h"  // for Display
+#include "serial/debug.h"     // for Debug
+#include "time/now.h"         // for Now
 
 namespace kss {
 namespace games {
 
 class Game {
+ protected:
+  display::Display* const display;
+
  public:
-  display::Display* display;
+  Game(display::Display* display) : display{display} {}
+  virtual ~Game() = default;
 
-  Game(display::Display* gameDisplay) { display = gameDisplay; }
-
-  virtual void setup();
-  virtual void loop();
+  virtual void setup() = 0;
+  virtual void loop() = 0;
 };
 
 }  // namespace games

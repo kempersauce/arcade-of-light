@@ -4,7 +4,8 @@
 #include <SD.h>
 #include <SPI.h>
 #include <SerialFlash.h>
-#include <Wire.h>
+
+#include "serial/debug.h"  // for Debug
 
 namespace kss {
 namespace audio {
@@ -16,18 +17,31 @@ namespace audio {
 #define SDCARD_SCK_PIN 14
 
 // Sounds
+constexpr float kAudioVolume{0.8};
 AudioControlSGTL5000 sgtl5000_1;
-AudioOutputI2S i2s1;
 
-void initAudio() {
-  AudioMemory(8);
+void InitAudio() {
+  // Audio connections require memory to work.  For more
+  // detailed information, see the MemoryAndCpuUsage example
+  AudioMemory(16);
+
+  // Enable audio output
   sgtl5000_1.enable();
-  sgtl5000_1.volume(.5);
+  sgtl5000_1.volume(kAudioVolume);
+
   SPI.setMOSI(SDCARD_MOSI_PIN);
   SPI.setSCK(SDCARD_SCK_PIN);
-  if (!SD.begin(SDCARD_CS_PIN)) {
-    Serial.println("Unable to access the SD card during audio setup");
+  while (!SD.begin(SDCARD_CS_PIN)) {
+    Debug("Unable to access the SD card! Retrying in 500ms...");
+    delay(500);
   }
+  Debug("Audio Initialized!!");
+}
+
+inline void AudioDebug() {
+  Debug("Proc=" + AudioProcessorUsage() + " (max=" + AudioProcessorUsageMax() +
+        "), Mem=" + AudioMemoryUsage() + " (max=" + AudioMemoryUsageMax() +
+        ")");
 }
 
 }  // namespace audio

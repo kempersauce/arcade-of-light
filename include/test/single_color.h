@@ -12,11 +12,11 @@ class SingleColorTest : public games::Game {
 
  public:
   SingleColorTest(display::Display* gameDisplay)
-      : Game(gameDisplay), background(0, 0, 255) {}
+      : Game(gameDisplay), background(CRGB::Blue) {}
 
-  void setup() {}
+  void setup() override {}
 
-  void loop() { background.draw(display); }
+  void loop() override { background.Draw(display); }
 };
 
 }  // namespace test

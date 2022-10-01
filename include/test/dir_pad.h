@@ -1,13 +1,11 @@
 #pragma once
 
-#include <Constants.h>
-
-#include "animation/dot.h"                      // for Dot
 #include "animation/hue_rainbow.h"              // for HueRainbow
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "controls/dir_pad.h"                   // for controls::DirPad
 #include "display/display.h"                    // for Display
 #include "games/game.h"                         // for Game
+#include "serial/debug.h"                       // for Debug
 
 namespace kss {
 namespace test {
@@ -16,7 +14,6 @@ namespace test {
 class DirPadTest : public games::Game {
  public:
   controls::DirPad controls;
-  animation::Dot* player;
   animation::SingleColorBG* backgroundColor;
   animation::HueRainbow rainbow;
 
@@ -25,11 +22,11 @@ class DirPadTest : public games::Game {
     rainbow.setWaveShift(true);
   }
 
-  void setup() {}
+  void setup() override {}
 
-  void loop() {
+  void loop() override {
     if (controls.up->IsPressed()) {
-      Serial.println("UP DIR BUTTON PRESSED");
+      Debug("UP DIR BUTTON PRESSED");
       int newSpeed;
       int currentSpeed = rainbow.ShiftSpeed;
       if (currentSpeed < 20) {
@@ -42,7 +39,7 @@ class DirPadTest : public games::Game {
     }
 
     if (controls.down->IsPressed()) {
-      Serial.println("DOWN DIR BUTTON PRESSED");
+      Debug("DOWN DIR BUTTON PRESSED");
       int newSpeed;
       int currentSpeed = rainbow.ShiftSpeed;
       if (currentSpeed > -20) {
@@ -50,26 +47,26 @@ class DirPadTest : public games::Game {
       }
 
       rainbow.setSpeed(newSpeed);
-      Serial.println("new speed:");
-      // Serial.println(rainbow.ShiftSpeed);
+      Debug("new speed:");
+      // Debug(rainbow.ShiftSpeed);
     }
 
     if (controls.left->IsPressed()) {
-      Serial.println("LEFT DIR BUTTON PRESSED");
+      Debug("LEFT DIR BUTTON PRESSED");
     }
 
     if (controls.right->IsPressed()) {
-      Serial.println("RIGHT DIR BUTTON PRESSED");
+      Debug("RIGHT DIR BUTTON PRESSED");
     }
 
     if (controls.a->IsPressed()) {
       rainbow.setWaveShift(true);
-      Serial.println("B BUTTON PRESSED");
+      Debug("B BUTTON PRESSED");
     }
 
     if (controls.b->IsPressed()) {
       rainbow.setWaveShift(false);
-      Serial.println("A BUTTON PRESSED");
+      Debug("A BUTTON PRESSED");
     }
 
     // if (!(//controls.a->IsPressed() &&
@@ -79,10 +76,10 @@ class DirPadTest : public games::Game {
     // controls.left->IsPressed() &&
     // controls.right->IsPressed()))
     // {
-    //     //Serial.println("no Buttons pressed");
+    //     //Debug("no Buttons pressed");
     // }
 
-    rainbow.draw(display);
+    rainbow.Draw(display);
   }
 };
 

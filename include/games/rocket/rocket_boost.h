@@ -17,13 +17,13 @@ class RocketBoost : public animation::Animation {
   float boostFactor;
 
   RocketBoost(size_t heightMax)
-      : Animation(), noise_generator{1, heightMax, 100}, height{heightMax} {
+      : Animation(), noise_generator{{1, heightMax}, 100}, height{heightMax} {
     loc = 0;
     boostFactor = 0;
   }
 
-  // override rainbow draw function
-  void draw(display::Display* display) {
+  // override rainbow Draw function
+  void Draw(display::Display* display) {
     noise_generator.fillnoise8();
 
     // normalize boostFactor to 0-1 range
@@ -32,16 +32,16 @@ class RocketBoost : public animation::Animation {
     }
 
     // Draw as much boost as we needs
-    int boostHeight = boostFactor * height;
+    size_t boostHeight = boostFactor * height;
 
     // At least keep it to 1 pixel minimum when we're actually boosting
     if (boostFactor > 0 && boostHeight < 1) {
       boostHeight = 1;
     }
 
-    int middleStrip = display->strip_count / 2;
-    for (size_t i = max(loc - boostHeight, 0);
-         i < min(loc, display->strip_length); i++) {
+    const size_t middleStrip = display->size.x / 2;
+    for (size_t i = max(loc - boostHeight, 0); i < min(loc, display->size.y);
+         i++) {
       display->Pixel(middleStrip, i)
           .setRGB(255, noise_generator.data[0][loc - i], 0);
     }

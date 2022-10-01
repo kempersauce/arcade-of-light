@@ -18,14 +18,14 @@ class MarqueeGame : public Game {
   MarqueeGame(display::Display* gameDisplay)
       : Game(gameDisplay), background(2), marquee(1) {}
 
-  void setup() {
+  void setup() override {
     background.setBrightness(150);
     background.setSaturation(255);
   }
 
-  void loop() {
-    background.draw(display);
-    marquee.draw(display);
+  void loop() override {
+    background.Draw(display);
+    marquee.Draw(display);
   }
 };
 

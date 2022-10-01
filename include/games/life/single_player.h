@@ -52,12 +52,12 @@ class LifeGameSinglePlayer : public Game {
       : Game(display),
         idleGame{display},
         dirPad{std::move(controls)},
-        lifeGrid{display->strip_count + 1, display->strip_length} {
+        lifeGrid{display->size.x + 1, display->size.y} {
     // Start BG music
     audio.playStdBG();
   }
 
-  void setup() {
+  void setup() override {
     // Start off on blue
     setHue(140);
 
@@ -77,9 +77,9 @@ class LifeGameSinglePlayer : public Game {
     idleGame.setup();
   }
 
-  virtual void loop() {
-    const auto now = millis();
-    long timeDiff = now - lastFrameMillis;
+  void loop() override {
+    const uint32_t now = time::Now();
+    uint32_t timeDiff = now - lastFrameMillis;
     lastFrameMillis = now;
 
     bool isIdle = dirPad.isIdle(idleTimeoutMillis);
@@ -156,7 +156,7 @@ class LifeGameSinglePlayer : public Game {
     }
 
     // Draw to display
-    lifeGrid.draw(display);
+    lifeGrid.Draw(display);
   }
 
   void setHue(float hue) {
@@ -169,7 +169,7 @@ class LifeGameSinglePlayer : public Game {
 
     lifeGrid.ageColors.clear();
     lifeGrid.ageColors.push_back(CRGB::Black);
-    for (int i = 0; i < hueOffsets.size(); i++) {
+    for (size_t i = 0; i < hueOffsets.size(); i++) {
       CRGB color;
       color.setHSV(((int)startHue + hueOffsets[i]) % 256, 255, 255);
       lifeGrid.ageColors.push_back(color);

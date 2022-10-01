@@ -1,102 +1,64 @@
 #pragma once
 
-#include <HardwareSerial.h>
-
-#include "audio/audio_sender.h"  // for AudioSender
+#include "audio/background_music.h"      // for BackgroundMusic
+#include "audio/manager.h"               // for audio::Manager
+#include "audio/sound_effect.h"          // for SoundEffect
+#include "audio/sound_effect_bespoke.h"  // for SoundEffectBespoke
 
 namespace kss {
 namespace games {
 namespace life {
 
-class LifeAudio : public audio::AudioSender {
+class LifeAudio : public audio::Manager {
  public:
-  // File names for single effects
-  char* shuffle = "<11GYCYCHIP.WAV>";
-  bool shuffleIsStarted = false;
-  char* stop = "<TRGTHIT5.WAV>";
-  char* unStop = "<TRGTHIT1.WAV>";
-  char* speedUp = "<11DIO.WAV>";
-  bool isSpeedingUp = false;
-  char* speedDown = "<11TGTHIT1.WAV>";
-  bool isSpeedingDown = false;
-  char* colorShift = "<21ABORTSEQ.WAV>";
-  bool colorIsShifting = false;
+  // Single Effects
+  audio::SoundEffectBespoke shuffle{sender, 1, "GYCYCHIP.WAV"};
 
-  // File names for Background
-  char* stdBG = "CDL";
-  char* idleBG = "CDL";
+  audio::SoundEffect stop{sender, "TRGTHIT5.WAV"};
+  audio::SoundEffect unStop{sender, "TRGTHIT1.WAV"};
 
-  // File names and controls for start/stop channels
+  audio::SoundEffectBespoke speedUp{sender, 1, "DIO.WAV"};
+  audio::SoundEffectBespoke speedDown{sender, 1, "TGTHIT1.WAV"};
 
-  // CONSTRUCTOR - starts Serial (inhereted from AudioSender)
-  LifeAudio() : AudioSender() {}
+  audio::SoundEffectBespoke colorShift{sender, 2, "ABORTSEQ.WAV"};
+
+  // Background Music
+  audio::BackgroundMusic background{sender, "CDL.WAV"};
 
   // SINGLE EFFECT METHODS
-  void playTimeStop() { sendMsg(stop); }
+  const void playTimeStop() { stop.Play(); }
 
-  void playTimeStart() { sendMsg(unStop); }
+  const void playTimeStart() { unStop.Play(); }
 
-  void startRandom() {
-    sendMsg(shuffle);
-    shuffleIsStarted = true;
-  }
+  const void startRandom() { shuffle.Play(); }
 
-  void startSpeedUp() {
-    if (!isSpeedingUp) {
-      isSpeedingUp = true;
-      sendMsg(speedUp);
+  const void startSpeedUp() {
+    if (!speedUp.is_playing) {
+      speedUp.Play();
     }
   }
 
-  void startSpeedDown() {
-    if (!isSpeedingDown) {
-      sendMsg(speedDown);
-      isSpeedingDown = true;
+  const void startSpeedDown() {
+    if (!speedDown.is_playing) {
+      speedDown.Play();
     }
   }
 
-  void playColorShift() {
-    if (!colorIsShifting) {
-      sendMsg(colorShift);
-      colorIsShifting = true;
-    }
-  }
+  const void playColorShift() { colorShift.Play(); }
 
-  // START/STOP METHODS
-  void stopChannels() {
-    sendMsg("<10>");
-    sendMsg("<20>");
-  }
+  const void stopPlayRandom() { shuffle.Stop(); }
 
-  void stopPlayRandom() {
-    if (shuffleIsStarted) {
-      sendMsg("<10>");
-      shuffleIsStarted = false;
-    }
-  }
+  const void stopColorShift() { colorShift.Stop(); }
 
-  void stopColorShift() {
-    if (colorIsShifting) {
-      sendMsg("<20>");
-      colorIsShifting = false;
-    }
-  }
-
-  void stopSpeed() {
-    if (isSpeedingUp) {
-      sendMsg("<20>");
-      isSpeedingUp = false;
-    } else if (isSpeedingDown) {
-      sendMsg("<20>");
-      isSpeedingDown = false;
-    }
+  const void stopSpeed() {
+    speedUp.Stop();
+    speedDown.Stop();
   }
 
   // CHANNEL 1: FireworkLaunch
 
   // BACKGROUND METHODS
-  void playStdBG() { setBackground(stdBG); }
-  void playH2HIdleBG() { setBackground(idleBG); }
+  const void playStdBG() { background.Play(); }
 };
 
 }  // namespace life

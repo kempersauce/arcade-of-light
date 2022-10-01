@@ -8,34 +8,22 @@ namespace animation {
 
 // Single color background
 class SingleColorBlock : public Animation {
+  const size_t height_min;
+  const size_t height_max;
+
+  const CRGB color;
+
  public:
-  // colors (RGB)
-  int Hue;
-  int Saturation;
-  int Value;
-  int HeightMin;
-  int HeightMax;
+  SingleColorBlock(int height_min, int height_max, CRGB color)
+      : Animation(),
+        height_min{height_min},
+        height_max{height_max},
+        color{color} {}
 
-  SingleColorBlock(int heightMin, int heightMax, int hue, int saturation,
-                   int value)
-      : Animation() {
-    HeightMin = heightMin;
-    HeightMax = heightMax;
-    Hue = hue;
-    Saturation = saturation;
-    Value = value;
-  }
-
-  void setColor(int hue, int saturation, int value) {
-    Hue = hue;
-    Saturation = saturation;
-    Value = value;
-  }
-
-  void draw(display::Display* display) {
-    for (int i = 0; i < display->strip_count; i++) {
-      for (int j = HeightMin; j < HeightMax; j++) {
-        display->Pixel(i, j).setHSV(Hue, Saturation, Value);
+  void Draw(display::Display* display) {
+    for (size_t x = 0; x < display->size.x; ++x) {
+      for (size_t y = height_min; y < height_max; ++y) {
+        display->Pixel(x, y) = color;
       }
     }
   }
