@@ -1,6 +1,6 @@
 #pragma once
 
-#include <FastLED.h>  // for CRGB
+#include <FastLED.h>  // for FastLED
 
 #include "display/display.h"  // for Display
 
@@ -11,21 +11,21 @@ holds the strips
 
 namespace kss {
 namespace display {
+namespace fast_led {
 
 template <size_t STRIP_COUNT, size_t STRIP_LENGTH>
-class SwitchbackStandardDisplay : public Display {
+class SwitchbackDisplay : public Display {
   CRGB pixels[STRIP_COUNT * STRIP_LENGTH];
 
  public:
-  SwitchbackStandardDisplay() : Display({STRIP_COUNT, STRIP_LENGTH}) {}
-  virtual ~SwitchbackStandardDisplay() = default;
+  SwitchbackDisplay() : Display({STRIP_COUNT, STRIP_LENGTH}) {}
+  virtual ~SwitchbackDisplay() = default;
 
   // Delete copy constructor & assignment operator, force them to make their own
-  SwitchbackStandardDisplay(const SwitchbackStandardDisplay*) = delete;
-  SwitchbackStandardDisplay* operator=(const SwitchbackStandardDisplay*) =
-      delete;
-  SwitchbackStandardDisplay(SwitchbackStandardDisplay*&) = delete;
-  SwitchbackStandardDisplay* operator=(SwitchbackStandardDisplay*&) = delete;
+  SwitchbackDisplay(const SwitchbackDisplay*) = delete;
+  SwitchbackDisplay* operator=(const SwitchbackDisplay*) = delete;
+  SwitchbackDisplay(SwitchbackDisplay*&) = delete;
+  SwitchbackDisplay* operator=(SwitchbackDisplay*&) = delete;
 
   virtual inline CRGB& Pixel(size_t x, size_t y) override {
     if (!CheckLocation(x, y)) {
@@ -50,5 +50,6 @@ class SwitchbackStandardDisplay : public Display {
   }
 };
 
+}  // namespace fast_led
 }  // namespace display
 }  // namespace kss

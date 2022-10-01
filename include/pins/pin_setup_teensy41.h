@@ -47,16 +47,20 @@ void Init() {
     Buttons[0] = 6;
   }
 
-  // TODO Set pinMode for Leds?
-
   // Set controller pins to output mode
   for (const auto pin : Controllers) {
     pinMode(pin, OUTPUT);
+    digitalWriteFast(pin, HIGH);
   }
 
   // Set button pins to input mode
   for (const auto pin : Buttons) {
     pinMode(pin, INPUT);
+  }
+
+  // Set Led pins to output mode
+  for (const auto pin : Leds) {
+    pinMode(pin, OUTPUT);
   }
 
   Debug("Pinout initialized for Teensy4.1 configuration");

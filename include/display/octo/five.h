@@ -6,7 +6,7 @@
 namespace kss {
 namespace display {
 
-namespace _rocket {
+namespace _five {
 
 constexpr size_t kNumStrips = 5;
 constexpr size_t kLengthStrips = 294;
@@ -28,12 +28,12 @@ constexpr uint8_t kPinList[kNumStrips]{
 
 DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 
-}  // namespace _rocket
+}  // namespace _five
 
 class RocketDisplay
-    : public octo::OctoDisplay<_rocket::kNumStrips, _rocket::kLengthStrips> {
+    : public OctoDisplay<_five::kNumStrips, _five::kLengthStrips> {
  public:
-  RocketDisplay() : OctoDisplay(_rocket::kPinList, _rocket::kDisplayMemory) {}
+  RocketDisplay() : OctoDisplay(_five::kPinList, _five::kDisplayMemory) {}
 };
 
 }  // namespace display

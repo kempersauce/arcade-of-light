@@ -1,14 +1,15 @@
 #pragma once
 
-#include "display/standard_display.h"  // for StandardDisplay
-#include "pins/pin_setup.h"            // for pins::*
+#include "display/fast_led/fast_led_display.h"  // for FastLedDisplay
+#include "pins/pin_setup.h"                     // for pins::*
 
 namespace kss {
 namespace display {
+namespace fast_led {
 
-class TwentyDisplayStandard : public StandardDisplay<20, 300> {
+class TwentyDisplay : public FastLedDisplay<20, 300> {
  public:
-  TwentyDisplayStandard() : StandardDisplay() {
+  TwentyDisplay() : FastLedDisplay() {
     RegisterStrip<pins::Leds[0]>(0);
     RegisterStrip<pins::Leds[1]>(1);
     RegisterStrip<pins::Leds[2]>(2);
@@ -30,8 +31,9 @@ class TwentyDisplayStandard : public StandardDisplay<20, 300> {
     RegisterStrip<pins::Leds[18]>(18);
     RegisterStrip<pins::Leds[19]>(19);
   }
-  virtual ~TwentyDisplayStandard() = default;
+  virtual ~TwentyDisplay() = default;
 };
 
+}  // namespace fast_led
 }  // namespace display
 }  // namespace kss

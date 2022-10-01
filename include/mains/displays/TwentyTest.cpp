@@ -12,7 +12,7 @@ games::Game* game;
 display::Display* gameDisplay;
 
 void setup() {
-  gameDisplay = (display::Display*)new display::TwentyDisplayStandard();
+  gameDisplay = (display::Display*)new display::TwentyDisplay();
 
   game = (games::Game*)new games::noise::NoiseGame(gameDisplay);
   game->setup();

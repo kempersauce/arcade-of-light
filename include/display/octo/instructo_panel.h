@@ -1,9 +1,10 @@
 #pragma once
 
-#include "display/switchback_octo.h"  // for SwitchbackOctoDisplay
+#include "display/octo/switchback.h"  // for SwitchbackDisplay
 
 namespace kss {
 namespace display {
+namespace octo {
 
 namespace _instructo {
 
@@ -15,13 +16,13 @@ DMAMEM int kDisplayMemory[kTotalPixelCount * 3 / 4];
 
 }  // namespace _instructo
 
-class InstructoDisplay
-    : public SwitchbackOctoDisplay<_instructo::kPanelRows,
-                                   _instructo::kPanelColumns> {
+class InstructoDisplay : public SwitchbackDisplay<_instructo::kPanelRows,
+                                                  _instructo::kPanelColumns> {
  public:
   InstructoDisplay(const uint8_t pin)
-      : SwitchbackOctoDisplay(pin, _instructo::kDisplayMemory) {}
+      : SwitchbackDisplay(pin, _instructo::kDisplayMemory) {}
 };
 
+}  // namespace octo
 }  // namespace display
 }  // namespace kss

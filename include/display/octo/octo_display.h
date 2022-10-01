@@ -12,6 +12,7 @@ holds the pixels and buffers for OctoWS2811 library
 
 namespace kss {
 namespace display {
+namespace octo {
 
 template <size_t STRIP_COUNT, size_t STRIP_LENGTH>
 class OctoDisplay : public Display {
@@ -58,5 +59,6 @@ class OctoDisplay : public Display {
   }
 };
 
+}  // namespace octo
 }  // namespace display
 }  // namespace kss

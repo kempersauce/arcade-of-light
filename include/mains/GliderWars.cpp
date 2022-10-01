@@ -5,7 +5,7 @@
 #include "controls/h2h_controller.h"   // for H2HController
 #include "controls/hardware/simple.h"  // for Simple
 #include "display/display.h"           // for Display
-#include "display/h2h.h"               // for H2HDisplay
+#include "display/octo/h2h.h"          // for H2HDisplay
 #include "games/game.h"                // for Game
 #include "games/life/glider_wars.h"    // for GliderWars
 

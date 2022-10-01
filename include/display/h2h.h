@@ -1,7 +1,7 @@
 #pragma once
 
-#include "display/octo_display.h"  // for OctoDisplay
-#include "pins/pin_setup.h"        // for pins::*
+#include "display/octo/octo_display.h"  // for OctoDisplay
+#include "pins/pin_setup.h"             // for pins::*
 
 namespace kss {
 namespace display {
@@ -39,7 +39,8 @@ DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 
 }  // namespace _h2h
 
-class H2HDisplay : public OctoDisplay<_h2h::kNumStrips, _h2h::kLengthStrips> {
+class H2HDisplay
+    : public octo::OctoDisplay<_h2h::kNumStrips, _h2h::kLengthStrips> {
  public:
   H2HDisplay() : OctoDisplay(_h2h::kPinList, _h2h::kDisplayMemory) {}
 };
