@@ -15,11 +15,10 @@ namespace _matrix {
 constexpr uint8_t kUnusedPin{255};
 
 }  // namespace _matrix
-using namespace _matrix;
 
 // A Matrix context is a series of Simple contexts that get polled efficiently
 class Matrix : public Context {
-  uint8_t active_pin{kUnusedPin};
+  uint8_t active_pin{_matrix::kUnusedPin};
 
   std::map<uint8_t, Simple> inputs;
 
@@ -56,7 +55,7 @@ class Matrix : public Context {
   void SetActiveChannel(const uint8_t channel) {
     if (active_pin != channel) {
       // Set the old pin to Inactive (Hi)
-      if (active_pin != kUnusedPin) {
+      if (active_pin != _matrix::kUnusedPin) {
         digitalWriteFast(active_pin, HIGH);
       }
 
