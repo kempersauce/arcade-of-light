@@ -13,8 +13,8 @@ namespace display {
 // BUT then we would need to make number of pins a parameter for that
 template <size_t row_count, size_t column_count>
 class SwitchbackOctoDisplay : public Display {
+  static constexpr size_t total_pixel_count{row_count * column_count};
   uint8_t pin_list[1];
-  static constexpr int total_pixel_count{row_count * column_count};
 
   // These buffers need to be large enough for all the pixels.
   // The total number of pixels is "ledsPerStrip * numPins".
@@ -56,7 +56,12 @@ class SwitchbackOctoDisplay : public Display {
     return pixels[y * size.x + x];
   }
 
-  virtual void Show() override { FastLED.show(); }
+  virtual void Show() override {
+    for (size_t i = 0; i < total_pixel_count; ++i) {
+      octo.setPixel(i, pixels[i].r, pixels[i].g, pixels[i].b);
+    }
+    octo.show();
+  }
 };
 
 }  // namespace display
