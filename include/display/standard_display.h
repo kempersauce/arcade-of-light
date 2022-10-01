@@ -28,8 +28,8 @@ class StandardDisplay : public Display {
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
     if (!CheckLocation(strip, pixel)) {
-		return dummy_pixel;
-	}
+      return dummy_pixel;
+    }
     return pixels[strip][pixel];
   }
 

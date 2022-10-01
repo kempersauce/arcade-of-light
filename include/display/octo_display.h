@@ -33,9 +33,10 @@ class OctoDisplay : public Display {
   OctoDisplay(const uint8_t* pin_list, int* displayMemory)
       : Display({STRIP_COUNT, STRIP_LENGTH}),
         octo(size.y, displayMemory, drawingMemory, WS2811_RGB | WS2811_800kHz,
-             size.x, pin_list),
+             size.x, pin_list) {
     octo.begin();
   }
+
   virtual ~OctoDisplay() = default;
   OctoDisplay(const OctoDisplay*) = delete;
   OctoDisplay* operator=(const OctoDisplay*) = delete;
@@ -44,8 +45,8 @@ class OctoDisplay : public Display {
 
   virtual inline CRGB& Pixel(size_t strip, size_t pixel) override {
     if (!CheckLocation(strip, pixel)) {
-		return dummy_pixel;
-	}
+      return dummy_pixel;
+    }
     return pixels[strip * size.y + pixel];
   }
 
