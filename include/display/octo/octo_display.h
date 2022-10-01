@@ -26,9 +26,10 @@ class OctoDisplay : public Display {
   // DMAMEM int displayMemory[total_pixel_count * 3 / 4];
   int drawingMemory[total_pixel_count * 3 / 4];
 
-  CRGB pixels[total_pixel_count];
-
   OctoWS2811 octo;
+
+ protected:
+  CRGB pixels[total_pixel_count];
 
  public:
   OctoDisplay(const uint8_t* pin_list, int* displayMemory)

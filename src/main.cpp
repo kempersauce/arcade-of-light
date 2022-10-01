@@ -6,6 +6,7 @@
 // #include "mains/LifeGame.cpp"
 // #include "mains/RhythmGame.cpp"
 // #include "mains/RocketGame.cpp"
+// #include "mains/RocketGameTest.cpp"
 
 // Audio programs
 // #include "mains/audio/AudioSenderTest.cpp"

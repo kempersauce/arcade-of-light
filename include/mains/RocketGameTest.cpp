@@ -2,7 +2,7 @@
 #include <FastLED.h>
 
 #include "controls/hardware/matrix.h"  // for Matrix
-#include "display/rocket.h"            // for RocketDisplay
+#include "display/h2h.h"               // for H2HDisplay
 #include "engines/framerate.h"         // for Framerate
 #include "games/rocket/rocket_game.h"  // for RocketGame
 #include "pins/pin_setup.h"            // for pins::*
@@ -12,7 +12,7 @@
 using namespace kss;
 
 games::rocket::RocketGame* game;
-display::RocketDisplay* gameDisplay;
+display::H2HDisplay* gameDisplay;
 controls::hardware::Matrix control_context;
 engines::FrameRate framerate;
 
@@ -21,12 +21,12 @@ void setup() {
   pins::Init();
   time::Init();
 
-  gameDisplay = new display::RocketDisplay();
+  gameDisplay = new display::H2HDisplay();
 
   game = new games::rocket::RocketGame(
-      &gameDisplay->main_display, &gameDisplay->instructo,
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[1]),
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[0]));
+      &gameDisplay->main_display, &gameDisplay->instructo_a,
+      control_context.CreateButton(pins::Controllers[0], pins::Buttons[5]),
+      control_context.CreateButton(pins::Controllers[0], pins::Buttons[4]));
   game->setup();
   Debug("Setup Complete");
 }
