@@ -11,7 +11,8 @@ constexpr size_t kTowerStripCount{5};
 
 constexpr size_t kInstructoRowCount{8};
 constexpr size_t kInstructoColumnCount{32};
-constexpr size_t kInstructoStripLength{kInstructoRowCount * kInstructoColumnCount};
+constexpr size_t kInstructoStripLength{kInstructoRowCount *
+                                       kInstructoColumnCount};
 
 }  // namespace display
 }  // namespace kss

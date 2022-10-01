@@ -107,31 +107,26 @@ struct Envelope {
       sweepSlope = sweepSlope * -1;
     }
     setFilterCutoff(newCutoff);
-
   }
 
-  
   const void filterSweepStart(boolean isUp = true) {
     // calculate max range
     // figure out linear formula
     if (!sweepStarted) {
       sweepStarted = true;
       sweepStartTime = time::Now();
-      if (!isUp == sweepUp){
+      if (!isUp == sweepUp) {
         sweepSlope = sweepSlope * -1;
         Debug("SlopE:: " + sweepSlope);
       }
       sweepUp = isUp;
-
     }
     Debug("CUTOFF:: " + filterCutoff);
     // may want to change this to return just the offset not the final frequency
     // return bendSlope * timePassed + frequency;
   }
 
-  const void filterSweepStop() {
-    sweepStarted = false;
-  }
+  const void filterSweepStop() { sweepStarted = false; }
 
   const void adjustPitchBend(float frequency) {
     if (bendUp) {

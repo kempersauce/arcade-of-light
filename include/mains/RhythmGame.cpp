@@ -25,7 +25,7 @@ void setup() {
   Debug_init();
   pins::Init();
   time::Init();
-  
+
   Debug("Begin setup()");
 
   // Choose your Display type

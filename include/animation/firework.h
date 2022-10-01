@@ -104,7 +104,7 @@ class Firework : public Animation {
       CRGB color;
       color.setHSV(hue, Saturation, 255);
       display->DitherPixelY((size_t)physics.location.x,
-                           (size_t)physics.location.y, &color);
+                            (size_t)physics.location.y, &color);
     }
   }
 };

@@ -41,14 +41,14 @@ class Circle : public Animation {
     math::Vector2D<int> end = (physics.location + box_size_px + 2).GetAs<int>();
     for (size_t x = max(0, start.x); x < end.x; ++x) {
       // Draw bounding rect
-    //   if (x == max(0, start.x) || x == end.x - 1) {
-    //     for (size_t y = max(0, start.y); y < end.y; ++y) {
-    //       display->Pixel(x, y) = CRGB::GreenYellow;
-    //     }
-    //   } else {
-    //     display->Pixel(x, max(0, start.y)) = CRGB::GreenYellow;
-    //     display->Pixel(x, end.y - 1) = CRGB::GreenYellow;
-    //   }
+      //   if (x == max(0, start.x) || x == end.x - 1) {
+      //     for (size_t y = max(0, start.y); y < end.y; ++y) {
+      //       display->Pixel(x, y) = CRGB::GreenYellow;
+      //     }
+      //   } else {
+      //     display->Pixel(x, max(0, start.y)) = CRGB::GreenYellow;
+      //     display->Pixel(x, end.y - 1) = CRGB::GreenYellow;
+      //   }
 
       for (size_t y = max(0, start.y); y < end.y; ++y) {
         if (!display->IsInBounds(x, y)) {

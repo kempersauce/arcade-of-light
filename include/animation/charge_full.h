@@ -8,7 +8,7 @@ namespace animation {
 
 // Single color background
 class ChargeFull : public Animation {
-private:
+ private:
   uint8_t HueStart = 0;
   accum88 bpm = 3 << 8;
   int8_t speed_min = -5;
@@ -71,18 +71,18 @@ private:
           hue -= 256;
         }
         color.setHSV(hue, Saturation, 255);
-        if(x == 0 || x == x_limit || y==0 ) { 
+        if (x == 0 || x == x_limit || y == 0) {
           display->BlendPixel(x, y, &color, border_blend);
           display->BlendPixel(x, y_limit - y, &color, border_blend);
-        } else if ( y < zone_size) {
-          float blendFactor = (zone_size - y)/zone_size;
+        } else if (y < zone_size) {
+          float blendFactor = (zone_size - y) / zone_size;
           display->BlendPixel(x, y, &color, blendFactor * border_blend);
-          display->BlendPixel(x, y_limit - y, &color, blendFactor * border_blend);
-        } 
+          display->BlendPixel(x, y_limit - y, &color,
+                              blendFactor * border_blend);
+        }
         hue += hue_diff_per_pixel;
       }
     }
-
 
     HueStart += ShiftSpeed;
   }

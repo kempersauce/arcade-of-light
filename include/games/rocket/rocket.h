@@ -13,7 +13,6 @@ namespace games {
 namespace rocket {
 
 class Rocket : public animation::Animation {
-
  public:
   engines::PhysicsInfo physics;
 

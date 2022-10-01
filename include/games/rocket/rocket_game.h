@@ -113,10 +113,9 @@ class RocketGame : public Game {
              controls::Button* up, controls::Button* reset)
       : Game(display),
         instructo{instructo},
-        instructo_animation{
-            instructo == NULL
-                ? NULL
-                : new animation::HueRainbow(2, instructo->size.y)},
+        instructo_animation{instructo == NULL ? NULL
+                                              : new animation::HueRainbow(
+                                                    2, instructo->size.y)},
         up_btn{up},
         reset_btn{reset},
         starBackground(display->size, 140),
@@ -385,8 +384,8 @@ class RocketGame : public Game {
         break;
     }
 
-	// Draw instructo
-	
+    // Draw instructo
+
     if (instructo != NULL) {
       instructo_animation->Move();
       instructo_animation->Draw(instructo);
