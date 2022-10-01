@@ -75,8 +75,8 @@ struct Envelope {
 
   uint32_t sweepStartTime;
   boolean sweepStarted = false;
-  float sweepSlope = 0.00005;
-  float sweepMin = 200;
+  float sweepSlope = 0.0005;
+  float sweepMin = 400;
   float sweepMax = 1800;
   boolean sweepUp = true;
 
@@ -100,9 +100,11 @@ struct Envelope {
     float newCutoff = filterCutoff + sweepSlope * timePassed;
     if (newCutoff > sweepMax) {
       newCutoff = sweepMax;
+      sweepSlope = sweepSlope * -1;
     }
     if (newCutoff < sweepMin) {
       newCutoff = sweepMin;
+      sweepSlope = sweepSlope * -1;
     }
     setFilterCutoff(newCutoff);
 

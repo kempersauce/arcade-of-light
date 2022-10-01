@@ -40,8 +40,9 @@ void loop() {
       if (msg.action == kActionChannelPlay) {
         Debug("Play channel " + msg.channel);
         waveforms[4].filterSweepStart(true);
-
-        waveforms[4].envelope.noteOn();
+        if (!synthy.sequencerOn) {
+          waveforms[4].envelope.noteOn();
+        }
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
@@ -57,7 +58,9 @@ void loop() {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         waveforms[4].filterSweepStart(false);
-        waveforms[4].envelope.noteOn();
+        if (!synthy.sequencerOn) {
+          waveforms[4].envelope.noteOn();
+        }
       } else {
         // What it do when releast button
         Debug("Stop channel " + msg.channel);
