@@ -28,8 +28,8 @@ class SubDisplay : public Display {
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) override {
     // Run initial checking on this SubDisplay to detect bleedover
     if (!CheckLocation(strip, pixel)) {
-		return dummy_pixel;
-	}
+      return dummy_pixel;
+    }
     return parent->Pixel(strip + location.x, pixel + location.y);
   };
 
