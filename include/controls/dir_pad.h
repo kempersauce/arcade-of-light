@@ -1,38 +1,41 @@
-
 #pragma once
 
-#include "controls/button.h"  // for Button
-#include "pins/pin_setup.h"
+#include "controls/button.h"           // for Button
+#include "controls/controller.h"       // for Controller
+#include "controls/hardware/matrix.h"  // for Matrix
+#include "pins/pin_setup.h"            // for Controllers, Buttons
 
 namespace kss {
 namespace controls {
 
-struct DirPad {
-  static constexpr size_t button_count{6};
-  union {
-    struct {
-      Button* up;
-      Button* right;
-      Button* left;
-      Button* down;
-      Button* a;
-      Button* b;
-    };
-    Button* buttons[button_count];
-  };
+namespace _dir_pad {
+constexpr size_t kButtonCount{6};
+constexpr uint32_t kIdleTimeoutMillis{45 * 1000};
+}  // namespace _dir_pad
 
-  DirPad(Button* up, Button* down, Button* left, Button* right, Button* a,
-         Button* b)
-      : up{up}, right{right}, left{left}, down{down}, a{a}, b{b} {}
+struct DirPad : public Controller<_dir_pad::kButtonCount> {
+  Button* const& b = buttons[0];
+  Button* const& a = buttons[1];
+  Button* const& down = buttons[2];
+  Button* const& left = buttons[3];
+  Button* const& right = buttons[4];
+  Button* const& up = buttons[5];
 
-  bool isIdle(uint32_t idleTimeout) {
-    return up->GetMillisReleased() >= idleTimeout &&
-           down->GetMillisReleased() >= idleTimeout &&
-           left->GetMillisReleased() >= idleTimeout &&
-           right->GetMillisReleased() >= idleTimeout &&
-           a->GetMillisReleased() >= idleTimeout &&
-           b->GetMillisReleased() >= idleTimeout;
-  }
+  DirPad() : Controller() {}
+  DirPad(Button* b, Button* a, Button* down, Button* left, Button* right,
+         Button* up)
+      : Controller({b, a, down, left, right, up},
+                   _dir_pad::kIdleTimeoutMillis) {}
+
+  DirPad(hardware::Matrix& context, size_t ctl_no)
+      : Controller(
+            {context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[0]),
+             context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[1]),
+             context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[2]),
+             context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[3]),
+             context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[4]),
+             context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[5])},
+            _dir_pad::kIdleTimeoutMillis) {}
 };
 
 }  // namespace controls

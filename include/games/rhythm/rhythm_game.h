@@ -2,7 +2,7 @@
 
 #include <vector>  // for std::vector
 
-#include "controls/dir_pad.h"            // for DirPad
+#include "controls/rhythm.h"             // for RhythmController
 #include "display/octo/four_panel.h"     // for FourPanelDisplay
 #include "display/sub_display.h"         // for SubDisplay
 #include "games/game.h"                  // for Game
@@ -28,7 +28,7 @@ class RhythmGame : public Game {
 
  public:
   RhythmGame(display::octo::FourPanelDisplay* display,
-             std::vector<controls::DirPad> controllers)
+             std::vector<controls::RhythmController> controllers)
       : Game(display) {
     for (uint8_t i = 0; i < _rhythm_game::kNumPlayers; ++i) {
       players[i] = new RhythmGameSingle(&display->panels[i], controllers[i], i,

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/electric_arc.h"      // for ElectricArc
-#include "controls/h2h_controller.h"     // for H2HController
+#include "controls/h2h.h"                // for H2HController
 #include "engines/noise.h"               // for NoiseGenerator
 #include "games/game.h"                  // for Game
 #include "games/head2head/audio.h"       // for H2HAudio

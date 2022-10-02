@@ -2,6 +2,7 @@
 #include <FastLED.h>
 
 #include "controls/hardware/matrix.h"  // for Matrix
+#include "controls/rocket.h"           // for RocketController
 #include "display/rocket.h"            // for RocketDisplay
 #include "engines/framerate.h"         // for Framerate
 #include "games/rocket/rocket_game.h"  // for RocketGame
@@ -22,11 +23,11 @@ void setup() {
   time::Init();
 
   gameDisplay = new display::RocketDisplay();
+  controls::RocketController controller{control_context};
 
-  game = new games::rocket::RocketGame(
-      &gameDisplay->main_display, &gameDisplay->instructo,
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[1]),
-      control_context.CreateButton(pins::Controllers[0], pins::Buttons[0]));
+  game = new games::rocket::RocketGame(&gameDisplay->main_display,
+                                       &gameDisplay->instructo, controller);
+
   game->setup();
   Debug("Setup Complete");
 }
