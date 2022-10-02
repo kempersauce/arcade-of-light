@@ -2,19 +2,19 @@
 
 #include <vector>  // for vector
 
+#include "animation/animation.h"            // for Animation
+#include "animation/exploder.h"             // for Exploder
+#include "animation/explosion.h"            // for Explosion
+#include "animation/prompt.h"               // for Prompt
+#include "animation/starscape.h"            // for Starscape
 #include "audio/beat_patterns/constants.h"  // for kChannel*
-#include "animation/animation.h"     // for Animation
-#include "animation/exploder.h"      // for Exploder
-#include "animation/explosion.h"     // for Explosion
-#include "animation/prompt.h"        // for Prompt
-#include "animation/starscape.h"     // for Starscape
-#include "audio/score.h"             // for Score
-#include "audio/synth_sender_raw.h"  // for SynthSenderRaw
-#include "controls/dir_pad.h"        // for DirPad
-#include "games/game.h"              // for Game
-#include "serial/debug.h"            // for Debug
-#include "serial/hw_serials.h"       // for kHwSerials
-#include "time/now.h"                // for Now
+#include "audio/score.h"                    // for Score
+#include "audio/synth_sender_raw.h"         // for SynthSenderRaw
+#include "controls/dir_pad.h"               // for DirPad
+#include "games/game.h"                     // for Game
+#include "serial/debug.h"                   // for Debug
+#include "serial/hw_serials.h"              // for kHwSerials
+#include "time/now.h"                       // for Now
 
 namespace kss {
 namespace games {

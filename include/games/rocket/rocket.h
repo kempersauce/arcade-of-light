@@ -17,9 +17,7 @@ class Rocket : public animation::Animation {
   engines::PhysicsInfo physics;
 
   // Rocket constants
-  // int Mass = 2;
   static constexpr uint8_t height{4};
-  // int Gravity; // this gets set according to the level
 
   // colors (RGB)
   CRGB* color;
@@ -65,9 +63,9 @@ class Rocket : public animation::Animation {
       display->Pixel(middleStrip, i) = *color;
     }
     display->DitherPixelY(middleStrip, physics.location.y + height - 1,
-                         color);  // dither rocket nose
+                          color);  // dither rocket nose
     display->DitherPixelY(middleStrip, physics.location.y,
-                         color);  // dither rocket tail
+                          color);  // dither rocket tail
 
     // Draw the rocket boost
     boost.Draw(display);

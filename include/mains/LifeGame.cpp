@@ -4,7 +4,7 @@
 
 #include "controls/dir_pad.h"          // for DirPad
 #include "controls/hardware/simple.h"  // for controls::hardware::Simple
-#include "display/five.h"              // for FiveDisplay
+#include "display/fast_led/five.h"     // for FiveDisplay
 #include "games/game.h"                // for Game
 #include "games/life/single_player.h"  // for LifeGameSinglePlayer
 #include "pins/pin_setup.h"            // for pins::*
@@ -20,7 +20,7 @@ void setup() {
   Debug_init();
   pins::Init();
 
-  gameDisplay = (display::Display*)new display::FiveDisplay();
+  gameDisplay = (display::Display*)new display::fast_led::FiveDisplay();
 
   controls::DirPad dirPad{control_context.CreateButton(pins::Buttons[4]),
                           control_context.CreateButton(pins::Buttons[3]),

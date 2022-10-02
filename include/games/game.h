@@ -7,7 +7,6 @@ Where the magic happens
 
 #include "display/display.h"  // for Display
 #include "serial/debug.h"     // for Debug
-#include "time/now.h"         // for Now
 
 namespace kss {
 namespace games {

@@ -142,8 +142,8 @@ void loop() {
 
   if (waveforms[4].bendStarted) {
     waveforms[4].pitchBend();
-  } 
+  }
   if (waveforms[4].sweepStarted) {
     waveforms[4].filterSweep();
-  } 
+  }
 }
