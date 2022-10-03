@@ -19,7 +19,7 @@ class ChargeBar : public Animation {
 
   void Draw(display::Display* display) {
     // TODO: we could use dithering here
-    for (size_t y = 0; y < height; ++y) {
+    for (size_t y = height_min; y < height; ++y) {
       display->BlendPixel(0, y, &color, blendFactor);
       display->BlendPixel(display->size.x - 1, y, &color, blendFactor);
     }

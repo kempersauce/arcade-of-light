@@ -47,8 +47,7 @@ class DirPadTest : public games::Game {
       }
 
       rainbow.setSpeed(newSpeed);
-      Debug("new speed:");
-      // Debug(rainbow.ShiftSpeed);
+      Debug("new speed: " + rainbow.ShiftSpeed);
     }
 
     if (controls.left->IsPressed()) {
@@ -79,6 +78,7 @@ class DirPadTest : public games::Game {
     //     //Debug("no Buttons pressed");
     // }
 
+    rainbow.Move();
     rainbow.Draw(display);
   }
 };

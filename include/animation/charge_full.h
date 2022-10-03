@@ -19,8 +19,8 @@ class ChargeFull : public Animation {
   uint8_t Brightness = 150;
   int8_t ShiftSpeed = 1;
   float hue_diff_per_pixel = 1;
-  float zone_size = 20;
-  float border_blend = 1;
+  size_t zone_size = 20;
+  float border_blend = .5;
 
   bool WaveShift = true;
 
@@ -54,6 +54,11 @@ class ChargeFull : public Animation {
     speed_max = max;
   }
 
+  void Move() {
+    // TODO move this to be based on time, not framerate
+    HueStart += ShiftSpeed;
+  }
+
   // Taste the rainbow
   void Draw(display::Display* display) {
     uint8_t y_limit = display->size.y - 1;
@@ -61,30 +66,22 @@ class ChargeFull : public Animation {
     CRGB color;
 
     for (size_t x = 0; x < display->size.x; ++x) {
-      float hue = HueStart + ((int)x * ShiftSpeed);
+      float hue = HueStart + (x * ShiftSpeed);
       for (size_t y = 0; y < display->size.y / 2; ++y) {
         // Normalize hue to 0-255
-        if (hue < 0) {
-          hue += 256;
-        }
-        if (hue >= 256) {
-          hue -= 256;
-        }
+		hue = fmod(hue, 256);
         color.setHSV(hue, Saturation, 255);
         if (x == 0 || x == x_limit || y == 0) {
           display->BlendPixel(x, y, &color, border_blend);
           display->BlendPixel(x, y_limit - y, &color, border_blend);
         } else if (y < zone_size) {
-          float blendFactor = (zone_size - y) / zone_size;
-          display->BlendPixel(x, y, &color, blendFactor * border_blend);
-          display->BlendPixel(x, y_limit - y, &color,
-                              blendFactor * border_blend);
+          float blendFactor = border_blend * (zone_size - y) / zone_size;
+          display->BlendPixel(x, y, &color, blendFactor);
+          display->BlendPixel(x, y_limit - y, &color, blendFactor);
         }
         hue += hue_diff_per_pixel;
       }
     }
-
-    HueStart += ShiftSpeed;
   }
 };
 

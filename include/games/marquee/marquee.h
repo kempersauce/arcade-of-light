@@ -24,6 +24,9 @@ class MarqueeGame : public Game {
   }
 
   void loop() override {
+    background.Move();
+    marquee.Move();
+
     background.Draw(display);
     marquee.Draw(display);
   }
