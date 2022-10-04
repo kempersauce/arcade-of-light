@@ -1,10 +1,11 @@
 #pragma once
 
-#include "display/octo_display.h"  // for OctoDisplay
-#include "pins/pin_setup.h"
+#include "display/octo/octo_display.h"  // for OctoDisplay
+#include "pins/pin_setup.h"             // for Leds
 
 namespace kss {
 namespace display {
+namespace octo {
 
 namespace _twenty {
 
@@ -58,5 +59,6 @@ class TwentyDisplay
   virtual ~TwentyDisplay() = default;
 };
 
+}  // namespace octo
 }  // namespace display
 }  // namespace kss

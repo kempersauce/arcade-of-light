@@ -178,7 +178,7 @@ class SynthyPoly {
     // add effect
     // l_chorusEffect.voices(n_chorus);
     // r_chorusEffect.voices(n_chorus);
-    
+
     wave0.begin(1, notes::C[2], WAVEFORM_SQUARE);
     wave1.begin(1, Cmajor[0], WAVEFORM_BANDLIMIT_SAWTOOTH);
     wave2.begin(1, Cmajor[1], WAVEFORM_BANDLIMIT_SAWTOOTH);
@@ -253,36 +253,28 @@ class SynthyPoly {
     wave0.frequency(notes::G[3]);
     envelope0.noteOn();
   }
-  const void stopUp() {  
-    envelope0.noteOff();
-  }
+  const void stopUp() { envelope0.noteOff(); }
   const void actionDown() {
     setChord(0);
     resetArp();
     wave0.frequency(notes::C[3]);
     envelope0.noteOn();
   }
-  const void stopDown() {
-    envelope0.noteOff();
-  }
+  const void stopDown() { envelope0.noteOff(); }
   const void actionLeft() {
     setChord(2);
     resetArp();
     wave0.frequency(notes::A[3]);
     envelope0.noteOn();
   }
-  const void stopLeft() {
-    envelope0.noteOff();
-  }
+  const void stopLeft() { envelope0.noteOff(); }
   const void actionRight() {
     setChord(3);
     resetArp();
     wave0.frequency(notes::E[3]);
     envelope0.noteOn();
   }
-  const void stopRight() {
-    envelope0.noteOff();
-  }
+  const void stopRight() { envelope0.noteOff(); }
   const void actionA() {
     chordOn = true;
     playChord();

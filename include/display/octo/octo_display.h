@@ -12,10 +12,11 @@ holds the pixels and buffers for OctoWS2811 library
 
 namespace kss {
 namespace display {
+namespace octo {
 
 template <size_t STRIP_COUNT, size_t STRIP_LENGTH>
 class OctoDisplay : public Display {
-  static constexpr int total_pixel_count{STRIP_COUNT * STRIP_LENGTH};
+  static constexpr size_t total_pixel_count{STRIP_COUNT * STRIP_LENGTH};
 
   // These buffers need to be large enough for all the pixels.
   // The total number of pixels is "ledsPerStrip * numPins".
@@ -25,9 +26,11 @@ class OctoDisplay : public Display {
   // DMAMEM int displayMemory[total_pixel_count * 3 / 4];
   int drawingMemory[total_pixel_count * 3 / 4];
 
-  CRGB pixels[total_pixel_count];
-
   OctoWS2811 octo;
+
+ protected:
+  // pixels initializes to all zeros
+  CRGB pixels[total_pixel_count] = {};
 
  public:
   OctoDisplay(const uint8_t* pin_list, int* displayMemory)
@@ -51,12 +54,13 @@ class OctoDisplay : public Display {
   }
 
   virtual void Show() override {
-    for (int i = 0; i < total_pixel_count; ++i) {
+    for (size_t i = 0; i < total_pixel_count; ++i) {
       octo.setPixel(i, pixels[i].r, pixels[i].g, pixels[i].b);
     }
     octo.show();
   }
 };
 
+}  // namespace octo
 }  // namespace display
 }  // namespace kss

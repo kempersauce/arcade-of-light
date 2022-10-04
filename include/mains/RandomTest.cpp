@@ -76,14 +76,14 @@ void loop() {
     Debug("Int16_incl(10, 20)=" + random::Int16_incl(10, 20));
   }
 
-    PrintBool();
+  PrintBool();
   //   PrintBoolF();
 
-//   Debug_var(random::Int8(10));
-//   Debug_var(random::Int8_incl(10));
+  //   Debug_var(random::Int8(10));
+  //   Debug_var(random::Int8_incl(10));
 
-//   Debug_var(random::Int16(10));
-//   Debug_var(random::Int16_incl(10));
+  //   Debug_var(random::Int16(10));
+  //   Debug_var(random::Int16_incl(10));
 
-    // delay(100);
+  // delay(100);
 }

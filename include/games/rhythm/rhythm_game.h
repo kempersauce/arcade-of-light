@@ -2,8 +2,8 @@
 
 #include <vector>  // for std::vector
 
-#include "controls/dir_pad.h"            // for DirPad
-#include "display/four_panel.h"          // for FourPanelDisplay
+#include "controls/rhythm.h"             // for RhythmController
+#include "display/octo/four_panel.h"     // for FourPanelDisplay
 #include "display/sub_display.h"         // for SubDisplay
 #include "games/game.h"                  // for Game
 #include "games/rhythm/rhythm_single.h"  // for RhythmGameSingle
@@ -19,19 +19,18 @@ namespace _rhythm_game {
 constexpr uint8_t kNumPlayers{4};
 
 }  // namespace _rhythm_game
-using namespace _rhythm_game;
 
 class RhythmGame : public Game {
   // List of game instances playing. Infinite multiplayer!
-  RhythmGameSingle* players[kNumPlayers];
+  RhythmGameSingle* players[_rhythm_game::kNumPlayers];
 
   std::vector<RhythmGameSingle::ExternalExplosion> external_explosion_hues;
 
  public:
-  RhythmGame(display::FourPanelDisplay* display,
-             std::vector<controls::DirPad> controllers)
+  RhythmGame(display::octo::FourPanelDisplay* display,
+             std::vector<controls::RhythmController> controllers)
       : Game(display) {
-    for (uint8_t i = 0; i < kNumPlayers; ++i) {
+    for (uint8_t i = 0; i < _rhythm_game::kNumPlayers; ++i) {
       players[i] = new RhythmGameSingle(&display->panels[i], controllers[i], i,
                                         &external_explosion_hues);
     }

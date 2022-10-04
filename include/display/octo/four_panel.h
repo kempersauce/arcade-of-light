@@ -1,11 +1,12 @@
 #pragma once
 
 #include "display/display.h"      // for Display
+#include "display/octo/twenty.h"  // for TwentyDisplay
 #include "display/sub_display.h"  // for SubDisplay
-#include "display/twenty.h"       // for TwentyDisplay
 
 namespace kss {
 namespace display {
+namespace octo {
 
 // This is a demo class, it was meant to be used but we may not actually use it
 class FourPanelDisplay : public TwentyDisplay {
@@ -23,5 +24,6 @@ class FourPanelDisplay : public TwentyDisplay {
                {this, {3 * panel_width, 0}, {panel_width, size.y}}} {}
 };
 
+}  // namespace octo
 }  // namespace display
 }  // namespace kss

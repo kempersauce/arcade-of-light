@@ -9,20 +9,24 @@ namespace pins {
 
 // Controller selector lines: 2-4, 7
 // With Dip0 set ON, these are instead 2-5
-uint8_t Controllers[]{2, 3, 4, 7};
+constexpr size_t ControllerCount{4};
+uint8_t Controllers[ControllerCount]{2, 3, 4, 7};
 
 // Button read pins: 8-13
 // With Dip0 set ON, these are instead 6, 9-13
-uint8_t Buttons[]{8, 9, 10, 11, 12, 13};
+constexpr size_t ButtonCount{6};
+uint8_t Buttons[ButtonCount]{8, 9, 10, 11, 12, 13};
 
 // Leds: 18-37
-constexpr uint8_t Leds[]{18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
-                         28, 29, 30, 31, 32, 33, 34, 35, 36, 37};
+constexpr size_t LedCount{20};
+constexpr uint8_t Leds[LedCount]{18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+                                 28, 29, 30, 31, 32, 33, 34, 35, 36, 37};
 
 constexpr uint8_t LedInstructo{Leds[12]};
 
 // Dips: 38-41
-constexpr uint8_t Dips[]{38, 39, 40, 41};
+constexpr size_t DipCount{4};
+constexpr uint8_t Dips[DipCount]{38, 39, 40, 41};
 
 // Read the value of the corresponding DipSwitch pin
 inline uint8_t ReadDipRaw(const size_t dip_index) {
@@ -47,16 +51,20 @@ void Init() {
     Buttons[0] = 6;
   }
 
-  // TODO Set pinMode for Leds?
-
   // Set controller pins to output mode
   for (const auto pin : Controllers) {
     pinMode(pin, OUTPUT);
+    digitalWriteFast(pin, HIGH);
   }
 
   // Set button pins to input mode
   for (const auto pin : Buttons) {
     pinMode(pin, INPUT);
+  }
+
+  // Set Led pins to output mode
+  for (const auto pin : Leds) {
+    pinMode(pin, OUTPUT);
   }
 
   Debug("Pinout initialized for Teensy4.1 configuration");

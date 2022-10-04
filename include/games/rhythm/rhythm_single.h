@@ -8,7 +8,7 @@
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "animation/starscape.h"                // for Starscape
 #include "audio/synth_sender_raw.h"             // for SynthSenderRaw
-#include "controls/dir_pad.h"                   // for DirPad
+#include "controls/rhythm.h"                    // for RhythmController
 #include "games/game.h"                         // for Game
 #include "math/random.h"                        // for random::*
 #include "serial/debug.h"                       // for Debug
@@ -51,7 +51,7 @@ class RhythmGameSingle : public Game {
   uint32_t metronome_last_hit{0};
 
   // Sticks
-  controls::DirPad controller;
+  controls::RhythmController controller;
 
   // Sounds
   audio::SynthSenderRaw synth;
@@ -139,7 +139,8 @@ class RhythmGameSingle : public Game {
     }
   }
 
-  RhythmGameSingle(display::Display* display, controls::DirPad controller)
+  RhythmGameSingle(display::Display* display,
+                   controls::RhythmController controller)
       : Game(display),
         player_no{0},
         controller{controller},
@@ -148,8 +149,8 @@ class RhythmGameSingle : public Game {
             player_hues[player_no], 20, {display->size.x, display->size.y / 4}},
         external_explosions{NULL} {}
 
-  RhythmGameSingle(display::Display* display, controls::DirPad controller,
-                   uint8_t player_no,
+  RhythmGameSingle(display::Display* display,
+                   controls::RhythmController controller, uint8_t player_no,
                    std::vector<ExternalExplosion>* external_explosions)
       : Game(display),
         player_no{player_no},

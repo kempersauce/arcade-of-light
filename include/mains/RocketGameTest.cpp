@@ -3,7 +3,7 @@
 
 #include "controls/hardware/matrix.h"  // for Matrix
 #include "controls/rocket.h"           // for RocketController
-#include "display/rocket.h"            // for RocketDisplay
+#include "display/h2h.h"               // for H2HDisplay
 #include "engines/framerate.h"         // for Framerate
 #include "games/rocket/rocket_game.h"  // for RocketGame
 #include "pins/pin_setup.h"            // for pins::*
@@ -13,7 +13,7 @@
 using namespace kss;
 
 games::rocket::RocketGame* game;
-display::RocketDisplay* gameDisplay;
+display::H2HDisplay* gameDisplay;
 controls::hardware::Matrix control_context;
 engines::FrameRate framerate;
 
@@ -22,11 +22,13 @@ void setup() {
   pins::Init();
   time::Init();
 
-  gameDisplay = new display::RocketDisplay();
-  controls::RocketController controller{control_context};
+  gameDisplay = new display::H2HDisplay();
+
+  controls::RocketController controller{
+      controls::RocketController::CreateTest(control_context, 0)};
 
   game = new games::rocket::RocketGame(&gameDisplay->main_display,
-                                       &gameDisplay->instructo, controller);
+                                       &gameDisplay->instructo_a, controller);
 
   game->setup();
   Debug("Setup Complete");

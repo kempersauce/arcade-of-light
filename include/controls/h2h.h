@@ -1,19 +1,23 @@
 #pragma once
 
 #include "controls/button.h"           // for Button
+#include "controls/controller.h"       // for Controller
 #include "controls/hardware/matrix.h"  // for Matrix
 #include "pins/pin_setup.h"            // for Controllers, Buttons
 
 namespace kss {
 namespace controls {
 
-struct H2HController {
-  Button* buttons[8];
+namespace _h2h {
+constexpr size_t kButtonCount{8};
+constexpr uint32_t kIdleTimeoutMillis{45 * 1000};
+}  // namespace _h2h
 
-  H2HController() {}
+struct H2HController : public Controller<_h2h::kButtonCount> {
+  H2HController() : Controller() {}
   H2HController(Button* a, Button* b, Button* c, Button* d, Button* e,
                 Button* f, Button* g, Button* h)
-      : buttons{a, b, c, d, e, f, g, h} {}
+      : Controller({a, b, c, d, e, f, g, h}, _h2h::kIdleTimeoutMillis) {}
 
   static H2HController TeamA(hardware::Matrix& context) {
     return H2HController{

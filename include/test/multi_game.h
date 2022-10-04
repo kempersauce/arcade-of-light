@@ -4,7 +4,7 @@
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "animation/starscape.h"                // for Starscape
 #include "display/display.h"                    // for Display
-#include "display/four_panel.h"                 // for FourPanelDisplay
+#include "display/octo/four_panel.h"            // for FourPanelDisplay
 #include "games/game.h"                         // for Game
 #include "games/life/life.h"                    // for LifeGame
 #include "games/rainbow/rainbow.h"              // for RainbowGame
@@ -17,7 +17,7 @@ class MultiGameTest : public games::Game {
   games::Game* games[4];
 
  public:
-  MultiGameTest(display::FourPanelDisplay* gameDisplay)
+  MultiGameTest(display::octo::FourPanelDisplay* gameDisplay)
       : Game{gameDisplay},
         games{(games::Game*)new test::AnimationTest{
                   &gameDisplay->panels[0],

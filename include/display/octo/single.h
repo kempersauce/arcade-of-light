@@ -1,10 +1,11 @@
 #pragma once
 
-#include "display/octo_display.h"  // for OctoDisplay
-#include "pins/pin_setup.h"        // for pins::*
+#include "display/octo/octo_display.h"  // for OctoDisplay
+#include "pins/pin_setup.h"             // for pins::*
 
 namespace kss {
 namespace display {
+namespace octo {
 
 namespace _single {
 
@@ -30,5 +31,6 @@ class SingleDisplay
   SingleDisplay() : OctoDisplay(_single::kPinList, _single::kDisplayMemory) {}
 };
 
+}  // namespace octo
 }  // namespace display
 }  // namespace kss

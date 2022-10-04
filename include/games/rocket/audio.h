@@ -31,10 +31,6 @@ class RocketAudio : public audio::Manager {
   audio::SoundEffect targetWin{sender, "TRGTHIT5.WAV"};
   audio::SoundEffectBespoke levelWin{sender, 1, "LIFTOFF.WAV"};
 
-  // Background music
-  audio::BackgroundMusic winBG{sender, "EARTH.WAV"};
-  audio::BackgroundMusic stdBG{sender, "EARTH.WAV"};
-
   // Level specific audio
   LevelAudio level_sounds[5] = {
       LevelAudio{sender, "EARTHVOX.WAV", "EARTH.WAV"},
@@ -88,12 +84,6 @@ class RocketAudio : public audio::Manager {
   }
 
   void stopPlayTargetHover() { targetHover.Stop(); }
-
-  // CHANNEL 1: FireworkLaunch
-
-  // BACKGROUND METHODS
-  void playStdBG() { stdBG.Repeat(); }
-  void playWinBG() { winBG.Repeat(); }
 };
 
 }  // namespace rocket

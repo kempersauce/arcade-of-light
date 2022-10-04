@@ -2,8 +2,9 @@
 #include "animation/noise.h"             // for NoiseAnimation
 #include "audio/synth_sender.h"          // for SynthSender
 #include "controls/hardware/matrix.h"    // for Matrix
+#include "controls/rhythm.h"             // for RhythmController
 #include "display/display.h"             // for Display
-#include "display/four_panel.h"          // for FourPanelDisplay
+#include "display/octo/four_panel.h"     // for FourPanelDisplay
 #include "engines/framerate.h"           // for FrameRate
 #include "games/rhythm/rhythm_game.h"    // for RhythmGame
 #include "games/rhythm/rhythm_single.h"  // for RhythmGameSingle
@@ -16,7 +17,7 @@ using namespace kss;
 
 engines::FrameRate frameRate;
 
-display::FourPanelDisplay* gameDisplay;
+display::octo::FourPanelDisplay* gameDisplay;
 games::Game* game;
 
 controls::hardware::Matrix control_context;
@@ -25,24 +26,18 @@ void setup() {
   Debug_init();
   pins::Init();
   time::Init();
-  
+
   Debug("Begin setup()");
 
   // Choose your Display type
-  gameDisplay = new display::FourPanelDisplay();
+  gameDisplay = new display::octo::FourPanelDisplay();
 
   Debug("gameDisplay created");
 
   std::vector<controls::DirPad> dir_pads;
 
-  for (uint8_t controller_pin : pins::Controllers) {
-    dir_pads.emplace_back(
-        control_context.CreateButton(controller_pin, pins::Buttons[5]),
-        control_context.CreateButton(controller_pin, pins::Buttons[4]),
-        control_context.CreateButton(controller_pin, pins::Buttons[3]),
-        control_context.CreateButton(controller_pin, pins::Buttons[2]),
-        control_context.CreateButton(controller_pin, pins::Buttons[1]),
-        control_context.CreateButton(controller_pin, pins::Buttons[0]));
+  for (size_t ctl_no = 0; ctl_no < pins::ControllerCount; ++ctl_no) {
+    dir_pads.push_back(controls::RhythmController{control_context, ctl_no});
   }
 
   game = new games::rhythm::RhythmGame(gameDisplay, dir_pads);

@@ -140,7 +140,7 @@ class LifeGameSinglePlayer : public Game {
       if (dirPad.b->IsPressed()) {
         // if(!audio.shuffleIsStarted)
         // {
-        // 	audio.startRandom();
+        //    audio.startRandom();
         // }
         lifeGrid.randomize();
       } else if (isPaused == false) {
@@ -149,7 +149,7 @@ class LifeGameSinglePlayer : public Game {
       }
       // if(dirPad.b->IsUp() && audio.shuffleIsStarted)
       // {
-      // 	audio.stopPlayRandom();
+      //    audio.stopPlayRandom();
       // }
 
       nextDrawFrameMillis = now + millisPerFrame;

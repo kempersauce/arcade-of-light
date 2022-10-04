@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/electric_arc.h"      // for ElectricArc
-#include "controls/h2h_controller.h"     // for H2HController
+#include "controls/h2h.h"                // for H2HController
 #include "engines/noise.h"               // for NoiseGenerator
 #include "games/game.h"                  // for Game
 #include "games/head2head/audio.h"       // for H2HAudio
@@ -24,6 +24,11 @@ enum H2HGameState {
 };
 
 class Head2Head : public Game {
+  display::Display* const instructo_a;
+  display::Display* const instructo_b;
+  animation::HueRainbow* const instructo_animation_a;
+  animation::HueRainbow* const instructo_animation_b;
+
   H2HGameState gameState;
 
   // Idle Game, plays after no buttons have been pressed before idle timeout
@@ -49,9 +54,20 @@ class Head2Head : public Game {
  public:
   H2HGameStrip** gameStrips;  // one for each strip
 
-  Head2Head(display::Display* gameDisplay, controls::H2HController teamA,
+  Head2Head(display::Display* gameDisplay, display::Display* instructo_a,
+            display::Display* instructo_b, controls::H2HController teamA,
             controls::H2HController teamB)
       : Game(gameDisplay),
+        instructo_a{instructo_a},
+        instructo_b{instructo_b},
+        instructo_animation_a{
+            instructo_a == NULL
+                ? NULL
+                : new animation::HueRainbow(2, instructo_a->size.y)},
+        instructo_animation_b{
+            instructo_b == NULL
+                ? NULL
+                : new animation::HueRainbow(2, instructo_b->size.y)},
         idleGame(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},
@@ -222,6 +238,18 @@ class Head2Head : public Game {
         electricArc.yLocation = H2HGameStrip::midBar;
         electricArc.Draw(display);
         break;
+    }
+
+    // Draw instructos
+
+    if (instructo_a != NULL) {
+      instructo_animation_a->Move();
+      instructo_animation_a->Draw(instructo_a);
+    }
+
+    if (instructo_b != NULL) {
+      instructo_animation_b->Move();
+      instructo_animation_b->Draw(instructo_b);
     }
   }
 };
