@@ -44,6 +44,7 @@
 // Animation test programs
 // #include "mains/animation/CircleTest.cpp"
 // #include "mains/animation/SineWaveTest.cpp"
+// #include "mains/animation/DiamondTest.cpp"
 
 // Other test programs
 // #include "mains/RandomTest.cpp"
