@@ -32,14 +32,14 @@ void setup() {
   gameDisplay = new display::H2HDisplay();
 
   sine_wave = new animation::SineWave(CRGB::Cyan);
-  sine_wave->waves.emplace_back(100, 0, .2);
-  sine_wave->waves.emplace_back(100, 0, .1);
-  sine_wave->waves.emplace_back(66, 0, .3);
-  sine_wave->waves.emplace_back(66, 0, .4);
-  sine_wave->waves.emplace_back(40, 0, .3);
-  sine_wave->waves.emplace_back(40, 0, .5);
-  sine_wave->waves.emplace_back(50, 0, .2);
-  sine_wave->waves.emplace_back(50, 0, .1);
+  sine_wave->waves.emplace_back(100, 1, .2);
+  sine_wave->waves.emplace_back(100, 1, .1);
+  sine_wave->waves.emplace_back(66, 1, .3);
+  sine_wave->waves.emplace_back(66, 1, .4);
+  sine_wave->waves.emplace_back(40, 1, .3);
+  sine_wave->waves.emplace_back(40, 1, .5);
+  sine_wave->waves.emplace_back(50, 1, .2);
+  sine_wave->waves.emplace_back(50, 1, .1);
 
   game = new test::AnimationTest(gameDisplay, sine_wave);
   controller = controls::H2HController::TeamA(control_context);
@@ -55,10 +55,10 @@ void loop() {
   // Do the waves with the buttons
   for (size_t i = 0; i < 8; ++i) {
     if (controller.buttons[i]->IsDepressing()) {
-      sine_wave->waves[i].amplitude = 1;
+      sine_wave->waves[i].On();
     }
     if (controller.buttons[i]->IsReleasing()) {
-      sine_wave->waves[i].amplitude = 0;
+      sine_wave->waves[i].Off();
     }
   }
 

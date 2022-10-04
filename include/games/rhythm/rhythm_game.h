@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>  // for std::vector
-
 #include "controls/rhythm.h"             // for RhythmController
 #include "display/octo/four_panel.h"     // for FourPanelDisplay
 #include "display/sub_display.h"         // for SubDisplay
@@ -24,15 +22,12 @@ class RhythmGame : public Game {
   // List of game instances playing. Infinite multiplayer!
   RhythmGameSingle* players[_rhythm_game::kNumPlayers];
 
-  std::vector<RhythmGameSingle::ExternalExplosion> external_explosion_hues;
-
  public:
   RhythmGame(display::octo::FourPanelDisplay* display,
              std::vector<controls::RhythmController> controllers)
       : Game(display) {
     for (uint8_t i = 0; i < _rhythm_game::kNumPlayers; ++i) {
-      players[i] = new RhythmGameSingle(&display->panels[i], controllers[i], i,
-                                        &external_explosion_hues);
+      players[i] = new RhythmGameSingle(&display->panels[i], controllers[i], i);
     }
   }
 
@@ -45,24 +40,6 @@ class RhythmGame : public Game {
   void loop() override {
     for (auto player : players) {
       player->loop();
-    }
-
-    // Test
-    // if (math::random::Bool(.01)) {
-    //   Debug("Adding explosion");
-    //   external_explosion_hues.push_back({math::random::Int8(),
-    //                                      math::random::Int8_incl(1, 3),
-    //                                      math::random::Int8_incl(1, 3)});
-    // }
-
-    if (!external_explosion_hues.empty()) {
-      for (auto player : players) {
-        player->AddExternalExplosions();
-      }
-
-      Debug("Clearing explosives");
-      external_explosion_hues.clear();
-      Debug("Clearing explosives... DONE");
     }
   }
 };

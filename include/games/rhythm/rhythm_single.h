@@ -3,10 +3,14 @@
 #include <vector>  // for vector
 
 #include "animation/animation.h"                // for Animation
+#include "animation/charge_bar.h"               // for ChargeBar
+#include "animation/charge_full.h"              // for ChargeBar
 #include "animation/exploder.h"                 // for Exploder
 #include "animation/explosion.h"                // for Explosion
+#include "animation/noise.h"                    // for NoiseAnimation
+#include "animation/sine_wave.h"                // for SineWave
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "animation/starscape.h"                // for Starscape
+#include "animation/wave_pulse.h"               // for WavePulse
 #include "audio/synth_sender_raw.h"             // for SynthSenderRaw
 #include "controls/rhythm.h"                    // for RhythmController
 #include "games/game.h"                         // for Game
@@ -39,9 +43,6 @@ constexpr uint8_t player_hues[4]{
     200   // lavendar
 };
 
-const animation::Explosion kExploderPrototype{2, 350, 150, 25, 0,
-                                              0, 0,   128, 160};
-
 }  // namespace _rhythm_single
 using namespace _rhythm_single;
 
@@ -59,106 +60,33 @@ class RhythmGameSingle : public Game {
   // Animations
   animation::SingleColorBG background;  // black bg
   animation::NoiseAnimation noise_block;
-
-  std::vector<animation::Explosion*> explosives;
+  animation::SineWave sine_wave;
+  animation::WavePulse wave_pulse;
+  animation::ChargeBar charge_bar;
+  animation::ChargeFull charge_full;
 
   // Success tracking
-  uint8_t on_beat_count{0};
+  uint16_t on_beat_count{0};
   static constexpr uint8_t on_beat_count_threshold{8};
 
  public:
-  struct ExternalExplosion {
-    uint8_t hue;
-    uint8_t count;
-    uint8_t size;
-    ExternalExplosion(uint8_t hue, uint8_t count, uint8_t size)
-        : hue{hue}, count{count}, size{size} {}
-  };
-
- private:
-  void CreateExplosion(ExternalExplosion explo) {
-    Debug("Creating Explo:::");
-    Debug_var(explo.hue);
-    Debug_var(explo.count);
-    Debug_var(explo.size);
-    Debug_endl();
-    for (size_t i = 0; i < explo.count; ++i) {
-      animation::Explosion* explody = new animation::Explosion(
-          40 + (explo.size * 15), 0, beat_length_millis * explo.size,
-          25 * explo.size, 15, 0, 0, 255, explo.hue);
-      explody->ExplodeAt(math::random::Int8(display->size.x),
-                         math::random::Int16(display->size.y));
-      explosives.push_back(explody);
-    }
-  }
-
-  std::vector<ExternalExplosion>* external_explosions;
-
-  void ExplodeForBeatProximity(ExternalExplosion explo) {
-    if (on_beat_count < on_beat_count_threshold + 5) {
-      ++on_beat_count;
-    }
-    if (external_explosions != NULL) {
-      //   Debug("Adding External explosion from player " + player_no);
-      external_explosions->push_back(explo);
-    } else {
-      //   Debug("Explodiong");
-      CreateExplosion(explo);
-    }
-  }
-
-  void MoveExplosions() {
-    // Move each explosive, they're all active
-    for (auto explosive : explosives) {
-      //   Debug("Moving explosions...");
-      explosive->Move();
-    }
-  }
-
-  void RemoveDeadExplosions() {
-    // Remove dead explosives
-    for (auto it = explosives.begin(); it < explosives.end();) {
-      //   Debug("Cleaning dead explosions...");
-      if ((*it)->IsBurnedOut()) {
-        // Debug("Deleting explosion...");
-        delete *it;
-        it = explosives.erase(it);
-      } else {
-        ++it;
-      }
-    }
-  }
-
- public:
-  // called by main game
-  void AddExternalExplosions() {
-    if (external_explosions != NULL) {
-      for (auto& explo : *external_explosions) {
-        CreateExplosion(explo);
-      }
-    }
-  }
-
   RhythmGameSingle(display::Display* display,
-                   controls::RhythmController controller)
-      : Game(display),
-        player_no{0},
-        controller{controller},
-        synth{serial::kHwSerials[player_no]},
-        noise_block{
-            player_hues[player_no], 20, {display->size.x, display->size.y / 4}},
-        external_explosions{NULL} {}
-
-  RhythmGameSingle(display::Display* display,
-                   controls::RhythmController controller, uint8_t player_no,
-                   std::vector<ExternalExplosion>* external_explosions)
+                   controls::RhythmController controller, uint8_t player_no = 0)
       : Game(display),
         player_no{player_no},
         controller{controller},
         synth{serial::kHwSerials[player_no]},
-        noise_block{
-            player_hues[player_no], 20, {display->size.x, display->size.y / 4}},
-        external_explosions{external_explosions} {}
+        noise_block{player_hues[player_no],
+                    20,
+                    {display->size.width, display->size.height / 4}},
+        sine_wave{CRGB::Cyan, 0.5},
+        wave_pulse{35, CRGB::DarkGray},
+        charge_bar{CRGB::White},
+        charge_full{-1} {
+    sine_wave.waves.emplace_back(100, display->size.width / 4.0f, .1);
+    sine_wave.waves.emplace_back(20, display->size.width / 8.0f, -0.1);
+    sine_wave.waves.emplace_back(10, display->size.width / 12.0f, .05);
+  }
 
   // Track the beat so we can Draw backgrounds
   uint8_t beat{0};
@@ -176,7 +104,7 @@ class RhythmGameSingle : public Game {
       }
 
       // Move the block animation up the tower
-      noise_block.location.y = beat * display->size.y / 4;
+      noise_block.location.y = beat * display->size.height / 4;
 
       // Trigger the click track to the audio chip
       synth.SendClickTrack(beat);
@@ -185,6 +113,12 @@ class RhythmGameSingle : public Game {
       //   Debug_var(metronome_last_hit);
       //   Debug_var(time::Now());
     }
+
+    // Move the wave pulse up the tower
+    const float offset =
+        (float)(time::Now() - metronome_last_hit) / (float)beat_length_millis;
+    wave_pulse.physics.location.y =
+        ((float)beat + offset) * display->size.height / 4;
   }
 
   void UpdateBgBrightness() {
@@ -229,7 +163,7 @@ class RhythmGameSingle : public Game {
             beat_proximity_threshold - beat_proximity_threshold_shift) {
       Debug("Exploding Full Beat");
       Debug_var(beat_distance);
-      ExplodeForBeatProximity({player_hues[player_no], 1, 2});
+      on_beat_count += 4;
       return;
     }
 
@@ -238,7 +172,7 @@ class RhythmGameSingle : public Game {
         (beat_proximity_threshold + beat_proximity_threshold_shift) / 2) {
       Debug("Exploding Half Beat");
       Debug_var(beat_distance);
-      ExplodeForBeatProximity({player_hues[player_no], 1, 1});
+      on_beat_count += 2;
       return;
     }
 
@@ -246,8 +180,6 @@ class RhythmGameSingle : public Game {
     //     beat_length_millis / 4 - half_beat_distance;
     // if (beat_length_millis / 4 - beat_distance <= beat_proximity_threshold)
     // {
-    //   ExplodeForBeatProximity(
-    //       {player_hues[player_no], math::random::Int8_incl(2, 3), 1});
     //   return;
     // }
   }
@@ -258,34 +190,44 @@ class RhythmGameSingle : public Game {
     // Update metronome first to get our timestamps right
     UpdateMetronome();
 
-    bool any_pressing = false;
     for (uint8_t i = 0; i < controller.button_count; ++i) {
+      auto& wave = sine_wave.waves[i % sine_wave.waves.size()];
       if (controller.buttons[i]->IsDepressing()) {
         synth.StartInput(i);
-        any_pressing = true;
+        wave.On();
       }
       if (controller.buttons[i]->IsReleasing()) {
         synth.StopInput(i);
+        wave.Off();
       }
     }
 
     UpdateBgBrightness();
 
-    if (any_pressing) {
+    if (controller.AnyDepressing()) {
       DetectBeatProximity();
     }
-    MoveExplosions();
-    RemoveDeadExplosions();
+
+    // Set charge bar height
+    charge_bar.height = on_beat_count;
+
+    // Move our animations
+    background.Move();
+    noise_block.Move();
+    wave_pulse.Move();
+    sine_wave.Move();
+    charge_bar.Move();
+    charge_full.Move();
 
     // Draw Time
     background.Draw(display);
 
     // Draw double rainbow on success
-    if (on_beat_count >= on_beat_count_threshold) {
+    if (on_beat_count >= display->size.height) {
       noise_block.use_rainbow_hue = true;
       noise_block.Draw(display);
       const size_t old_y = noise_block.location.y;
-      noise_block.location.y = ((beat + 6) % 4) * display->size.y / 4;
+      noise_block.location.y = ((beat + 2) % 4) * display->size.height / 4;
       noise_block.Draw(display);
       noise_block.location.y = old_y;
     } else {
@@ -294,11 +236,14 @@ class RhythmGameSingle : public Game {
       noise_block.Draw(display);
     }
 
-    for (auto explosive : explosives) {
-      explosive->Draw(display);
-    }
+    wave_pulse.Draw(display);
+    sine_wave.Draw(display);
 
-    // exploder.Draw(display);
+    if (on_beat_count < display->size.height - 1) {
+      charge_bar.Draw(display);
+    } else {
+      charge_full.Draw(display);
+    }
   }
 };
 

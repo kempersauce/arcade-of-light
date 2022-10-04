@@ -12,6 +12,7 @@ namespace animation {
 
 class SineWaveGenerator {
   float distance_offset{0};
+  bool is_active{false};
 
  public:
   // sine wavelength in pixels
@@ -24,13 +25,22 @@ class SineWaveGenerator {
   SineWaveGenerator(float wavelength, float amplitude, float speed)
       : wavelength{wavelength}, amplitude{amplitude}, speed{speed} {}
 
+  void On() { is_active = true; }
+  void Off() { is_active = false; }
+
   void Move() {
+    if (!is_active) {
+      return;
+    }
     distance_offset =
         fmod(distance_offset + time::LoopElapsedMillis() * speed, wavelength);
   }
 
   float GetVal(const float distance) const {
-    const float theta = (distance + distance_offset) / wavelength;
+    if (!is_active) {
+      return 0;
+    }
+    float theta = fmod(1 + (distance + distance_offset) / wavelength, 1);
     const float sine = ((float)sin8(255.0f * theta) - 128.0f) / 128.0f;
     // const float sine = sin(TWO_PI * theta);
     return amplitude * sine;
@@ -40,9 +50,10 @@ class SineWaveGenerator {
 class SineWave : public Animation {
  public:
   CRGB color;
+  float opacity;
   std::vector<SineWaveGenerator> waves;
 
-  SineWave(CRGB color) : Animation(), color{color} {}
+  SineWave(CRGB color, float opacity = 1.0f) : Animation(), color{color}, opacity{opacity} {}
 
   void Move() override {
     for (auto& wave : waves) {
@@ -57,7 +68,7 @@ class SineWave : public Animation {
       for (auto& wave : waves) {
         x += wave.GetVal(y);
       }
-      display->DitherPixelX(x, y, &color);
+      display->DitherPixelX(x, y, &color, opacity);
     }
   }
 };

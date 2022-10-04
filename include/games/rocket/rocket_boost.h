@@ -22,7 +22,6 @@ class RocketBoost : public animation::Animation {
     boostFactor = 0;
   }
 
-  // override rainbow Draw function
   void Draw(display::Display* display) {
     noise_generator.fillnoise8();
 
@@ -43,7 +42,7 @@ class RocketBoost : public animation::Animation {
     for (size_t i = max(loc - boostHeight, 0); i < min(loc, display->size.y);
          i++) {
       display->Pixel(middleStrip, i)
-          .setRGB(255, noise_generator.data[0][loc - i], 0);
+          .setRGB(255, noise_generator.Data(0, loc - i), 0);
     }
   }
 };

@@ -20,12 +20,12 @@ class Starscape : public Animation {
         brightness_threshold{brightness_threshold},
         noise_generator{size, 7} {}
 
-  void Draw(display::Display* display) {
-    noise_generator.fillnoise8();
+  void Move() override { noise_generator.fillnoise8(); }
 
+  void Draw(display::Display* display) override {
     for (size_t x = 0; x < display->size.x; ++x) {
       for (size_t y = 0; y < display->size.y; ++y) {
-        uint8_t brightness = noise_generator.data[x][y];
+        uint8_t brightness = noise_generator.Data(x, y);
         if (brightness > brightness_threshold) {
           // Draw the star, it's past the threshold
 
@@ -39,7 +39,7 @@ class Starscape : public Animation {
                                        // black up to amber here
         } else {
           // Draw the blackness of space
-          display->Pixel(x, y) = CRGB(0, 0, 0);
+          display->Pixel(x, y) = CRGB::Black;
         }
       }
     }

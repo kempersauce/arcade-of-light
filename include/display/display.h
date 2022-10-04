@@ -13,19 +13,16 @@ holds the strips
 namespace kss {
 namespace display {
 
-void Blend(CRGB& pixel, const CRGB* blend_color, const float blend_factor) {
-  const auto unblend_factor = 1 - blend_factor;
+void Blend(CRGB& pixel, const CRGB color, const float blend_factor) {
+  const float unblend_factor = 1 - blend_factor;
 
   // get weighted blend values
-  const uint8_t red =
-      pixel.red * unblend_factor + blend_color->red * blend_factor;
-  const uint8_t green =
-      pixel.green * unblend_factor + blend_color->green * blend_factor;
-  const uint8_t blue =
-      pixel.blue * unblend_factor + blend_color->blue * blend_factor;
+  const uint8_t r = pixel.r * unblend_factor + color.r * blend_factor;
+  const uint8_t g = pixel.g * unblend_factor + color.g * blend_factor;
+  const uint8_t b = pixel.b * unblend_factor + color.b * blend_factor;
 
   // set the new values onto the pixel
-  pixel.setRGB(red, green, blue);
+  pixel.setRGB(r, g, b);
 }
 
 class Display {
@@ -49,15 +46,22 @@ class Display {
   virtual void Show() = 0;
 
   // Blend the pixel at (x, y) with blend_color according to a blend_factor
-  void BlendPixel(const size_t x, const size_t y, const CRGB* blend_color,
+  void BlendPixel(const size_t x, const size_t y, const CRGB blend_color,
                   const float blend_factor) {
     if (CheckLocation(x, y)) {
       Blend(Pixel(x, y), blend_color, blend_factor);
     }
   }
 
+  // Blend the pixel at (x, y) with blend_color according to a blend_factor
+  // TODO remove this when we stop passing around CRGB pointers
+  inline void BlendPixel(const size_t x, const size_t y,
+                         const CRGB* blend_color, const float blend_factor) {
+    BlendPixel(x, y, *blend_color, blend_factor);
+  }
+
   // Dither the pixels on the strip left and right of x, blending them to color
-  void DitherPixelX(const float x, const size_t y, const CRGB* color,
+  void DitherPixelX(const float x, const size_t y, const CRGB color,
                     const float blend_factor = 1) {
     const size_t x_int = x;
     const float dither = x - x_int;
@@ -65,16 +69,30 @@ class Display {
     BlendPixel(x_int + 1, y, color, dither * blend_factor);
   }
 
+  // Dither the pixels on the strip left and right of x, blending them to color
+  // TODO remove this when we stop passing around CRGB pointers
+  inline void DitherPixelX(const float x, const size_t y, const CRGB* color,
+                           const float blend_factor = 1) {
+    DitherPixelX(x, y, *color, blend_factor);
+  }
+
   // TODO remove this once it's no longer used
 #define DitherPixel(a, b, c, d) DitherPixelY(a, b, c, d)
 
   // Dither the pixels on the strip above and below y, blending them to color
-  void DitherPixelY(const size_t x, const float y, const CRGB* color,
+  void DitherPixelY(const size_t x, const float y, const CRGB color,
                     const float blend_factor = 1) {
     const size_t y_int = y;
     const float dither = y - y_int;
     BlendPixel(x, y_int, color, (1 - dither) * blend_factor);
     BlendPixel(x, y_int + 1, color, dither * blend_factor);
+  }
+
+  // Dither the pixels on the strip above and below y, blending them to color
+  // TODO remove this when we stop passing around CRGB pointers
+  inline void DitherPixelY(const size_t x, const float y, const CRGB* color,
+                           const float blend_factor = 1) {
+    DitherPixelY(x, y, *color, blend_factor);
   }
 
   inline bool IsInBounds(const size_t strip, const size_t pixel) const {

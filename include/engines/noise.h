@@ -2,23 +2,28 @@
 
 #include <FastLED.h>  // for time::Now()
 
-#include "math/random.h"  // for random::*
-#include "time/now.h"     // for Now
+#include "math/random.h"    // for random::*
+#include "math/vector2d.h"  // for Dimension
+#include "math/vector3d.h"  // for Vector3D
+#include "time/now.h"       // for Now
 
 namespace kss {
 namespace engines {
 
 class NoiseGenerator {
-  uint32_t lastFrameMillis{0};
-
+  constexpr static float expectedFrameRateMillis = 40.0;
   const math::Dimension size;
+
+  inline const size_t GetIndex(size_t x, size_t y) const {
+    return x * size.height + y;
+  }
 
  public:
   // Notes about speed:
   // 1: almost looks like a painting, moves very slowly
   // 20: (default) a nice starting speed, mixes well with a scale of 100
   // 100: wicked fast!
-  const float speed;
+  math::Vector3D<float> speed;
 
   // Scale determines how far apart the pixels in our noise matrix are.  Try
   // changing these values around to see how it affects the motion of the
@@ -32,45 +37,32 @@ class NoiseGenerator {
 
   // This is the array that we keep our computed noise values in
   // We make it public so our consumers can directly access our nouse matrix
-  uint8_t** data;
+  uint8_t* data;
 
   // We're using the x/y dimensions to map to the x/y pixels on the matrix.
   // We'll use the z-axis for "time".  speed determines how fast time moves
   // forward.  Try 1 for a very slow moving effect, or 60 for something that
   // ends up looking like water. Initialize our coordinates
-  uint16_t x{math::random::Int16()};
-  uint16_t y{math::random::Int16()};
-  uint16_t z{math::random::Int16()};
+  math::Vector3D<uint16_t> coordinates{
+      math::random::Int16(), math::random::Int16(), math::random::Int16()};
 
-  NoiseGenerator(const math::Dimension& size, float speed = 20)
-      : size{size}, speed{speed} {
-    data = new uint8_t*[size.x];
-    for (size_t i = 0; i < size.y; i++) {
-      data[i] = new uint8_t[size.y];
-    }
+  NoiseGenerator(math::Dimension size, float speed = 20)
+      : size{size}, speed{0, 0, speed / (scale * expectedFrameRateMillis)} {
+    data = new uint8_t[size.width * size.height];
   }
+
+  uint8_t Data(size_t x, size_t y) const { return data[GetIndex(x, y)]; }
 
   // Fill the x/y array of 8-bit noise values using the inoise8 function.
   void fillnoise8() {
-    const auto now = time::Now();
+    // Adjust our coordinates based on our timing & speed
+    coordinates += speed * (scale * time::LoopElapsedMillis());
 
-    // Adjust our speed based on our timing
-    if (lastFrameMillis != 0) {
-      // Get a ratio of actual framerate vs expected
-      // assuming we had a framerate of 40 milliseconds...
-      const static float expectedFrameRateMillis = 40.0;
-      const float timeFactor =
-          (float)(now - lastFrameMillis) / expectedFrameRateMillis;
-
-      z += speed * timeFactor;
-    }
-    lastFrameMillis = now;
-
-    for (size_t i = 0; i < size.x; i++) {
-      int ioffset = scale * i;
-      for (size_t j = 0; j < size.y; j++) {
-        int joffset = scale * j;
-        data[i][j] = inoise8(x + ioffset, y + joffset, z);
+    for (size_t i = 0; i < size.width; ++i) {
+      const uint16_t scaled_x = coordinates.x + scale * i;
+      for (size_t j = 0; j < size.height; ++j) {
+        const uint16_t scaled_y = coordinates.y + scale * j;
+        data[GetIndex(i, j)] = inoise8(scaled_x, scaled_y, coordinates.z);
       }
     }
   }

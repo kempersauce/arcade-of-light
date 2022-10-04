@@ -8,8 +8,15 @@ namespace math {
 template <typename T>
 class Vector2D {
  public:
-  T x;
-  T y;
+  union {
+    T x;
+    T width;
+  };
+
+  union {
+    T y;
+    T height;
+  };
 
   Vector2D() : x{0}, y{0} {}
   Vector2D(T x, T y) : x{x}, y{y} {}

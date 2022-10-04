@@ -277,22 +277,15 @@ class RocketGame : public Game {
           rocket.physics.respect_edges = false;
           rocket.Move();  // let it boost off the screen
 
-          // shift stars and target down according to Rocket thrust up to 10
-          // px/frame
-          // int backgroundShift = min(rocket.velocity.y / 32, 6);
-
-          // jk since scale is so high, any higher than 1*scale is too fast, and
-          // any lover than 1*scale causes tearing between pixels
-          int backgroundShift = 1;
-          starBackground.noise_generator.y +=
-              backgroundShift *
-              starBackground.noise_generator
-                  .scale;  // NOTE: Since y is actually an 8.8 bit int, this may
-                           // need more than just a small push
+          // Make the stars fly
+          starBackground.noise_generator.speed.y = 1;
         }
 
         // Rocket reached top of level, time to start a new one
         else {
+          // Make the stars stop flying
+          starBackground.noise_generator.speed.y = 0;
+
           level++;
           if (level == levelMax) {
             // audio.playWin
@@ -319,6 +312,9 @@ class RocketGame : public Game {
         }
         break;
     }
+
+    // Move the stars
+    starBackground.Move();
 
     // DRAW EVERYTHING ACCORDING TO GAME STATE
 

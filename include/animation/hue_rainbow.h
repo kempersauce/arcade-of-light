@@ -52,29 +52,35 @@ class HueRainbow : public Animation {
     speed_max = max;
   }
 
+  void Move() override {
+    if (WaveShift) {
+      ShiftSpeed = beatsin8(bpm, 0, speed_max - speed_min) + speed_min;
+      // Don't let this stop, jump the speed 4 millis into the future
+      if (ShiftSpeed == 0) {
+        // Hack to cause rollover in internal timing mechanism
+        // SHOULD emulate getting the value from 4ms in the future
+        const uint32_t future = 0 - 4;
+        ShiftSpeed =
+            beatsin8(bpm, 0, speed_max - speed_min, future) + speed_min;
+      }
+    }
+
+    // TODO move this to be based on time, not framerate
+    HueStart += ShiftSpeed;
+  }
+
   // Taste the rainbow
   void Draw(display::Display* display) {
     for (size_t x = 0; x < display->size.x; ++x) {
       float hue = HueStart + ((int)x * ShiftSpeed);
       for (size_t y = 0; y < display->size.y; ++y) {
         // Normalize hue to 0-255
-        if (hue < 0) {
-          hue += 256;
-        }
-        if (hue >= 256) {
-          hue -= 256;
-        }
+		hue = fmod(hue, 256);
         display->Pixel(x, y) = CHSV((uint8_t)hue, Saturation, Brightness);
 
         hue += hue_diff_per_pixel;
       }
     }
-
-    if (WaveShift) {
-      ShiftSpeed = beatsin8(bpm, 0, speed_max - speed_min) + speed_min;
-    }
-
-    HueStart += ShiftSpeed;
   }
 };
 

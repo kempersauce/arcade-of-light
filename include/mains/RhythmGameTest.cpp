@@ -1,8 +1,7 @@
-#include <vector>  // for std::vector
-
 #include "controls/hardware/matrix.h"    // for Matrix
 #include "controls/rhythm.h"             // for RhythmController
 #include "display/display.h"             // for Display
+#include "display/h2h_5_test.h"          // for H2H5TestDisplay
 #include "display/octo/four_panel.h"     // for FourPanelDisplay
 #include "engines/framerate.h"           // for FrameRate
 #include "games/rhythm/rhythm_game.h"    // for RhythmGame
@@ -16,8 +15,8 @@ using namespace kss;
 
 engines::FrameRate frameRate;
 
-display::octo::FourPanelDisplay* gameDisplay;
-games::rhythm::RhythmGame* game;
+display::Display* gameDisplay;
+games::rhythm::RhythmGameSingle* game;
 
 controls::hardware::Matrix control_context;
 
@@ -29,17 +28,14 @@ void setup() {
   Debug("Begin setup()");
 
   // Choose your Display type
-  gameDisplay = new display::octo::FourPanelDisplay();
+  display::H2H5TestDisplay* disp = new display::H2H5TestDisplay();
+  gameDisplay = disp;
 
   Debug("gameDisplay created");
 
-  std::vector<controls::RhythmController> dir_pads;
+  controls::RhythmController dir_pad{control_context, 0};
 
-  for (size_t ctl_no = 0; ctl_no < pins::ControllerCount; ++ctl_no) {
-    dir_pads.emplace_back(control_context, ctl_no);
-  }
-
-  game = new games::rhythm::RhythmGame(gameDisplay, dir_pads);
+  game = new games::rhythm::RhythmGameSingle(&disp->main_display, dir_pad);
 
   Debug("game created");
 
