@@ -127,7 +127,7 @@ class RocketGame : public Game {
   }
 
   // Reset Game
-  void setup() {
+  void setup() override {
     level = 0;
     enterLevelStartState();
   }

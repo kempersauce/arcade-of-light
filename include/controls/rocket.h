@@ -14,8 +14,8 @@ constexpr uint32_t kIdleTimeoutMillis{30 * 1000};
 }  // namespace _rocket
 
 struct RocketController : public Controller<_rocket::kButtonCount> {
-  Button* const& up = buttons[0];
-  Button* const& reset = buttons[1];
+  Button* up = buttons[0];
+  Button* reset = buttons[1];
 
   RocketController() : Controller() {}
   RocketController(Button* const up, Button* const reset)

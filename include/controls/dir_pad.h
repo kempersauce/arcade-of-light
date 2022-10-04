@@ -14,12 +14,12 @@ constexpr uint32_t kIdleTimeoutMillis{45 * 1000};
 }  // namespace _dir_pad
 
 struct DirPad : public Controller<_dir_pad::kButtonCount> {
-  Button* const& b = buttons[0];
-  Button* const& a = buttons[1];
-  Button* const& down = buttons[2];
-  Button* const& left = buttons[3];
-  Button* const& right = buttons[4];
-  Button* const& up = buttons[5];
+  Button* b = buttons[0];
+  Button* a = buttons[1];
+  Button* down = buttons[2];
+  Button* left = buttons[3];
+  Button* right = buttons[4];
+  Button* up = buttons[5];
 
   DirPad() : Controller() {}
   DirPad(Button* b, Button* a, Button* down, Button* left, Button* right,
