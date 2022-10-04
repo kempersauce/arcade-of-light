@@ -25,7 +25,7 @@ class Starscape : public Animation {
   void Draw(display::Display* display) override {
     for (size_t x = 0; x < display->size.x; ++x) {
       for (size_t y = 0; y < display->size.y; ++y) {
-        uint8_t brightness = noise_generator.Data(x, y);
+        uint8_t brightness = noise_generator.data[x][y];
         if (brightness > brightness_threshold) {
           // Draw the star, it's past the threshold
 

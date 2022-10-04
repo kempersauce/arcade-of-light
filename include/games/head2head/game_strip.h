@@ -355,7 +355,7 @@ class H2HGameStrip : public animation::Animation {
     for (size_t y = 0; y < min(midBar, display->size.y); y++) {
       display->Pixel(stripIndex, y)
           .setHSV(zoneAHue, 255,
-                  noise_generator->Data(stripIndex, y));  // blue team
+                  noise_generator->data[stripIndex][y]);  // blue team
     }
   }
 
@@ -363,7 +363,7 @@ class H2HGameStrip : public animation::Animation {
     for (size_t y = max(midBar, 0); y < heightMax; y++) {
       display->Pixel(stripIndex, y)
           .setHSV(zoneBHue, 255,
-                  noise_generator->Data(stripIndex, y));  // red team
+                  noise_generator->data[stripIndex][y]);  // red team
     }
   }
 
