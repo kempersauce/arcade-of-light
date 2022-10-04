@@ -151,6 +151,9 @@ class RhythmGameSingle : public Game {
     }
   }
 
+  static constexpr uint32_t beat_hit_downtime_millis{beat_proximity_threshold *
+                                                     2};
+  uint32_t last_beat_hit_millis;
   void DetectBeatProximity() {
     const uint32_t last_beat_distance = time::Now() - metronome_last_hit;
     const uint32_t next_beat_distance =
@@ -163,7 +166,10 @@ class RhythmGameSingle : public Game {
             beat_proximity_threshold - beat_proximity_threshold_shift) {
       Debug("Exploding Full Beat");
       Debug_var(beat_distance);
-      on_beat_count += 4;
+      if (time::Now() - last_beat_hit_millis >= beat_hit_downtime_millis) {
+        on_beat_count += 4;
+        last_beat_hit_millis = time::Now();
+      }
       return;
     }
 
@@ -172,7 +178,10 @@ class RhythmGameSingle : public Game {
         (beat_proximity_threshold + beat_proximity_threshold_shift) / 2) {
       Debug("Exploding Half Beat");
       Debug_var(beat_distance);
-      on_beat_count += 2;
+      if (time::Now() - last_beat_hit_millis >= beat_hit_downtime_millis) {
+        on_beat_count += 2;
+        last_beat_hit_millis = time::Now();
+      }
       return;
     }
 
