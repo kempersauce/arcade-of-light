@@ -150,10 +150,9 @@ class Explosion : Animation {
       const auto& loc = shrap.location;
       if (loc.y >= 0 && loc.y < display->size.y && loc.x >= 0 &&
           loc.x < display->size.x) {
-        CRGB clr;
-        clr.setHSV(hue, saturation, brightness);
+        CRGB color = CHSV(hue, saturation, brightness);
         const float blend = (float)brightness / 255.0f;
-        display->DitherPixelY(loc.x, loc.y, &clr, blend);
+        display->DitherPixelY(loc.x, loc.y, color, blend);
       }
     }
   }

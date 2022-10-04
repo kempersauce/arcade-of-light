@@ -59,22 +59,21 @@ class RocketGame : public Game {
   static const int levelMax = 5;
 
   // level colors for SkyFade
-  CRGB* skyFadeColors[levelMax] = {
-      new CRGB(0, 0, 255),    // Blue Earth
-      new CRGB(20, 20, 20),   // Grey Mun
-      new CRGB(255, 0, 0),    // Red Mars
-      new CRGB(255, 96, 0),   // Orange Jupiter
-      new CRGB(128, 0, 128),  // Purple Pluto
+  CRGB skyFadeColors[levelMax] = {
+      {0, 0, 255},    // Blue Earth
+      {20, 20, 20},   // Grey Mun
+      {255, 0, 0},    // Red Mars
+      {255, 96, 0},   // Orange Jupiter
+      {128, 0, 128},  // Purple Pluto
   };
 
   // level colors for targets
-  CRGB* targetColors[levelMax] = {
-      new CRGB(255, 0, 0),    // Red targets on Blue Earth
-      new CRGB(200, 20, 20),  // Pink targets Grey Mun
-      new CRGB(0, 255, 0),    // Green targets on Orange Mars
-      new CRGB(255, 0,
-               0),  // Red targets on Jupiter, cuz the big spot or whatever
-      new CRGB(255, 255, 0),  // Yellow targets on Purple Pluto
+  CRGB targetColors[levelMax] = {
+      {255, 0, 0},    // Red targets on Blue Earth
+      {200, 20, 20},  // Pink targets Grey Mun
+      {0, 255, 0},    // Green targets on Orange Mars
+      {255, 0, 0},    // Red targets on Jupiter, cuz the big spot or whatever
+      {255, 255, 0},  // Yellow targets on Purple Pluto
   };
 
   // Level values for gravity
@@ -137,8 +136,8 @@ class RocketGame : public Game {
   void enterLevelStartState() {
     Debug("Starting level " + level);
     gameState = RocketGameStart;
-    skyFade.setFadeColor(skyFadeColors[level]);
-    target.setColor(targetColors[level]);
+    skyFade.color = skyFadeColors[level];
+    target.color = targetColors[level];
     target.randomize(display->size.y);
     targetsWon = 0;
     rocket.SetGravity(gravityLevels[level]);
@@ -248,10 +247,9 @@ class RocketGame : public Game {
         // just fall through
 
       case RocketGamePlaying:
-        rocket.SetBoost(
-            controller.up->GetMillisHeld());  // direct correlation between
-                                              // millis held and thrust (rocket
-                                              // caps it at ThrustMax=200)
+        // direct correlation between millis held and thrust
+		// (rocket caps it at ThrustMax=100)
+        rocket.physics.thrust.y = controller.up->GetMillisHeld() / 2;
         if (controller.up->IsDepressing()) {
           audio.startPlayBoost();
         }
@@ -272,8 +270,7 @@ class RocketGame : public Game {
 
         // Boost way way up the screen
         if (rocket.physics.location.y < display->size.y * 2) {
-          rocket.SetBoost(rocket.physics.thrust.y +
-                          5);  // just keep boosting up
+          rocket.physics.thrust.y += 2.5;  // just keep boosting up
           rocket.physics.respect_edges = false;
           rocket.Move();  // let it boost off the screen
 

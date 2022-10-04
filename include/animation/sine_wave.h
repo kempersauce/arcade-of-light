@@ -53,7 +53,8 @@ class SineWave : public Animation {
   float opacity;
   std::vector<SineWaveGenerator> waves;
 
-  SineWave(CRGB color, float opacity = 1.0f) : Animation(), color{color}, opacity{opacity} {}
+  SineWave(CRGB color, float opacity = 1.0f)
+      : Animation(), color{color}, opacity{opacity} {}
 
   void Move() override {
     for (auto& wave : waves) {
@@ -68,7 +69,7 @@ class SineWave : public Animation {
       for (auto& wave : waves) {
         x += wave.GetVal(y);
       }
-      display->DitherPixelX(x, y, &color, opacity);
+      display->DitherPixelX(x, y, color, opacity);
     }
   }
 };

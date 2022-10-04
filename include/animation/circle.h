@@ -70,7 +70,7 @@ class Circle : public Animation {
           const float overshoot_px =
               (overshoot_in / _circle::grid_spacing).GetMagnitude();
           if (overshoot_px <= 1) {
-            display->BlendPixel(x, y, &color, 1 - overshoot_px);
+            display->BlendPixel(x, y, color, 1 - overshoot_px);
           }
         }
       }

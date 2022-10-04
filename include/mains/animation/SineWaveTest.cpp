@@ -29,7 +29,8 @@ void setup() {
   pins::Init();
   time::Init();
 
-  gameDisplay = new display::H2HDisplay();
+  display::H2HDisplay* disp = new display::H2HDisplay();
+  gameDisplay = disp;
 
   sine_wave = new animation::SineWave(CRGB::Cyan);
   sine_wave->waves.emplace_back(100, 1, .2);
@@ -41,7 +42,7 @@ void setup() {
   sine_wave->waves.emplace_back(50, 1, .2);
   sine_wave->waves.emplace_back(50, 1, .1);
 
-  game = new test::AnimationTest(gameDisplay, sine_wave);
+  game = new test::AnimationTest(&disp->main_display, sine_wave);
   controller = controls::H2HController::TeamA(control_context);
 
   game->setup();

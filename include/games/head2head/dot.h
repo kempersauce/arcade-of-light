@@ -27,8 +27,8 @@ class H2HDot : public animation::Animation {
   void Draw(display::Display* display) {
     // Don't Draw outside the display boundaries
     if (physics.HasHitEdge == false) {
-      display->DitherPixelY((int)physics.location.x, physics.location.y,
-                            &color);
+      display->DitherPixelY((size_t)physics.location.x, physics.location.y,
+                            color);
     }
   }
 };

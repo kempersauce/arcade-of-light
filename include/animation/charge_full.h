@@ -72,12 +72,12 @@ class ChargeFull : public Animation {
 		hue = fmod(hue, 256);
         color.setHSV(hue, Saturation, 255);
         if (x == 0 || x == x_limit || y == 0) {
-          display->BlendPixel(x, y, &color, border_blend);
-          display->BlendPixel(x, y_limit - y, &color, border_blend);
+          display->BlendPixel(x, y, color, border_blend);
+          display->BlendPixel(x, y_limit - y, color, border_blend);
         } else if (y < zone_size) {
           float blendFactor = border_blend * (zone_size - y) / zone_size;
-          display->BlendPixel(x, y, &color, blendFactor);
-          display->BlendPixel(x, y_limit - y, &color, blendFactor);
+          display->BlendPixel(x, y, color, blendFactor);
+          display->BlendPixel(x, y_limit - y, color, blendFactor);
         }
         hue += hue_diff_per_pixel;
       }

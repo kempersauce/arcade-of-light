@@ -388,7 +388,7 @@ class H2HGameStrip : public animation::Animation {
       float distance = (float)display->size.y * (float)timeDiff / 1000;
       for (int i = -half_wave_width; i < half_wave_width; i++) {
         float presence = (half_wave_width - abs(i)) / half_wave_width;
-        display->BlendPixel(stripIndex, distance + i, &teamAColor, presence);
+        display->BlendPixel(stripIndex, distance + i, teamAColor, presence);
       }
     }
   }
@@ -405,7 +405,7 @@ class H2HGameStrip : public animation::Animation {
       float distance = (float)display->size.y * (float)(1000 - timeDiff) / 1000;
       for (int i = -half_wave_width; i < half_wave_width; i++) {
         float presence = (half_wave_width - abs(i)) / half_wave_width;
-        display->BlendPixel(stripIndex, distance + i, &teamBColor, presence);
+        display->BlendPixel(stripIndex, distance + i, teamBColor, presence);
       }
     }
   }

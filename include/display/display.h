@@ -53,13 +53,6 @@ class Display {
     }
   }
 
-  // Blend the pixel at (x, y) with blend_color according to a blend_factor
-  // TODO remove this when we stop passing around CRGB pointers
-  inline void BlendPixel(const size_t x, const size_t y,
-                         const CRGB* blend_color, const float blend_factor) {
-    BlendPixel(x, y, *blend_color, blend_factor);
-  }
-
   // Dither the pixels on the strip left and right of x, blending them to color
   void DitherPixelX(const float x, const size_t y, const CRGB color,
                     const float blend_factor = 1) {
@@ -69,16 +62,6 @@ class Display {
     BlendPixel(x_int + 1, y, color, dither * blend_factor);
   }
 
-  // Dither the pixels on the strip left and right of x, blending them to color
-  // TODO remove this when we stop passing around CRGB pointers
-  inline void DitherPixelX(const float x, const size_t y, const CRGB* color,
-                           const float blend_factor = 1) {
-    DitherPixelX(x, y, *color, blend_factor);
-  }
-
-  // TODO remove this once it's no longer used
-#define DitherPixel(a, b, c, d) DitherPixelY(a, b, c, d)
-
   // Dither the pixels on the strip above and below y, blending them to color
   void DitherPixelY(const size_t x, const float y, const CRGB color,
                     const float blend_factor = 1) {
@@ -86,13 +69,6 @@ class Display {
     const float dither = y - y_int;
     BlendPixel(x, y_int, color, (1 - dither) * blend_factor);
     BlendPixel(x, y_int + 1, color, dither * blend_factor);
-  }
-
-  // Dither the pixels on the strip above and below y, blending them to color
-  // TODO remove this when we stop passing around CRGB pointers
-  inline void DitherPixelY(const size_t x, const float y, const CRGB* color,
-                           const float blend_factor = 1) {
-    DitherPixelY(x, y, *color, blend_factor);
   }
 
   inline bool IsInBounds(const size_t strip, const size_t pixel) const {

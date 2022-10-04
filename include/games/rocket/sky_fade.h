@@ -14,21 +14,17 @@ namespace games {
 namespace rocket {
 
 class SkyFade : public animation::Animation {
- private:
-  CRGB* blendColor;
-
  public:
-  SkyFade(CRGB* fadeColor) { blendColor = fadeColor; }
+  CRGB color;
+  SkyFade(CRGB fadeColor) : Animation(), color{color} {}
 
-  void setFadeColor(CRGB* fadeColor) { blendColor = fadeColor; }
-
-  void Draw(display::Display* display) {
+  void Draw(display::Display* display) override {
     const size_t heightMax =
         display->size.y / 3;  // only go a third of the way up
     for (size_t i = 0; i < display->size.x; i++) {
       for (int j = 0; j < heightMax; j++) {
         float blueFactor = ((float)(heightMax - j)) / ((float)heightMax);
-        display->BlendPixel(i, j, blendColor, blueFactor);
+        display->BlendPixel(i, j, color, blueFactor);
       }
     }
   }

@@ -20,7 +20,7 @@ class Rocket : public animation::Animation {
   static constexpr uint8_t height{4};
 
   // colors (RGB)
-  CRGB* color;
+  CRGB color;
 
   RocketBoost boost;
 
@@ -29,23 +29,20 @@ class Rocket : public animation::Animation {
    * @param loc - location on LED strip
    * @param clr - Color of the rocket ship
    */
-  Rocket(size_t strip_length, CRGB* clr) : Animation(), physics(), boost(5) {
+  Rocket(size_t strip_length, CRGB color)
+      : Animation(), color{color}, boost{5} {
     // Init physics settings
     physics.LocationMax = strip_length;
     physics.BounceFactor = -0.7;
     physics.ExplodeVelocity = 50;
-    physics.ThrustMax = 200;
-    physics.Mass = 2;
+    physics.ThrustMax = 100;
 
-    color = clr;
     Reset();
   }
 
   void Reset() { physics.Reset(); }
 
   void SetGravity(float gravity) { physics.gravity.y = gravity; }
-
-  void SetBoost(float thrustLevel) { physics.thrust.y = thrustLevel; }
 
   void Move() override {
     physics.Move();
@@ -57,15 +54,17 @@ class Rocket : public animation::Animation {
 
   void Draw(display::Display* display) {
     // Draw the rocket ship
-    const size_t middleStrip = display->size.x / 2;
+    const size_t middleStrip = display->size.width / 2;
     for (size_t i = max(ceil(physics.location.y), 0);
-         i < min((int)physics.location.y + height, display->size.y); i++) {
-      display->Pixel(middleStrip, i) = *color;
+         i < min(physics.location.y + height, display->size.height); ++i) {
+      display->Pixel(middleStrip, i) = color;
     }
-    display->DitherPixelY(middleStrip, physics.location.y + height - 1,
-                          color);  // dither rocket nose
-    display->DitherPixelY(middleStrip, physics.location.y,
-                          color);  // dither rocket tail
+
+    // dither rocket nose
+    display->DitherPixelY(middleStrip, physics.location.y + height - 1, color);
+
+    // dither rocket tail
+    display->DitherPixelY(middleStrip, physics.location.y, color);
 
     // Draw the rocket boost
     boost.Draw(display);

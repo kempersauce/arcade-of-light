@@ -35,7 +35,7 @@ class ExplosionsInTheSky : public animation::Animation {
             (float)(i - (display->size.y - explosionHeight)) /
             (float)explosionHeight;
         blendStrength *= positionFactor;
-        display->BlendPixel(j, i, &color, blendStrength);
+        display->BlendPixel(j, i, color, blendStrength);
       }
     }
 

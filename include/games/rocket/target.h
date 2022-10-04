@@ -17,18 +17,15 @@ class Target : public animation::Animation {
  public:
   size_t Loc;
   size_t Height;
-  CRGB* color;
+  CRGB color;
   uint32_t Time;
   bool isInTarget;
 
   // Constructor
-  Target(CRGB* clr) : Animation() {
-    color = clr;
+  Target(CRGB color) : Animation(), color{color} {
     Time = 0;
     isInTarget = false;
   }
-
-  void setColor(CRGB* clr) { color = clr; }
 
   void randomize(int strip_length) {
     Loc = math::random::Int16(strip_length / 4, strip_length - 20);
@@ -52,11 +49,11 @@ class Target : public animation::Animation {
     for (size_t x = 0; x < display->size.x; ++x) {
       // Target bookends
       if (bottom >= 0) {
-        display->Pixel(x, bottom) = *color;
+        display->Pixel(x, bottom) = color;
       }
 
       if (top >= 0) {
-        display->Pixel(x, top) = *color;
+        display->Pixel(x, top) = color;
       }
 
       if (isInTarget) {
@@ -70,7 +67,7 @@ class Target : public animation::Animation {
         size_t bottomFillStart = bottom;
         float bottomFillEnd = (float)bottomFillStart + offset;
         for (size_t i = bottomFillStart; i < bottomFillEnd; i++) {
-          display->Pixel(x, i) = *color;
+          display->Pixel(x, i) = color;
         }
         display->DitherPixelY(x, bottomFillEnd, color);
 
@@ -78,7 +75,7 @@ class Target : public animation::Animation {
         size_t topFillEnd = top;
         float topFillStart = (float)topFillEnd - offset;
         for (size_t i = ceil(topFillStart); i < topFillEnd; i++) {
-          display->Pixel(x, i) = *color;
+          display->Pixel(x, i) = color;
         }
         display->DitherPixelY(x, topFillStart, color);
       }
