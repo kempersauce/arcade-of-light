@@ -56,12 +56,16 @@ class NoiseGenerator {
   // Fill the x/y array of 8-bit noise values using the inoise8 function.
   void fillnoise8() {
     // Adjust our coordinates based on our timing & speed
-    coordinates += speed * (scale * time::LoopElapsedMillis());
+    const math::Vector3D<float> velocity =
+        speed * (scale * time::LoopElapsedMillis());
+    Debug_var(velocity.ToString());
+    coordinates += velocity;
+    Debug_var(coordinates.ToString());
 
     for (size_t i = 0; i < size.width; ++i) {
-      const uint16_t scaled_x = coordinates.x + scale * i;
+      const uint16_t scaled_x = coordinates.x + (scale * i);
       for (size_t j = 0; j < size.height; ++j) {
-        const uint16_t scaled_y = coordinates.y + scale * j;
+        const uint16_t scaled_y = coordinates.y + (scale * j);
         data[GetIndex(i, j)] = inoise8(scaled_x, scaled_y, coordinates.z);
       }
     }
