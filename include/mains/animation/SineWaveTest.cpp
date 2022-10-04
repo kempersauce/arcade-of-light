@@ -32,15 +32,16 @@ void setup() {
   display::H2HDisplay* disp = new display::H2HDisplay();
   gameDisplay = disp;
 
+  const size_t display_width = disp->main_display.size.width;
   sine_wave = new animation::SineWave(CRGB::Cyan);
-  sine_wave->waves.emplace_back(100, 1, .2);
-  sine_wave->waves.emplace_back(100, 1, .1);
-  sine_wave->waves.emplace_back(66, 1, .3);
-  sine_wave->waves.emplace_back(66, 1, .4);
-  sine_wave->waves.emplace_back(40, 1, .3);
-  sine_wave->waves.emplace_back(40, 1, .5);
-  sine_wave->waves.emplace_back(50, 1, .2);
-  sine_wave->waves.emplace_back(50, 1, .1);
+  sine_wave->waves.emplace_back(100, display_width / 4.0f, 0.1);
+  sine_wave->waves.emplace_back(50, display_width / 8.0f, 0.1);
+  sine_wave->waves.emplace_back(20, display_width / 8.0f, 0.1);
+  sine_wave->waves.emplace_back(10, display_width / 12.0f, 0.05);
+  sine_wave->waves.emplace_back(100, display_width / 4.0f, -0.1);
+  sine_wave->waves.emplace_back(50, display_width / 8.0f, -0.1);
+  sine_wave->waves.emplace_back(20, display_width / 8.0f, -0.1);
+  sine_wave->waves.emplace_back(10, display_width / 12.0f, -0.05);
 
   game = new test::AnimationTest(&disp->main_display, sine_wave);
   controller = controls::H2HController::TeamA(control_context);
