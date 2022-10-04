@@ -1,9 +1,9 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "controls/h2h_controller.h"    // for H2HController
+#include "controls/h2h.h"               // for H2HController
 #include "controls/hardware/matrix.h"   // for Matrix
-#include "display//h2h.h"               // for H2HDisplay
+#include "display/h2h.h"                // for H2HDisplay
 #include "engines/framerate.h"          // for Framerate
 #include "games/head2head/head2head.h"  // for Head2Head
 #include "pins/pin_setup.h"             // for pins::Init
@@ -23,10 +23,10 @@ void setup() {
 
   gameDisplay = new display::H2HDisplay();
 
-  controls::H2HController teamA =
-      controls::H2HController::TeamA(control_context);
-  controls::H2HController teamB =
-      controls::H2HController::TeamB(control_context);
+  controls::H2HController teamA{
+      controls::H2HController::TeamA(control_context)};
+  controls::H2HController teamB{
+      controls::H2HController::TeamB(control_context)};
 
   game = new games::h2h::Head2Head(&gameDisplay->main_display,
                                    &gameDisplay->instructo_a,

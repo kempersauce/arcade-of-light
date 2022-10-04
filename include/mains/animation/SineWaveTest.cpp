@@ -2,10 +2,10 @@
 #include <FastLED.h>
 
 #include "animation/sine_wave.h"       // for SineWave
-#include "controls/h2h_controller.h"   // for H2HController
+#include "controls/h2h.h"              // for H2HController
 #include "controls/hardware/matrix.h"  // for Matrix
 #include "display/display.h"           // for Display
-#include "display/h2h_octo.h"          // for H2HDisplay
+#include "display/h2h.h"               // for H2HDisplay
 #include "engines/framerate.h"         // for FrameRate
 #include "games/game.h"                // for Game
 #include "pins/pin_setup.h"            // for pins::Init

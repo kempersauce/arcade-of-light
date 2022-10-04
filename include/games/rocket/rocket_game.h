@@ -12,7 +12,7 @@
 #include "animation/fireworks_show.h"            // for FireworksShow
 #include "animation/hue_rainbow.h"               // for HueRainbow
 #include "animation/starscape.h"                 // for Starscape
-#include "controls/button.h"                     // for Button
+#include "controls/rocket.h"                     // for RocketController
 #include "display/display.h"                     // for Display
 #include "games/game.h"                          // for Game
 #include "games/life/life.h"                     // for LifeGame
@@ -44,8 +44,7 @@ class RocketGame : public Game {
   RocketAudio audio;
 
   // Button time
-  controls::Button* up_btn;
-  controls::Button* reset_btn;
+  controls::RocketController controller;
 
   // Backgrounds
   animation::Starscape starBackground;  // just drawing black empty space for
@@ -104,20 +103,15 @@ class RocketGame : public Game {
   // state as necessary
   RocketGameState gameState;
 
-  // Fireworks animation plays after no buttons have been pressed before idle
-  // timeout
-  const uint32_t idleTimeoutMillis = 1000 * 30;  // 30 seconds
-
  public:
   RocketGame(display::Display* display, display::Display* instructo,
-             controls::Button* up, controls::Button* reset)
+             controls::RocketController controller)
       : Game(display),
         instructo{instructo},
         instructo_animation{instructo == NULL ? NULL
                                               : new animation::HueRainbow(
                                                     2, instructo->size.y)},
-        up_btn{up},
-        reset_btn{reset},
+        controller{controller},
         starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),
         rocket(display->size.y, new CRGB(255, 255, 255)),
@@ -226,22 +220,20 @@ class RocketGame : public Game {
 
     // IDLE CHECK: This enters idle after idleTimeoutMillis, and falls out of
     // idle if a buttons been pressed
-    if (gameState != RocketGameWin &&
-        up_btn->GetMillisReleased() > idleTimeoutMillis &&
-        reset_btn->GetMillisReleased() > idleTimeoutMillis) {
+    if (gameState != RocketGameWin && controller.IsIdle()) {
       enterWinState();  // just play the win animation here
     }
 
     // Reset this game if we're just coming out of idle
-    if (gameState == RocketGameWin &&
-        (up_btn->IsDepressing() || reset_btn->IsDepressing())) {
+    if (gameState == RocketGameWin && controller.AnyDepressing()) {
       Debug("Cancelling Win State due to button press");
       setup();  // this sets game state to RocketGameStart
     }
 
     // Reset this game if they hold the reset button longer than a second (if we
     // havent already lost)
-    if (gameState != RocketGameLose && reset_btn->GetMillisHeld() > 1000) {
+    if (gameState != RocketGameLose &&
+        controller.reset->GetMillisHeld() > 1000) {
       enterLoseState();
     }
 
@@ -257,13 +249,13 @@ class RocketGame : public Game {
 
       case RocketGamePlaying:
         rocket.SetBoost(
-            up_btn->GetMillisHeld());  // direct correlation between millis held
-                                       // and thrust (rocket caps it at
-                                       // ThrustMax=200)
-        if (up_btn->IsDepressing()) {
+            controller.up->GetMillisHeld());  // direct correlation between
+                                              // millis held and thrust (rocket
+                                              // caps it at ThrustMax=200)
+        if (controller.up->IsDepressing()) {
           audio.startPlayBoost();
         }
-        if (up_btn->IsReleasing()) {
+        if (controller.up->IsReleasing()) {
           audio.stopPlayBoost();
         }
 
