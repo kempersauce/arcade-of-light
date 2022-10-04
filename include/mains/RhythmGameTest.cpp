@@ -1,7 +1,7 @@
 #include "controls/hardware/matrix.h"    // for Matrix
 #include "controls/rhythm.h"             // for RhythmController
 #include "display/display.h"             // for Display
-#include "display/h2h.h"                 // for H2HDisplay
+#include "display/h2h_5_test.h"          // for H2H5TestDisplay
 #include "display/octo/four_panel.h"     // for FourPanelDisplay
 #include "engines/framerate.h"           // for FrameRate
 #include "games/rhythm/rhythm_game.h"    // for RhythmGame
@@ -28,7 +28,7 @@ void setup() {
   Debug("Begin setup()");
 
   // Choose your Display type
-  display::H2HDisplay* disp = new display::H2HDisplay();
+  display::H2H5TestDisplay* disp = new display::H2H5TestDisplay();
   gameDisplay = disp;
 
   Debug("gameDisplay created");

@@ -10,7 +10,7 @@
 #include "animation/noise.h"                    // for NoiseAnimation
 #include "animation/sine_wave.h"                // for SineWave
 #include "animation/single_color_background.h"  // for SingleColorBG
-#include "animation/starscape.h"                // for Starscape
+#include "animation/wave_pulse.h"               // for WavePulse
 #include "audio/synth_sender_raw.h"             // for SynthSenderRaw
 #include "controls/rhythm.h"                    // for RhythmController
 #include "games/game.h"                         // for Game
@@ -59,8 +59,9 @@ class RhythmGameSingle : public Game {
 
   // Animations
   animation::SingleColorBG background;  // black bg
-  animation::SineWave sine_wave;
   animation::NoiseAnimation noise_block;
+  animation::SineWave sine_wave;
+  animation::WavePulse wave_pulse;
   animation::ChargeBar charge_bar;
   animation::ChargeFull charge_full;
 
@@ -75,9 +76,11 @@ class RhythmGameSingle : public Game {
         player_no{player_no},
         controller{controller},
         synth{serial::kHwSerials[player_no]},
+        noise_block{player_hues[player_no],
+                    20,
+                    {display->size.width, display->size.height / 4}},
         sine_wave{CRGB::Cyan, 0.5},
-        noise_block{
-            player_hues[player_no], 20, {display->size.x, display->size.y / 4}},
+        wave_pulse{35, CRGB::DarkGray},
         charge_bar{CRGB::White},
         charge_full{-1} {
     sine_wave.waves.emplace_back(100, display->size.width / 4.0f, .1);
@@ -101,7 +104,7 @@ class RhythmGameSingle : public Game {
       }
 
       // Move the block animation up the tower
-      noise_block.location.y = beat * display->size.y / 4;
+      noise_block.location.y = beat * display->size.height / 4;
 
       // Trigger the click track to the audio chip
       synth.SendClickTrack(beat);
@@ -110,6 +113,12 @@ class RhythmGameSingle : public Game {
       //   Debug_var(metronome_last_hit);
       //   Debug_var(time::Now());
     }
+
+    // Move the wave pulse up the tower
+    const float offset =
+        (float)(time::Now() - metronome_last_hit) / (float)beat_length_millis;
+    wave_pulse.physics.location.y =
+        ((float)beat + offset) * display->size.height / 4;
   }
 
   void UpdateBgBrightness() {
@@ -205,6 +214,7 @@ class RhythmGameSingle : public Game {
     // Move our animations
     background.Move();
     noise_block.Move();
+    wave_pulse.Move();
     sine_wave.Move();
     charge_bar.Move();
     charge_full.Move();
@@ -217,7 +227,7 @@ class RhythmGameSingle : public Game {
       noise_block.use_rainbow_hue = true;
       noise_block.Draw(display);
       const size_t old_y = noise_block.location.y;
-      noise_block.location.y = ((beat + 2) % 4) * display->size.y / 4;
+      noise_block.location.y = ((beat + 2) % 4) * display->size.height / 4;
       noise_block.Draw(display);
       noise_block.location.y = old_y;
     } else {
@@ -226,6 +236,7 @@ class RhythmGameSingle : public Game {
       noise_block.Draw(display);
     }
 
+    wave_pulse.Draw(display);
     sine_wave.Draw(display);
 
     if (on_beat_count < display->size.height - 1) {
