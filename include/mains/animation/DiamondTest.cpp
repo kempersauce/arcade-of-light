@@ -5,7 +5,7 @@
 
 #include "animation/diamond.h"  // for Diamond
 #include "display/display.h"    // for Display
-#include "display/h2h_octo.h"   // for H2HDisplay
+#include "display/h2h.h"   // for H2HDisplay
 #include "engines/framerate.h"  // for FrameRate
 #include "games/game.h"         // for Game
 #include "pins/pin_setup.h"     // for pins::Init
@@ -26,7 +26,7 @@ void setup() {
   pins::Init();
 
   gameDisplay = new display::H2HDisplay();
-  diamond = new animation::Diamond(4, 25, 10, 5, CRGB::Red);
+  diamond = new animation::Diamond(80, 10, 5, CRGB::Red, CRGB::Blue);
 
   game = new test::AnimationTest(gameDisplay, diamond);
   game->setup();
@@ -37,4 +37,5 @@ void loop() {
   game->loop();
   gameDisplay->Show();
   frameRate.PrintFrameRate();
+  delay(250);
 }
