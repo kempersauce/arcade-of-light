@@ -55,14 +55,6 @@ class HueRainbow : public Animation {
   void Move() override {
     if (WaveShift) {
       ShiftSpeed = beatsin8(bpm, 0, speed_max - speed_min) + speed_min;
-      // Don't let this stop, jump the speed 4 millis into the future
-      if (ShiftSpeed == 0) {
-        // Hack to cause rollover in internal timing mechanism
-        // SHOULD emulate getting the value from 4ms in the future
-        const uint32_t future = 0 - 4;
-        ShiftSpeed =
-            beatsin8(bpm, 0, speed_max - speed_min, future) + speed_min;
-      }
     }
 
     // TODO move this to be based on time, not framerate
