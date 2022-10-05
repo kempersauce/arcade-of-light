@@ -156,7 +156,7 @@ class RhythmGameSingle : public Game {
       const float t4_offset = ((float)bet + t_offset) / 4.0f;
 
       // y = 0 -> screen size, adjusted by hit_bar_height
-      const size_t y =
+      const float y =
           fmod(hit_bar_height + (float)display->size.height * (1 - t4_offset),
                display->size.height);
       wave_pulse[beet].y = y;
