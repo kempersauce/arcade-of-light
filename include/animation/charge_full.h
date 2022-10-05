@@ -54,13 +54,13 @@ class ChargeFull : public Animation {
     speed_max = max;
   }
 
-  void Move() {
+  void Move() override {
     // TODO move this to be based on time, not framerate
     HueStart += ShiftSpeed;
   }
 
   // Taste the rainbow
-  void Draw(display::Display* display) {
+  void Draw(display::Display* display) override {
     const uint8_t y_limit = display->size.y - 1;
     const uint8_t x_limit = display->size.x - 1;
 

@@ -17,11 +17,11 @@ class ChargeBar : public Animation {
 
   ChargeBar(CRGB color) : Animation(), color{color} {}
 
-  void Draw(display::Display* display) {
+  void Draw(display::Display* display) override {
     // TODO: we could use dithering here
-    for (size_t y = height_min; y < height; ++y) {
+    for (size_t y = height_min; y < min(height, display->size.height); ++y) {
       display->BlendPixel(0, y, color, blendFactor);
-      display->BlendPixel(display->size.x - 1, y, color, blendFactor);
+      display->BlendPixel(display->size.width - 1, y, color, blendFactor);
     }
   }
 };

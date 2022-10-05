@@ -64,6 +64,7 @@ class RhythmGameSingle : public Game {
   animation::NoiseAnimation noise_block;
   animation::WavePulseStars wave_pulse_stars[4];
   animation::SineWave sine_wave;
+  animation::WavePulse wave_pulse_shadow;
   animation::WavePulse wave_pulse[4];
   animation::ChargeBar charge_bar;
   animation::ChargeFull charge_full;
@@ -86,20 +87,20 @@ class RhythmGameSingle : public Game {
         controller{controller},
         synth{serial::kHwSerials[player_no]},
         wave_pulse_stars{
-            {39, display->size},
-            {24, display->size},
-            {39, display->size},
-            {24, display->size},
+            {39, display->size, 0},
+            {24, display->size, 2},
+            {39, display->size, 1},
+            {24, display->size, 2},
         },
         noise_block{player_hues[player_no],
                     20,
                     {display->size.width, display->size.height / 4}},
         sine_wave{CRGB::Cyan, 0.5},
         wave_pulse{
-            {13, CRGB::DarkGray},
-            {5, CRGB::DarkGray},
-            {8, CRGB::DarkGray},
-            {5, CRGB::DarkGray},
+            {13, CRGB::WhiteSmoke, 0},
+            {5, CRGB::WhiteSmoke, 2},
+            {8, CRGB::WhiteSmoke, 1},
+            {5, CRGB::WhiteSmoke, 2},
         },
         charge_bar{CRGB::White},
         charge_full{-1},
@@ -109,6 +110,8 @@ class RhythmGameSingle : public Game {
     sine_wave.waves.emplace_back(20, display->size.width / 8.0f, -0.1);
     sine_wave.waves.emplace_back(10, display->size.width / 12.0f, .05);
     // TODO more sine waves
+
+    wave_pulse_shadow.opacity = 0;
   }
 
   // Track the beat so we can Draw backgrounds
@@ -187,21 +190,25 @@ class RhythmGameSingle : public Game {
     }
   }
 
-    const animation::Explosion explodotype{8, 600, 350,  55, 12,
-                                           0,  -250,  0, 0,  NULL};
+  const animation::Explosion explodotype{8, 600,  350, 55, 12,
+                                         0, -250, 0,   0,  NULL};
   void AddExplosions() {
     Debug("Exploding");
     explosions.push_back(explodotype);
-    explosions.back().ExplodeAt(display->size.width / 4, hit_bar_height, {0, 15});
+    explosions.back().ExplodeAt(display->size.width / 4, hit_bar_height,
+                                {0, 15});
     explosions.push_back(explodotype);
-    explosions.back().ExplodeAt(display->size.width * 3 / 4, hit_bar_height, {0, 15});
-	
+    explosions.back().ExplodeAt(display->size.width * 3 / 4, hit_bar_height,
+                                {0, 15});
+
     explosions.push_back(explodotype);
-	explosions.back().SetGravity(250);
-    explosions.back().ExplodeAt(display->size.width / 4, hit_bar_height, {0, -15});
+    explosions.back().SetGravity(250);
+    explosions.back().ExplodeAt(display->size.width / 4, hit_bar_height,
+                                {0, -15});
     explosions.push_back(explodotype);
-	explosions.back().SetGravity(250);
-    explosions.back().ExplodeAt(display->size.width * 3 / 4, hit_bar_height, {0, -15});
+    explosions.back().SetGravity(250);
+    explosions.back().ExplodeAt(display->size.width * 3 / 4, hit_bar_height,
+                                {0, -15});
   }
 
   void MoveExplosions() {
@@ -214,6 +221,27 @@ class RhythmGameSingle : public Game {
         ++it;
       }
     }
+  }
+
+  void SetWavePulseShadow() {
+    animation::WavePulse* closest = NULL;
+    size_t closest_distance;
+    for (auto& wave : wave_pulse) {
+      const size_t distance =
+          max(wave.y, hit_bar_height) - min(wave.y, hit_bar_height);
+      if (closest == NULL || distance < closest_distance) {
+        closest = &wave;
+        closest_distance = distance;
+      }
+    }
+
+    wave_pulse_shadow = *closest;
+    wave_pulse_shadow.color.fadeToBlackBy(64);
+
+    // Total fade over shadow_fade_time_millis ms
+    const static uint32_t shadow_fade_time_millis = 750;
+    wave_pulse_shadow.fade_per_milli =
+        wave_pulse_shadow.opacity / shadow_fade_time_millis;
   }
 
   static constexpr uint32_t beat_hit_downtime_millis{beat_proximity_threshold *
@@ -251,6 +279,8 @@ class RhythmGameSingle : public Game {
       }
       return;
     }
+
+    SetWavePulseShadow();
 
     // const uint32_t quarter_beat_distance =
     //     beat_length_millis / 4 - half_beat_distance;
@@ -296,6 +326,7 @@ class RhythmGameSingle : public Game {
       wp_stars.Move();
     }
     noise_block.Move();
+    wave_pulse_shadow.Move();
     for (auto& wp : wave_pulse) {
       wp.Move();
     }
@@ -331,6 +362,7 @@ class RhythmGameSingle : public Game {
     sine_wave.Draw(display);
 
     // Draw beat pulse waves
+    wave_pulse_shadow.Draw(display);
     for (auto& wp : wave_pulse) {
       wp.Draw(display);
     }

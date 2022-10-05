@@ -1,8 +1,7 @@
 #pragma once
 
-#include <FastLED.h>  // for FastLED
-
-#include "time/now.h"  // for Now
+#include "serial/debug.h"  // for Debug
+#include "time/now.h"      // for Now
 
 namespace kss {
 namespace engines {
@@ -12,14 +11,10 @@ class FrameRate {
 
  public:
   void PrintFrameRate() {
-    const auto now = time::Now();
-    const auto timeDiff = now - last_frame_millis_;
-    const auto fps = 1000 / timeDiff;
-    last_frame_millis_ = now;
-
-    const auto fast_led_fps = FastLED.getFPS();
-    Serial.println((String) "FPS: " + fps + " | " + timeDiff +
-                   "ms | reported: " + fast_led_fps);
+    const uint32_t now = time::Now();
+    const uint32_t timeDiff = time::LoopElapsedMillis();
+    const uint32_t fps = 1000 / timeDiff;
+    Debug("T=" + now + ", " + fps + "fps (" + timeDiff + "ms/frame)");
   }
 };
 
