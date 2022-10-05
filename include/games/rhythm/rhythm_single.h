@@ -145,10 +145,10 @@ class RhythmGameSingle : public Game {
       // 0 -> 1 over 4 beats
       const float t4_offset = ((float)bet + t_offset) / 4.0f;
 
-      // y = hit_bar_height -> screen size  + hit_bar_height
-      // This works b/s we'll make the waves % screen size when drawing
+      // y = 0 -> screen size, adjusted by hit_bar_height
       const size_t y =
-          hit_bar_height + (float)display->size.height * (1 - t4_offset);
+          (hit_bar_height + (float)display->size.height * (1 - t4_offset)) %
+          display->size.height;
       wave_pulse[beet].y = y;
       wave_pulse_stars[beet].y = y;
     }
