@@ -113,8 +113,8 @@ class RocketGame : public Game {
         controller{controller},
         starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),
-        rocket(display->size.y, new CRGB(255, 255, 255)),
-        target(new CRGB(55, 0, 0)),
+        rocket(display->size.y, CRGB(255, 255, 255)),
+        target(CRGB(55, 0, 0)),
         explosionsInTheSky(),
         explosion{80, 1000, 3000, 55, 12, 0, 0, 255, 0, &audio.explosion},
         fireworks{display->size, 0} {
