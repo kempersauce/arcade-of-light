@@ -43,10 +43,13 @@ class Matrix : public Context {
   }
 
   void PollAll() override {
-    for (auto& channel : inputs) {
-      // Set the current channel to active and grab a reference to it
-      SetActiveChannel(channel.first);
-      channel.second.PollAll();
+    static std::map<uint8_t, Simple>::iterator chan = inputs.begin();
+    for (size_t i = 0; i < inputs.size(); ++i) {
+      if (i != 0 && ++chan == inputs.end()) {
+        chan = inputs.begin();
+      }
+      SetActiveChannel(chan->first);
+      chan->second.PollAll();
     }
   }
 
