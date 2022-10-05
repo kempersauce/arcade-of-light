@@ -10,7 +10,9 @@
 #include "animation/noise.h"                    // for NoiseAnimation
 #include "animation/sine_wave.h"                // for SineWave
 #include "animation/single_color_background.h"  // for SingleColorBG
+#include "animation/single_color_block.h"       // for SingleColorBlock
 #include "animation/wave_pulse.h"               // for WavePulse
+#include "animation/wave_pulse_stars.h"         // for WavePulseStars
 #include "audio/synth_sender_raw.h"             // for SynthSenderRaw
 #include "controls/rhythm.h"                    // for RhythmController
 #include "games/game.h"                         // for Game
@@ -58,15 +60,19 @@ class RhythmGameSingle : public Game {
   audio::SynthSenderRaw synth;
 
   // Animations
-  animation::SingleColorBG background;  // black bg
+  animation::SingleColorBG background;
   animation::NoiseAnimation noise_block;
+  animation::WavePulseStars wave_pulse_stars[4];
   animation::SineWave sine_wave;
-  animation::WavePulse wave_pulse;
+  animation::WavePulse wave_pulse[4];
   animation::ChargeBar charge_bar;
   animation::ChargeFull charge_full;
 
+  const size_t hit_bar_height;
+  animation::SingleColorBlock hit_bar;
+
   // Success tracking
-  uint16_t on_beat_count{0};
+  uint16_t on_beat_count{200};  // Debug, start almost there
   static constexpr uint8_t on_beat_count_threshold{8};
 
  public:
@@ -76,16 +82,30 @@ class RhythmGameSingle : public Game {
         player_no{player_no},
         controller{controller},
         synth{serial::kHwSerials[player_no]},
+        wave_pulse_stars{
+            {39, display->size},
+            {24, display->size},
+            {39, display->size},
+            {24, display->size},
+        },
         noise_block{player_hues[player_no],
                     20,
                     {display->size.width, display->size.height / 4}},
         sine_wave{CRGB::Cyan, 0.5},
-        wave_pulse{35, CRGB::DarkGray},
+        wave_pulse{
+            {13, CRGB::DarkGray},
+            {5, CRGB::DarkGray},
+            {8, CRGB::DarkGray},
+            {5, CRGB::DarkGray},
+        },
         charge_bar{CRGB::White},
-        charge_full{-1} {
+        charge_full{-1},
+        hit_bar_height{display->size.height / 5},
+        hit_bar{hit_bar_height, hit_bar_height + 1, CRGB::White} {
     sine_wave.waves.emplace_back(100, display->size.width / 4.0f, .1);
     sine_wave.waves.emplace_back(20, display->size.width / 8.0f, -0.1);
     sine_wave.waves.emplace_back(10, display->size.width / 12.0f, .05);
+    // TODO more sine waves
   }
 
   // Track the beat so we can Draw backgrounds
@@ -113,12 +133,25 @@ class RhythmGameSingle : public Game {
       //   Debug_var(metronome_last_hit);
       //   Debug_var(time::Now());
     }
+  }
 
-    // Move the wave pulse up the tower
-    const float offset =
+  void SetPulseHeight() {
+    // 0 -> 1 over a beat
+    const float t_offset =
         (float)(time::Now() - metronome_last_hit) / (float)beat_length_millis;
-    wave_pulse.physics.location.y =
-        ((float)beat + offset) * display->size.height / 4;
+
+    for (uint8_t beet = 0; beet < 4; ++beet) {
+      const uint8_t bet = (beat + beet) % 4;
+      // 0 -> 1 over 4 beats
+      const float t4_offset = ((float)bet + t_offset) / 4.0f;
+
+      // y = hit_bar_height -> screen size  + hit_bar_height
+      // This works b/s we'll make the waves % screen size when drawing
+      const size_t y =
+          hit_bar_height + (float)display->size.height * (1 - t4_offset);
+      wave_pulse[beet].y = y;
+      wave_pulse_stars[beet].y = y;
+    }
   }
 
   void UpdateBgBrightness() {
@@ -220,39 +253,59 @@ class RhythmGameSingle : public Game {
     // Set charge bar height
     charge_bar.height = on_beat_count;
 
+    // Set the pulse height
+    SetPulseHeight();
+
     // Move our animations
     background.Move();
+    for (auto& wp_stars : wave_pulse_stars) {
+      wp_stars.Move();
+    }
     noise_block.Move();
-    wave_pulse.Move();
+    for (auto& wp : wave_pulse) {
+      wp.Move();
+    }
     sine_wave.Move();
     charge_bar.Move();
     charge_full.Move();
+    hit_bar.Move();
 
     // Draw Time
     background.Draw(display);
 
     // Draw double rainbow on success
-    if (on_beat_count >= display->size.height) {
-      noise_block.use_rainbow_hue = true;
-      noise_block.Draw(display);
-      const size_t old_y = noise_block.location.y;
-      noise_block.location.y = ((beat + 2) % 4) * display->size.height / 4;
-      noise_block.Draw(display);
-      noise_block.location.y = old_y;
-    } else {
-      // Single block no rainbow, no success
-      noise_block.use_rainbow_hue = false;
-      noise_block.Draw(display);
+    // if (on_beat_count >= display->size.height) {
+    //   noise_block.use_rainbow_hue = true;
+    //   noise_block.Draw(display);
+    //   const size_t old_y = noise_block.location.y;
+    //   noise_block.location.y = ((beat + 2) % 4) * display->size.height / 4;
+    //   noise_block.Draw(display);
+    //   noise_block.location.y = old_y;
+    // } else {
+    //   // Single block no rainbow, no success
+    //   noise_block.use_rainbow_hue = false;
+    //   noise_block.Draw(display);
+    // }
+
+    // Draw stars in the background
+    for (auto& wp_stars : wave_pulse_stars) {
+      wp_stars.Draw(display);
     }
 
-    wave_pulse.Draw(display);
     sine_wave.Draw(display);
+
+    // Draw beat pulse waves
+    for (auto& wp : wave_pulse) {
+      wp.Draw(display);
+    }
 
     if (on_beat_count < display->size.height - 1) {
       charge_bar.Draw(display);
     } else {
       charge_full.Draw(display);
     }
+
+    hit_bar.Draw(display);
   }
 };
 
