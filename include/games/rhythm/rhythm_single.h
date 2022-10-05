@@ -42,7 +42,14 @@ constexpr uint8_t player_hues[4]{
     0,    // red
     45,   // yellow
     130,  // teal
-    200   // lavendar
+    200,  // lavendar
+};
+
+constexpr uint8_t player_offhues[4]{
+    128 + 0,    // not red
+    128 + 45,   // not yellow
+    128 + 130,  // not teal
+    128 + 200,  // not lavendar
 };
 
 }  // namespace _rhythm_single
@@ -99,12 +106,12 @@ class RhythmGameSingle : public Game {
         noise_block{player_hues[player_no],
                     20,
                     {display->size.width, display->size.height / 4}},
-        sine_wave{CRGB::Cyan, 0.5},
+        sine_wave{CHSV(player_offhues[player_no], 255, 255), 0.5},
         wave_pulse{
             {15, 0, CRGB::WhiteSmoke},
-            {3, 1, CRGB::WhiteSmoke},
-            {8, 1, CRGB::WhiteSmoke},
-            {3, 1, CRGB::WhiteSmoke},
+            {5, 1, CRGB::WhiteSmoke},
+            {10, 1, CRGB::WhiteSmoke},
+            {5, 1, CRGB::WhiteSmoke},
         },
         charge_bar{CRGB::White},
         charge_full{-1},
@@ -124,13 +131,15 @@ class RhythmGameSingle : public Game {
     // Using while to catch up if behind - bad?
     while (metronome_last_hit + beat_length_millis <= time::Now()) {
       metronome_last_hit += beat_length_millis;
+
+      // Track the current beat
       if (++beat == 4) {
         beat = 0;
+      }
 
-        // Track how on-the-beat the player is
-        if (on_beat_count > 0) {
-          on_beat_count -= 4;
-        }
+      // Decrease success rate, hope they've hit something
+      if (on_beat_count > 0) {
+        --on_beat_count;
       }
 
       // Move the block animation up the tower
