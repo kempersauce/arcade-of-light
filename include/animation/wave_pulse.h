@@ -20,7 +20,7 @@ class WavePulse : public Animation {
   size_t y;
 
   WavePulse() : Animation(), opacity{0} {}
-  WavePulse(size_t height, CRGB color, size_t edge_trim = 0)
+  WavePulse(size_t height, size_t edge_trim, CRGB color)
       : Animation(), height{height}, edge_trim{edge_trim + 1}, color{color} {}
 
   void Move() override {
@@ -38,14 +38,18 @@ class WavePulse : public Animation {
     }
     const size_t other_edge = display->size.width - edge_trim;
     for (size_t y_offset = 0; y_offset < height; ++y_offset) {
-      const float presence = opacity * (float)(height - y_offset) / (float)height;
+      const float presence =
+          opacity * (float)(height - y_offset) / (float)height;
       const size_t y_adjusted = (y + y_offset) % display->size.height;
       for (size_t x = edge_trim; x < other_edge; ++x) {
         display->BlendPixel(x, y_adjusted, color, presence);
       }
-      display->BlendPixel(edge_trim - 1, y_adjusted, color,
-                          edge_blend * presence);
-      display->BlendPixel(other_edge, y_adjusted, color, edge_blend * presence);
+
+      // Push edges back to give a cool curve to the wave
+      // const size_t y_edge = (y_adjusted + 1) % display->size.height;
+      const size_t y_edge = y_adjusted;
+      display->BlendPixel(edge_trim - 1, y_edge, color, edge_blend * presence);
+      display->BlendPixel(other_edge, y_edge, color, edge_blend * presence);
     }
   }
 };

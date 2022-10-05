@@ -17,12 +17,14 @@ class WavePulseStars : public Animation {
  public:
   size_t y;
 
-  WavePulseStars(size_t height, math::Dimension screen_size,
-                 size_t edge_trim = 0)
+  WavePulseStars(size_t height, size_t edge_trim, math::Dimension screen_size,
+                 uint8_t hue)
       : Animation(),
         height{height},
         stars{screen_size, 85},
-        edge_trim{edge_trim + 1} {}
+        edge_trim{edge_trim + 1} {
+    stars.hue = hue;
+  }
 
   void Move() override { stars.Move(); }
 
