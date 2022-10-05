@@ -71,8 +71,11 @@ class RhythmGameSingle : public Game {
   const size_t hit_bar_height;
   animation::SingleColorBlock hit_bar;
 
+  // Explosions for when you do good
+  std::vector<animation::Explosion> explosions;
+
   // Success tracking
-  uint16_t on_beat_count{200};  // Debug, start almost there
+  uint16_t on_beat_count{0};  // Debug, start almost there
   static constexpr uint8_t on_beat_count_threshold{8};
 
  public:
@@ -119,7 +122,7 @@ class RhythmGameSingle : public Game {
 
         // Track how on-the-beat the player is
         if (on_beat_count > 0) {
-          --on_beat_count;
+          on_beat_count -= 4;
         }
       }
 
@@ -147,8 +150,8 @@ class RhythmGameSingle : public Game {
 
       // y = 0 -> screen size, adjusted by hit_bar_height
       const size_t y =
-          (hit_bar_height + (float)display->size.height * (1 - t4_offset)) %
-          display->size.height;
+          fmod(hit_bar_height + (float)display->size.height * (1 - t4_offset),
+               display->size.height);
       wave_pulse[beet].y = y;
       wave_pulse_stars[beet].y = y;
     }
@@ -184,6 +187,35 @@ class RhythmGameSingle : public Game {
     }
   }
 
+    const animation::Explosion explodotype{8, 600, 350,  55, 12,
+                                           0,  -250,  0, 0,  NULL};
+  void AddExplosions() {
+    Debug("Exploding");
+    explosions.push_back(explodotype);
+    explosions.back().ExplodeAt(display->size.width / 4, hit_bar_height, {0, 15});
+    explosions.push_back(explodotype);
+    explosions.back().ExplodeAt(display->size.width * 3 / 4, hit_bar_height, {0, 15});
+	
+    explosions.push_back(explodotype);
+	explosions.back().SetGravity(250);
+    explosions.back().ExplodeAt(display->size.width / 4, hit_bar_height, {0, -15});
+    explosions.push_back(explodotype);
+	explosions.back().SetGravity(250);
+    explosions.back().ExplodeAt(display->size.width * 3 / 4, hit_bar_height, {0, -15});
+  }
+
+  void MoveExplosions() {
+    // Remove dead explosives
+    for (auto it = explosions.begin(); it < explosions.end();) {
+      it->Move();
+      if (it->IsBurnedOut()) {
+        it = explosions.erase(it);
+      } else {
+        ++it;
+      }
+    }
+  }
+
   static constexpr uint32_t beat_hit_downtime_millis{beat_proximity_threshold *
                                                      2};
   uint32_t last_beat_hit_millis;
@@ -201,6 +233,7 @@ class RhythmGameSingle : public Game {
       Debug_var(beat_distance);
       if (time::Now() - last_beat_hit_millis >= beat_hit_downtime_millis) {
         on_beat_count += 4;
+        AddExplosions();
         last_beat_hit_millis = time::Now();
       }
       return;
@@ -213,6 +246,7 @@ class RhythmGameSingle : public Game {
       Debug_var(beat_distance);
       if (time::Now() - last_beat_hit_millis >= beat_hit_downtime_millis) {
         on_beat_count += 2;
+        AddExplosions();
         last_beat_hit_millis = time::Now();
       }
       return;
@@ -270,6 +304,8 @@ class RhythmGameSingle : public Game {
     charge_full.Move();
     hit_bar.Move();
 
+    MoveExplosions();
+
     // Draw Time
     background.Draw(display);
 
@@ -299,6 +335,7 @@ class RhythmGameSingle : public Game {
       wp.Draw(display);
     }
 
+    // Draw charge bars
     if (on_beat_count < display->size.height - 1) {
       charge_bar.Draw(display);
     } else {
@@ -306,6 +343,10 @@ class RhythmGameSingle : public Game {
     }
 
     hit_bar.Draw(display);
+
+    for (auto& explody : explosions) {
+      explody.Draw(display);
+    }
   }
 };
 
