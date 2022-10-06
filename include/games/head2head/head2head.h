@@ -1,7 +1,7 @@
 #pragma once
 
 #include "animation/electric_arc.h"      // for ElectricArc
-#include "animation/noise.h"             // for NoiseAnimation
+#include "animation/wave_out.h"          // for WaveOut
 #include "controls/h2h.h"                // for H2HController
 #include "engines/noise.h"               // for NoiseGenerator
 #include "games/game.h"                  // for Game
@@ -31,8 +31,8 @@ enum H2HGameState {
 class Head2Head : public Game {
   display::Display* const instructo_a;
   display::Display* const instructo_b;
-  animation::NoiseAnimation* const instructo_animation_a;
-  animation::NoiseAnimation* const instructo_animation_b;
+  animation::WaveOut* const instructo_animation_a;
+  animation::WaveOut* const instructo_animation_b;
 
   H2HGameState gameState;
 
@@ -65,14 +65,10 @@ class Head2Head : public Game {
       : Game(gameDisplay),
         instructo_a{instructo_a},
         instructo_b{instructo_b},
-        instructo_animation_a{instructo_a == NULL
-                                  ? NULL
-                                  : new animation::NoiseAnimation(
-                                        zoneAHue, 20, instructo_a->size)},
-        instructo_animation_b{instructo_b == NULL
-                                  ? NULL
-                                  : new animation::NoiseAnimation(
-                                        zoneBHue, 20, instructo_b->size)},
+        instructo_animation_a{
+            instructo_a == NULL ? NULL : new animation::WaveOut(zoneAHue)},
+        instructo_animation_b{
+            instructo_b == NULL ? NULL : new animation::WaveOut(zoneBHue)},
         idleGame(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},
