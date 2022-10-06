@@ -14,7 +14,7 @@ class SingleColorBlock : public Animation {
   const CRGB color;
 
  public:
-  SingleColorBlock(int height_min, int height_max, CRGB color)
+  SingleColorBlock(size_t height_min, size_t height_max, CRGB color)
       : Animation(),
         height_min{height_min},
         height_max{height_max},

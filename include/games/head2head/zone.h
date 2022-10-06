@@ -9,7 +9,7 @@ namespace h2h {
 
 class H2HZone : public animation::Animation {
  public:
-  CRGB color;
+  const CRGB color;
   int yMin;
   int yMax;
   int xLoc;
@@ -45,8 +45,8 @@ class H2HZone : public animation::Animation {
   }
 
   void Draw(display::Display* display) {
-    display->Pixel(xLoc, yMin) = CRGB::White;
-    display->Pixel(xLoc, yMax) = CRGB::White;
+    display->Pixel(xLoc, yMin) = color;
+    display->Pixel(xLoc, yMax) = color;
   }
 };
 

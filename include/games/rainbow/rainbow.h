@@ -13,7 +13,7 @@ class RainbowGame : public Game {
 
  public:
   RainbowGame(display::Display* gameDisplay)
-      : Game(gameDisplay), background(2, gameDisplay->size.y) {}
+      : Game(gameDisplay), background(2, gameDisplay->size.height) {}
 
   void setup() override {}
 

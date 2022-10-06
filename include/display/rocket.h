@@ -43,7 +43,7 @@ class RocketDisplay
   InstructoDisplay instructo;
 
   RocketDisplay()
-      : OctoDisplay(_rocket::kPinList, _rocket::kDisplayMemory),
+      : OctoDisplay(_rocket::kPinList, _rocket::kDisplayMemory, 1),
         main_display{this, {0, 0}, {kTowerStripCount, kTowerStripLength}},
         instructo{&pixels[kTowerStripCount * _rocket::kLengthStrips]} {}
 };

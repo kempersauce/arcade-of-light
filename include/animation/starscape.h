@@ -12,6 +12,7 @@ class Starscape : public Animation {
   const uint8_t brightness_threshold;
 
  public:
+  uint8_t hue{46};  // nice amber for stars
   engines::NoiseGenerator noise_generator;
 
   Starscape(const math::Dimension& size,
@@ -20,27 +21,30 @@ class Starscape : public Animation {
         brightness_threshold{brightness_threshold},
         noise_generator{size, 7} {}
 
+  CRGB GetPixel(size_t x, size_t y) {
+    uint8_t brightness = noise_generator.data[x][y];
+    if (brightness > brightness_threshold) {
+      // Draw the star, it's past the threshold
+
+      // stretch the brightness so it goes from 0-100 for CSV
+      uint8_t value = 255 * (brightness - brightness_threshold) /
+                      (255 - brightness_threshold);
+
+      // Draw onto the blackness of space
+      return CHSV(hue, value, value);  // Amber is 46, 100, 100 - we scale from
+                                      // black up to amber here
+    } else {
+      // Draw the blackness of space
+      return CRGB::Black;
+    }
+  }
+
   void Move() override { noise_generator.fillnoise8(); }
 
   void Draw(display::Display* display) override {
     for (size_t x = 0; x < display->size.x; ++x) {
       for (size_t y = 0; y < display->size.y; ++y) {
-        uint8_t brightness = noise_generator.data[x][y];
-        if (brightness > brightness_threshold) {
-          // Draw the star, it's past the threshold
-
-          // stretch the brightness so it goes from 0-100 for CSV
-          uint8_t value = 255 * (brightness - brightness_threshold) /
-                          (255 - brightness_threshold);
-
-          // Draw onto the blackness of space
-          display->Pixel(x, y) =
-              CHSV(46, value, value);  // Amber is 46, 100, 100 - we scale from
-                                       // black up to amber here
-        } else {
-          // Draw the blackness of space
-          display->Pixel(x, y) = CRGB::Black;
-        }
+        display->Pixel(x, y) = GetPixel(x, y);
       }
     }
   }

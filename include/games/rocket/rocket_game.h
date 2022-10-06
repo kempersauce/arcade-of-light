@@ -10,8 +10,8 @@
 
 #include "animation/explosion.h"                 // for Explosion
 #include "animation/fireworks_show.h"            // for FireworksShow
-#include "animation/hue_rainbow.h"               // for HueRainbow
 #include "animation/starscape.h"                 // for Starscape
+#include "animation/wave_out.h"                  // for WaveOut
 #include "controls/rocket.h"                     // for RocketController
 #include "display/display.h"                     // for Display
 #include "games/game.h"                          // for Game
@@ -38,7 +38,9 @@ enum RocketGameState {
 
 class RocketGame : public Game {
   display::Display* const instructo;
-  animation::HueRainbow* const instructo_animation;
+  animation::WaveOut* const instructo_animation;
+  static constexpr uint8_t instructo_play_hue{15};
+  static constexpr uint8_t instructo_lose_hue{252};
 
   // Audio
   RocketAudio audio;
@@ -107,14 +109,14 @@ class RocketGame : public Game {
              controls::RocketController controller)
       : Game(display),
         instructo{instructo},
-        instructo_animation{instructo == NULL ? NULL
-                                              : new animation::HueRainbow(
-                                                    2, instructo->size.y)},
+        instructo_animation{
+            instructo == NULL ? NULL
+                              : new animation::WaveOut(instructo_play_hue, 0)},
         controller{controller},
         starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),
-        rocket(display->size.y, new CRGB(255, 255, 255)),
-        target(new CRGB(55, 0, 0)),
+        rocket(display->size.y, CRGB(255, 255, 255)),
+        target(CRGB(55, 0, 0)),
         explosionsInTheSky(),
         explosion{80, 1000, 3000, 55, 12, 0, 0, 255, 0, &audio.explosion},
         fireworks{display->size, 0} {
@@ -123,6 +125,46 @@ class RocketGame : public Game {
     for (auto& shrap : explosion.shrapnel) {
       shrap.LocationMax = display->size.y;
       shrap.BounceFactor = -.8;
+    }
+  }
+
+  void PlayInstructo() {
+    if (instructo != NULL) {
+      const float thrust = rocket.physics.thrust.y;
+      const float thrust_max = rocket.physics.ThrustMax;
+
+      // Saturate to full thrust
+      const uint8_t sat = thrust * 255.0f / thrust_max;
+      // Let the saturation fade until thrust cathes up
+      if (sat < instructo_animation->sat) {
+        instructo_animation->sat -=
+            min(time::LoopElapsedMillis() / 3, instructo_animation->sat);
+      } else {
+        instructo_animation->sat = sat;
+      }
+
+      // Fast speed for warning
+      if (thrust >= thrust_max) {
+        instructo_animation->wave.speed = instructo_animation->SPEED_FAST;
+      } else {
+        instructo_animation->wave.speed = instructo_animation->SPEED_SLOW;
+      }
+    }
+  }
+
+  void SetInstructoStart() {
+    if (instructo_animation != NULL) {
+      instructo_animation->hue = instructo_play_hue;
+      instructo_animation->sat = 0;
+      instructo_animation->wave.speed = instructo_animation->SPEED_SLOW;
+    }
+  }
+
+  void SetInstructoLose() {
+    if (instructo_animation != NULL) {
+      instructo_animation->hue = instructo_lose_hue;
+      instructo_animation->sat = 255;
+      instructo_animation->wave.speed = instructo_animation->SPEED_SLOW;
     }
   }
 
@@ -143,6 +185,7 @@ class RocketGame : public Game {
     rocket.SetGravity(gravityLevels[level]);
     explosion.SetGravity(gravityLevels[level]);
     rocket.Reset();
+    SetInstructoStart();
     audio.playLevelIntro(level);
   }
 
@@ -155,6 +198,7 @@ class RocketGame : public Game {
   void enterLoseState() {
     Debug("Entering Lose state");
     gameState = RocketGameLose;
+    SetInstructoLose();
     explosion.ExplodeAt(display->size.x / 2, rocket.physics.location.y);
     explosionsInTheSky.startAnimation(audio);
   }
@@ -248,7 +292,7 @@ class RocketGame : public Game {
 
       case RocketGamePlaying:
         // direct correlation between millis held and thrust
-		// (rocket caps it at ThrustMax=100)
+        // (rocket caps it at ThrustMax=100)
         rocket.physics.thrust.y = controller.up->GetMillisHeld() / 2;
         if (controller.up->IsDepressing()) {
           audio.startPlayBoost();
@@ -258,6 +302,7 @@ class RocketGame : public Game {
         }
 
         rocket.Move();
+        PlayInstructo();
 
         if (rocket.physics.HasExploded) {
           enterLoseState();

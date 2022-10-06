@@ -56,7 +56,7 @@ class NoiseAnimation : public Animation {
           // 255, noise_generator.data[i][j]);
         } else {
           display->Pixel(location.x + i, location.y + j) =
-              CHSV(hue, 255 - brightness, 128 - noise_generator.data[i][j] / 2);
+              CHSV(hue, brightness, noise_generator.data[i][j]);
         }
       }
     }

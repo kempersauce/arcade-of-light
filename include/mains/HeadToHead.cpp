@@ -16,10 +16,22 @@ display::H2HDisplay* gameDisplay;
 controls::hardware::Matrix control_context;
 engines::FrameRate framerate;
 
+// Alt colors
+const CRGB alt_arc_color = CRGB::Cyan;  // Cyan
+const uint8_t alt_team_a_hue = 120;     // Green
+const uint8_t alt_team_b_hue = 245;     // Watermelon
+
 void setup() {
   Debug_init();
   pins::Init();
   time::Init();
+
+  // last dip switches colors
+  if (pins::ReadDip(3)) {
+    games::h2h::arc_color = alt_arc_color;
+    games::h2h::zoneAHue = alt_team_a_hue;
+    games::h2h::zoneBHue = alt_team_b_hue;
+  }
 
   gameDisplay = new display::H2HDisplay();
 

@@ -20,12 +20,12 @@ constexpr char kChannelMarker2{'2'};
 constexpr char kChannelMarkerAny{'?'};
 
 // SYNTH RECIEVER CONTROL MAPPINGS
-constexpr uint8_t kUpChannelNum = 0;
-constexpr uint8_t kDownChannelNum = 1;
-constexpr uint8_t kLeftChannelNum = 2;
-constexpr uint8_t kRightChannelNum = 3;
-constexpr uint8_t kAChannelNum = 4;
-constexpr uint8_t kBChannelNum = 5;
+constexpr uint8_t kBChannelNum = 0;
+constexpr uint8_t kAChannelNum = 1;
+constexpr uint8_t kDownChannelNum = 2;
+constexpr uint8_t kLeftChannelNum = 3;
+constexpr uint8_t kRightChannelNum = 4;
+constexpr uint8_t kUpChannelNum = 5;
 
 struct SynthAudioMessage {
   uint8_t action;

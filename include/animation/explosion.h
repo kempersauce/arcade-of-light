@@ -73,7 +73,7 @@ class Explosion : Animation {
 
   void SetHue(uint8_t value) { hue = value; }
 
-  void SetGravity(int grav) { gravity.y = grav; }
+  void SetGravity(float grav) { gravity.y = grav; }
 
   void ExplodeAt(int stripIndex, int location,
                  math::Vector2D<float> additional = {0, 0}) {
