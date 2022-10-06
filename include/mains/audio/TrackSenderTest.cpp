@@ -14,7 +14,7 @@ using namespace kss::audio::beats;
 // Set this true to randomly switch beat tracks
 constexpr bool should_switch_randomly{true};
 
-AudioTrack tracks[]{{0, &Twist}};
+AudioTrack tracks[]{{3, &Twist}};
 
 constexpr size_t beats_count{13};
 Score *scores[beats_count]{

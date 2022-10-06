@@ -90,6 +90,7 @@ void loop() {
         // What it do if pressing button
         Debug("Play channel " + msg.channel);
         drums.playDrum6();
+        drums.triggerGlitch();
       }
     }
   }
