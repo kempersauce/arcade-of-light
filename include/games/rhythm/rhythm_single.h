@@ -117,12 +117,13 @@ class RhythmGameSingle : public Game {
         charge_full{-1},
         hit_bar_height{display->size.height / 5},
         hit_bar{hit_bar_height, hit_bar_height + 1, CRGB::White} {
+    // TODO Tune these sine waves
     sine_wave.waves.emplace_back(100, display->size.width / 4.0f, .1);
-    sine_wave.waves.emplace_back(20, display->size.width / 8.0f, -0.1);
-    sine_wave.waves.emplace_back(10, display->size.width / 12.0f, .05);
-    // TODO more sine waves
-
-    wave_pulse_shadow.opacity = 0;
+    sine_wave.waves.emplace_back(100, display->size.width / 8.0f, -0.1);
+    sine_wave.waves.emplace_back(50, display->size.width / 8.0f, -0.1);
+    sine_wave.waves.emplace_back(50, display->size.width / 8.0f, -0.2);
+    sine_wave.waves.emplace_back(25, display->size.width / 12.0f, .2);
+    sine_wave.waves.emplace_back(25, display->size.width / 12.0f, -.2);
   }
 
   // Track the beat so we can Draw backgrounds

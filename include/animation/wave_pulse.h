@@ -19,7 +19,9 @@ class WavePulse : public Animation {
   float opacity{1.0f};
   float y;
 
+  // Default contructor - opacity = 0 since we have no details
   WavePulse() : Animation(), opacity{0} {}
+
   WavePulse(size_t height, size_t edge_trim, CRGB color)
       : Animation(), height{height}, edge_trim{edge_trim + 1}, color{color} {}
 
