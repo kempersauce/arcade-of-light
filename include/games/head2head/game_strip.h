@@ -36,14 +36,12 @@ class H2HGameStrip : public animation::Animation {
   // nearside team
   H2HZone zoneA;
   static int zoneAStart;
-  // static const int zoneAHue = 138; // cyan
-  static const int zoneAHue = 120;  // green
+  const uint8_t zoneAHue;
 
   // farside team
   H2HZone zoneB;
   static int zoneBStart;
-  // static const int zoneBHue = 0; // red
-  static const int zoneBHue = 33;  // orange - this is wrong
+  const uint8_t zoneBHue;
 
   const size_t stripIndex;  // Which strip is this on?
   const size_t heightMax;   // length of this strip
@@ -70,22 +68,19 @@ class H2HGameStrip : public animation::Animation {
   controls::Button* buttonA;
   controls::Button* buttonB;
 
-  engines::NoiseGenerator*
-      noise_generator;  // this is maintained by the game class so we
-                        // just need to hold onto the reference here
-
   H2HGameStrip(size_t stripIndex, size_t stripHeight, controls::Button* a,
-               controls::Button* b, engines::NoiseGenerator* noise)
+               controls::Button* b, engines::NoiseGenerator* noise,
+               uint8_t zoneAHue, uint8_t zoneBHue)
       : Animation(),
         dot(CRGB::White, stripIndex),
-        zoneA(CRGB::Green, stripIndex, 0, 22, false),
-        zoneB(CRGB::Yellow, stripIndex, stripHeight - 23, stripHeight - 1,
-              true),
+        zoneA(CRGB::White, stripIndex, 0, 22, false),
+        zoneB(CRGB::White, stripIndex, stripHeight - 23, stripHeight - 1, true),
         buttonA{a},
         buttonB{b},
-        noise_generator{noise},
         dropExplosion{8, 150, 200, 50, 20, 2, 0, 0, 0, NULL},
         explosion{50, 1000, 1500, 20, 10, 3, 0, 255, 0, NULL},
+        zoneAHue{zoneAHue},
+        zoneBHue{zoneBHue},
         stripIndex{stripIndex},
         heightMax{stripHeight} {
     // Set some physics on the explosion shrapnel so they'll bounce off the
@@ -285,7 +280,6 @@ class H2HGameStrip : public animation::Animation {
     // Debug("Drawing strip" + stripIndex);
     switch (stripState) {
       case H2HStripPlaying:
-        drawBackgrounds(display);
         drawZones(display);
         drawMidBar(display);
         // explosion.Draw(display);
@@ -295,7 +289,6 @@ class H2HGameStrip : public animation::Animation {
 
       case H2HStripWinningA:
       case H2HStripWinningB:
-        drawBackgrounds(display);
         drawZones(display);
         drawMidBar(display);
         explosion.Draw(display);
@@ -304,7 +297,6 @@ class H2HGameStrip : public animation::Animation {
         break;
 
       case H2HStripDead:
-        drawBackgrounds(display);
         drawZones(display);
         drawMidBar(display);
         // explosion.Draw(display);
@@ -313,7 +305,6 @@ class H2HGameStrip : public animation::Animation {
         break;
 
       case H2HStripDropping:
-        drawBackgrounds(display);
         drawZones(display);
         drawMidBar(display);
         // explosion.Draw(display);
@@ -322,7 +313,6 @@ class H2HGameStrip : public animation::Animation {
         break;
 
       case H2HStripTotalWinA:
-        drawBackgrounds(display);
         // drawZones(display);
         drawMidBar(display);
         explosion.Draw(display);
@@ -332,7 +322,6 @@ class H2HGameStrip : public animation::Animation {
         break;
 
       case H2HStripTotalWinB:
-        drawBackgrounds(display);
         // drawZones(display);
         drawMidBar(display);
         explosion.Draw(display);
@@ -340,30 +329,6 @@ class H2HGameStrip : public animation::Animation {
         dot.Draw(display);
         drawWinB(display);
         break;
-    }
-  }
-
-  void drawBackgrounds(display::Display* display) {
-    // Team A background
-    drawBackgroundA(display);
-
-    // Team B background
-    drawBackgroundB(display);
-  }
-
-  void drawBackgroundA(display::Display* display) {
-    for (size_t y = 0; y < min(midBar, display->size.y); y++) {
-      display->Pixel(stripIndex, y)
-          .setHSV(zoneAHue, 255,
-                  noise_generator->data[stripIndex][y]);  // blue team
-    }
-  }
-
-  void drawBackgroundB(display::Display* display) {
-    for (size_t y = max(midBar, 0); y < heightMax; y++) {
-      display->Pixel(stripIndex, y)
-          .setHSV(zoneBHue, 255,
-                  noise_generator->data[stripIndex][y]);  // red team
     }
   }
 
@@ -383,7 +348,6 @@ class H2HGameStrip : public animation::Animation {
         (time::Now() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
     const static float wave_width = 10;
     const static float half_wave_width = wave_width / 2;
-    drawBackgroundA(display);
     if (timeDiff < 1000) {
       float distance = (float)display->size.y * (float)timeDiff / 1000;
       for (int i = -half_wave_width; i < half_wave_width; i++) {
@@ -400,7 +364,6 @@ class H2HGameStrip : public animation::Animation {
         (time::Now() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
     const static float wave_width = 10;
     const static float half_wave_width = wave_width / 2;
-    drawBackgroundB(display);
     if (timeDiff < 1000) {
       float distance = (float)display->size.y * (float)(1000 - timeDiff) / 1000;
       for (int i = -half_wave_width; i < half_wave_width; i++) {

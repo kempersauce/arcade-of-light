@@ -1,6 +1,7 @@
 #pragma once
 
 #include "animation/electric_arc.h"      // for ElectricArc
+#include "animation/noise.h"             // for NoiseAnimation
 #include "controls/h2h.h"                // for H2HController
 #include "engines/noise.h"               // for NoiseGenerator
 #include "games/game.h"                  // for Game
@@ -15,6 +16,10 @@ namespace kss {
 namespace games {
 namespace h2h {
 
+uint8_t zoneAHue = 138;         // teal
+uint8_t zoneBHue = 5;           // red
+CRGB arc_color = CRGB::Purple;  // Purple
+
 enum H2HGameState {
   H2HGameIdle,
   H2HGameStart,
@@ -26,8 +31,8 @@ enum H2HGameState {
 class Head2Head : public Game {
   display::Display* const instructo_a;
   display::Display* const instructo_b;
-  animation::HueRainbow* const instructo_animation_a;
-  animation::HueRainbow* const instructo_animation_b;
+  animation::NoiseAnimation* const instructo_animation_a;
+  animation::NoiseAnimation* const instructo_animation_b;
 
   H2HGameState gameState;
 
@@ -60,26 +65,27 @@ class Head2Head : public Game {
       : Game(gameDisplay),
         instructo_a{instructo_a},
         instructo_b{instructo_b},
-        instructo_animation_a{
-            instructo_a == NULL
-                ? NULL
-                : new animation::HueRainbow(2, instructo_a->size.y)},
-        instructo_animation_b{
-            instructo_b == NULL
-                ? NULL
-                : new animation::HueRainbow(2, instructo_b->size.y)},
+        instructo_animation_a{instructo_a == NULL
+                                  ? NULL
+                                  : new animation::NoiseAnimation(
+                                        zoneAHue, 20, instructo_a->size)},
+        instructo_animation_b{instructo_b == NULL
+                                  ? NULL
+                                  : new animation::NoiseAnimation(
+                                        zoneBHue, 20, instructo_b->size)},
         idleGame(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},
         noise_generator{gameDisplay->size, 30},
-        electricArc() {
+        electricArc{display->size.width, arc_color} {
     // Initialize each game strip
     gameStrips = new H2HGameStrip*[gameDisplay->size.x];
 
     // Do this one at a time so we can feed it pin numbers and button colors
     for (size_t i = 0; i < gameDisplay->size.x; ++i) {
       gameStrips[i] = new H2HGameStrip(i, gameDisplay->size.y, teamA.buttons[i],
-                                       teamB.buttons[i], &noise_generator);
+                                       teamB.buttons[i], &noise_generator,
+                                       zoneAHue, zoneBHue);
     }
   }
 
@@ -128,6 +134,16 @@ class Head2Head : public Game {
     Debug("Entering Idle State");
     gameState = H2HGameIdle;
     idleGame.setup();
+  }
+
+  void DrawBackground() {
+    noise_generator.fillnoise8();
+    for (size_t x = 0; x < display->size.width; ++x) {
+      for (size_t y = 0; y < display->size.height; ++y) {
+        uint8_t hue = y < electricArc.arc[x] ? zoneAHue : zoneBHue;
+        display->Pixel(x, y) = CHSV(hue, 255, noise_generator.data[x][y]);
+      }
+    }
   }
 
   void loop() override {
@@ -232,10 +248,12 @@ class Head2Head : public Game {
       case H2HGamePlaying:
       case H2HGameWinA:
       case H2HGameWinB:
+        electricArc.yLocation = H2HGameStrip::midBar;
+        electricArc.Move();
+        DrawBackground();
         for (size_t i = 0; i < display->size.x; i++) {
           gameStrips[i]->Draw(display);
         }
-        electricArc.yLocation = H2HGameStrip::midBar;
         electricArc.Draw(display);
         break;
     }
