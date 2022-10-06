@@ -3,7 +3,6 @@
 #include "animation/animation.h"    // for Animation
 #include "animation/explosion.h"    // for Explosion
 #include "controls/button.h"        // for Button
-#include "engines/noise.h"          // for NoiseGenerator
 #include "games/head2head/audio.h"  // for H2HAudio
 #include "games/head2head/dot.h"    // for H2HDot
 #include "games/head2head/zone.h"   // for H2HZone
@@ -69,8 +68,7 @@ class H2HGameStrip : public animation::Animation {
   controls::Button* buttonB;
 
   H2HGameStrip(size_t stripIndex, size_t stripHeight, controls::Button* a,
-               controls::Button* b, engines::NoiseGenerator* noise,
-               uint8_t zoneAHue, uint8_t zoneBHue)
+               controls::Button* b, uint8_t zoneAHue, uint8_t zoneBHue)
       : Animation(),
         dot(CRGB::White, stripIndex),
         zoneA(CRGB::White, stripIndex, 0, 22, false),

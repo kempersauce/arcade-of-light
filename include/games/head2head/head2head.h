@@ -57,7 +57,7 @@ class Head2Head : public Game {
   animation::ElectricArc electricArc;
 
  public:
-  H2HGameStrip** gameStrips;  // one for each strip
+  std::vector<H2HGameStrip*> gameStrips;  // one for each strip
 
   Head2Head(display::Display* gameDisplay, display::Display* instructo_a,
             display::Display* instructo_b, controls::H2HController teamA,
@@ -75,13 +75,11 @@ class Head2Head : public Game {
         noise_generator{gameDisplay->size, 30},
         electricArc{display->size.width, arc_color} {
     // Initialize each game strip
-    gameStrips = new H2HGameStrip*[gameDisplay->size.x];
-
     // Do this one at a time so we can feed it pin numbers and button colors
-    for (size_t i = 0; i < gameDisplay->size.x; ++i) {
-      gameStrips[i] = new H2HGameStrip(i, gameDisplay->size.y, teamA.buttons[i],
-                                       teamB.buttons[i], &noise_generator,
-                                       zoneAHue, zoneBHue);
+    for (size_t i = 0; i < gameDisplay->size.width; ++i) {
+      gameStrips.push_back(new H2HGameStrip(i, gameDisplay->size.height,
+                                            teamA.buttons[i], teamB.buttons[i],
+                                            zoneAHue, zoneBHue));
     }
   }
 
@@ -99,8 +97,8 @@ class Head2Head : public Game {
     // dont forget to take this out lol
     audioA.ItsTimeToDuel();
     audioB.ItsTimeToDuel();
-    for (size_t i = 0; i < display->size.x; i++) {
-      gameStrips[i]->reset();
+    for (auto game_strip : gameStrips) {
+      game_strip->reset();
     }
   }
 
@@ -110,8 +108,8 @@ class Head2Head : public Game {
     audioA.playTeamAWinGame();
     audioB.playTeamAWinGame();
     gameState = H2HGameWinA;
-    for (size_t i = 0; i < display->size.x; i++) {
-      gameStrips[i]->enterTotalWinAState();
+    for (auto game_strip : gameStrips) {
+      game_strip->enterTotalWinAState();
     }
     totalWinStart = time::Now();
   }
@@ -120,8 +118,8 @@ class Head2Head : public Game {
     audioA.playTeamBWinGame();
     audioB.playTeamBWinGame();
     gameState = H2HGameWinB;
-    for (size_t i = 0; i < display->size.x; i++) {
-      gameStrips[i]->enterTotalWinBState();
+    for (auto game_strip : gameStrips) {
+      game_strip->enterTotalWinBState();
     }
     totalWinStart = time::Now();
   }
@@ -195,15 +193,15 @@ class Head2Head : public Game {
         // Generate noise
         noise_generator.fillnoise8();
 
-        for (size_t i = 0; i < display->size.x; i++) {
-          gameStrips[i]->checkGameState(audioA, audioB);
+        for (auto game_strip : gameStrips) {
+          game_strip->checkGameState(audioA, audioB);
         }
 
-        for (size_t i = 0; i < display->size.x; i++) {
-          if (gameStrips[i]->stripState == H2HStripTotalWinA) {
+        for (auto game_strip : gameStrips) {
+          if (game_strip->stripState == H2HStripTotalWinA) {
             enterWinAState();
             break;
-          } else if (gameStrips[i]->stripState == H2HStripTotalWinB) {
+          } else if (game_strip->stripState == H2HStripTotalWinB) {
             enterWinBState();
             break;
           }
@@ -247,8 +245,8 @@ class Head2Head : public Game {
         electricArc.yLocation = H2HGameStrip::midBar;
         electricArc.Move();
         DrawBackground();
-        for (size_t i = 0; i < display->size.x; i++) {
-          gameStrips[i]->Draw(display);
+        for (auto game_strip : gameStrips) {
+          game_strip->Draw(display);
         }
         electricArc.Draw(display);
         break;
