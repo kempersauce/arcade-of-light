@@ -8,15 +8,30 @@
 namespace kss {
 namespace animation {
 
-class WaveOut : public Animation {
+namespace _wave_out {
+
+class WaveOutBase : public Animation {
+ public:
+  static constexpr float SPEED_SLOW{-0.01f};
+  static constexpr float SPEED_FAST{-0.04f};
+
   math::SineWaveGenerator wave;
 
- public:
   uint8_t hue;
+  uint8_t sat;
 
-  WaveOut(uint8_t hue) : Animation(), wave{10, 1, -.01}, hue{hue} {}
+  WaveOutBase(uint8_t hue, uint8_t sat)
+      : Animation(), wave{10, 1, SPEED_SLOW}, hue{hue}, sat{sat} {}
+  virtual ~WaveOutBase() = default;
 
   void Move() override { wave.Move(); }
+};
+
+}  // namespace _wave_out
+
+class WaveOut : public _wave_out::WaveOutBase {
+ public:
+  WaveOut(uint8_t hue, uint8_t sat = 255) : WaveOutBase(hue, sat) {}
 
   void Draw(display::Display* display) override {
     const math::Vector2D<float> center{0, display->size.height / 2.0f};
@@ -25,21 +40,15 @@ class WaveOut : public Animation {
       for (size_t y = 0; y < display->size.y; ++y) {
         dist.y = center.y - (float)y;
         const uint8_t val = (wave.GetVal(dist.GetMagnitude()) + 1.0f) * 128;
-        display->Pixel(x, y).setHSV(hue, 255, val);
+        display->Pixel(x, y).setHSV(hue, sat, val);
       }
     }
   }
 };
 
-class WaveOut2 : public Animation {
-  math::SineWaveGenerator wave;
-
+class WaveOut2 : public _wave_out::WaveOutBase {
  public:
-  uint8_t hue;
-
-  WaveOut2(uint8_t hue) : Animation(), wave{10, 1, -.01}, hue{hue} {}
-
-  void Move() override { wave.Move(); }
+  WaveOut2(uint8_t hue, uint8_t sat = 255) : WaveOutBase(hue, sat) {}
 
   void Draw(display::Display* display) override {
     const math::Vector2D<float> center_a{display->size.width - 1, 0.0f};
@@ -54,7 +63,7 @@ class WaveOut2 : public Animation {
         const uint8_t val = (wave.GetVal(dist_a.GetMagnitude()) / 2 +
                              wave.GetVal(dist_b.GetMagnitude()) / 2 + 1.0f) *
                             128;
-        display->Pixel(x, y).setHSV(hue, 255, val);
+        display->Pixel(x, y).setHSV(hue, sat, val);
       }
     }
   }

@@ -31,8 +31,8 @@ enum H2HGameState {
 class Head2Head : public Game {
   display::Display* const instructo_a;
   display::Display* const instructo_b;
-  animation::WaveOut* const instructo_animation_a;
-  animation::WaveOut* const instructo_animation_b;
+  animation::WaveOut2* const instructo_animation_a;
+  animation::WaveOut2* const instructo_animation_b;
 
   H2HGameState gameState;
 
@@ -66,9 +66,9 @@ class Head2Head : public Game {
         instructo_a{instructo_a},
         instructo_b{instructo_b},
         instructo_animation_a{
-            instructo_a == NULL ? NULL : new animation::WaveOut(zoneAHue)},
+            instructo_a == NULL ? NULL : new animation::WaveOut2(zoneAHue)},
         instructo_animation_b{
-            instructo_b == NULL ? NULL : new animation::WaveOut(zoneBHue)},
+            instructo_b == NULL ? NULL : new animation::WaveOut2(zoneBHue)},
         idleGame(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},

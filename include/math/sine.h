@@ -21,6 +21,7 @@ class SineWaveGenerator {
 
   SineWaveGenerator(float wavelength, float amplitude, float speed)
       : wavelength{wavelength}, amplitude{amplitude}, speed{speed} {}
+  virtual ~SineWaveGenerator() = default;
 
   void Move() {
     distance_offset =
@@ -35,8 +36,7 @@ class SineWaveGenerator {
   }
 };
 
-class SineWaveGeneratorRamped {
-  SineWaveGenerator wave;
+class SineWaveGeneratorRamped : public SineWaveGenerator {
   bool is_active{false};
 
   static constexpr uint32_t ramp_time_millis{100};
@@ -45,7 +45,7 @@ class SineWaveGeneratorRamped {
 
  public:
   SineWaveGeneratorRamped(float wavelength, float amplitude, float speed)
-      : wave{wavelength, amplitude, speed} {}
+      : SineWaveGenerator(wavelength, amplitude, speed) {}
 
   void On() {
     is_active = true;
@@ -57,9 +57,7 @@ class SineWaveGeneratorRamped {
     switch_time = time::Now();
   }
 
-  void Move() { wave.Move(); }
-
-  float GetVal(const float distance) const {
+  float GetVal(const float distance) const override {
     const uint32_t time_since_switch = time::Now() - switch_time;
     float ramp;
 
@@ -83,7 +81,7 @@ class SineWaveGeneratorRamped {
       ramp = 1;
     }
 
-    return ramp * wave.GetVal(distance);
+    return ramp * SineWaveGenerator::GetVal(distance);
   }
 };
 
