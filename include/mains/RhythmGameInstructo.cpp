@@ -40,6 +40,7 @@ void setup() {
 
   Debug("game created");
 
+  time::SetLoopTime();
   game->setup();
 
   Debug("End setup()");

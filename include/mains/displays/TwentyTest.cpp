@@ -18,12 +18,12 @@ void setup() {
   Debug_init();
   pins::Init();
   time::Init();
+
   gameDisplay = (display::Display*)new display::fast_led::TwentyDisplay();
 
   game = (games::Game*)new games::noise::NoiseGame(gameDisplay);
   time::SetLoopTime();
   game->setup();
-  gameDisplay->Show();
 }
 
 void loop() {

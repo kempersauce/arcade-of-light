@@ -30,6 +30,7 @@ void setup() {
   game = new games::rocket::RocketGame(&gameDisplay->main_display,
                                        &gameDisplay->instructo_a, controller);
 
+  time::SetLoopTime();
   game->setup();
   Debug("Setup Complete");
 }
