@@ -42,11 +42,11 @@ class NoiseGenerator {
   uint16_t y{math::random::Int16()};
   uint16_t z{math::random::Int16()};
 
-  NoiseGenerator(const math::Dimension& size, float speed = 20)
+  NoiseGenerator(const math::Dimension size, float speed = 20)
       : size{size}, speed{speed} {
     data = new uint8_t*[size.x];
-    for (size_t i = 0; i < size.y; i++) {
-      data[i] = new uint8_t[size.y];
+    for (size_t x = 0; x < size.x; x++) {
+      data[x] = new uint8_t[size.y];
     }
   }
 
