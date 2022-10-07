@@ -1,16 +1,16 @@
 #pragma once
 
-#include "animation/electric_arc.h"      // for ElectricArc
-#include "animation/wave_out.h"          // for WaveOut
-#include "controls/h2h.h"                // for H2HController
-#include "engines/noise.h"               // for NoiseGenerator
-#include "games/game.h"                  // for Game
-#include "games/head2head/audio.h"       // for H2HAudio
-#include "games/head2head/dot.h"         // for H2HDot
-#include "games/head2head/game_strip.h"  // for H2HGameStrip
-#include "games/head2head/zone.h"        // for H2HZone
-#include "games/rainbow/rainbow.h"       // for RainbowGame
-#include "time/now.h"                    // for Now
+#include "animation/electric_arc.h"              // for ElectricArc
+#include "controls/h2h.h"                        // for H2HController
+#include "engines/noise.h"                       // for NoiseGenerator
+#include "games/game.h"                          // for Game
+#include "games/head2head/audio.h"               // for H2HAudio
+#include "games/head2head/dot.h"                 // for H2HDot
+#include "games/head2head/game_strip.h"          // for H2HGameStrip
+#include "games/head2head/h2h_instructo_game.h"  // for H2HInstructoGame
+#include "games/head2head/zone.h"                // for H2HZone
+#include "games/rainbow/rainbow.h"               // for RainbowGame
+#include "time/now.h"                            // for Now
 
 namespace kss {
 namespace games {
@@ -29,10 +29,8 @@ enum H2HGameState {
 };
 
 class Head2Head : public Game {
-  display::Display* const instructo_a;
-  display::Display* const instructo_b;
-  animation::WaveOut2* const instructo_animation_a;
-  animation::WaveOut2* const instructo_animation_b;
+  H2HInstructoGame* const instructo_a;
+  H2HInstructoGame* const instructo_b;
 
   H2HGameState gameState;
 
@@ -63,12 +61,12 @@ class Head2Head : public Game {
             display::Display* instructo_b, controls::H2HController teamA,
             controls::H2HController teamB)
       : Game(gameDisplay),
-        instructo_a{instructo_a},
-        instructo_b{instructo_b},
-        instructo_animation_a{
-            instructo_a == NULL ? NULL : new animation::WaveOut2(zoneAHue)},
-        instructo_animation_b{
-            instructo_b == NULL ? NULL : new animation::WaveOut2(zoneBHue)},
+        instructo_a{instructo_a == NULL
+                        ? NULL
+                        : new H2HInstructoGame(instructo_a, zoneAHue)},
+        instructo_b{instructo_b == NULL
+                        ? NULL
+                        : new H2HInstructoGame(instructo_b, zoneBHue)},
         idleGame(gameDisplay),
         teamA{std::move(teamA)},
         teamB{std::move(teamB)},
@@ -77,13 +75,21 @@ class Head2Head : public Game {
     // Initialize each game strip
     // Do this one at a time so we can feed it pin numbers and button colors
     for (size_t i = 0; i < gameDisplay->size.width; ++i) {
-      gameStrips.push_back(new H2HGameStrip(i, gameDisplay->size.height,
-                                            teamA.buttons[i], teamB.buttons[i],
-                                            zoneAHue, zoneBHue));
+      gameStrips.push_back(new H2HGameStrip(
+          i, gameDisplay->size.height, teamA.buttons[i], teamB.buttons[i],
+          zoneAHue, zoneBHue, this->instructo_a, this->instructo_b));
     }
   }
 
   void setup() {
+    if (instructo_a != NULL) {
+      instructo_a->setup();
+    }
+
+    if (instructo_b != NULL) {
+      instructo_b->setup();
+    }
+
     enterStartState();
     // enterWinBState();
   }
@@ -252,16 +258,14 @@ class Head2Head : public Game {
         break;
     }
 
-    // Draw instructos
+    // Run instructos
 
     if (instructo_a != NULL) {
-      instructo_animation_a->Move();
-      instructo_animation_a->Draw(instructo_a);
+      instructo_a->loop();
     }
 
     if (instructo_b != NULL) {
-      instructo_animation_b->Move();
-      instructo_animation_b->Draw(instructo_b);
+      instructo_b->loop();
     }
   }
 };

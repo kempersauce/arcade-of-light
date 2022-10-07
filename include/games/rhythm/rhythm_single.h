@@ -7,6 +7,7 @@
 #include "animation/charge_full.h"                    // for ChargeBar
 #include "animation/exploder.h"                       // for Exploder
 #include "animation/explosion.h"                      // for Explosion
+#include "animation/explosions.h"                     // for Explosions
 #include "animation/sine_wave.h"                      // for SineWave
 #include "animation/single_color_background.h"        // for SingleColorBG
 #include "animation/single_color_block.h"             // for SingleColorBlock
@@ -67,7 +68,7 @@ class RhythmGameSingle : public Game {
   animation::SingleColorBlock hit_bar;
 
   // Explosions for when you do good
-  std::vector<animation::Explosion> explosions;
+  animation::Explosions explosions;
 
   // Success tracking
   uint16_t on_beat_count{0};  // Debug, start almost there
@@ -85,7 +86,11 @@ class RhythmGameSingle : public Game {
                                         : (PlayerInterface*)new SynthInterface(
                                               &this->controller, player_no)},
         wave_pulse_stars{
-            {display->size.height / 6, 0, noise_generator == NULL ? (noise_generator = new engines::NoiseGenerator(display->size, 7)) : noise_generator,
+            {display->size.height / 6, 0,
+             noise_generator == NULL
+                 ? (noise_generator =
+                        new engines::NoiseGenerator(display->size, 7))
+                 : noise_generator,
              kPlayerHues[player_no]},
             {display->size.height / 6, 1, noise_generator,
              kPlayerHues[player_no]},
@@ -175,18 +180,6 @@ class RhythmGameSingle : public Game {
     explosions.back().SetGravity(250);
     explosions.back().ExplodeAt(display->size.width * 3 / 4, hit_bar_height,
                                 {0, -15});
-  }
-
-  void MoveExplosions() {
-    // Remove dead explosives
-    for (auto it = explosions.begin(); it < explosions.end();) {
-      it->Move();
-      if (it->IsBurnedOut()) {
-        it = explosions.erase(it);
-      } else {
-        ++it;
-      }
-    }
   }
 
   void SetWavePulseShadow() {
@@ -304,7 +297,7 @@ class RhythmGameSingle : public Game {
     charge_full.Move();
     hit_bar.Move();
 
-    MoveExplosions();
+    explosions.Move();
 
     // Draw Time
     background.Draw(display);
@@ -331,9 +324,7 @@ class RhythmGameSingle : public Game {
 
     hit_bar.Draw(display);
 
-    for (auto& explody : explosions) {
-      explody.Draw(display);
-    }
+    explosions.Draw(display);
   }
 };
 
