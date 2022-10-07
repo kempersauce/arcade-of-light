@@ -9,6 +9,7 @@
 #include "games/life/single_player.h"  // for LifeGameSinglePlayer
 #include "pins/pin_setup.h"            // for pins::*
 #include "serial/debug.h"              // for Debug
+#include "time/now.h"                  // for time::*
 
 using namespace kss;
 
@@ -19,6 +20,7 @@ controls::hardware::Simple control_context;
 void setup() {
   Debug_init();
   pins::Init();
+  time::Init();
 
   gameDisplay = (display::Display*)new display::fast_led::FiveDisplay();
 
@@ -31,11 +33,13 @@ void setup() {
 
   game =
       (games::Game*)new games::life::LifeGameSinglePlayer(gameDisplay, dirPad);
+  time::SetLoopTime();
   game->setup();
   gameDisplay->Show();
 }
 
 void loop() {
+  time::SetLoopTime();
   control_context.PollAll();
   game->loop();
   gameDisplay->Show();

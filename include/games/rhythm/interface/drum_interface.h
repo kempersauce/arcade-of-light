@@ -26,9 +26,9 @@ class DrumInterface : public PlayerInterface {
 
  public:
   DrumInterface(controls::RhythmController* controller, uint8_t serial_no)
-      : PlayerInterface(controller, serial_no) {
-    track.Play();
-  }
+      : PlayerInterface(controller, serial_no) {}
+
+  void Start() override { track.Play(); }
 
   void Update() override {
     for (uint8_t i = 0; i < controller->button_count; ++i) {

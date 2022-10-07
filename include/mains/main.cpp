@@ -39,6 +39,7 @@
 #include "test/multi_game.h"                    // for MultiGameTest
 #include "test/serial.h"                        // for SerialTest
 #include "test/single_color.h"                  // for SingleColorTest
+#include "time/now.h"                           // for time::*
 
 using namespace kss;
 
@@ -53,6 +54,7 @@ void setup() {
 
   Debug_init();
   pins::Init();
+  time::Init();
 
   Debug("Begin setup()");
 
@@ -108,6 +110,7 @@ void setup() {
 
   Debug("game created");
 
+  time::SetLoopTime();
   game->setup();
   Debug("game setup complete");
 
@@ -118,7 +121,7 @@ void setup() {
 }
 
 void loop() {
-  Debug_here();
+  time::SetLoopTime();
 
   game->loop();
 

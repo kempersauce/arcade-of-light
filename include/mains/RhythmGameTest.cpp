@@ -35,7 +35,7 @@ void setup() {
 
   controls::RhythmController dir_pad{control_context, 0};
 
-  game = new games::rhythm::RhythmGameSingle(&disp->main_display, dir_pad);
+  game = new games::rhythm::RhythmGameSingle(&disp->main_display, dir_pad, 0);
 
   Debug("game created");
 
