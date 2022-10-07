@@ -2,24 +2,28 @@
 
 #include <vector>  // for vector
 
-#include "animation/animation.h"                // for Animation
-#include "animation/charge_bar.h"               // for ChargeBar
-#include "animation/charge_full.h"              // for ChargeBar
-#include "animation/exploder.h"                 // for Exploder
-#include "animation/explosion.h"                // for Explosion
-#include "animation/noise.h"                    // for NoiseAnimation
-#include "animation/sine_wave.h"                // for SineWave
-#include "animation/single_color_background.h"  // for SingleColorBG
-#include "animation/single_color_block.h"       // for SingleColorBlock
-#include "animation/wave_pulse.h"               // for WavePulse
-#include "animation/wave_pulse_stars.h"         // for WavePulseStars
-#include "audio/synth_sender_raw.h"             // for SynthSenderRaw
-#include "controls/rhythm.h"                    // for RhythmController
-#include "games/game.h"                         // for Game
-#include "math/random.h"                        // for random::*
-#include "serial/debug.h"                       // for Debug
-#include "serial/hw_serials.h"                  // for kHwSerials
-#include "time/now.h"                           // for Now
+#include "animation/animation.h"                      // for Animation
+#include "animation/charge_bar.h"                     // for ChargeBar
+#include "animation/charge_full.h"                    // for ChargeBar
+#include "animation/exploder.h"                       // for Exploder
+#include "animation/explosion.h"                      // for Explosion
+#include "animation/noise.h"                          // for NoiseAnimation
+#include "animation/sine_wave.h"                      // for SineWave
+#include "animation/single_color_background.h"        // for SingleColorBG
+#include "animation/single_color_block.h"             // for SingleColorBlock
+#include "animation/wave_pulse.h"                     // for WavePulse
+#include "animation/wave_pulse_stars.h"               // for WavePulseStars
+#include "audio/synth_sender_raw.h"                   // for SynthSenderRaw
+#include "controls/rhythm.h"                          // for RhythmController
+#include "games/game.h"                               // for Game
+#include "games/rhythm/constants.h"  // for k*
+#include "games/rhythm/interface/drum_interface.h"    // for DrumInterface
+#include "games/rhythm/interface/player_interface.h"  // for PlayerInterface
+#include "games/rhythm/interface/synth_interface.h"   // for SynthInterface
+#include "math/random.h"                              // for random::*
+#include "serial/debug.h"                             // for Debug
+#include "serial/hw_serials.h"                        // for kHwSerials
+#include "time/now.h"                                 // for Now
 
 namespace kss {
 namespace games {
@@ -38,19 +42,6 @@ constexpr uint8_t bg_brightness_diff{bg_brightness_max - bg_brightness_base};
 
 constexpr uint32_t bg_pulse_fade_millis{beat_length_millis / 2};
 constexpr uint32_t bg_pulse_ramp_millis{85};
-constexpr uint8_t player_hues[4]{
-    0,    // red
-    45,   // yellow
-    130,  // teal
-    200,  // lavendar
-};
-
-constexpr uint8_t player_offhues[4]{
-    128 + 0,    // not red
-    128 + 45,   // not yellow
-    128 + 130,  // not teal
-    128 + 200,  // not lavendar
-};
 
 }  // namespace _rhythm_single
 using namespace _rhythm_single;
@@ -62,9 +53,7 @@ class RhythmGameSingle : public Game {
 
   // Sticks
   controls::RhythmController controller;
-
-  // Sounds
-  audio::SynthSenderRaw synth;
+  PlayerInterface* const player_interface;
 
   // Animations
   animation::SingleColorBG background;
@@ -92,21 +81,24 @@ class RhythmGameSingle : public Game {
       : Game(display),
         player_no{player_no},
         controller{controller},
-        synth{serial::kHwSerials[player_no]},
+        player_interface{player_no == 0 ? (PlayerInterface*)new DrumInterface(
+                                              &this->controller, player_no)
+                                        : (PlayerInterface*)new SynthInterface(
+                                              &this->controller, player_no)},
         wave_pulse_stars{
             {display->size.height / 6, 0, display->size,
-             player_hues[player_no]},
+             kPlayerHues[player_no]},
             {display->size.height / 6, 1, display->size,
-             player_hues[player_no]},
+             kPlayerHues[player_no]},
             {display->size.height / 6, 1, display->size,
-             player_hues[player_no]},
+             kPlayerHues[player_no]},
             {display->size.height / 6, 1, display->size,
-             player_hues[player_no]},
+             kPlayerHues[player_no]},
         },
-        noise_block{player_hues[player_no],
+        noise_block{kPlayerHues[player_no],
                     20,
                     {display->size.width, display->size.height / 4}},
-        sine_wave{CHSV(player_offhues[player_no], 255, 255), 0.5},
+        sine_wave{CHSV(kPlayerOffhues[player_no], 255, 255), 0.5},
         wave_pulse{
             {15, 0, CRGB::DarkGray},
             {5, 1, CRGB::DarkGray},
@@ -145,9 +137,6 @@ class RhythmGameSingle : public Game {
 
       // Move the block animation up the tower
       noise_block.location.y = beat * display->size.height / 4;
-
-      // Trigger the click track to the audio chip
-      synth.SendClickTrack(beat);
 
       //   Debug("BEAT!");
       //   Debug_var(metronome_last_hit);
@@ -310,14 +299,15 @@ class RhythmGameSingle : public Game {
     // Update metronome first to get our timestamps right
     UpdateMetronome();
 
+    // Play music! That's the whole game!
+    player_interface->Update();
+
     for (uint8_t i = 0; i < controller.button_count; ++i) {
       auto& wave = sine_wave.waves[i % sine_wave.waves.size()];
       if (controller.buttons[i]->IsDepressing()) {
-        synth.StartInput(i);
         wave.On();
       }
       if (controller.buttons[i]->IsReleasing()) {
-        synth.StopInput(i);
         wave.Off();
       }
     }

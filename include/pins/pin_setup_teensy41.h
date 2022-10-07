@@ -22,7 +22,8 @@ constexpr size_t LedCount{20};
 constexpr uint8_t Leds[LedCount]{18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
                                  28, 29, 30, 31, 32, 33, 34, 35, 36, 37};
 
-constexpr uint8_t LedInstructo{Leds[12]};
+constexpr size_t LedInstructoCount{2};
+constexpr uint8_t LedInstructo[LedInstructoCount]{Leds[12], Leds[16]};
 
 // Dips: 38-41
 constexpr size_t DipCount{4};
