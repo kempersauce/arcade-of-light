@@ -42,8 +42,8 @@ AudioConnection patchCordOut2(mixerMain, 0, i2s1, 1);
 
 class DrumWav {
 
-  const String glitches[4] = {"GLITCH1.WAV", "GLITCH2.WAV", "GLITCH3.WAV", "GLITCH4.WAV"};
-  const uint8_t total_glitches = 4;
+  const String glitches[6] = {"GLITCH1.WAV", "GLITCH2.WAV", "GLITCH3.WAV", "GLITCH4.WAV", "GLITCH5.WAV", "GLITCH6.WAV"};
+  const uint8_t total_glitches = 6;
 
  public:
   DrumWav() { Debug("Pa rum pa pa pum"); }

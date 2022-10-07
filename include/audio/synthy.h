@@ -173,7 +173,9 @@ AudioOutputI2S i2s1;
 AudioMixer4 effectMixer;
 AudioMixer4 mixer1;
 AudioMixer4 mixer2;
-// AudioEffectDelay delay1;
+
+AudioMixer4 delayMixer;
+AudioEffectDelay delay;
 
 AudioMixer4 mixerMaster;
 
@@ -201,6 +203,14 @@ AudioConnection patchCordRawWave3(waveforms[2].envelope, 0, mixer1, 0);
 AudioConnection patchCordRawWave4(waveforms[3].envelope, 0, mixer1, 1);
 AudioConnection patchCordRawWave5(waveforms[4].envelope, 0, mixer1, 2);
 AudioConnection patchCordRawWave6(waveforms[5].envelope, 0, mixer1, 3);
+
+AudioConnection patchCordDelayEffect(mixer1, delay);
+AudioConnection patchCordDelayReturn(delay, 0, mixer2, 1);
+AudioConnection patchCordDelayReturn(delay, 1, mixer2, 2);
+AudioConnection patchCordDelayReturn(delay, 2, mixer2, 3);
+
+AudioConnection patchCordMixers(mixer1, 0, mixer2, 0);
+
 // EffectMixer - add reverb
 // AudioConnection patchCordEffect1(waveforms[4].envelope, delay1);
 // AudioConnection patchCordEffect2(delay1, 0, effectMixer, 0);
@@ -212,8 +222,8 @@ AudioConnection patchCordRawWave6(waveforms[5].envelope, 0, mixer1, 3);
 // AudioConnection patchCordMaster2(mixer1, 0, mixerMaster, 1);
 
 // final output
-AudioConnection patchCordFinalL(mixer1, 0, i2s1, 0);
-AudioConnection patchCordFinalR(mixer1, 0, i2s1, 1);
+AudioConnection patchCordFinalL(mixer2, 0, i2s1, 0);
+AudioConnection patchCordFinalR(mixer2, 0, i2s1, 1);
 
 }  // namespace _synthy
 using namespace _synthy;
@@ -229,6 +239,10 @@ class Synthy {
   boolean sequencerOn = false;
 
   size_t i = 0;
+
+  int delaylevel = 0;
+  int delaytime = 500;  // millis
+  int delayfeedback = 63;
 
   Synthy() { Debug("hello"); };
 
@@ -248,6 +262,12 @@ class Synthy {
     // delay1.delay(0, 110);
     // delay1.delay(1, 220);
     // delay1.delay(2, 330);
+    delaylevel = 0.5;
+    delay.delay(0, delaytime);
+    delayMixer.gain(0, 0.75);
+    delayMixer.gain(1, delayfeedback / 127.0);
+    delayMixer.gain(2, delayfeedback / 127.0);
+    delayMixer.gain(3, delayfeedback / 127.0);
 
     Debug("setup done");
     AudioProcessorUsageMaxReset();

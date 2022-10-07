@@ -11,6 +11,9 @@
 #include "serial/debug.h"       // for Debug
 #include "time/now.h"           // for Now
 
+#define CHORUS_DELAY_LENGTH (16*AUDIO_BLOCK_SAMPLES)
+
+
 namespace kss {
 namespace audio {
 namespace _synthy_poly {
@@ -40,18 +43,12 @@ AudioMixer4 mixer1;
 AudioMixer4 mixer2;
 // AudioEffectDelay delay1;
 
-AudioMixer4 mixerMaster;
+AudioMixer4 mixerMasterL;
+AudioMixer4 mixerMasterR;
 
 // CHORUS EFFECT
 AudioEffectChorus l_chorusEffect;
 AudioEffectChorus r_chorusEffect;
-// Number of samples in each delay line
-// #define CHORUS_DELAY_LENGTH (16 * AUDIO_BLOCK_SAMPLES)
-// Allocate the delay lines for left and right channels
-// short l_delayline[CHORUS_DELAY_LENGTH];
-// short r_delayline[CHORUS_DELAY_LENGTH];
-// number of "voices" in the chorus which INCLUDES the original voice
-// int n_chorus = 5;
 
 AudioConnection patchEnv0(wave0, envelope0);
 AudioConnection patchEnv1(wave1, envelope1);
@@ -69,17 +66,18 @@ AudioConnection patchCord4(envelope4, 0, mixer1, 3);
 AudioConnection patchCord5(envelope5, 0, mixer2, 0);
 
 AudioConnection patchFilter1(mixer1, 0, filter1, 0);
-// AudioConnection patchFilter2(lfo1, 0, filter1, 1);
-// AudioConnection patchFilter3(lfo2, 0, filter1, 2);
 AudioConnection patchFilter4(mixer2, 0, filter2, 0);
 
-// AudioConnection patchEnv1(filter1, 0, envelope, 0);
+AudioConnection patchChorus0(filter1, 2, l_chorusEffect, 0);
+AudioConnection patchChorus1(filter1, 2, r_chorusEffect, 0);
 
-AudioConnection patchMaster1(filter1, 0, mixerMaster, 0);
-AudioConnection patchMaster2(filter2, 0, mixerMaster, 1);
+AudioConnection patchMaster0(filter2, 0, mixerMasterL, 1);
+AudioConnection patchMaster1(filter2, 0, mixerMasterR, 1);
+AudioConnection patchMaster2(l_chorusEffect, 0, mixerMasterL, 1);
+AudioConnection patchMaster3(r_chorusEffect, 0, mixerMasterR, 1);
 
-AudioConnection patchCordFinalL(mixerMaster, 0, i2s1, 0);
-AudioConnection patchCordFinalR(mixerMaster, 0, i2s1, 1);
+AudioConnection patchCordFinalL(mixerMasterL, 0, i2s1, 0);
+AudioConnection patchCordFinalR(mixerMasterR, 0, i2s1, 1);
 
 }  // namespace _synthy_poly
 using namespace _synthy_poly;
@@ -108,6 +106,13 @@ class SynthyPoly {
   uint32_t next_hit = 250;
   uint32_t beat_start;
 
+  int n_chorus = 6;
+  short l_delayline[CHORUS_DELAY_LENGTH];
+  int s_idx = 2*CHORUS_DELAY_LENGTH/4;
+  int s_depth = CHORUS_DELAY_LENGTH/4;
+  short r_delayline[CHORUS_DELAY_LENGTH];
+  
+
   SynthyPoly() { Debug("hello"); };
 
   const void InitSynth() {
@@ -124,7 +129,7 @@ class SynthyPoly {
     filter2.setHighpass(0, 800, 0.3);
 
     // set up envelopes
-    envelope0.attack(1);
+    envelope0.attack(150);
     envelope0.hold(100);
     envelope0.decay(200);
     envelope0.sustain(0.5);
@@ -160,24 +165,38 @@ class SynthyPoly {
     envelope5.sustain(0.5);
     envelope5.release(200);
 
-    mixer1.gain(3, 0.3);
-    mixer1.gain(2, 0.3);
-    mixer1.gain(1, 0.3);
-    mixer1.gain(0, 0.3);
+    mixer1.gain(3, 0.8);
+    mixer1.gain(2, 0.8);
+    mixer1.gain(1, 0.8);
+    mixer1.gain(0, 0.8);
     mixer2.gain(0, 0.5);
     mixer2.gain(1, 0.4);
 
-    // lfo1.frequency(0.2);
-    // lfo1.amplitude(0.99);
-    // lfo1.phase(270);
-    // lfo1.begin(WAVEFORM_TRIANGLE);
-    // lfo2.frequency(0.07);
-    // lfo2.amplitude(0.55);
-    // lfo2.phase(270);
-    // lfo2.begin(WAVEFORM_SINE);
     // add effect
-    // l_chorusEffect.voices(n_chorus);
-    // r_chorusEffect.voices(n_chorus);
+
+    // Initialize the effect - left channel
+    // address of delayline
+    // total number of samples in the delay line
+    // number of voices in the chorus INCLUDING the original voice
+    // l_chorusEffect.begin(l_delayline, CHORUS_DELAY_LENGTH, n_chorus);
+    if (!l_chorusEffect.begin(l_delayline, CHORUS_DELAY_LENGTH, n_chorus)) {
+      Serial.println("AudioEffectChorus - left channel begin failed");
+      while (1)
+        ;
+    }
+
+    // Initialize the effect - right channel
+    // address of delayline
+    // total number of samples in the delay line
+    // number of voices in the chorus INCLUDING the original voice
+    // r_chorusEffect.begin(r_delayline, CHORUS_DELAY_LENGTH, n_chorus);
+    if (!r_chorusEffect.begin(r_delayline, CHORUS_DELAY_LENGTH, n_chorus)) {
+      Serial.println("AudioEffectChorus - left channel begin failed");
+      while (1)
+        ;
+    }
+    l_chorusEffect.voices(n_chorus);
+    r_chorusEffect.voices(n_chorus);
 
     wave0.begin(1, notes::C[2], WAVEFORM_SQUARE);
     wave1.begin(1, Cmajor[0], WAVEFORM_BANDLIMIT_SAWTOOTH);
@@ -242,6 +261,7 @@ class SynthyPoly {
   const void stopArp() {
     arpOn = false;
     Debug("ARP OFF");
+    Debug("AUDIO_BLOCK_SAMPLES: " + AUDIO_BLOCK_SAMPLES);
     envelope5.noteOff();
   }
 
