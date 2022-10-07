@@ -135,7 +135,7 @@ class Head2Head : public Game {
     for (size_t x = 0; x < display->size.width; ++x) {
       for (size_t y = 0; y < display->size.height; ++y) {
         uint8_t hue = y < electricArc.arc[x] ? zoneAHue : zoneBHue;
-        display->Pixel(x, y) = CHSV(hue, 255, noise_generator.data[x][y]);
+        display->Pixel(x, y) = CHSV(hue, 255, noise_generator.Data(x, y));
       }
     }
   }

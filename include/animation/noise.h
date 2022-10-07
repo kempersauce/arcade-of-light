@@ -46,17 +46,17 @@ class NoiseAnimation : public Animation {
           // We use the value at the (i,j) coordinate in the noise
           // array for our brightness, and the flipped value from (j,i)
           // for our pixel's hue.
-          // leds[i][j] = CHSV(noise_generator.data[j][i], 255,
-          // noise_generator.data[i][j]);
+          // leds[i][j] = CHSV(noise_generator.Data(j, i), 255,
+          // noise_generator.Data(i, j));
           display->Pixel(location.x + i, location.y + j) =
-              CHSV(ihue + (noise_generator.data[i][j] >> 2), brightness,
-                   noise_generator.data[i][j]);
+              CHSV(ihue + (noise_generator.Data(i, j) >> 2), brightness,
+                   noise_generator.Data(i, j));
           // You can also explore other ways to constrain the hue used, like
-          // below leds[XY(i,j)] = CHSV(ihue + (noise_generator.data[j][i]>>2),
-          // 255, noise_generator.data[i][j]);
+          // below leds[XY(i,j)] = CHSV(ihue + (noise_generator.Data(j, i)>>2),
+          // 255, noise_generator.Data(i, j));
         } else {
           display->Pixel(location.x + i, location.y + j) =
-              CHSV(hue, brightness, noise_generator.data[i][j]);
+              CHSV(hue, brightness, noise_generator.Data(i, j));
         }
       }
     }

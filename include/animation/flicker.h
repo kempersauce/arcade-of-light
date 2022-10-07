@@ -152,13 +152,13 @@ class Flicker : public Animation {
         if (j == (currentHeight[i]) || j == (currentHeight[i] - 1)) {
           // display->Pixel(i, j) = CHSV(hueAccent, saturation, brightness);
           // display->Pixel(i, j).setHSV(hueAccent, saturation, brightness +
-          // noise.data[i][flareLoc[i][0]]);
+          // noise.Data(i, flareLoc[i][0]));
           display->Pixel(i, j).setHSV(hueAccent, saturation, 255);
         }
         // main color on remaining pixel
         else {
           // display->Pixel(i, j).setHSV(hueMain, saturation, brightness +
-          // noise.data[i][flareLoc[i][0]]);
+          // noise.Data(i, flareLoc[i][0]));
           display->Pixel(i, j).setHSV(hueMain, saturation, 255);
           // display->Pixel(i, j) = CHSV(hueMain, saturation, brightness);
         }
@@ -169,7 +169,7 @@ class Flicker : public Animation {
         CRGB color;
         display->Pixel(i, flareLoc[i][0]).setHSV(hueAccent, saturation, 255);
         // display->Pixel(i, flareLoc[i][0]).setHSV(hueAccent, saturation,
-        // brightness + noise.data[i][flareLoc[i][0]]);
+        // brightness + noise.Data(i, flareLoc[i][0]));
       }
     }
   }
@@ -181,13 +181,13 @@ class Flicker : public Animation {
         if (j == (currentHeight[i]) || j == (currentHeight[i] - 1)) {
           // display->Pixel(i, j) = CHSV(hueAccent, saturation, brightness);
           // display->Pixel(i, j).setHSV(hueAccent, saturation, brightness +
-          // noise.data[i][flareLoc[i][0]]);
+          // noise.Data(i, flareLoc[i][0]));
           display->Pixel(i, j).setHSV(hueAccent, saturation, 255);
         }
         // main color on remaining pixel
         else {
           // display->Pixel(i, j).setHSV(hueMain, saturation, brightness +
-          // noise.data[i][flareLoc[i][0]]);
+          // noise.Data(i, flareLoc[i][0]));
           display->Pixel(i, j).setHSV(hueMain, saturation, 255);
           // display->Pixel(i, j) = CHSV(hueMain, saturation, brightness);
         }
@@ -196,9 +196,9 @@ class Flicker : public Animation {
       // Draw Flare
       if (hasFlare[i]) {
         CRGB color;
-        display->Pixel(i, flareLoc[i, 0]).setHSV(hueAccent, saturation, 255);
+        display->Pixel(i, flareLoc[i][0]).setHSV(hueAccent, saturation, 255);
         // display->Pixel(i][flareLoc[i, 0]).setHSV(hueAccent, saturation,
-        // brightness + noise.data[i][flareLoc[i][0]]);
+        // brightness + noise.Data(i, flareLoc[i][0]));
       }
     }
   }

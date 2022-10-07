@@ -75,7 +75,8 @@ class RhythmGameSingle : public Game {
 
  public:
   RhythmGameSingle(display::Display* display,
-                   controls::RhythmController controller, uint8_t player_no = 0)
+                   controls::RhythmController controller, uint8_t player_no,
+                   engines::NoiseGenerator* noise_generator = NULL)
       : Game(display),
         player_no{player_no},
         controller{controller},
@@ -84,13 +85,13 @@ class RhythmGameSingle : public Game {
                                         : (PlayerInterface*)new SynthInterface(
                                               &this->controller, player_no)},
         wave_pulse_stars{
-            {display->size.height / 6, 0, display->size,
+            {display->size.height / 6, 0, noise_generator == NULL ? (noise_generator = new engines::NoiseGenerator(display->size, 7)) : noise_generator,
              kPlayerHues[player_no]},
-            {display->size.height / 6, 1, display->size,
+            {display->size.height / 6, 1, noise_generator,
              kPlayerHues[player_no]},
-            {display->size.height / 6, 1, display->size,
+            {display->size.height / 6, 1, noise_generator,
              kPlayerHues[player_no]},
-            {display->size.height / 6, 1, display->size,
+            {display->size.height / 6, 1, noise_generator,
              kPlayerHues[player_no]},
         },
         sine_wave{CHSV(kPlayerOffhues[player_no], 255, 255), 0.5},
@@ -256,8 +257,8 @@ class RhythmGameSingle : public Game {
   }
 
   void setup() override {
-	// Initialize all our timing here, after the game has been created
-	// so we start and stay N'SYNC
+    // Initialize all our timing here, after the game has been created
+    // so we start and stay N'SYNC
     metronome_last_hit = time::Now();
     player_interface->Start();
   }
