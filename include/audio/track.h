@@ -2,18 +2,15 @@
 
 #include <queue>  // for queue
 
-#include "audio/score.h"             // for Score
-#include "audio/synth_sender_raw.h"  // for SynthSenderRaw
-#include "serial/debug.h"            // for Debug
-#include "serial/hw_serials.h"       // for kHwSerials
-#include "time/now.h"                // for Now
+#include "audio/score.h"   // for Score
+#include "serial/debug.h"  // for Debug
+#include "time/now.h"      // for Now
 
 namespace kss {
 namespace audio {
 
 class AudioTrack {
-  SynthSenderRaw synth;
-
+  std::queue<uint8_t> notes_out;
   uint32_t start_time{0};
 
   Score* score;
@@ -21,10 +18,16 @@ class AudioTrack {
   Score::Iterator next_note;
 
  public:
-  AudioTrack(size_t serial_id, Score* score)
-      : synth{serial::kHwSerials[serial_id]},
-        score{score},
-        next_note{score->begin()} {}
+  AudioTrack(Score* score) : score{score}, next_note{score->begin()} {}
+
+  bool HasNotes() { return !notes_out.empty(); }
+
+  // Get next note that should be played now. Does not check availability
+  uint8_t GetNextNote() {
+    uint8_t next_note = notes_out.front();
+    notes_out.pop();
+    return next_note;
+  }
 
   void Play() {
     Debug_here();
@@ -36,8 +39,16 @@ class AudioTrack {
   }
 
   void Update() {
+    // TODO should we clear the output queue here in case nobody's listening?
+    // This also means if we call update twice then we potentially skip notes
+    // while (HasNotes()) {
+    //   notes_out.pop();
+    // }
+
     // Looping at the end of the score
     if (next_note == score->end()) {
+      // Debug("Looping at the end of the score");
+
       // Shift start_time by the length of the last score
       start_time += score->length_millis;
 
@@ -53,6 +64,7 @@ class AudioTrack {
 
     // If we haven't started the score yet, then just chill
     if (start_time > time::Now()) {
+      // Debug("start_time is in the future, skipping playing.");
       return;
     }
 
@@ -60,10 +72,8 @@ class AudioTrack {
     const uint32_t track_time = time::Now() - start_time;
     while (next_note != score->end() && track_time >= next_note->first) {
       // Play the note(s)
-      synth.StartInput(next_note->second);
-
-      //   Debug("Playing note_t=" + next_note->first + " on ch" +
-      //         next_note->second + " at track_t=" + track_time);
+      // Debug("Adding note to output queue: " + next_note->second);
+      notes_out.push(next_note->second);
 
       ++next_note;
     }
@@ -95,8 +105,6 @@ class AudioTrack {
       // This should never pass Now since the conditional above
       start_time += score->length_millis;
       track_time = time::Now() - start_time;  // Recalculate
-
-      // Debug("Adjusting track time for shorter score");
     }
 
     // Test for the unthinkable
@@ -106,16 +114,9 @@ class AudioTrack {
     }
 
     // FFWD the next_note iterator to the current track time
-    // bool fasted_forward = false;
     while (next_note != score->end() && track_time >= next_note->first) {
       ++next_note;
-      //   fasted_forward = true;
     }
-
-    // if (fasted_forward) {
-    //   Debug("FFW'd to note_t=" + next_note->first +
-    //         " at track_t=" + track_time);
-    // }
   }
 };
 

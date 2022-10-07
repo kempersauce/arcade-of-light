@@ -1,11 +1,11 @@
-#include <utility>  // for std::pair
-
 #include "audio/beat_patterns/all.h"  // for beats::*
 #include "audio/score.h"              // for Score
+#include "audio/synth_sender_raw.h"   // for SynthSenderRaw
 #include "audio/track.h"              // for AudioTrack
 #include "math/random.h"              // for random::*
 #include "pins/pin_setup.h"           // for pins::Init()
 #include "serial/debug.h"             // for Debug
+#include "serial/hw_serials.h"        // for kHwSerials
 
 using namespace kss;
 using namespace kss::audio;
@@ -14,7 +14,8 @@ using namespace kss::audio::beats;
 // Set this true to randomly switch beat tracks
 constexpr bool should_switch_randomly{true};
 
-AudioTrack tracks[]{{0, &Twist}};
+AudioTrack track{&Twist};
+SynthSenderRaw synth{serial::kHwSerials[0]};
 
 constexpr size_t beats_count{13};
 Score *scores[beats_count]{
@@ -58,24 +59,26 @@ void setup() {
   pins::Init();
   time::Init();
 
-  for (auto &track : tracks) {
-    track.Play();
-  }
+  track.Play();
 
   Debug("starting the loop");
 }
 
 void loop() {
   time::SetLoopTime();
+
+  // Ghost drummer likes to mess around
   if (should_switch_randomly && math::random::Bool(0.002)) {
     const size_t which = math::random::Int8(beats_count);
     Debug("Switching beat to " + score_names[which]);
-    tracks[0].SwitchImmediatelyTo(scores[which]);
+    track.SwitchImmediatelyTo(scores[which]);
   }
 
-  // Update the tracks
-  for (auto &track : tracks) {
-    track.Update();
+  // Update the track & play the notes
+  track.Update();
+  while (track.HasNotes()) {
+    synth.StartInput(track.GetNextNote());
   }
+
   delay(5);
 }
