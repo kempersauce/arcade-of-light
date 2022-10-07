@@ -17,8 +17,8 @@ constexpr size_t kPanelColumns{32};
 class InstructoDisplay : public SwitchbackDisplay<_instructo::kPanelRows,
                                                   _instructo::kPanelColumns> {
  public:
-  InstructoDisplay(const uint8_t pin) : SwitchbackDisplay() {
-    RegisterStrip<pins::Leds[12]>();
+  InstructoDisplay() : SwitchbackDisplay() {
+    RegisterStrip<pins::LedInstructo[0]>();
   }
 };
 

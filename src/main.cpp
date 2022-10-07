@@ -6,6 +6,7 @@
 // #include "mains/LifeGame.cpp"
 // #include "mains/RhythmGame.cpp"
 // #include "mains/RhythmGameTest.cpp"
+// #include "mains/RhythmGameInstructo.cpp"
 // #include "mains/RocketGame.cpp"
 // #include "mains/RocketGameTest.cpp"
 
@@ -20,7 +21,6 @@
 // #include "mains/audio/SynthReciever.cpp"  // serial 4
 // #include "mains/audio/SynthSender.cpp" // main
 // #include "mains/audio/TrackSenderTest.cpp"
-// #include "mains/audio/TrackTest.cpp"
 // #include "mains/audio/WavManagerTest.cpp"
 // #include "mains/audio/audioSlave.cpp"
 // #include "mains/audio/audioTest.cpp"

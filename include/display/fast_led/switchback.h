@@ -44,7 +44,7 @@ class SwitchbackDisplay : public Display {
  protected:
   // Inherited classes need this to initialize their own strip pinouts
   template <uint8_t PIN>
-  const void RegisterStrip() {
+  void RegisterStrip() {
     // Guard against registering extra strips on accident
     FastLED.addLeds<WS2812B, PIN, GRB>(pixels, STRIP_COUNT * STRIP_LENGTH);
   }

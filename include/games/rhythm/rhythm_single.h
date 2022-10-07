@@ -16,6 +16,7 @@
 #include "audio/synth_sender_raw.h"                   // for SynthSenderRaw
 #include "controls/rhythm.h"                          // for RhythmController
 #include "games/game.h"                               // for Game
+#include "games/rhythm/constants.h"  // for k*
 #include "games/rhythm/interface/drum_interface.h"    // for DrumInterface
 #include "games/rhythm/interface/player_interface.h"  // for PlayerInterface
 #include "games/rhythm/interface/synth_interface.h"   // for SynthInterface
@@ -41,19 +42,6 @@ constexpr uint8_t bg_brightness_diff{bg_brightness_max - bg_brightness_base};
 
 constexpr uint32_t bg_pulse_fade_millis{beat_length_millis / 2};
 constexpr uint32_t bg_pulse_ramp_millis{85};
-constexpr uint8_t player_hues[4]{
-    0,    // red
-    45,   // yellow
-    130,  // teal
-    200,  // lavendar
-};
-
-constexpr uint8_t player_offhues[4]{
-    128 + 0,    // not red
-    128 + 45,   // not yellow
-    128 + 130,  // not teal
-    128 + 200,  // not lavendar
-};
 
 }  // namespace _rhythm_single
 using namespace _rhythm_single;
@@ -99,18 +87,18 @@ class RhythmGameSingle : public Game {
                                               &this->controller, player_no)},
         wave_pulse_stars{
             {display->size.height / 6, 0, display->size,
-             player_hues[player_no]},
+             kPlayerHues[player_no]},
             {display->size.height / 6, 1, display->size,
-             player_hues[player_no]},
+             kPlayerHues[player_no]},
             {display->size.height / 6, 1, display->size,
-             player_hues[player_no]},
+             kPlayerHues[player_no]},
             {display->size.height / 6, 1, display->size,
-             player_hues[player_no]},
+             kPlayerHues[player_no]},
         },
-        noise_block{player_hues[player_no],
+        noise_block{kPlayerHues[player_no],
                     20,
                     {display->size.width, display->size.height / 4}},
-        sine_wave{CHSV(player_offhues[player_no], 255, 255), 0.5},
+        sine_wave{CHSV(kPlayerOffhues[player_no], 255, 255), 0.5},
         wave_pulse{
             {15, 0, CRGB::DarkGray},
             {5, 1, CRGB::DarkGray},
