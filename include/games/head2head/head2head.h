@@ -155,7 +155,17 @@ class Head2Head : public Game {
     noise_generator.fillnoise8();
     for (size_t x = 0; x < display->size.width; ++x) {
       for (size_t y = 0; y < display->size.height; ++y) {
-        const uint8_t hue = y < electricArc.arc[x] ? zoneAHue : zoneBHue;
+        uint8_t hue;
+        if (gameState == H2HGameWinA) {
+          hue = zoneAHue;
+        } else if (gameState == H2HGameWinB) {
+          hue = zoneBHue;
+        } else if (y < electricArc.arc[x]) {
+          hue = zoneAHue;
+        } else {
+          hue = zoneBHue;
+        }
+
         display->Pixel(x, y) = CHSV(hue, 255, noise_generator.Data(x, y));
       }
     }
