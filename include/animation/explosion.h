@@ -75,6 +75,8 @@ class Explosion : Animation {
 
   void SetGravity(float grav) { gravity.y = grav; }
 
+  void SetFriction(math::Dimension friction) { this->friction = friction; }
+
   void ExplodeAt(int stripIndex, int location,
                  math::Vector2D<float> additional = {0, 0}) {
     birthTimeMillis = time::Now();

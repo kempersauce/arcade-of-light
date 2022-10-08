@@ -83,7 +83,7 @@ class H2HGameStrip : public animation::Animation {
         buttonA{a},
         buttonB{b},
         dropExplosion{8, 150, 200, 50, 20, 2, 0, 0, 0, NULL},
-        explosion{50, 1000, 1500, 20, 10, 3, 0, 255, 0, NULL},
+        explosion{40, 1000, 500, 40, 18, 2, 0, 255, 0, NULL},
         zoneAHue{zoneAHue},
         zoneBHue{zoneBHue},
         stripIndex{stripIndex},
@@ -132,6 +132,7 @@ class H2HGameStrip : public animation::Animation {
 
     if (instructo_b != NULL) {
       instructo_b->explosions.push_back(explosion);
+      instructo_b->explosions.back().SetFriction({1, 4});
       instructo_b->ExplodeBack(stripIndex);
     }
 
@@ -359,8 +360,7 @@ class H2HGameStrip : public animation::Animation {
   }
 
   void drawWinA(display::Display* display) {
-    CRGB teamAColor;
-    teamAColor.setHSV(zoneAHue, 255, 255);
+    CRGB teamAColor = CHSV(zoneAHue, 255, 255);
     const uint32_t timeDiff =
         (time::Now() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
     const static float wave_width = 10;
@@ -375,8 +375,7 @@ class H2HGameStrip : public animation::Animation {
   }
 
   void drawWinB(display::Display* display) {
-    CRGB teamBColor;
-    teamBColor.setHSV(zoneBHue, 255, 255);
+    CRGB teamBColor = CHSV(zoneBHue, 255, 255);
     const uint32_t timeDiff =
         (time::Now() - stateTimeoutMillis) % 2000;  // loop thrugh 2 seconds
     const static float wave_width = 10;
