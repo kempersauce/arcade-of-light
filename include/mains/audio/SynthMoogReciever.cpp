@@ -102,4 +102,5 @@ void loop() {
       }
     }
   }
+  synthy.chug();
 }

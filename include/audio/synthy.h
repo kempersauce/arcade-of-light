@@ -173,7 +173,9 @@ AudioOutputI2S i2s1;
 AudioMixer4 effectMixer;
 AudioMixer4 mixer1;
 AudioMixer4 mixer2;
-// AudioEffectDelay delay1;
+
+AudioMixer4 delayMixer;
+AudioEffectFreeverb delay;
 
 AudioMixer4 mixerMaster;
 
@@ -201,6 +203,12 @@ AudioConnection patchCordRawWave3(waveforms[2].envelope, 0, mixer1, 0);
 AudioConnection patchCordRawWave4(waveforms[3].envelope, 0, mixer1, 1);
 AudioConnection patchCordRawWave5(waveforms[4].envelope, 0, mixer1, 2);
 AudioConnection patchCordRawWave6(waveforms[5].envelope, 0, mixer1, 3);
+
+AudioConnection patchCordDelayEffect(mixer1, delay);
+AudioConnection patchCordDelayReturn0(delay, 0, mixer2, 1);
+
+AudioConnection patchCordMixers(mixer1, 0, mixer2, 0);
+
 // EffectMixer - add reverb
 // AudioConnection patchCordEffect1(waveforms[4].envelope, delay1);
 // AudioConnection patchCordEffect2(delay1, 0, effectMixer, 0);
@@ -212,8 +220,8 @@ AudioConnection patchCordRawWave6(waveforms[5].envelope, 0, mixer1, 3);
 // AudioConnection patchCordMaster2(mixer1, 0, mixerMaster, 1);
 
 // final output
-AudioConnection patchCordFinalL(mixer1, 0, i2s1, 0);
-AudioConnection patchCordFinalR(mixer1, 0, i2s1, 1);
+AudioConnection patchCordFinalL(mixer2, 0, i2s1, 0);
+AudioConnection patchCordFinalR(mixer2, 0, i2s1, 1);
 
 }  // namespace _synthy
 using namespace _synthy;
@@ -230,6 +238,10 @@ class Synthy {
 
   size_t i = 0;
 
+  int delaylevel = 0;
+  int delaytime = 50;  // millis
+  int delayfeedback = 63;
+
   Synthy() { Debug("hello"); };
 
   const void InitSynth() {
@@ -237,9 +249,9 @@ class Synthy {
     waveforms[2].wave.frequency(sequence[0]);  // hard code to root note
     waveforms[3].wave.frequency(sequence[3]);  // hard code to fifth
 
-    mixer1.gain(3, 0.5);  // percent "wet" reverb
+    mixer1.gain(3, 0.5);  
     mixer1.gain(2, 0.5);
-    mixer1.gain(1, 0.5);  // percent "dry" reverb
+    mixer1.gain(1, 0.5);  
     mixer1.gain(0, 0.5);
 
     // add effect
@@ -248,6 +260,11 @@ class Synthy {
     // delay1.delay(0, 110);
     // delay1.delay(1, 220);
     // delay1.delay(2, 330);
+    delaylevel = 0.5;
+    delay.roomsize(0.3);
+    delay.damping(0.7);
+    mixer2.gain(0, 0.8); // percent "dry" reverb
+    mixer2.gain(1, 0.2); // percent "wet" reverb
 
     Debug("setup done");
     AudioProcessorUsageMaxReset();

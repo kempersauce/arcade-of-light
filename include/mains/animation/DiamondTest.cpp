@@ -27,7 +27,7 @@ void setup() {
   time::Init();
 
   gameDisplay = new display::H2HDisplay();
-  diamond = new animation::Diamond(4, 25, 10, 5, CRGB::Red);
+  diamond = new animation::Diamond(80, 10, 5, CRGB::Red, CRGB::Blue);
 
   game = new test::AnimationTest(gameDisplay, diamond);
   time::SetLoopTime();
@@ -40,4 +40,5 @@ void loop() {
   game->loop();
   gameDisplay->Show();
   frameRate.PrintFrameRate();
+  delay(250);
 }
