@@ -129,10 +129,12 @@ class H2HGameStrip : public animation::Animation {
 
     explosion.SetHue(zoneAHue);
     explosion.ExplodeAt(stripIndex, dot.physics.location.y);
-
+  
     if (instructo_b != NULL) {
+      // TODO make this be able to handle things other than 8
+      uint8_t num_display_strips = 8;
       instructo_b->explosions.push_back(explosion);
-      instructo_b->ExplodeBack(stripIndex);
+      instructo_b->ExplodeBack(num_display_strips - 1 - stripIndex);
     }
 
     // TODO set this elsewhere once we have an animation for it
