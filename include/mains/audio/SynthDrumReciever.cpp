@@ -5,7 +5,7 @@
 
 #include "audio/constants.h"     // for SynthAudioMessage
 #include "audio/drum_synthy.h"   // for DrumSynthy
-#include "audio/sounds.h"        // for InitAudio
+#include "audio/sounds.h"        // for audio::Init
 #include "pins/pin_setup.h"      // for pins::Init
 #include "serial/debug.h"        // for Debug
 #include "serial/ez_receiver.h"  // for reciever
@@ -23,9 +23,7 @@ serial::EZReceiver<SynthAudioMessage> receiver{&Serial1};
 void setup() {
   Debug_init();
   pins::Init();
-
-  // audio library init
-  audio::InitAudio();
+  audio::Init(false);
 
   Debug("making synth");
   synthy.InitDrumSynth();

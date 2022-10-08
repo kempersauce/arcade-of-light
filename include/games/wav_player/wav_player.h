@@ -9,6 +9,7 @@
 #include "audio/sounds.h"     // for Sounds
 #include "controls/button.h"  // for Button
 #include "games/game.h"       // for Game
+#include "pins/pin_setup.h"   // for pins::Init
 
 // Use these with the Teensy Audio Shield
 // This uses the audio shield's card reader
@@ -55,8 +56,8 @@ class WavPlayer : public Game {
 
   void setup() override {
     Debug_init();
-    audio::initAudio();
-    delay(1000);
+    pins::Init();
+    audio::Init();
   }
 
   void loop() override {

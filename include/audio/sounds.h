@@ -20,7 +20,17 @@ namespace audio {
 constexpr float kAudioVolume{0.666};
 AudioControlSGTL5000 sgtl5000_1;
 
-void InitAudio() {
+void InitSDCard() {
+  SPI.setMOSI(SDCARD_MOSI_PIN);
+  SPI.setSCK(SDCARD_SCK_PIN);
+  while (!SD.begin(SDCARD_CS_PIN)) {
+    Debug("Unable to access the SD card! Retrying in 500ms...");
+    delay(500);
+  }
+  Debug("SD Card Initialized");
+}
+
+void Init(bool init_sd_card = true) {
   // Audio connections require memory to work.  For more
   // detailed information, see the MemoryAndCpuUsage example
   AudioMemory(500);
@@ -29,12 +39,12 @@ void InitAudio() {
   sgtl5000_1.enable();
   sgtl5000_1.volume(kAudioVolume);
 
-  SPI.setMOSI(SDCARD_MOSI_PIN);
-  SPI.setSCK(SDCARD_SCK_PIN);
-  while (!SD.begin(SDCARD_CS_PIN)) {
-    Debug("Unable to access the SD card! Retrying in 500ms...");
-    delay(500);
+  if (init_sd_card) {
+    InitSDCard();
+  } else {
+    Debug("Skipping SD Card Initialization");
   }
+
   Debug("Audio Initialized!!");
 }
 

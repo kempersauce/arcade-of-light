@@ -1,7 +1,7 @@
 #include <Audio.h>
 
 #include "audio/constants.h"     // for SynthAudioMessage
-#include "audio/sounds.h"        // for InitAudio
+#include "audio/sounds.h"        // for audio::Init
 #include "audio/synthy_poly.h"   // for Synth
 #include "pins/pin_setup.h"      // for pins::Init
 #include "serial/debug.h"        // for Debug
@@ -20,7 +20,7 @@ serial::EZReceiver<SynthAudioMessage> receiver{&Serial1};
 void setup() {
   Debug_init();
   pins::Init();
-  audio::InitAudio();
+  audio::Init(false);
 
   Debug("making synth");
   synth.InitSynth();

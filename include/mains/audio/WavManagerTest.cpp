@@ -1,4 +1,4 @@
-#include "audio/sounds.h"       // for InitAudio
+#include "audio/sounds.h"       // for audio::Init
 #include "audio/wav_manager.h"  // for WavAudioManager
 #include "pins/pin_setup.h"     // for pins::Init
 #include "serial/debug.h"       // for Debug
@@ -11,8 +11,7 @@ WavAudioManager wav_manager;
 void setup() {
   Debug_init();
   pins::Init();
-  // Fire up the boombox
-  audio::InitAudio();
+  audio::Init();
 
   Debug("-=- Beginning SETUP -=-");
 
