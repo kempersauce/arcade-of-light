@@ -97,7 +97,7 @@ class Head2Head : public Game {
   void enterStartState() {
     gameState = H2HGameStart;
     audioA.playStdBG();
-    audioB.playStdBG();
+    // audioB.playStdBG();
     audioA.stopWinMusic();
     audioB.stopWinMusic();
     // dont forget to take this out lol
@@ -120,7 +120,7 @@ class Head2Head : public Game {
 
   void enterWinAState() {
     audioA.playTeamAWinGame();
-    audioB.playTeamAWinGame();
+    // audioB.playTeamAWinGame();
     gameState = H2HGameWinA;
     for (auto game_strip : gameStrips) {
       game_strip->enterTotalWinAState();
@@ -129,7 +129,7 @@ class Head2Head : public Game {
   }
 
   void enterWinBState() {
-    audioA.playTeamBWinGame();
+    // audioA.playTeamBWinGame();
     audioB.playTeamBWinGame();
     gameState = H2HGameWinB;
     for (auto game_strip : gameStrips) {
