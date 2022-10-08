@@ -5,7 +5,6 @@
 
 #include "controls/button.h"           // for controls::Button
 #include "controls/hardware/matrix.h"  // for controls::hardware::Matrix
-#include "games/game.h"                // for Game
 #include "pins/pin_setup.h"            // for pins::*
 #include "time/now.h"                  // for Now
 
@@ -28,6 +27,7 @@ void PrintButtonInfo(size_t controller, size_t button, const char *message) {
 void setup() {
   Debug_init();
   pins::Init();
+  time::Init();
 
   // Initialize controls
   Debug("Initialize Controls");
@@ -44,6 +44,7 @@ void setup() {
 
   // Poll for initial button state
   Debug("Poll for initial button state");
+  time::SetLoopTime();
   control_context.PollAll();
 
   // Sound off initial button state
@@ -63,6 +64,7 @@ void setup() {
 }
 
 void loop() {
+  time::SetLoopTime();
   // Poll all the button states
   control_context.PollAll();
 
