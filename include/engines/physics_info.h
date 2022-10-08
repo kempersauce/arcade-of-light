@@ -23,7 +23,6 @@ class PhysicsInfo : public PhysicsBasic {
   // these default to values that make them not used unless set
   uint16_t LocationMax = UINT16_MAX;  // default to this to have no ceiling ...
                                       // 0 is still hardcoded on the bottom
-  float ThrustMax = 100;
 
   float BounceFactor = 1.0;  // default to 1 for no bounce
   int ExplodeVelocity = 0;   // default to 0 to explode on contact
@@ -41,10 +40,6 @@ class PhysicsInfo : public PhysicsBasic {
   }
 
   void Move() {
-    if (thrust.y > ThrustMax) {
-      thrust.y = ThrustMax;
-    }
-
     // Do basic physics motion
     PhysicsBasic::Move();
 

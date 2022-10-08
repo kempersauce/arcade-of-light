@@ -130,11 +130,11 @@ class RocketGame : public Game {
 
   void PlayInstructo() {
     if (instructo != NULL) {
-      const float thrust = rocket.physics.thrust.y;
-      const float thrust_max = rocket.physics.ThrustMax;
+      const float thrust_coefficient =
+          min(rocket.physics.thrust.y, rocket.ThrustMax) / rocket.ThrustMax;
 
       // Saturate to full thrust
-      const uint8_t sat = thrust * 255.0f / thrust_max;
+      const uint8_t sat = thrust_coefficient * 255.0f;
       // Let the saturation fade until thrust cathes up
       if (sat < instructo_animation->sat) {
         instructo_animation->sat -=
@@ -144,7 +144,7 @@ class RocketGame : public Game {
       }
 
       // Fast speed for warning
-      if (thrust >= thrust_max) {
+      if (thrust_coefficient >= 1) {
         instructo_animation->wave.speed = instructo_animation->SPEED_FAST;
       } else {
         instructo_animation->wave.speed = instructo_animation->SPEED_SLOW;
@@ -292,13 +292,12 @@ class RocketGame : public Game {
         // break;
 
       case RocketGamePlaying:
-        // direct correlation between millis held and thrust
-        // (rocket caps it at ThrustMax=100)
         rocket.super_boost = controller.super_up->IsPressed();
         if (rocket.super_boost) {
-          // TODO pump up ThrustMax for super boost
-          rocket.physics.thrust.y = rocket.physics.ThrustMax;
+          rocket.physics.thrust.y = rocket.ThrustMax * 2;
         } else {
+          // direct correlation between millis held and thrust
+          // (rocket caps thrust at 100)
           rocket.physics.thrust.y = controller.up->GetMillisHeld() / 2;
         }
 

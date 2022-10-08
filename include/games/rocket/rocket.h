@@ -27,6 +27,8 @@ class Rocket : public animation::Animation {
   RocketBoost super_boost_left;
   RocketBoost super_boost_right;
 
+  static constexpr float ThrustMax = 100;
+
   /**
    * Rocket Constructor
    * @param loc - location on LED strip
@@ -43,7 +45,6 @@ class Rocket : public animation::Animation {
     physics.LocationMax = display_size.height;
     physics.BounceFactor = -0.7;
     physics.ExplodeVelocity = 50;
-    physics.ThrustMax = 100;
 
     Reset();
   }
@@ -56,6 +57,9 @@ class Rocket : public animation::Animation {
   void SetGravity(float gravity) { physics.gravity.y = gravity; }
 
   void Move() override {
+    if (!super_boost && physics.thrust.y > ThrustMax) {
+      physics.thrust.y = ThrustMax;
+    }
     physics.Move();
 
     // Update boost location
@@ -63,11 +67,12 @@ class Rocket : public animation::Animation {
     super_boost_left.location.y = physics.location.y - 1;
     super_boost_right.location.y = physics.location.y - 1;
 
-    boost.boostFactor = physics.thrust.y / physics.ThrustMax;
     if (super_boost) {
+      boost.boostFactor = 1;
       super_boost_left.boostFactor = 1;
       super_boost_right.boostFactor = 1;
     } else {
+      boost.boostFactor = physics.thrust.y / ThrustMax;
       super_boost_left.boostFactor = 0;
       super_boost_right.boostFactor = 0;
     }
