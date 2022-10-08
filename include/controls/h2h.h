@@ -22,13 +22,13 @@ struct H2HController : public Controller<_h2h::kButtonCount> {
   static H2HController TeamA(hardware::Matrix& context) {
     return H2HController{
         // HW Controller 0
-        context.CreateButton(pins::Controllers[0], pins::Buttons[5]),
+        context.CreateButton(pins::Controllers[0], pins::Buttons[1]),
         context.CreateButton(pins::Controllers[0], pins::Buttons[4]),
         context.CreateButton(pins::Controllers[0], pins::Buttons[3]),
         context.CreateButton(pins::Controllers[0], pins::Buttons[2]),
 
         // HW Controller 1
-        context.CreateButton(pins::Controllers[1], pins::Buttons[5]),
+        context.CreateButton(pins::Controllers[1], pins::Buttons[1]),
         context.CreateButton(pins::Controllers[1], pins::Buttons[4]),
         context.CreateButton(pins::Controllers[1], pins::Buttons[3]),
         context.CreateButton(pins::Controllers[1], pins::Buttons[2])};
@@ -40,13 +40,13 @@ struct H2HController : public Controller<_h2h::kButtonCount> {
         context.CreateButton(pins::Controllers[3], pins::Buttons[2]),
         context.CreateButton(pins::Controllers[3], pins::Buttons[3]),
         context.CreateButton(pins::Controllers[3], pins::Buttons[4]),
-        context.CreateButton(pins::Controllers[3], pins::Buttons[5]),
+        context.CreateButton(pins::Controllers[3], pins::Buttons[1]),
 
         // HW Controller 2
         context.CreateButton(pins::Controllers[2], pins::Buttons[2]),
         context.CreateButton(pins::Controllers[2], pins::Buttons[3]),
         context.CreateButton(pins::Controllers[2], pins::Buttons[4]),
-        context.CreateButton(pins::Controllers[2], pins::Buttons[5])};
+        context.CreateButton(pins::Controllers[2], pins::Buttons[1])};
   }
 };
 
