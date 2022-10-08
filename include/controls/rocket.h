@@ -15,11 +15,11 @@ constexpr uint32_t kIdleTimeoutMillis{30 * 1000};
 
 struct RocketController : public Controller<_rocket::kButtonCount> {
   Button* up = buttons[0];
-  Button* reset = buttons[1];
+  Button* super_up = buttons[1];
 
   RocketController() : Controller() {}
-  RocketController(Button* const up, Button* const reset)
-      : Controller({up, reset}, _rocket::kIdleTimeoutMillis) {}
+  RocketController(Button* const up, Button* const super_up)
+      : Controller({up, super_up}, _rocket::kIdleTimeoutMillis) {}
 
   RocketController(hardware::Matrix& context, const size_t ctl_no = 0)
       : Controller(

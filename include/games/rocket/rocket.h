@@ -21,18 +21,26 @@ class Rocket : public animation::Animation {
 
   // colors (RGB)
   CRGB color;
+  bool super_boost{false};
 
   RocketBoost boost;
+  RocketBoost super_boost_left;
+  RocketBoost super_boost_right;
 
   /**
    * Rocket Constructor
    * @param loc - location on LED strip
    * @param clr - Color of the rocket ship
    */
-  Rocket(size_t strip_length, CRGB color)
-      : Animation(), color{color}, boost{5} {
+  Rocket(math::Dimension display_size, CRGB color)
+      : Animation(),
+        color{color},
+        boost{7, display_size.width / 2},
+        super_boost_left{2, display_size.width / 2 - 1, .5},
+        super_boost_right{2, display_size.width / 2 + 1, .5} {
     // Init physics settings
-    physics.LocationMax = strip_length;
+    physics.location.x = display_size.width / 2;
+    physics.LocationMax = display_size.height;
     physics.BounceFactor = -0.7;
     physics.ExplodeVelocity = 50;
     physics.ThrustMax = 100;
@@ -40,7 +48,10 @@ class Rocket : public animation::Animation {
     Reset();
   }
 
-  void Reset() { physics.Reset(); }
+  void Reset() {
+    physics.Reset();
+    super_boost = false;
+  }
 
   void SetGravity(float gravity) { physics.gravity.y = gravity; }
 
@@ -48,11 +59,26 @@ class Rocket : public animation::Animation {
     physics.Move();
 
     // Update boost location
-    boost.loc = physics.location.y;
+    boost.location.y = physics.location.y;
+    super_boost_left.location.y = physics.location.y - 1;
+    super_boost_right.location.y = physics.location.y - 1;
+
     boost.boostFactor = physics.thrust.y / physics.ThrustMax;
+    if (super_boost) {
+      super_boost_left.boostFactor = 1;
+      super_boost_right.boostFactor = 1;
+    } else {
+      super_boost_left.boostFactor = 0;
+      super_boost_right.boostFactor = 0;
+    }
   }
 
   void Draw(display::Display* display) {
+    // Draw the rocket boost first (layer behind the rocket)
+    boost.Draw(display);
+    super_boost_left.Draw(display);
+    super_boost_right.Draw(display);
+
     // Draw the rocket ship
     const size_t middleStrip = display->size.width / 2;
     for (size_t i = max(ceil(physics.location.y), 0);
@@ -65,9 +91,6 @@ class Rocket : public animation::Animation {
 
     // dither rocket tail
     display->DitherPixelY(middleStrip, physics.location.y, color);
-
-    // Draw the rocket boost
-    boost.Draw(display);
   }
 };
 

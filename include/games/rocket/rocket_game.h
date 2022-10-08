@@ -115,7 +115,7 @@ class RocketGame : public Game {
         controller{controller},
         starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),
-        rocket(display->size.y, CRGB(255, 255, 255)),
+        rocket(display->size, CRGB::White),
         target(CRGB(55, 0, 0)),
         explosionsInTheSky(),
         explosion{80, 1000, 3000, 55, 12, 0, 0, 255, 0, &audio.explosion},
@@ -199,13 +199,14 @@ class RocketGame : public Game {
     Debug("Entering Lose state");
     gameState = RocketGameLose;
     SetInstructoLose();
-    explosion.ExplodeAt(display->size.x / 2, rocket.physics.location.y);
+    explosion.ExplodeAt(rocket.physics.location.x, rocket.physics.location.y);
     explosionsInTheSky.startAnimation(audio);
   }
 
   void enterLevelAdvanceState() {
     Debug("Entering Level Advance state");
     audio.playLevelWin();
+    rocket.super_boost = true;
     gameState = RocketGameLevelAdvance;
   }
 
@@ -275,10 +276,10 @@ class RocketGame : public Game {
 
     // Reset this game if they hold the reset button longer than a second (if we
     // havent already lost)
-    if (gameState != RocketGameLose &&
-        controller.reset->GetMillisHeld() > 1000) {
-      enterLoseState();
-    }
+    // if (gameState != RocketGameLose &&
+    //     controller.reset->GetMillisHeld() > 1000) {
+    //   enterLoseState();
+    // }
 
     // CALCULATE NEW GAME STATE
 
@@ -287,17 +288,31 @@ class RocketGame : public Game {
         // TODO fill this in, right now we just jump into playing state
         enterPlayingState();
         // enterWinState(); // for testing fireworks
-        // break; // uncomment this once we have something here, right now we
-        // just fall through
+        // uncomment this once we have something here, for now just fall through
+        // break;
 
       case RocketGamePlaying:
         // direct correlation between millis held and thrust
         // (rocket caps it at ThrustMax=100)
-        rocket.physics.thrust.y = controller.up->GetMillisHeld() / 2;
+        rocket.super_boost = controller.super_up->IsPressed();
+        if (rocket.super_boost) {
+          // TODO pump up ThrustMax for super boost
+          rocket.physics.thrust.y = rocket.physics.ThrustMax;
+        } else {
+          rocket.physics.thrust.y = controller.up->GetMillisHeld() / 2;
+        }
+
         if (controller.up->IsDepressing()) {
           audio.startPlayBoost();
         }
         if (controller.up->IsReleasing()) {
+          audio.stopPlayBoost();
+        }
+
+        if (controller.super_up->IsDepressing()) {
+          audio.startPlayBoost();
+        }
+        if (controller.super_up->IsReleasing()) {
           audio.stopPlayBoost();
         }
 
@@ -314,7 +329,7 @@ class RocketGame : public Game {
       case RocketGameLevelAdvance:
 
         // Boost way way up the screen
-        if (rocket.physics.location.y < display->size.y * 2) {
+        if (rocket.physics.location.y < display->size.height * 2) {
           rocket.physics.thrust.y += 2.5;  // just keep boosting up
           rocket.physics.respect_edges = false;
           rocket.Move();  // let it boost off the screen
@@ -326,11 +341,10 @@ class RocketGame : public Game {
           // jk since scale is so high, any higher than 1*scale is too fast, and
           // any lover than 1*scale causes tearing between pixels
           int backgroundShift = 1;
-          starBackground.noise_generator.y +=
-              backgroundShift *
-              starBackground.noise_generator
-                  .scale;  // NOTE: Since y is actually an 8.8 bit int, this may
-                           // need more than just a small push
+          // NOTE: Since y is actually an 8.8 bit int, this may need more than
+          // just a small push
+          starBackground.noise_generator->y +=
+              backgroundShift * starBackground.noise_generator->scale;
         }
 
         // Rocket reached top of level, time to start a new one
