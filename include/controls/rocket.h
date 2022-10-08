@@ -29,7 +29,7 @@ struct RocketController : public Controller<_rocket::kButtonCount> {
 
   static RocketController CreateTest(hardware::Matrix& context,
                                      const size_t ctl_no = 0) {
-    return {context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[5]),
+    return {context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[1]),
             context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[4])};
   }
 };

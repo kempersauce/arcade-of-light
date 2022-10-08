@@ -328,8 +328,14 @@ class RocketGame : public Game {
       case RocketGameLevelAdvance:
 
         // Boost way way up the screen
-        if (rocket.physics.location.y < display->size.height * 2) {
-          rocket.physics.thrust.y += 2.5;  // just keep boosting up
+        if (rocket.physics.location.y < display->size.height * 4) {
+          // just keep boosting up
+          if (rocket.physics.thrust.y < rocket.ThrustMax) {
+            rocket.physics.thrust.y += 2.5;
+            if (rocket.physics.thrust.y > rocket.ThrustMax) {
+              rocket.physics.thrust.y = rocket.ThrustMax;
+            }
+          }
           rocket.physics.respect_edges = false;
           rocket.Move();  // let it boost off the screen
 
