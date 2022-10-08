@@ -17,10 +17,15 @@ AudioPlaySdWav drum4;
 AudioPlaySdWav drum5;
 AudioPlaySdWav drum6;
 AudioPlaySdWav glitchDrum;
+AudioEffectFreeverb reverb;
 
 AudioMixer4 mixer1;
 AudioMixer4 mixer2;
+AudioMixer4 reverbMixer;
 AudioMixer4 mixerMain;
+
+AudioAmplifier amp;
+
 
 AudioOutputI2S i2s1;  // xy=360,98 PAUL SHIT
 
@@ -36,9 +41,14 @@ AudioConnection patchCordGlitch(glitchDrum, 0, mixer2, 2);
 AudioConnection patchCordMain1(mixer1, 0, mixerMain, 0);
 AudioConnection patchCordMain2(mixer2, 0, mixerMain, 1);
 
+AudioConnection patchCordReverb0(mixerMain, reverb);
+AudioConnection patchCordReverb1(mixerMain, 0, reverbMixer, 0);
+AudioConnection patchCordReverb2(reverb, 0, reverbMixer, 1);
+
+AudioConnection patchCordAmp(reverbMixer, amp);
 // final output
-AudioConnection patchCordOut1(mixerMain, 0, i2s1, 0);
-AudioConnection patchCordOut2(mixerMain, 0, i2s1, 1);
+AudioConnection patchCordOut1(amp, 0, i2s1, 0);
+AudioConnection patchCordOut2(amp, 0, i2s1, 1);
 
 class DrumWav {
 
@@ -48,8 +58,39 @@ class DrumWav {
  public:
   DrumWav() { Debug("Pa rum pa pa pum"); }
 
+  const void drumSetup() {
+    mixer1.gain(0, 0.2);
+    mixer1.gain(1, 0.2);
+    mixer1.gain(2, 0.2);
+    mixer1.gain(3, 0.2);
+    mixer2.gain(0, 0.2);
+    mixer2.gain(1, 0.2);
+
+    reverbMixer.gain(0, 0.8);
+    reverbMixer.gain(1, 0.2); // reverb wet
+    reverb.roomsize(0.7);
+    reverb.damping(0.5);
+
+    amp.gain(1);
+
+
+
+    drum1.play("808CLAP.WAV");
+    delay(500);
+    drum2.play("808HHOPN.WAV");
+    delay(500);
+    drum3.play("808TOMH.WAV");
+    delay(500);
+    drum4.play("808HHCL.WAV"); 
+    delay(500);
+    drum5.play("808BD01.WAV");
+    delay(500);
+    drum6.play("808SNR.WAV"); 
+    delay(500);
+  }
+
   const void playDrum1() { drum1.play("808CLAP.WAV"); }
-  const void playDrum2() { drum2.play("808CRSH1.WAV"); }
+  const void playDrum2() { drum2.play("808CRSH2.WAV"); }
 
   const void stopDrum2() { drum2.stop(); }
   const void playDrum3() { drum3.play("808TOMH.WAV"); }
