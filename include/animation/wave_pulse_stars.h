@@ -26,6 +26,15 @@ class WavePulseStars : public Animation {
     stars.hue = hue;
   }
 
+  WavePulseStars(size_t height, size_t edge_trim,
+                 engines::NoiseGenerator* noise_generator, uint8_t hue)
+      : Animation(),
+        height{height},
+        stars{noise_generator, 85},
+        edge_trim{edge_trim + 1} {
+    stars.hue = hue;
+  }
+
   void Move() override { stars.Move(); }
 
   void Draw(display::Display* display) override {
@@ -34,7 +43,7 @@ class WavePulseStars : public Animation {
       const float presence = (float)(height - y_offset) / (float)height;
       const size_t y_adjusted = (y + y_offset) % display->size.height;
       for (size_t x = edge_trim; x < other_edge; ++x) {
-        CRGB color = stars.GetPixel(x, y_adjusted);
+        const CRGB color = stars.GetPixel(x, y_adjusted);
         display->BlendPixel(x, y_adjusted, color, presence);
       }
       display->BlendPixel(edge_trim - 1, y_adjusted,

@@ -7,6 +7,7 @@
 #include "engines/framerate.h"          // for Framerate
 #include "games/head2head/head2head.h"  // for Head2Head
 #include "pins/pin_setup.h"             // for pins::Init
+#include "serial/debug.h"               // for Debug
 #include "time/now.h"                   // for time::*
 
 using namespace kss;
@@ -43,8 +44,8 @@ void setup() {
   game = new games::h2h::Head2Head(&gameDisplay->main_display,
                                    &gameDisplay->instructo_a,
                                    &gameDisplay->instructo_b, teamA, teamB);
+  time::SetLoopTime();
   game->setup();
-  gameDisplay->Show();
   Debug("Setup Complete");
 }
 

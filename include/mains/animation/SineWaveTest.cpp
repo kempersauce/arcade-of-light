@@ -11,6 +11,7 @@
 #include "pins/pin_setup.h"            // for pins::Init
 #include "serial/debug.h"              // for Debug
 #include "test/animation.h"            // for AnimationTest
+#include "time/now.h"                  // for time::*
 
 using namespace kss;
 
@@ -46,6 +47,7 @@ void setup() {
   game = new test::AnimationTest(&disp->main_display, sine_wave);
   controller = controls::H2HController::TeamA(control_context);
 
+  time::SetLoopTime();
   game->setup();
   Debug("End setup()");
 }

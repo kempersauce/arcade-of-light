@@ -5,7 +5,7 @@
 
 #include "animation/charge_bar.h"  // for Charge Barge
 #include "display/display.h"       // for Display
-#include "display/h2h_octo.h"      // for H2HDisplay
+#include "display/h2h.h"           // for H2HDisplay
 #include "engines/framerate.h"     // for FrameRate
 #include "games/game.h"            // for Game
 #include "pins/pin_setup.h"        // for pins::Init
@@ -26,16 +26,19 @@ animation::ChargeBar* chargeBar;
 void setup() {
   Debug_init();
   pins::Init();
+  time::Init();
 
   gameDisplay = new display::H2HDisplay();
   chargeBar = new animation::ChargeBar(CRGB::Red);
 
   game = new test::AnimationTest(gameDisplay, chargeBar);
+  time::SetLoopTime();
   game->setup();
   Debug("End setup()");
 }
 
 void loop() {
+  time::SetLoopTime();
   currentHeight++;
   if (currentHeight >= numHeights) {
     currentHeight = 0;

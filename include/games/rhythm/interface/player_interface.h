@@ -19,6 +19,7 @@ class PlayerInterface {
       : controller{controller}, synth{serial::kHwSerials[serial_no]} {}
   virtual ~PlayerInterface() = default;
 
+  virtual void Start() {}
   virtual void Update() = 0;
 };
 

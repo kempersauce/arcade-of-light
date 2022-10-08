@@ -1,13 +1,14 @@
 #pragma once
 
-#include "animation/animation.h"    // for Animation
-#include "animation/explosion.h"    // for Explosion
-#include "controls/button.h"        // for Button
-#include "games/head2head/audio.h"  // for H2HAudio
-#include "games/head2head/dot.h"    // for H2HDot
-#include "games/head2head/zone.h"   // for H2HZone
-#include "math/random.h"            // for random::*
-#include "time/now.h"               // for Now
+#include "animation/animation.h"                 // for Animation
+#include "animation/explosion.h"                 // for Explosion
+#include "controls/button.h"                     // for Button
+#include "games/head2head/audio.h"               // for H2HAudio
+#include "games/head2head/dot.h"                 // for H2HDot
+#include "games/head2head/h2h_instructo_game.h"  // for H2HInstructoGame
+#include "games/head2head/zone.h"                // for H2HZone
+#include "math/random.h"                         // for random::*
+#include "time/now.h"                            // for Now
 
 namespace kss {
 namespace games {
@@ -24,6 +25,9 @@ enum H2HStripState {
 };
 
 class H2HGameStrip : public animation::Animation {
+  H2HInstructoGame* const instructo_a;
+  H2HInstructoGame* const instructo_b;
+
   H2HDot dot;
 
   // explode when dot hits wall (boom)
@@ -68,8 +72,11 @@ class H2HGameStrip : public animation::Animation {
   controls::Button* buttonB;
 
   H2HGameStrip(size_t stripIndex, size_t stripHeight, controls::Button* a,
-               controls::Button* b, uint8_t zoneAHue, uint8_t zoneBHue)
+               controls::Button* b, uint8_t zoneAHue, uint8_t zoneBHue,
+               H2HInstructoGame* instructo_a, H2HInstructoGame* instructo_b)
       : Animation(),
+        instructo_a{instructo_a},
+        instructo_b{instructo_b},
         dot(CRGB::White, stripIndex),
         zoneA(CRGB::White, stripIndex, 0, 22, false),
         zoneB(CRGB::White, stripIndex, stripHeight - 23, stripHeight - 1, true),
@@ -122,6 +129,12 @@ class H2HGameStrip : public animation::Animation {
 
     explosion.SetHue(zoneAHue);
     explosion.ExplodeAt(stripIndex, dot.physics.location.y);
+
+    if (instructo_b != NULL) {
+      instructo_b->explosions.push_back(explosion);
+      instructo_b->ExplodeBack(stripIndex);
+    }
+
     // TODO set this elsewhere once we have an animation for it
     midBar += 12;
 
@@ -135,6 +148,12 @@ class H2HGameStrip : public animation::Animation {
 
     explosion.SetHue(zoneBHue);
     explosion.ExplodeAt(stripIndex, dot.physics.location.y);
+
+    if (instructo_a != NULL) {
+      instructo_a->explosions.push_back(explosion);
+      instructo_a->ExplodeBack(stripIndex);
+    }
+
     // TODO set this elsewhere once we have an animation for it
     midBar -= 12;
 
