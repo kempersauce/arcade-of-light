@@ -64,6 +64,7 @@ class RhythmGameSingle : public Game {
   animation::ChargeBar charge_bar;
   animation::ChargeFull charge_full;
 
+  const size_t beat_height;
   const size_t hit_bar_height;
   animation::SingleColorBlock hit_bar;
 
@@ -108,6 +109,7 @@ class RhythmGameSingle : public Game {
         },
         charge_bar{CRGB::White},
         charge_full{-1},
+        beat_height{display->size.height / 4},
         hit_bar_height{display->size.height / 5},
         hit_bar{hit_bar_height, hit_bar_height + 1, CRGB::White} {
     // TODO Tune these sine waves
@@ -142,7 +144,14 @@ class RhythmGameSingle : public Game {
     }
   }
 
+  inline size_t GetDistanceFromHitBar(const float y) const {
+    return max(y, hit_bar_height) - min(y, hit_bar_height);
+  }
+
+  size_t min_distance_from_hitbar;
+  animation::WavePulse* closest_wave_to_hitbar;
   void SetPulseHeight() {
+    min_distance_from_hitbar = SIZE_MAX;
     // 0 -> 1 over a beat
     const float t_offset =
         (float)(time::Now() - metronome_last_hit) / (float)beat_length_millis;
@@ -158,6 +167,13 @@ class RhythmGameSingle : public Game {
                display->size.height);
       wave_pulse[beet].y = y;
       wave_pulse_stars[beet].y = y;
+
+      // Record info about the closest wave
+      const size_t distance = GetDistanceFromHitBar(y);
+      if (distance < min_distance_from_hitbar) {
+        min_distance_from_hitbar = distance;
+        closest_wave_to_hitbar = &wave_pulse[beet];
+      }
     }
   }
 
@@ -183,18 +199,7 @@ class RhythmGameSingle : public Game {
   }
 
   void SetWavePulseShadow() {
-    animation::WavePulse* closest = NULL;
-    size_t closest_distance;
-    for (auto& wave : wave_pulse) {
-      const size_t distance =
-          max(wave.y, hit_bar_height) - min(wave.y, hit_bar_height);
-      if (closest == NULL || distance < closest_distance) {
-        closest = &wave;
-        closest_distance = distance;
-      }
-    }
-
-    wave_pulse_shadow = *closest;
+    wave_pulse_shadow = *closest_wave_to_hitbar;
     wave_pulse_shadow.color.fadeToBlackBy(64);
 
     // Total fade over shadow_fade_time_millis ms
@@ -205,19 +210,14 @@ class RhythmGameSingle : public Game {
 
   static constexpr uint32_t beat_hit_downtime_millis{beat_proximity_threshold *
                                                      2};
+
   uint32_t last_beat_hit_millis;
   void DetectBeatProximity() {
-    const uint32_t last_beat_distance = time::Now() - metronome_last_hit;
-    const uint32_t next_beat_distance =
-        (metronome_last_hit + beat_length_millis) - time::Now();
-
-    const uint32_t beat_distance = min(last_beat_distance, next_beat_distance);
-    if (last_beat_distance <=
-            beat_proximity_threshold + beat_proximity_threshold_shift ||
-        next_beat_distance <=
-            beat_proximity_threshold - beat_proximity_threshold_shift) {
+    // Call it if we're within ~10px on a 300px display
+    if (min_distance_from_hitbar <= beat_height / 7.5) {
       Debug("Exploding Full Beat");
-      Debug_var(beat_distance);
+      Debug_var(min_distance_from_hitbar);
+      Debug_var(beat_height);
       if (time::Now() - last_beat_hit_millis >= beat_hit_downtime_millis) {
         on_beat_count += 4;
         AddExplosions();
@@ -226,11 +226,11 @@ class RhythmGameSingle : public Game {
       return;
     }
 
-    const uint32_t half_beat_distance = beat_length_millis / 2 - beat_distance;
-    if (half_beat_distance <=
-        (beat_proximity_threshold + beat_proximity_threshold_shift) / 2) {
+    // Also, if we're within ~5px from the half-beat on a 300px display
+    if (beat_height / 2 - min_distance_from_hitbar <= beat_height / 15) {
       Debug("Exploding Half Beat");
-      Debug_var(beat_distance);
+      Debug_var(min_distance_from_hitbar);
+      Debug_var(beat_height);
       if (time::Now() - last_beat_hit_millis >= beat_hit_downtime_millis) {
         on_beat_count += 2;
         AddExplosions();
@@ -239,14 +239,8 @@ class RhythmGameSingle : public Game {
       return;
     }
 
+    // Show em where they screwed up
     SetWavePulseShadow();
-
-    // const uint32_t quarter_beat_distance =
-    //     beat_length_millis / 4 - half_beat_distance;
-    // if (beat_length_millis / 4 - beat_distance <= beat_proximity_threshold)
-    // {
-    //   return;
-    // }
   }
 
   void setup() override {
@@ -273,15 +267,16 @@ class RhythmGameSingle : public Game {
       }
     }
 
+    // Set the pulse height
+    SetPulseHeight();
+
+    // Detect hits on the beat
     if (controller.AnyDepressing()) {
       DetectBeatProximity();
     }
 
     // Set charge bar height
     charge_bar.height = on_beat_count;
-
-    // Set the pulse height
-    SetPulseHeight();
 
     // Move our animations
     background.Move();
