@@ -175,7 +175,7 @@ AudioMixer4 mixer1;
 AudioMixer4 mixer2;
 
 AudioMixer4 delayMixer;
-AudioEffectDelay delay;
+AudioEffectFreeverb delay;
 
 AudioMixer4 mixerMaster;
 
@@ -205,9 +205,7 @@ AudioConnection patchCordRawWave5(waveforms[4].envelope, 0, mixer1, 2);
 AudioConnection patchCordRawWave6(waveforms[5].envelope, 0, mixer1, 3);
 
 AudioConnection patchCordDelayEffect(mixer1, delay);
-AudioConnection patchCordDelayReturn(delay, 0, mixer2, 1);
-AudioConnection patchCordDelayReturn(delay, 1, mixer2, 2);
-AudioConnection patchCordDelayReturn(delay, 2, mixer2, 3);
+AudioConnection patchCordDelayReturn0(delay, 0, mixer2, 1);
 
 AudioConnection patchCordMixers(mixer1, 0, mixer2, 0);
 
@@ -241,7 +239,7 @@ class Synthy {
   size_t i = 0;
 
   int delaylevel = 0;
-  int delaytime = 500;  // millis
+  int delaytime = 50;  // millis
   int delayfeedback = 63;
 
   Synthy() { Debug("hello"); };
@@ -251,9 +249,9 @@ class Synthy {
     waveforms[2].wave.frequency(sequence[0]);  // hard code to root note
     waveforms[3].wave.frequency(sequence[3]);  // hard code to fifth
 
-    mixer1.gain(3, 0.5);  // percent "wet" reverb
+    mixer1.gain(3, 0.5);  
     mixer1.gain(2, 0.5);
-    mixer1.gain(1, 0.5);  // percent "dry" reverb
+    mixer1.gain(1, 0.5);  
     mixer1.gain(0, 0.5);
 
     // add effect
@@ -263,11 +261,10 @@ class Synthy {
     // delay1.delay(1, 220);
     // delay1.delay(2, 330);
     delaylevel = 0.5;
-    delay.delay(0, delaytime);
-    delayMixer.gain(0, 0.75);
-    delayMixer.gain(1, delayfeedback / 127.0);
-    delayMixer.gain(2, delayfeedback / 127.0);
-    delayMixer.gain(3, delayfeedback / 127.0);
+    delay.roomsize(0.3);
+    delay.damping(0.7);
+    mixer2.gain(0, 0.8); // percent "dry" reverb
+    mixer2.gain(1, 0.2); // percent "wet" reverb
 
     Debug("setup done");
     AudioProcessorUsageMaxReset();
