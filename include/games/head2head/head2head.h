@@ -106,6 +106,14 @@ class Head2Head : public Game {
     for (auto game_strip : gameStrips) {
       game_strip->reset();
     }
+
+    // bring instructos out of idle
+    if (instructo_a != NULL) {
+      instructo_a->is_idle = false;
+    }
+    if (instructo_b != NULL) {
+      instructo_b->is_idle = false;
+    }
   }
 
   void enterPlayingState() { gameState = H2HGamePlaying; }
@@ -134,6 +142,14 @@ class Head2Head : public Game {
     Debug("Entering Idle State");
     gameState = H2HGameIdle;
     idleGame.setup();
+    if (instructo_a != NULL) {
+      instructo_a->is_idle = true;
+      instructo_a->explosions.clear();
+    }
+    if (instructo_b != NULL) {
+      instructo_b->is_idle = true;
+      instructo_b->explosions.clear();
+    }
   }
 
   void DrawBackground() {
