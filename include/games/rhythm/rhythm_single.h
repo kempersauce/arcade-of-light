@@ -92,15 +92,15 @@ class RhythmGameSingle : public Game {
                  ? (noise_generator =
                         new engines::NoiseGenerator(display->size, 7))
                  : noise_generator,
-             kPlayerHues[player_no]},
+             kPlayerOffhues[player_no]},
             {display->size.height / 6, 1, noise_generator,
-             kPlayerHues[player_no]},
+             kPlayerOffhues[player_no]},
             {display->size.height / 6, 1, noise_generator,
-             kPlayerHues[player_no]},
+             kPlayerOffhues[player_no]},
             {display->size.height / 6, 1, noise_generator,
-             kPlayerHues[player_no]},
+             kPlayerOffhues[player_no]},
         },
-        sine_wave{CHSV(kPlayerOffhues[player_no], 255, 255), 0.5},
+        sine_wave{CHSV(kPlayerHues[player_no], 255, 255), 0.5},
         wave_pulse{
             {15, 0, CRGB::DarkGray},
             {5, 1, CRGB::DarkGray},
