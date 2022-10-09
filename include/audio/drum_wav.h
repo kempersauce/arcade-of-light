@@ -17,14 +17,14 @@ AudioPlaySdWav drum4;
 AudioPlaySdWav drum5;
 AudioPlaySdWav drum6;
 AudioPlaySdWav glitchDrum;
-AudioEffectFreeverb reverb;
+// AudioEffectFreeverb reverb;
 
 AudioMixer4 mixer1;
 AudioMixer4 mixer2;
-AudioMixer4 reverbMixer;
+// AudioMixer4 reverbMixer;
 AudioMixer4 mixerMain;
 
-AudioAmplifier amp;
+// AudioAmplifier amp;
 
 AudioOutputI2S i2s1;  // xy=360,98 PAUL SHIT
 
@@ -39,14 +39,14 @@ AudioConnection patchCordGlitch(glitchDrum, 0, mixer2, 2);
 AudioConnection patchCordMain1(mixer1, 0, mixerMain, 0);
 AudioConnection patchCordMain2(mixer2, 0, mixerMain, 1);
 
-AudioConnection patchCordReverb0(mixerMain, reverb);
-AudioConnection patchCordReverb1(mixerMain, 0, reverbMixer, 0);
-AudioConnection patchCordReverb2(reverb, 0, reverbMixer, 1);
+// AudioConnection patchCordReverb0(mixerMain, reverb);
+// AudioConnection patchCordReverb1(mixerMain, 0, reverbMixer, 0);
+// AudioConnection patchCordReverb2(reverb, 0, reverbMixer, 1);
 
-AudioConnection patchCordAmp(reverbMixer, amp);
+// AudioConnection patchCordAmp(reverbMixer, amp);
 // final output
-AudioConnection patchCordOut1(amp, 0, i2s1, 0);
-AudioConnection patchCordOut2(amp, 0, i2s1, 1);
+AudioConnection patchCordOut1(mixerMain, 0, i2s1, 0);
+AudioConnection patchCordOut2(mixerMain, 0, i2s1, 1);
 
 class DrumWav {
   const char* glitches[6] = {"GLITCH1.WAV", "GLITCH2.WAV", "GLITCH3.WAV",
@@ -63,19 +63,19 @@ class DrumWav {
   }
 
   const void drumSetup() {
-    mixer1.gain(0, 0.2);
-    mixer1.gain(1, 0.2);
-    mixer1.gain(2, 0.2);
-    mixer1.gain(3, 0.2);
-    mixer2.gain(0, 0.2);
-    mixer2.gain(1, 0.2);
+    mixer1.gain(0, 0.5);
+    mixer1.gain(1, 0.5);
+    mixer1.gain(2, 0.5);
+    mixer1.gain(3, 0.5);
+    mixer2.gain(0, 0.5);
+    mixer2.gain(1, 0.5);
 
-    reverbMixer.gain(0, 0.8);
-    reverbMixer.gain(1, 0.2);  // reverb wet
-    reverb.roomsize(0.7);
-    reverb.damping(0.5);
+    // reverbMixer.gain(0, 0.8);
+    // reverbMixer.gain(1, 0.2);  // reverb wet
+    // reverb.roomsize(0.7);
+    // reverb.damping(0.5);
 
-    amp.gain(1);
+    // amp.gain(1);
 
     PlayDrum(drum1, "808CLAP.WAV");
     delay(500);
