@@ -72,7 +72,10 @@ class RhythmGameSingle : public Game {
   animation::Explosions explosions;
 
   // Success tracking
-  uint16_t on_beat_count{0};  // Debug, start almost there
+  uint16_t on_beat_count{48};  // Debug, start almost there
+  uint16_t on_beat_count_max{48};
+  float on_beat_units;
+  uint16_t on_beat_height;
   static constexpr uint8_t on_beat_count_threshold{8};
 
  public:
@@ -111,7 +114,8 @@ class RhythmGameSingle : public Game {
         charge_full{-1},
         beat_height{display->size.height / 4},
         hit_bar_height{display->size.height / 5},
-        hit_bar{hit_bar_height, hit_bar_height + 1, CRGB::White} {
+        hit_bar{hit_bar_height, hit_bar_height + 1, CRGB::White},
+        on_beat_units{display->size.height / 32} {
     // TODO Tune these sine waves
     sine_wave.waves.emplace_back(100, display->size.width / 4.0f, .1);
     sine_wave.waves.emplace_back(100, display->size.width / 8.0f, -0.1);
@@ -219,9 +223,12 @@ class RhythmGameSingle : public Game {
       Debug_var(min_distance_from_hitbar);
       Debug_var(beat_height);
       if (time::Now() - last_beat_hit_millis >= beat_hit_downtime_millis) {
-        on_beat_count += 4;
+        on_beat_count += 2;
         AddExplosions();
         last_beat_hit_millis = time::Now();
+        if (on_beat_count > on_beat_count_max){
+          on_beat_count = on_beat_count_max;
+        }
       }
       return;
     }
@@ -232,9 +239,12 @@ class RhythmGameSingle : public Game {
       Debug_var(min_distance_from_hitbar);
       Debug_var(beat_height);
       if (time::Now() - last_beat_hit_millis >= beat_hit_downtime_millis) {
-        on_beat_count += 2;
+        on_beat_count += 1;
         AddExplosions();
         last_beat_hit_millis = time::Now();
+        if (on_beat_count > on_beat_count_max){
+          on_beat_count = on_beat_count_max;
+        }
       }
       return;
     }
@@ -276,7 +286,7 @@ class RhythmGameSingle : public Game {
     }
 
     // Set charge bar height
-    charge_bar.height = on_beat_count;
+    charge_bar.height = on_beat_count * on_beat_units;
 
     // Move our animations
     background.Move();
@@ -311,7 +321,8 @@ class RhythmGameSingle : public Game {
     }
 
     // Draw charge bars
-    if (on_beat_count < display->size.height - 1) {
+    on_beat_height = on_beat_count * on_beat_units;
+    if (on_beat_height < display->size.height - 1) {
       charge_bar.Draw(display);
     } else {
       charge_full.Draw(display);
