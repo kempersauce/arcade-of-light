@@ -76,7 +76,7 @@ class Head2Head : public Game {
     for (size_t i = 0; i < gameDisplay->size.width; ++i) {
       gameStrips.push_back(new H2HGameStrip(
           i, gameDisplay->size.height, teamA.buttons[i], teamB.buttons[i],
-          zoneAHue, zoneBHue, this->instructo_a, this->instructo_b));
+          zoneAHue, zoneBHue, arc_color, this->instructo_a, this->instructo_b));
     }
   }
 

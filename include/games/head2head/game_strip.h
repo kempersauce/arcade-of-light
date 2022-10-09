@@ -72,12 +72,12 @@ class H2HGameStrip : public animation::Animation {
   controls::Button* buttonB;
 
   H2HGameStrip(size_t stripIndex, size_t stripHeight, controls::Button* a,
-               controls::Button* b, uint8_t zoneAHue, uint8_t zoneBHue,
+               controls::Button* b, uint8_t zoneAHue, uint8_t zoneBHue, CRGB arc_color,
                H2HInstructoGame* instructo_a, H2HInstructoGame* instructo_b)
       : Animation(),
         instructo_a{instructo_a},
         instructo_b{instructo_b},
-        dot(CRGB::White, stripIndex),
+        dot(CRGB::White, arc_color, stripIndex),
         zoneA(CRGB::White, stripIndex, 0, 22, false),
         zoneB(CRGB::White, stripIndex, stripHeight - 23, stripHeight - 1, true),
         buttonA{a},
@@ -111,15 +111,7 @@ class H2HGameStrip : public animation::Animation {
 
   void enterPlayingState() {
     stripState = H2HStripPlaying;
-    dot.physics.Reset();
-    dot.physics.location = {stripIndex, midBar};
-
-    // randomly start in different directions
-    if (math::random::Bool()) {
-      dot.setVelocity(20);
-    } else {
-      dot.setVelocity(-20);
-    }
+    dot.DropAt({stripIndex, midBar});
 
     dropExplosion.ExplodeAt(stripIndex, midBar);
   }
@@ -129,7 +121,7 @@ class H2HGameStrip : public animation::Animation {
 
     explosion.SetHue(zoneAHue);
     explosion.ExplodeAt(stripIndex, dot.physics.location.y);
-  
+
     if (instructo_b != NULL) {
       // TODO make this be able to handle things other than 8
       uint8_t num_display_strips = 8;
