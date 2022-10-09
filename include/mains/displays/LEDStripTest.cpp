@@ -1,11 +1,11 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "display/display.h"  // for Display
-// #include "display/single.h"   // for SingleDisplay
-#include "display/h2h_octo.h"  // for H2HDisplay
-#include "pins/pin_setup.h"    // for LED_PIN_*
-#include "serial/debug.h"      // for Debug
+#include "display/display.h"      // for Display
+#include "display/octo/single.h"  // for SingleDisplay
+#include "display/rocket.h"       // for RocketDisplay
+#include "pins/pin_setup.h"       // for LED_PIN_*
+#include "serial/debug.h"         // for Debug
 
 using namespace kss;
 
@@ -24,7 +24,7 @@ void showColor(CRGB color) {
 void setup() {
   Debug_init();
   // LED_PIN_12 (pin 30) is first pin on cable 4
-  gameDisplay = (display::Display*)new display::H2HDisplay();
+  gameDisplay = new display::octo::SingleDisplay();
 
   Debug("End setup()");
 }

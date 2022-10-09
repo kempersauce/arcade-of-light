@@ -13,6 +13,7 @@ namespace h2h {
 
 class H2HDot : public animation::Animation {
   static constexpr uint8_t bleed_size{9};
+  static constexpr uint8_t tail_length{5};
   static constexpr float fast_threshold{50};
 
   engines::NoiseGenerator noise{{1, bleed_size}, 200};  // fast small noise
@@ -22,9 +23,8 @@ class H2HDot : public animation::Animation {
   const CRGB color;
   const CRGB fast_color;
 
-  H2HDot(CRGB color, CRGB fast_color, size_t stripIndex)
+  H2HDot(CRGB color, CRGB fast_color)
       : Animation(), color{color}, fast_color{fast_color} {
-    physics.location.x = stripIndex;
     noise.scale = 4011;  // zoomed out shimery idk
   }
 
@@ -53,26 +53,40 @@ class H2HDot : public animation::Animation {
     return abs(physics.velocity.y) >= fast_threshold;
   }
 
-  bool every_other = false;
   void Draw(display::Display* display) override {
     if (IsFast()) {
-      const int8_t direction = physics.velocity.y > 0 ? -1 : 1;
+      const bool going_up = physics.velocity.y > 0;
+
       // Glitch tail
       for (size_t i = 0; i < bleed_size; ++i) {
         uint8_t data = noise.Data(0, i);
         if (data >= 196) {
-          const size_t y = physics.location.y + direction * i;
+          size_t y;
+          if (going_up) {
+            y = physics.location.y - i;
+          } else {
+            y = physics.location.y + i;
+          }
           display->BlendPixel(physics.location.x, y, color,
                               (data / 4 + 196) / 255.0f);
         }
       }
 
-      display->DitherPixelY(physics.location.x, physics.location.y + direction,
-                            fast_color);
-      display->DitherPixelY(physics.location.x, physics.location.y, color);
-    } else {
-      display->DitherPixelY(physics.location.x, physics.location.y, color);
+      // Shadow tail
+      for (size_t i = 0; i < tail_length; ++i) {
+        const float blend_coef = 1 - (float)i / (float)tail_length;
+        if (going_up) {
+          display->BlendPixel(physics.location.x, physics.location.y - i,
+                              fast_color, blend_coef);
+        } else {
+          display->BlendPixel(physics.location.x, physics.location.y + i,
+                              fast_color, blend_coef);
+        }
+      }
     }
+
+    // Draw the dot
+    display->DitherPixelY(physics.location.x, physics.location.y, color);
   }
 };
 

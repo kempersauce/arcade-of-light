@@ -77,7 +77,7 @@ class H2HGameStrip : public animation::Animation {
       : Animation(),
         instructo_a{instructo_a},
         instructo_b{instructo_b},
-        dot(CRGB::White, arc_color, stripIndex),
+        dot(CRGB::White, arc_color),
         zoneA(CRGB::White, stripIndex, 0, 22, false),
         zoneB(CRGB::White, stripIndex, stripHeight - 23, stripHeight - 1, true),
         buttonA{a},
