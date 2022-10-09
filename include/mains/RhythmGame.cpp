@@ -54,5 +54,5 @@ void loop() {
   control_context.PollAll();
   game->loop();
   gameDisplay->Show();
-  frameRate.PrintFrameRate();
+  // frameRate.PrintFrameRate();
 }

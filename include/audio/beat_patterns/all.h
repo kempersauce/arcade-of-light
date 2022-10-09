@@ -13,3 +13,4 @@
 #include "audio/beat_patterns/reggae.h"
 #include "audio/beat_patterns/shuffle.h"
 #include "audio/beat_patterns/twist.h"
+#include "audio/beat_patterns/boots_and_cats.h"
