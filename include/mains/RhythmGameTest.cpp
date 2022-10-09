@@ -27,6 +27,15 @@ void setup() {
 
   Debug("Begin setup()");
 
+  // Invert color scheme on dip switch 3
+  if (pins::ReadDip(3)) {
+	Debug("Inverting player color scheme");
+    for (size_t i = 0; i < 4; ++i) {
+      std::swap(games::rhythm::kPlayerHues[i],
+                games::rhythm::kPlayerOffhues[i]);
+    }
+  }
+
   // Choose your Display type
   display::H2H5TestDisplay* disp = new display::H2H5TestDisplay();
   gameDisplay = disp;

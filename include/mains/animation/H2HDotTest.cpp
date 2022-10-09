@@ -27,7 +27,7 @@ H2HDot* MakeDot(uint8_t strip_index, CRGB fast_color) {
   H2HDot* dot = new H2HDot(CRGB::White, fast_color);
   dot->DropAt({strip_index, math::random::Int8()});
   dot->physics.velocity.y *= 2.5;
-  dot->physics.LocationMax = gameDisplay->size.height;
+  dot->physics.LocationMax = gameDisplay->main_display.size.height;
   dot->physics.BounceFactor = -1.0;  // perfect bounce
   dot->physics.ExplodeVelocity = 100000;
 

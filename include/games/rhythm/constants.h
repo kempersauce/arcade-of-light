@@ -4,14 +4,14 @@ namespace kss {
 namespace games {
 namespace rhythm {
 
-constexpr uint8_t kPlayerHues[4]{
+uint8_t kPlayerHues[4]{
     0,    // red
     45,   // yellow
     130,  // teal
     200,  // lavendar
 };
 
-constexpr uint8_t kPlayerOffhues[4]{
+uint8_t kPlayerOffhues[4]{
     128 + 0,    // not red
     128 + 45,   // not yellow
     128 + 130,  // not teal

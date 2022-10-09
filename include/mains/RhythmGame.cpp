@@ -28,6 +28,15 @@ void setup() {
 
   Debug("Begin setup()");
 
+  // Invert color scheme on dip switch 3
+  if (pins::ReadDip(3)) {
+    Debug("Inverting player color scheme");
+    for (size_t i = 0; i < 4; ++i) {
+      std::swap(games::rhythm::kPlayerHues[i],
+                games::rhythm::kPlayerOffhues[i]);
+    }
+  }
+
   // Choose your Display type
   gameDisplay = new display::octo::FourPanelDisplay();
 
@@ -54,5 +63,5 @@ void loop() {
   control_context.PollAll();
   game->loop();
   gameDisplay->Show();
-  // frameRate.PrintFrameRate();
+  frameRate.PrintFrameRate();
 }
