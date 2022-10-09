@@ -284,14 +284,14 @@ class H2HGameStrip : public animation::Animation {
         // play out residual explosions
         explosion.Move();
         dropExplosion.Move();
-        dot.Move();
+        // dot.Move();
         break;
 
       case H2HStripTotalWinB:
         // play out residual explosions
         explosion.Move();
         dropExplosion.Move();
-        dot.Move();
+        // dot.Move();
         break;
     }
   }
@@ -334,19 +334,19 @@ class H2HGameStrip : public animation::Animation {
 
       case H2HStripTotalWinA:
         // drawZones(display);
-        drawMidBar(display);
+        // drawMidBar(display);
         explosion.Draw(display);
         dropExplosion.Draw(display);
-        dot.Draw(display);
+        // dot.Draw(display);
         drawWinA(display);
         break;
 
       case H2HStripTotalWinB:
         // drawZones(display);
-        drawMidBar(display);
+        // drawMidBar(display);
         explosion.Draw(display);
         dropExplosion.Draw(display);
-        dot.Draw(display);
+        // dot.Draw(display);
         drawWinB(display);
         break;
     }

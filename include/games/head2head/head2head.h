@@ -95,6 +95,7 @@ class Head2Head : public Game {
 
   void enterStartState() {
     gameState = H2HGameStart;
+    audioB.winBG.Stop();
     audioA.playStdBG();
     // audioB.playStdBG();
     audioA.stopWinMusic();
@@ -118,6 +119,7 @@ class Head2Head : public Game {
   void enterPlayingState() { gameState = H2HGamePlaying; }
 
   void enterWinAState() {
+    audioA.stdBG.Stop();
     audioA.playTeamAWinGame();
     // audioB.playTeamAWinGame();
     gameState = H2HGameWinA;
@@ -129,6 +131,7 @@ class Head2Head : public Game {
 
   void enterWinBState() {
     // audioA.playTeamBWinGame();
+    audioA.stdBG.Stop();
     audioB.playTeamBWinGame();
     gameState = H2HGameWinB;
     for (auto game_strip : gameStrips) {
