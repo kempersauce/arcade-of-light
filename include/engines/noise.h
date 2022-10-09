@@ -35,7 +35,7 @@ class NoiseGenerator {
 
   // const uint16_t scale = 1; // mostly just solid colors
   // const uint16_t scale = 4011; // very zoomed out and shimmery
-  const uint16_t scale = 1024;
+  uint16_t scale = 1024;
 
   // We're using the x/y dimensions to map to the x/y pixels on the matrix.
   // We'll use the z-axis for "time".  speed determines how fast time moves
