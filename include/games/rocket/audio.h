@@ -43,10 +43,11 @@ class RocketAudio : public audio::Manager {
   // File names and controls for start/stop channels
   audio::SoundEffectBespoke boost{sender, 1, "THRUST2.WAV"};
 
-  // TODO figure out specifics for this sound effect
-  audio::SoundEffectBespoke super_boost{sender, 1, "THRUST2.WAV"};
+  // Just leaving this one open for now
+  // I don't think we need a specific channel for it
+  audio::SoundEffectBespoke super_boost{sender, 2, "WHOOSH.WAV"};
 
-  audio::SoundEffectBespoke targetHover{sender, 2, "TRGTSEQ.WAV"};
+  audio::SoundEffectBespoke targetHover{sender, 3, "TRGTSEQ.WAV"};
   audio::SoundEffect fireworkLaunch{sender, "TRGTMIS1.WAV"};
   audio::SoundEffect fireworkExplode{sender, "EXPLODE1.WAV"};
 
@@ -60,8 +61,8 @@ class RocketAudio : public audio::Manager {
     super_boost.Stop();
     targetHover.Stop();
     levelWin.Stop();
-    sender->StopChannel(3);
     sender->StopChannel(4);
+    sender->StopChannel(5);
   }
 
   void playLevelIntro(const size_t level) {
@@ -80,14 +81,6 @@ class RocketAudio : public audio::Manager {
   }
 
   void stopPlayBoost() { boost.Stop(); }
-
-  void startPlaySuperBoost() {
-    if (!super_boost.is_playing) {
-      super_boost.Play();
-    }
-  }
-
-  void stopPlaySuperBoost() { super_boost.Stop(); }
 
   // CHANNEL 2: TARGET
   void startPlayTargetHover() {

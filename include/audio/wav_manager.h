@@ -15,7 +15,7 @@ class WavAudioManager {
   std::vector<Channel> channels;
 
   static constexpr size_t block_count{kChannelCount};
-  static constexpr size_t mixer_count{2};
+  static constexpr size_t mixer_count{3};
 
   AudioPlaySdWav wav_players[kChannelCount];
   AudioMixer4 mixers[mixer_count];
@@ -23,25 +23,27 @@ class WavAudioManager {
 
   AudioOutputI2S audioOutput;
 
-  AudioConnection patch_cords[14]{
-      // Patch background directly to mixer_out
-      {wav_players[0], 0, mixer_out, 0},  //
-      {wav_players[0], 1, mixer_out, 1},  //
-
+  AudioConnection patch_cords[17]{
       // Patch wav players to mixers
-      {wav_players[1], 0, mixers[0], 0},  //
-      {wav_players[1], 1, mixers[0], 1},  //
-      {wav_players[2], 0, mixers[0], 2},  //
-      {wav_players[2], 1, mixers[0], 3},  //
+      {wav_players[0], 0, mixers[0], 0},  //
+      {wav_players[0], 1, mixers[0], 1},  //
+      {wav_players[1], 0, mixers[0], 2},  //
+      {wav_players[1], 1, mixers[0], 3},  //
 
-      {wav_players[3], 0, mixers[1], 0},  //
-      {wav_players[3], 1, mixers[1], 1},  //
-      {wav_players[4], 0, mixers[1], 2},  //
-      {wav_players[4], 1, mixers[1], 3},  //
+      {wav_players[2], 0, mixers[1], 0},  //
+      {wav_players[2], 1, mixers[1], 1},  //
+      {wav_players[3], 0, mixers[1], 2},  //
+      {wav_players[3], 1, mixers[1], 3},  //
+
+      {wav_players[4], 0, mixers[2], 0},  //
+      {wav_players[4], 1, mixers[2], 1},  //
+      {wav_players[5], 0, mixers[2], 2},  //
+      {wav_players[5], 1, mixers[2], 3},  //
 
       // Patch 2nd level mixers to output
-      {mixers[0], 0, mixer_out, 2},  //
-      {mixers[1], 0, mixer_out, 3},  //
+      {mixers[0], 0, mixer_out, 0},  //
+      {mixers[1], 0, mixer_out, 1},  //
+      {mixers[2], 0, mixer_out, 2},  //
 
       // Patch mixer_out to audioOutput
       {mixer_out, 0, audioOutput, 0},  //
@@ -58,7 +60,7 @@ class WavAudioManager {
   Channel& GetChannelByIndex(const size_t index) { return channels[index]; }
 
   Channel& GetIdleChannel() {
-    const static size_t first_channel = 3;
+    const static size_t first_channel = 4;
 
     // Find first available channel, starting with first_channel
     for (size_t channel = first_channel; channel < kChannelCount; ++channel) {

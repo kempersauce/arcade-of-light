@@ -5,7 +5,7 @@
 namespace kss {
 namespace audio {
 
-constexpr size_t kChannelCount{5};
+constexpr size_t kChannelCount{6};
 
 // Message actions
 constexpr char kActionChannelPlay{'1'};
@@ -17,6 +17,7 @@ constexpr char kActionClickTrack{'c'};
 constexpr char kChannelMarkerBG{'0'};
 constexpr char kChannelMarker1{'1'};
 constexpr char kChannelMarker2{'2'};
+constexpr char kChannelMarker3{'3'};
 constexpr char kChannelMarkerAny{'?'};
 
 // SYNTH RECIEVER CONTROL MAPPINGS
@@ -50,6 +51,9 @@ const inline char GetChannelMarker(const int channel_index) {
     case 2:
       return kChannelMarker2;
 
+    case 3:
+      return kChannelMarker3;
+
       // Default to an unspecified channel
     case -1:
     default:
@@ -68,6 +72,9 @@ const inline size_t GetChannelIndex(const char channel_marker) {
 
     case kChannelMarker2:
       return 2;
+
+    case kChannelMarker3:
+      return 3;
 
     default:  // target channel one by default I guess
       Debug("ERROR: Received invalid channel marker character: '" +

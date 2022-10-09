@@ -118,7 +118,7 @@ class RocketGame : public Game {
         rocket(display->size, CRGB::White),
         target(CRGB(55, 0, 0)),
         explosionsInTheSky(),
-        explosion{80, 1000, 3000, 55, 12, 0, 0, 255, 0, &audio.explosion},
+        explosion{110, 1000, 3000, 55, 12, 0, 0, 255, 0, &audio.explosion},
         fireworks{display->size, 0} {
     // Set some physics on the explosion shrapnel so they'll bounce off the
     // ceiling and floor
@@ -309,10 +309,10 @@ class RocketGame : public Game {
         }
 
         if (controller.super_up->IsDepressing()) {
-          audio.startPlayBoost();
+          audio.super_boost.Play();
         }
         if (controller.super_up->IsReleasing()) {
-          audio.stopPlayBoost();
+          audio.super_boost.Stop();
         }
 
         rocket.Move();

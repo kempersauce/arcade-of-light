@@ -13,6 +13,8 @@ namespace games {
 namespace rocket {
 
 class Rocket : public animation::Animation {
+  const size_t x;
+
  public:
   engines::PhysicsInfo physics;
 
@@ -36,12 +38,12 @@ class Rocket : public animation::Animation {
    */
   Rocket(math::Dimension display_size, CRGB color)
       : Animation(),
+        x{display_size.width / 2},
         color{color},
-        boost{7, display_size.width / 2},
-        super_boost_left{2, display_size.width / 2 - 1, .5},
-        super_boost_right{2, display_size.width / 2 + 1, .5} {
+        boost{7, x},
+        super_boost_left{2, x - 1, .5},
+        super_boost_right{2, x + 1, .5} {
     // Init physics settings
-    physics.location.x = display_size.width / 2;
     physics.LocationMax = display_size.height;
     physics.BounceFactor = -0.7;
     physics.ExplodeVelocity = 50;
@@ -51,6 +53,7 @@ class Rocket : public animation::Animation {
 
   void Reset() {
     physics.Reset();
+    physics.location.x = x;
     super_boost = false;
   }
 
@@ -85,17 +88,17 @@ class Rocket : public animation::Animation {
     super_boost_right.Draw(display);
 
     // Draw the rocket ship
-    const size_t middleStrip = display->size.width / 2;
     for (size_t i = max(ceil(physics.location.y), 0);
          i < min(physics.location.y + height, display->size.height); ++i) {
-      display->Pixel(middleStrip, i) = color;
+      display->Pixel(physics.location.x, i) = color;
     }
 
     // dither rocket nose
-    display->DitherPixelY(middleStrip, physics.location.y + height - 1, color);
+    display->DitherPixelY(physics.location.x, physics.location.y + height - 1,
+                          color);
 
     // dither rocket tail
-    display->DitherPixelY(middleStrip, physics.location.y, color);
+    display->DitherPixelY(physics.location.x, physics.location.y, color);
   }
 };
 
