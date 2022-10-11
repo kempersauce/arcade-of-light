@@ -332,7 +332,7 @@ class RhythmGameSingle : public Game {
     }
 
     // Draw charge bars
-    const bool was_charged = on_beat_height < display->size.height - 1;
+    const bool was_charged = on_beat_height >= display->size.height - 1;
     on_beat_height = on_beat_count * on_beat_units;
     if (on_beat_height < display->size.height - 1) {
       charge_bar.Draw(display);
