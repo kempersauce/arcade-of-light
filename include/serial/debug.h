@@ -65,7 +65,7 @@ inline void print(const String& msg) {
 inline void Init() {
 #ifdef KSS_DEBUG
   Serial.begin(kss::serial::kBaudRate);
-  delay(15000);  // Wait for serial to actually start
+  delay(5000);  // Wait for serial to actually start
   Debug("Beginning serial debug, baud rate=" + kss::serial::kBaudRate);
   Debunny();
   Debug_here();
