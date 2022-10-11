@@ -30,6 +30,7 @@ class RocketAudio : public audio::Manager {
   audio::SoundEffect win{sender, "BOOM.WAV"};
   audio::SoundEffect targetWin{sender, "TRGTHIT5.WAV"};
   audio::SoundEffectBespoke levelWin{sender, 1, "LIFTOFF.WAV"};
+  audio::SoundEffectBespoke lose{sender, 1, "ABORTSEQ.WAV"};
 
   // Level specific audio
   LevelAudio level_sounds[5] = {
@@ -45,7 +46,7 @@ class RocketAudio : public audio::Manager {
 
   // Just leaving this one open for now
   // I don't think we need a specific channel for it
-  audio::SoundEffectBespoke super_boost{sender, 2, "WHOOSH.WAV"};
+  audio::SoundEffectBespoke super_boost{sender, 2, "SPRBOOST.WAV"};
 
   audio::SoundEffectBespoke targetHover{sender, 3, "TRGTSEQ.WAV"};
   audio::SoundEffect fireworkLaunch{sender, "TRGTMIS1.WAV"};
@@ -61,6 +62,7 @@ class RocketAudio : public audio::Manager {
     super_boost.Stop();
     targetHover.Stop();
     levelWin.Stop();
+	lose.Stop();
     sender->StopChannel(4);
     sender->StopChannel(5);
   }

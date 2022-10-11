@@ -111,7 +111,7 @@ class RocketGame : public Game {
         instructo{instructo},
         instructo_animation{
             instructo == NULL ? NULL
-                              : new animation::WaveOut1(instructo_play_hue, 0, display->size)},
+                              : new animation::WaveOut1(instructo_play_hue, 0, instructo->size)},
         controller{controller},
         starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),
@@ -199,6 +199,7 @@ class RocketGame : public Game {
     Debug("Entering Lose state");
     gameState = RocketGameLose;
     SetInstructoLose();
+	audio.lose.Play();
     explosion.ExplodeAt(rocket.physics.location.x, rocket.physics.location.y);
     explosionsInTheSky.startAnimation(audio);
   }

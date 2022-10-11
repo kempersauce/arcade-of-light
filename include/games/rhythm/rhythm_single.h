@@ -75,7 +75,7 @@ class RhythmGameSingle : public Game {
   animation::Explosions explosions;
 
   // Success tracking
-  uint16_t on_beat_count{48};  // Debug, start almost there
+  uint16_t on_beat_count{0};  // Debug, start almost there
   uint16_t on_beat_count_max{48};
   float on_beat_units;
   uint16_t on_beat_height;

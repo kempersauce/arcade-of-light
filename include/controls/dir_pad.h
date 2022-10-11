@@ -36,7 +36,9 @@ struct DirPad : public Controller<_dir_pad::kButtonCount> {
              context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[3]),
              context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[4]),
              context.CreateButton(pins::Controllers[ctl_no], pins::Buttons[5])},
-            _dir_pad::kIdleTimeoutMillis) {}
+            _dir_pad::kIdleTimeoutMillis) {
+    exclude_from_idle.push_back(up);
+  }
 };
 
 }  // namespace controls

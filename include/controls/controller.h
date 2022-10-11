@@ -1,6 +1,7 @@
 #pragma once
 
-#include <array>  // for std::array
+#include <array>   // for std::array
+#include <vector>  // for std::vector
 
 #include "controls/button.h"  // for Button
 
@@ -11,6 +12,7 @@ template <size_t BUTTON_COUNT>
 struct Controller {
   static constexpr size_t button_count{BUTTON_COUNT};
   std::array<Button*, BUTTON_COUNT> buttons;
+  std::vector<Button*> exclude_from_idle;
   uint32_t idle_timeout_millis;
 
   Controller() : buttons{NULL}, idle_timeout_millis{0} {}
@@ -26,6 +28,11 @@ struct Controller {
 
     for (auto button : buttons) {
       if (button != NULL && button->GetMillisReleased() < idle_timeout_millis) {
+        for (auto exclude : exclude_from_idle) {
+          if (button == exclude) {
+            continue;
+          }
+        }
         return false;
       }
     }
