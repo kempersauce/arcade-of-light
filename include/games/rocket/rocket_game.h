@@ -109,9 +109,10 @@ class RocketGame : public Game {
              controls::RocketController controller)
       : Game(display),
         instructo{instructo},
-        instructo_animation{
-            instructo == NULL ? NULL
-                              : new animation::WaveOut1(instructo_play_hue, 0, instructo->size)},
+        instructo_animation{instructo == NULL
+                                ? NULL
+                                : new animation::WaveOut1(instructo_play_hue, 0,
+                                                          instructo->size)},
         controller{controller},
         starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),
@@ -199,17 +200,17 @@ class RocketGame : public Game {
     Debug("Entering Lose state");
     gameState = RocketGameLose;
     SetInstructoLose();
-	audio.boost.Stop();
-	audio.super_boost.Stop();
-	audio.lose.Play();
+    audio.boost.Stop();
+    audio.super_boost.Stop();
+    audio.lose.Play();
     explosion.ExplodeAt(rocket.physics.location.x, rocket.physics.location.y);
     explosionsInTheSky.startAnimation(audio);
   }
 
   void enterLevelAdvanceState() {
     Debug("Entering Level Advance state");
-	audio.boost.Stop();
-	audio.super_boost.Stop();
+    audio.boost.Stop();
+    audio.super_boost.Stop();
     audio.playLevelWin();
     rocket.super_boost = true;
     gameState = RocketGameLevelAdvance;
