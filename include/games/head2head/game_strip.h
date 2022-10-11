@@ -24,6 +24,10 @@ enum H2HStripState {
   H2HStripTotalWinB
 };
 
+  float hitVelocityMultiplierBase = 10; // ajdust multiplier for hit velocity increase
+  float hitVelocityMultiplierHeinz = 15; // ajdust multiplier for hit velocity increase
+  const float heinzRedZone = 0.666;
+
 class H2HGameStrip : public animation::Animation {
   H2HInstructoGame* const instructo_a;
   H2HInstructoGame* const instructo_b;
@@ -61,10 +65,6 @@ class H2HGameStrip : public animation::Animation {
 
   const uint32_t totalWinStateTimeoutMillis =
       1000 * 3;  // loop total win animation for 3 seconds
-
-  const float hitVelocityMultiplierBase = 10; // ajdust multiplier for hit velocity increase
-  const float hitVelocityMultiplierHeinz = 15; // ajdust multiplier for hit velocity increase
-  const float heinzRedZone = 0.666;
 
 
  public:
