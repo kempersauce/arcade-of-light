@@ -52,7 +52,7 @@ class DrumInterface : public PlayerInterface {
       // Joystick selects drum track
       else {
         if (butt->IsDepressing()) {
-          Debug("beat index" + i);
+          //Debug("beat index" + i);
           track.SwitchImmediatelyTo(beat_scores[i]);
         }
       }
