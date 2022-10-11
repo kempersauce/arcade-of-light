@@ -56,7 +56,7 @@ class H2HDisplay
   InstructoDisplay instructo_b;
 
   H2HDisplay()
-      : OctoDisplay(_h2h::kPinList, _h2h::kDisplayMemory, 2),
+      : OctoDisplay(_h2h::kPinList, _h2h::kDisplayMemory, GRID_SCALE_WIDE, 2),
         main_display{this, {0, 0}, {kTableStripCount, kTableStripLength}},
         instructo_a{&pixels[(kTableStripCount + 0) * _h2h::kLengthStrips]},
         instructo_b{&pixels[(kTableStripCount + 1) * _h2h::kLengthStrips]} {}

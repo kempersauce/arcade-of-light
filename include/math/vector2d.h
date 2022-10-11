@@ -66,8 +66,10 @@ class Vector2D {
 
   String ToString() const { return (String) "(" + x + "x" + y + ")"; }
 
+  Vector2D GetAbs() const { return {abs(x), abs(y)}; }
+
   // Not sure how well this would work for non-floats, meh whatever
-  static Vector2D RandomVector(T max_magnitude) {
+  static Vector2D RandomVector(const T max_magnitude) {
     const T neg_magnitude = max_magnitude * -1;
     const T hypotenuese_squared = max_magnitude * max_magnitude;
     Vector2D<float> float_vec;

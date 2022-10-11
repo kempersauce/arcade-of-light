@@ -33,7 +33,7 @@ DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 class RocketDisplay
     : public OctoDisplay<_five::kNumStrips, _five::kLengthStrips> {
  public:
-  RocketDisplay() : OctoDisplay(_five::kPinList, _five::kDisplayMemory) {}
+  RocketDisplay() : OctoDisplay(_five::kPinList, _five::kDisplayMemory, GRID_SCALE_WIDE) {}
 };
 
 }  // namespace display

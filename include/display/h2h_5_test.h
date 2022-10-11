@@ -43,7 +43,7 @@ class H2H5TestDisplay
   InstructoDisplay instructo;
 
   H2H5TestDisplay()
-      : OctoDisplay(_h2h_5_test::kPinList, _h2h_5_test::kDisplayMemory),
+      : OctoDisplay(_h2h_5_test::kPinList, _h2h_5_test::kDisplayMemory, GRID_SCALE_WIDE),
         main_display{this, {0, 0}, {kTowerStripCount, kTableStripLength}},
         instructo{&pixels[kTowerStripCount * _h2h_5_test::kLengthStrips]} {}
 };

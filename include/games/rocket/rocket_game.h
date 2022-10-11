@@ -111,7 +111,7 @@ class RocketGame : public Game {
         instructo{instructo},
         instructo_animation{
             instructo == NULL ? NULL
-                              : new animation::WaveOut(instructo_play_hue, 0)},
+                              : new animation::WaveOut1(instructo_play_hue, 0, display->size)},
         controller{controller},
         starBackground(display->size, 140),
         skyFade(skyFadeColors[0]),

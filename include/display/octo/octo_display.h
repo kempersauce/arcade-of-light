@@ -35,8 +35,8 @@ class OctoDisplay : public Display {
 
  public:
   OctoDisplay(const uint8_t* pin_list, int* displayMemory,
-              size_t end_pins_in_rgb = 0)
-      : Display({STRIP_COUNT, STRIP_LENGTH}),
+              math::Vector2D<float> grid_scale, size_t end_pins_in_rgb = 0)
+      : Display({STRIP_COUNT, STRIP_LENGTH}, grid_scale),
         octo{size.y, displayMemory, drawingMemory, WS2811_RGB | WS2811_800kHz,
              size.x, pin_list},
         front_pixels_in_grb{total_pixel_count -
@@ -68,7 +68,7 @@ class OctoDisplay : public Display {
       octo.setPixel(i, pixels[i].g, pixels[i].r, pixels[i].b);
     }
 
-	// Fire them bits down the tube
+    // Fire them bits down the tube
     octo.show();
   }
 };

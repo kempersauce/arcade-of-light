@@ -55,7 +55,7 @@ DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 class TwentyDisplay
     : public OctoDisplay<_twenty::kNumStrips, _twenty::kLengthStrips> {
  public:
-  TwentyDisplay() : OctoDisplay(_twenty::kPinList, _twenty::kDisplayMemory) {}
+  TwentyDisplay() : OctoDisplay(_twenty::kPinList, _twenty::kDisplayMemory, GRID_SCALE_WIDE) {}
   virtual ~TwentyDisplay() = default;
 };
 

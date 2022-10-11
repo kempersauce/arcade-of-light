@@ -30,7 +30,7 @@ class SwitchbackDisplay : public Display {
 
  public:
   SwitchbackDisplay(const uint8_t pin, int* displayMemory)
-      : Display({row_count, column_count}),
+      : Display({row_count, column_count}, GRID_SCALE_1_1),
         pin_list{pin},
         octo(total_pixel_count, displayMemory, drawingMemory,
              WS2811_RGB | WS2811_800kHz, 1,

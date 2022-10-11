@@ -9,7 +9,7 @@ namespace fast_led {
 
 class FiveDisplay : public FastLedDisplay<5, 300> {
  public:
-  FiveDisplay() : FastLedDisplay() {
+  FiveDisplay() : FastLedDisplay(GRID_SCALE_WIDE) {
     RegisterStrip<pins::Leds[0]>(0);
     RegisterStrip<pins::Leds[1]>(1);
     RegisterStrip<pins::Leds[2]>(2);

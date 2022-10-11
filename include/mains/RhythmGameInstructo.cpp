@@ -32,7 +32,7 @@ void setup() {
   Debug("gameDisplay created");
 
   animes.push_back(
-      new animation::WaveOut(games::rhythm::kPlayerHues[PLAYER_NO]));
+      new animation::WaveOut2(games::rhythm::kPlayerHues[PLAYER_NO], 255, gameDisplay->size));
 
   Debug("Animations created");
 

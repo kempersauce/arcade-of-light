@@ -9,7 +9,7 @@ namespace fast_led {
 
 class TwentyDisplay : public FastLedDisplay<20, 300> {
  public:
-  TwentyDisplay() : FastLedDisplay() {
+  TwentyDisplay() : FastLedDisplay(GRID_SCALE_WIDE) {
     RegisterStrip<pins::Leds[0]>(0);
     RegisterStrip<pins::Leds[1]>(1);
     RegisterStrip<pins::Leds[2]>(2);

@@ -18,7 +18,8 @@ class FastLedDisplay : public Display {
   CRGB pixels[STRIP_COUNT][STRIP_LENGTH];
 
  public:
-  FastLedDisplay() : Display({STRIP_COUNT, STRIP_LENGTH}) {}
+  FastLedDisplay(math::Vector2D<float> grid_scale)
+      : Display({STRIP_COUNT, STRIP_LENGTH}, grid_scale) {}
   virtual ~FastLedDisplay() = default;
 
   // Delete copy constructor & assignment operator, force them to make their own

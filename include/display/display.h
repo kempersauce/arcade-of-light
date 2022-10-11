@@ -31,14 +31,16 @@ class Display {
 
  public:
   const math::Dimension size;
+  const math::Vector2D<float> grid_scale;
 
-  Display(const math::Dimension& size) : size{size} {}
+  Display(math::Dimension size, math::Vector2D<float> grid_scale)
+      : size{size}, grid_scale{grid_scale} {}
   virtual ~Display() = default;
 
   // Reference to the desired CRGB pixel for get/set and other operations
   virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) = 0;
 
-  inline CRGB& Pixel(const math::Dimension& point) {
+  inline CRGB& Pixel(const math::Dimension point) {
     return Pixel(point.x, point.y);
   }
 
@@ -75,7 +77,7 @@ class Display {
     return strip >= 0 && strip < size.x && pixel >= 0 && pixel < size.y;
   }
 
-  inline bool IsInBounds(const math::Dimension& point) const {
+  inline bool IsInBounds(const math::Dimension point) const {
     return IsInBounds(point.x, point.y);
   }
 

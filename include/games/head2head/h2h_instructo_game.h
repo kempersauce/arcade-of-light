@@ -20,7 +20,9 @@ class H2HInstructoGame : public Game {
   animation::Explosions explosions;
 
   H2HInstructoGame(display::Display* display, uint8_t hue)
-      : Game(display), idle{0, display->size.height}, background{hue} {
+      : Game(display),
+        idle{0, display->size.height},
+        background{hue, 255, display->size} {
     idle.setWaveStats(6, -3, 3);
   }
 

@@ -32,7 +32,7 @@ class InstructoStandaloneDisplay
  public:
   InstructoStandaloneDisplay()
       : OctoDisplay(_instructo_standalone::kPinList,
-                    _instructo_standalone::kDisplayMemory,
+                    _instructo_standalone::kDisplayMemory, GRID_SCALE_1_1,
                     _instructo_standalone::kLengthStrips) {}
 };
 

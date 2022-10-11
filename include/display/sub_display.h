@@ -21,7 +21,7 @@ class SubDisplay : public Display {
  public:
   SubDisplay(Display* parent, const math::Dimension& location,
              const math::Dimension& size)
-      : Display(size), parent{parent}, location{location} {
+      : Display(size, parent->grid_scale), parent{parent}, location{location} {
     Debug("loc=" + location.ToString() + ", size=" + size.ToString());
   }
 

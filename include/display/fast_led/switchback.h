@@ -18,7 +18,7 @@ class SwitchbackDisplay : public Display {
   CRGB pixels[STRIP_COUNT * STRIP_LENGTH];
 
  public:
-  SwitchbackDisplay() : Display({STRIP_COUNT, STRIP_LENGTH}) {}
+  SwitchbackDisplay() : Display({STRIP_COUNT, STRIP_LENGTH}, GRID_SCALE_1_1) {}
   virtual ~SwitchbackDisplay() = default;
 
   // Delete copy constructor & assignment operator, force them to make their own

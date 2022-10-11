@@ -11,6 +11,7 @@
 #include "animation/sine_wave.h"                      // for SineWave
 #include "animation/single_color_background.h"        // for SingleColorBG
 #include "animation/single_color_block.h"             // for SingleColorBlock
+#include "animation/wave_out.h"                       // for WaveOut
 #include "animation/wave_pulse.h"                     // for WavePulse
 #include "animation/wave_pulse_stars.h"               // for WavePulseStars
 #include "audio/synth_sender_raw.h"                   // for SynthSenderRaw
@@ -56,6 +57,8 @@ class RhythmGameSingle : public Game {
   PlayerInterface* const player_interface;
 
   // Animations
+  animation::WaveOut3 idle_animation;
+
   animation::SingleColorBG background;
   animation::WavePulseStars wave_pulse_stars[4];
   animation::SineWave sine_wave;
@@ -89,6 +92,7 @@ class RhythmGameSingle : public Game {
                                               &this->controller, player_no)
                                         : (PlayerInterface*)new SynthInterface(
                                               &this->controller, player_no)},
+        idle_animation{kPlayerHues[player_no], 255, display->size},
         wave_pulse_stars{
             {display->size.height / 6, 0,
              noise_generator == NULL
@@ -226,7 +230,7 @@ class RhythmGameSingle : public Game {
         on_beat_count += 2;
         AddExplosions();
         last_beat_hit_millis = time::Now();
-        if (on_beat_count > on_beat_count_max){
+        if (on_beat_count > on_beat_count_max) {
           on_beat_count = on_beat_count_max;
         }
       }
@@ -242,7 +246,7 @@ class RhythmGameSingle : public Game {
         on_beat_count += 1;
         AddExplosions();
         last_beat_hit_millis = time::Now();
-        if (on_beat_count > on_beat_count_max){
+        if (on_beat_count > on_beat_count_max) {
           on_beat_count = on_beat_count_max;
         }
       }
@@ -266,6 +270,13 @@ class RhythmGameSingle : public Game {
 
     // Play music! That's the whole game!
     player_interface->Update();
+
+    // Show Idle animation if we're idle
+    idle_animation.Move();  // move always to stay together
+    if (controller.IsIdle()) {
+      idle_animation.Draw(display);
+      return;
+    }
 
     for (uint8_t i = 0; i < controller.button_count; ++i) {
       auto& wave = sine_wave.waves[i % sine_wave.waves.size()];

@@ -10,8 +10,8 @@ namespace controls {
 
 namespace _dir_pad {
 constexpr size_t kButtonCount{6};
-constexpr uint32_t kIdleTimeoutMillis{15 * 1000};  // 2 minute idle timeout
-// constexpr uint32_t kIdleTimeoutMillis{20 * 1000};  // 20 seconds for testing
+constexpr uint32_t kIdleTimeoutMillis{60 * 1000};  // 1 minute idle timeout
+// constexpr uint32_t kIdleTimeoutMillis{15 * 1000};  // 15 seconds for testing
 }  // namespace _dir_pad
 
 struct DirPad : public Controller<_dir_pad::kButtonCount> {

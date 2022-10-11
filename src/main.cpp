@@ -48,6 +48,7 @@
 // #include "mains/animation/DiamondTest.cpp"
 // #include "mains/animation/H2HDotTest.cpp"
 // #include "mains/animation/SineWaveTest.cpp"
+// #include "mains/animation/WaveOutTest.cpp"
 
 // Other test programs
 // #include "mains/RandomTest.cpp"
