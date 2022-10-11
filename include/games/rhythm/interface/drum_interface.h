@@ -52,7 +52,7 @@ class DrumInterface : public PlayerInterface {
       // Joystick selects drum track
       else {
         if (butt->IsDepressing()) {
-          //Debug("beat index" + i);
+          // Debug("beat index" + i);
           track.SwitchImmediatelyTo(beat_scores[i]);
         }
       }
@@ -87,6 +87,16 @@ class DrumInterface : public PlayerInterface {
       }
 
       synth.StartInput(note);
+    }
+
+    const uint32_t over9000{9000};
+    if (controller->a->GetMillisHeld() > over9000 &&
+        controller->b->GetMillisHeld() > over9000 &&
+        controller->up->GetMillisReleased() > over9000 &&
+        controller->right->GetMillisReleased() > over9000 &&
+        controller->left->GetMillisReleased() > over9000 &&
+        controller->down->IsDepressing()) {
+      // Play megalovania
     }
   }
 };
