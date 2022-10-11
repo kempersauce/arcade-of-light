@@ -199,6 +199,8 @@ class RocketGame : public Game {
     Debug("Entering Lose state");
     gameState = RocketGameLose;
     SetInstructoLose();
+	audio.boost.Stop();
+	audio.super_boost.Stop();
 	audio.lose.Play();
     explosion.ExplodeAt(rocket.physics.location.x, rocket.physics.location.y);
     explosionsInTheSky.startAnimation(audio);
@@ -206,6 +208,8 @@ class RocketGame : public Game {
 
   void enterLevelAdvanceState() {
     Debug("Entering Level Advance state");
+	audio.boost.Stop();
+	audio.super_boost.Stop();
     audio.playLevelWin();
     rocket.super_boost = true;
     gameState = RocketGameLevelAdvance;
