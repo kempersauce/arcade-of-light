@@ -92,6 +92,7 @@ class WaveOut2 : public WaveOut {
       : WaveOut(hue, sat) {
     AddSource({display_size.width - 1, 0.0f});
     AddSource({display_size.width - 1, display_size.height - 1});
+    wave.wavelength = (display_size.height - 1) / 4.0f;
   }
 };
 
