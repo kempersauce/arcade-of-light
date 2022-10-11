@@ -146,6 +146,7 @@ class H2HGameStrip : public animation::Animation {
 
     if (instructo_a != NULL) {
       instructo_a->explosions.push_back(explosion);
+      instructo_a->explosions.back().SetFriction({1, 4});
       instructo_a->ExplodeBack(stripIndex);
     }
 
