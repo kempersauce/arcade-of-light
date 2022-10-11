@@ -62,6 +62,11 @@ class H2HGameStrip : public animation::Animation {
   const uint32_t totalWinStateTimeoutMillis =
       1000 * 3;  // loop total win animation for 3 seconds
 
+  const float hitVelocityMultiplierBase = 10; // ajdust multiplier for hit velocity increase
+  const float hitVelocityMultiplierHeinz = 15; // ajdust multiplier for hit velocity increase
+  const float heinzRedZone = 0.666;
+
+
  public:
   H2HStripState stripState;
 
@@ -211,9 +216,12 @@ class H2HGameStrip : public animation::Animation {
             Debug("Team A hits button on strip " + stripIndex);
             if (zoneA.checkZone(dot.physics.location.y)) {
               audioA.playTeamAHit();
-              dot.setVelocity(-1 * (dot.physics.velocity.y) +
-                              (zoneA.zoneDepth(dot.physics.location.y) *
-                               10));  // 20 to 40 px/sec
+              float depth = zoneA.zoneDepth(dot.physics.location.y);
+              float sauce = hitVelocityMultiplierBase * depth;
+              if(depth > heinzRedZone) {
+                sauce = hitVelocityMultiplierHeinz * depth;
+              }
+              dot.setVelocity(-1 * (dot.physics.velocity.y) + sauce);  // 2 to 4 times multiplier px/sec
             } else {
               audioA.playTeamAMiss();
             }
@@ -224,9 +232,12 @@ class H2HGameStrip : public animation::Animation {
             Debug("Team B hits button on strip" + stripIndex);
             if (zoneB.checkZone(dot.physics.location.y)) {
               audioB.playTeamBHit();
-              dot.setVelocity(-1 * (dot.physics.velocity.y) -
-                              (zoneB.zoneDepth(dot.physics.location.y) *
-                               10));  // -20 to -40 px/sec
+              float depth = zoneB.zoneDepth(dot.physics.location.y);
+              float sauce = hitVelocityMultiplierBase * depth;
+              if(depth > heinzRedZone) {
+                sauce = hitVelocityMultiplierHeinz * depth;
+              }
+              dot.setVelocity(-1 * (dot.physics.velocity.y) - sauce);  // -2 to -4 times multiplier px/sec
             } else {
               audioB.playTeamBMiss();
             }
