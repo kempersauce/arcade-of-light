@@ -78,7 +78,7 @@ class RhythmGameSingle : public Game {
   uint16_t on_beat_count{0};  // Debug, start almost there
   uint16_t on_beat_count_max{48};
   float on_beat_units;
-  uint16_t on_beat_height;
+  uint16_t on_beat_height{0};
   static constexpr uint8_t on_beat_count_threshold{8};
 
  public:
@@ -332,10 +332,15 @@ class RhythmGameSingle : public Game {
     }
 
     // Draw charge bars
+    const bool was_charged = on_beat_height < display->size.height - 1;
     on_beat_height = on_beat_count * on_beat_units;
     if (on_beat_height < display->size.height - 1) {
       charge_bar.Draw(display);
     } else {
+      // Eliminate full charge flicker by pumping this up when it hits
+      if (!was_charged) {
+        on_beat_count += 2;
+      }
       charge_full.Draw(display);
     }
 
