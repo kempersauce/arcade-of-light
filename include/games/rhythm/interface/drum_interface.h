@@ -18,14 +18,14 @@ namespace rhythm {
 class DrumInterface : public PlayerInterface {
   static constexpr size_t num_beats{6};
   audio::Score* beat_scores[num_beats]{
-    // Ghost only
+      // Ghost only
       &audio::beats::Reggae,
-      &audio::beats::Procession, // not this one
-      
-      &audio::beats::BootsAndCats,   // Down
-      &audio::beats::Procession, // Left
-      &audio::beats::Fiddy, // Right
-      &audio::beats:: Florian,  // Up
+      &audio::beats::Procession,  // not this one
+
+      &audio::beats::BootsAndCats,  // Down
+      &audio::beats::Procession,    // Left
+      &audio::beats::Fiddy,         // Right
+      &audio::beats::Florian,       // Up
   };
 
   audio::AudioTrack track{&audio::beats::BootsAndCats};
@@ -64,11 +64,11 @@ class DrumInterface : public PlayerInterface {
     if (controller->IsIdle()) {
       // Debug("Drummer is Idle! Go Go Gadget Ghost Drummer");
       if (time::Now() - last_check_time > check_time_delay_millis) {
-        // if (math::random::Bool(0.2)) {
-        //   const uint8_t beat_index = math::random::Int8(num_beats);
-        //   Debug("Ghost Drummer Switching tracks to beat_index " + beat_index);
-        //   track.SwitchImmediatelyTo(beat_scores[math::random::Int8(num_beats)]);
-        // }
+        if (math::random::Bool(0.2)) {
+          const uint8_t beat_index = math::random::Int8(num_beats);
+          Debug("Ghost Drummer Switching tracks to beat_index " + beat_index);
+          track.SwitchImmediatelyTo(beat_scores[math::random::Int8(num_beats)]);
+        }
         last_check_time =
             time::Now() - math::random::Int16(check_time_delay_millis);
       }
