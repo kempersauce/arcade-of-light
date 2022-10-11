@@ -269,6 +269,24 @@ class Head2Head : public Game {
     if (instructo_b != NULL) {
       instructo_b->loop();
     }
+
+    const uint32_t boom_time{5 * 1000};
+    bool boom_boom = false;
+    if (teamA.buttons[0]->GetMillisHeld() > boom_time &&
+        teamA.buttons[1]->GetMillisHeld() > boom_time &&
+        teamA.buttons[2]->GetMillisHeld() > boom_time &&
+        teamA.buttons[3]->GetMillisReleased() > boom_time &&
+        teamA.buttons[4]->GetMillisReleased() > boom_time &&
+        teamA.buttons[5]->GetMillisReleased() > boom_time &&
+        teamA.buttons[6]->IsDepressing() &&
+        teamA.buttons[7]->GetMillisReleased() > boom_time) {
+      boom_boom = !boom_boom;
+      if (boom_boom) {
+        audioA.playIdleBG();
+      } else {
+        audioA.playStdBG();
+      }
+    }
   }
 };
 
