@@ -27,20 +27,23 @@ class OctoDisplay : public Display {
   int drawingMemory[total_pixel_count * 3 / 4];
 
   OctoWS2811 octo;
-  const size_t front_pixels_in_grb;
 
  protected:
   // pixels initializes to all zeros
   CRGB pixels[total_pixel_count] = {};
+  bool is_grb[STRIP_COUNT];
 
  public:
   OctoDisplay(const uint8_t* pin_list, int* displayMemory,
-              math::Vector2D<float> grid_scale, size_t end_pins_in_rgb = 0)
+              math::Vector2D<float> grid_scale, size_t instructo_count = 0)
       : Display({STRIP_COUNT, STRIP_LENGTH}, grid_scale),
         octo{size.y, displayMemory, drawingMemory, WS2811_RGB | WS2811_800kHz,
-             size.x, pin_list},
-        front_pixels_in_grb{total_pixel_count -
-                            end_pins_in_rgb * STRIP_LENGTH} {
+             size.x, pin_list} {
+    // Set strips to GRB, except instructos are RGB
+    for (size_t strip = 0; strip < STRIP_COUNT; ++strip) {
+      is_grb[strip] = strip < STRIP_COUNT - instructo_count;
+    }
+
     octo.begin();
   }
 
@@ -57,15 +60,29 @@ class OctoDisplay : public Display {
     return pixels[strip * size.y + pixel];
   }
 
-  virtual void Show() override {
-    // Main display is GRB
-    for (size_t i = 0; i < front_pixels_in_grb; ++i) {
+  inline void ShowStripRGB(const size_t strip_no) {
+    const size_t start{strip_no * STRIP_LENGTH};
+    const size_t stop{(strip_no + 1) * STRIP_LENGTH};
+    for (size_t i = start; i < stop; ++i) {
+      octo.setPixel(i, pixels[i].g, pixels[i].r, pixels[i].b);
+    }
+  }
+
+  inline void ShowStripGRB(const size_t strip_no) {
+    const size_t start{strip_no * STRIP_LENGTH};
+    const size_t stop{(strip_no + 1) * STRIP_LENGTH};
+    for (size_t i = start; i < stop; ++i) {
       octo.setPixel(i, pixels[i].r, pixels[i].g, pixels[i].b);
     }
+  }
 
-    // Instructos are RGB
-    for (size_t i = front_pixels_in_grb; i < total_pixel_count; ++i) {
-      octo.setPixel(i, pixels[i].g, pixels[i].r, pixels[i].b);
+  virtual void Show() override {
+    for (size_t strip = 0; strip < STRIP_COUNT; ++strip) {
+      if (is_grb[strip]) {
+        ShowStripGRB(strip);
+      } else {
+        ShowStripRGB(strip);
+      }
     }
 
     // Fire them bits down the tube
