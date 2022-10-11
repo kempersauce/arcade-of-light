@@ -1,5 +1,6 @@
 #pragma once
 
+#include "display/constants.h"          // for k*
 #include "display/octo/octo_display.h"  // for OctoDisplay
 #include "pins/pin_setup.h"             // for Leds
 
@@ -9,8 +10,8 @@ namespace octo {
 
 namespace _twenty {
 
-constexpr size_t kNumStrips = 20;
-constexpr size_t kLengthStrips = 294;
+constexpr size_t kNumStrips{4 * kTowerStripCount};
+constexpr size_t kLengthStrips{kTowerStripLength};
 
 constexpr uint8_t kPinList[kNumStrips]{
     // clang-format off
@@ -55,7 +56,9 @@ DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 class TwentyDisplay
     : public OctoDisplay<_twenty::kNumStrips, _twenty::kLengthStrips> {
  public:
-  TwentyDisplay() : OctoDisplay(_twenty::kPinList, _twenty::kDisplayMemory, GRID_SCALE_WIDE) {}
+  TwentyDisplay()
+      : OctoDisplay(_twenty::kPinList, _twenty::kDisplayMemory,
+                    display::GRID_SCALE_WIDE) {}
   virtual ~TwentyDisplay() = default;
 };
 

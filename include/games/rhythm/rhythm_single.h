@@ -273,10 +273,6 @@ class RhythmGameSingle : public Game {
 
     // Show Idle animation if we're idle
     idle_animation.Move();  // move always to stay together
-    if (controller.IsIdle()) {
-      idle_animation.Draw(display);
-      return;
-    }
 
     for (uint8_t i = 0; i < controller.button_count; ++i) {
       auto& wave = sine_wave.waves[i % sine_wave.waves.size()];
@@ -316,6 +312,12 @@ class RhythmGameSingle : public Game {
     explosions.Move();
 
     // Draw Time
+    if (controller.IsIdle()) {
+      on_beat_count = 0;
+      idle_animation.Draw(display);
+      return;
+    }
+
     background.Draw(display);
 
     // Draw stars in the background

@@ -25,6 +25,12 @@ constexpr uint8_t kPinList[kNumStrips]{
 
     // Cable 2
     pins::Leds[4],
+    // pins::Leds[5],
+    // pins::Leds[6],
+    // pins::Leds[7],
+
+    // Cable 3
+    // pins::Leds[8],
 
 	// Cable 4 - instructo
 	pins::LedInstructo[0]
