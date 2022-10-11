@@ -76,8 +76,8 @@ class RhythmGameSingle : public Game {
 
   // Success tracking
   uint16_t on_beat_count{0};  // Debug, start almost there
-  uint16_t on_beat_count_max{48};
-  float on_beat_units;
+  const uint16_t on_beat_count_max{48};
+  const float on_beat_units;
   uint16_t on_beat_height{0};
   static constexpr uint8_t on_beat_count_threshold{8};
 
@@ -142,7 +142,7 @@ class RhythmGameSingle : public Game {
       }
 
       // Decrease success rate, hope they've hit something
-      if (on_beat_count > 0) {
+      if (!controller.AnyHolding() && on_beat_count > 0) {
         --on_beat_count;
       }
 
@@ -273,10 +273,6 @@ class RhythmGameSingle : public Game {
 
     // Show Idle animation if we're idle
     idle_animation.Move();  // move always to stay together
-    if (controller.IsIdle()) {
-      idle_animation.Draw(display);
-      return;
-    }
 
     for (uint8_t i = 0; i < controller.button_count; ++i) {
       auto& wave = sine_wave.waves[i % sine_wave.waves.size()];
@@ -316,6 +312,12 @@ class RhythmGameSingle : public Game {
     explosions.Move();
 
     // Draw Time
+    if (controller.IsIdle()) {
+      on_beat_count = 0;
+      idle_animation.Draw(display);
+      return;
+    }
+
     background.Draw(display);
 
     // Draw stars in the background

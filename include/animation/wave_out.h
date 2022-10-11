@@ -92,6 +92,7 @@ class WaveOut2 : public WaveOut {
       : WaveOut(hue, sat) {
     AddSource({display_size.width - 1, 0.0f});
     AddSource({display_size.width - 1, display_size.height - 1});
+    wave.wavelength = (display_size.height - 1) / 4.0f;
   }
 };
 
@@ -100,8 +101,8 @@ class WaveOut3 : public WaveOut {
   WaveOut3(uint8_t hue, uint8_t sat, math::Dimension display_size)
       : WaveOut(hue, sat) {
     AddSource({(display_size.width - 1) / 2.0f,
-               (display_size.height - 1) * 2.0f / 3.0f});
-	wave.wavelength = display_size.height / 27.0f;
+               (display_size.height - 1) * 3.0f / 5.0f});  // golden ratio
+    wave.wavelength = display_size.height / 27.0f;
   }
 };
 
@@ -110,7 +111,7 @@ class WaveOut4 : public WaveOut {
   WaveOut4(uint8_t hue, uint8_t sat, math::Dimension display_size)
       : WaveOut(hue, sat) {
     AddSource((display_size - 1) / 2.0f);
-	wave.wavelength = display_size.height / 18.0f;
+    wave.wavelength = display_size.height / 18.0f;
   }
 };
 

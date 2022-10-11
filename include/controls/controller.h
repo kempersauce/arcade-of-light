@@ -47,6 +47,15 @@ struct Controller {
     }
     return false;
   }
+
+  virtual bool AnyHolding() {
+    for (auto button : buttons) {
+      if (button != NULL && button->IsHolding()) {
+        return true;
+      }
+    }
+    return false;
+  }
 };
 
 }  // namespace controls

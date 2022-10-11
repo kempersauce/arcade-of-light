@@ -11,6 +11,7 @@
 
 using namespace kss;
 
+constexpr bool USE_OFF_HUES{false};
 constexpr uint8_t PLAYER_NO{0};
 
 engines::FrameRate frameRate;
@@ -31,8 +32,10 @@ void setup() {
 
   Debug("gameDisplay created");
 
-  animes.push_back(
-      new animation::WaveOut2(games::rhythm::kPlayerHues[PLAYER_NO], 255, gameDisplay->size));
+  const uint8_t hue = USE_OFF_HUES ? games::rhythm::kPlayerOffhues[PLAYER_NO]
+                             : games::rhythm::kPlayerHues[PLAYER_NO];
+
+  animes.push_back(new animation::WaveOut2(hue, 255, gameDisplay->size));
 
   Debug("Animations created");
 
