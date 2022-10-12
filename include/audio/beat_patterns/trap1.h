@@ -11,14 +11,16 @@ const Score GetTrapScore() {
   ScoreBuilder trap{120, 2};
 
   // tom h
-  // trap.SetBeat(kChannelTom, 7.5);
-  // trap.SetBeat(kChannelTom, 8);
+  trap.SetBeat(kChannelTom, 7.5);
+  trap.SetBeat(kChannelTom, 8.75);
 
   // hh closed
   trap.SetBeat(kChannelHHClosed, 1);        //1
   trap.SetBeat(kChannelHHClosed, 1.25);
   trap.SetBeat(kChannelHHClosed, 1.5);
-  trap.SetBeat(kChannelHHClosed, 1.75);  
+  trap.SetBeat(kChannelHHClosed, 1.68);
+  trap.SetBeat(kChannelHHClosed, 1.75);
+  trap.SetBeat(kChannelHHClosed, 1.88);  
   trap.SetBeat(kChannelHHClosed, 2);        //2
   trap.SetBeat(kChannelHHClosed, 2.25);
   trap.SetBeat(kChannelHHClosed, 2.5);
@@ -47,8 +49,6 @@ const Score GetTrapScore() {
   trap.SetBeat(kChannelHHClosed, 8.25);
   trap.SetBeat(kChannelHHClosed, 8.5);
   trap.SetBeat(kChannelHHClosed, 8.75);
-  trap.SetBeat(kChannelHHClosed, 8.885);
-
 
 
   // crash
@@ -59,12 +59,12 @@ const Score GetTrapScore() {
   trap.SetBeat(kChannelClap, 4);
   trap.SetBeat(kChannelClap, 6);
   trap.SetBeat(kChannelClap, 8);
-  trap.SetBeat(kChannelClap, 8.5);
   trap.SetBeat(kChannelClap, 8.75);
   
 
   // bd
   trap.SetBeat(kChannelBassDrum, 1);
+  trap.SetBeat(kChannelBassDrum, 4.75);
   trap.SetBeat(kChannelBassDrum, 5);
 
   // sd
@@ -73,7 +73,7 @@ const Score GetTrapScore() {
   trap.SetBeat(kChannelSnare, 4.75);
   trap.SetBeat(kChannelSnare, 6.75);
   trap.SetBeat(kChannelSnare, 7.25);
-  trap.SetBeat(kChannelSnare, 8.75);
+  
 
   return trap.GetScore();
 }
