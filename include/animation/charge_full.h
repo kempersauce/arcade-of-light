@@ -61,8 +61,8 @@ class ChargeFull : public Animation {
 
   // Taste the rainbow
   void Draw(display::Display* display) override {
-    const uint8_t y_limit = display->size.y - 1;
-    const uint8_t x_limit = display->size.x - 1;
+    const uint16_t y_limit = display->size.y - 1;
+    const uint16_t x_limit = display->size.x - 1;
 
     // half_height claculated with +1 to avoid odd height edge-case
     const size_t half_height = (display->size.height + 1) / 2;
