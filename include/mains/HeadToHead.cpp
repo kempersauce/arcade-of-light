@@ -1,14 +1,15 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "controls/h2h.h"               // for H2HController
-#include "controls/hardware/matrix.h"   // for Matrix
-#include "display/h2h.h"                // for H2HDisplay
-#include "engines/framerate.h"          // for Framerate
-#include "games/head2head/head2head.h"  // for Head2Head
-#include "pins/pin_setup.h"             // for pins::Init
-#include "serial/debug.h"               // for Debug
-#include "time/now.h"                   // for time::*
+#include "controls/h2h.h"                // for H2HController
+#include "controls/hardware/matrix.h"    // for Matrix
+#include "display/h2h.h"                 // for H2HDisplay
+#include "engines/framerate.h"           // for Framerate
+#include "games/head2head/game_strip.h"  // for H2HGameStrip
+#include "games/head2head/head2head.h"   // for Head2Head
+#include "pins/pin_setup.h"              // for pins::Init
+#include "serial/debug.h"                // for Debug
+#include "time/now.h"                    // for time::*
 
 using namespace kss;
 
@@ -32,6 +33,12 @@ void setup() {
     games::h2h::arc_color = alt_arc_color;
     games::h2h::zoneAHue = alt_team_a_hue;
     games::h2h::zoneBHue = alt_team_b_hue;
+  }
+
+  // Boss Mode
+  if (pins::ReadDip(2)) {
+	games::h2h::hitVelocityMultiplierBase = 20;
+	games::h2h::hitVelocityMultiplierHeinz = 20;
   }
 
   gameDisplay = new display::H2HDisplay();

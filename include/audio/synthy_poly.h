@@ -199,12 +199,12 @@ class SynthyPoly {
     mixer2.gain(0, 0.3);
     mixer2.gain(1, 0.3);
 
-    mixerChorusL.gain(0, 0.7);
+    mixerChorusL.gain(0, 0.8);
     mixerChorusL.gain(1, 0.2); //chorus amount
-    mixerChorusR.gain(0, 0.7);
+    mixerChorusR.gain(0, 0.8);
     mixerChorusR.gain(1, 0.2); // chorus amout
 
-    mixerReverbL.gain(0, 0.7); // reverb
+    mixerReverbL.gain(0, 0.); // reverb
     mixerReverbL.gain(1, 0.3);
     mixerReverbR.gain(0, 0.7); // reverb
     mixerReverbR.gain(1, 0.3);
