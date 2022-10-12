@@ -48,6 +48,8 @@ class OctoDisplay : public Display {
   }
 
   virtual ~OctoDisplay() = default;
+
+  // Delete copy constructor & assignment operator, force them to make their own
   OctoDisplay(const OctoDisplay*) = delete;
   OctoDisplay* operator=(const OctoDisplay*) = delete;
   OctoDisplay(OctoDisplay*&) = delete;
@@ -60,6 +62,7 @@ class OctoDisplay : public Display {
     return pixels[strip * size.y + pixel];
   }
 
+ private:
   inline void ShowStripRGB(const size_t strip_no) {
     const size_t start{strip_no * STRIP_LENGTH};
     const size_t stop{(strip_no + 1) * STRIP_LENGTH};
@@ -76,6 +79,7 @@ class OctoDisplay : public Display {
     }
   }
 
+ public:
   virtual void Show() override {
     for (size_t strip = 0; strip < STRIP_COUNT; ++strip) {
       if (is_grb[strip]) {

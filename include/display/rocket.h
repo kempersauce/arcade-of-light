@@ -49,9 +49,14 @@ class RocketDisplay
   InstructoDisplay instructo;
 
   RocketDisplay()
-      : OctoDisplay(_rocket::kPinList, _rocket::kDisplayMemory, GRID_SCALE_WIDE, 1),
-        main_display{this, {0, 0}, {kTowerStripCount, kTowerStripLength}},
-        instructo{&pixels[kTowerStripCount * _rocket::kLengthStrips]} {}
+      : OctoDisplay(_rocket::kPinList, _rocket::kDisplayMemory, GRID_SCALE_WIDE,
+                    1),
+        main_display{this, {0, 1}, {kTowerStripCount, kTowerStripLength - 1}},
+        instructo{&pixels[kTowerStripCount * _rocket::kLengthStrips]} {
+    // is_grb[1] = false;
+    // is_grb[2] = false;
+    // is_grb[3] = false;
+  }
 };
 
 }  // namespace display
