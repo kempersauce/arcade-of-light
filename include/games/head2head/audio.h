@@ -32,7 +32,7 @@ class H2HAudio : public audio::Manager {
 
   // Background music
   audio::BackgroundMusic winBG{sender, "CDL.WAV"};
-  audio::BackgroundMusic stdBG{sender, "GYCYCHIP.WAV"};
+  audio::BackgroundMusic stdBG{sender, "TENNIS.WAV"};
   audio::BackgroundMusic idleBG{sender, "BOOM.WAV"};
 
   // File names and controls for start/stop channels
