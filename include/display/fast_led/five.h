@@ -1,5 +1,6 @@
 #pragma once
 
+#include "display/constants.h"                  // for k*
 #include "display/fast_led/fast_led_display.h"  // for FastLedDisplay
 #include "pins/pin_setup.h"                     // for pins::*
 
