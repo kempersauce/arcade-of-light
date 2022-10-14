@@ -1,5 +1,6 @@
 #pragma once
 
+#include "audio/beat_patterns/boots_and_cats.h"
 #include "audio/beat_patterns/chachacha.h"
 #include "audio/beat_patterns/closer.h"
 #include "audio/beat_patterns/conga.h"
@@ -12,5 +13,5 @@
 #include "audio/beat_patterns/procession.h"
 #include "audio/beat_patterns/reggae.h"
 #include "audio/beat_patterns/shuffle.h"
+#include "audio/beat_patterns/trap1.h"
 #include "audio/beat_patterns/twist.h"
-#include "audio/beat_patterns/boots_and_cats.h"

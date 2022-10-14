@@ -48,6 +48,35 @@ struct H2HController : public Controller<_h2h::kButtonCount> {
         context.CreateButton(pins::Controllers[2], pins::Buttons[4]),
         context.CreateButton(pins::Controllers[2], pins::Buttons[1])};
   }
+
+  static constexpr uint32_t BOOM_TIME{3 * 1000};
+  bool IsBoomTimeA() const {
+    if (buttons[0]->GetMillisHeld() > BOOM_TIME &&
+        buttons[1]->GetMillisHeld() > BOOM_TIME &&
+        buttons[2]->GetMillisHeld() > BOOM_TIME &&
+        buttons[3]->GetMillisReleased() > BOOM_TIME &&
+        buttons[4]->GetMillisReleased() > BOOM_TIME &&
+        buttons[5]->GetMillisReleased() > BOOM_TIME &&
+        buttons[6]->IsDepressing() &&
+        buttons[7]->GetMillisReleased() > BOOM_TIME) {
+      return true;
+    }
+    return false;
+  }
+
+  bool IsBoomTimeB() const {
+    if (buttons[7]->GetMillisHeld() > BOOM_TIME &&
+        buttons[6]->GetMillisHeld() > BOOM_TIME &&
+        buttons[5]->GetMillisHeld() > BOOM_TIME &&
+        buttons[4]->GetMillisReleased() > BOOM_TIME &&
+        buttons[3]->GetMillisReleased() > BOOM_TIME &&
+        buttons[2]->GetMillisReleased() > BOOM_TIME &&
+        buttons[1]->IsDepressing() &&
+        buttons[0]->GetMillisReleased() > BOOM_TIME) {
+      return true;
+    }
+    return false;
+  }
 };
 
 }  // namespace controls

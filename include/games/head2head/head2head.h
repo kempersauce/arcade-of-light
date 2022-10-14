@@ -95,14 +95,16 @@ class Head2Head : public Game {
 
   void enterStartState() {
     gameState = H2HGameStart;
-    audioB.winBG.Stop();
+    audioA.StopAll();
+    audioB.StopAll();
+
     audioA.playStdBG();
-    // audioB.playStdBG();
-    audioA.stopWinMusic();
-    audioB.stopWinMusic();
+    audioB.playStdBG();
+
     // dont forget to take this out lol
     audioA.ItsTimeToDuel();
     audioB.ItsTimeToDuel();
+
     for (auto game_strip : gameStrips) {
       game_strip->reset();
     }
@@ -119,7 +121,8 @@ class Head2Head : public Game {
   void enterPlayingState() { gameState = H2HGamePlaying; }
 
   void enterWinAState() {
-    audioA.stdBG.Stop();
+    audioA.StopAll();
+    audioB.StopAll();
     audioA.playTeamAWinGame();
     // audioB.playTeamAWinGame();
     gameState = H2HGameWinA;
@@ -130,8 +133,9 @@ class Head2Head : public Game {
   }
 
   void enterWinBState() {
+    audioA.StopAll();
+    audioB.StopAll();
     // audioA.playTeamBWinGame();
-    audioA.stdBG.Stop();
     audioB.playTeamBWinGame();
     gameState = H2HGameWinB;
     for (auto game_strip : gameStrips) {
@@ -270,22 +274,9 @@ class Head2Head : public Game {
       instructo_b->loop();
     }
 
-    const uint32_t boom_time{5 * 1000};
-    bool boom_boom = false;
-    if (teamA.buttons[0]->GetMillisHeld() > boom_time &&
-        teamA.buttons[1]->GetMillisHeld() > boom_time &&
-        teamA.buttons[2]->GetMillisHeld() > boom_time &&
-        teamA.buttons[3]->GetMillisReleased() > boom_time &&
-        teamA.buttons[4]->GetMillisReleased() > boom_time &&
-        teamA.buttons[5]->GetMillisReleased() > boom_time &&
-        teamA.buttons[6]->IsDepressing() &&
-        teamA.buttons[7]->GetMillisReleased() > boom_time) {
-      boom_boom = !boom_boom;
-      if (boom_boom) {
-        audioA.playIdleBG();
-      } else {
-        audioA.playStdBG();
-      }
+    if (teamA.IsBoomTimeA() || teamB.IsBoomTimeB()) {
+      audioA.playIdleBG();
+      audioB.playIdleBG();
     }
   }
 };
