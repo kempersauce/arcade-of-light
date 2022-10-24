@@ -23,10 +23,10 @@ class DrumInterface : public PlayerInterface {
       &audio::beats::Procession,  // not this one
 
       // Controls
-      &audio::beats::Trap,        // Down
-      &audio::beats::Procession,  // Left
-      &audio::beats::Fiddy,       // Right
-      &audio::beats::Florian,     // Up
+      &audio::beats::BootsAndCats,  // Down
+      &audio::beats::Trap,          // Left
+      &audio::beats::Fiddy,         // Right
+      &audio::beats::Florian,       // Up
   };
 
   audio::AudioTrack track{&audio::beats::BootsAndCats};
