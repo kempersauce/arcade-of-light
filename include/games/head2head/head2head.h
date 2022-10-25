@@ -99,7 +99,7 @@ class Head2Head : public Game {
     audioB.StopAll();
 
     audioA.playStdBG();
-    audioB.playStdBG();
+    // audioB.playStdBG();
 
     // dont forget to take this out lol
     audioA.ItsTimeToDuel();
@@ -146,6 +146,11 @@ class Head2Head : public Game {
 
   void enterIdleState() {
     Debug("Entering Idle State");
+
+    // Stop BG music for idle mode
+    audioA.StopAll();
+    audioB.StopAll();
+
     gameState = H2HGameIdle;
     idleGame.setup();
     if (instructo_a != NULL) {
@@ -225,18 +230,12 @@ class Head2Head : public Game {
         break;
 
       case H2HGameWinA:
-        H2HGameStrip::midBar++;
-
-        if (time::Now() - totalWinStart > totalWinTimeoutMillis) {
-          enterStartState();
-        }
-        break;
-
       case H2HGameWinB:
-        H2HGameStrip::midBar--;
-
+        // Any button press triggers a new game after the win timeout
         if (time::Now() - totalWinStart > totalWinTimeoutMillis) {
-          enterStartState();
+          if (teamA.AnyDepressing() || teamB.AnyDepressing()) {
+            enterStartState();
+          }
         }
         break;
     }
@@ -276,7 +275,7 @@ class Head2Head : public Game {
 
     if (teamA.IsBoomTimeA() || teamB.IsBoomTimeB()) {
       audioA.playIdleBG();
-      audioB.playIdleBG();
+      //   audioB.playIdleBG();
     }
   }
 };
