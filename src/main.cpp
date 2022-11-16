@@ -1,6 +1,7 @@
 // #include "mains/main.cpp"
 
 // Games
+// #include "mains/BeamOfLife.cpp"
 // #include "mains/GliderWars.cpp"
 // #include "mains/HeadToHead.cpp"
 // #include "mains/LifeGame.cpp"
