@@ -16,15 +16,15 @@ class BeamOfLife : public Game {
   animation::Life life_grids[grid_count];
 
   int loopCount;
-  static const int resetThreshold = 300;  // frames until reset
+  static constexpr int resetThreshold{300};  // frames until reset
   static constexpr float randomize_density{0.2f};
 
  public:
   BeamOfLife(display::Display* display)
       : Game(display),
-        life_grids{{display->size, CRGB::Red, 3},
-                   {display->size, CRGB::Green, 3},
-                   {display->size, CRGB::Blue, 3}} {}
+        life_grids{{display->size, CRGB::Magenta, 3},
+                   {display->size, CRGB::Yellow, 3},
+                   {display->size, CRGB::Cyan, 3}} {}
 
   void RandomizeAll() {
     loopCount = 0;

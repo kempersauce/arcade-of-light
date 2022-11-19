@@ -116,7 +116,8 @@ class Life : public Animation {
           const size_t height = y * pixel_height;
           for (size_t height_offset = 0; height_offset < pixel_height;
                ++height_offset) {
-            display->Pixel(x, height + height_offset) |= color;
+            // display->BlendPixel(x, height + height_offset, color, .5);
+			display->Pixel(x, height + height_offset) |= color;
           }
         }
       }
