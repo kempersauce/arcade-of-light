@@ -117,7 +117,7 @@ class Life : public Animation {
           for (size_t height_offset = 0; height_offset < pixel_height;
                ++height_offset) {
             // display->BlendPixel(x, height + height_offset, color, .5);
-			display->Pixel(x, height + height_offset) |= color;
+            display->Pixel(x, height + height_offset) |= color;
           }
         }
       }
@@ -125,6 +125,22 @@ class Life : public Animation {
   }
 
   void Randomize(const float density) { next_round->Randomize(density); }
+
+  // side - 0-3 to select between sides. Returns float between 0.0-1.0
+  float GetSideDensity(const size_t side) {
+    const size_t side_width = size.width / 4;
+    const size_t side_pixel_count = side_width * size.height;
+    size_t alive_count = 0;
+    for (size_t x = side * side_width; x < (side + 1) * side_width; ++x) {
+      for (size_t y = 0; y < size.height; ++y) {
+        if (next_round->Cell(x, y)) {
+          ++alive_count;
+        }
+      }
+    }
+    const float density = (float)alive_count / (float)side_pixel_count;
+    return density;
+  }
 };
 
 }  // namespace animation

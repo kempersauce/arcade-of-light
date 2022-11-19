@@ -44,15 +44,25 @@ class BeamOfLife : public Game {
       RandomizeAll();
     }
 
-    for (auto& grid : life_grids) {
-      grid.GoOneRound();
+    for (auto& layer : life_grids) {
+      layer.GoOneRound();
     }
 
     // Draw to display
     background.Draw(display);
-    for (auto& grid : life_grids) {
-      grid.Draw(display);
+    for (auto& layer : life_grids) {
+      layer.Draw(display);
     }
+
+    for (auto& layer : life_grids) {
+      for (size_t side = 0; side < 4; ++side) {
+        const float density = layer.GetSideDensity(side);
+        // Do something with this, send it over SHIDI
+      }
+    }
+
+    // Print an example density might look like
+    Debug_var(life_grids[0].GetSideDensity(0));
   }
 };
 
