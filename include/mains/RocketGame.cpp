@@ -39,5 +39,5 @@ void loop() {
   game->loop();
   gameDisplay->Show();
   framerate.PrintFrameRate();
-//   delay(15);
+  delay(15);
 }

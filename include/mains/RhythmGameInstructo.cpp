@@ -35,7 +35,7 @@ void setup() {
   const uint8_t hue = USE_OFF_HUES ? games::rhythm::kPlayerOffhues[PLAYER_NO]
                              : games::rhythm::kPlayerHues[PLAYER_NO];
 
-  animes.push_back(new animation::WaveOut2(hue, 255, gameDisplay->size));
+  animes.push_back(new animation::WaveOut1(hue, 255, gameDisplay->size));
 
   Debug("Animations created");
 

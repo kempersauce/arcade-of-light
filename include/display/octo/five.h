@@ -1,5 +1,6 @@
 #pragma once
 
+#include "display/constants.h"          // for k*
 #include "display/octo/octo_display.h"  // for OctoDisplay
 #include "pins/pin_setup.h"             // for pins::*
 
@@ -8,8 +9,8 @@ namespace display {
 
 namespace _five {
 
-constexpr size_t kNumStrips = 5;
-constexpr size_t kLengthStrips = 294;
+constexpr size_t kNumStrips = kTowerStripCount;
+constexpr size_t kLengthStrips = kTowerStripLength;
 
 constexpr uint8_t kPinList[kNumStrips]{
     // clang-format off
@@ -30,10 +31,11 @@ DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 
 }  // namespace _five
 
-class RocketDisplay
-    : public OctoDisplay<_five::kNumStrips, _five::kLengthStrips> {
+class FiveDisplay
+    : public octo::OctoDisplay<_five::kNumStrips, _five::kLengthStrips> {
  public:
-  RocketDisplay() : OctoDisplay(_five::kPinList, _five::kDisplayMemory, GRID_SCALE_WIDE) {}
+  FiveDisplay()
+      : OctoDisplay(_five::kPinList, _five::kDisplayMemory, GRID_SCALE_WIDE) {}
 };
 
 }  // namespace display

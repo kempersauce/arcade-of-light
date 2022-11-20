@@ -1,5 +1,6 @@
 #pragma once
 
+#include "display/constants.h"          // for k*
 #include "display/octo/octo_display.h"  // for OctoDisplay
 #include "pins/pin_setup.h"             // for pins::*
 

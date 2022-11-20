@@ -37,8 +37,14 @@ void setup() {
     }
   }
 
+  // Set display for RGB strips on dip switch 1
+  bool is_grb = true;
+  if (pins::ReadDip(1)) {
+    is_grb = false;
+  }
+
   // Choose your Display type
-  gameDisplay = new display::octo::FourPanelDisplay();
+  gameDisplay = new display::octo::FourPanelDisplay(is_grb);
 
   Debug("gameDisplay created");
 
@@ -63,5 +69,6 @@ void loop() {
   control_context.PollAll();
   game->loop();
   gameDisplay->Show();
+  delay(10);
   frameRate.PrintFrameRate();
 }

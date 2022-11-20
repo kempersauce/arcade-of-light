@@ -2,7 +2,8 @@
 
 #include <FastLED.h>  // for FastLED
 
-#include "display/display.h"  // for Display
+#include "display/constants.h"  // for k*
+#include "display/display.h"    // for Display
 
 /*
 Display Class

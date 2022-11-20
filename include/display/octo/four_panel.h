@@ -14,8 +14,8 @@ class FourPanelDisplay : public TwentyDisplay {
   const math::Dimension panel_size;
   SubDisplay panels[4];
 
-  FourPanelDisplay()
-      : TwentyDisplay(),
+  FourPanelDisplay(bool is_grb = true)
+      : TwentyDisplay(is_grb),
         panel_size{size.x / 4, size.y},
         panels{{this, {0 * panel_size.width, 0}, panel_size},
                {this, {1 * panel_size.width, 0}, panel_size},

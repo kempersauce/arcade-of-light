@@ -60,9 +60,9 @@ class H2HAudio : public audio::Manager {
   void ItsTimeToDuel() { itsTimeToDuel.Play(); }
 
   // START/STOP METHODS
-  void stopWinMusic() {
+  void StopAll() {
+    sender->StopChannel(0);
     sender->StopChannel(1);
-    sender->StopChannel(2);
   }
 
   // CHANNEL 1: FireworkLaunch
@@ -70,7 +70,6 @@ class H2HAudio : public audio::Manager {
   // BACKGROUND METHODS
   void playStdBG() { stdBG.Repeat(); }
   void playWinBG() { winBG.Repeat(); }
-  void playH2HIdleBG() { idleBG.Repeat(); }
   void playIdleBG() { idleBG.Repeat(); }
 };
 
