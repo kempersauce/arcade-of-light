@@ -58,6 +58,8 @@ class BeamOfLife : public Game {
       for (size_t side = 0; side < 4; ++side) {
         const float density = layer.GetSideDensity(side);
         // Do something with this, send it over SHIDI
+        // Get count of side
+        // Send level
       }
     }
 

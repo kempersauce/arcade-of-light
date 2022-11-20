@@ -18,6 +18,10 @@ constexpr char kChannelMarkerBG{'0'};
 constexpr char kChannelMarker1{'1'};
 constexpr char kChannelMarker2{'2'};
 constexpr char kChannelMarker3{'3'};
+constexpr char kChannelMarker3{'4'};
+constexpr char kChannelMarker3{'5'};
+constexpr char kChannelMarker3{'6'};
+constexpr char kChannelMarker3{'7'};
 constexpr char kChannelMarkerAny{'?'};
 
 // SYNTH RECIEVER CONTROL MAPPINGS
@@ -53,6 +57,18 @@ const inline char GetChannelMarker(const int channel_index) {
 
     case 3:
       return kChannelMarker3;
+
+    case 4:
+      return kChannelMarker4;
+
+    case 5:
+      return kChannelMarker5; 
+
+    case 6:
+      return kChannelMarker6; 
+
+    case 7:
+      return kChannelMarker7;       
 
       // Default to an unspecified channel
     case -1:
