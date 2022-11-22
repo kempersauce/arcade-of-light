@@ -67,6 +67,23 @@ void setup() {
     time::SetLoopTime();
   }
 
+  uint8_t channel_index = 0;
+  if (pins::ReadDip(0)) {
+    StartChannel(channel_index++, "BEE.WAV", 0.25f);
+    StartChannel(channel_index++, "FROGGY.WAV", 0.5f);
+    StartChannel(channel_index++, "OWL.WAV", 0.6f);
+    StartChannel(channel_index++, "NATPAD.WAV", 0.5f);
+    StartChannel(channel_index++, "STREAM.WAV", 0.5f);
+    StartChannel(channel_index++, "THUNDER.WAV", 0.45f);
+  } else {
+    StartChannel(channel_index++, "KILLDEER.WAV", 0.5f);
+    StartChannel(channel_index++, "KATYDID.WAV", 0.5f);
+    // StartChannel(channel_index++, "OWL.WAV", 0.6f);
+    // StartChannel(channel_index++, "NATPAD.WAV", 0.5f);
+    // StartChannel(channel_index++, "STREAM.WAV", 0.5f);
+    // StartChannel(channel_index++, "THUNDER.WAV", 0.5f);
+  }
+
   Debug("starting the loop");
 }
 

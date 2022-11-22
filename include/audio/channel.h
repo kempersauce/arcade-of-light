@@ -32,9 +32,14 @@ class Channel {
   const size_t channel_no;
   AudioPlaySdWav* wav_player;
 
+  AudioMixer4* mixer_left;
+  AudioMixer4* mixer_right;
+
   String current_file;
   bool repeat{false};
   uint32_t start_time;
+
+  float gain_coefficient{1.0f};
 
   void PlayCurrentFile() {
     if (wav_player->isPlaying()) {
@@ -54,8 +59,12 @@ class Channel {
   }
 
  public:
-  Channel(AudioPlaySdWav* wav_player, size_t channel_no)
-      : channel_no{channel_no}, wav_player{wav_player} {}
+  Channel(AudioPlaySdWav* wav_player, AudioMixer4* mixer_left,
+          AudioMixer4* mixer_right, size_t channel_no)
+      : channel_no{channel_no},
+        wav_player{wav_player},
+        mixer_left{mixer_left},
+        mixer_right{mixer_right} {}
 
   void Play(String file_name) {
     current_file = std::move(file_name);  // cant use file_name after this
@@ -73,6 +82,16 @@ class Channel {
     start_time = 0;  // TODO we probably don't need this
     repeat = false;
     wav_player->stop();
+  }
+
+  void SetGainCoefficient(float gain_coef) {
+    gain_coefficient = gain_coef;
+  }
+
+  void SetGain(float gain) {
+    const uint8_t mixer_index = channel_no % 4;
+    mixer_left->gain(mixer_index, gain * gain_coefficient);
+    mixer_right->gain(mixer_index, gain * gain_coefficient);
   }
 
   bool IsPlaying() const {

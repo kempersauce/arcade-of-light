@@ -8,20 +8,23 @@ namespace audio {
 constexpr size_t kChannelCount{6};
 
 // Message actions
-constexpr char kActionChannelPlay{'1'};
-constexpr char kActionChannelStop{'0'};
-constexpr char kActionChannelRepeat{'2'};
+constexpr char kActionChannelPlay{'P'};
+constexpr char kActionChannelStop{'S'};
+constexpr char kActionChannelRepeat{'R'};
+constexpr char kActionChannelVolume{'V'};
 constexpr char kActionClickTrack{'c'};
 
 // Message channels
-constexpr char kChannelMarkerBG{'0'};
+constexpr char kChannelMarker0{'0'};
 constexpr char kChannelMarker1{'1'};
 constexpr char kChannelMarker2{'2'};
 constexpr char kChannelMarker3{'3'};
-constexpr char kChannelMarker3{'4'};
-constexpr char kChannelMarker3{'5'};
-constexpr char kChannelMarker3{'6'};
-constexpr char kChannelMarker3{'7'};
+constexpr char kChannelMarker4{'4'};
+constexpr char kChannelMarker5{'5'};
+constexpr char kChannelMarker6{'6'};
+constexpr char kChannelMarker7{'7'};
+
+constexpr char kChannelMarkerBG{kChannelMarker0};
 constexpr char kChannelMarkerAny{'?'};
 
 // SYNTH RECIEVER CONTROL MAPPINGS
@@ -41,13 +44,14 @@ struct WavAudioMessage {
   char channel_selector;
   char action_selector;
   char filename[13];  // 8 chars for name, 1 for ., 3 for WAV, 1 for \0
+  float gain;
 };
 
 // Translate an integer index into a channel marker
 const inline char GetChannelMarker(const int channel_index) {
   switch (channel_index) {
     case 0:
-      return kChannelMarkerBG;
+      return kChannelMarker0;
 
     case 1:
       return kChannelMarker1;
@@ -80,7 +84,7 @@ const inline char GetChannelMarker(const int channel_index) {
 // Translate a channel marker char to integer index
 const inline size_t GetChannelIndex(const char channel_marker) {
   switch (channel_marker) {
-    case kChannelMarkerBG:
+    case kChannelMarker0:
       return 0;
 
     case kChannelMarker1:
@@ -92,7 +96,19 @@ const inline size_t GetChannelIndex(const char channel_marker) {
     case kChannelMarker3:
       return 3;
 
-    default:  // target channel one by default I guess
+    case kChannelMarker4:
+      return 4;
+
+    case kChannelMarker5:
+      return 5;
+
+    case kChannelMarker6:
+      return 6;
+
+    case kChannelMarker7:
+      return 7;
+
+    default:  // target channel one by default I guess (not BG channel)
       Debug("ERROR: Received invalid channel marker character: '" +
             channel_marker + "'");
       return kChannelMarker1;

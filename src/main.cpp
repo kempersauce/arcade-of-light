@@ -27,6 +27,7 @@
 // #include "mains/audio/audioTest.cpp"
 // #include "mains/audio/synthest1.cpp"
 // #include "mains/audio/audioRecieverLife.cpp"
+// #include "mains/audio/BeamOfLifeAudioSlave.cpp"
 
 
 // Controller programs
