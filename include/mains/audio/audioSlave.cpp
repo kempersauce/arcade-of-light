@@ -29,7 +29,7 @@ void ProcessMessage(const WavAudioMessage& message) {
       channel.Stop();
       break;
 
-    case kActionChannelVolume:
+    case kActionChannelGain:
       channel.SetGain(message.gain);
       break;
 

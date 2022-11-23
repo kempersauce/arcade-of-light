@@ -29,7 +29,7 @@ void ProcessMessage(const WavAudioMessage& message) {
       channel.Stop();
       break;
 
-    case kActionChannelVolume:
+    case kActionChannelGain:
       channel.SetGain(message.gain);
       break;
 
@@ -68,7 +68,7 @@ void setup() {
   }
 
   uint8_t channel_index = 0;
-  if (pins::ReadDip(0)) {
+  if (!pins::ReadDip(0)) {
     StartChannel(channel_index++, "BEE.WAV", 0.25f);
     StartChannel(channel_index++, "FROGGY.WAV", 0.5f);
     StartChannel(channel_index++, "OWL.WAV", 0.6f);

@@ -52,6 +52,8 @@ class Life : public Animation {
   const CRGB color;
   const uint8_t pixel_height;
 
+  uint32_t rounds_until_add{0};
+
  public:
   Life(math::Dimension display_size, CRGB color, uint8_t pixel_height = 1)
       : Animation(),
@@ -62,18 +64,64 @@ class Life : public Animation {
         frame2{size} {}
 
   void SetCell(size_t x, size_t y, bool state = true) {
-    if (x >= 0 && x < size.width && y >= 0 && y < size.height) {
-      next_round->Cell(x, y) = state;
+    x = (x + size.width) % size.width;
+    y = (y + size.height) % size.height;
+    next_round->Cell(x, y) = state;
+  }
+
+  inline math::Dimension GetRandomPoint() const {
+    return {math::random::Int16(size.width), math::random::Int16(size.height)};
+  }
+
+  // Add a R-Pentomino randomly rotated, randomly mirrored,
+  // to a random location on the grid
+  void AddRPentomino() {
+    const math::Dimension loc = GetRandomPoint();
+    Debug("Adding RPentomino at " + loc.ToString());
+
+    int lr = math::random::Bool() ? 1 : -1;
+    uint8_t orient = math::random::Int8(4);
+
+    SetCell(loc.x, loc.y);
+    SetCell(loc.x + 1, loc.y);
+    SetCell(loc.x - 1, loc.y);
+    SetCell(loc.x, loc.y + 1);
+    SetCell(loc.x, loc.y - 1);
+
+    switch (math::random::Int8(4)) {
+      case 0:
+        SetCell(loc.x + 1, loc.y, false);
+        SetCell(loc.x + 1, loc.y + lr);
+        break;
+
+      case 1:
+        SetCell(loc.x - 1, loc.y, false);
+        SetCell(loc.x - 1, loc.y + lr);
+        break;
+
+      case 2:
+        SetCell(loc.x, loc.y + 1, false);
+        SetCell(loc.x + lr, loc.y + 1);
+        break;
+
+      case 3:
+      default:
+        SetCell(loc.x, loc.y - 1, false);
+        SetCell(loc.x + lr, loc.y - 1);
+        break;
     }
   }
 
-  void GoOneRound() {
+  void Randomize(const float density) { next_round->Randomize(density); }
+
+  void Move() override {
     // swap last round with next round
     std::swap(last_round, next_round);
 
     // Calculate the next round based on the last one
     for (size_t x = 0; x < size.width; ++x) {
       for (size_t y = 0; y < size.height; ++y) {
+        // Count alive neighbor cells
         uint8_t neighborsAlive = 0;
         for (int i = -1; i <= 1; i++) {
           for (int j = -1; j <= 1; j++) {
@@ -93,6 +141,7 @@ class Life : public Animation {
           }
         }
 
+        // Apply the rules of life
         bool alive = last_round->Cell(x, y);
         if (neighborsAlive < 2) {
           alive = false;  // dead
@@ -106,6 +155,12 @@ class Life : public Animation {
 
         next_round->Cell(x, y) = alive;
       }
+    }
+
+    // Add another R-Pentomino every 100-355 rounds
+    if (rounds_until_add-- == 0) {
+      AddRPentomino();
+      rounds_until_add = math::random::Int8(100);
     }
   }
 
@@ -123,8 +178,6 @@ class Life : public Animation {
       }
     }
   }
-
-  void Randomize(const float density) { next_round->Randomize(density); }
 
   // side - 0-3 to select between sides. Returns float between 0.0-1.0
   float GetSideDensity(const size_t side) {

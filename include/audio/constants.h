@@ -11,7 +11,7 @@ constexpr size_t kChannelCount{6};
 constexpr char kActionChannelPlay{'P'};
 constexpr char kActionChannelStop{'S'};
 constexpr char kActionChannelRepeat{'R'};
-constexpr char kActionChannelVolume{'V'};
+constexpr char kActionChannelGain{'G'};
 constexpr char kActionClickTrack{'c'};
 
 // Message channels

@@ -19,6 +19,7 @@ namespace audio {
 namespace _channel {
 
 constexpr uint32_t kStartLeadTimeMillis{25};
+constexpr float kMaxGain{1.0f};
 
 }  // namespace _channel
 using namespace _channel;
@@ -84,14 +85,16 @@ class Channel {
     wav_player->stop();
   }
 
-  void SetGainCoefficient(float gain_coef) {
-    gain_coefficient = gain_coef;
-  }
+  void SetGainCoefficient(float gain_coef) { gain_coefficient = gain_coef; }
 
   void SetGain(float gain) {
     const uint8_t mixer_index = channel_no % 4;
-    mixer_left->gain(mixer_index, gain * gain_coefficient);
-    mixer_right->gain(mixer_index, gain * gain_coefficient);
+    gain *= gain_coefficient;
+    if (gain > kMaxGain) {
+      gain = kMaxGain;
+    }
+    mixer_left->gain(mixer_index, gain);
+    mixer_right->gain(mixer_index, gain);
   }
 
   bool IsPlaying() const {
