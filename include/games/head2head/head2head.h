@@ -259,7 +259,11 @@ class Head2Head : public Game {
         for (auto game_strip : gameStrips) {
           game_strip->Draw(display);
         }
-        electricArc.Draw(display);
+
+		// Don't draw the arc after the game has been won
+        if (gameState == H2HGamePlaying) {
+          electricArc.Draw(display);
+        }
         break;
     }
 
