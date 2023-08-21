@@ -6,6 +6,7 @@
 #include "controls/hardware/matrix.h"  // for Matrix
 #include "display/display.h"           // for Display
 #include "display/h2h.h"               // for H2HDisplay
+#include "display/octo/twenty.h"       // for TwentyDisplay
 #include "engines/framerate.h"         // for FrameRate
 #include "games/game.h"                // for Game
 #include "pins/pin_setup.h"            // for pins::Init
@@ -30,10 +31,10 @@ void setup() {
   pins::Init();
   time::Init();
 
-  display::H2HDisplay* disp = new display::H2HDisplay();
+  display::octo::TwentyDisplay* disp = new display::octo::TwentyDisplay();
   gameDisplay = disp;
 
-  const size_t display_width = disp->main_display.size.width;
+  const size_t display_width = disp->size.width;
   sine_wave = new animation::SineWave(CRGB::Cyan);
   sine_wave->waves.emplace_back(100, display_width / 4.0f, 0.1);
   sine_wave->waves.emplace_back(50, display_width / 8.0f, 0.1);
@@ -44,7 +45,7 @@ void setup() {
   sine_wave->waves.emplace_back(20, display_width / 8.0f, -0.1);
   sine_wave->waves.emplace_back(10, display_width / 12.0f, -0.05);
 
-  game = new test::AnimationTest(&disp->main_display, sine_wave);
+  game = new test::AnimationTest(disp, sine_wave);
   controller = controls::H2HController::TeamA(control_context);
 
   time::SetLoopTime();

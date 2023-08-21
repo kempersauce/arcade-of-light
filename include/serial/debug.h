@@ -2,8 +2,6 @@
 
 #ifdef KSS_DEBUG
 
-#include <SerialFlash.h>  // for Serial
-
 #include "serial/constants.h"  // for kBaudRate
 #include "time/now.h"          // for Now
 

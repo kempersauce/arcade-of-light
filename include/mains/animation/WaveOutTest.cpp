@@ -6,6 +6,7 @@
 #include "animation/wave_out.h"   // for WaveOut
 #include "display/display.h"      // for Display
 #include "display/h2h.h"          // for H2HDisplay
+#include "display/octo/twenty.h"  // for TwentyDisplay
 #include "engines/framerate.h"    // for FrameRate
 #include "games/game.h"           // for Game
 #include "games/head2head/dot.h"  // for H2HDot
@@ -21,7 +22,7 @@ using namespace games::h2h;
 engines::FrameRate frameRate;
 
 games::Game* game;
-display::H2HDisplay* gameDisplay;
+display::octo::TwentyDisplay* gameDisplay;
 animation::WaveOut* anime;
 
 void setup() {
@@ -29,8 +30,8 @@ void setup() {
   pins::Init();
   time::Init();
 
-  gameDisplay = new display::H2HDisplay();
-  const auto size = gameDisplay->main_display.size;
+  gameDisplay = new display::octo::TwentyDisplay();
+  const auto size = gameDisplay->size;
   anime = new animation::WaveOut(200, 255);
 //   anime->AddSquareSource(0, (size.height - 1) / 2.0f);
 //   anime->AddSource({size.width + 10, (size.height - 1) / 2.0f});
@@ -39,7 +40,7 @@ void setup() {
 //   anime->AddSource({(size.width - 1) / 2.0f, (size.height - 1) / 3.0f});
   anime->wave.wavelength = size.height / 27.0f;
 
-  game = new test::AnimationTest(&gameDisplay->main_display, anime);
+  game = new test::AnimationTest(gameDisplay, anime);
   time::SetLoopTime();
   game->setup();
   Debug("End setup()");

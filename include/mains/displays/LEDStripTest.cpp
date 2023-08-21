@@ -17,7 +17,6 @@ void showColor(CRGB color) {
     for (size_t y = 0; y < gameDisplay->size.y; ++y) {
       gameDisplay->Pixel(x, y) = color;
       gameDisplay->Show();
-      delay(20);
     }
   }
 }
@@ -31,7 +30,6 @@ void setup() {
 }
 
 void loop() {
-  showColor(CRGB::Black);
   showColor(CRGB::Red);
   showColor(CRGB::Green);
   showColor(CRGB::Blue);
