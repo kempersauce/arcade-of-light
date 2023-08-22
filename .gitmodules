@@ -2,3 +2,7 @@
 	path = lib/EasyTransfer
 	url = https://github.com/madsci1016/Arduino-EasyTransfer.git
 	branch = master
+[submodule "shared"]
+	path = lib/shared
+	url = https://github.com/kempersauce/shared.git
+	branch = main

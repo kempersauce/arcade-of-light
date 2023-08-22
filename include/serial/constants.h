@@ -1,9 +1,11 @@
 #pragma once
 
+// TODO figure out a better way to split these constants
+#include "../shared/serial/constants.h"
+
 namespace kss {
 namespace serial {
 
-constexpr uint32_t kBaudRate{115200};
 constexpr size_t kMessageBufferSize{32};
 constexpr char kMessageStartMarker{'<'};
 constexpr char kMessageEndMarker{'>'};
