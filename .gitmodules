@@ -1,7 +1,3 @@
-[submodule "EasyTransfer"]
-	path = lib/EasyTransfer
-	url = https://github.com/madsci1016/Arduino-EasyTransfer.git
-	branch = master
 [submodule "lib/kss-core"]
 	path = lib/kss-core
 	url = https://github.com/kempersauce/kss-core.git
