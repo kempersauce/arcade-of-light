@@ -30,11 +30,12 @@ void ProcessMidiMessage() {
 
     chimeIndex = noteSampleMapping(note);
     const char *wavFile = getChimeAudioName(channel, chimeIndex, velocity);
-
-    wavChannel = channel - 1;
     char wavChannelChar = chimeIndex;
-    Channel& channel = wav_manager.PlayWav(wavFile);
-    // channel.Play(wavFile);
+
+    // Channel& wavChannel = wav_manager.GetChannel(wavChannelChar);
+
+    // wavChannel.Play(wavFile);
+    wav_manager.PlayWav(wavFile);
   }
 
 }
@@ -52,10 +53,10 @@ void setup() {
 
 
   // Set gain on channels
-  float gain = 0.5;
+  float gain = 0.12;
   float gainStandard = 0.5;
   for(int channel_index = 0; channel_index < 6; channel_index++ ){
-    Channel& channel = wav_manager.GetChannel(channel_index);
+    Channel& channel = wav_manager.GetChannelByIndex(channel_index);
     channel.SetGain(gain);
   }
 
