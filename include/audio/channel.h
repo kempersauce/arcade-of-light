@@ -43,11 +43,11 @@ class Channel {
   float gain_coefficient{1.0f};
 
   void PlayCurrentFile() {
-    if (wav_player->isPlaying()) {
-      Debug("Channel[" + channel_no +
-            "] is already playing, but is requested to play \"" + current_file +
-            "\"");
-    }
+    // if (wav_player->isPlaying()) {
+    //   Debug("Channel[" + channel_no +
+    //         "] is already playing, but is requested to play \"" + current_file +
+    //         "\"");
+    // }
 
     if (!wav_player->play(current_file.c_str())) {
       Debug("Channel[" + channel_no + "]: Error playing file: \"" +

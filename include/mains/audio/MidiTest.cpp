@@ -11,7 +11,7 @@
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial4, MIDI);
 
 void setup() {
-  MIDI.begin(MIDI_CHANNEL_OMNI);
+  MIDI.begin(1);
   Serial.begin(57600);
   Serial.println("MIDI Input Test");
 }

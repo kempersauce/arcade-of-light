@@ -103,6 +103,10 @@ class WavAudioManager {
     return channels[index];
   }
 
+  Channel& GetChannelByIndex(int index) {
+    return channels[index];
+  }
+
   // This is left for debug convenience only, unused by production code
   Channel& PlayWav(const char* file_name) {
     Channel& channel = GetIdleChannel();

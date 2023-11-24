@@ -18,8 +18,8 @@ WavAudioManager wav_manager;
 
 MIDI_CREATE_INSTANCE(HardwareSerial, Serial4, MIDI);
 
-
 void ProcessMidiMessage() {
+  Debug("MIDI RECIEVED");
   int note, velocity, channel, wavChannel, d1, d2, chimeIndex;
   byte type = MIDI.getType();
   note = MIDI.getData1();
@@ -27,15 +27,18 @@ void ProcessMidiMessage() {
   channel = MIDI.getChannel();
   if(type == midi::NoteOn) {
     Serial.println(String("Note On:  ch=") + channel + ", note=" + note + ", velocity=" + velocity);
-
+    bool isStrike = strikeFilter(velocity);
     chimeIndex = noteSampleMapping(note);
-    const char *wavFile = getChimeAudioName(channel, chimeIndex, velocity);
-    char wavChannelChar = chimeIndex;
 
-    // Channel& wavChannel = wav_manager.GetChannel(wavChannelChar);
+    Channel& wavChannel = wav_manager.GetChannelByIndex(chimeIndex);
 
-    // wavChannel.Play(wavFile);
-    wav_manager.PlayWav(wavFile);
+
+    if(!wavChannel.IsPlaying() || isStrike ) {
+      const char *wavFile = getChimeAudioName(channel, chimeIndex, isStrike);
+      wavChannel.Play(wavFile);
+    }
+
+    // wav_manager.PlayWav(wavFile);
   }
 
 }
