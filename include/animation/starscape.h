@@ -28,7 +28,7 @@ class Starscape : public Animation {
         brightness_threshold{brightness_threshold},
         noise_generator{noise_generator} {}
 
-  CRGB GetPixel(size_t x, size_t y) const {
+  CRGB GetPixel(const size_t x, const size_t y) const {
     const uint8_t brightness = noise_generator->Data(x, y);
     if (brightness > brightness_threshold) {
       // Draw the star, it's past the threshold

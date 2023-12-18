@@ -13,7 +13,7 @@ class Rainbow : public Animation {
  public:
   // override rainbow Draw function
   void Draw(display::Display* display) {
-    const float hue_factor = 256.0f / display->size.y;
+    const float hue_factor = 256.0f / display->size.height;
     for (size_t x = 0; x < display->size.x; ++x) {
       for (size_t y = 0; y < display->size.y; ++y) {
         const uint8_t hue = y * hue_factor;
