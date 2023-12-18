@@ -1,31 +1,29 @@
-# arcade-of-light
+# [`/arcade-of-light`](https://github.com/kempersauce/arcade-of-light)
+
 LED light strip based project for Blink 2019
 
-# Setup
-Dev setup to run/develop arcade of light.  There could be some things missing since we switched to PlatformIO halfway through the project. Please update if there are any additional setup steps. 
-
-## IDE
-Not totally sure if this is neccessary, but I'm like 90% sure you'll need to download Arduino and Arduino IDE for some reason. https://www.arduino.cc/en/Main/Software
-
-Visual Studio with PlatformIO <br>
-https://code.visualstudio.com/Download <br>
-https://platformio.org/platformio-ide
-
-
-## Libraries
-Once PlatformIO is installed, you will need the following libraries:<br>
-* FastLED - the most important one to know: https://github.com/FastLED/FastLED/wiki/Basic-usage
-* Audio by Paul Stoffregen <br>
-* SerialFlash also by Paul Stoffregen <br>
-
-## Platform
-Teensy, just go to Platform and install Teensy Platform.  For anythig specific to Teensy models, we are using Teensy 3.6.
-
-## Serial Monitor
-You probably want to be able to write logs and stuff for debugging.
-Add the .platformio/scripts folder to your PATH. The .platformio folder should be in your C://user/{username} folder.  Serial Monitor should work now but I dont know i kind of forget pls update if you can confirm
-
 # Project Structure
+We're using [The Pitchfork Layout](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld) for our project directory structure.
+
+So far we have the following root-level directories defined:
+
+# [`/examples`](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.examples)
+
+This is where we can keep example programs, demo code, PoC's and their ilk. Nothing intended to be actually published, but this is a good way to codify functionality we expect to work. It's also a good place to keep any troubleshooting programs too.
+
+# [`/external`](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.external)
+
+Any external or third party libs should be cloned into this directory as their own subdirectory, and can be included as git submodules or just source or whatever. Don't modify these files manually, but do try to keep them updated. Or don't - idk actually now that I think about it 🤔
+
+# [`/src`](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#src.header-placement.merged)
+
+All project source code files go in `/src`, with .h and .cpp files smushed up against each other because they're close friends like that. It's a merged-header-placement flavored library-source-layout. I really can't believe that's a sentence in English.
+
+
+# Setup
+This project is mainly set up to build and deploy with VSCode using the platformio plugin. That should be enough to develop in this project. Platformio should handle all of the library dependencies we need
+
+# Code Structure
 Ardiuno files consist of two methods: setup() and loop(). The setup method runs once when the program starts running.  Loop then loops infinitely until power is cut off.  This main file is in src/main.cpp.  All other classes are imported through .h header files. 
 
 The four main classes are detailed in the next section, but in summary:

@@ -1,3 +1,18 @@
+# [`..`](..)
+
+# [`/external`](https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.external)
+
+Hey don't modify stuff in here directly, this isn't ours to mess with!
+
+... Unless you really gotta hack someone else's code which does happen from time to time ¯\\_(ツ)_/¯
+
+Any external or third party libs should be cloned into this directory as their own subdirectory, and can be included as git submodules or just source or whatever. Don't modify these files manually, but do try to keep them updated. Or don't - idk actually now that I think about it 🤔
+
++++++++
+
++++++++ After this point is a bunch of stock readme stuff that came with the project file lol
+
++++++++
 
 This directory is intended for project specific (private) libraries.
 PlatformIO will compile them to static libraries and link into executable file.

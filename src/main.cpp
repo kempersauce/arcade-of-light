@@ -5,7 +5,7 @@
 // #include "mains/GliderWars.cpp"
 // #include "mains/HeadToHead.cpp"
 // #include "mains/LifeGame.cpp"
-// #include "mains/RhythmGame.cpp"
+#include "mains/RhythmGame.cpp"
 // #include "mains/RhythmGameTest.cpp"
 // #include "mains/RhythmGameInstructo.cpp"
 // #include "mains/RocketGame.cpp"
