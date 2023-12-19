@@ -1,4 +1,7 @@
+#include <Arduino.h>
 #include <Audio.h>
+#include <SPI.h>
+#include <Wire.h>
 
 #include "audio/constants.h"      // for SynthAudioMessage
 #include "audio/guitar_synthy.h"  // for Synth

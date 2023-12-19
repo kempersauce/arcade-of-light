@@ -1,4 +1,7 @@
+#include <Arduino.h>
 #include <HardwareSerial.h>  // for HardwareSerial
+#include <SPI.h>
+#include <Wire.h>
 
 #include "serial/debug.h"           // for Debug
 #include "serial/ez_transmitter.h"  // for EZTransmitter

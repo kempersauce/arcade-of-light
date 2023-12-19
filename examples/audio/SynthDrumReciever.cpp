@@ -1,7 +1,8 @@
-#pragma once
-
+#include <Arduino.h>
 #include <Audio.h>
 #include <HardwareSerial.h>
+#include <SPI.h>
+#include <Wire.h>
 
 #include "audio/constants.h"     // for SynthAudioMessage
 #include "audio/drum_synthy.h"   // for DrumSynthy

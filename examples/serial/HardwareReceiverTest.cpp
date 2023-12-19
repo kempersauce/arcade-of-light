@@ -1,4 +1,7 @@
+#include <Arduino.h>
 #include <HardwareSerial.h>  // for HardwareSerial
+#include <SPI.h>
+#include <Wire.h>
 
 #include <vector>
 
@@ -6,12 +9,13 @@
 #include "serial/debug.h"          // for Debug
 #include "serial/receiver_bank.h"  // for Receiver
 #include "time/now.h"              // for Now
+#include "time/soft_wait.h"        // for SOFT_WAIT
 
 using namespace kss;
 using namespace kss::serial;
 
 void ShowMessage(const char* message) {
-  //   Debug("callback(\"" + message + "\")");
+  Debug("callback(\"" + message + "\")");
 }
 
 // Serials we listen on
@@ -23,14 +27,10 @@ ReceiverBank receivers{ShowMessage, serials};
 void setup() {
   Debug_init();
   pins::Init();
+  time::Init();
 }
 
-uint32_t next = 0;
 void loop() {
-  uint32_t now = time::Now();
-  if (now >= next) {
-    next = now + 1000;
-    Debug("Loops brother t=" + now);
-  }
+  SOFT_WAIT(1000) { Debug("Loops brother t=" + time::Now()); }
   receivers.ReadAll();
 }

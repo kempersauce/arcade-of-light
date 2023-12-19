@@ -1,16 +1,18 @@
 #include <Arduino.h>
+#include <SPI.h>
+#include <Wire.h>
 
 #include <vector>
 
 #include "controls/button.h"           // for Button
 #include "controls/hardware/simple.h"  // for Simple context
-#include "display/five.h"              // for FiveDisplay
+#include "display/fast_led/five.h"     // for FiveDisplay
 #include "serial/debug.h"              // for Debug
 #include "test/five_strip.h"           // for FiveStripTest
 
 using namespace kss;
 
-display::FiveDisplay* gameDisplay;
+display::fast_led::FiveDisplay* gameDisplay;
 test::FiveStripTest* five_strip_test;
 
 controls::hardware::Simple control_context;
@@ -18,7 +20,7 @@ std::vector<controls::Button*> buttons;
 
 void setup() {
   Debug_init();
-  gameDisplay = new display::FiveDisplay();
+  gameDisplay = new display::fast_led::FiveDisplay();
   five_strip_test = new test::FiveStripTest(gameDisplay);
   five_strip_test->setup();
   for (uint8_t i = 0; i < 32; i++) {
