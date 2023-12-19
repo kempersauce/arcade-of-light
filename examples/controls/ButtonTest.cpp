@@ -4,11 +4,11 @@
 
 #include <vector>
 
-#include "controls/button.h"           // for Button
-#include "controls/hardware/simple.h"  // for Simple context
-#include "display/fast_led/five.h"     // for FiveDisplay
-#include "serial/debug.h"              // for Debug
-#include "test/five_strip.h"           // for FiveStripTest
+#include "../examples/displays/five_strip.h"  // for FiveStripTest
+#include "controls/button.h"                  // for Button
+#include "controls/hardware/simple.h"         // for Simple context
+#include "display/fast_led/five.h"            // for FiveDisplay
+#include "serial/debug.h"                     // for Debug
 
 using namespace kss;
 

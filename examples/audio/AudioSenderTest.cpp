@@ -11,6 +11,7 @@
 #include "serial/debug.h"                // for Debug
 #include "time/now.h"                    // for Now
 
+using namespace kss;
 using namespace kss::audio;
 
 // Sub-manager handles level-specific sounds

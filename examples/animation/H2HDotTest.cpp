@@ -3,16 +3,16 @@
 
 #include <vector>  // for std::vector
 
-#include "display/display.h"      // for Display
-#include "display/h2h.h"          // for H2HDisplay
-#include "engines/framerate.h"    // for FrameRate
-#include "games/game.h"           // for Game
-#include "games/head2head/dot.h"  // for H2HDot
-#include "math/random.h"          // for random::*
-#include "pins/pin_setup.h"       // for pins::Init
-#include "serial/debug.h"         // for Debug
-#include "test/animation.h"       // for AnimationTest
-#include "time/now.h"             // for time::*
+#include "../examples/animation/animation.h"  // for AnimationTest
+#include "display/display.h"                  // for Display
+#include "display/h2h.h"                      // for H2HDisplay
+#include "engines/framerate.h"                // for FrameRate
+#include "games/game.h"                       // for Game
+#include "games/head2head/dot.h"              // for H2HDot
+#include "math/random.h"                      // for random::*
+#include "pins/pin_setup.h"                   // for pins::Init
+#include "serial/debug.h"                     // for Debug
+#include "time/now.h"                         // for time::*
 
 using namespace kss;
 using namespace games::h2h;

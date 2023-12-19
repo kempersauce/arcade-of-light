@@ -11,8 +11,7 @@
 #include "serial/debug.h"       // for Debug
 #include "time/now.h"           // for Now
 
-#define CHORUS_DELAY_LENGTH (16*AUDIO_BLOCK_SAMPLES)
-
+#define CHORUS_DELAY_LENGTH (16 * AUDIO_BLOCK_SAMPLES)
 
 namespace kss {
 namespace audio {
@@ -101,7 +100,6 @@ AudioConnection patchReverb8(mixerMasterL, 0, mixerReverbL, 1);
 AudioConnection patchReverb9(r_reverb, 0, mixerReverbR, 0);
 AudioConnection patchReverb10(mixerMasterR, 0, mixerReverbR, 1);
 
-
 AudioConnection patchCordFinalL(mixerReverbL, 0, i2s1, 0);
 AudioConnection patchCordFinalR(mixerReverbR, 0, i2s1, 1);
 
@@ -117,7 +115,7 @@ class SynthyPoly {
   const float Aminor[4]{notes::A[3], notes::E[4], notes::A[4], notes::C[5]};
   const float AminorInversion[4]{notes::E[3], notes::A[3], notes::C[4],
                                  notes::E[4]};
-  float *chord = Cmajor;
+  const float *chord = Cmajor;
 
   int8_t chordNum = 0;
 
@@ -134,10 +132,9 @@ class SynthyPoly {
 
   int n_chorus = 4;
   short l_delayline[CHORUS_DELAY_LENGTH];
-  int s_idx = 2*CHORUS_DELAY_LENGTH/4;
-  int s_depth = CHORUS_DELAY_LENGTH/4;
+  int s_idx = 2 * CHORUS_DELAY_LENGTH / 4;
+  int s_depth = CHORUS_DELAY_LENGTH / 4;
   short r_delayline[CHORUS_DELAY_LENGTH];
-  
 
   SynthyPoly() { Debug("hello"); };
 
@@ -200,15 +197,14 @@ class SynthyPoly {
     mixer2.gain(1, 0.3);
 
     mixerChorusL.gain(0, 0.8);
-    mixerChorusL.gain(1, 0.2); //chorus amount
+    mixerChorusL.gain(1, 0.2);  // chorus amount
     mixerChorusR.gain(0, 0.8);
-    mixerChorusR.gain(1, 0.2); // chorus amout
+    mixerChorusR.gain(1, 0.2);  // chorus amout
 
-    mixerReverbL.gain(0, 0.); // reverb
+    mixerReverbL.gain(0, 0.);  // reverb
     mixerReverbL.gain(1, 0.3);
-    mixerReverbR.gain(0, 0.7); // reverb
+    mixerReverbR.gain(0, 0.7);  // reverb
     mixerReverbR.gain(1, 0.3);
-
 
     // add effect
 
@@ -241,7 +237,7 @@ class SynthyPoly {
   }
 
   // Method to play next note in sequence (may want to pass in sequence here?)
-  const void setChord(int8_t newChordNum) {
+  void setChord(int8_t newChordNum) {
     chordNum = newChordNum;
     if (chordNum == 0) {
       chord = Cmajor;

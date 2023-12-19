@@ -5,6 +5,8 @@
 #include "games/life/animation.h"   // for LifeAnimation
 #include "games/life/audio.h"       // for LifeAudio
 #include "games/rainbow/rainbow.h"  // for RainbowGame
+#include "time/now.h"               // for now
+#include "time/soft_wait.h"         // for SOFT_WAIT
 
 namespace kss {
 namespace games {
@@ -25,9 +27,6 @@ class LifeGameSinglePlayer : public Game {
   LifeAudio audio;
 
   uint32_t millisPerFrame = 50;
-  const static uint32_t millisPerFrameStep = 5;
-  uint32_t lastFrameMillis = 0;
-  uint32_t nextDrawFrameMillis = 0;
 
   // Degrees per millisecond
   const static float hueShiftRate =
@@ -44,8 +43,6 @@ class LifeGameSinglePlayer : public Game {
   bool isPaused = false;
 
   LifeGameState gameState;
-
-  const static uint32_t idleTimeoutMillis = 1000 * 90;  // 90 seconds
 
  public:
   LifeGameSinglePlayer(display::Display* display, controls::DirPad controls)
@@ -78,11 +75,7 @@ class LifeGameSinglePlayer : public Game {
   }
 
   void loop() override {
-    const uint32_t now = time::Now();
-    uint32_t timeDiff = now - lastFrameMillis;
-    lastFrameMillis = now;
-
-    bool isIdle = dirPad.isIdle(idleTimeoutMillis);
+    bool isIdle = dirPad.IsIdle();
 
     // Switch to idling if we're not already doing it
     if (gameState != LifeGameIdle && isIdle) {
@@ -101,11 +94,11 @@ class LifeGameSinglePlayer : public Game {
 
     // Speed adjust controls
     if (dirPad.up->IsPressed()) {
-      millisPerFrame += (float)millisPerFrame / (float)20;
+      millisPerFrame += (float)millisPerFrame / 20.0f;
     }
 
     if (dirPad.down->IsPressed()) {
-      millisPerFrame -= (float)millisPerFrame / (float)20;
+      millisPerFrame -= (float)millisPerFrame / 20.0f;
     }
 
     if (millisPerFrame < 20) {
@@ -116,10 +109,10 @@ class LifeGameSinglePlayer : public Game {
 
     // Hue adjust controls
     if (dirPad.left->IsPressed()) {
-      setHue(startHue + hueShiftRate * timeDiff);
+      setHue(startHue + hueShiftRate * time::LoopElapsedMillis());
       // audio.playColorShift();
     } else if (dirPad.right->IsPressed()) {
-      setHue(startHue - hueShiftRate * timeDiff);
+      setHue(startHue - hueShiftRate * time::LoopElapsedMillis());
       // audio.playColorShift();
     } else {
       // audio.stopColorShift();
@@ -128,14 +121,14 @@ class LifeGameSinglePlayer : public Game {
     // pause/play controls
     if (dirPad.a->IsDepressing()) {
       isPaused = !isPaused;
-      if (isPaused == true) {
+      if (isPaused) {
         // audio.playTimeStop();
       } else {
         // audio.playTimeStart();
       }
     }
 
-    if (now >= nextDrawFrameMillis) {
+    SOFT_WAIT(millisPerFrame) {
       // randomize controls on frame speed
       if (dirPad.b->IsPressed()) {
         // if(!audio.shuffleIsStarted)
@@ -151,8 +144,6 @@ class LifeGameSinglePlayer : public Game {
       // {
       //    audio.stopPlayRandom();
       // }
-
-      nextDrawFrameMillis = now + millisPerFrame;
     }
 
     // Draw to display

@@ -16,10 +16,10 @@
 
 // Any group of digital pins may be used
 const int numPins = 20;
-byte pinList[numPins] = {18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37};
+byte pinList[numPins] = {18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+                         28, 29, 30, 31, 32, 33, 34, 35, 36, 37};
 
 const int ledsPerStrip = 280;
-
 
 // These buffers need to be large enough for all the pixels.
 // The total number of pixels is "ledsPerStrip * numPins".
@@ -32,20 +32,21 @@ int drawingMemory[ledsPerStrip * numPins * bytesPerLED / 4];
 
 const int config = WS2811_GRB | WS2811_800kHz;
 
-OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config, numPins, pinList);
+OctoWS2811 leds(ledsPerStrip, displayMemory, drawingMemory, config, numPins,
+                pinList);
 
 void setup() {
   leds.begin();
   leds.show();
 }
 
-#define RED    0xFF0000
-#define GREEN  0x00FF00
-#define BLUE   0x0000FF
+#define RED 0xFF0000
+#define GREEN 0x00FF00
+#define BLUE 0x0000FF
 #define YELLOW 0xFFFF00
-#define PINK   0xFF1088
+#define PINK 0xFF1088
 #define ORANGE 0xE05800
-#define WHITE  0xFFFFFF
+#define WHITE 0xFFFFFF
 
 // Less intense...
 /*
@@ -58,8 +59,18 @@ void setup() {
 #define WHITE  0x101010
 */
 
+void colorWipe(const int color, const uint32_t wait) {
+  for (size_t i = 0; i < ledsPerStrip; i++) {
+    for (size_t j = 0; j < numPins; i++) {
+      leds.setPixel(j * ledsPerStrip + i, color);
+      leds.show();
+      delayMicroseconds(wait);
+    }
+  }
+}
+
 void loop() {
-  int microsec = 2000000 / leds.numPixels();  // change them all in 2 seconds
+  const uint32_t microsec = 2 * 1000 * 1000 / leds.numPixels();  // change them all in 2 seconds
 
   // uncomment for voltage controlled speed
   // millisec = analogRead(A9) / 40;
@@ -71,15 +82,4 @@ void loop() {
   colorWipe(PINK, microsec);
   colorWipe(ORANGE, microsec);
   colorWipe(WHITE, microsec);
-}
-
-void colorWipe(int color, int wait)
-{
-  for (int i=0; i < ledsPerStrip; i++) {
-    for (int j=0; j < numPins; i++) {
-      leds.setPixel(j * ledsPerStrip + i, color);
-      leds.show();
-      delayMicroseconds(wait);
-    }
-  }
 }

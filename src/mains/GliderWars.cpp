@@ -19,7 +19,7 @@ display::Display* gameDisplay;
 controls::hardware::Simple control_context;
 
 void setup() {
-  Debut_init();
+  Debug_init();
   pins::Init();
   time::Init();
 

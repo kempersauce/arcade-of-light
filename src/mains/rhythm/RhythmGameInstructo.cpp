@@ -1,12 +1,12 @@
 #include <vector>  // for std::vector
 
+#include "../examples/animation/animation.h"   // for AnimationTest
 #include "animation/wave_out.h"                // for WaveOut
 #include "display/fast_led/instructo_panel.h"  // for InstructoStandaloneDisplay
 #include "engines/framerate.h"                 // for FrameRate
 #include "games/rhythm/constants.h"            // for kPlayerHues
 #include "pins/pin_setup.h"                    // for pins::Init
 #include "serial/debug.h"                      // for serial debugging
-#include "test/animation.h"                    // for AnimationTest
 #include "time/now.h"                          // for time::*
 
 using namespace kss;
@@ -33,7 +33,7 @@ void setup() {
   Debug("gameDisplay created");
 
   const uint8_t hue = USE_OFF_HUES ? games::rhythm::kPlayerOffhues[PLAYER_NO]
-                             : games::rhythm::kPlayerHues[PLAYER_NO];
+                                   : games::rhythm::kPlayerHues[PLAYER_NO];
 
   animes.push_back(new animation::WaveOut1(hue, 255, gameDisplay->size));
 

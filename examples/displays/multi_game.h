@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../examples/animation/animation.h"    // for AnimationTest
 #include "animation/noise.h"                    // for NoiseAnimation
 #include "animation/single_color_background.h"  // for SingleColorBG
 #include "animation/starscape.h"                // for Starscape
@@ -8,7 +9,6 @@
 #include "games/game.h"                         // for Game
 #include "games/life/life.h"                    // for LifeGame
 #include "games/rainbow/rainbow.h"              // for RainbowGame
-#include "test/animation.h"                     // for AnimationTest
 
 namespace kss {
 namespace test {

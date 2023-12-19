@@ -3,15 +3,15 @@
 
 #include <vector>  // for std::vector
 
-#include "animation/charge_full.h"  // for Charge Barge
-#include "display/display.h"        // for Display
-#include "display/h2h.h"            // for H2HDisplay
-#include "engines/framerate.h"      // for FrameRate
-#include "games/game.h"             // for Game
-#include "pins/pin_setup.h"         // for pins::Init
-#include "serial/debug.h"           // for Debug
-#include "test/animation.h"         // for AnimationTest
-#include "time/now.h"               // for time::*
+#include "../examples/animation/animation.h"  // for AnimationTest
+#include "animation/charge_full.h"            // for Charge Barge
+#include "display/display.h"                  // for Display
+#include "display/h2h.h"                      // for H2HDisplay
+#include "engines/framerate.h"                // for FrameRate
+#include "games/game.h"                       // for Game
+#include "pins/pin_setup.h"                   // for pins::Init
+#include "serial/debug.h"                     // for Debug
+#include "time/now.h"                         // for time::*
 
 using namespace kss;
 

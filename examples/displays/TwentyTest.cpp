@@ -1,15 +1,15 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#include "display/display.h"          // for Display
-#include "display/octo/four_panel.h"  // for FourPanelDisplay
-#include "games/game.h"               // for Game
-#include "games/noise/noise.h"        // for NoiseGame
-#include "pins/pin_setup.h"           // for pins::Init
-#include "serial/debug.h"             // for Debug
-#include "test/animation.h"           // for AnimationTest
-#include "test/multi_game.h"          // for MultiGameTest
-#include "time/now.h"                 // for time::*
+#include "../examples/animation/animation.h"  // for AnimationTest
+#include "../examples/displays/multi_game.h"  // for MultiGameTest
+#include "display/display.h"                  // for Display
+#include "display/octo/four_panel.h"          // for FourPanelDisplay
+#include "games/game.h"                       // for Game
+#include "games/noise/noise.h"                // for NoiseGame
+#include "pins/pin_setup.h"                   // for pins::Init
+#include "serial/debug.h"                     // for Debug
+#include "time/now.h"                         // for time::*
 
 using namespace kss;
 
