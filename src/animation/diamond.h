@@ -58,23 +58,22 @@ class Diamond : public Animation {
     // }
     for (size_t x = 0; x <= 5; ++x) {
       PatternWave(display, x, x);
-      }
     }
-  
+  }
 
-  void PatternWave(display::Display* display,int x,int y_offset) {
+  void PatternWave(display::Display* display, int x, int y_offset) {
     size_t y_diff = y_offset;
     ++y_diff;
-        if (y_diff == 4 || y_diff == 3) {
-          current_color = color1;
-        } else if (y_diff == 5) {
-          y_diff = 0;
-          current_color = color2;
-        } else {
-          current_color = CRGB::Black;
-        }
+    if (y_diff == 4 || y_diff == 3) {
+      current_color = color1;
+    } else if (y_diff == 5) {
+      y_diff = 0;
+      current_color = color2;
+    } else {
+      current_color = CRGB::Black;
+    }
     for (size_t y = y_min; y <= center_y; ++y) {
-        display->Pixel(x, y + y_offset) = current_color;
+      display->Pixel(x, y + y_offset) = current_color;
     }
   }
 };

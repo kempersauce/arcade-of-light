@@ -22,11 +22,9 @@ const Score GetBootsAndCatsScore() {
   bootsAndCats.SetBeatEveryMeasure(kChannelHHClosed, 3);
   bootsAndCats.SetBeatEveryMeasure(kChannelHHClosed, 4);
 
-
   // crash
   // bootsAndCats.SetBeatEveryMeasure(kChannelCrash, 3);
   // bootsAndCats.SetBeat(kChannelCrash, 4);
-
 
   // clap
   // bootsAndCats.SetBeat(kChannelClap, 2);
@@ -36,7 +34,6 @@ const Score GetBootsAndCatsScore() {
   // bd
   bootsAndCats.SetBeat(kChannelBassDrum, 1);
   bootsAndCats.SetBeat(kChannelBassDrum, 5);
-
 
   // bootsAndCats.SetBeat(kChannelBassDrum, 2);
   // bootsAndCats.SetBeat(kChannelBassDrum, 2.75);
@@ -53,6 +50,6 @@ const Score GetBootsAndCatsScore() {
 
 Score BootsAndCats = GetBootsAndCatsScore();
 
-}
-}
-}
+}  // namespace beats
+}  // namespace audio
+}  // namespace kss

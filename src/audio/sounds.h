@@ -49,9 +49,8 @@ void Init(bool init_sd_card = true) {
 }
 
 inline void AudioDebug() {
-  Debug("Proc=" + AudioProcessorUsage() + " (max=" + AudioProcessorUsageMax() +
-        "), Mem=" + AudioMemoryUsage() + " (max=" + AudioMemoryUsageMax() +
-        ")");
+  Debug("Proc=%.3f (max=%.3f), Mem=%d (max=%d)", AudioProcessorUsage(),
+        AudioProcessorUsageMax(), AudioMemoryUsage(), AudioMemoryUsageMax());
 }
 
 }  // namespace audio

@@ -43,7 +43,7 @@ class LifeAnimation : public animation::Animation {
       : Animation(), width{width}, height{height} {
     frame1 = new int*[width];
     frame2 = new int*[width];
-    for (int i = 0; i < width; i++) {
+    for (size_t i = 0; i < width; i++) {
       frame1[i] = new int[height];
       frame2[i] = new int[height];
     }
@@ -110,7 +110,7 @@ class LifeAnimation : public animation::Animation {
   void Draw(display::Display* display) {
     for (size_t ledIndex = 0; ledIndex < display->size.y; ledIndex++) {
       for (size_t stripIndex = 0; stripIndex < display->size.x; stripIndex++) {
-        int age = (*nextRound)[stripIndex][ledIndex];
+        uint8_t age = (*nextRound)[stripIndex][ledIndex];
 
         // Dont let it step past the array bounds
         if (age >= ageColors.size()) {

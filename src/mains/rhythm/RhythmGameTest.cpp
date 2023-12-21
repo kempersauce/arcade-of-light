@@ -38,7 +38,7 @@ void setup() {
   }
 
   // Choose your Display type
-  display::FiveDisplay *disp = new display::FiveDisplay();
+  display::FiveDisplay* disp = new display::FiveDisplay();
   gameDisplay = disp;
 
   Debug("gameDisplay created");

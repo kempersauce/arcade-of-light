@@ -28,8 +28,8 @@ void loop() {
   if (receiver.ReceiveMessages()) {
     SEND_DATA_STRUCTURE msg;
     while (receiver.GetNextMessage(msg)) {
-      Debug("Message[" + msg.test_uint8 + "]: \"" + msg.test_str +
-            "\" t=" + msg.test_uint32);
+      Debug("Message[%d]: \"%s\" t=%d", msg.test_uint8, msg.test_str,
+            msg.test_uint32);
     }
   }
 }

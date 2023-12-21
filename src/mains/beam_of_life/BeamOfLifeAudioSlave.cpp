@@ -34,8 +34,8 @@ void ProcessMessage(const WavAudioMessage& message) {
       break;
 
     default:
-      Debug("Error: Unrecognized channel action '" + message.action_selector +
-            "' (message: \"" + message.filename + "\")");
+      Debug("Error: Unrecognized channel action '%c' (message: \"%s\")",
+            message.action_selector, message.filename);
       break;
   }
 }

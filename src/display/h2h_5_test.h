@@ -36,14 +36,15 @@ DMAMEM int kDisplayMemory[kNumStrips * kLengthStrips * 3 / 4];
 
 }  // namespace _h2h_5_test
 
-class H2H5TestDisplay
-    : public octo::OctoDisplay<_h2h_5_test::kNumStrips, _h2h_5_test::kLengthStrips> {
+class H2H5TestDisplay : public octo::OctoDisplay<_h2h_5_test::kNumStrips,
+                                                 _h2h_5_test::kLengthStrips> {
  public:
   SubDisplay main_display;
   InstructoDisplay instructo;
 
   H2H5TestDisplay()
-      : OctoDisplay(_h2h_5_test::kPinList, _h2h_5_test::kDisplayMemory, GRID_SCALE_WIDE),
+      : OctoDisplay(_h2h_5_test::kPinList, _h2h_5_test::kDisplayMemory,
+                    GRID_SCALE_WIDE),
         main_display{this, {0, 0}, {kTowerStripCount, kTableStripLength}},
         instructo{&pixels[kTowerStripCount * _h2h_5_test::kLengthStrips]} {}
 };

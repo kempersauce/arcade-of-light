@@ -76,8 +76,8 @@ void Init() {
     Debug("If using Serial2, then Controller[3] WILL NOT WORK");
   }
 
-  Debug("DipSwitches=[" + ReadDipRaw(0) + ReadDipRaw(1) + ReadDipRaw(2) +
-        ReadDipRaw(3) + "]");
+  Debug("DipSwitches=[%d%d%d%d]", ReadDipRaw(0), ReadDipRaw(1), ReadDipRaw(2),
+        ReadDipRaw(3));
 }
 
 /*

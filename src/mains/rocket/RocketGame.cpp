@@ -3,7 +3,7 @@
 
 #include "controls/hardware/matrix.h"  // for Matrix
 #include "controls/rocket.h"           // for RocketController
-#include "display/rocket.h"   // for RocketDisplay
+#include "display/rocket.h"            // for RocketDisplay
 #include "engines/framerate.h"         // for Framerate
 #include "games/rocket/rocket_game.h"  // for RocketGame
 #include "pins/pin_setup.h"            // for pins::*

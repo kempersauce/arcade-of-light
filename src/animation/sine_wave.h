@@ -5,7 +5,7 @@
 #include <vector>  // for std::vector
 
 #include "animation/animation.h"  // for Animation
-#include "math/sine.h"  // for SineWaveGeneratorRamped
+#include "math/sine.h"            // for SineWaveGeneratorRamped
 #include "serial/debug.h"         // for Debug
 
 namespace kss {

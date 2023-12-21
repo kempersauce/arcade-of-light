@@ -42,7 +42,7 @@ void loop() {
     // RIGHT BUTTON
     if (msg.channel == kRightChannelNum) {
       if (msg.action == kActionChannelPlay) {
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.playDrum1();
       }
     }
@@ -50,7 +50,7 @@ void loop() {
     if (msg.channel == kLeftChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.playDrum1();
       }
     }
@@ -58,7 +58,7 @@ void loop() {
     if (msg.channel == kUpChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.playDrum2();
       }
     }
@@ -66,7 +66,7 @@ void loop() {
     if (msg.channel == kDownChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.playDrum2();
       }
     }
@@ -74,7 +74,7 @@ void loop() {
     if (msg.channel == kAChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.playDrum3();
       }
     }
@@ -82,7 +82,7 @@ void loop() {
     if (msg.channel == kBChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.playDrum4();
       }
     }

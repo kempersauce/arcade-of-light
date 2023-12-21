@@ -14,7 +14,8 @@ class InstructoDisplay : public Display {
 
  public:
   InstructoDisplay(CRGB* pixels)
-      : Display({kInstructoRowCount, kInstructoColumnCount}, GRID_SCALE_1_1), pixels{pixels} {}
+      : Display({kInstructoRowCount, kInstructoColumnCount}, GRID_SCALE_1_1),
+        pixels{pixels} {}
 
  public:
   inline CRGB& Pixel(size_t x, size_t y) override {

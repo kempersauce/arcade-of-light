@@ -58,12 +58,12 @@ class BeamOfLife : public Game {
     size_t audio_channel = 0;
     for (auto& layer : life_grids) {
       for (size_t side = 0; side < 4; ++side) {
-		// Density often comes in between 0.03 and 0.13
-		// So we multiply by 7 to get ~21%-91%
+        // Density often comes in between 0.03 and 0.13
+        // So we multiply by 7 to get ~21%-91%
         const float gain = 5 * layer.GetSideDensity(side);
-		size_t channel = audio_channel % 6;
-		audio_senders[audio_channel / 6].SetChannelGain(channel, gain);
-		++audio_channel;
+        size_t channel = audio_channel % 6;
+        audio_senders[audio_channel / 6].SetChannelGain(channel, gain);
+        ++audio_channel;
       }
     }
 

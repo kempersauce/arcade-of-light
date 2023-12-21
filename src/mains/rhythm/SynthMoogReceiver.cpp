@@ -38,66 +38,66 @@ void loop() {
     // RIGHT BUTTON
     if (msg.channel == kRightChannelNum) {
       if (msg.action == kActionChannelPlay) {
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.actionRight();
       } else {
         // What it do when releast button
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         synthy.stopJoystick();
       }
     }
     // LEFT BUTTON
     if (msg.channel == kLeftChannelNum) {
       if (msg.action == kActionChannelPlay) {
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.actionLeft();
       } else {
         // What it do when releast button
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         synthy.stopJoystick();
       }
     }
     // UP BUTTON
     if (msg.channel == kUpChannelNum) {
       if (msg.action == kActionChannelPlay) {
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.actionUp();
       } else {
         // What it do when releast button
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         synthy.stopJoystick();
       }
     }
     // DOWN BUTTON
     if (msg.channel == kDownChannelNum) {
       if (msg.action == kActionChannelPlay) {
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.actionDown();
       } else {
         // What it do when releast button
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         synthy.stopJoystick();
       }
     }
     // A BUTTON
     if (msg.channel == kAChannelNum) {
       if (msg.action == kActionChannelPlay) {
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.actionA();
       } else {
         // What it do when releast button
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         synthy.stopA();
       }
     }
     // B BUTTON
     if (msg.channel == kBChannelNum) {
       if (msg.action == kActionChannelPlay) {
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synthy.actionB();
       } else {
         // What it do when releast button
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         synthy.stopB();
       }
     }

@@ -24,9 +24,11 @@ enum H2HStripState {
   H2HStripTotalWinB
 };
 
-  float hitVelocityMultiplierBase = 10; // ajdust multiplier for hit velocity increase
-  float hitVelocityMultiplierHeinz = 15; // ajdust multiplier for hit velocity increase
-  const float heinzRedZone = 0.666;
+float hitVelocityMultiplierBase =
+    10;  // ajdust multiplier for hit velocity increase
+float hitVelocityMultiplierHeinz =
+    15;  // ajdust multiplier for hit velocity increase
+const float heinzRedZone = 0.666;
 
 class H2HGameStrip : public animation::Animation {
   H2HInstructoGame* const instructo_a;
@@ -66,7 +68,6 @@ class H2HGameStrip : public animation::Animation {
   const uint32_t totalWinStateTimeoutMillis =
       1000 * 3;  // loop total win animation for 3 seconds
 
-
  public:
   H2HStripState stripState;
 
@@ -77,8 +78,9 @@ class H2HGameStrip : public animation::Animation {
   controls::Button* buttonB;
 
   H2HGameStrip(size_t stripIndex, size_t stripHeight, controls::Button* a,
-               controls::Button* b, uint8_t zoneAHue, uint8_t zoneBHue, CRGB arc_color,
-               H2HInstructoGame* instructo_a, H2HInstructoGame* instructo_b)
+               controls::Button* b, uint8_t zoneAHue, uint8_t zoneBHue,
+               CRGB arc_color, H2HInstructoGame* instructo_a,
+               H2HInstructoGame* instructo_b)
       : Animation(),
         instructo_a{instructo_a},
         instructo_b{instructo_b},
@@ -213,15 +215,16 @@ class H2HGameStrip : public animation::Animation {
         else {
           // Team A hits the button
           if (buttonA->IsDepressing()) {
-            Debug("Team A hits button on strip " + stripIndex);
+            Debug("Team A hits button on strip %d", stripIndex);
             if (zoneA.checkZone(dot.physics.location.y)) {
               audioA.playTeamAHit();
               float depth = zoneA.zoneDepth(dot.physics.location.y);
               float sauce = hitVelocityMultiplierBase * depth;
-              if(depth > heinzRedZone) {
+              if (depth > heinzRedZone) {
                 sauce = hitVelocityMultiplierHeinz * depth;
               }
-              dot.setVelocity(-1 * (dot.physics.velocity.y) + sauce);  // 2 to 4 times multiplier px/sec
+              dot.setVelocity(-1 * (dot.physics.velocity.y) +
+                              sauce);  // 2 to 4 times multiplier px/sec
             } else {
               audioA.playTeamAMiss();
             }
@@ -229,15 +232,16 @@ class H2HGameStrip : public animation::Animation {
 
           // Team B hits the button
           if (buttonB->IsDepressing()) {
-            Debug("Team B hits button on strip" + stripIndex);
+            Debug("Team B hits button on strip %d", stripIndex);
             if (zoneB.checkZone(dot.physics.location.y)) {
               audioB.playTeamBHit();
               float depth = zoneB.zoneDepth(dot.physics.location.y);
               float sauce = hitVelocityMultiplierBase * depth;
-              if(depth > heinzRedZone) {
+              if (depth > heinzRedZone) {
                 sauce = hitVelocityMultiplierHeinz * depth;
               }
-              dot.setVelocity(-1 * (dot.physics.velocity.y) - sauce);  // -2 to -4 times multiplier px/sec
+              dot.setVelocity(-1 * (dot.physics.velocity.y) -
+                              sauce);  // -2 to -4 times multiplier px/sec
             } else {
               audioB.playTeamBMiss();
             }

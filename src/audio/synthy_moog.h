@@ -64,7 +64,7 @@ class MoogSynthy {
   float notesPressed[3] = {koffNote, koffNote, koffNote};
 
   float attack = 50;
-  float hold= 100;
+  float hold = 100;
   float decay = 200;
   float sustain = 0.5;
   float release = 800;
@@ -111,8 +111,8 @@ class MoogSynthy {
     envelope3.decay(decay);
     envelope3.sustain(sustain);
     envelope3.release(release);
-    reverbMixer.gain(0, 0.5); // Reverb "wet"
-    reverbMixer.gain(0, 0.5); // Reverb "dry"
+    reverbMixer.gain(0, 0.5);  // Reverb "wet"
+    reverbMixer.gain(0, 0.5);  // Reverb "dry"
     reverb.roomsize(0.8);
     reverb.damping(0.9);
   }
@@ -134,7 +134,6 @@ class MoogSynthy {
       envelope1.noteOn();
       envelope2.noteOn();
       envelope3.noteOn();
-
     }
   }
 
@@ -175,7 +174,6 @@ class MoogSynthy {
     return frequency;
   }
 
-
   uint32_t next_hit = 250;
   uint32_t beat_start;
   uint32_t chug_note_start;
@@ -192,7 +190,7 @@ class MoogSynthy {
       Debug("chuggin");
       beat_start = now;
       setFrequencies(note);
- 
+
       playNote();
     } else if (isChuggit && now - chug_note_start > chug_note_len) {
       stopNote();
@@ -201,7 +199,7 @@ class MoogSynthy {
 
   const void startChug() {
     uint32_t now = time::Now();
-    if(!isChuggit){
+    if (!isChuggit) {
       isChuggit = true;
       beat_start = now - next_hit;
       chug_note_start = now;
@@ -213,9 +211,7 @@ class MoogSynthy {
     stopNote();
   }
 
-  const void setChugFrequency(float frequency) {
-    chug_frequency = frequency;
-  }
+  const void setChugFrequency(float frequency) { chug_frequency = frequency; }
 
   const void actionUp() {
     notesPressed[1] = sequence[3];

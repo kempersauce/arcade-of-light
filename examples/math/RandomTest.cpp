@@ -40,7 +40,7 @@ void PrintBoolF() {
     ++sum;
   }
   const float pct = 100.0f * (float)sum / count;
-  Debug("Bool(.0069) avg=" + pct + "%");
+  Debug("Bool(.0069) avg=%f%", pct);
 }
 
 void PrintBool() {
@@ -51,29 +51,29 @@ void PrintBool() {
     ++sum;
   }
   const float pct = 100.0f * (float)sum / count;
-  Debug("Bool() avg=" + pct + "%");
+  Debug("Bool() avg=%f%", pct);
 }
 
 void loop() {
   control_context.PollAll();
 
   //   if (but1->IsDepressing()) {
-  //     Debug("Int16()=" + random::Int16());
+  //     Debug("Int16()=%d", random::Int16());
   //   }
   if (but2->IsDepressing()) {
-    Debug("Int16()=" + random::Int16());
+    Debug("Int16()=%d", random::Int16());
   }
   if (but3->IsDepressing()) {
-    Debug("Int16(10)=" + random::Int16(10));
+    Debug("Int16(10)=%d", random::Int16(10));
   }
   if (but4->IsDepressing()) {
-    Debug("Int16(10, 20)=" + random::Int16(10, 20));
+    Debug("Int16(10, 20)=%d", random::Int16(10, 20));
   }
   if (but5->IsDepressing()) {
-    Debug("Int16_incl(10)=" + random::Int16_incl(10));
+    Debug("Int16_incl(10)=%d", random::Int16_incl(10));
   }
   if (but6->IsDepressing()) {
-    Debug("Int16_incl(10, 20)=" + random::Int16_incl(10, 20));
+    Debug("Int16_incl(10, 20)=%d", random::Int16_incl(10, 20));
   }
 
   PrintBool();

@@ -62,7 +62,7 @@ class RocketAudio : public audio::Manager {
     super_boost.Stop();
     targetHover.Stop();
     levelWin.Stop();
-	lose.Stop();
+    lose.Stop();
     sender->StopChannel(4);
     sender->StopChannel(5);
   }

@@ -23,9 +23,10 @@ class RocketDisplay
   SubDisplay main_display;
   InstructoDisplay instructo;
 
-  RocketDisplay() : FastLedDisplay(GRID_SCALE_WIDE),
+  RocketDisplay()
+      : FastLedDisplay(GRID_SCALE_WIDE),
         main_display{this, {0, 1}, {kTowerStripCount, kTowerStripLength - 1}},
-		instructo{pixels[kTowerStripCount]} {
+        instructo{pixels[kTowerStripCount]} {
     // Cable 1
     RegisterStrip<pins::Leds[0], RGB>(0, kTowerStripLength);
     RegisterStrip<pins::Leds[1]>(1, kTowerStripLength);

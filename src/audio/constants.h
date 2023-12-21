@@ -66,13 +66,13 @@ const inline char GetChannelMarker(const int channel_index) {
       return kChannelMarker4;
 
     case 5:
-      return kChannelMarker5; 
+      return kChannelMarker5;
 
     case 6:
-      return kChannelMarker6; 
+      return kChannelMarker6;
 
     case 7:
-      return kChannelMarker7;       
+      return kChannelMarker7;
 
       // Default to an unspecified channel
     case -1:
@@ -109,8 +109,8 @@ const inline size_t GetChannelIndex(const char channel_marker) {
       return 7;
 
     default:  // target channel one by default I guess (not BG channel)
-      Debug("ERROR: Received invalid channel marker character: '" +
-            channel_marker + "'");
+      Debug("ERROR: Received invalid channel marker character: '%c'",
+            channel_marker);
       return kChannelMarker1;
   }
 }

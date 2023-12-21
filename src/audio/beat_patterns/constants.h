@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>  // for uint8_t ... wow
+
 #include "audio/constants.h"
 
 namespace kss {

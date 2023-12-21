@@ -59,16 +59,16 @@ class WaveOut : public Animation {
   }
 
   void Draw(display::Display* display) override {
-    const math::Vector2D<float> center_a{display->size.width - 1, 0.0f};
-    const math::Vector2D<float> center_b{display->size.width - 1,
-                                         display->size.height - 1};
+    const math::Vector2D<float> center_a{(float)display->size.width - 1, 0.0f};
+    const math::Vector2D<float> center_b{(float)display->size.width - 1,
+                                         (float)display->size.height - 1};
     for (size_t x = 0; x < display->size.x; ++x) {
       for (size_t y = 0; y < display->size.y; ++y) {
         float total = 0;
         for (const _wave_out::WaveSource& source : sources) {
           const math::Vector2D<float> dist{
               display->grid_scale *
-              (source.location - math::Vector2D<float>{x, y})};
+              (source.location - math::Vector2D<float>{(float)x, (float)y})};
           total += (source.is_square ? GetSquareVal(dist) : GetVal(dist));
         }
         const uint8_t val = (total / sources.size() + 1.0f) * 128;
@@ -90,8 +90,8 @@ class WaveOut2 : public WaveOut {
  public:
   WaveOut2(uint8_t hue, uint8_t sat, math::Dimension display_size)
       : WaveOut(hue, sat) {
-    AddSource({display_size.width - 1, 0.0f});
-    AddSource({display_size.width - 1, display_size.height - 1});
+    AddSource({(float)display_size.width - 1, 0.0f});
+    AddSource({(float)display_size.width - 1, (float)display_size.height - 1});
     wave.wavelength = (display_size.height - 1) / 4.0f;
   }
 };

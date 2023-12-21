@@ -47,7 +47,7 @@ void loop() {
     // RIGHT BUTTON
     if (msg.channel == kRightChannelNum) {
       if (msg.action == kActionChannelPlay) {
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         drums.playDrum1();
       }
     }
@@ -55,7 +55,7 @@ void loop() {
     if (msg.channel == kLeftChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         drums.playDrum2();
       } else {
         drums.stopDrum2();
@@ -65,7 +65,7 @@ void loop() {
     if (msg.channel == kUpChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         drums.playDrum3();
       }
     }
@@ -73,7 +73,7 @@ void loop() {
     if (msg.channel == kDownChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         drums.playDrum4();
       }
     }
@@ -81,7 +81,7 @@ void loop() {
     if (msg.channel == kAChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         drums.playDrum5();
       }
     }
@@ -89,7 +89,7 @@ void loop() {
     if (msg.channel == kBChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         drums.playDrum6();
         // drums.triggerGlitch();
       }

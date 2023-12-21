@@ -278,7 +278,7 @@ class SynthyPoly {
         arpNote = chordVoices - 1;
       }
       float note = chord[arpNote] * 2;  // arp will be an octave above chord
-      Debug("note: " + note);
+      Debug("note: %f", note);
       wave5.frequency(note);
       envelope5.noteOn();
     }

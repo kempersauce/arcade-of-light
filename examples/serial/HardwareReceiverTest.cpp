@@ -14,9 +14,7 @@
 using namespace kss;
 using namespace kss::serial;
 
-void ShowMessage(const char* message) {
-  Debug("callback(\"" + message + "\")");
-}
+void ShowMessage(const char* message) { Debug("callback(\"%s\")", message); }
 
 // Serials we listen on
 const std::vector<HardwareSerial*> serials{

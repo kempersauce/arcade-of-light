@@ -44,18 +44,16 @@ class Channel {
 
   void PlayCurrentFile() {
     if (wav_player->isPlaying()) {
-      Debug("Channel[" + channel_no +
-            "] is already playing, but is requested to play \"" + current_file +
-            "\"");
+      Debug("Channel[%d] is already playing, but is requested to play \"%s\"",
+            channel_no, current_file);
     }
 
     if (!wav_player->play(current_file.c_str())) {
-      Debug("Channel[" + channel_no + "]: Error playing file: \"" +
-            current_file + "\"");
+      Debug("Channel[%d]: Error playing file: \"%s\"", channel_no,
+            current_file);
     } else {
       start_time = time::Now();
-      Debug("Channel[" + channel_no + "] Playing file: \"" + current_file +
-            "\"");
+      Debug("Channel[%d] Playing file: \"%s\"", channel_no, current_file);
     }
   }
 

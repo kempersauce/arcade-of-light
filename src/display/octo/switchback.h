@@ -45,7 +45,7 @@ class SwitchbackDisplay : public Display {
   SwitchbackDisplay* operator=(SwitchbackDisplay*&) = delete;
 
  public:
-  virtual inline CRGB& Pixel(size_t x, size_t y) override {
+  virtual CRGB& Pixel(size_t x, size_t y) override {
     if (!CheckLocation(x, y)) {
       return dummy_pixel;
     }

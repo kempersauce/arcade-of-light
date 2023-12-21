@@ -33,8 +33,7 @@ class ReceiverBank {
       while (receiver.HasMessages()) {
         char output[kMessageBufferSize];
         receiver.GetNextMessage(output);
-        Debug("Received msg on serial::Receiver[" + i + "]: \"" + output +
-              "\"");
+        Debug("Received msg on serial::Receiver[%d]: \"%s\"", i, output);
         callback(output);
       }
     }

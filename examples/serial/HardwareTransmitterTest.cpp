@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include <Wire.h>
 #include <SPI.h>
+#include <Wire.h>
 
 #include "pins/pin_setup.h"      // for pins::Init
 #include "serial/debug.h"        // for Debug

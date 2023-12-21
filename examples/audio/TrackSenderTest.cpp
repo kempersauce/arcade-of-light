@@ -70,7 +70,7 @@ void loop() {
   // Ghost drummer likes to mess around
   if (should_switch_randomly && math::random::Bool(0.002)) {
     const size_t which = math::random::Int8(beats_count);
-    Debug("Switching beat to " + score_names[which]);
+    Debug("Switching beat to %s", score_names[which]);
     track.SwitchImmediatelyTo(scores[which]);
   }
 

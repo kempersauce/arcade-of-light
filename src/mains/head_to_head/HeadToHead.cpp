@@ -37,8 +37,8 @@ void setup() {
 
   // Boss Mode
   if (pins::ReadDip(2)) {
-	games::h2h::hitVelocityMultiplierBase = 20;
-	games::h2h::hitVelocityMultiplierHeinz = 20;
+    games::h2h::hitVelocityMultiplierBase = 20;
+    games::h2h::hitVelocityMultiplierHeinz = 20;
   }
 
   gameDisplay = new display::H2HDisplay();

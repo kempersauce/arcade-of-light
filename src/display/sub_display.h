@@ -22,10 +22,10 @@ class SubDisplay : public Display {
   SubDisplay(Display* parent, const math::Dimension& location,
              const math::Dimension& size)
       : Display(size, parent->grid_scale), parent{parent}, location{location} {
-    Debug("loc=" + location.ToString() + ", size=" + size.ToString());
+    Debug("loc=%s, size=%s", location.ToString(), size.ToString());
   }
 
-  virtual inline CRGB& Pixel(const size_t strip, const size_t pixel) override {
+  virtual CRGB& Pixel(const size_t strip, const size_t pixel) override {
     // Run initial checking on this SubDisplay to detect bleedover
     if (!CheckLocation(strip, pixel)) {
       return dummy_pixel;

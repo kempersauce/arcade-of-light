@@ -38,12 +38,12 @@ void loop() {
     // RIGHT BUTTON
     if (msg.channel == kRightChannelNum) {
       if (msg.action == kActionChannelPlay) {
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synth.actionRight();
       } else {
         // What it do when releast button
         synth.stopRight();
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         // guitar.stopString1();
       }
     }
@@ -51,12 +51,12 @@ void loop() {
     if (msg.channel == kLeftChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synth.actionLeft();
       } else {
         // What it do when releast button
         synth.stopLeft();
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         // guitar.stopString2();
       }
     }
@@ -64,13 +64,13 @@ void loop() {
     if (msg.channel == kUpChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synth.actionUp();
         // channel.envelope.noteOn();
       } else {
         // What it do when releast button
         synth.stopLeft();
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         // guitar.stopString3();
       }
     }
@@ -78,12 +78,12 @@ void loop() {
     if (msg.channel == kDownChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synth.actionDown();
       } else {
         // What it do when releast button
         synth.stopDown();
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         // guitar.stopString4();
       }
     }
@@ -91,11 +91,11 @@ void loop() {
     if (msg.channel == kAChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synth.actionA();
       } else {
         // What it do when releast button
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         synth.stopA();
         // guitar.stopString5();
       }
@@ -104,11 +104,11 @@ void loop() {
     if (msg.channel == kBChannelNum) {
       if (msg.action == kActionChannelPlay) {
         // What it do if pressing button
-        Debug("Play channel " + msg.channel);
+        Debug("Play channel %d", msg.channel);
         synth.actionB();
       } else {
         // What it do when releast button
-        Debug("Stop channel " + msg.channel);
+        Debug("Stop channel %d", msg.channel);
         synth.stopArp();
         // guitar.stopString6();
       }

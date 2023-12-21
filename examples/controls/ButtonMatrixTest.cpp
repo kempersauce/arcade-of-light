@@ -19,9 +19,9 @@ struct MatrixController {
 std::vector<MatrixController> controllers;
 
 void PrintButtonInfo(size_t controller, size_t button, const char *message) {
-  Debug("T=" + time::Now() + " | controller[" + controller + "] (pin " +
-        pins::Controllers[controller] + "), button[" + button + "] (pin " +
-        pins::Buttons[button] + ") | " + message);
+  Debug("T=%d | controller[%d] (pin %d), button[%d] (pin %d) | %s", time::Now(),
+        controller, pins::Controllers[controller], button,
+        pins::Buttons[button], message);
 }
 
 void setup() {

@@ -22,7 +22,7 @@ class SkyFade : public animation::Animation {
     const size_t heightMax =
         display->size.y / 3;  // only go a third of the way up
     for (size_t i = 0; i < display->size.x; i++) {
-      for (int j = 0; j < heightMax; j++) {
+      for (size_t j = 0; j < heightMax; j++) {
         float blueFactor = ((float)(heightMax - j)) / ((float)heightMax);
         display->BlendPixel(i, j, color, blueFactor);
       }

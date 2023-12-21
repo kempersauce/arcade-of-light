@@ -21,7 +21,7 @@ void setup() {
 
   for (size_t button = 0; button < buttonNum; button++) {
     if (digitalRead(pins::Buttons[button]) == HIGH) {
-      Debug("button " + button + " reporting for duty");
+      Debug("button %d reporting for duty", button);
     }
   }
 }
@@ -34,7 +34,7 @@ void loop() {
 
     for (size_t button = 0; button < buttonNum; button++) {
       if (digitalRead(pins::Buttons[button]) == LOW) {
-        Debug("controller=" + controller + " button=" + button);
+        Debug("controller=%d button=%d", controller, button);
       }
     }
     digitalWrite(pins::Controllers[controller], HIGH);

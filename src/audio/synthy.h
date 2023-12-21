@@ -117,11 +117,11 @@ struct Envelope {
       sweepStartTime = time::Now();
       if (!isUp == sweepUp) {
         sweepSlope = sweepSlope * -1;
-        Debug("SlopE:: " + sweepSlope);
+        Debug("SlopE:: %f", sweepSlope);
       }
       sweepUp = isUp;
     }
-    Debug("CUTOFF:: " + filterCutoff);
+    Debug("CUTOFF:: %f", filterCutoff);
     // may want to change this to return just the offset not the final frequency
     // return bendSlope * timePassed + frequency;
   }
@@ -249,9 +249,9 @@ class Synthy {
     waveforms[2].wave.frequency(sequence[0]);  // hard code to root note
     waveforms[3].wave.frequency(sequence[3]);  // hard code to fifth
 
-    mixer1.gain(3, 0.5);  
+    mixer1.gain(3, 0.5);
     mixer1.gain(2, 0.5);
-    mixer1.gain(1, 0.5);  
+    mixer1.gain(1, 0.5);
     mixer1.gain(0, 0.5);
 
     // add effect
@@ -263,8 +263,8 @@ class Synthy {
     delaylevel = 0.5;
     delay.roomsize(0.3);
     delay.damping(0.7);
-    mixer2.gain(0, 0.8); // percent "dry" reverb
-    mixer2.gain(1, 0.2); // percent "wet" reverb
+    mixer2.gain(0, 0.8);  // percent "dry" reverb
+    mixer2.gain(1, 0.2);  // percent "wet" reverb
 
     Debug("setup done");
     AudioProcessorUsageMaxReset();
@@ -273,7 +273,7 @@ class Synthy {
 
   // Method to play next note in sequence (may want to pass in sequence here?)
   const float playSequence() {
-    const uint32_t now = time::Now();
+    // const uint32_t now = time::Now();
     // if (now >= next_hit) {
     // do it
     if (i == 4) {
@@ -287,7 +287,7 @@ class Synthy {
   }
 
   const float reverseSequence() {
-    const uint32_t now = time::Now();
+    // const uint32_t now = time::Now();
     // if (now >= next_hit) {
     // do it
     if (i == 0) {

@@ -70,7 +70,8 @@ void colorWipe(const int color, const uint32_t wait) {
 }
 
 void loop() {
-  const uint32_t microsec = 2 * 1000 * 1000 / leds.numPixels();  // change them all in 2 seconds
+  const uint32_t microsec =
+      2 * 1000 * 1000 / leds.numPixels();  // change them all in 2 seconds
 
   // uncomment for voltage controlled speed
   // millisec = analogRead(A9) / 40;

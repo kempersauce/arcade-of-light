@@ -17,8 +17,10 @@ namespace animation {
 class Explosion : Animation {
   enum Phase { NotStarted, Exploding, Fading, Done };
 
-  size_t shrapnel_count{50};
+ public:
+  std::vector<engines::PhysicsInfo> shrapnel;
 
+ private:
   uint32_t saturation_phase_ms{1000};  // 1 sec sat phase
   uint32_t brightness_phase_ms{1500};  // then 1.5 sec brightness phase
 
@@ -54,8 +56,6 @@ class Explosion : Animation {
   }
 
  public:
-  std::vector<engines::PhysicsInfo> shrapnel;
-
   Explosion(size_t shrapnel_count, uint32_t saturation_phase_ms,
             uint32_t brightness_phase_ms, float magnitude, float friction_x,
             float friction_y, float gravity, uint8_t saturation_final,
@@ -90,7 +90,8 @@ class Explosion : Animation {
       shrap.Reset();
       shrap.friction = friction;
       shrap.gravity = gravity;
-      shrap.location = math::Vector2D<float>{stripIndex, location};
+      shrap.location =
+          math::Vector2D<float>{(float)stripIndex, (float)location};
       shrap.velocity =
           math::Vector2D<float>::RandomVector(magnitude) + additional;
     }

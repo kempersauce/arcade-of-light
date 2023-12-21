@@ -92,11 +92,12 @@ class RocketGame : public Game {
   Rocket rocket;  // the player
   Target target;  // the target
 
-  animation::FireworksShow fireworks;  // win animation fireworks
-
   // Game Lose animations
-  animation::Explosion explosion;
   ExplosionsInTheSky explosionsInTheSky;
+  animation::Explosion explosion;
+
+  // Game Win animations
+  animation::FireworksShow fireworks;
 
   // Game State tracker
   // This only tracks the current game state and does not detect game state
@@ -235,7 +236,7 @@ class RocketGame : public Game {
 
       // Check if we've closed out this target
       else if (target.isTargetLocked()) {
-        Debug("Target " + targetsWon + " Locked!!");
+        Debug("Target %d Locked!!", targetsWon);
         // Win state
         targetsWon++;
         audio.stopPlayTargetHover();

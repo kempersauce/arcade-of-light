@@ -58,7 +58,7 @@ class DrumWav {
 
   inline const void PlayDrum(AudioPlaySdWav& drum, const char* filename) {
     if (!drum.play(filename)) {
-      Debug("ERROR: unable to play file \"" + filename + "\"");
+      Debug("ERROR: unable to play file \"%s\"", filename);
     }
   }
 

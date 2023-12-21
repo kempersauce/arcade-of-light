@@ -67,7 +67,7 @@ class DrumInterface : public PlayerInterface {
       if (time::Now() - last_check_time > check_time_delay_millis) {
         if (math::random::Bool(0.2)) {
           const uint8_t beat_index = math::random::Int8(num_beats);
-          Debug("Ghost Drummer Switching tracks to beat_index " + beat_index);
+          Debug("Ghost Drummer Switching tracks to beat_index %d", beat_index);
           track.SwitchImmediatelyTo(beat_scores[math::random::Int8(num_beats)]);
         }
         last_check_time =
