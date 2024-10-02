@@ -10,7 +10,7 @@ namespace controls {
 
 namespace _h2h {
 constexpr size_t kButtonCount{8};
-constexpr uint32_t kIdleTimeoutMillis{30 * 1000};
+constexpr uint32_t kIdleTimeoutMillis{45 * 1000};
 }  // namespace _h2h
 
 struct H2HController : public Controller<_h2h::kButtonCount> {

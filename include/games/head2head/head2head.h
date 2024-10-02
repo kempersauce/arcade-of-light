@@ -98,8 +98,13 @@ class Head2Head : public Game {
     audioA.StopAll();
     audioB.StopAll();
 
-    audioA.playStdBG();
-    // audioB.playStdBG();
+    if (math::random::Bool()) {
+      audioA.playStdBG();
+      audioB.playStdBG();
+    } else {
+      audioA.playStdBG2();
+      audioB.playStdBG2();
+    }
 
     // dont forget to take this out lol
     audioA.ItsTimeToDuel();
