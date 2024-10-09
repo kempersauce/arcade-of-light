@@ -284,7 +284,7 @@ class Head2Head : public Game {
 
     if (teamA.IsBoomTimeA() || teamB.IsBoomTimeB()) {
       audioA.playIdleBG();
-      //   audioB.playIdleBG();
+      audioB.playIdleBG();
     }
   }
 };
