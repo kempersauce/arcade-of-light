@@ -91,19 +91,19 @@ class DrumWav {
     delay(500);
   }
 
-  // const void playDrum1() { PlayDrum(drum1, "808CLAP.WAV"); }
-  const void playDrum1() { PlayDrum(drum1, "SK1CLAP.WAV"); }
-  // const void playDrum2() { PlayDrum(drum2, "808CRSH2.WAV"); }
-  const void playDrum2() { PlayDrum(drum2, "SK1CRSH.WAV"); }
+  const void playDrum1() { PlayDrum(drum1, "808CLAP.WAV"); }
+  // const void playDrum1() { PlayDrum(drum1, "SK1CLAP.WAV"); }
+  const void playDrum2() { PlayDrum(drum2, "808CRSH2.WAV"); }
+  // const void playDrum2() { PlayDrum(drum2, "SK1CRSH.WAV"); }
 
   const void stopDrum2() { drum2.stop(); }
-  // const void playDrum3() { PlayDrum(drum3, "808TOMH.WAV"); }
-  // const void playDrum4() { PlayDrum(drum4, "808HHCL.WAV"); }
-  // const void playDrum5() { PlayDrum(drum5, "808BD01.WAV"); }
+  const void playDrum3() { PlayDrum(drum3, "808TOMH.WAV"); }
+  const void playDrum4() { PlayDrum(drum4, "808HHCL.WAV"); }
+  const void playDrum5() { PlayDrum(drum5, "808BD01.WAV"); }
   const void playDrum6() { PlayDrum(drum6, "808SNR.WAV"); }
-  const void playDrum3() { PlayDrum(drum3, "SK1TOML.WAV"); }
-  const void playDrum4() { PlayDrum(drum4, "SK1HHCL.WAV"); }
-  const void playDrum5() { PlayDrum(drum5, "SK1BD.WAV"); }
+  // const void playDrum3() { PlayDrum(drum3, "SK1TOML.WAV"); }
+  // const void playDrum4() { PlayDrum(drum4, "SK1HHCL.WAV"); }
+  // const void playDrum5() { PlayDrum(drum5, "SK1BD.WAV"); }
   // const void playDrum6() { PlayDrum(drum6, "SK1SNR.WAV"); }
   const void triggerGlitch() {
     const size_t glitch_num = math::random::Int8(total_glitches);

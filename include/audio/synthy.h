@@ -60,7 +60,7 @@ struct Envelope {
 
   void setFilterCutoff(float frequency) {
     filterCutoff = frequency;
-    Debug(filterCutoff);
+    // Debug(filterCutoff);
     AudioNoInterrupts();
     filter.frequency(filterCutoff);
     AudioInterrupts();
